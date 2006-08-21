@@ -1,0 +1,178 @@
+\name{xysplom}
+\alias{xysplom}
+\alias{xysplom.formula}
+\alias{xysplom.default}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{scatterplot matrix with potentially different sets of variables
+  on the rows and columns.}
+\description{
+scatterplot matrix with potentially different sets of variables
+on the rows and columns.  The slope or regression coefficient for
+simple least squares regression can
+be displayed in the strip label for each panel.
+}
+\usage{
+xysplom(x, ...)
+
+\method{xysplom}{formula}(x, data = sys.parent(), na.action = na.pass, ...)
+
+\method{xysplom}{default}(x, y=x, group, relation="free",
+        x.relation=relation, y.relation=relation,
+        xlim.in=NULL, ylim.in=NULL,
+        corr=FALSE, beta=FALSE, abline=corr||beta, digits=3,
+        x.between=NULL, y.between=NULL,
+        between.in=list(x=x.between, y=y.between),
+        scales.in=list(
+          x=list(relation=x.relation, alternating=FALSE),
+          y=list(relation=y.relation, alternating=FALSE)),
+        strip.in=strip.xysplom,
+        pch=16, cex=.75,
+        panel.input=panel.xysplom, ...,
+        cartesian=TRUE,
+        plot=TRUE)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{In the \code{"formula"} method, a formula.  In the
+                \code{"default"} method, a data.frame}
+  \item{\dots}{other arguments to \code{xyplot}.}
+
+%% xysplom.formula
+  \item{data}{data.frame}
+  \item{na.action}{See \code{\link[stats]{na.action}} in R,
+    \code{\link[splus]{na.exclude}} in S-Plus.  Defaults to \code{na.pass}
+    because \code{xyplot} does sensible things with missing data.}
+
+%% xysplom.default
+  \item{y}{In the \code{"default"} method, a data.frame with the
+    same number of rows as the data.frame in \code{x}.}
+  \item{group}{In the \code{"default"} method, a data.frame with the
+    same number of rows as the data.frame in \code{x}.}
+  \item{relation, x.relation, y.relation,scales.in}{Alternate ways to get to the
+  \code{scales(relation=)} arguments to \code{xyplot}.}
+  \item{xlim.in, ylim.in}{Alternate ways to get to the
+  \code{scales(limits=)} arguments to \code{xyplot}.}
+  \item{corr, beta}{Display the correlation and/or the regression
+    coefficient for \code{lm(y ~ x)} for each panel in an additional
+    strip label.}
+  \item{abline}{logical.  If \code{TRUE}, draw the least squares
+    regression line within each panel.  By default the abline is \code{FALSE}
+    unless at least one of \code{corr} or \code{beta} is \code{TRUE}.}
+  \item{digits}{number of significant digits for the correlation coefficient.}
+  \item{x.between, y.between, between.in}{Alternate ways to get to the
+    \code{between=} argument to \code{xyplot}.}
+  \item{strip.in}{strip function that knows how to handle the \code{corr} and
+  \code{beta} displays.}
+  \item{pch, cex}{arguments to \code{xyplot}}
+  \item{panel.input}{panel function used by \code{xyplot} within each
+    panel.  When \code{abline==FALSE}, the default panel function calls
+    \code{panel.xyplot}.  When \code{abline==TRUE}, the default panel
+    function calls \code{panel.xyplot} and \code{panel.abline(lm(y~x,
+    na.action=na.exclude))}.  Note that we use
+    \code{na.action=na.exclude} inside \code{lm}.}
+  \item{cartesian}{When \code{cartesian==TRUE}, the cartesian product
+  of the left-hand side number of variables and the right-hand side
+  number of variables defines the number of panels in the display.
+  When \code{cartesian==FALSE}, each variable in the left-hand side is
+  paired with the variable in the corresponding position in the right-hand side
+  and only those pairs are plotted.  Both sides must have the same number of
+  variables.}
+  \item{plot}{Defaults to \code{TRUE}.  See details.}
+}
+\details{
+  The argument \code{plot=TRUE} is the normal setting and then the
+  function returns a \code{"trellis"} object.  When the argument
+  \code{plot=FALSE}, the function returns the argument list that would
+  otherwise be sent to \code{xyplot}.  This list is interesting when the
+  function \code{xysplom} was designed because the function works
+  by restructuring the input data and running \code{xyplot} on the
+  restructured data.
+}
+\value{
+  When \code{plot=TRUE} (the normal setting),
+  the \code{"trellis"} object containing the graph.
+  When \code{plot=FALSE}, the restructured data that must be sent to the
+  \code{xyplot} function.
+}
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
+\emph{Statistical Analysis and Data Display: An Intermediate Course
+  with Examples in S-Plus, R, and SAS}.
+ Springer Texts in Statistics. Springer.
+ ISBN 0-387-40270-5.
+}
+\author{ Richard M. Heiberger <rmh@temple.edu> }
+\seealso{\code{\link[lattice]{xyplot}} in R.}
+\examples{
+
+## xysplom syntax options
+
+tmp <- data.frame(y=rnorm(12), x=rnorm(12), z=rnorm(12), w=rnorm(12),
+                  g=factor(rep(1:2,c(6,6))))
+tmp2 <- tmp[,1:4]
+
+xysplom(y ~ x , data=tmp)
+
+xysplom(y ~ x + w , data=tmp)
+xysplom(y + w ~ x , data=tmp)
+
+xysplom(y + w ~ x , data=tmp, corr=TRUE)
+xysplom(y + w ~ x , data=tmp, beta=TRUE)
+xysplom(y + w ~ x , data=tmp, corr=TRUE, beta=TRUE)
+xysplom(y + w ~ x , data=tmp, abline=TRUE)
+xysplom(y + w ~ x , data=tmp, corr=TRUE, abline=FALSE)
+
+xysplom(y ~ x | g, data=tmp)
+xysplom(y ~ x | g, data=tmp, layout=c(2,1))
+
+xysplom(y + x ~ z | g, data=tmp)
+xysplom(y + x ~ z | g, data=tmp, layout=c(2,2))
+xysplom(y ~ x + z | g, data=tmp)
+xysplom(y ~ x + z | g, data=tmp, layout=c(2,2))
+
+xysplom(w + y ~ x + z, data=tmp)
+xysplom(w + y ~ x + z | g, data=tmp)
+xysplom(w + y ~ x + z | g, data=tmp, layout=c(2,4))
+
+xysplom(w + y ~ x + z, data=tmp, cartesian=FALSE)
+xysplom(w + y + x ~ z, data=tmp, cartesian=FALSE)
+
+xysplom(w + y ~ x + z, data=tmp, scales=list(relation="same"))
+xysplom(w + y ~ x + z, data=tmp, x.relation="same")
+
+xysplom(~ y + x + z , data=tmp)
+xysplom(~ y + x + z | g, data=tmp)
+xysplom(~ y + x + z , data=tmp, corr=TRUE)
+xysplom(~ y + x + z | g, data=tmp, corr=TRUE)
+xysplom(~ y + x + z | g, data=tmp, corr=TRUE, digits=2)
+xysplom(~ y + x + z | g, data=tmp, corr=TRUE, layout=c(3,6))
+
+xysplom(~ tmp)
+xysplom(~ tmp | tmp$g)
+xysplom(tmp$y ~ tmp2 | tmp$g)
+
+xysplom(g ~ x , data=tmp)
+xysplom(x ~ g , data=tmp)
+
+## Subscripting requires the x=, y= notation.
+## Subscripting doesn't work with the y ~ x notation.
+\dontrun{
+  xysplom( ~ tmp[, c("x","y")])                   ## doesn't work
+  xysplom(tmp2[, c("w","z")] ~ tmp[, c("x","y")]) ## doesn't work
+}
+
+## use this instead
+  xysplom(x = tmp[, c("x","y")])
+  xysplom(y   = tmp2[, c("w","z")],  x   = tmp[, c("x","y")])
+
+## or, even better, use the y ~ x notation
+  xysplom(~ x + y, data=tmp)
+  xysplom(w + z ~ x + y, data=cbind(tmp, tmp2))
+
+## xyplot in R has many similar capabilities with xysplom
+if.R(r=
+       xyplot(w + z ~ x + y, data=tmp, outer=TRUE)
+     ,s=
+       {}
+    )
+}
+\keyword{hplot}% at least one, from doc/KEYWORDS

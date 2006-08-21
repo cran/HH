@@ -1,0 +1,30 @@
+<!-- saved from url=(0051)http://lib.stat.cmu.edu/DASL/Datafiles/Cereals.html -->
+Datafile Name: Cereals 
+Datafile Subjects: Food , Health 
+Story Names: Healthy Breakfast 
+Reference: Data available at many grocery stores 
+Authorization: free use 
+Description: Data on several variable of different brands of cereal. 
+A value of -1 for nutrients indicates a missing observation. 
+
+Number of cases: 77 
+Variable Names: 
+Name: Name of cereal 
+mfr: Manufacturer of cereal where
+ A = American Home Food Products; G = General Mills; K = Kelloggs;
+ N = Nabisco; P = Post; Q = Quaker Oats; R = Ralston Purina 
+type: cold or hot 
+calories: calories per serving 
+protein: grams of protein 
+fat: grams of fat 
+sodium: milligrams of sodium 
+fiber: grams of dietary fiber 
+carbo: grams of complex carbohydrates 
+sugars: grams of sugars 
+potass: milligrams of potassium 
+vitamins: vitamins and minerals - 0, 25, or 100, indicating the typical
+  percentage of FDA recommended 
+shelf: display shelf (1, 2, or 3, counting from the floor) 
+weight: weight in ounces of one serving 
+cups: number of cups in one serving 
+rating: a rating of the cereals 
