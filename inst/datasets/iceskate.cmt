@@ -1,0 +1,12 @@
+The data is in the file ext_FSW010100[1].htm 326KB in the directory
+c:\windows\temporary internet files\content.ie5\KZEXU7C3
+
+I copied this to hh/datasets/iceskate.htm
+Then 1) double-click on it in windows explorer.
+
+or   2) bring it up in w3-mode in emacs with
+     M-x w3-dired-find-file
+The font stuff interferes with alignment, so save it as a txt file,
+     C-x s iceskate-htm.txt
+then C-x k and C-x C-f it again.
+

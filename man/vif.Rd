@@ -1,0 +1,79 @@
+\name{vif}
+\alias{vif}
+\alias{vif.default}
+\alias{vif.formula}
+\alias{vif.lm}
+\title{ Calculate the Variance Inflation Factor }
+\description{
+The VIF for predictor $i$ is $1/(1-R_i^2)$, where $R_i^2$ is the
+$R^2$ from a regression of predictor $i$ against the remaining
+predictors.  
+}
+\usage{
+vif(x, ...)
+
+\method{vif}{default}(x, y.name, na.action = na.exclude, ...) ## x is a data.frame
+
+\method{vif}{formula}(x, data, na.action = na.exclude, ...)   ## x is a formula
+
+\method{vif}{lm}(x, na.action = na.exclude, ...)         ## x is a "lm" object
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{x}{\code{data.frame}, or \code{formula}, or \code{lm} object.}
+  \item{na.action}{See \code{\link[stats]{na.action}}.}
+  \item{\dots}{additional arguments. }
+
+  \item{y.name}{Name of Y-variable to be excluded from the computations.}
+
+  \item{data}{A data frame in which the variables specified in the
+    formula will be found. If missing, the variables are searched for in
+    the standard way. }
+}
+\details{
+A simple diagnostic of collinearity is the
+\emph{variance inflation factor, VIF}
+one for each regression coefficient (other than the intercept).
+Since the condition of collinearity involves the predictors but not
+the response, this measure is a function of the $X$'s but not of $Y$.
+The VIF for predictor $i$ is $1/(1-R_i^2)$, where $R_i^2$ is the
+$R^2$ from a regression of predictor $i$ against the remaining
+predictors.  If $R_i^2$ is close to 1, this means that predictor $i$
+is well explained by a linear function of the remaining predictors,
+and, therefore, the presence of predictor $i$ in the model is
+redundant.  Values of VIF exceeding 5 are considered evidence of
+collinearity: The information carried by a predictor having such a VIF
+is contained in a subset of the remaining predictors.  If, however,
+all of a model's regression coefficients differ significantly from 0
+($p$-value $<$ .05), a somewhat larger VIF may be tolerable.  
+}
+\value{
+Vector of VIF values, one for each X-variable.
+}
+\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\emph{Statistical Analysis and Data Display: An Intermediate Course
+  with Examples in S-Plus, R, and SAS}.
+ Springer Texts in Statistics. Springer.
+ ISBN 0-387-40270-5.
+}
+\author{ Richard M. Heiberger <rmh@temple.edu> }
+\seealso{\code{\link[stats]{lm}}}
+\examples{
+usair <- read.table(hh("datasets/usair.dat"),                    
+                    col.names=c("SO2","temp","mfgfirms","popn",
+                                "wind","precip","raindays"))
+usair$lnSO2 <- log(usair$SO2)
+usair$lnmfg <- log(usair$mfgfirms)
+usair$lnpopn <- log(usair$popn)
+
+usair.lm <- lm(lnSO2 ~ temp + lnmfg + wind + precip, data=usair)
+
+vif(usair.lm)
+
+vif(lnSO2 ~ temp + lnmfg + wind + precip, data=usair)
+
+vif(usair)
+
+vif(usair, y.name="lnSO2")
+}
+\keyword{regression}
