@@ -96,12 +96,11 @@ if.R(s=
 
 "panel.case" <- function(x, y, subscripts, rownames, group.names,
                          nn, pp, ss, cex.threshold,
-                         panel.number, ## R only. S-Plus ignores this argument
                          par.settings, ## R only. S-Plus ignores this argument
                          obs.large, obs.large.env,
                          ...) {
   cell.num <- if.R(s=get("cell", frame=sys.parent()),
-                   r=panel.number)
+                   r=panel.number())
   panel.label <- if.R(s=get("panel.labels", frame=sys.parent())[cell.num],
                       r=group.names[cell.num])
   cex.x <- if.R(s=get("cex.x", frame=sys.parent()),

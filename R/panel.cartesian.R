@@ -16,7 +16,7 @@ function(x, y,
     while(!(exists("rows.per.page", frame=which.parent)))
       which.parent <- which.parent + 1
     
-    cell <- get("panel.number", pos=sys.frame(which.parent))
+    cell <- panel.number()
     
     trellis.object <- get("x", pos=sys.frame(which.parent))
     cols.per.page <- get("cols.per.page", pos=sys.frame(which.parent))
@@ -59,15 +59,14 @@ function(x, y,
          which.cell <- get("which.cell", frame=sys.parent(which.parent))
          this.cell <- match(cell, which.cell)
          panel.labels <- get("panel.labels", frame=sys.parent(which.parent))
-
          if (ncol(panel.labels)==1) {
-           rn <- row.names(panel.labels)
+           rn <- dimnames(panel.labels)[[1]]
            panel.labels <-
-             do.call("rbind", strsplit(panel.labels[,1], " * "))[,c(3,1)]
+             if (version$major < 8)
+               t(sapply(panel.labels, function(x) sapply(formula(x)[3:2], deparse)))
+             else
+               do.call("rbind", strsplit(panel.labels[,1], " * "))[,c(3,1)]
            dimnames(panel.labels) <- list(rn, c("x","y"))
-##            tmp <- do.call("rbind", strsplit(panel.labels[,1], " * "))[,c(3,1)]
-##            dimnames(tmp) <- list(row.names(panel.labels), c("x","y"))
-##            panel.labels <- data.frame(tmp, stringsAsFactors=FALSE)
          }
          these.labels <- panel.labels[this.cell,]
          

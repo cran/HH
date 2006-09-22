@@ -105,11 +105,27 @@ See also \code{\link{xyplot}} in R and
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{panel.interaction2wt}}}
 \examples{
-%data(vulcan, package="HH")
-%interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
-anova(aov(len ~ supp*dose, data=ToothGrowth))
-interaction2wt(len ~ supp + dose, data=ToothGrowth)
-bwplot(len ~ supp | dose, data=ToothGrowth, layout=c(3,1))
+vulcan <- read.table(hh("datasets/vulcan.dat"), header=TRUE)
+interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
+if.R(r={
+  ToothGrowth <- ToothGrowth  ## local copy
+  ToothGrowth$dose <- ordered(ToothGrowth$dose) ## modify local copy
+print(
+  anova(aov(len ~ supp*dose, data=ToothGrowth))
+)
+print(
+  interaction2wt(len ~ supp + dose, data=ToothGrowth)
+)
+print(
+  bwplot(len ~ supp | dose, data=ToothGrowth, layout=c(3,1))
+)
+print(
+  bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
+         box.ratio=.5,
+         panel=panel.bwplot.intermediate.hh,
+         scales=list(x=list(at=position(ToothGrowth$dose))))
+)
+}, s={})
 }
 \keyword{ hplot }% at least one, from doc/KEYWORDS
 \keyword{ design }% __ONLY ONE__ keyword per line

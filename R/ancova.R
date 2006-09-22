@@ -227,14 +227,9 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
   if (is.factor(tpgl$pch)) tpgl$pch <- as.character(tpgl$pch)
 
   ## browser()
-  cell <- if.R(r={
-    sys.frame.i <-
-      match(TRUE, sapply(1:length(sys.frames()),
-                         FUN=function(i)
-                         exists("panel.number", envir=sys.frame(i))))
-    get("panel.number", pos=sys.frame(sys.frame.i))},
+  cell <- if.R(r=panel.number(),
                s=get("n", frame=sys.parent()))
-
+  
   if (cell == length(a)+1) {
 
     if (missing(blocks))

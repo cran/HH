@@ -2,37 +2,45 @@
 \alias{norm.setup}
 \alias{norm.curve}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{plot a normal curve with both x and z axes.}
+\title{plot a normal or a t-curve with both x and z axes.}
 \description{
-  Plot a normal curve with both x (with \code{mean} and \code{se}
-  as specified) and z (mean=0, se=1) axes.
+  Plot a normal curve or a t-curve with both x (with \code{mean} and \code{se}
+  as specified) and z or t (mean=0, se=1) axes.
   Shade a region for rejection region, acceptance region, confidence
   interval.
-  The density axis is marked in units appropriate for the z axis.
+  The density axis is marked in units appropriate for the z or t axis.
   The existence of any of the arguments \code{se}, \code{sd}, \code{n}
-  forces dual \code{x} and \code{z} scales.  When none of these
+  forces dual \code{x} and (\code{z} or \code{t}) scales.  When none of these
   arguments
   are used, the main title defaults to
   \code{"Standard Normal Density N(0,1)"} and only the \code{z} scale is
   printed.  A second density curve, appropriate for an alternative
   hypothesis
-  is displayed when the argument \code{axis.name="z1"} is specified.    
+  is displayed when the argument \code{axis.name="z1"} is specified.
+The shaded area is printed on the plot.
+  
+  When the optional argument \code{df.t} is specified, then a
+  t-distribution with \code{df.t} degrees of freedom is plotted.
 }
 \usage{
 norm.setup(xlim.in=c(-2.5,2.5),
            ylim.in = c(0, 0.4)/se,
            mean=0,
-           main.in=ifelse(
-             !(missing(se) && missing(sd) && missing(n)),
-             paste("normal density:  se =", round(se,3)),
-             "Standard Normal Density N(0,1)"),
-           se=sd/sqrt(n), sd=1, n=1, ...)
+           main.in=main.calc,
+           se=sd/sqrt(n), sd=1, n=1,
+           df.t=NULL,
+            ...)
 
 norm.curve(mean=0, se=sd/sqrt(n),
-         critical.values=mean + se*c(-1.96, 1.96),
+         critical.values=mean + se*c(-1, 1)*z.975,
          z=do.call("seq",
                    as.list(c((par()$usr[1:2]-mean)/se, length=109))),
-         shade, col=par("col"), axis.name="z", sd=1, n=1, ...)
+         shade, col=par("col"),
+         axis.name=ifelse(is.null(df.t), "z", "t"),
+         second.axis.label.line=3,
+         sd=1, n=1,
+         df.t=NULL,
+         ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,20 +55,43 @@ norm.curve(mean=0, se=sd/sqrt(n),
   \item{sd, n}{standard deviation and sample size of the normal
     distribution in x-scale.  These may be used as an alternate way of
     specifying the standard error \code{se}.}
+  \item{df.t}{Degrees of freedom for the t distribution.  When
+         \code{df.t} is \code{NULL}, the normal distribution is used.}
   \item{critical.values}{Critical values in xbar-scale.
     A scalar value implies a one-sided test.  A vector of two values
     implies a two-sided test.}
-  \item{main.in}{Main title.}
+  \item{main.in}{Main title.  Default value is:
+    \code{
+      if (is.null(df.t))  ## normal
+        ifelse(!(missing(se) && missing(sd) && missing(n)),
+               paste("normal density:  se =", round(se,3)),
+               "Standard Normal Density N(0,1)")
+      else { ## t distribution
+        if (length(df.t) != 1) stop("df.t must have length 1")
+        ifelse(!(missing(se) && missing(sd) && missing(n)),
+               paste("t density:  se = ", round(se,3), ", df = ", df.t, sep=""),
+               paste("t density, df =", df.t))
+	     }
+	   }
+	 }
   \item{z}{z-values (standardized to N(0,1)) used as base of plot.}
   \item{shade}{
-    Valid values for shade are "right", "left", "inside", "outside".
+    Valid values for shade are "right", "left", "inside", "outside", "none".
     Default is "right" for one-sided critical.values and "outside"
     for two-sided critical values.}
-  \item{col}{color of the shaded region.}
-  \item{axis.name}{\code{"z"} for the standard normal scale centered on
-    the null hypothesis value of the mean.
-    \code{"z1"} for the standard normal scale centered on
+  \item{col}{color of the shaded region and the area of the shaded region.}
+  \item{axis.name}{defaults to \code{"z"}
+    for the standard normal scale centered on
+    the null hypothesis value of the mean or to \code{"t"} for
+    the t distribution with \code{df.t} degrees of freedom.
+    For alternative hypotheses, the user must specify either
+    \code{"z1"} or \code{"t1"} for the standard normal scale,
+    or t distibution with \code{df.t} degrees of freedom, centered on
     the alternate hypothesis value of the mean.}
+  \item{second.axis.label.line}{Defaults to \code{3}.
+    Normally not needed.  When two curves are drawn, one normal and one t,
+    then the second curve needs a different label for the y-axis.
+    Set this value to 4 to avoid overprinting.}
   \item{\dots}{Other arguments which are ignored.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
@@ -132,6 +163,59 @@ mtext("all areas under the curve are numerically and visually the same",
       side=3, outer=TRUE)
 
 par(mfrow=c(1,1))
+
+
+## t distribution
+mu.H0 <- 16
+se.val <- .4
+df.val <- 10
+crit.val <- mu.H0 - qt(.95, df.val) * se.val
+mu.alt <- 15
+obs.mean <- 14.8
+
+alt.t <- (mu.alt - crit.val) / se.val
+norm.setup(xlim=c(12, 19), se=se.val, df.t=df.val)
+norm.curve(crit=crit.val, se.val, df.t=df.val, mean=mu.alt,
+           col=3, shade="left", axis.name="t1")
+norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.H0,
+           col=16, shade="right")
+axis(1, at=obs.mean, tck=-.08)
+axis(3, at=obs.mean, tck=-.08)
+abline(v=obs.mean, lty=3)
+abline(v=mu.H0, lty=2)
+axis(1, at=mu.H0, tck=-.1)
+
+## normal
+norm.setup(xlim=c(12, 19), se=se.val)
+norm.curve(crit=crit.val, se.val, mean=mu.alt,
+           col=3, shade="left", axis.name="z1")
+norm.curve(crit=crit.val, se=se.val, mean=mu.H0,
+           col=16, shade="right")
+axis(1, at=obs.mean, tck=-.08)
+axis(3, at=obs.mean, tck=-.08)
+abline(v=obs.mean, lty=3)
+abline(v=mu.H0, lty=2)
+axis(1, at=mu.H0, tck=-.1)
+
+
+
+## normal and t
+norm.setup(xlim=c(12, 19), se=se.val, main="t(6) and normal")
+norm.curve(crit=15.5, se=se.val, mean=16.3,
+           col=16, shade="right")
+norm.curve(crit=15.5, se.val, df.t=6, mean=14.7,
+           col=3, shade="left", axis.name="t1", second.axis.label.line=4)
+norm.curve(crit=15.5, se=se.val, mean=16.3,
+           col=16, shade="none")
+
+norm.setup(xlim=c(12, 19), se=se.val, main="t(6) and normal")
+norm.curve(crit=15.5, se=se.val, mean=15.5,
+           col=16, shade="right")
+norm.curve(crit=15.5, se.val, df.t=6, mean=15.5,
+           col=3, shade="left", axis.name="t1", second.axis.label.line=4)
+norm.curve(crit=15.5, se=se.val, mean=15.5,
+           col=16, shade="none")
+
 
 
 par(old.par)
