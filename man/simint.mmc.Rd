@@ -142,7 +142,8 @@ Hsu, J. and Peruggia, M. (1994).
   %% were interpretable.
 
 }
-\seealso{\code{\link{as.multicomp}}}
+\seealso{\code{\link{as.multicomp}}, \code{\link{plot.mmc.multicomp}}}
+
 \examples{
 ## simint is strictly for R.  Use multicomp.mmc with S-Plus.
 
@@ -187,7 +188,8 @@ if.R(r=plot(catalystm.mmc, col.mca.signif="red"),
 plot(catalystm.mmc$mca)
 plot(catalystm.mmc$none)
 
-  ### $none works for oneway ANOVA, not sure yet beyond that
+  ### $none works in S-Plus for all designs
+  ### $none works in R for oneway ANOVA, not sure yet beyond that.
 
 
 

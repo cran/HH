@@ -66,7 +66,7 @@ hardness <- read.table(hh("datasets/hardness.dat"), header=TRUE)
 hardness.lin.lm  <- lm(hardness ~ density,                data=hardness)
 hardness.quad.lm <- lm(hardness ~ density + I(density^2), data=hardness)
 
-anova(hardness.quad.lm)  ## qyadratic term has very low p-value
+anova(hardness.quad.lm)  ## quadratic term has very low p-value
 
 par(mfrow=c(1,2))
 

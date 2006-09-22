@@ -12,7 +12,8 @@ the trace- and x-factor roles interchanged.
 }
 \usage{
 panel.interaction2wt(x, y, subscripts, responselab,
-                     trace.values, factor.levels, fun = mean, ...)
+                     trace.values, factor.levels, fun = mean, ...,
+                     key.in=NULL)
 
 strip.interaction2wt(which.given, which.panel, var.name,
                      factor.levels, shingle.intervals,
@@ -32,7 +33,10 @@ strip.interaction2wt(which.given, which.panel, var.name,
   \item{fun}{Summary function, defaults to \code{mean}}
   \item{\dots}{extra arguments, primarily color,
     to be passed to \code{panel.bwplot.intermediate.hh}}
+  \item{key.in}{arguments to be passed through to the \code{key} for the
+                     trace-factor in each row of the display.}
 
+  
   \code{strip.interaction2wt arguments}
   \item{which.given, which.panel, var.name, factor.levels,
     shingle.intervals}{see documentation
@@ -52,12 +56,5 @@ strip.interaction2wt(which.given, which.panel, var.name,
 % }
 \seealso{\code{\link{interaction2wt}},
   \code{\link{panel.bwplot.intermediate.hh}}}
-\examples{
-%data(vulcan, package="HH")
-%interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
-anova(aov(len ~ supp*dose, data=ToothGrowth))
-interaction2wt(len ~ supp + dose, data=ToothGrowth)
-bwplot(len ~ supp | dose, data=ToothGrowth, layout=c(3,1))
-}
 \keyword{ aplot }% at least one, from doc/KEYWORDS
 \keyword{ design }% __ONLY ONE__ keyword per line

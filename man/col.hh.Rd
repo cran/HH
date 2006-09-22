@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Initializing Trellis Displays}
 \description{
-     Initialization of a display device with the graphical
+     Initialization of an R display device with the graphical
      parameters that rmh prefers.
 }
 \usage{
@@ -18,10 +18,12 @@ col.hh()
 \seealso{\code{\link[lattice]{trellis.device}}, \code{\link[lattice]{trellis.par.get}}}
 \examples{
 ## function name or result of function call
+if.R(r={
 trellis.device(theme="col.hh")
 trellis.device(theme=col.hh())
 
 ## result of function call
 trellis.par.set(theme=col.hh())
+},s={})
 }
 \keyword{color}

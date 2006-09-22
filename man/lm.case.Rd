@@ -34,7 +34,6 @@ plot.case(x, fit,
 
 panel.case(x, y, subscripts, rownames, group.names,
            nn, pp, ss, cex.threshold,
-           panel.number, ## R only. S-Plus ignores this argument
            par.settings, ## R only. S-Plus ignores this argument
            obs.large, obs.large.env,
            ...)
@@ -88,7 +87,6 @@ panel.case(x, y, subscripts, rownames, group.names,
    dataset constructed by \code{plot.case} before calling \code{xyplot}.}
  \item{rownames}{row name in the original data.frame.}
  \item{group.names}{names of the individual statistics.}
- \item{panel.number}{R only, which panel are we in?  Ignored in S-Plus.}
  \item{par.settings}{Used in R as part of the call to \code{xyplot}.
    Although this argument is not used in the panel function,
    it is needed as a formal argument in S-Plus to absorb it out of \code{\dots}

@@ -183,8 +183,8 @@ function(which.given,
            which.parent <- 1
            while(!(exists("rows.per.page", frame=which.parent)))
              which.parent <- which.parent + 1
-           panel.number <- get("panel.number",pos=sys.frame(which.parent))
-           xy <- get("x",pos=sys.frame(which.parent))$panel.args[[panel.number]]
+           cell <- panel.number()
+           xy <- get("x",pos=sys.frame(which.parent))$panel.args[[cell]]
            x <- xy$x
            y <- xy$y
          },

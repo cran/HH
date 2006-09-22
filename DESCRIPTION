@@ -2,11 +2,11 @@ Package: HH
 Type: Package
 Title: Support software for Statistical Analysis and Data Display by
         Richard M. Heiberger and Burt Holland
-Version: 1.5
-Date: 2006-08-21
+Version: 1.8
+Date: 2006-09-22
 Author: Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
-Depends: R (>= 2.3.0), lattice, stats, grid, multcomp, mvtnorm
+Depends: R (>= 2.4.0), lattice, stats, grid, multcomp, mvtnorm
 Description: Support software for Statistical Analysis and Data
         Display (Springer, ISBN 0-387-40270-5).  This contemporary
         presentation of statistical methods features extensive use of
@@ -20,4 +20,4 @@ Description: Support software for Statistical Analysis and Data
         graphs. Many of the graphical formats are novel and appear
         here for the first time in print. All chapters have exercises.
 License: GPL version 2 or newer
-Packaged: Sun Sep  3 17:44:32 2006; rmh
+Packaged: Fri Sep 22 16:25:11 2006; rmh
