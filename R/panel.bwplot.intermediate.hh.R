@@ -1,36 +1,59 @@
 "panel.bwplot.intermediate.hh" <-
-function (x, y, horizontal = TRUE, pch = box.dot$pch, 
-    col = box.dot$col, ...) 
+function (x, y,
+          horizontal = TRUE,
+          transpose=!horizontal,
+          pch, 
+          col,
+          at=if (horizontal) levels(as.factor(y)) else levels(as.factor(x)),  ## S-Plus only
+          ...
+          )
 {
-  if (!is.null(list(...)$transpose)) horizontal <- !list(...)$transpose
+##browser()
+  if (missing(horizontal) && !missing(transpose))
+    horizontal <- !transpose
 
-  if (horizontal) fac.levels <- levels(y) else fac.levels <- levels(x)
-
-  box.dot <- trellis.par.get("box.dot")
-  box.par <- list(box.dot=box.dot,
+  fac.levels <- if.R(r=if (horizontal) levels(y) else levels(x),
+                     s=at)
+  box.par <- list(box.dot=trellis.par.get("box.dot"),
                   box.rectangle=trellis.par.get("box.rectangle"),
-                  box.umbrella=trellis.par.get("box.umbrella"))
-  box.col <- lapply(box.par, function(x) list(col=x$col))
+                  box.umbrella=trellis.par.get("box.umbrella"),
+                  plot.symbol=trellis.par.get("plot.symbol"))
   tpg <- trellis.par.get("superpose.line")
   tpg.col <- rep(tpg$col, length=length(fac.levels))
+  if (!missing(col)) tpg.col <- rep(col, length=length(fac.levels))
 
   for (i in seq(along=fac.levels)) {
-    if (!missing(pch)) box.col$box.dot$pch <- pch[i]
-    for (j in seq(along=box.col))
-      box.col[[j]]$col <- tpg.col[i]
-    trellis.par.set(box.col)
+    if (!missing(pch)) box.par$box.dot$pch <- pch[i]
+    for (j in names(box.par)) {
+      box.par[[j]]$col <- tpg.col[i]
+      trellis.par.set(j, box.par[[j]])
+    }
     
     if (horizontal) {
-      y.levels <- position(y)
-      xy <- x[y.levels[y] == y.levels[i]]
-      ii <- rep(y.levels[i], length(xy))
-      panel.bwplot(xy, ii, horizontal = TRUE, ...)
+        ii <- as.numeric(y[y == fac.levels[i]])
+        xy <- x[y == fac.levels[i]]
+      if.R({
+        r=panel.bwplot(xy, ii, horizontal=horizontal, ...)
+      },s={
+        if (is.numeric(at)) {
+          ii <- rep(fac.levels[i], sum(y==i))
+          xy <- x[y == i]
+        }
+        panel.bwplott(xy, ii, transpose=transpose, ...)
+      })
     }
-    else {
-      x.levels <- position(x)
-      yx <- y[x.levels[x] == x.levels[i]]
-      ii <- rep(x.levels[i], length(yx))
-      panel.bwplot(ii, yx, horizontal = FALSE, ...)
-    }
-  } 
+      else {
+          yx <- y[x == fac.levels[i]]
+          ii <- as.numeric(x[x == fac.levels[i]])
+        if.R(r={
+          panel.bwplot(ii, yx, horizontal=horizontal, ...)
+        },s={
+          if (is.numeric(at)) {
+            ii <- rep(fac.levels[i], sum(x==i))
+            yx <- y[x == i]
+          }
+          panel.bwplott(ii, yx, transpose=transpose, ...)
+        })
+      }
+  }
 }

@@ -167,20 +167,32 @@ function(x, ...) {
   invisible(x)
 }
 
-"model.frame.ancova" <- function(formula, ...)
-  NextMethod("model.frame")
+"model.frame.ancova" <-
+  if.R(r={function(formula, ...)
+            NextMethod("model.frame")},
+       s={function(formula, data = NULL, na.action = na.fail, ...)
+            NextMethod("model.frame")})
 
 "summary.ancova" <-
 function(object, ...)
   NextMethod("summary")
 
 "plot.ancova" <-
-function(x, ...) {
-  x.full <- x
-  attr(x, "trellis") <- NULL
-  NextMethod("plot")
-  invisible(x.full)
-}
+  if.R(r={
+    function(x, y, ...) {
+      x.full <- x
+      attr(x, "trellis") <- NULL
+      NextMethod("plot")
+      invisible(x.full)
+    }
+  },s={
+    function(x, ...) {
+      x.full <- x
+      attr(x, "trellis") <- NULL
+      NextMethod("plot")
+      invisible(x.full)
+    }
+  })
 
 "coef.ancova" <-
 function(object, ...)
@@ -293,3 +305,4 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
     }
 }
 
+setOldClass(c("ancova", "aov", "lm"))

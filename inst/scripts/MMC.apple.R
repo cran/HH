@@ -14,8 +14,8 @@
 
 
 apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
+old.contr <- options(contrasts=c("contr.treatment", "contr.treatment"))
 apple$treat <- factor(apple$treat)
-contrasts(apple$treat) <- contr.treatment(6)
 apple$block <- factor(apple$block)
 
 apple.ancova.2 <- aov(yield ~ block + pre + treat, data=apple, x=TRUE)
@@ -46,7 +46,10 @@ yield.block.pre <-
 apple <- cbind(apple, yield.block.pre=as.vector(yield.block.pre))
 apple.ancova.5 <- ancova(yield.block.pre ~ treat, x=pre.block, data=apple)
 anova(apple.ancova.5)
-attr(apple.ancova.5, "trellis")$ylim <- attr(apple.ancova.3, "trellis")$ylim
+if.R(s=attr(apple.ancova.5, "trellis")$ylim <-
+     attr(apple.ancova.4, "trellis")$ylim,
+     r=attr(apple.ancova.5, "trellis")$y.limits <-
+     attr(apple.ancova.4, "trellis")$y.limits)
 
 
 ## apple.ancova.2 and apple.ancova.4 have the same Sums of Squares in
@@ -62,7 +65,7 @@ summary(apple.ancova.5)
 ## apple.ancova.5 has the wrong   residual df, hence Mean Square and F tests,
 ##                and the wrong   treat Sum of Squares.  It has the correct
 ##                regression coefficients.
-
+ 
 ## MMC Figure 6
 if.R(s={
   ## multicomp must be done with apple.ancova.2
@@ -71,7 +74,6 @@ if.R(s={
     multicomp(apple.ancova.2, focus="treat",
               comparisons="mcc", method="dunnett", valid.check=FALSE)
   tmp
-  plot(tmp)
   
   ## find out which rows of lmat we need
   zapsmall(tmp$lmat)
@@ -93,39 +95,28 @@ if.R(s={
   par(old.mar)
   
 },r={
- ## multicomp must be done with apple.ancova.2
+  ## glht must be done with apple.ancova.2
   
-  tmp <-
-    simint(yield ~ block + pre + treat, data=apple, whichf="treat",
-              type="Dunnett", base=6, valid.check=FALSE)
+  tmp <- glht(apple.ancova.2,
+              ## linfct=mcp(treat="Dunnett", base=6)) ## not yet
+              linfct = mcp(treat=contrMat(rep(4,6), base=6)))
   tmp
-  plot(tmp)
   
-#### This is what we want.  It doesn't currently work with simint
-##   ## find out which rows of lmat we need
-##   zapsmall(tmp$cmatrix)
-##   ## keep just the treatment rows
-##   apple.mmc <-
-##     simint.mmc(yield ~ block + pre + treat, data=apple, whichf="treat",
-##                type="Dunnett", base=6, valid.check=FALSE,
-##                lmat.rows=6:11)
-
-  ## We base this on apple.ancova.5
-  ## The means are correct.  The standard deviations, hence widths, are not.
-  apple.mmc <-
-    simint.mmc(yield.block.pre ~ treat, data=apple, whichf="treat",
-               type="Dunnett", base=6, valid.check=FALSE)
-  apple.mmc <- multicomp.label.change(tmp, "treat", "")
+  ## find out which rows of lmat we need
+  zapsmall(tmp$linfct)
+  ## keep just the treatment rows
+  apple.mmc <- glht.mmc(apple.ancova.2,
+                        ## linfct=mcp(treat="Dunnett", base=6), ## not yet
+                        linfct = mcp(treat=contrMat(rep(4,6), base=6)),
+                        lmat.rows=6:10)
   apple.mmc
-  plot(apple.mmc)
 
   old.mar <- par(mar=c(15,4,4,2)+.1)
 
-  plot(apple.mmc, col.iso=16, x.offset=10, col.mca.signif="red")
-  apple.xlim <- par()$usr[1:2]
+  plot(apple.mmc, col.iso=16, x.offset=15, col.mca.signif="red")
 
-  par(mar=c(5,4,28,2)+.1, new=TRUE)
-  plot(apple.mmc$mca, xlim=apple.xlim, xaxs="i", main="") ## xaxs="d" not in R
+  par(mar=c(2,4,28,2)+.1, new=TRUE)
+  plot(apple.mmc$mca, xlim=par()$usr[1:2], xaxs="i", main="", xlab="")
 
   par(old.mar)
   

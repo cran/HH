@@ -31,7 +31,7 @@ if.R(s=
                         which=c("stu.res","si","h","cook","dffits",
                           dimnames(x)[[2]][-(1:8)]),  ##DFBETAS
                         between.in=list(y=4, x=9),
-                        oma=c(0,0,0,4), cex.threshold=if.R(s=2, r=1.2),
+                        oma=c(0,0,0,4), cex.threshold=if.R(r=1.2, s=1.6),
                         main.in=list(
                           paste(deparse(fit$call), collapse=""),
                           cex=main.cex),
@@ -110,6 +110,17 @@ if.R(s=
   y.plot <- y
   pretty.y <- pretty(y)
   lin.pretty.y <- pretty.y
+
+  ## turn off clipping in R
+  ## --- needed for axis ticks and labels outside the plot region
+  if.R(r={
+    cpl <- current.panel.limits()
+    pushViewport(viewport(xscale = cpl$xlim,
+                          yscale = cpl$ylim,
+                          clip = "off"))
+    ## put anything you want unclipped inside this:
+  },s={})
+  
   new.viewport <- FALSE
   switch(panel.label,
          "deleted std dev"={y.plot <- y-ss
@@ -138,8 +149,8 @@ if.R(s=
                     cvp$yscale[1] <- 0
                     pushViewport(cvp)
                   })
-            threshold <- c(0, 1/nn, c(2,3) * (pp+1)/nn)
-            thresh.label <- c("0", "1 / n", "2 (p+1)/n", "3 (p+1)/n")
+            threshold <- c(1/nn, c(2,3) * (pp+1)/nn)
+            thresh.label <- c("1 / n", "2 (p+1)/n", "3 (p+1)/n")
             thresh.id <- c(0, 2*(pp+1)/nn)
           },
          "Cook's distance"={if.R(s={par.usr <-par()$usr
@@ -183,32 +194,45 @@ if.R(s=
 
     panel.xyplot(x, y.plot, type="h", ...)
 
+  ## axis 2, "left"
   if (length(lin.pretty.y) > 0)
-    if.R(s=      axis(side=2,      at=lin.pretty.y, labels=pretty.y,      cex=1.5*cex.y, adj=1),
-         r=panel.axis(side="left", at=lin.pretty.y,
-           labels=pretty.y, text.cex=1.0*cex.y, outside=TRUE)
+    if.R(s=axis(
+           side=2,
+           at=lin.pretty.y,
+           labels=pretty.y,
+           cex=1.2*cex.y, adj=1),
+         r=panel.axis(
+           side="left",
+           at=lin.pretty.y,
+           labels=pretty.y,
+           text.cex=1.0*cex.y, outside=TRUE)
          )
 
-##   if.R(r={
-##     cpv <- current.viewport()
-##     cpv$clip <- FALSE
-##     pushViewport(cpv)
-##   },
-##        s={})
-  if.R(r={
-    yscale <- current.viewport()$yscale
-    thresh.inside.yscale <- (yscale[1] < threshold) &  (yscale[2] > threshold)
-    threshold <- threshold[thresh.inside.yscale]
-  }, s={})
-  panel.abline(h=threshold, lty=2, err=-1)
-##   if.R(r=popViewport(),
-##        s={})
-
+  ## axis 4, "right"
   if (length(threshold) > 0)
-    if.R(s=      axis(side=4,       at=threshold, labels=thresh.label, err=-1,
-                cex=cex.threshold*cex.y, tck=-.02, adj=0),
-         r=panel.axis(side="right", at=threshold, labels=thresh.label,
-           text.cex=cex.threshold*cex.y, tck=-.02, outside=TRUE))
+    if.R(
+         s={  ## S-Plus does the clipping
+           panel.abline(h=threshold, lty=2, err=-1)
+           axis(
+                side=4,
+                at=threshold,
+                labels=thresh.label,
+                err=-1,
+                cex=cex.threshold*cex.y, tck=-.02, adj=0)
+         },
+         r={  ## We turned off clipping to get outside axes to print
+           yscale <- current.viewport()$yscale
+           thresh.inside.yscale <-
+             (yscale[1] <= threshold) &  (threshold <= yscale[2])
+           panel.abline(h=threshold[thresh.inside.yscale], lty=2, err=-1)
+           panel.axis(
+                      side="right",
+                      at=threshold[thresh.inside.yscale],
+                      labels=thresh.label[thresh.inside.yscale],
+                      text.cex=cex.threshold*cex.y, tck=-.02, outside=TRUE)
+         })
+
+  ## axis 1, "bottom"
   y.compare <- (y < thresh.id[1]) | (y > thresh.id[2])
   y.compare[is.na(y.compare)] <- FALSE
   subs <- (1:nn)[y.compare]
@@ -216,11 +240,23 @@ if.R(s=
   names.x <- rownames[subscripts]
   if (length(subs) > 0)
     for (i in subs)
-      if.R(s=      axis(side=1,        at=i, labels=names.x[i],      cex=1.7*cex.x,
+      if.R(s=axis(
+             side=1,
+             at=i, labels=names.x[i],
+             cex=1.6*cex.x,
              tick=TRUE, tck=-.06),
-           r=panel.axis(side="bottom", at=i, labels=names.x[i], text.cex=1.2*cex.x,
+           r=panel.axis(
+             side="bottom",
+             at=i, labels=names.x[i],
+             text.cex=1.2*cex.x,
              tick=TRUE, tck=-.06, outside=TRUE, rot=0))
   if (new.viewport) popViewport()
+
+  ## restore clipping in R
+  if.R(r=
+       ## end of unclipped part
+       upViewport()
+       ,s={})
 
   ## save the row.names of the observations crossing the threshold.
   if (!exists(obs.large, obs.large.env))

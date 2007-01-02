@@ -11,8 +11,18 @@ The \code{i,j} panel shows the same factors as the \code{j,i} but with
 the trace- and x-factor roles interchanged.
 }
 \usage{
-panel.interaction2wt(x, y, subscripts, responselab,
-                     trace.values, factor.levels, fun = mean, ...,
+panel.interaction2wt(x, y, subscripts,
+                     responselab, trace.values,
+                     factor.levels, factor.position,
+                     fun = mean,
+                     se,
+                     ...,
+                     box.ratio,
+                     simple=FALSE,
+                     simple.offset,
+                     simple.scale,
+                     data.x,
+                     col.by.row=TRUE,
                      key.in=NULL)
 
 strip.interaction2wt(which.given, which.panel, var.name,
@@ -21,7 +31,7 @@ strip.interaction2wt(which.given, which.panel, var.name,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \code{panel.interaction2wt arguments}
+  \code{panel.interaction2wt} arguments:
   \item{x}{levels of x-factor}
   \item{y}{ Summary value of response variable at each level of
     x- and trace-factors. }
@@ -31,13 +41,33 @@ strip.interaction2wt(which.given, which.panel, var.name,
     the name of the response variable.}
   \item{trace.values}{levels of trace-factor}
   \item{fun}{Summary function, defaults to \code{mean}}
+  \item{se}{standard errors to be passed to \code{panel.intxplot}.
+    \code{se} Missing, logical, or a numeric vector.
+    If missing or \code{FALSE}, standard errors are not plotted.
+    If \code{TRUE}, the standard errors are calculated from the
+    sufficient statistics for each group as the groups standard deviation
+    divided by the square root of the group observation
+    count.  If a numeric vector, it is evaluated in the environment of
+    the sufficient statistics.
+  },
+  \item{box.ratio}{passed to \code{panel.bwplot.intermediate.hh}},
   \item{\dots}{extra arguments, primarily color,
     to be passed to \code{panel.bwplot.intermediate.hh}}
   \item{key.in}{arguments to be passed through to the \code{key} for the
-                     trace-factor in each row of the display.}
+    trace-factor in each row of the display.}
+  \item{factor.position}{\code{"position"} attribute of factor.}
+  \item{simple}{logical.  \code{TRUE} if simple effects are to be displayed.}
+  \item{simple.offset, simple.scale}{named list of offset and scale for the
+    response and trace factors.  See
+    \code{\link{interaction.positioned}} for their use.}
+  \item{data.x}{\code{data.frame} containing factors from the input data.frame}
 
-  
-  \code{strip.interaction2wt arguments}
+  \item{col.by.row}{logical.  If \code{TRUE} (the default), simple
+effects plots color the simple effects on the main diagonals in the same
+color as the trace levels in their row.  If \code{FALSE}, then simple
+effects are colored to match the x levels in their column.}
+
+  \code{strip.interaction2wt} arguments
   \item{which.given, which.panel, var.name, factor.levels,
     shingle.intervals}{see documentation
     for \code{\link[lattice]{strip.default}}}.

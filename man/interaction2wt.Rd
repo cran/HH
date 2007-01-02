@@ -19,12 +19,12 @@ interaction2wt(x, ...)
 \method{interaction2wt}{default}(x,
                response.var,
                responselab = deparse(substitute(y)),
-               relation = list(x = "free", y = "same"),
+               relation = list(x = "same", y = "same"),
                x.relation = relation$x,
                y.relation = relation$y,
                digits = 3,
-               x.between = c(1, rep(0, ncol(x) - 1)),
-               y.between = NULL,
+               x.between = 1,
+               y.between = 1,
                cex = 0.75,
                panel.input = panel.interaction2wt,
                strip.input = strip.interaction2wt,
@@ -34,9 +34,10 @@ interaction2wt(x, ...)
                  paste(responselab,
                        ": main effects and 2-way interactions",
                        sep = ""),
-               xlab.in = TRUE,
                xlab = list(labels = ""),
                ylab = list(labels = ""),
+               simple=FALSE,
+               box.ratio=if (simple) .32 else 1,
                ...,
                main.cex)
 }
@@ -70,9 +71,16 @@ interaction2wt(x, ...)
     response variable.  This is usually constructed by
     \code{formula} method from the input data and the input formula.}
 
+  \item{simple}{logical.  \code{TRUE} if simple effects are to be
+    displayed.  Arguments \code{simple.offset}, \code{simple.scale}, and
+    \code{col.by.row} may also be needed.  See
+    \code{\link{panel.interaction2wt}} for details.}
+  \item{box.ratio}{\code{\link[lattice]{bwplot}} in R or
+    \code{\link[trellis]{bwplot}} in S-Plus.}
+
 Trellis/Lattice arguments.  Default values are set by the
 the \code{formula} method.  The user may override the defaults.
-See also \code{\link{xyplot}} in R and
+See also \code{\link[lattice]{xyplot}} in R and
 \code{\link[trellis]{trellis.args}} in S-Plus.
 
   \item{relation}{\code{trellis} argument.}
@@ -88,7 +96,7 @@ See also \code{\link{xyplot}} in R and
   \item{par.strip.text.input}{\code{par.strip.text} argument.}
   \item{scales.additional}{additional arguments to \code{scales} argument.}
   \item{main.in}{Text of main title.}
-  \item{xlab.in}{S-Plus: FALSE suppresses x labels in trellis.  R: no effect.}
+%  \item{xlab.in}{S-Plus: FALSE suppresses x labels in trellis.  R: no effect.}
   \item{xlab}{No effect.}
   \item{ylab}{No effect.}
   \item{main.cex}{\code{cex} for main title.}
@@ -106,10 +114,18 @@ See also \code{\link{xyplot}} in R and
 \seealso{\code{\link{panel.interaction2wt}}}
 \examples{
 vulcan <- read.table(hh("datasets/vulcan.dat"), header=TRUE)
+vulcan$filler <- factor(vulcan$filler)
+position(vulcan$raw) <- (1:4)+.5
+position(vulcan$pretreat) <- 2:4
 interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
+interaction2wt(wear ~ filler + raw, data=vulcan,
+               simple=TRUE)
+interaction2wt(wear ~ filler + raw, data=vulcan,
+               simple=TRUE, simple.scale=c(filler=.15, raw=.2))
+
 if.R(r={
   ToothGrowth <- ToothGrowth  ## local copy
-  ToothGrowth$dose <- ordered(ToothGrowth$dose) ## modify local copy
+  ToothGrowth$dose <- positioned(ToothGrowth$dose) ## modify local copy
 print(
   anova(aov(len ~ supp*dose, data=ToothGrowth))
 )
@@ -117,12 +133,17 @@ print(
   interaction2wt(len ~ supp + dose, data=ToothGrowth)
 )
 print(
-  bwplot(len ~ supp | dose, data=ToothGrowth, layout=c(3,1))
+  bwplot(len ~ supp | unpositioned(dose), data=ToothGrowth, layout=c(3,1))
 )
 print(
   bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
          box.ratio=.5,
          panel=panel.bwplot.intermediate.hh,
+         scales=list(x=list(at=position(ToothGrowth$dose))))
+)
+print(
+  bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
+         box.ratio=.5,
          scales=list(x=list(at=position(ToothGrowth$dose))))
 )
 }, s={})

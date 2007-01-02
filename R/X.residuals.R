@@ -28,8 +28,11 @@ X.residuals.formula <- function(x, data, na.action=na.exclude, ...) {
 }
 
 X.residuals.lm <- function(x, na.action=na.exclude, ...) {
-  if(is.null(x$x) || length(x$x)==0)
-    x <- update(x, x = TRUE)
+  if(length(x$x)==0) {
+    x <- try(update(x, x = TRUE), silent=TRUE)
+    if (class(x) == "Error" || class(x)=="try-error") ## S-Plus || R
+      stop("Please recompute the 'lm' object with 'x=TRUE'.")
+  }
   x <- as.data.frame(unclass(x$x))[-1]
   X.residuals(x, na.action=na.action)
 }

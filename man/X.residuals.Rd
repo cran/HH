@@ -16,11 +16,12 @@ X.residuals(x, ...)
 
 \method{X.residuals}{formula}(x, data, na.action = na.exclude, ...)   ## x is a formula
 
-\method{X.residuals}{lm}(x, na.action = na.exclude, ...)         ## x is a "lm" object
+\method{X.residuals}{lm}(x, na.action = na.exclude, ...)  ## x is a "lm" object computed with x=TRUE
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{\code{data.frame}, or \code{formula}, or \code{lm} object.}
+  \item{x}{\code{data.frame}, or \code{formula}, or \code{lm} object
+    computed with \code{x=TRUE}.}
   \item{na.action}{See \code{\link[stats]{na.action}}.}
   \item{\dots}{additional arguments. }
 
@@ -40,7 +41,7 @@ Data.frame of residuals, one column from each regression.
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[stats]{lm}},
+\seealso{\code{\link[stats]{lm}} in R or \code{\link[splus]{lm}} in S-Plus,
   \code{\link{vif}},
   \code{\link{lm.case}}.}
 \examples{
@@ -51,9 +52,9 @@ usair$lnSO2 <- log(usair$SO2)
 usair$lnmfg <- log(usair$mfgfirms)
 usair$lnpopn <- log(usair$popn)
 
-usair.lm <- lm(lnSO2 ~ temp + lnmfg + wind + precip, data=usair)
+usair.lm <- lm(lnSO2 ~ temp + lnmfg + wind + precip, data=usair, x=TRUE)
 
-X.residuals(usair.lm)
+X.residuals(usair.lm)  ## the lm object must be computed with x=TRUE
 
 X.residuals(lnSO2 ~ temp + lnmfg + wind + precip, data=usair)
 

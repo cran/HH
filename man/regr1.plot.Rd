@@ -3,30 +3,47 @@
 \title{plot x and y,
 with optional straight line fit and display of squared residuals}
 \description{
-plot x and y,
-with optional straight line fit and display of squared residuals
-}
+Plot \code{x} and \code{y},
+with optional fitted line and display of squared residuals.
+By default the least squares line is calculated and used.
+Any other straight line
+can be specified by placing its coefficients in \code{coef.model}.
+Any other fitted model can be calculated by specifying the \code{model}
+argument.
+Any other function of one variable can be specified in the
+\code{alt.function} argument.  At most one of the arguments
+\code{model}, \code{coef.model}, \code{alt.function} can be specified.}
 \usage{
-regr1.plot(x, y, model=lm(y~x), coef.model=coef(model),
+regr1.plot(x, y,
+           model=lm(y~x),
+           coef.model,
+           alt.function,
            main="put a useful title here",
            xlab=deparse(substitute(x)),
            ylab=deparse(substitute(y)),
            jitter.x=FALSE,
            resid.plot=FALSE,
            points.yhat=TRUE,
+           pch=16,
            ..., length.x.set=51,
+           x.name,
+           pch.yhat=16,
+           cex.yhat=par()$cex*.7,
            err=-1)
 }
 \arguments{
   \item{x}{x variable}
   \item{y}{y variable}
   \item{model}{Defaults to the simple linear model \code{lm(y ~ x)}.
-    Any linear model object with one x
+    Any model object with one \code{x}
     variable, such as the quadratic \code{lm(y ~ x + I(x^2))} can be used.}
   \item{coef.model}{Defaults to the coefficients of the \code{model}
-    argument.  Other coefficients can be entered to illustrate the
-    sense in which they are not "least squares".
-  }
+    argument.  Other intercept and slope coefficients for a straight
+    line (for example, \code{c(3,5)}) can be entered to illustrate
+    the sense in which they are not "least squares".}
+  \item{alt.function}{Any function of a single argument can be placed
+    here.  For example, \code{alt.function=function(x) {3 + 2*x + 3*x^2}}.
+    All coefficients must be specified.}
   \item{main, xlab, ylab}{arguments to \code{plot}.}
   \item{jitter.x}{logical.  If \code{TRUE}, the x is jittered before
     plotting.  Jittering is often helpful when there are multiple
@@ -40,7 +57,13 @@ regr1.plot(x, y, model=lm(y~x), coef.model=coef(model),
       are plotted.}
   \item{\dots}{other arguments.}
   \item{length.x.set}{number of points used to plot the predicted values.}
-  \item{err}{}
+  \item{x.name}{If the \code{model} argument used a different name for
+  the independent variable, you might need to specify it.}
+  \item{pch}{Plotting character for the observed points.}
+  \item{pch.yhat}{Plotting character for the fitted points.}
+  \item{cex.yhat}{\code{cex} for the fitted points.}
+  \item{err}{Thedefault \code{-1} suppresses warnings about out of bound
+  points.}
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course

@@ -5,7 +5,7 @@ multicomp.mean <- function(group, n, ybar, s, alpha=.05,
                            df=sum(n) - length(n),
                            sigmahat=(sum((n-1)*s^2) / df)^.5) {
 
-  if.R(r=stop("multcomp.mean works only in S-Plus.  Use simint.mean in R."),
+  if.R(r=stop("multicomp.mean works only in S-Plus.  Use aov.sufficient and glht in R."),
        s={})
 
   rec.n <- diag(1/n)
@@ -31,6 +31,7 @@ multicomp.mean <- function(group, n, ybar, s, alpha=.05,
                                 labels=labels,
                                 ...)
   }
+  oldClass(result) <-  c("multicomp.hh", "multicomp")
   if (!is.null(result$lmat))
     dimnames(result$lmat) <- list(group, dimnames(result$table)[[1]])
 
@@ -61,7 +62,7 @@ multicomp.mmc.mean <- function(group, n, ybar, s, ylabel, focus.name,
                                df=sum(n)-length(n),
                                sigmahat=(sum((n-1)*s^2)/df)^.5) {
   
-  if.R(r=stop("multcomp.mmc.mean works only in S-Plus.  Use simint.mmc.mean in R."),
+  if.R(r=stop("multicomp.mmc.mean works only in S-Plus.  Use aov.sufficient and glht.mmc in R."),
        s={})
 
   ## pairwise differences

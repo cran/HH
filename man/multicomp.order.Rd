@@ -25,7 +25,7 @@ multicomp.label.change(x, old="adj", new="new", how.many=2)
 \arguments{
   \item{mca}{\code{"multicomp"} object.  This is the result of
   \code{multicomp} in S-Plus or the result from applying \code{as.multicomp} to
-  a \code{"hmtest"} object in R.}
+  a \code{"glht"} object in R.}
   \item{sort.by}{Either \code{"height"} or \code{"estimate"}.}
   \item{sort.order}{Vector of indices by which the contrasts are to be
     sorted.  When \code{sort.order} in non-\code{NULL}, it is used.}
@@ -65,7 +65,7 @@ that order.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006, accepted).
+Heiberger, R.~M. and Holland, B. (2006, scheduled for December).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}.
 }
@@ -74,10 +74,10 @@ Heiberger, R.~M. and Holland, B. (2006, accepted).
   S-Plus use the \code{multicomp} functions
   and R uses the \code{multcomp} package.
 }
-\seealso{\code{\link{MMC}}, \code{\link{as.hmtest} in R},
-  \code{\link{simint.reverse}} in R, \code{\link{multicomp.reverse}} in S-Plus}
+\seealso{\code{\link{MMC}}, \code{\link{as.glht} in R},
+  \code{\link{multicomp.reverse}}}
 \examples{
-## continue with the example in simint.mmc in R, or multicomp.mmc in S-Plus
+## continue with the example in glht.mmc in R, or multicomp.mmc in S-Plus
 catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
                        col.names=c("catalyst","concent"))
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
@@ -85,43 +85,35 @@ catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 
 if.R(r={
 catalystm.mca <-
-   simint(concent ~ catalyst, data=catalystm, type="Tukey")
-catalystm.mca
+   glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
+print(confint(catalystm.mca))
 
 catalystm.mmc <-
-   simint.mmc(concent ~ catalyst, data=catalystm, type="Tukey")
+   glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
 ## the contrasts have been ordered by height (see ?MMC),
 ## which in this example corresponds to sort.order=c(1,2,4,3,5,6),
 ## and reversed, to make the contrast Estimates positive.
-as.hmtest(catalystm.mmc$mca)
+print(as.glht(catalystm.mmc$mca))
 
-## now simplify the contrast names by removing the string "catalyst"
-tmp <- multicomp.label.change(catalystm.mmc$mca, "catalyst", "")
-as.hmtest(tmp)
-
-## for consistency with the S-Plus example, we change all factor level
-## "A" to "control".
-as.hmtest(multicomp.label.change(tmp, "A", "control"))
-
-
+## ## For consistency with the S-Plus example,
+## ## we change all factor level "A" to "control".
+## as.glht(multicomp.label.change(catalystm.mmc$mca, "A", "control"))
 },s={
-## continue with the example in simint.mmc in R, or mmc in S-Plus
-catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 catalystm.mca <-
    multicomp(catalystm1.aov, method="Tukey")
-catalystm.mca
+print(catalystm.mca)
 
 catalystm.mmc <-
-   multicomp.mmc(catalystm1.aov, method="Tukey")
+   multicomp.mmc(catalystm1.aov, method="Tukey", plot=FALSE)
 ## the contrasts have been ordered by height (see ?MMC),
 ## which in this example corresponds to sort.order=c(1,2,4,3,5,6),
 ## and reversed, to make the contrast Estimates positive.
-catalystm.mmc$mca
+print(catalystm.mmc$mca)
 
 ## S-Plus multicomp already uses simple names.  This function is
 ## therefore used in more complex two-way ANOVA examples.  We illustrate
 ## here by changing all factor level "A" to "control".
-multicomp.label.change(catalystm.mmc$mca, "A", "control")
+print(multicomp.label.change(catalystm.mmc$mca, "A", "control"))
 
 })
 }

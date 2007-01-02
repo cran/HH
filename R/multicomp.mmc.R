@@ -10,20 +10,48 @@ multicomp.mmc <- function(..., comparisons="mca",
                           order.contrasts=TRUE,
                           main,
                           main2) {
-  if.R(r=stop("multcomp.mmc works only in S-Plus.  Use simint.mmc in R."),
+  if.R(r=stop("multicomp.mmc works only in S-Plus.  Use glht.mmc in R."),
        s={})
+
+  dotdotdot <- list(...)
+  focus <- if (!is.null(dotdotdot$focus))
+    dotdotdot$focus
+  else
+    dimnames(attr(dotdotdot[[1]]$terms,"factors"))[[2]][1]
+
+  {
+    ## Save a copy of the data.frame in frame=0 to put it where multicomp.lm
+    ## needs to find it when the example data is run through Splus CMD check.
+    my.data.name <- as.character(list(...)[[1]]$call$data)
+    if (length(my.data.name)==0)
+      stop("Please provide an lm.object calculated with an explicit 'data=my.data.frame' argument.")
+    undo.it <- (!is.na(match(my.data.name, objects(0))))
+    if (undo.it) old.contents <- get(my.data.name, frame=0)
+##    assign(my.data.name, get(my.data.name), frame=0)
+    my.data <- try(get(my.data.name))
+    if (class(my.data)=="Error")
+      my.data <- try(get(my.data.name, frame=sys.parent()))
+    if (class(my.data)=="Error")
+      stop("Please send me an email with a reproducible situation that got you here. (rmh@temple.edu)")
+    assign(my.data.name, my.data, frame=0)
+  }
   
   ## pairwise differences
   if (missing(crit.point)) {
-    mc.mca=multicomp.lm(..., comparisons=comparisons, plot=FALSE)
+    mc.mca <- multicomp.lm(..., comparisons=comparisons, plot=FALSE)
     crit.point <- mc.mca$crit.point
   }
   else
-    mc.mca=multicomp.lm(..., comparisons=comparisons,
-      crit.point=crit.point, plot=FALSE)
+    mc.mca <- multicomp.lm(..., comparisons=comparisons, plot=FALSE,
+                           crit.point=crit.point)
+  oldClass(mc.mca) <-  c("multicomp.hh", "multicomp")
+  mc.mca$focus <- focus
     
   ## group means
-  mc.none <- multicomp(..., plot=FALSE, comparisons="none", crit.point=crit.point)
+  mc.none <- multicomp.lm(..., comparisons="none", plot=FALSE,
+                          crit.point=crit.point)
+  oldClass(mc.none) <-  c("multicomp.hh", "multicomp")
+  mc.none$focus <- focus
   mc.none$method <- mc.mca$method
   mc.none$height <- mc.none$table[,"estimate"] * 2
   if (length(unlist(list(...)$adjust)) > 1) {
@@ -43,14 +71,23 @@ in the lmat.rows argument to match the groups column.\n")
   if (!missing(lmat)) {
     if (lmat.scale.abs2)
       lmat <- sweep(lmat, 2, apply(abs(lmat[lmat.rows, , drop=FALSE]), 2, sum)/2, "/")
-    mc.lmat <- multicomp(..., plot=FALSE, comparisons="none", crit.point=crit.point,
-                         lmat=lmat)
+    mc.lmat <- multicomp.lm(..., comparisons="none", plot=FALSE,
+                            crit.point=crit.point,
+                            lmat=lmat)
+    oldClass(mc.lmat) <-  c("multicomp.hh", "multicomp")
     if (!is.null(mc.lmat$message)) stop(mc.lmat$message)
+    mc.lmat$focus <- focus
     mc.lmat$method <- mc.mca$method
     mc.lmat$height <- (mc.none$table[,"estimate"] %*% abs(lmat[lmat.rows,]))[1,]
     if (estimate.sign != 0) mc.lmat <- multicomp.reverse(mc.lmat, estimate.sign)
   }
 
+  {
+    ## restore frame=0
+    if (undo.it) assign(my.data.name, old.contents, frame=0)
+    else remove(my.data.name, frame=0)
+  }
+  
   ## result
   result <- list(mca=mc.mca, none=mc.none)
   if (!missing(lmat)) result$lmat <- mc.lmat

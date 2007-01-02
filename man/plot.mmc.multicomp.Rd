@@ -25,14 +25,14 @@ plot.mmc.multicomp(x,
                    print.mca=(!is.null(mca) && (!print.lmat)),
                    iso.name=TRUE,
                    x.offset=0,
-                   col.mca.signif=8,  col.mca.not.signif=1,
+                   col.mca.signif="red",  col.mca.not.signif="black",
                    lty.mca.signif=1,  lty.mca.not.signif=6,
                    lwd.mca.signif=1,  lwd.mca.not.signif=1,
-                   col.lmat.signif=8, col.lmat.not.signif=1,
+                   col.lmat.signif="blue", col.lmat.not.signif="black",
                    lty.lmat.signif=1, lty.lmat.not.signif=6,
                    lwd.lmat.signif=1, lwd.lmat.not.signif=1,
-                   lty.iso=7, col.iso=1, lwd.iso=1,
-                   lty.contr0=2, col.contr0=1, lwd.contr0=1,
+                   lty.iso=7, col.iso="darkgray", lwd.iso=1,
+                   lty.contr0=2, col.contr0="darkgray", lwd.contr0=1,
                    decdigits.ybar=2,
                    ...
                    )
@@ -53,7 +53,7 @@ plot.mmc.multicomp(x,
   \item{key.x, key.y}{location of the key displayed when \code{iso.name=FALSE}.}
   \item{method}{method used to construct contrasts and confidence
     intervals.  See the \code{type} argument to
-    \code{\link[multcomp]{simint}} for the list.}
+    \code{\link[multcomp]{glht}} for the list.}
   \item{print.lmat}{logical.  If \code{TRUE}, then display the
     user-specified contrasts.}
   \item{print.mca}{logical.  If \code{TRUE}, then display the
@@ -121,38 +121,42 @@ contrasts.
 We have an option to reduce the color intensity of the isomeans grid.
 
 }
-\seealso{\code{\link{simint.mmc}} in R, \code{\link{mmc}} in S-Plus.}
+\seealso{\code{\link{mmc}}}
 \examples{
-## continue with the example in simint.mmc in R, or mmc in S-Plus
+## continue with the example in mmc
 catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
                        col.names=c("catalyst","concent"))
+if.R(r=
+oldcon <- options(contrasts = c("contr.treatment", "contr.treatment"))
+,s={})
+
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
-class(catalystm1.aov) <- rev(class(catalystm1.aov))
+
+if.R(r=
+options(oldcon)
+,s={})
+
 catalystm.mca <-
-   if.R(r=simint(concent ~ catalyst, data=catalystm, type="Tukey"),
-        s=multicomp(catalystm1.aov))
+if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
+     s=multicomp(catalystm1.aov, plot=F))
 
 catalystm.lmat <- cbind("AB-D" =c(0, 1, 1, 0,-2),
                         "A-B"  =c(0, 1,-1, 0, 0),
                         "ABD-C"=c(0, 1, 1,-3, 1))
+if.R(r=catalystm.lmat <- catalystm.lmat[-2,],
+     s={})
 dimnames(catalystm.lmat)[[1]] <-
 if.R(s=dimnames(catalystm.mca$lmat)[[1]],
-     r=c("(Intercept)", dimnames(catalystm.mca$cmatrix)[[2]][-1]))
+     r=dimnames(catalystm.mca$linfct)[[2]])
 
-if.R(r={
-        catalystm.mmc <- simint.mmc(concent ~ catalyst, data=catalystm,
-                          lmat=catalystm.lmat, lmat.rows=2:5,
-                          type="Tukey", whichf="catalyst")
-        catalystm.mmc <- multicomp.label.change(catalystm.mmc, "catalyst", "")
-       },
-     s={
-        catalystm.mmc <- multicomp.mmc(catalystm1.aov, lmat=catalystm.lmat)
-       })
 
-gray <- if.R(r="gray", s=16)
-red  <- if.R(r="red",  s=8)
-blue <- if.R(r="blue", s=6)
+catalystm.mmc <-
+if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
+                lmat=catalystm.lmat)
+    ,s=multicomp.mmc(catalystm1.aov, lmat=catalystm.lmat,
+                     plot=FALSE)
+)
 
 old.mar <- if.R(s=par(mar=c(5,12,4,6)+.1),
                 r=par(mar=c(5,6,4,4)+.1))
@@ -162,21 +166,21 @@ plot(catalystm.mmc, print.lmat=FALSE)
 
 ## centering, scaling, emphasize significant contrasts
 plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58), print.lmat=FALSE,
-     col.mca.signif=red)
+     col.mca.signif='red')
 
 ## user-specified contrasts
-plot(catalystm.mmc, x.offset=1, ry.mmc=c(50,58),
-     col.lmat.signif=blue)
+plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58),
+     col.lmat.signif='blue')
 
 ## reduce intensity of isomeans grid, number isomeans grid lines
 plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58),
-     lty.iso=2, col.iso=gray, iso.name=FALSE,
-     col.lmat.signif=blue)
+     lty.iso=2, col.iso='darkgray', iso.name=FALSE,
+     col.lmat.signif='blue')
 
 ## both pairwise contrasts and user-specified contrasts
 plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58), lty.iso=2,
-     col.iso=gray, print.mca=TRUE,
-     col.lmat.signif=blue, col.mca.signif=red)
+     col.iso='darkgray', print.mca=TRUE,
+     col.lmat.signif='blue', col.mca.signif='red')
 
 par(old.mar)
 }

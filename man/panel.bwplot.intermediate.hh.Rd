@@ -8,12 +8,27 @@
 }
 \usage{
 panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
-    pch = box.dot$pch,  col = box.dot$col, ...)
+          transpose=!horizontal,
+          pch, col,
+          at=if (horizontal) levels(as.factor(y)) else levels(as.factor(x)),  ## S-Plus only
+          ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x, y, pch, col, horizontal} {see
-    \code{\link[lattice]{bwplot} and \code{\link[lattice]{panel.bwplot}}}}
+    \code{\link[lattice]{bwplot}} and
+      \code{\link[lattice]{panel.bwplot}}.}
+
+  \item{transpose}{S-Plus only.  The HH library transposes
+    \code{"trellis"} \code{bwplot} objects to put the response variable
+    on the vertical axis.  R does the equivalent by placing the response
+    variable on the left side of the \code{"~"} in the formula and with
+    the \code{horizontal} argument.}
+
+  \item{at}{S-Plus only.  \code{bwplot} in S-Plus gets \code{x} and
+    \code{y} as numeric.  \code{level} and \code{position} information
+    is not sent through, therefore we need to specify it here when
+    non-default positions are used.}
   \item{\dots}{ Extra arguments, if any, for 'panel.bwplot'.  }
 }
 \references{ Heiberger, Richard M. and Holland, Burt (2004b).
