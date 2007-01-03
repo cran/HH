@@ -1,6 +1,4 @@
-\name{simint.mean}
-\alias{simint.mean}
-\alias{simint.mmc.mean}
+\name{mmc.mean}
 \alias{multicomp.mean}
 \alias{multicomp.mmc.mean}
 
@@ -11,24 +9,6 @@ statistics for a one-way design.}
    for a one-way design.  The object must be explicitly plotted.
 }
 \usage{
-simint.mean(y, n, ybar, s, alpha=.05,  ## R
-            ylabel="ylabel", focus.name="focus.factor", plot=FALSE,
-            lmat, labels=NULL,
-            method="Tukey",
-            bounds="both",
-            df=sum(n) - length(n),
-            sigmahat=(sum((n-1)*s^2) / df)^.5,
-            contrasts, ..., group=y)
-
-simint.mmc.mean(y, n, ybar, s, alpha=.05,  ## R
-                ylabel="ylabel", focus.name="focus.factor", plot=FALSE,
-                lmat, labels=NULL,
-                method="Tukey",
-                bounds="both",
-                df=sum(n) - length(n),
-                sigmahat=(sum((n-1)*s^2) / df)^.5,
-                estimate.sign=1,
-                order.contrasts=TRUE, ..., group=y)
 
 multicomp.mean(group, n, ybar, s, alpha=.05,  ## S-Plus
                ylabel="ylabel", focus.name="focus.factor", plot=FALSE,
@@ -55,7 +35,7 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{group, y}{character vector of levels}
+  \item{group}{character vector of levels}
   \item{n}{numeric vector of sample sizes}
   \item{ybar}{vector of group means }
   \item{s}{vector of group standard deviations}
@@ -65,41 +45,40 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
   \item{plot}{logical.  Should the \code{"mmc.multicomp"} object be
     automatically plotted?  ignored in R.}
   \item{lmat}{\code{lmat} from \code{multicomp} in S-Plus or
-    \code{t(cmatrix)}
-  from \code{simint} in R.}
+    \code{t(linfct)} from \code{glht} in R.}
   \item{labels}{\code{labels} argument for \code{multicomp} in S-Plus.
     Not used in R.}
   \item{method}{method for critical point calculation.  This corresponds
     to \code{method} in S-Plus \code{multicomp} and to \code{type}
-    in R \code{simint}}
-  \item{bounds}{type of intervals to compute.  This is the
-    \code{"bounds"} argument to \code{multicomp} and the
-    \code{alternative} argument to \code{simint}.  Values are: the
-    default \code{"both"} for two-sided intervals; \code{"lower"} for
-    intervals with infinite upper bounds; and, \code{"upper"} for
-    intervals with infinite lower bounds.  In R, the S-Plus values are
-    translated to \code{"two.sided"}, \code{"greater"}, and
-    \code{"less"}.  Or the user can enter the values \code{"two.sided"},
-    \code{"greater"}, and \code{"less"}.}
+    in R \code{glht}}
+%   \item{bounds}{type of intervals to compute.  This is the
+%     \code{"bounds"} argument to \code{multicomp} and the
+%     \code{alternative} argument to \code{glht}.  Values are: the
+%     default \code{"both"} for two-sided intervals; \code{"lower"} for
+%     intervals with infinite upper bounds; and, \code{"upper"} for
+%     intervals with infinite lower bounds.  In R, the S-Plus values are
+%     translated to \code{"two.sided"}, \code{"greater"}, and
+%     \code{"less"}.  Or the user can enter the values \code{"two.sided"},
+%     \code{"greater"}, and \code{"less"}.}
   \item{df}{scalar, residual degrees of freedom}
   \item{sigmahat}{\code{sqrt(MSE)} from the ANOVA table}
-  \item{contrasts}{logical, argument in R to \code{contr.Dunnett}
-    when \code{method="Dunnett"}. }
+%  \item{contrasts}{logical, argument in R to \code{contr.Dunnett}
+%    when \code{method="Dunnett"}. }
   \item{\dots}{other arguments}
   \item{comparisons}{argument to S-Plus \code{multicomp} only.}
   \item{estimate.sign, order.contrasts, lmat.rows}{See \code{lmat.rows} in
-    \code{\link{multicomp.mmc}} or \code{\link{simint.mmc}}.}
+    \code{\link{mmc}}.}
   \item{ry}{See argument \code{ry.mmc} in \code{\link{plot.mmc.multicomp}}.}
   \item{crit.point}{See argument \code{crit.point} in S-Plus
-    \code{\link[splus]{multicomp}}.  The equivalent is not in \code{simint}.}
+    \code{\link[splus]{multicomp}}.  The equivalent is not in \code{glht}.}
   \item{iso.name, x.offset}{See \code{\link{plot.mmc.multicomp}}.}
 }
 \value{
 
-  \code{simint.mmc.mean} and \code{multicomp.mmc.mean} return a
+  \code{glht.mmc.mean} and \code{multicomp.mmc.mean} return a
   "mmc.multicomp" object.
 
-  \code{simint.mean} returns a "hmtest" object.
+  \code{glht.mean} returns a "glht" object.
   
   \code{multicomp.mean} returns a "multicomp" object.
 
@@ -122,45 +101,44 @@ Hsu, J. and Peruggia, M. (1994).
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different functions.
-  MMC plots in R are constructed by \code{simint.mmc}
-  based on  \code{\link[multcomp]{simint}}.
+  MMC plots in R are constructed by \code{glht.mmc}
+  based on  \code{\link[multcomp]{glht}}.
   MMC plots in S-Plus are constructed by 
   \code{multicomp.mmc} based on the S-Plus \code{\link[splus]{multicomp}}.
   The MMC plot is the same in both systems.  The details of getting the
   plot differ.
 }
-\seealso{\code{\link{simint.mmc}}, \code{\link{multicomp.mmc}}}
+\seealso{\code{\link{mmc}}}
 \examples{
 ## This example is from Hsu and Peruggia
 
+## This is the S-Plus version
+## See ?aov.sufficient for R
+
+if.R(r={},
+s={
+
 pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
-                        row.names="group")
+                        row.names=NULL)
+names(pulmonary)[3] <- "FVC"
+names(pulmonary)[1] <- "smoker"
+pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
+row.names(pulmonary) <- pulmonary$smoker
 pulmonary
-
-anova.mean(row.names(pulmonary),
-           pulmonary$n,
-           pulmonary$ybar,
-           pulmonary$s,
-           ylabel="pulmonary")
+pulmonary.aov <- aov.sufficient(FVC ~ smoker,
+                                data=pulmonary)
+summary(pulmonary.aov)
 
 
-## simint or multicomp object
+## multicomp object
 pulmonary.mca <-
-if.R(r=
-simint.mean(row.names(pulmonary),
-            pulmonary$n,
-            pulmonary$ybar,
-            pulmonary$s,
-            ylabel="pulmonary",
-            focus="smoker")
-,s=
-multicomp.mean(row.names(pulmonary),
+multicomp.mean(pulmonary$smoker,
                pulmonary$n,
-               pulmonary$ybar,
+               pulmonary$FVC,
                pulmonary$s,
                ylabel="pulmonary",
                focus="smoker")
-)
+
 
 pulmonary.mca
 ## lexicographic ordering of contrasts, some positive and some negative
@@ -179,57 +157,38 @@ pulm.lmat
 
 ## mmc.multicomp object
 pulmonary.mmc <-
-if.R(r=
-simint.mmc.mean(row.names(pulmonary),
-                pulmonary$n,
-                pulmonary$ybar,
-                pulmonary$s,
-                ylabel="pulmonary",
-                focus="smoker",
-                lmat=pulm.lmat)
-,s=
-multicomp.mmc.mean(row.names(pulmonary),
+multicomp.mmc.mean(pulmonary$smoker,
                    pulmonary$n,
-                   pulmonary$ybar,
+                   pulmonary$FVC,
                    pulmonary$s,
                    ylabel="pulmonary",
                    focus="smoker",
                    lmat=pulm.lmat,
                    plot=FALSE)
-)
 
 
-gray <- if.R(r="gray", s=16)
-red  <- if.R(r="red",  s=8)
-blue <- if.R(r="blue", s=6)
-
-old.par <- if.R(s=par(mar=c(5,4,4,4)+.1),
-                r=par(mar=c(15,4,4,4)+.1))
+old.par <- par(mar=c(5,4,4,4)+.1)
 
 ## pairwise comparisons
-plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE,
-     col.mca.signif=red, col.iso=16)
+plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
 
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
-## with all contrasts forced positive, and with names also reversed.
-if.R(r={
-pulmonary.xlim <- par()$usr[1:2]
-plot(pulmonary.mmc$mca, xlim=pulmonary.xlim, xaxs="i", main="", xlab="")
-},s={
-plot(pulmonary.mmc$mca, col.signif=red, lty.signif=1, xlabel.print=FALSE,
-     xaxs="d",  plt=par()$plt+c(0,0,-.25,.05), xrange.include=c(-1, 1.2))
-})
+## with all contrasts forced positive and with names also reversed,
+## and with matched x-scale.
+plot(pulmonary.mmc$mca, col.signif='red', lty.signif=1, xlabel.print=FALSE,
+     xaxs="d",  plt=par()$plt+c(0,0,-.25,.05), xrange.include=c(-1, 1))
+
 
 ## orthogonal contrasts
-plot(pulmonary.mmc, print.lmat=TRUE, col.lmat.signif=blue, col.iso=16)
+plot(pulmonary.mmc, print.lmat=TRUE, col.lmat.signif='blue', col.iso='gray')
 
 ## pairwise and orthogonal contrasts on the same plot
 plot(pulmonary.mmc, print.mca=TRUE, print.lmat=TRUE,
-     col.mca.signif=red, col.lmat.signif=blue, col.iso=16,
+     col.mca.signif='red', col.lmat.signif='blue', col.iso='gray',
      lty.lmat.not.signif=2)
 
 par(old.par)
-
+})
 }
 \keyword{hplot }
 \keyword{htest }

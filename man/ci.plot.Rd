@@ -13,8 +13,8 @@ placed at the location of xbar, the x-value of the narrowest interval.
 ci.plot(lm.object, ...)
 
 \method{ci.plot}{lm}(lm.object,
-        xlim=range(data[,as.character(formula.lm[[3]])]),
-        newdata=data.frame(seq(xlim[1], xlim[2], length=51)),
+        xlim=range(data[, x.name]),
+        newdata,
         conf.level=.95,
         data=model.frame(lm.object),
         newfit,
@@ -32,7 +32,11 @@ ci.plot(lm.object, ...)
   \item{xlim}{\code{xlim} for plot.  Default is based on data from which
         \code{lm.object} was constructed.}
   \item{newdata}{\code{data.frame} containing data for which predictions
-        are wanted.  Defaults to vector spanning range of observed data.}
+    are wanted.  The variable name of the column must be identical to
+    the name of the predictor variable in the model object.
+    Defaults to a data.frame containing a vector
+    spanning the range of observed data.  User-specified values are
+    appended to the default vector.}
   \item{conf.level}{Confidence level for intervals, defaults to \code{.95}}
   \item{data}{\code{data} extracted from the \code{lm.object}}
   \item{newfit}{Constructed \code{data.frame} containing the

@@ -31,21 +31,21 @@ panel.ancova(x, y, subscripts, groups,
  ignore.groups, blocks, blocks.pch, blocks.cex)
 
 ## The following are ancova methods for generic functions.
-anova.ancova(object, ...)
+\method{anova}{ancova}(object, ...)
 
-predict.ancova(object, ...)
+\method{predict}{ancova}(object, ...)
 
-print.ancova(x, ...)
+\method{print}{ancova}(x, ...) ## prints the anova(x) and the trellis attribute
 
-model.frame.ancova(formula, ...)
+\method{model.frame}{ancova}(formula, ...)
 
-summary.ancova(object, ...)
+\method{summary}{ancova}(object, ...)
 
-plot.ancova(x, ...)
+\method{plot}{ancova}(x, y, ...) ## standard lm plot.  y is always ignored.
 
-coef.ancova(object, ...)
+\method{coef}{ancova}(object, ...)
 
-coefficients.ancova(object, ...)
+\method{coefficients}{ancova}(object, ...)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -124,6 +124,7 @@ command that draws the graph.  This is strictly for debugging the
 %  ~Make other sections like Warning with \section{Warning }{....} ~
 % }
 \seealso{
+\code{\link{ancova-class}}
 \code{\link[stats]{aov}}
 \code{\link[lattice]{xyplot}}
 }
@@ -145,13 +146,16 @@ ancova(Sodium ~ Type + Calories, data=hotdog)
 ancova(Sodium ~ Calories * Type, data=hotdog)
 ancova(Sodium ~ Type * Calories, data=hotdog)
 
+## y ~ a * x ## save the object and print the trellis graph
+hotdog.ancova <- ancova(Sodium ~ Type * Calories, data=hotdog)
+attr(hotdog.ancova, "trellis")
 
 ## label points in the panels by the value of the block factor
 apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
 apple$treat <- factor(apple$treat)
 contrasts(apple$treat) <- contr.treatment(6)
 apple$block <- factor(apple$block)
-ancova(yield ~ treat + pre, data=apple, blocks=apple$block)
+ancova(yield ~ treat + pre, data=apple, blocks=block)
 
 }
 %\keyword{ ~kwd1 }% at least one, from doc/KEYWORDS

@@ -79,7 +79,7 @@ Heiberger, Richard~M. and Holland, Burt (2004b).
 \examples{
 ## interaction2wt()
 ## multicomp.mmc()  ## S-Plus
-## simint.mmc()     ## R
+## glht.mmc()       ## R
 ## ancova()
 ## xysplom()
 ## plot.case()

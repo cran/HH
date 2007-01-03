@@ -135,6 +135,7 @@ xysplom(w + y ~ x + z | g, data=tmp, layout=c(2,4))
 
 xysplom(w + y ~ x + z, data=tmp, cartesian=FALSE)
 xysplom(w + y + x ~ z, data=tmp, cartesian=FALSE)
+xysplom(w + y ~ x + z | g, data=tmp, cartesian=FALSE)
 
 xysplom(w + y ~ x + z, data=tmp, scales=list(relation="same"))
 xysplom(w + y ~ x + z, data=tmp, x.relation="same")
@@ -146,9 +147,13 @@ xysplom(~ y + x + z | g, data=tmp, corr=TRUE)
 xysplom(~ y + x + z | g, data=tmp, corr=TRUE, digits=2)
 xysplom(~ y + x + z | g, data=tmp, corr=TRUE, layout=c(3,6))
 
+\dontrun{
+## These three examples run from R and the command line in S-Plus.
+## They don't run from inside the Splus CMD check.
 xysplom(~ tmp)
 xysplom(~ tmp | tmp$g)
 xysplom(tmp$y ~ tmp2 | tmp$g)
+}
 
 xysplom(g ~ x , data=tmp)
 xysplom(x ~ g , data=tmp)

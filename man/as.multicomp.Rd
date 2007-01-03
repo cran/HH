@@ -1,70 +1,107 @@
 \name{as.multicomp}
 \alias{as.multicomp}
-\alias{as.multicomp.hmtest}
-%\alias{as.mmc.multicomp}
+\alias{as.multicomp.glht}
+\alias{as.glht}
+\alias{as.glht.multicomp}
 \alias{print.mmc.multicomp}
-\alias{plot.multicomp}
-\alias{as.hmtest}
-\alias{as.hmtest.multicomp}
+\alias{print.glht.mmc.multicomp}
+\alias{print.mmc.multicomp}
+\alias{print.multicomp}
+\alias{print.multicomp.hh}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Support functions in R for MMC (mean--mean multiple comparisons) plots.}
 \description{
-  MMC plots: functions used to interface the \code{simint} in R to the MMC
+  MMC plots: In R, functions used to interface the \code{glht} in R to the MMC
   functions designed with S-Plus \code{multicomp} notation.  These are
   all internal functions that the user doesn't see.
 }
 \usage{
+\method{print}{mmc.multicomp}(x, ...)
+
+\method{print}{multicomp}(x, ...)
+
+## print.multicomp.hh(x, digits = 4, ..., height=T) ## S-Plus only
+
+\method{print}{multicomp.hh}(x, ...) ## R only
+
+print.glht.mmc.multicomp(x, ...) ## R.  yes, spell it out.
+
 as.multicomp(x, ...)
 
-as.multicomp.hmtest(x,
-                    group="group",
-                    focus=x$FNAMES$mainF,
-                    ylabel=x$FNAMES$response,
-                    lmcall=x$call,
-                    means,
-                    lmat=t(x$cmatrix),
-                    lmat.rows=seq(along=dimnames(lmat)[[1]])[-1],
-                    aov.mca,
-                    ...)
+\method{as.multicomp}{glht}(x,       ## glht object
+           focus,   ## currently required
+           ylabel=as.character(terms(x$model)[[2]]),
+           means=model.tables(x$model, type="means",
+                              cterm=focus)$tables[[focus]],
+           lmat=t(x$linfct),
+           lmat.rows=-1,
+           lmat.scale.abs2=TRUE,
+           estimate.sign=1,
+           order.contrasts=TRUE,
+           contrasts.none=FALSE,
+           level=0.95,
+           calpha=NULL,
+           method=x$type,
+           ...
+           )
 
-print.mmc.multicomp(x, ...)
+as.glht(x, ...)
 
-plot.multicomp(x, ...)
+\method{as.glht}{multicomp}(x, ...)
 
-as.hmtest(x, ...)
-
-as.hmtest.multicomp(x, eps=.001, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{\code{"hmtest"} object for \code{as.multicomp}.
-  A \code{"mmc.multicomp"} object for \code{print.mmc.multicomp}.
-  A \code{"multicomp"} object for \code{as.hmtest} and \code{plot.multicomp}.}
+  \item{x}{\code{"glht"} object for \code{as.multicomp}.
+    A \code{"mmc.multicomp"} object for \code{print.mmc.multicomp} and
+    \code{print.glht.mmc.multicomp}.
+    A \code{"multicomp"} object for \code{as.glht} and \code{print.multicomp}.}
   \item{\dots}{other arguments.}
 
-  %as.multicomp.hmtest
-  \item{group}{Not currently used}
-  \item{focus}{See \code{whichf} in \code{\link[multcomp]{simint}}}
+  %as.multicomp.glht
+  \item{focus}{name of focus factor.}
   \item{ylabel}{response variable name on the graph.}
-  \item{lmcall}{Not currently used}
   \item{means}{means of the response variable on the \code{focus} factor.}
-  \item{lmat, lmat.rows}{\code{\link{simint.mmc}}}
-  \item{aov.mca}{\code{"aov"} object for the same model formula.}
+  \item{lmat, lmat.rows}{\code{\link{mmc}}}
+  \item{lmat.scale.abs2}{logical, almost always \code{TRUE}.  If it is
+    not \code{TRUE}, then the contrasts will not be properly placed
+    on the MMC plot.}
+  \item{estimate.sign}{numeric. 1: force all contrasts to be positive by
+  reversing negative contrasts. $-1$: force all contrasts to be negative by
+  reversing positive contrasts.  Leave contrasts as they are constructed
+  by \code{glht}.}
+  \item{order.contrasts}{logical.  If \code{TRUE}, order contrasts by
+  \code{height} (see \code{\link[HH]{MMC}}).}
+  \item{contrasts.none}{logical.  This is an internal detail.  The
+    ``contrasts'' for the group means are not real contrasts in the
+    sense they don't compare anything.  \code{glht.mmc.glht} sets this
+    argument to \code{TRUE} for the \code{none} component.
+  }
+  \item{level}{Confidence level.  Defaults to 0.95.}
+  \item{calpha}{User-specified critical point.
+    See \code{\link[HH]{confint.glht.hh}} and
+    \code{\link[multcomp]{confint.glht}}.}
+  \item{method}{See \code{type} in \code{\link[HH]{confint.glht}}.}
+}
+\details{
+The \code{mmc.multicomp} \code{print}
+method displays the confidence intervals and heights on the
+MMC plot for each component of the \code{mmc.multicomp} object.
 
-  %as.hmtest.multicomp
-  \item{eps}{absolute error tolerance as double.  See \code{\link[multcomp]{simint}}.}
+\code{print.multicomp} displays the confidence intervals and heights for
+a single component.
+
+\code{print.glht.mmc.multicomp(x, ...)} uses \code{print.glht} on each
+component of a \code{mmc.multicomp} object and therefore prints only
+the estimates of the comparisons.
 }
 \value{
 \code{as.multicomp} is a generic function to change its argument to a
 \code{"multicomp"} object.
 
-\code{as.multicomp.hmtest} changes an \code{"hmtest"} object to a
+\code{as.multicomp.glht} changes an \code{"glht"} object to a
 \code{"multicomp"} object.
 
-%\code{as.mmc.multicomp} is a generic function to change its argument to a
-%\code{"mmc.multicomp"} object.
-
-\code{print.mmc.multicomp} prints a \code{"mmc.multicomp"} object.
 }
 
 \references{
@@ -81,13 +118,12 @@ Heiberger, R.~M. and Holland, B. (2006, accepted).
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different libraries.
-  MMC plots in R are based on  \code{\link[multcomp]{simint}}.
-  MMC plots in S-Plus are based on  \code{\link[splus]{multicomp}}.
+  MMC plots in R are based on \code{\link[multcomp]{glht}}.
+  MMC plots in S-Plus are based on \code{\link[splus]{multicomp}}.
   The MMC plot is the same in both systems.  The details of gettting the
   plot differ.
   }
-\seealso{\code{\link{mmc}}, \code{\link{simint.mmc}},
-  \code{\link[multcomp]{simint}} in R,
+\seealso{\code{\link{mmc}},
+  \code{\link[multcomp]{glht}} in R,
   \code{\link[splus]{multicomp}} in S-Plus.}
 \keyword{ dplot }
-

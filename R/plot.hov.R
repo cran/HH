@@ -33,18 +33,42 @@ function(x, group,
                         group=rep(group,3),
                         which=rep(ordered(yy.names, levels=yy.names), c(n,n,n)))
 
-  bwplot(yy ~ group | which, data=hov.dat,
-          panel="panel.hov",
-          par.strip.text=list(cex=1.4),
-          scales=list(y=list(cex=1, relation="sliced"), x=list(cex=1)),
-          xlab=list(group.name, cex=1.4),
-          ylab=list(y.name, cex=1.4),
-          layout=c(3,1)) 
+  if.R(r=
+       bwplot(yy ~ group | which, data=hov.dat,
+              panel="panel.hov",
+              par.strip.text=list(cex=1.4),
+              scales=list(
+                y=list(cex=1, relation="sliced"),
+                x=list(cex=1)),
+              xlab=list(group.name, cex=1.4),
+              ylab=list(y.name, cex=1.4),
+              layout=c(3,1))
+       ,s={tmp <- bwplot(group ~ yy | which, data=hov.dat,
+                         panel="panel.hov",
+                         par.strip.text=list(cex=1.4),
+                         scales=list(
+                           x=list(cex=1, relation="sliced"),
+                           y=list(cex=1)),
+                         xlab=list(y.name, cex=1.4),
+                         ylab=list(group.name, cex=1.4),
+                         layout=c(3,1))
+           if (transpose.in) tmp <- t(tmp)
+           tmp
+       })
 }
 
 "panel.hov" <-
-function(..., transpose=TRUE) {
-  panel.bwplot(...)
-  panel.abline(h=0)
-}
+  function(..., transpose=TRUE) {
+    if.R(r={
+      panel.bwplot(...)
+      panel.abline(h=0)
+    },s={
+      panel.bwplott(..., transpose=transpose)
+      if (get("cell", frame=sys.parent()) != 1)
+        if (transpose)
+          panel.abline(h=0)
+        else
+          panel.abline(v=0)
+    })
+  }
 

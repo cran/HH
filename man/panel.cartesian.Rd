@@ -48,9 +48,6 @@ critical points.}
 }
 \seealso{\code{\link{ladder}}, \code{\link{xysplom}}}
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
 rent <- read.table(hh("datasets/rent.dat"),   ## Weisberg's file alr162
                    col.names=c("rnt.alf","rnt.till",
@@ -59,10 +56,12 @@ rent$lime <- factor(rent$lime, labels=c("no.lime","lime"))
 rent$alf.till <- rent$rnt.alf / rent$rnt.till
 
 rent.lm <- lm(rnt.alf ~ rnt.till + cow.dens + lime, data=rent)
-xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
+rent$resid.rent <- resid(rent.lm)
+
+xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         layout=c(2,2))
 
-xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
+xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         layout=c(2,2),
         xlab="", ylab="",
         x.label="", y.label="",
@@ -75,7 +74,7 @@ xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
           alternating=FALSE, labels=FALSE, ticks=FALSE),
         between=list(x=1, y=3))
 
-xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
+xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         layout=c(2,2),
         xlab="", ylab="",
         x.label="", y.label="",
@@ -89,7 +88,7 @@ xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
         rescale=list(x=FALSE, y=FALSE),
         between=list(x=1, y=3))
 
-xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
+xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         layout=c(2,2),
         xlab="", ylab="",
         x.label="", y.label="",
@@ -103,7 +102,7 @@ xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
         between=list(x=1, y=3))
 
 
-xysplom(resid(rent.lm) ~ rnt.till + cow.dens | lime, data=rent,
+xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         layout=c(2,2),
         xlab="", ylab="",
         y.label="resid",

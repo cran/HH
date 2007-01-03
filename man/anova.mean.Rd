@@ -34,12 +34,16 @@ anova.mean(object, n, ybar, s, ..., ylabel = "ylabel")
 ## See ?plot.mmc.multicomp for details on the dataset.
 
 pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
-                        row.names="group")
+                        row.names=NULL)
+names(pulmonary)[3] <- "FVC"
+names(pulmonary)[1] <- "smoker"
+pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
+row.names(pulmonary) <- pulmonary$smoker
 pulmonary
 
-anova.mean(row.names(pulmonary),
+anova.mean(pulmonary$smoker,
            pulmonary$n,
-           pulmonary$ybar,
+           pulmonary$FVC,
            pulmonary$s,
            ylabel="pulmonary")
 }

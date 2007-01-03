@@ -21,7 +21,7 @@ plot.case(x, fit,
           which=c("stu.res","si","h","cook","dffits",
             dimnames(x)[[2]][-(1:8)]),  ##DFBETAS
           between.in=list(y=4, x=9),
-          oma=c(0,0,0,4), cex.threshold=if.R(s=2, r=1.2),
+          oma=c(0,0,0,4), cex.threshold=if.R(r=1.2, s=1.6),
           main.in=list(
             paste(deparse(fit$call), collapse=""),
             cex=main.cex),
@@ -41,7 +41,7 @@ panel.case(x, y, subscripts, rownames, group.names,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 %%lm.case
-  \item{fit}{\code{"lm"} object}
+  \item{fit}{\code{"lm"} object computed with \code{x=TRUE}}
   \item{lms}{\code{summary.lm(fit)}}
   \item{lmi}{\code{lm.influence(fit)}}
 
@@ -144,11 +144,11 @@ in Chambers and Hastie", \emph{Statistical Models in S}.
 kidney <- read.table(hh("datasets/kidney.dat"), header=TRUE)
 
 kidney2.lm <- lm(clearance ~ concent + age + weight + concent*age,
-                    data=kidney)
+                 data=kidney, x=TRUE)  ## the lm object must be computed with x=TRUE
 
 kidney2.case <- lm.case(kidney2.lm)
 
-## this picture looks much better in portrait, spcification is device dependent
+## this picture looks much better in portrait, specification is device dependent
 ## trellis.device(postscript, horizontal=TRUE)  ## postscript
 ## trellis.device(orientation="portrait")       ## S-Plus graphsheet
 

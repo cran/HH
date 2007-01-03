@@ -17,14 +17,14 @@ plot.mmc.multicomp <-
            print.mca=(!is.null(mca) && (!print.lmat)),
            iso.name=TRUE,
            x.offset=0,
-           col.mca.signif=8,  col.mca.not.signif=1,
+           col.mca.signif='red',  col.mca.not.signif='black',
            lty.mca.signif=1,  lty.mca.not.signif=6,
            lwd.mca.signif=1,  lwd.mca.not.signif=1,
-           col.lmat.signif=8, col.lmat.not.signif=1,
+           col.lmat.signif='blue', col.lmat.not.signif='black',
            lty.lmat.signif=1, lty.lmat.not.signif=6,
            lwd.lmat.signif=1, lwd.lmat.not.signif=1,
-           lty.iso=7, col.iso=1, lwd.iso=1,
-           lty.contr0=2, col.contr0=1, lwd.contr0=1,
+           lty.iso=7, col.iso='darkgray', lwd.iso=1,
+           lty.contr0=2, col.contr0='darkgray', lwd.contr0=1,
            decdigits.ybar=2,
            ...
            ) {

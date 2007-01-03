@@ -106,12 +106,16 @@ function(x, y=x, group, relation="free",
                      paste(levels(ccd$y), levels(ccd$x), sep=" ~ "))
     ccd$x <- "x"
   }
-  if (missing(group) || is.null(group))
-    formula <- y.list ~ x.list | x * y
+  if (missing(group) || is.null(group)) {
+    if (cartesian) formula <- y.list ~ x.list | x * y
+    else           formula <- y.list ~ x.list |     y
+  }
   else {
     group <- interaction(group)
-    ccd$group <- rep(group, length=nxy)
-    formula <- y.list ~ x.list | x * y * group
+    if (cartesian) ccd$group <- rep(group, length=nxy)
+    else           ccd$group <- rep(group, length=nxy/ncol(x))
+    if (cartesian) formula <- y.list ~ x.list | x * y * group
+    else           formula <- y.list ~ x.list |     y * group
   }
   options(old.warn)
   
@@ -120,26 +124,38 @@ function(x, y=x, group, relation="free",
     corr={
       ccd <- cbind(ccd,
                    corr=factor(rep(digits, nrow(ccd))))
-      if (missing(group) || is.null(group))
-        formula <- y.list ~ x.list | x * y * corr
-      else
-        formula <- y.list ~ x.list | x * y * group * corr
+      if (missing(group) || is.null(group)) {
+        if (cartesian) formula <- y.list ~ x.list | x * y * corr
+        else           formula <- y.list ~ x.list |     y * corr
+      }
+      else {
+        if (cartesian) formula <- y.list ~ x.list | x * y * group * corr
+        else           formula <- y.list ~ x.list |     y * group * corr
+      }
     },
     beta={
        ccd <- cbind(ccd,
                    beta=factor(rep(digits, nrow(ccd))))
-      if (missing(group) || is.null(group))
-        formula <- y.list ~ x.list | x * y * beta
-      else
-        formula <- y.list ~ x.list | x * y * group * beta
+      if (missing(group) || is.null(group)) {
+        if (cartesian) formula <- y.list ~ x.list | x * y * beta
+        else           formula <- y.list ~ x.list |     y * beta
+      }
+      else {
+        if (cartesian) formula <- y.list ~ x.list | x * y * group * beta
+        else           formula <- y.list ~ x.list |     y * group * beta
+      }
     },
     corr.beta={
        ccd <- cbind(ccd,
                    corr.beta=factor(rep(digits, nrow(ccd))))
-      if (missing(group) || is.null(group))
-        formula <- y.list ~ x.list | x * y * corr.beta
-      else
-        formula <- y.list ~ x.list | x * y * group * corr.beta
+      if (missing(group) || is.null(group)) {
+        if (cartesian) formula <- y.list ~ x.list | x * y * corr.beta
+        else           formula <- y.list ~ x.list |     y * corr.beta
+      }
+      else {
+        if (cartesian) formula <- y.list ~ x.list | x * y * group * corr.beta
+        else           formula <- y.list ~ x.list |     y * group * corr.beta
+      }
     }
   )
   panel.to.use <-
@@ -149,11 +165,11 @@ function(x, y=x, group, relation="free",
         panel.abline(lm(y~x, na.action=na.exclude))
       }
     else panel.input
- if (!cartesian) {
-    formula[[3]][[3]] <- formula[[3]][[3]][[3]] ## drop "x *" from formula
+  if (!cartesian) {
     if.R(r=formals(strip.in)$strip.names <- c(FALSE, FALSE),
          s=strip.in$strip.names <- expression(c(FALSE,FALSE))[[1]])
   }
+
   result <- list(formula,   ## no name: S-Plus uses "formula", R uses "x"
                  data=ccd,
                  between=between.in,

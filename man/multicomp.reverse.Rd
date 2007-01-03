@@ -1,21 +1,18 @@
-\name{simint.reverse}
-\alias{simint.reverse}
+\name{multicomp.reverse}
 \alias{multicomp.reverse}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Force all comparisons in a "hmtest" from simint to have the same sign.}
+\title{Force all comparisons in a "multicomp" object to have the same sign.}
 \description{
-  Force all comparisons in a \code{"hmtest"} from \code{simint}
+  Force all comparisons in a \code{"multicomp"} object
   to have the same sign.  If the contrast \code{"A-B"} has a negative estimate,
-  reverse it show the contrast \code{"B-A"} with a positive estimate,
+  reverse it show the contrast \code{"B-A"} with a positive estimate.
 }
 \usage{
-simint.reverse(y, estimate.sign = 1, ...)    ## R
-
-multicomp.reverse(y, estimate.sign = 1, ...) ## S-Plus
+multicomp.reverse(y, estimate.sign = 1, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{y}{\code{"simint"} object}
+  \item{y}{\code{"multicomp"} object}
   \item{estimate.sign}{If \code{estimate.sign==1}, reverse the negatives.
     If \code{estimate.sign==-1}, reverse the positives.
     Both the names of the comparisons and the numerical values are reversed.
@@ -23,7 +20,7 @@ multicomp.reverse(y, estimate.sign = 1, ...) ## S-Plus
   \item{\dots}{other arguments not used. }
 }
 \value{
-The result is a \code{"simint"} object containing the same contrasts
+The result is a \code{"multicomp"} object containing the same contrasts
 as the argument but with the sign of the contrasts changed as needed.
 }
 \references{
