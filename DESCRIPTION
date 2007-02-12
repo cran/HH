@@ -1,8 +1,8 @@
 Package: HH
 Type: Package
 Title: Statistical Analysis and Data Display: Heiberger and Holland
-Version: 1.17
-Date: 2007-01-02
+Version: 1.18-1
+Date: 2007-02-12
 Author: Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
 Depends: R (>= 2.4.1), lattice, stats, grid, multcomp (>= 0.991-7),
@@ -20,4 +20,4 @@ Description: Support software for Statistical Analysis and Data
         graphs. Many of the graphical formats are novel and appear
         here for the first time in print. All chapters have exercises.
 License: GPL version 2 or newer
-Packaged: Tue Jan  2 22:20:44 2007; rmh
+Packaged: Mon Feb 12 23:27:05 2007; rmh

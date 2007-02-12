@@ -14,7 +14,7 @@
 ##
 ## MMC plots (Figure 9) in both S-Plus and R.
 
-## MMC.WoodEnergy.s
+## MMC.WoodEnergy.s.R
 ##
 ## MMC plots as used in the MMC article.  These are only in S-Plus as
 ## they use the S-Plus multicomp adjust argument.  The glht function
