@@ -8,7 +8,7 @@
 
 
 ## All files work with S-Plus.
-## All files except MMC.WoodEnergy.s work with R.
+## All files except MMC.WoodEnergy.s.R work with R.
 ## All graphs in the WoodEnergy example can be drawn in both S-Plus and R.
 
 ## MMC.pulmonary.R and MMC.apple.R show tiebreaker plots.

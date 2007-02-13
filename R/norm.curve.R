@@ -7,7 +7,7 @@
            df.t=NULL,
            ...) {
     main.calc <-
-      if (is.null(df.t))  ## normal
+      if (is.null(df.t) || df.t==Inf)  ## normal
         ifelse(!(missing(se) && missing(sd) && missing(n)),
                paste("normal density:  se =", round(se,3)),
                "Standard Normal Density N(0,1)")
@@ -22,7 +22,7 @@
          yaxt="n", type="n",
          las=1,
          xlab="",
-         ylab=ifelse(is.null(df.t), "f(z)", "f(t)"),
+         ylab=ifelse(is.null(df.t) || df.t==Inf, "f(z)", "f(t)"),
          main=main.in)
     axis(4, las=1)
 }
@@ -32,7 +32,7 @@ function(mean=0, se=sd/sqrt(n),
          critical.values=mean + se*c(-1, 1)*z.975,
          z=do.call("seq", as.list(c((par()$usr[1:2]-mean)/se, length=109))),
          shade, col=par("col"),
-         axis.name=ifelse(is.null(df.t), "z", "t"),
+         axis.name=ifelse(is.null(df.t) || df.t==Inf, "z", "t"),
          second.axis.label.line=3,
          sd=1, n=1,
          df.t=NULL,
@@ -44,7 +44,7 @@ function(mean=0, se=sd/sqrt(n),
   ## redraw an outline of the curve that would otherwise be obscured
   ## by a solid color from the shaded area of another curve.
 
-  z.975 <- if (is.null(df.t)) qnorm(.975) else qt(.975, df.t)
+  z.975 <- if (is.null(df.t) || df.t==Inf) qnorm(.975) else qt(.975, df.t)
 
   if (missing(shade))
     shade <- switch(length(critical.values)+1,
@@ -58,9 +58,9 @@ function(mean=0, se=sd/sqrt(n),
   z.critical.values <- (critical.values-mean)/se
   
   dfunction <-  function(z, df.t=NULL)
-    if (is.null(df.t)) dnorm(z) else dt(z, df.t)
+    if (is.null(df.t) || df.t==Inf) dnorm(z) else dt(z, df.t)
   pfunction <-  function(z, df.t=NULL)
-    if (is.null(df.t)) pnorm(z) else pt(z, df.t)
+    if (is.null(df.t) || df.t==Inf) pnorm(z) else pt(z, df.t)
     
   x.z <- mean + z*se
   lines(y=dfunction(z, df.t)/se, x=x.z)
@@ -86,13 +86,13 @@ function(mean=0, se=sd/sqrt(n),
   axis(2, at=y.ticks/se, labels=y.ticks, las=1)
   if (!(missing(se) && missing(sd) && missing(n))) {
     mtext(side=4,
-          text=ifelse(is.null(df.t),
+          text=ifelse(is.null(df.t) || df.t==Inf,
             "f((xbar-m)/se) / se  =  f(z)/se",
             "f((xbar-m)/se) / se  =  f(t)/se"),
           line=second.axis.label.line, cex=par()$cex,
           col=ifelse(second.axis.label.line==3, 1, col))
     mtext(side=2,
-          text=ifelse(is.null(df.t),
+          text=ifelse(is.null(df.t) || df.t==Inf,
             "f(z)",
             "f(t)"),
           line=second.axis.label.line, cex=par()$cex,
@@ -181,4 +181,13 @@ function(mean=0, se=sd/sqrt(n),
   axis(3, at=mean, tick=FALSE, xpd=TRUE, line=-.5, labels=round(mean, 3))
   abline(h=0, v=mean)
   invisible(NULL)
+}
+
+norm.observed <- function(xbar, col="blue") {
+  abline(v=xbar, col=col, lty=5)
+  arrows(xbar, par()$usr[3:4]+c(-.01,.01), xbar, par()$usr[3:4],
+         xpd=TRUE, col=col, length=.1)
+  axis(side=1, at=xbar, label=FALSE, col=col)
+  axis(side=3, at=xbar, label=FALSE, col=col)
+  mtext(side=3, text=xbar, at=xbar, line=.5, cex=par()$cex, col=col)
 }

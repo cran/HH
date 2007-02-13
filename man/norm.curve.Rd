@@ -1,6 +1,7 @@
 \name{norm.curve}
 \alias{norm.setup}
 \alias{norm.curve}
+\alias{norm.observed}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{plot a normal or a t-curve with both x and z axes.}
 \description{
@@ -21,6 +22,9 @@ The shaded area is printed on the plot.
   
   When the optional argument \code{df.t} is specified, then a
   t-distribution with \code{df.t} degrees of freedom is plotted.
+
+  \code{norm.observed} plots a vertical line with arrowhead markers at
+  the location of the observed xbar.
 }
 \usage{
 norm.setup(xlim.in=c(-2.5,2.5),
@@ -36,11 +40,13 @@ norm.curve(mean=0, se=sd/sqrt(n),
          z=do.call("seq",
                    as.list(c((par()$usr[1:2]-mean)/se, length=109))),
          shade, col=par("col"),
-         axis.name=ifelse(is.null(df.t), "z", "t"),
+         axis.name=ifelse(is.null(df.t) || df.t == Inf, "z", "t"),
          second.axis.label.line=3,
          sd=1, n=1,
          df.t=NULL,
          ...)
+
+norm.observed(xbar, col="blue")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -92,6 +98,7 @@ norm.curve(mean=0, se=sd/sqrt(n),
     Normally not needed.  When two curves are drawn, one normal and one t,
     then the second curve needs a different label for the y-axis.
     Set this value to 4 to avoid overprinting.}
+  \item{xbar}{xbar-value of the observed data.}
   \item{\dots}{Other arguments which are ignored.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
@@ -103,26 +110,27 @@ norm.curve()
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*(1.645))
+norm.observed(112)
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*(-1.645), shade="left")
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
-norm.curve(mean=100, se=5, col=2)
+norm.curve(mean=100, se=5, col='red')
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*c(-1.96, 1.96))
 
 norm.setup(xlim=c(-3, 6))
-norm.curve(crit=1.645, mean=1.645+1.281552, col=3,
+norm.curve(crit=1.645, mean=1.645+1.281552, col='green',
            shade="left", axis.name="z1")
-norm.curve(crit=1.645, col=2)
+norm.curve(crit=1.645, col='red')
 
 norm.setup(xlim=c(-6, 12), se=2)
 norm.curve(crit=2*1.645, se=2, mean=2*(1.645+1.281552),
-           col=3, shade="left", axis.name="z1")
+           col='green', shade="left", axis.name="z1")
 norm.curve(crit=2*1.645, se=2, mean=0,
-           col=2, shade="right")
+           col='red', shade="right")
 
 
 par(mfrow=c(2,1))
@@ -141,24 +149,32 @@ par(mfrow=c(2,2))
 ## areas under the curve are numerically the same but visually different
 norm.setup(n=1)
 norm.curve(n=1)
+norm.observed(1.2)
 norm.setup(n=2)
 norm.curve(n=2)
+norm.observed(1.2)
 norm.setup(n=4)
 norm.curve(n=4)
+norm.observed(1.2)
 norm.setup(n=10)
 norm.curve(n=10)
+norm.observed(1.2)
 mtext("areas under the curve are numerically the same but visually different",
       side=3, outer=TRUE)
 
 ## scaled so all areas under the curve are numerically and visually the same
 norm.setup(n=1, ylim=c(0,1.3))
 norm.curve(n=1)
+norm.observed(1.2)
 norm.setup(n=2, ylim=c(0,1.3))
 norm.curve(n=2)
+norm.observed(1.2)
 norm.setup(n=4, ylim=c(0,1.3))
 norm.curve(n=4)
+norm.observed(1.2)
 norm.setup(n=10, ylim=c(0,1.3))
 norm.curve(n=10)
+norm.observed(1.2)
 mtext("all areas under the curve are numerically and visually the same",
       side=3, outer=TRUE)
 
@@ -175,46 +191,38 @@ obs.mean <- 14.8
 
 alt.t <- (mu.alt - crit.val) / se.val
 norm.setup(xlim=c(12, 19), se=se.val, df.t=df.val)
-norm.curve(crit=crit.val, se.val, df.t=df.val, mean=mu.alt,
-           col=3, shade="left", axis.name="t1")
+norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.alt,
+           col='green', shade="left", axis.name="t1")
 norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.H0,
-           col=16, shade="right")
-axis(1, at=obs.mean, tck=-.08)
-axis(3, at=obs.mean, tck=-.08)
-abline(v=obs.mean, lty=3)
-abline(v=mu.H0, lty=2)
-axis(1, at=mu.H0, tck=-.1)
+           col='gray', shade="right")
+norm.observed(obs.mean)
 
 ## normal
 norm.setup(xlim=c(12, 19), se=se.val)
-norm.curve(crit=crit.val, se.val, mean=mu.alt,
-           col=3, shade="left", axis.name="z1")
+norm.curve(crit=crit.val, se=se.val, mean=mu.alt,
+           col='green', shade="left", axis.name="z1")
 norm.curve(crit=crit.val, se=se.val, mean=mu.H0,
-           col=16, shade="right")
-axis(1, at=obs.mean, tck=-.08)
-axis(3, at=obs.mean, tck=-.08)
-abline(v=obs.mean, lty=3)
-abline(v=mu.H0, lty=2)
-axis(1, at=mu.H0, tck=-.1)
+           col='gray', shade="right")
+norm.observed(obs.mean)
 
 
 
 ## normal and t
 norm.setup(xlim=c(12, 19), se=se.val, main="t(6) and normal")
 norm.curve(crit=15.5, se=se.val, mean=16.3,
-           col=16, shade="right")
+           col='gray', shade="right")
 norm.curve(crit=15.5, se.val, df.t=6, mean=14.7,
-           col=3, shade="left", axis.name="t1", second.axis.label.line=4)
+           col='green', shade="left", axis.name="t1", second.axis.label.line=4)
 norm.curve(crit=15.5, se=se.val, mean=16.3,
-           col=16, shade="none")
+           col='gray', shade="none")
 
 norm.setup(xlim=c(12, 19), se=se.val, main="t(6) and normal")
 norm.curve(crit=15.5, se=se.val, mean=15.5,
-           col=16, shade="right")
-norm.curve(crit=15.5, se.val, df.t=6, mean=15.5,
-           col=3, shade="left", axis.name="t1", second.axis.label.line=4)
+           col='gray', shade="right")
+norm.curve(crit=15.5, se=se.val, df.t=6, mean=15.5,
+           col='green', shade="left", axis.name="t1", second.axis.label.line=4)
 norm.curve(crit=15.5, se=se.val, mean=15.5,
-           col=16, shade="none")
+           col='gray', shade="none")
 
 
 

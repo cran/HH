@@ -1,0 +1,9 @@
+MMC.README         citation for MMC (Mean--mean Multiple Comparisons plot)
+MMC.WoodEnergy-aov aov in both S-Plus and R.  Block factor, treatment factor, and covariate.
+MMC.WoodEnergy     MMC plots in both S-Plus and R
+MMC.WoodEnergy.s   MMC plots from article, only in S-Plus.
+MMC.apple          interaction of treatment factor and covariate
+MMC.catalystm      one factor with orthogonal contrasts.  Construction of MMC plot
+MMC.mmc.explain    functions used in explanation of construction of MMC plot
+MMC.cc176          three factors and covariate
+MMC.pulmonary      one factor with orthogonal contrasts. sufficient statistics
