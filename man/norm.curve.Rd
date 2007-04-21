@@ -46,7 +46,7 @@ norm.curve(mean=0, se=sd/sqrt(n),
          df.t=NULL,
          ...)
 
-norm.observed(xbar, col="blue")
+norm.observed(xbar, t.xbar, col="blue")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -99,6 +99,7 @@ norm.observed(xbar, col="blue")
     then the second curve needs a different label for the y-axis.
     Set this value to 4 to avoid overprinting.}
   \item{xbar}{xbar-value of the observed data.}
+  \item{t.xbar}{t-value of the observed data under the null hypothesis.}
   \item{\dots}{Other arguments which are ignored.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
@@ -110,7 +111,7 @@ norm.curve()
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*(1.645))
-norm.observed(112)
+norm.observed(112, (112-100)/5)
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*(-1.645), shade="left")
@@ -149,32 +150,32 @@ par(mfrow=c(2,2))
 ## areas under the curve are numerically the same but visually different
 norm.setup(n=1)
 norm.curve(n=1)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(1)))
 norm.setup(n=2)
 norm.curve(n=2)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(2)))
 norm.setup(n=4)
 norm.curve(n=4)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(4)))
 norm.setup(n=10)
 norm.curve(n=10)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(10)))
 mtext("areas under the curve are numerically the same but visually different",
       side=3, outer=TRUE)
 
 ## scaled so all areas under the curve are numerically and visually the same
 norm.setup(n=1, ylim=c(0,1.3))
 norm.curve(n=1)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(1)))
 norm.setup(n=2, ylim=c(0,1.3))
 norm.curve(n=2)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(2)))
 norm.setup(n=4, ylim=c(0,1.3))
 norm.curve(n=4)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(4)))
 norm.setup(n=10, ylim=c(0,1.3))
 norm.curve(n=10)
-norm.observed(1.2)
+norm.observed(1.2, 1.2/(1/sqrt(10)))
 mtext("all areas under the curve are numerically and visually the same",
       side=3, outer=TRUE)
 
@@ -195,7 +196,7 @@ norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.alt,
            col='green', shade="left", axis.name="t1")
 norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.H0,
            col='gray', shade="right")
-norm.observed(obs.mean)
+norm.observed(obs.mean, (obs.mean-mu.H0)/se.val)
 
 ## normal
 norm.setup(xlim=c(12, 19), se=se.val)
@@ -203,7 +204,7 @@ norm.curve(crit=crit.val, se=se.val, mean=mu.alt,
            col='green', shade="left", axis.name="z1")
 norm.curve(crit=crit.val, se=se.val, mean=mu.H0,
            col='gray', shade="right")
-norm.observed(obs.mean)
+norm.observed(obs.mean, (obs.mean-mu.H0)/se.val)
 
 
 

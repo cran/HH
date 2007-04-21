@@ -29,17 +29,22 @@ interaction2wt.default <-
            relation=list(x="same", y="same"),
            x.relation=relation$x, y.relation=relation$y,
            digits=3,
-           x.between=1, y.between=1,
+           x.between=if (label.as.interaction.formula) 0 else 1,
+           y.between=if (label.as.interaction.formula) 0 else 1,
+           between,
            cex=.75,
+           rot=c(0,0),
            panel.input=panel.interaction2wt,
-           strip.input=strip.interaction2wt,
-           par.strip.text.input=list(cex=.7),
+           strip.input=if (label.as.interaction.formula) strip.default
+                       else strip.interaction2wt,
+           par.strip.text.input=list(cex=.7, responselab=responselab),
            scales.additional,
            main.in=paste(responselab,
              ": main effects and 2-way interactions", sep=""),
            xlab=list(labels=""), ylab=list(labels=""),
            simple=FALSE,
            box.ratio=if (simple) .32 else 1,
+           label.as.interaction.formula=TRUE,
            ...,
            main.cex
            ) {
@@ -71,6 +76,12 @@ interaction2wt.default <-
     scales.input$x[names(scales.additional$x)] <- scales.additional$x
     scales.input$y[names(scales.additional$y)] <- scales.additional$y
   }
+  if.R(r={
+    scales.input$x$at <- NULL
+    scales.input$rot <- rep(rot,2)
+  },
+       s={})
+  
   ccd <- data.frame(response.var=rep(response.var, length=n*k*k),
                     x.values    =unlist(rep(as.list(x.list), k)),
                     trace.values=unlist(rep(as.list(x.list), rep(k,k))),
@@ -78,8 +89,19 @@ interaction2wt.default <-
                       levels=names.x),
                     trace.factor=factor(rep(    names.x, rep(n*k,   k)),
                       levels=names.x))
+  if (label.as.interaction.formula) {
+    ccd$x.trace <- interaction(ccd$x.factor, ccd$trace.factor)
+    levels(ccd$x.trace) <- paste(responselab,
+                                 outer(levels(ccd$x.factor),
+                                       levels(ccd$trace.factor),
+                                       FUN=paste,
+                                       sep=" | "),
+                                 sep=" ~ ")
+    formula <- response.var ~ x.values | x.trace
+  }
+  else
+    formula <- response.var ~ x.values | x.factor * trace.factor
   
-  formula <- response.var ~ x.values | x.factor * trace.factor
   if (!missing(main.cex)) {
     main.in <- as.list(main.in)
     main.in$cex <- main.cex
@@ -92,7 +114,10 @@ interaction2wt.default <-
          trace.values=ccd$trace.values,
          factor.levels=factor.levels,
          factor.position=factor.position,
-         between=list(x=x.between, y=y.between),
+         between=if (missing(between))
+         list(x=x.between, y=y.between)
+         else
+         between,
          scales=scales.input,
          xaxs="e",
          prepanel=function(x,y) list(xlim=range(x)+c(-1,1)),
@@ -107,11 +132,43 @@ interaction2wt.default <-
          data.x=x,
          box.ratio=box.ratio,
          ...)
-  if.R(r=xyplot.list$par.settings <-
-       list(layout.widths=list(left.padding=20, axis.key.padding=10),
-            layout.heights=list(bottom.padding = 10)),
+  if.R(r={
+    xyplot.list$lattice.options <-
+      list(axis.options=list(
+             bottom=list(
+               at2=factor.position,
+               labels2=factor.levels,
+               rot2=rot[1],
+               labels3=levels(ccd$x.factor)),
+             right=list(
+               at2=pretty(current.panel.limits()$ylim),
+               labels2=pretty(current.panel.limits()$ylim),
+               rot2=rep(rot,2)[2],
+               labels3=rep(responselab, k)
+               )
+             ),
+           layout.heights=list(axis.xlab.padding=list(x=15, units="mm")),
+           layout.widths=list(right.padding=list(x=13, units="mm")))
+    keys <- vector("list")
+    for (trace.id in names.x)
+      keys[[trace.id]] <-
+        draw.key(list(title=trace.id,
+                      cex.title=1,
+                      border=TRUE,
+                      text=list(text=factor.levels[[trace.id]], cex=.8),
+                      lines=Rows(
+                        trellis.par.get("superpose.line"),
+                        seq(length(factor.levels[[trace.id]])))),
+                 draw=FALSE)
+    
+    xyplot.list$legend <- list(left =
+                               list(fun = legendGrob2wt,
+                                    args = keys))
+    xyplot.list$axis <- axis.i2wt
+    ## recover()
+  },
        s={})
-
+  
   do.call("xyplot", xyplot.list)
 }
 
@@ -133,3 +190,4 @@ function(which.given,
                 style=style,
                 ...)
 }
+

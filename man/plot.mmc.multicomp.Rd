@@ -101,9 +101,9 @@ Heiberger, Richard~M. and Holland, Burt (2004b).
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-  Richard M. Heiberger and Burt Holland (2006, accepted), "Mean--Mean
-  Multiple Comparison Displays for Families of Linear Contrasts",
-  \emph{Journal of Computational and Graphical Statistics}.
+Heiberger, R.~M. and Holland, B. (2006).
+"Mean--mean multiple comparison displays for families of linear contrasts."
+\emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
   Hsu, J. and Peruggia, M. (1994).
 "Graphical representations of {Tukey's} multiple comparison method."
