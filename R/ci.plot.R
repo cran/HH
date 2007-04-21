@@ -89,7 +89,7 @@ function(lm.object,
            tmp
          })
   tpgsl <- trellis.par.get("superpose.line")
-  tpgsl <- lapply(tpgsl, function(x) x[1:4])
+  tpgsl <- Rows(tpgsl, 1:4)
   tpgsl$col[1] <- 0
   xyplot(formula.lm, data=data, newdata=newdata, newfit=newfit,
          newdata.x=newdata.x,

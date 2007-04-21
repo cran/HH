@@ -30,9 +30,9 @@ as the argument but with the sign of the contrasts changed as needed.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006, accepted).
+Heiberger, R.~M. and Holland, B. (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
-\emph{Journal of Computational and Graphical Statistics}.
+\emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{

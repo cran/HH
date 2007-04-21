@@ -1,4 +1,5 @@
 \name{mmc.mean}
+\alias{mmc.mean}
 \alias{multicomp.mean}
 \alias{multicomp.mmc.mean}
 
@@ -75,11 +76,8 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
 }
 \value{
 
-  \code{glht.mmc.mean} and \code{multicomp.mmc.mean} return a
-  "mmc.multicomp" object.
+  \code{multicomp.mmc.mean} returns a "mmc.multicomp" object.
 
-  \code{glht.mean} returns a "glht" object.
-  
   \code{multicomp.mean} returns a "multicomp" object.
 
 }
@@ -90,9 +88,9 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006, accepted).
+Heiberger, R.~M. and Holland, B. (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
-\emph{Journal of Computational and Graphical Statistics}.
+\emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
 Hsu, J. and Peruggia, M. (1994).
 "Graphical representations of {Tukey's} multiple comparison method."

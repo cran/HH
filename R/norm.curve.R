@@ -183,11 +183,12 @@ function(mean=0, se=sd/sqrt(n),
   invisible(NULL)
 }
 
-norm.observed <- function(xbar, col="blue") {
+norm.observed <- function(xbar, t.xbar, col="blue") {
   abline(v=xbar, col=col, lty=5)
   arrows(xbar, par()$usr[3:4]+c(-.01,.01), xbar, par()$usr[3:4],
          xpd=TRUE, col=col, length=.1)
   axis(side=1, at=xbar, label=FALSE, col=col)
   axis(side=3, at=xbar, label=FALSE, col=col)
-  mtext(side=3, text=xbar, at=xbar, line=.5, cex=par()$cex, col=col)
+  mtext(side=3, text=round(xbar,3), at=xbar, line=.5, cex=par()$cex, col=col)
+  mtext(side=1, text=round(t.xbar,3), at=xbar, line=4.5, cex=par()$cex/2, col=col)
 }

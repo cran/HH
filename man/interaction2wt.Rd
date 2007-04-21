@@ -23,12 +23,16 @@ interaction2wt(x, ...)
                x.relation = relation$x,
                y.relation = relation$y,
                digits = 3,
-               x.between = 1,
-               y.between = 1,
+               x.between=if (label.as.interaction.formula) 0 else 1,
+               y.between=if (label.as.interaction.formula) 0 else 1,
+               between,
                cex = 0.75,
+               rot=c(0,0),
                panel.input = panel.interaction2wt,
-               strip.input = strip.interaction2wt,
-               par.strip.text.input = list(cex = 0.7),
+               strip.input =
+                if (label.as.interaction.formula) strip.default
+                else strip.interaction2wt,
+               par.strip.text.input = list(cex=.7, responselab=responselab),
                scales.additional,
                main.in =
                  paste(responselab,
@@ -38,6 +42,7 @@ interaction2wt(x, ...)
                ylab = list(labels = ""),
                simple=FALSE,
                box.ratio=if (simple) .32 else 1,
+               label.as.interaction.formula=TRUE,
                ...,
                main.cex)
 }
@@ -87,12 +92,20 @@ See also \code{\link[lattice]{xyplot}} in R and
   \item{x.relation}{\code{x} value of \code{relation} argument.}
   \item{y.relation}{\code{y} value of \code{relation} argument.}
   \item{digits}{doesn't do anything at the moment}
-  \item{x.between}{\code{x} value of \code{relation} argument.}
-  \item{y.between}{\code{y} value of \code{relation} argument.}
+  \item{x.between}{\code{x} value of \code{between} argument.}
+  \item{y.between}{\code{y} value of \code{between} argument.}
+  \item{between}{trellis/lattice \code{between} argument.
+    If used, \code{between} has precedence over both the
+    \code{x.between} and \code{y.between} arguments.}
   \item{cex}{S-Plus: changes the size of the median dot in the
   boxplots.  R: doesn't do anything.}
   \item{panel.input}{panel function.  Default is \code{panel.interaction2wt}.}
-  \item{strip.input}{strip function.  Default is \code{strip.interaction2wt}.}
+  \item{label.as.interaction.formula}{logical.  If \code{TRUE}, each
+  panel has a single strip label of the form \code{y ~ a | b}.  If
+  \code{FALSE}, each panel has a pair of strip labels, one for the
+  \code{trace} factor and one for the \code{x} factor.}
+  \item{strip.input}{strip function.  Default depends on the value of
+  \code{label.as.interaction.formula}.}
   \item{par.strip.text.input}{\code{par.strip.text} argument.}
   \item{scales.additional}{additional arguments to \code{scales} argument.}
   \item{main.in}{Text of main title.}
@@ -100,6 +113,8 @@ See also \code{\link[lattice]{xyplot}} in R and
   \item{xlab}{No effect.}
   \item{ylab}{No effect.}
   \item{main.cex}{\code{cex} for main title.}
+  \item{rot}{Rotation of x tick labels and y tick labels.  Only 0 and 90
+  will look good.}
 }
 \value{
 \code{"trellis"} object containing the plot.
