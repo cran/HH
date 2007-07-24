@@ -161,6 +161,20 @@ print(
          box.ratio=.5,
          scales=list(x=list(at=position(ToothGrowth$dose))))
 )
+
+esoph=esoph
+esoph$rate=with(esoph, ncases/ncontrols)
+
+position(esoph$alcgp) <- 2:5
+position(esoph$tobgp) <- 2:5
+
+print(
+interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0))
+)
+esoph.aov <- aov(rate ~ agegp + alcgp + tobgp, data=esoph)
+print(
+anova(esoph.aov)
+)
 }, s={})
 }
 \keyword{ hplot }% at least one, from doc/KEYWORDS

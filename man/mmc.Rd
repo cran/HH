@@ -93,7 +93,11 @@ multicomp.mmc(..., comparisons="mca",  ## S-Plus
     specified \code{multicomp} method is used for the user-specified
     contrasts when \code{lmat} is specified.  This argument is called
     \code{crit.point} with \code{multicomp} in S-Plus and \code{calpha}
-    when used with \code{glht} and \code{confint} in R.}
+    when used with \code{glht} and \code{confint} in R.
+  In R, with a large number of levels for the focus factor, \code{calpha}
+  should
+  be specified.  See notes below for discussion of the timing issues
+and the examples for an illustration how to use \code{calpha}.}
   \item{plot}{logical, display the plot if \code{TRUE}.}
   \item{ry, iso.name, x.offset, main, main2}{arguments to
     \code{plot.mmc.multicomp}.}
@@ -159,7 +163,14 @@ Hsu, J. and Peruggia, M. (1994).
   The MMC plot is the same in both systems.  The details of getting the
   plot differ.
   
+  Function \code{glht.mmc} calls \code{\link[multcomp]{glht}} and
+  \code{\link[multcomp]{confint.glht}}.  With a large number of levels
+  for the focus factor, the \code{confint} function is exceedingly slow
+  (80 minutes for 30 levels on 1.5GHz Windows XP). Therefore,
+  always specify \code{calpha} to reduce the time to under a second for
+  the same example.
 
+  
   \code{plot.mmc.multicomp} chooses sensible defaults for its many
 arguments.  They will often need manual adjustment.  The examples show
 several types of adjustments.  We have changed the centering and scaling
@@ -199,11 +210,15 @@ t(bwplot(catalyst ~ concent, data=catalystm,
 
 
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
+summary(catalystm1.aov)
 
 catalystm.mca <-
 if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
      s=multicomp(catalystm1.aov, plot=FALSE))
-plot(catalystm.mca)
+plot(catalystm.mca) ## S-Plus always and R for small number of levels
+if.R(s={},
+     r=plot(confint(catalystm.mca, calpha=qtukey(.95, 4, 12)/sqrt(2))))
+       ## R for large number of levels
 catalystm.mca
 
 
@@ -216,6 +231,14 @@ plot(catalystm.mmc)
 plot(catalystm.mmc$mca)
 plot(catalystm.mmc$none)
 
+if.R(s={},
+     r={## R for large number of levels
+        plot(confint(catalystm.mmc$mca$glht,
+                     calpha=catalystm.mmc$mca$crit.point))
+        plot(confint(catalystm.mmc$none$glht,
+                     calpha=catalystm.mmc$none$crit.point))
+       }
+     )
 
 
 ## user-specified contrasts

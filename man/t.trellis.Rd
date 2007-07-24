@@ -2,7 +2,7 @@
 \alias{t.trellis}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Interchange the x- and y-axes for an S-Plus trellis object.
-  Identity function for an R lattice object.}
+  Interchange the conditioning variables for an R trellis object.}
 \description{
   In S-Plus, change the \code{"trellis"} object to effectively, and
   after-the-fact convert formulas from \code{(y ~ x | g)} to \code{(x ~
@@ -10,8 +10,12 @@
   functions do not permit factors on the right-hand side of the formula.
 
   In R lattice functions, factors are permitted on the right-hand side
-  of the formula.  Therefore we make \code{t.trellis} an identity
-  operator in R.
+  of the formula.  Therefore, to change the x and y axes within each
+  panel, change the formula from \code{(y ~ x | g)} to \code{(x ~ y |
+  g)}.  The HH \code{t.trellis} function in R calls
+  \code{lattice::t.trellis} to interchange the conditioning variables
+  for an R trellis object.  See \code{\link[lattice]{t.trellis}}.
+  
 }
 \usage{
 t.trellis(x)
@@ -34,7 +38,8 @@ t.trellis(x)
 \value{
 In S-Plus, a \code{"trellis"} object with all x and y components
 interchanged.
-In R, the argument \code{"trellis"} object is returned unchanged.
+In R, the argument \code{"trellis"} object is sent to \code{lattice::t.trellis}
+to interchange the conditioning variables.
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
@@ -43,7 +48,7 @@ In R, the argument \code{"trellis"} object is returned unchanged.
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{In R: \code{\link[lattice]{xyplot}}.
+\seealso{In R: \code{\link[lattice]{t.trellis}}.
   In S-Plus: \code{\link[trellis]{xyplot}}.}
 \examples{
 tmp <- data.frame(y=rnorm(30), x=factor(rep(1:3,10)))

@@ -100,9 +100,15 @@ the estimates of the comparisons.
 \code{"multicomp"} object.
 
 \code{as.multicomp.glht} changes an \code{"glht"} object to a
-\code{"multicomp"} object.
-
-}
+\code{"multicomp"} object.  If the model component of the argument \code{"x"}
+is an \code{"aov"} object then the standard error is taken from the 
+\code{anova(x$model)} table, otherwise from the \code{summary(x)}.
+With a large number of levels for the focus factor, the
+\code{summary(x)}
+function is exceedingly slow (80 minutes for 30 levels on 1.5GHz Windows
+XP).
+For the same example, the \code{anova(x$model)} takes a fraction of
+a second.}
 
 \references{
   Heiberger, Richard M. and Holland, Burt (2004b).

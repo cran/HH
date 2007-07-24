@@ -185,7 +185,8 @@ function(mean=0, se=sd/sqrt(n),
 
 norm.observed <- function(xbar, t.xbar, col="blue") {
   abline(v=xbar, col=col, lty=5)
-  arrows(xbar, par()$usr[3:4]+c(-.01,.01), xbar, par()$usr[3:4],
+  xbar2 <- c(xbar, xbar)
+  arrows(xbar2, par()$usr[3:4]+c(-.01,.01), xbar2, par()$usr[3:4],
          xpd=TRUE, col=col, length=.1)
   axis(side=1, at=xbar, label=FALSE, col=col)
   axis(side=3, at=xbar, label=FALSE, col=col)

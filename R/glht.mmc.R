@@ -36,7 +36,10 @@ as.multicomp.glht <-
     
     result <- list(table=cbind(
                      estimate=confint.x$confint[,"Estimate"], #
-                     stderr=summary(x)$test$sigma,
+                     stderr=ifelse(inherits(x$model, "aov"),
+                       sqrt(anova(x$model)["Residuals", "Mean Sq"]),
+                       summary(x)$test$sigma
+                       ),
                      lower=confint.x$confint[,"lwr"], #
                      upper=confint.x$confint[,"upr"]  #
                      ),

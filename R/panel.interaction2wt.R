@@ -32,10 +32,11 @@ function(x, y, subscripts,
                   rows.per.page, cols.per.page,
                   byrow=TRUE)
     
-    these.labels <- get("panel.labels", frame=sys.parent())[cell,]
+    row.panel <- row(tcL)[tcL==cell]
+    column.panel <- col(tcL)[tcL==cell]
 
-    row.panel <- match(these.labels["trace.factor"], names(factor.levels))
-    column.panel <- match(these.labels["x.factor"], names(factor.levels))
+    these.labels <- c(trace.factor=names(factor.levels)[row.panel],
+                      x.factor=names(factor.levels)[column.panel])
   }
        )
   
