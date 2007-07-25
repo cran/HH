@@ -52,6 +52,7 @@ function(formula, data.in=sys.parent(), ..., x, groups,
         c(coef(a.aov),
           rep(0, length(levels(data.in[[deparse(substitute(groups))]]))-1))
     }
+    if (missing(groups) == missing(x)) stop("Invalid formula")
   }
   
   ## xyplot(formula.plot, data=data.in, ...) ## constructed

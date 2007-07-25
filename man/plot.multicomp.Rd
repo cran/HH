@@ -99,11 +99,14 @@ catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
 
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
+summary(catalystm1.aov)
 
 catalystm.mca <-
 if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
-     s=multicomp(catalystm1.aov, plot=F))
+     s=multicomp(catalystm1.aov, plot=FALSE))
 if.R(s=plot(catalystm.mca),
-     r=plot(confint(catalystm.mca)))
+     r=plot(confint(catalystm.mca, calpha=qtukey(.95, 4, 12)/sqrt(2))))
+       ## calpha is strongly recommended in R with a large number of levels
+       ## See ?MMC for details.
 }
 \keyword{ dplot }

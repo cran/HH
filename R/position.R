@@ -101,7 +101,7 @@ unique.positioned <- function(x, incomparables = FALSE, ...) {
   y
 }
 
-## if.R(s=
+if.R(s=
      setOldClass(c("positioned", "ordered", "factor"))
-##     ,
-##     r={})
+     ,
+     r={})

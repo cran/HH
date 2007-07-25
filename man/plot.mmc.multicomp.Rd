@@ -120,6 +120,9 @@ contrasts are shown in a more intense color than the nonsignificant
 contrasts.
 We have an option to reduce the color intensity of the isomeans grid.
 
+When there is overprinting of labels (a consequence of level means being
+close together), a tiebreaker plot may be needed.  See \code{?MMC} for
+an example.
 }
 \seealso{\code{\link{mmc}}}
 \examples{
