@@ -58,7 +58,7 @@ multicomp.mmc(..., comparisons="mca",  ## S-Plus
               main,
               main2)
 
-"[.mmc.multicomp"(x, ..., drop = TRUE)
+\method{[}{mmc.multicomp}(x, ..., drop = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -6,36 +6,36 @@
   MMC (Mean--mean Multiple Comparisons) plot.
 }
 \usage{
-plot.mmc.multicomp(x,
-                   xlab="contrast value",
-                   ylab=none$ylabel,
-                   focus=none$focus,
-                   main= main.method.phrase,
-                   main2=main2.method.phrase,
-                   main.method.phrase=
-                     paste("multiple comparisons of means of", ylab),
-                   main2.method.phrase=paste("simultaneous ",
-                     100*(1-none$alpha),"\% confidence limits, ",
-                     method, " method", sep="" ),
-                   ry.mmc=TRUE,
-                   key.x=par()$usr[1]+ diff(par()$usr[1:2])/20,
-                   key.y=par()$usr[3]+ diff(par()$usr[3:4])/3,
-                   method=if (is.null(mca)) lmat$method else mca$method,
-                   print.lmat=(!is.null(lmat)),
-                   print.mca=(!is.null(mca) && (!print.lmat)),
-                   iso.name=TRUE,
-                   x.offset=0,
-                   col.mca.signif="red",  col.mca.not.signif="black",
-                   lty.mca.signif=1,  lty.mca.not.signif=6,
-                   lwd.mca.signif=1,  lwd.mca.not.signif=1,
-                   col.lmat.signif="blue", col.lmat.not.signif="black",
-                   lty.lmat.signif=1, lty.lmat.not.signif=6,
-                   lwd.lmat.signif=1, lwd.lmat.not.signif=1,
-                   lty.iso=7, col.iso="darkgray", lwd.iso=1,
-                   lty.contr0=2, col.contr0="darkgray", lwd.contr0=1,
-                   decdigits.ybar=2,
-                   ...
-                   )
+\method{plot}{mmc.multicomp}(x,
+     xlab="contrast value",
+     ylab=none$ylabel,
+     focus=none$focus,
+     main= main.method.phrase,
+     main2=main2.method.phrase,
+     main.method.phrase=
+       paste("multiple comparisons of means of", ylab),
+     main2.method.phrase=paste("simultaneous ",
+       100*(1-none$alpha),"\% confidence limits, ",
+       method, " method", sep="" ),
+     ry.mmc=TRUE,
+     key.x=par()$usr[1]+ diff(par()$usr[1:2])/20,
+     key.y=par()$usr[3]+ diff(par()$usr[3:4])/3,
+     method=if (is.null(mca)) lmat$method else mca$method,
+     print.lmat=(!is.null(lmat)),
+     print.mca=(!is.null(mca) && (!print.lmat)),
+     iso.name=TRUE,
+     x.offset=0,
+     col.mca.signif="red",  col.mca.not.signif="black",
+     lty.mca.signif=1,  lty.mca.not.signif=6,
+     lwd.mca.signif=1,  lwd.mca.not.signif=1,
+     col.lmat.signif="blue", col.lmat.not.signif="black",
+     lty.lmat.signif=1, lty.lmat.not.signif=6,
+     lwd.lmat.signif=1, lwd.lmat.not.signif=1,
+     lty.iso=7, col.iso="darkgray", lwd.iso=1,
+     lty.contr0=2, col.contr0="darkgray", lwd.contr0=1,
+     decdigits.ybar=2,
+     ...
+     )
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

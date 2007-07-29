@@ -10,7 +10,10 @@ multicomp.mmc <- function(..., comparisons="mca",
                           order.contrasts=TRUE,
                           main,
                           main2) {
-  if.R(r=stop("multicomp.mmc works only in S-Plus.  Use glht.mmc in R."),
+  if.R(r={
+    multicomp.lm <- NA ## make R-2.6.0dev happy
+    stop("multicomp.mmc works only in S-Plus.  Use glht.mmc in R.")
+  },
        s={})
 
   dotdotdot <- list(...)

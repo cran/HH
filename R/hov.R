@@ -3,6 +3,7 @@ function(x, data=sys.parent(), method="bf") {
   if (method != "bf")
     stop("Only 'bf', Brown-Forsyth method is currently available.")
   if.R(r={
+    do.formula.trellis <- NA ## make R-2.6.0dev happy
     lPF <- latticeParseFormula(x, data=data)
     y <- lPF$left
     group <- lPF$right

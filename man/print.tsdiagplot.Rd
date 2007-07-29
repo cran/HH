@@ -8,7 +8,7 @@
   Print a \code{"tsdiagplot"} object.
 }
 \usage{
-print.tsdiagplot(x, ...)
+\method{print}{tsdiagplot}(x, ...)
 print1.tsdiagplot(x)
 print2.tsdiagplot(x)
 }

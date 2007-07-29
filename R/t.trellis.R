@@ -22,7 +22,7 @@
          if (is.function(x$panel)) {
            warning("x$panel is a function, this transpose may not work correctly.")
            if (is.null(x$transpose))
-             x$transpose <- T
+             x$transpose <- TRUE
            else
              x$transpose <- !x$transpose
            return(x)
@@ -33,14 +33,14 @@
              x$panel=="panel.stripplot" ||
              x$panel=="panel.ancova" ) {
            if (is.null(x$transpose))
-             x$transpose <- T
+             x$transpose <- TRUE
            else
              x$transpose <- !x$transpose
          }
          
          if (x$panel=="panel.bwplot") {
            x$panel <- "panel.bwplott"
-           x$transpose <- T
+           x$transpose <- TRUE
          }
          
          x

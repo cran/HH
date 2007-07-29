@@ -22,7 +22,7 @@ gof.calculation(acf.list, gof.lag, n, n.parms)
   It is used only in S-Plus.
 }
 \value{
-See the \code{gof} value described in \code{\link[splus]{arima.diag}} in S-Plus.}
+See the \code{gof} value described in \code{\link[splus]{arima.diag}} in S-Plus.
 }
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \seealso{\code{\link[splus]{arima.diag}} in S-Plus. }

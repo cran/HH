@@ -76,32 +76,16 @@ function(formula, data.in=sys.parent(), ..., x, groups,
   m$panel <- "panel.ancova"
   a.labels <- dimnames(m$contrasts)[[1]]
 
-  tpgs <- as.data.frame(trellis.par.get("superpose.symbol"))
-  if.R(r=tpgs$col <- as.character(tpgs$col), s={})
-  if (is.factor(tpgs$pch)) tpgs$pch <- as.character(tpgs$pch)
+  tpgs <- trellis.par.get("superpose.symbol") 
+  tpgl <- trellis.par.get("superpose.line") 
+  
+  m$key <- list(text=list(a.labels),   ## treatment key
+                points = Rows(tpgs, 1:length(a.labels)), 
+                lines = Rows(tpgl, 1:length(a.labels)), 
+                border=TRUE,
+                space="right",
+                title=as.character(formula.plot[[3]][[3]]))
 
-  tpgl <- as.data.frame(trellis.par.get("superpose.line"))
-  if.R(r=tpgl$col <- as.character(tpgl$col), s={})
-  if (is.factor(tpgl$pch)) tpgl$pch <- as.character(tpgl$pch)
-
-##if (missing(blocks))
-    m$key <- list(text=list(a.labels),   ## treatment key
-                  points=tpgs[1:length(a.labels),],
-                  lines=tpgl[1:length(a.labels),],
-                  border=TRUE,
-                  space="right",
-                  title=as.character(formula.plot[[3]][[3]]))
-##  else {
-##    a.labels <- levels(blocks)
-##    m$key <- list(text=list(a.labels),   ## blocks key
-##                  points=tpgs[1:length(a.labels),],
-##                  lines=tpgl[1:length(a.labels),],
-##                  border=TRUE,
-##                  space="right",
-##                  title=deparse(substitute(blocks)))
-##    m$key$points$pch <- blocks.pch[1:length(a.labels)]
-##    m$key$points$cex[] <- max(m$key$points$cex)
-##  }
   if (!missing(blocks)) {
     blocks.char <- deparse(substitute(blocks))
     bl <- data.in[[blocks.char]]
@@ -231,13 +215,8 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
     b <- 1/b  ## if (b==0) Inf
   }
   
-  tpgs <- as.data.frame(trellis.par.get("superpose.symbol"))
-  if.R(r=tpgs$col <- as.character(tpgs$col), s={})
-  if (is.factor(tpgs$pch)) tpgs$pch <- as.character(tpgs$pch)
-
-  tpgl <- as.data.frame(trellis.par.get("superpose.line"))
-  if.R(r=tpgl$col <- as.character(tpgl$col), s={})
-  if (is.factor(tpgl$pch)) tpgl$pch <- as.character(tpgl$pch)
+  tpgs <- trellis.par.get("superpose.symbol")
+  tpgl <- trellis.par.get("superpose.line")
 
   ## browser()
   cell <- if.R(r=panel.number(),
@@ -253,10 +232,10 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
     for (i in seq(along=a)) {
       if (abs(b[i]) == Inf)
         panel.abline(v=a.untransposed[i],
-                     col=tpgl[i,"col"], lty=tpgl[i,"lty"], lwd=tpgl[i,"lwd"])
+                     col=tpgl$col[i], lty=tpgl$lty[i], lwd=tpgl$lwd[i])
       else
         panel.abline(a=a[i], b=b[i],
-                     col=tpgl[i,"col"], lty=tpgl[i,"lty"], lwd=tpgl[i,"lwd"])
+                     col=tpgl$col[i], lty=tpgl$lty[i], lwd=tpgl$lwd[i])
     }
   }
   else
@@ -289,20 +268,20 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
     }
     else {
       if (missing(blocks))
-          panel.xyplot(x, y, col=tpgl[cell,"col"], pch=tpgs[cell,"pch"], ...)
+          panel.xyplot(x, y, col=tpgl$col[cell], pch=tpgs$pch[cell], ...)
         else
           panel.superpose(x, y, subscripts=subscripts, groups=blocks,
                         pch=blocks.pch, cex=blocks.cex, ...)
       if (abs(b[cell]) == Inf)
         panel.abline(v=a.untransposed[cell],
-                     col=tpgl[cell,"col"],
-                     lty=tpgl[cell,"lty"],
-                     lwd=tpgl[cell,"lwd"])
+                     col=tpgl$col[cell],
+                     lty=tpgl$lty[cell],
+                     lwd=tpgl$lwd[cell])
       else
         panel.abline(a=a[cell], b=b[cell],
-                     col=tpgl[cell,"col"],
-                     lty=tpgl[cell,"lty"],
-                     lwd=tpgl[cell,"lwd"])
+                     col=tpgl$col[cell],
+                     lty=tpgl$lty[cell],
+                     lwd=tpgl$lwd[cell])
     }
 }
 

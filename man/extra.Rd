@@ -17,7 +17,7 @@ S-Plus and R.
 \usage{
 as.rts(x, ...)
 
-units.ts(x)
+\method{units}{ts}(x)
 
 title.trellis(main = NULL, sub = NULL, xlab = NULL, ylab = NULL, 
     line = NA, outer = FALSE, axes=NULL, ...)

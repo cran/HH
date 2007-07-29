@@ -5,8 +5,10 @@ multicomp.mean <- function(group, n, ybar, s, alpha=.05,
                            df=sum(n) - length(n),
                            sigmahat=(sum((n-1)*s^2) / df)^.5) {
 
-  if.R(r=stop("multicomp.mean works only in S-Plus.  Use aov.sufficient and glht in R."),
-       s={})
+  if.R(r={
+    multicomp.default <- NA ## make R-2.6.0dev happy
+    stop("multicomp.mean works only in S-Plus.  Use aov.sufficient and glht in R.")
+  },s={})
 
   rec.n <- diag(1/n)
   names(ybar) <- group
