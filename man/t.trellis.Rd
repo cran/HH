@@ -18,7 +18,7 @@
   
 }
 \usage{
-t.trellis(x)
+\method{t}{trellis}(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

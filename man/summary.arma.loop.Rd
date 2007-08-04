@@ -12,13 +12,13 @@
   summary and print and subscript methods for tsdiagplot and related objects.
 }
 \usage{
-summary.arma.loop(object, ...)
-summary.arma.loop.list(object, ...)
-print.arma.loop(x, ...)
-print.arma.loop.list(x, ...)
-print.tsacfplots(x, ...)
-`[.arma.loop`(x, ..., drop = TRUE)
-`[.diag.arma.loop`(x, ..., drop = TRUE)
+\method{summary}{arma.loop}(object, ...)
+\method{summary}{arma.loop.list}(object, ...)
+\method{print}{arma.loop}(x, ...)
+\method{print}{arma.loop.list}(x, ...)
+\method{print}{tsacfplots}(x, ...)
+\method{[}{arma.loop}(x, ..., drop = TRUE)
+\method{[}{diag.arma.loop}(x, ..., drop = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

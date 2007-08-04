@@ -9,7 +9,7 @@ Replacement for \code{bwplot.formula} and \code{compute.packet} in R
 trellis to allow them to work with the new "positioned" class.
 }
 \usage{
-bwplot.formula(x, data = NULL, allow.multiple = is.null(groups) || 
+\method{bwplot}{formula}(x, data = NULL, allow.multiple = is.null(groups) || 
     outer, outer = FALSE, auto.key = FALSE, aspect = "fill", 
     panel = "panel.bwplot", prepanel = NULL, scales = list(), 
     strip = TRUE, groups = NULL, xlab, xlim, ylab, ylim, box.ratio = 1, 

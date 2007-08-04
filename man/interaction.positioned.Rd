@@ -26,7 +26,6 @@ interaction.positioned(...,  ## exactly two factors
     units of \code{position(b)}.}
   \item{drop, sep}{See \code{\link{factor}}.}
 }
-}
 \value{
 \code{"positioned"} object containing the ordinary interaction with a
 \code{"position"} attribute.

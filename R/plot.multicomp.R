@@ -1,5 +1,5 @@
 plot.multicomp.hh <-
-  function(x, ylabel = x$ylabel, href = 0, uniform = T,
+  function(x, ylabel = x$ylabel, href = 0, uniform = TRUE,
            plt.in = c(0.2, 0.9, 0.1, 0.9),
            ##         fig.in=par("fig"),
            x.label.adj=1,
@@ -47,9 +47,9 @@ plot.multicomp.hh <-
          old.plt <- par(plt = plt.in)
          ##        par(plt = plt.in, fig=fig.in)
          ##        old.par <- par()      ## at least one other par value is affected
-         ##        par(new=F)            ## new seems to be reset when fig is set
+         ##        par(new=FALSE)        ## new seems to be reset when fig is set
          ##        on.exit({par(old.par)
-         ##                 par(new=F)
+         ##                 par(new=FALSE)
          ##                 par(new.usr)}) ## restore everything except new and usr
 
          ptot <- nrow(table)
@@ -71,9 +71,9 @@ plot.multicomp.hh <-
            if (missing(xlim)) {
              if(page == 1 || !uniform) {
                xmin <- min(c(lower, upper, estimate, href,
-                             xrange.include), na.rm = T)
+                             xrange.include), na.rm = TRUE)
                xmax <- max(c(lower, upper, estimate, href,
-                             xrange.include), na.rm = T)
+                             xrange.include), na.rm = TRUE)
                xrange <- range(pretty(c(xmin, xmax), 10))
              }}
            else {

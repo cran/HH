@@ -26,16 +26,15 @@ position(x)
 
 position(x) <- value
 
-is.numeric.positioned(x, ...)
-as.numeric.positioned(x, ...)
-as.double.positioned(x, ...)
-x[..., drop=FALSE]
-"[.positioned"(x, ..., drop=FALSE)
+\method{is.numeric}{positioned}(x, ...)
+\method{as.numeric}{positioned}(x, ...)
+\method{as.double}{positioned}(x, ...)
+\method{[}{positioned}(x, ..., drop=FALSE)
 as.positioned(x)
 is.positioned(x)
 positioned(x, ..., value)
-print.positioned(x, ...)
-unique.positioned(x, incomparables = FALSE, ...)
+\method{print}{positioned}(x, ...)
+\method{unique}{positioned}(x, incomparables = FALSE, ...)
 unpositioned(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.

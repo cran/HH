@@ -3,8 +3,8 @@
 \alias{seqplot.default}
 \alias{seqplot.rts}
 \alias{seqplot.ts}
-\alias{seqplot.its}
-\alias{seqplot.cts}
+%% \alias{seqplot.its}
+%% \alias{seqplot.cts}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Time series plot.}
 \description{
@@ -13,35 +13,44 @@
 \usage{
 seqplot(xts, ...)
 
-seqplot.default(xts,
-                pch.seq=letters,
-                groups=as.numeric(cycle(xts)),
-                a=NULL, b=NULL, h=NULL, v=NULL,
-                ylab=deparse(substitute(xts)),
-                xlab=ifelse(is.null(units(xts)),"Time",units(xts)),
-                lwd=0, lty=c(1,3),
-                type="b",
-                ...)
+\method{seqplot}{default}(xts,
+        pch.seq=letters,
+        groups=as.numeric(cycle(xts)),
+        a=NULL, b=NULL, h=NULL, v=NULL,
+        ylab=deparse(substitute(xts)),
+        xlab=ifelse(is.null(units(xts)),"Time",units(xts)),
+        lwd=0, lty=c(1,3),
+        type="b",
+        ...)
 
-seqplot.rts(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
-            x.at=pretty(time(xts)[groups==min(groups)]),
-            x.labels,
-            ylab=deparse(substitute(xts)),
-            ...)
+\method{seqplot}{rts}(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
+        x.at=pretty(time(xts)[groups==min(groups)]),
+        x.labels,
+        ylab=deparse(substitute(xts)),
+        ...)
 
-seqplot.ts(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
-           x.at=pretty(time(xts)[groups==min(groups)]),
-           x.labels,
-           ylab=deparse(substitute(xts)),
-           ...)
+\method{seqplot}{ts}(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
+        x.at=pretty(time(xts)[groups==min(groups)]),
+        x.labels,
+        ylab=deparse(substitute(xts)),
+        ...)
 
-seqplot.its(xts,
-            pch.seq=letters,
-            groups=stop("must define groups for its"),
-            x.at=as.numeric(time(xts))[groups==min(groups)],
-            x.labels,
-            ylab=deparse(substitute(xts)),
-            ...)
+% \method{seqplot}{its}(xts,
+%         pch.seq=letters,
+%         groups=stop("must define groups for its"),
+%         x.at=as.numeric(time(xts))[groups==min(groups)],
+%         x.labels,
+%         ylab=deparse(substitute(xts)),
+%             ...)
+
+
+% \method{seqplot}{cts}(xts,
+%         pch.seq=letters,
+%         groups=stop("must define groups for its"),
+%         x.at=as.numeric(time(xts))[groups==min(groups)],
+%         x.labels,
+%         ylab=deparse(substitute(xts)),
+%         ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

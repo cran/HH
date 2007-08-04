@@ -642,13 +642,15 @@ diag.arma.loop <- function(z, x=stop("The time series x is needed in S-Plus when
                                  n=length(x),n.parms=0)
       d[[p,q]] <- tmp
     }
-    else {d[[p, q]] <- arima.diag(z[[p, q]], plot=FALSE, resid=TRUE,
-                            lag.max=lag.max, gof.lag=gof.lag)
+    else {d[[p, q]] <- arima.diag.hh(z[[p, q]], plot=FALSE, resid=TRUE,
+                            lag.max=lag.max, gof.lag=gof.lag,
+                                     x=x) ## x=x is the hh addition
     if (is.null(d[[p, q]]$pacf.list))
       d[[p, q]]$pacf.list <- acf(d[[p, q]]$resid, type="partial",
                                  lag.max = lag.max, plot = FALSE)
         }
   },r={ ## based on stats:::tsdiag.Arima
+    arima.diag <- NA ## placeholder to make R-2.6.0dev happy
     object <- z[[p,q]]
     tmp <- list()
     tmp$series <- object$series
@@ -815,8 +817,11 @@ seqplot.rts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
                           !is.null(units(xts)) && units(xts) == "months"))
     pch.seq <- substring(month.name, 1, 1)
   if(missing(pch.seq) && (frequency(xts) == 7 &&
-                          !is.null(units(xts)) && units(xts) == "days"))
+                          !is.null(units(xts)) && units(xts) == "days")) {
+    if.R(r=day.name <- weekdays(seq(as.Date("2007-07-29"), by="day", length=7)),
+         s={})
     pch.seq <- substring(day.name, 1, 1)
+  }
   if (missing(x.labels)) x.labels <- format(x.at)
   seqplot.default(xts, pch.seq=pch.seq, groups=groups,
                   scales=list(x=list(at=x.at, labels=x.labels)),
@@ -826,55 +831,55 @@ seqplot.rts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
 
 seqplot.ts <- seqplot.rts
 
-seqplot.its <- function(xts,
-                        pch.seq=letters,
-                        groups=stop("must define groups for its"),
-                        x.at=as.numeric(time(xts))[groups==min(groups)],
-                        x.labels,
-                        ylab=deparse(substitute(xts)),
-                        ...) {
-  groups <- rep(groups, length=length(xts))
-  if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
-    x.at <- as.numeric(time(xts))
-    x.at <- seq(from=x.at[1], to=x.at[length(x.at)],
-                length=min(length(xts),
-                           length(pretty(seq(length=length(xts))))))
-    x.at <- round(x.at)
-    pch.seq <- "."
-  }
-  if (missing(x.labels)) x.labels <- format(chron(x.at))
-  seqplot.default(xts, pch.seq=pch.seq, groups=groups,
-                  scales=list(x=list(at=x.at, labels=x.labels)),
-                  ylab=ylab,
-                  ...)
-}
+## seqplot.its <- function(xts,
+##                         pch.seq=letters,
+##                         groups=stop("must define groups for its"),
+##                         x.at=as.numeric(time(xts))[groups==min(groups)],
+##                         x.labels,
+##                         ylab=deparse(substitute(xts)),
+##                         ...) {
+##   groups <- rep(groups, length=length(xts))
+##   if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
+##     x.at <- as.numeric(time(xts))
+##     x.at <- seq(from=x.at[1], to=x.at[length(x.at)],
+##                 length=min(length(xts),
+##                            length(pretty(seq(length=length(xts))))))
+##     x.at <- round(x.at)
+##     pch.seq <- "."
+##   }
+##   if (missing(x.labels)) x.labels <- format(chron(x.at))
+##   seqplot.default(xts, pch.seq=pch.seq, groups=groups,
+##                   scales=list(x=list(at=x.at, labels=x.labels)),
+##                   ylab=ylab,
+##                   ...)
+## }
 
 
-seqplot.cts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
-                        x.at=as.numeric(time(xts))[groups==min(groups)],
-                        x.labels,
-                        ylab=deparse(substitute(xts)),
-                        ...) {
-  groups <- rep(groups, length=length(xts))
-  if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
-    x.at <- as.numeric(time(xts))
-    x.at <- seq(from=x.at[1], to=x.at[length(x.at)],
-               length=min(length(xts), length(pretty(seq(length=length(xts))))))
-    x.at <- round(x.at)
-    pch.seq <- "."
-  }
-  if(missing(pch.seq) && (frequency(xts) == 12 &&
-                          !is.null(units(xts)) && units(xts) == "months"))
-    pch.seq <- substring(month.name, 1, 1)
-  if(missing(pch.seq) && (frequency(xts) == 7 &&
-                          !is.null(units(xts)) && units(xts) == "days"))
-    pch.seq <- substring(day.name, 1, 1)
-  if (missing(x.labels)) x.labels <- format(chron(x.at))
-  seqplot.default(xts, pch.seq=pch.seq, groups=groups,
-                  scales=list(x=list(at=x.at, labels=x.labels)),
-                  ylab=ylab,
-                  ...)
-}
+## seqplot.cts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
+##                         x.at=as.numeric(time(xts))[groups==min(groups)],
+##                         x.labels,
+##                         ylab=deparse(substitute(xts)),
+##                         ...) {
+##   groups <- rep(groups, length=length(xts))
+##   if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
+##     x.at <- as.numeric(time(xts))
+##     x.at <- seq(from=x.at[1], to=x.at[length(x.at)],
+##                length=min(length(xts), length(pretty(seq(length=length(xts))))))
+##     x.at <- round(x.at)
+##     pch.seq <- "."
+##   }
+##   if(missing(pch.seq) && (frequency(xts) == 12 &&
+##                           !is.null(units(xts)) && units(xts) == "months"))
+##     pch.seq <- substring(month.name, 1, 1)
+##   if(missing(pch.seq) && (frequency(xts) == 7 &&
+##                           !is.null(units(xts)) && units(xts) == "days"))
+##     pch.seq <- substring(day.name, 1, 1)
+##   if (missing(x.labels)) x.labels <- format(chron(x.at))
+##   seqplot.default(xts, pch.seq=pch.seq, groups=groups,
+##                   scales=list(x=list(at=x.at, labels=x.labels)),
+##                   ylab=ylab,
+##                   ...)
+## }
 
 
 

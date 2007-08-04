@@ -18,7 +18,7 @@
 \usage{
 \method{plot}{multicomp}(x, ...) ## R only
 
-\method{plot}{multicomp.hh}(x, ylabel = x$ylabel, href = 0, uniform = T,
+\method{plot}{multicomp.hh}(x, ylabel = x$ylabel, href = 0, uniform = TRUE,
            plt.in = c(0.2, 0.9, 0.1, 0.9),
            x.label.adj=1,
            xrange.include=href,

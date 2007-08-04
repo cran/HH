@@ -6,6 +6,7 @@ function(x, data=sys.parent(), responselab,
 			    ...) {
   if.R(
        r={
+         do.formula.trellis <- NA ## make R-2.6.0dev happy
          dft <- do.formula.trellis.xysplom(x, data=data)
          y.in <- dft$y[[1]]
          x.in <- dft$x

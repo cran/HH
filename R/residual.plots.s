@@ -9,8 +9,13 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
   if (class(lm.data) == "Error" || class(lm.data)=="try-error") ## S-Plus || R
     {
       lm.data <- lm.object$x
-      if (inherits(lm.data, "model.matrix"))  ## This is needed by S-Plus
-        lm.data <- data.frame(data.frameAux.default(lm.data), check.names=FALSE)
+      if.R(r={
+        data.frameAux.default <- NA ## make R-2.6.0dev happy
+      },
+           s=if(inherits(lm.data, "model.matrix"))  ## This is needed by S-Plus
+           lm.data <- data.frame(data.frameAux.default(lm.data),
+                                 check.names=FALSE)
+           )
       lm.data.y <- as.numeric(lm.object$y)
       if (is.null(lm.data) || is.null(lm.data.y))
         stop("Please recompute the 'lm.object' with 'x=TRUE, y=TRUE'.")
