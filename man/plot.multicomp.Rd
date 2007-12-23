@@ -1,6 +1,7 @@
 \name{plot.multicomp}
 \alias{plot.multicomp}
 \alias{plot.multicomp.hh}
+\alias{plot.matchMMC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Multiple comparisons plot that gives independent user control
   over the appearance of the significant and not significant comparisons.
@@ -28,12 +29,21 @@
            lty.signif=4, lty.not.signif=4,
            lwd.signif=1, lwd.not.signif=1,
            ...,
-           xlabel.print=TRUE)
+           xlabel.print=TRUE, y.axis.side=2)
+
+plot.matchMMC(x, ...,
+              xlabel.print=FALSE,
+              cex.axis=par()$cex.axis,
+              col.signif='red', main="")
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{A \code{"multicomp"} object.}
   \item{ylabel}{Y label on graph.}
+\item{y.axis.side}{Y labels are on the left by default when plotting a
+  \code{"multicomp"} object.  We move them to the
+  right when matching the x-axis of an MMC plot.}
   \item{\dots}{other arguments to \code{plot.multicomp}.}
 
   %plot.multicomp
@@ -53,14 +63,19 @@
     The HH \code{plot.multicomp} makes it a variable.
     Use it together with \code{plt.in} to make better use of the space
     on the plot.  S-Plus only.}
-  \item{col.signif, lty.signif, lwd.signif}{Color, line type, and line
-    width for significant comparisons. S-Plus only.}
+  \item{lty.signif, lwd.signif}{Line type, and line width for
+    significant comparisons. S-Plus only.}
+  \item{col.signif}{Color for significant comparisons. S-Plus only for
+    \code{plot.multicomp}.  Both R and S-Plus for \code{plot.matchMMC}.}
   \item{col.not.signif, lty.not.signif, lwd.not.signif}{Color, line
     type, and line width for non-significant comparisons. S-Plus only.}
   \item{xlabel.print}{logical.  When \code{TRUE}, the caption under the
     plot is printed.  When \code{FALSE}, the caption under the plot is not
-    printed.  It is helpful to set this to \code{FALSE} when the \code{multicomp}
+    printed.  It is helpful to set this to \code{FALSE} when
+    the \code{multicomp}
     plot is used as a tiebreaker plot for the MMC plot.  S-Plus only.}
+   \item{cex.axis}{\code{cex} for axis ticklabels.}
+   \item{main}{Main title for plot.}
 }
 \value{
 \code{plot.multicomp} plots a \code{"multicomp"} object.  In S-Plus, this

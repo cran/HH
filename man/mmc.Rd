@@ -192,6 +192,7 @@ We have an option to reduce the color intensity of the isomeans grid.
 ## Use multicomp.mmc with S-Plus.
 
 ## data and ANOVA
+## catalystm example
 catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
                        col.names=c("catalyst","concent"))
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
@@ -215,30 +216,22 @@ summary(catalystm1.aov)
 catalystm.mca <-
 if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
      s=multicomp(catalystm1.aov, plot=FALSE))
-plot(catalystm.mca) ## S-Plus always and R for small number of levels
-if.R(s={},
-     r=plot(confint(catalystm.mca, calpha=qtukey(.95, 4, 12)/sqrt(2))))
-       ## R for large number of levels
-catalystm.mca
-
+## plot(catalystm.mca)
+if.R(s=catalystm.mca,
+     r=confint(catalystm.mca))
 
 ## pairwise comparisons
+old.omd <- par(omd=c(0,.95,0,1))
 catalystm.mmc <-
 if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
      s=multicomp.mmc(catalystm1.aov, plot=FALSE))
 catalystm.mmc
-plot(catalystm.mmc)
-plot(catalystm.mmc$mca)
-plot(catalystm.mmc$none)
-
-if.R(s={},
-     r={## R for large number of levels
-        plot(confint(catalystm.mmc$mca$glht,
-                     calpha=catalystm.mmc$mca$crit.point))
-        plot(confint(catalystm.mmc$none$glht,
-                     calpha=catalystm.mmc$none$crit.point))
-       }
-     )
+if.R(s=plot(catalystm.mmc, x.offset=1),
+     r=plot(catalystm.mmc, ry=c(50,58), x.offset=1.8))
+## tiebreaker
+if.R(r=tmp.omd <- par(omd=c(par()$omd[1:2],.5,1)), s={})
+plot.matchMMC(catalystm.mmc$mca, xlabel.print=FALSE)
+if.R(r=par(tmp.omd), s={})
 
 
 ## user-specified contrasts
@@ -260,16 +253,17 @@ if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
 )
 
 catalystm.mmc
-plot(catalystm.mmc)
-
-plot(catalystm.mmc$mca)
-plot(catalystm.mmc$none)
-plot(catalystm.mmc$lmat)
-
-
+if.R(s=plot(catalystm.mmc, x.offset=1),
+     r=plot(catalystm.mmc, ry=c(50,58), x.offset=1.8))
+## tiebreaker
+if.R(r=tmp.omd <- par(omd=c(par()$omd[1:2],.65,1)), s={})
+plot.matchMMC(catalystm.mmc$lmat, xlabel.print=FALSE, col.signif='blue')
+if.R(r=par(tmp.omd), s={})
+par(old.omd)
 
 
 ## Dunnett's test
+## weightloss example
 weightloss <- read.table(hh("datasets/weightloss.dat"), header=TRUE)
 weightloss <- data.frame(loss=unlist(weightloss),
                          group=rep(names(weightloss), rep(10,5)))
@@ -303,7 +297,9 @@ multicomp(weightloss.aov,
           bounds="lower", control=4,
           valid.check=FALSE)
 )
+if.R(r=tmp.omd <- par(omd=c(0,1,.5,1)), s={})
 plot(tmp.dunnett)
+if.R(r=par(tmp.omd), s={})
 
 tmp.dunnett.mmc <-
 if.R(r=
@@ -323,6 +319,7 @@ plot(tmp.dunnett.mmc)
 
 
 ## two-way ANOVA
+## display example
 display <- read.table(hh("datasets/display.dat"), header=TRUE)
 display$panel <- factor(display$panel)  ## display$panel <- positioned(display$panel, value=(1:3)+.5)
 display$emergenc <- factor(display$emergenc)
@@ -343,7 +340,11 @@ zapsmall(
 displayf.mmc <-
 if.R(r=glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"), focus="panel", lmat.rows=5:6),
      s=multicomp.mmc(displayf.aov, "panel", lmat.rows=6:8, plot=FALSE))
-plot(displayf.mmc)
+if.R(s=
+       plot(displayf.mmc)
+    ,r=
+       plot(displayf.mmc, x.offset=1.7, ry=c(17.8,25.8))
+)
 
 ## orthogonal contrasts
 zapsmall(mca.lmat <- displayf.mmc$mca$lmat)
@@ -354,8 +355,11 @@ if.R(r=glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"), focus="panel",
                 lmat.rows=5:6, lmat=panel.lmat),
      s=multicomp.mmc(displayf.aov, "panel", lmat.rows=6:8,
                      lmat=panel.lmat, plot=FALSE))
-plot(displayf.mmc)
-
+if.R(s=
+       plot(displayf.mmc)
+    ,r=
+       plot(displayf.mmc, x.offset=1.7, ry=c(17.8,25.8))
+)
 
 
 ## split plot design with tiebreaker plot
@@ -372,7 +376,8 @@ maiz <- read.table(hh("datasets/maiz.dat"), header=TRUE)
 maiz$hibrido <- factor(maiz$hibrido,
                        levels=c("P3747","P3732","Mol17","A632","LH74"))
 maiz$nitrogeno <- factor(maiz$nitrogeno)
-position(maiz$nitrogeno) <- c(1, 2.5, 4, 5.5) ## forces class="ordered"
+position(maiz$nitrogeno) <- c(1.2, 2.4, 3.6, 4.8) ## inherits(maiz$nitrogeno, "ordered")
+position(maiz$bloque) <- c(2.25, 3.75)            ## inherits(maiz$bloque, "ordered")
 
 interaction2wt(yield ~ hibrido+nitrogeno+bloque, data=maiz)
 interaction2wt(yield ~ hibrido+nitrogeno, data=maiz)
@@ -394,37 +399,85 @@ if.R(r={
 },
      s={})
 
-## Both R and S-Plus require aov, not aovlist
+## Both R glht() and S-Plus multicomp() require aov, not aovlist
 maiz2.aov <- aov(terms(yield ~ bloque*nitrogeno + hibrido/nitrogeno,
                        keep.order=TRUE), data=maiz)
 summary(maiz2.aov)
 
+## There are many ties in the group means.
+## These are easily seen in the MMC plot, where the two clusters
+## c("P3747", "P3732", "LH74") and c("Mol17", "A632")
+## are evident from the top three contrasts including zero and the
+## bottom contrast including zero.  Th significant contrasts are the
+## ones comparing hybrids in the top group of three to ones in the
+## bottom group of two.
+
+## We have two graphical responses to the ties.
+## 1. We place the tiebreaker plots on the same page as the MMC plot.
+## 2. We construct a set of orthogonal contrasts to illustrate
+##    the clusters.
+
+## pairwise contrasts with tiebreakers.
 if.R(s={
   maiz2.mca <- multicomp(maiz2.aov, focus="hibrido")
   ## plot(maiz2.mca)
   dimnames(maiz2.mca$lmat)[[1]]
   maiz2.mmc <- multicomp.mmc(maiz2.aov, focus="hibrido",
                              lmat.rows=16:20, plot=FALSE)
-  old.mar <- par(mar=c(15,4,4,7)+.1)
-  plot(maiz2.mmc)
-  par(mar=c(2,4,28,7)+.1, new=TRUE)
-  old.cex <- par(cex=.8)
-  plot(maiz2.mmc$mca, col.signif=8, lty.signif=1, xlabel.print=FALSE,
-       xaxs="d", plt=par()$plt+c(0,0,-.25,.05), xrange.include=c(-30,40))
-  par(old.cex)
-  par(old.mar)
+  old.omd <- par(omd=c(.05,.85,0,1))
+  plot(maiz2.mmc, ry=c(145,170), x.offset=4)
+  par(omd=c(.05,.85,0,1))
+  plot.matchMMC(maiz2.mmc$mca)
+  par(old.omd)
 },r={
   maiz2.mca <- glht(maiz2.aov, linfct=mcp(hibrido="Tukey"))
   dimnames(maiz2.mca$linfct)[[2]]
   maiz2.mmc <- glht.mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"), lmat.rows=9:12)
-  old.oma <- par(oma=c(12,3,0,4))
+  old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
   plot(maiz2.mmc)
-  par(oma=c(0,3,22,4), new=TRUE)
-  plot(maiz2.mmc$mca,
-       xlim=par()$usr[1:2], xaxs="i",
-       main="", xlab="", cex.axis=.7)
-  par(old.oma)
+  par(omd=c(.05,.85,0,.45), new=TRUE)
+  plot.matchMMC(maiz2.mmc$mca, cex.axis=.7)
+  par(old.omd)
 })
+
+
+## orthogonal contrasts
+## user-specified contrasts
+## > levels(maiz$hibrido)
+## [1] "P3747" "P3732" "Mol17" "A632"  "LH74" 
+hibrido.lmat <- cbind("PPL-MA" =c(2, 2,-3,-3, 2),
+                      "PP-L"   =c(1, 1, 0, 0,-2),
+                      "P47-P32"=c(1,-1, 0, 0, 0),
+                      "M-A"    =c(0, 0, 1,-1, 0))
+dimnames(hibrido.lmat)[[1]] <- levels(maiz$hibrido)
+zapsmall(hibrido.lmat)
+dimnames(maiz2.mmc$none$lmat)[[2]]
+## Both S-Plus and R
+## [1] "LH74"  "P3747" "P3732" "Mol17" "A632" 
+maiz2.lmat <- maiz2.mmc$none$lmat \%*\%
+    hibrido.lmat[c("LH74",  "P3747","P3732", "Mol17", "A632"),]
+
+maiz2.mmc <-
+if.R(r=glht.mmc(maiz2.aov, focus="hibrido",
+                lmat=maiz2.lmat, lmat.rows=9:12)
+    ,s=multicomp.mmc(maiz2.aov, focus="hibrido",
+                     lmat=maiz2.lmat, lmat.rows=16:20,
+                     plot=FALSE)
+)
+if.R(s={
+  old.omd <- par(omd=c(.05,.85,0,1))
+  plot(maiz2.mmc, ry=c(145,170), x.offset=4)
+  par(omd=c(.05,.85,0,1))
+  plot.matchMMC(maiz2.mmc$lmat, col.signif='blue')
+  par(old.omd)
+},r={
+  old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
+  plot(maiz2.mmc)
+  par(omd=c(.05,.85,0,.45), new=TRUE)
+  plot.matchMMC(maiz2.mmc$lmat, cex.axis=.7, col.signif='blue')
+  par(old.omd)
+})
+
 
 
 }

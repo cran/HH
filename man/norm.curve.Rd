@@ -46,7 +46,7 @@ norm.curve(mean=0, se=sd/sqrt(n),
          df.t=NULL,
          ...)
 
-norm.observed(xbar, t.xbar, col="blue")
+norm.observed(xbar, t.xbar, col="green")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

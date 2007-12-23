@@ -18,7 +18,8 @@ interaction2wt(x, ...)
 
 \method{interaction2wt}{default}(x,
                response.var,
-               responselab = deparse(substitute(y)),
+               responselab = deparse(substitute(response.var)),
+               responselab.expression = responselab,
                relation = list(x = "same", y = "same"),
                x.relation = relation$x,
                y.relation = relation$y,
@@ -32,7 +33,7 @@ interaction2wt(x, ...)
                strip.input =
                 if (label.as.interaction.formula) strip.default
                 else strip.interaction2wt,
-               par.strip.text.input = list(cex=.7, responselab=responselab),
+               par.strip.text.input = trellis.par.get()$add.text,
                scales.additional,
                main.in =
                  paste(responselab,
@@ -44,7 +45,11 @@ interaction2wt(x, ...)
                box.ratio=if (simple) .32 else 1,
                label.as.interaction.formula=TRUE,
                ...,
-               main.cex)
+               main.cex,
+               key.cex.title=trellis.par.get()$par.xlab.text$cex,
+               key.cex.text=trellis.par.get()$axis.text$cex,
+               factor.expressions=names.x
+)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{Arguments when \code{x} is a formula.
@@ -70,6 +75,9 @@ interaction2wt(x, ...)
 }
   \item{responselab}{Character name of response variable, defaults to
     the name of the response variable in the \code{formula}.}
+  \item{responselab.expression}{\code{plotmath} or character name
+    of response variable, defaults to \code{responselab}.
+  }
   \item{\dots}{additional arguments, primarily trellis arguments.}
 
   \item{response.var}{For the \code{"default"} method, the
@@ -113,6 +121,13 @@ See also \code{\link[lattice]{xyplot}} in R and
   \item{xlab}{No effect.}
   \item{ylab}{No effect.}
   \item{main.cex}{\code{cex} for main title.}
+  \item{key.cex.title}{\code{cex} key title.  Defaults to \code{cex} for
+  \code{xlab}.}
+  \item{key.cex.text}{\code{cex} group names in key.  Defaults to \code{cex} for
+  \code{axis.text}.}
+  \item{factor.expressions}{Expressions for titles of keys and
+  \code{xlab} for each column.  Defaults to the names of the factors in
+  the input formula.}
   \item{rot}{Rotation of x tick labels and y tick labels.  Only 0 and 90
   will look good.}
 }
@@ -132,7 +147,8 @@ vulcan <- read.table(hh("datasets/vulcan.dat"), header=TRUE)
 vulcan$filler <- factor(vulcan$filler)
 position(vulcan$raw) <- (1:4)+.5
 position(vulcan$pretreat) <- 2:4
-interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
+interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
+               par.strip.text=list(cex=.8))
 interaction2wt(wear ~ filler + raw, data=vulcan,
                simple=TRUE)
 interaction2wt(wear ~ filler + raw, data=vulcan,
@@ -147,20 +163,6 @@ print(
 print(
   interaction2wt(len ~ supp + dose, data=ToothGrowth)
 )
-print(
-  bwplot(len ~ supp | unpositioned(dose), data=ToothGrowth, layout=c(3,1))
-)
-print(
-  bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
-         box.ratio=.5,
-         panel=panel.bwplot.intermediate.hh,
-         scales=list(x=list(at=position(ToothGrowth$dose))))
-)
-print(
-  bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
-         box.ratio=.5,
-         scales=list(x=list(at=position(ToothGrowth$dose))))
-)
 
 esoph=esoph
 esoph$rate=with(esoph, ncases/ncontrols)
@@ -169,8 +171,27 @@ position(esoph$alcgp) <- 2:5
 position(esoph$tobgp) <- 2:5
 
 print(
-interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0))
+interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
+               par.strip.text=list(cex=.8))
 )
+
+old.cex <- trellis.par.set(par.xlab.text=list(cex=.8))
+print(
+interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
+               par.strip.text=list(cex=.8),
+               factor.expressions=c(
+                  agegp=expression(Age~~(years)),
+                  alcgp=expression(Alcohol~
+                                   bgroup("(",scriptstyle(frac(gm, day)),")")),
+                  tobgp=expression(Tobacco~
+                                   bgroup("(",scriptstyle(frac(gm,
+day)),")"))),
+                  responselab.expression="Cancer\nRate",
+           main.in="Esophogeal Cancer Rate ~ Alcohol Consumption + Tobacco Consumption", main.cex=1.2)
+)
+
+par(old.cex)
+
 esoph.aov <- aov(rate ~ agegp + alcgp + tobgp, data=esoph)
 print(
 anova(esoph.aov)

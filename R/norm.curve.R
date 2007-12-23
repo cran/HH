@@ -112,12 +112,12 @@ function(mean=0, se=sd/sqrt(n),
   if (length(critical.values)==2) {
     if (shade=="outside") {
       critical.one <- FALSE
-      x1 <- seq(min(z), (critical.values[1]-mean)/se, length=51)*se + mean
+      x1 <- seq(min(z), z.critical.values[1], length=51)*se + mean
       x2 <- seq(z.critical.values[2], max(z), length=51)*se + mean
       shaded.area <- 1-diff(pfunction(z.critical.values, df.t))
     }
     else { ## shade == "inside"
-      x <- seq(z.critical.values[1], z.critical.values[2], .1)*se + mean
+      x <- seq(z.critical.values[1], z.critical.values[2], length=51)*se + mean
       shaded.area <- diff(pfunction(z.critical.values, df.t))
     }
   }
@@ -183,7 +183,7 @@ function(mean=0, se=sd/sqrt(n),
   invisible(NULL)
 }
 
-norm.observed <- function(xbar, t.xbar, col="blue") {
+norm.observed <- function(xbar, t.xbar, col="green") {
   abline(v=xbar, col=col, lty=5)
   xbar2 <- c(xbar, xbar)
   arrows(xbar2, par()$usr[3:4]+c(-.01,.01), xbar2, par()$usr[3:4],

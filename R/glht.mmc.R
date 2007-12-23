@@ -56,6 +56,8 @@ as.multicomp.glht <-
                    ## lmat=lmat,         #
                    glht=x
                    )
+    if (is.null(dimnames(result$table)[[1]]))
+      dimnames(result$table)[[1]] <- dimnames(confint.x$confint)[[1]]
     tmp <- lmat[lmat.rows, , drop=FALSE]
     if (contrasts.none) {
       first.row <- tmp[1,,drop=FALSE]
@@ -68,6 +70,8 @@ as.multicomp.glht <-
     lmat.factor <- lmat.subscript
 
     lmat.factor <- sweep(lmat.factor, 2, apply(abs(lmat.factor), 2, sum)/2, "/")
+    if (length(means) != nrow(lmat.factor))
+      stop("Please specify lmat.rows with glht.mmc on a design with more than one factor.")
     result$height=(means %*% abs(lmat.factor))[1,]
 
     result$lmat <- 
@@ -135,6 +139,7 @@ glht.mmc.lm <-
 
     if (TRUE)
       {
+        if (length(focus) > 1) stop("glht.mmc requires no more than one focus factor.")
         focus.linfct <- multcomp:::meanslinfct(model, focus,
                                                formula=terms(model))
         none.glht <- glht(model, linfct=focus.linfct,

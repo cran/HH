@@ -17,13 +17,14 @@ col.hh()
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link[lattice]{trellis.device}}, \code{\link[lattice]{trellis.par.get}}}
 \examples{
-## function name or result of function call
+\dontrun{
 if.R(r={
-trellis.device(theme="col.hh")
-trellis.device(theme=col.hh())
+trellis.device(theme="col.hh") ## Open a device with the theme
 
-## result of function call
-trellis.par.set(theme=col.hh())
+trellis.device(theme=col.hh()) ## Open a device with the theme
+
+trellis.par.set(theme=col.hh())## Add theme to already open device
 },s={})
+}
 }
 \keyword{color}
