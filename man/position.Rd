@@ -44,7 +44,7 @@ unpositioned(x, ...)
     associated with \code{levels(x)}.
   The \code{length(value)} must equal \code{length(levels(as.factor(x)))}.}
 \item{\dots}{other arguments.}
-\item{drop}{See \code{\link[base]{"["}}in R or \code{\link[main]{"["}}
+\item{drop}{See \code{\link[base]{'['}}in R or \code{\link[main]{'['}}
   in S-Plus.}
 \item{incomparables}{See \code{\link[base]{unique}}in R or
   \code{\link[splus]{unique}} in S-Plus.}

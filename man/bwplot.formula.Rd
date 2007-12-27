@@ -52,4 +52,24 @@ compute.packet.new(cond, levels, cond.levels)
   \email{Deepayan.Sarkar@R-project.org}.
   Modifications by Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link[lattice]{bwplot.formula}}.}
+\examples{
+if.R(r={
+print(
+  bwplot(len ~ supp | unpositioned(dose), data=ToothGrowth, layout=c(3,1))
+)
+print(
+  bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
+         box.ratio=.5,
+         panel=panel.bwplot.intermediate.hh,
+         scales=list(x=list(at=position(ToothGrowth$dose))))
+)
+print(
+  bwplot(len ~ dose | supp, data=ToothGrowth, layout=c(2,1),
+         box.ratio=.5,
+         scales=list(x=list(at=position(ToothGrowth$dose))))
+)
+},
+s={}
+)
+}
 \keyword{dplot}

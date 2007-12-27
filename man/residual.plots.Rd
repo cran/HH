@@ -32,8 +32,8 @@ residual.plots(lm.object, X=dft$x,
   of \code{xyplot}.}
   \item{na.action}{A function to filter missing data.  See \code{lm}.}
   \item{y.relation}{See \code{relation} in the discussion of the
-    \code{scales} argument in \link[trellis]{trellis.args} in S-Plus and
-    in \link[lattice]{xyplot} in R.}
+    \code{scales} argument in \code{\link[trellis]{trellis.args}} in S-Plus and
+    in \code{\link[lattice]{xyplot}} in R.}
   \item{\dots}{Other arguments for \code{xysplom} or \code{xyplot}.}
 }
 \value{

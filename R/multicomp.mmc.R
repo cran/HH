@@ -66,6 +66,8 @@ in the lmat.rows argument to match the groups column.\n")
     dimnames(tmp)[[1]] <- seq(nrow(tmp))
     print(tmp, quote=FALSE)
   }
+    if (length(mc.none$table[,"estimate"]) != nrow(mc.mca$lmat[lmat.rows,]))
+      stop("Please specify lmat.rows with multicomp.mmc on a design with more than one factor.")
   mc.mca$height <- (mc.none$table[,"estimate"] %*%
                     abs(mc.mca$lmat[lmat.rows,]))[1,]
   if (estimate.sign != 0) mc.mca <- multicomp.reverse(mc.mca, estimate.sign)

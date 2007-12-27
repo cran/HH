@@ -90,7 +90,7 @@ command that draws the graph.  This is strictly for debugging the
     of each page.}
   \item{y,subscripts}{In \code{"panel.ancova"}, see
     \code{\link[lattice]{panel.xyplot}} in R and both
-    \link[trellis]{xyplot} and \link[trellis]{trellis.args} in S-Plus.}
+    \code{\link[trellis]{xyplot}} and \code{\link[trellis]{trellis.args}} in S-Plus.}
   \item{object}{An \code{"aov"}} object.  The functions using this
   argument are methods for the similarly named generic functions.
 \item{coef, contrasts, classes}{Internal variables used to communicate between

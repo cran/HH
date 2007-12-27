@@ -10,13 +10,13 @@ function(x, data=sys.parent(), responselab,
          dft <- do.formula.trellis.xysplom(x, data=data)
          y.in <- dft$y[[1]]
          x.in <- dft$x
-         responselab <- names(dft$y)
+         if (missing(responselab)) responselab <- names(dft$y)
        },
        s={
          dft <- do.formula.trellis(x)
          y.in <- eval(dft$expr[[1]], local=data)
          x.in <- data[,dft$xlab,drop=FALSE]
-         responselab <- dft$ylab
+         if (missing(responselab)) responselab <- dft$ylab
        })
   if (is.null(x.in) || is.null(y.in))
     stop("both x and y are needed in formula")
@@ -26,7 +26,9 @@ function(x, data=sys.parent(), responselab,
 }
 
 interaction2wt.default <-
-  function(x, response.var, responselab=deparse(substitute(y)),
+  function(x, response.var,
+           responselab=deparse(substitute(response.var)),
+           responselab.expression = responselab,
            relation=list(x="same", y="same"),
            x.relation=relation$x, y.relation=relation$y,
            digits=3,
@@ -38,7 +40,7 @@ interaction2wt.default <-
            panel.input=panel.interaction2wt,
            strip.input=if (label.as.interaction.formula) strip.default
                        else strip.interaction2wt,
-           par.strip.text.input=list(cex=.7, responselab=responselab),
+           par.strip.text.input=trellis.par.get()$add.text,  ##list(cex=.7)
            scales.additional,
            main.in=paste(responselab,
              ": main effects and 2-way interactions", sep=""),
@@ -47,17 +49,21 @@ interaction2wt.default <-
            box.ratio=if (simple) .32 else 1,
            label.as.interaction.formula=TRUE,
            ...,
-           main.cex
+           main.cex,
+           key.cex.title=trellis.par.get()$par.xlab.text$cex,
+           key.cex.text=trellis.par.get()$axis.text$cex,
+           factor.expressions=names.x
            ) {
-  n <- nrow(x)
-  k <- ncol(x)
-  names.x <- names(x)
+    n <- nrow(x)
+    k <- ncol(x)
+    names.x <- names(x)
+    names(names.x) <- names.x
 
   if (k<2) stop("interaction2wt requires at least two factors.")
   if (simple && k != 2) stop("Simple effects requires exactly two factors.")
   
   x.list <- x
-  for (i in names.x) {
+  for (i in names(x)) {
     x[[i]] <- as.factor(x[[i]])
     x.list[[i]] <- as.numeric(x[[i]])
   }
@@ -79,6 +85,7 @@ interaction2wt.default <-
   }
   if.R(r={
     scales.input$x$at <- NULL
+    scales.input$y$at <- NULL
     scales.input$rot <- rep(rot,2)
   },
        s={})
@@ -112,6 +119,7 @@ interaction2wt.default <-
     list(formula,
          data=ccd,
          responselab=responselab,
+         responselab.expression=responselab.expression,
          trace.values=ccd$trace.values,
          factor.levels=factor.levels,
          factor.position=factor.position,
@@ -134,34 +142,46 @@ interaction2wt.default <-
          box.ratio=box.ratio,
          ...)
   if.R(r={
-    xyplot.list$lattice.options <-
+    cpy <- range(ccd$response.var)
+    pcpy <- pretty(cpy)
+    pcpy <- pcpy[(cpy[1] <= pcpy) & (pcpy <= cpy[2])]
+## recover()
+
+    lattice.options <-
       list(axis.options=list(
              bottom=list(
                at2=factor.position,
                labels2=factor.levels,
                rot2=rot[1],
-               labels3=levels(ccd$x.factor)),
+               labels3=factor.expressions), ## levels(ccd$x.factor)),
              right=list(
-               at2=pretty(current.panel.limits()$ylim),
-               labels2=pretty(current.panel.limits()$ylim),
+               at2=pcpy,
+               labels2=pcpy,
                rot2=rep(rot,2)[2],
-               labels3=rep(responselab, k)
+               labels3=rep(responselab.expression, k)
                )
              ),
            layout.heights=list(axis.xlab.padding=list(x=15, units="mm")),
            layout.widths=list(right.padding=list(x=13, units="mm")))
+
+    if (length(xyplot.list$lattice.options) == 0)
+      xyplot.list$lattice.options <- list()
+    xyplot.list$lattice.options[names(lattice.options)] <- lattice.options
+
     keys <- vector("list")
     for (trace.id in names.x)
       keys[[trace.id]] <-
-        draw.key(list(title=trace.id,
-                      cex.title=1,
+        draw.key(list(title=factor.expressions[trace.id],
+                      cex.title=key.cex.title,
                       border=TRUE,
-                      text=list(text=factor.levels[[trace.id]], cex=.8),
+                      text=list(
+                        text=factor.levels[[trace.id]],
+                        cex=key.cex.text),
                       lines=Rows(
                         trellis.par.get("superpose.line"),
                         seq(length(factor.levels[[trace.id]])))),
                  draw=FALSE)
-    
+
     xyplot.list$legend <- list(left =
                                list(fun = legendGrob2wt,
                                     args = keys))

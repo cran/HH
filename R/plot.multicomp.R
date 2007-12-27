@@ -10,7 +10,7 @@ plot.multicomp.hh <-
            lty.signif=4, lty.not.signif=4,
            lwd.signif=1, lwd.not.signif=1,
            ...,
-           xlabel.print=TRUE)
+           xlabel.print=TRUE, y.axis.side=2)
 {
   if.R(r=
        NextMethod("plot")
@@ -126,13 +126,15 @@ plot.multicomp.hh <-
              segments(href, rep(cpp+1 - p - 1, length(href)), href,
                       rep(cpp+1, length(href)))
            if (sum(signif))
-             text(xmin - 0.1 * (xmax - xmin),
-                  heights[signif], labels[signif], col=col.signif,
-                  adj = x.label.adj)
+             ##text(xmax + 0.1 * (xmax - xmin),
+             axis(side=y.axis.side,
+                  at=heights[signif], labels[signif], col=col.signif,
+                  adj = x.label.adj, ticks=FALSE, col.axis=col.signif)
            if (sum(!signif))
-             text(xmin - 0.1 * (xmax - xmin),
+             ##text(xmax + 0.1 * (xmax - xmin),
+             axis(side=y.axis.side,
                   heights[!signif], labels[!signif], col=col.not.signif,
-                  adj = x.label.adj)
+                  adj = x.label.adj, ticks=FALSE)
            axis(1, at = pretty(c(xmin, xmax), 10), pos = cpp - p)
            if (xlabel.print) {
              text((xmax + xmin)/2, (cpp - p - 3)*(22/cpp)-(cpp/22),
@@ -148,3 +150,38 @@ plot.multicomp.hh <-
        }
        )
 }
+
+
+plot.matchMMC <- function(x, ...,
+                          xlabel.print=FALSE,
+                          cex.axis=par()$cex.axis,
+                          col.signif='red', main="") {
+  if.R(s={
+    old.xpd <- par(xpd=TRUE)
+    xlim <- par()$usr[1:2]
+    xlim <- xlim + c(.1,-.1)*diff(xlim)
+    plot(x, xrange.include=xlim, xaxs="d", ## xaxs="i",
+         main=main, xlab="", ...,
+         col.signif=col.signif, lty.signif=1, xlabel.print=xlabel.print,
+         plt=par()$plt+c(0,0,-.25,.05), x.label.adj=0, y.axis.side=4)
+    invisible(par(old.xpd))
+  },
+      r={
+        plot(x,
+             xlim=par()$usr[1:2], xaxs="i", yaxt="n",
+             main=main, xlab="", cex.axis=cex.axis)
+        signif <- apply(x$table[,c("lower","upper")], 1, prod) > 0
+        yval <- rev(seq(along=signif))
+        axis(4, at=yval[signif], labels=names(signif)[signif],
+             col=col.signif, col.axis=col.signif,
+             las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
+        axis(4, at=yval[!signif], labels=names(signif)[!signif],
+             las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
+        segments(x$table[signif, "lower"], yval[signif],
+                 x$table[signif, "upper"], yval[signif],
+                 col=col.signif)
+      }
+      )
+}
+
+## source("c:/HOME/rmh/HH-R.package/HH/R/plot.multicomp.R")

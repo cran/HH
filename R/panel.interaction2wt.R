@@ -165,7 +165,7 @@ function(x, y, subscripts,
   ## trace key
   if (column.panel==1) {
 
-    key.list <- list(title=trace.name,
+    key.list <- list(title=trace.name,  ## S-Plus only
                      cex.title=1,
                      corner=c(.5,.5), border=TRUE,
                      text=list(text=trace.levels, cex=.8),
@@ -203,6 +203,9 @@ axis.i2wt <-
   row.panel <- row(tcL)[tcL==cell]
   column.panel <- col(tcL)[tcL==cell]
   
+  if (side != "right")
+  axis.default(side = side, scales = scales, ...)
+
   if (side == "bottom")
     {
       if (row.panel == 1)
@@ -254,14 +257,18 @@ axis.i2wt <-
 
           labels2.units <-
             if (!is.null(at2) && !is.null(labels2)) 
-              heightDetails(textGrob(unlist(labels2), rot = rot2,
-                                     x=seq(along=unlist(labels2)),
-                                     just = if (rot2==90)
-                                     c("right", "center")
-                                     else c("center", "top")))
+              unit(1, "grobheight",
+                   data = list(textGrob(unlist(labels2),
+                     rot = rot2,
+                     x=seq(along=unlist(labels2)),
+                     just = if (rot2==90)
+                     c("right", "center")
+                     else c("center", "bottom"),
+                     gp=do.call("gpar", trellis.par.get()$axis.text))))
             else
               unit(0, "lines")
-
+          labels2.units <- convertHeight(labels2.units, "mm")
+          
           if (ticks2 && !is.null(at2))
             grid.segments(x0 = unit(at2i, "native"),
                           x1 = unit(at2i, "native"),
@@ -274,7 +281,9 @@ axis.i2wt <-
                       x = unit(at2i, "native"),
                       y = unit(0, "npc") - tick.units - label.units -
                       unit(1, "mm"),
-                      just = if (rot2==90) c("right", "center") else c("center", "top"))
+                      just = if (rot2==90) c("right", "center") else
+                      c("center", "top"),
+                      gp=do.call("gpar", trellis.par.get()$axis.text))
           
           ## other set of labels (without ticks)
           
@@ -289,13 +298,15 @@ axis.i2wt <-
             grid.text(labels3, rot=rot3,
                       x = unit(at3, "native"),
                       y = unit(0, "npc") - tick.units - label.units -
-                      labels2.units - unit(2, "mm"),
-                      just = c("center", "top"))
+                      labels2.units - unit(8, "mm"),
+                      just = c("center", "center"),
+                      gp=do.call("gpar", trellis.par.get()$par.xlab.text))
           if (is.null(at3) && !is.null(labels3))
             grid.text(labels3[column.panel], rot=rot3,
                       y = unit(0, "npc") - tick.units - label.units -
-                      labels2.units - unit(2, "mm"),
-                      just = c("center", "top"))
+                      labels2.units - unit(6, "mm"),
+                      just = c("center", "center"),
+                      gp=do.call("gpar", trellis.par.get()$par.xlab.text))
         }
     }
   
@@ -350,28 +361,35 @@ axis.i2wt <-
           labels2.units <-
             if (## !is.null(at2) &&  ## Not the same as bottom
                 !is.null(labels2))
-              widthDetails(textGrob(unlist(labels2), rot = rot2,
-                                    y=seq(along=unlist(labels2)),
-                                    just = if (rot2==90)
-                                    c("center", "center")
-                                    else c("left", "center")))
+              unit(1, "grobwidth",
+                   data = list(textGrob(unlist(labels2)[1],
+                     rot = rot2,
+                     y=seq(along=unlist(labels2)[1]),
+                     just = if (rot2==90)
+                     c("center", "center")
+                     else c("left", "center"),
+                     gp=do.call("gpar", trellis.par.get()$axis.text))))
             else
               unit(0, "lines")
+          labels2.units <- convertWidth(labels2.units, "mm")
 
-          right.margin <- unit(current.panel.limits()$xlim[2],"native")
-          if (FALSE)  ## (ticks2 && !is.null(at2))  ## not the same
+          ## recover()          
+          right.margin <- unit(current.panel.limits()$xlim[2], "native")
+          if (ticks2 && (length(at2) > 0) && !is.na(at2))  ## not the same
             grid.segments(y0 = unit(at2i, "native"),
                           y1 = unit(at2i, "native"),
                           x0 = right.margin,
                           x1 = right.margin + tick.units +
                           label.units)
           
-          if (FALSE)  ## (!is.null(at2) && !is.null(labels2))  ## not the same
+          if ((length(at2) > 0) && !is.na(at2) && length(labels2) > 0)  ## not the same
             grid.text(labels2i, rot = rot2,
                       y = unit(at2i, "native"),
                       x = right.margin + tick.units + label.units +
                       unit(1, "mm"),
-                      just = if (rot2==90) c("center", "center") else c("left", "center"))
+                      just = if (rot2==90) c("center", "center") else
+                      c("left", "center"),
+                      gp=do.call("gpar", trellis.par.get()$axis.text))
           
           ## other set of labels (without ticks)
           
@@ -385,17 +403,23 @@ axis.i2wt <-
           if (!is.null(at3) && !is.null(labels3))
             grid.text(labels3, rot=rot3,
                       y = unit(at3, "native"),
-                      x = right.margin + tick.units + label.units +
-                      labels2.units + unit(2, "mm"),
-                      just = c("left", "top"))
+                      x = right.margin + tick.units +
+                      label.units +
+                      labels2.units +
+                      unit(5, "mm"),
+                      just = c("left", "top"),
+                      gp=do.call("gpar", trellis.par.get()$par.ylab.text))
+
           if (is.null(at3) && !is.null(labels3))
             grid.text(labels3[row.panel], rot=rot3,
-                      x = right.margin + tick.units + label.units +
-                      labels2.units + unit(2, "mm"),
-                      just = c("left", "top"))
+                      x = right.margin + tick.units +
+                      label.units +
+                      labels2.units +
+                      unit(5, "mm"),
+                      just = c("left", "top"),
+                      gp=do.call("gpar", trellis.par.get()$par.ylab.text))
         }
     }
-  axis.default(side = side, scales = scales, ...)
 }
 
 
