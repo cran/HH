@@ -14,7 +14,14 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Compute and plot oneway analysis of covariance}
 \description{
-
+  Compute and plot oneway analysis of covariance.
+  The result object is an \code{ancova} object which consists of
+  an ordinary \code{aov} object with an additional \code{trellis}
+  attribute.  The
+  \code{trellis} attribute is a \code{trellis} object consisting of
+  a series of plots of \code{y ~ x}.  The left set of panels is
+  conditioned on the levels of the factor \code{groups}.  The right
+  panel is a superpose of all the groups.
 }
 \usage{
 ancova(formula, data.in = sys.parent(), ...,
