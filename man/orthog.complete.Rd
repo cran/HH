@@ -5,7 +5,8 @@
 \title{Construct an orthogonal matrix which is an arbitrary completion
   of the column space of the input set of columns.}
 \description{
-
+Construct an orthogonal matrix which is an arbitrary completion
+  of the column space of the input set of columns.
 }
 
 \usage{
