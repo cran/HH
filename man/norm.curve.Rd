@@ -2,6 +2,7 @@
 \alias{norm.setup}
 \alias{norm.curve}
 \alias{norm.observed}
+\alias{norm.outline}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{plot a normal or a t-curve with both x and z axes.}
 \description{
@@ -33,20 +34,39 @@ norm.setup(xlim.in=c(-2.5,2.5),
            main.in=main.calc,
            se=sd/sqrt(n), sd=1, n=1,
            df.t=NULL,
+           Use.obs.mean=TRUE,
             ...)
 
 norm.curve(mean=0, se=sd/sqrt(n),
-         critical.values=mean + se*c(-1, 1)*z.975,
-         z=do.call("seq",
-                   as.list(c((par()$usr[1:2]-mean)/se, length=109))),
-         shade, col=par("col"),
-         axis.name=ifelse(is.null(df.t) || df.t == Inf, "z", "t"),
-         second.axis.label.line=3,
-         sd=1, n=1,
-         df.t=NULL,
-         ...)
+          critical.values=mean + se*c(-1, 1)*z.975,
+          z=do.call("seq", as.list(c((par()$usr[1:2]-mean)/se, length=109))),
+          shade, col="blue",
+          axis.name=ifelse(is.null(df.t) || df.t==Inf, "z", "t"),
+          second.axis.label.line=3,
+          sd=1, n=1,
+          df.t=NULL,
+          axis.name.expr=axis.name,
+          Use.obs.mean=TRUE,
+          col.label=col,
+          hypoth.or.conf="Hypoth",
+          col.conf.arrow=par("col"),
+          col.conf.label=par("col"),
+          col.crit=ifelse(hypoth.or.conf=="Hypoth", 'blue', col.conf.arrow),
+          cex.crit=1.2,
+          ...)
 
-norm.observed(xbar, t.xbar, col="green")
+norm.observed(xbar, t.xbar, t.xbar.H1=NULL,
+              col="green",
+              p.val=NULL, p.val.x=par()$usr[2]+ left.margin,
+              t.or.z=ifelse(is.null(deg.free) || deg.free==Inf, "z", "t"),
+              t.or.z.position=par()$usr[1]-left.margin,
+              cex.small=par()$cex*.7, col.label=col,
+              xbar.negt=NULL, cex.large=par()$cex,
+              left.margin=.15*diff(par()$usr[1:2]),
+              sided="", deg.free=NULL)
+
+norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
+             col.mean="green")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -85,15 +105,23 @@ norm.observed(xbar, t.xbar, col="green")
     Valid values for shade are "right", "left", "inside", "outside", "none".
     Default is "right" for one-sided critical.values and "outside"
     for two-sided critical values.}
-  \item{col}{color of the shaded region and the area of the shaded region.}
-  \item{axis.name}{defaults to \code{"z"}
+  \item{col}{color of the shaded region.}
+  \item{col.label}{color of the area of the shaded region.}
+  \item{hypoth.or.conf}{\code{"Hypoth"} or \code{"Conf"}}
+  \item{col.conf.arrow}{Color of arrow denoting confidence limits.}
+  \item{col.conf.label}{Color of label giving confidence level.}
+  \item{col.crit, cex.crit}{Color and cex of critical values.}
+  \item{axis.name, axis.name.expr}{defaults to \code{"z"}
     for the standard normal scale centered on
     the null hypothesis value of the mean or to \code{"t"} for
     the t distribution with \code{df.t} degrees of freedom.
     For alternative hypotheses, the user must specify either
     \code{"z1"} or \code{"t1"} for the standard normal scale,
     or t distibution with \code{df.t} degrees of freedom, centered on
-    the alternate hypothesis value of the mean.}
+    the alternate hypothesis value of the mean.  The
+             \code{axis.name.expr} allows R users to say
+             \code{expression(z[1])} to get real subscripts.
+}
   \item{second.axis.label.line}{Defaults to \code{3}.
     Normally not needed.  When two curves are drawn, one normal and one t,
     then the second curve needs a different label for the y-axis.
@@ -101,6 +129,24 @@ norm.observed(xbar, t.xbar, col="green")
   \item{xbar}{xbar-value of the observed data.}
   \item{t.xbar}{t-value of the observed data under the null hypothesis.}
   \item{\dots}{Other arguments which are ignored.}
+  \item{Use.obs.mean}{Logical.  If \code{TRUE}, then include \code{"mean"}
+   on the plot.}
+  \item{t.xbar.H1}{t-value under alternate hypothesis.}
+  \item{p.val}{under specified hypothesis}
+  \item{p.val.x,t.or.z.position}{location on x-axis to put label}
+  \item{t.or.z}{label for axis.}
+  \item{cex.small}{cex for left margin labels of axis.}
+  \item{xbar.negt}{location in data scale of negative t- or z-value
+     corresponding to observed x-value.  Used for two-sided p-values.}
+  \item{cex.large}{cex for labels in top margin.}
+  \item{left.margin}{distance to the left of \code{par()$usr[1]}.}
+  \item{sided}{type of test.}
+  \item{deg.free}{degrees of freedom or \code{NULL}.}
+  \item{dfunction}{\code{"dnorm"} or \code{"dt"}}
+  \item{left}{left end of interval}
+  \item{right}{right end of interval}
+  \item{mu.H0}{mean under the null hypothesis.}
+  \item{col.mean}{Color of outline.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
@@ -112,6 +158,7 @@ norm.curve()
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*(1.645))
 norm.observed(112, (112-100)/5)
+norm.outline("dnorm", 112, par()$usr[2], 100, 5)
 
 norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*(-1.645), shade="left")
