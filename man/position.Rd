@@ -2,8 +2,7 @@
 \alias{position}
 \alias{position<-}
 \alias{is.numeric.positioned}
-\alias{as.numeric.positioned}
-\alias{as.double.positioned}
+\alias{as.position}
 \alias{[.positioned}
 \alias{as.positioned}
 \alias{is.positioned}
@@ -27,10 +26,9 @@ position(x)
 position(x) <- value
 
 \method{is.numeric}{positioned}(x, ...)
-\method{as.numeric}{positioned}(x, ...)
-\method{as.double}{positioned}(x, ...)
 \method{[}{positioned}(x, ..., drop=FALSE)
 as.positioned(x)
+as.position(x)
 is.positioned(x)
 positioned(x, ..., value)
 \method{print}{positioned}(x, ...)
@@ -58,15 +56,12 @@ unpositioned(x, ...)
 
   \code{position(x)} returns the position values associated with
   \code{levels(x)}.  If \code{x} is a positioned factor, then
-  the \code{"postion"} attribute is returned.
-  If \code{x} is a factor, or an ordered factor whose
-  levels cannot be coerced to numeric, then the integers
-  \code{1:length(levels(x))} are returned.  If \code{x} is an an ordered
-  factor whose levels can be coerced to numeric, then the numeric values
-  corresponding to the levels are returned.  If \code{x} is numeric,
-  then \code{x} itself is returned.
+  the \code{"position"} attribute is returned.
+  If \code{x} is a factor, then the integers
+  \code{1:length(levels(x))} are returned.  For anything else,
+  \code{as.numeric(x)} is returned.
 
-  \code{as.numeric.positioned(x)} returns a numeric vector the length of the
+  \code{as.position(x)} returns a numeric vector the length of the
   original vector.  If \code{x} inherits from \code{"factor"},
   then the values in the vector are the values in
   \code{position(x)} subscripted by the levels of the factor.
@@ -89,7 +84,11 @@ tmp
 as.numeric(tmp)
 levels(tmp)
 position(tmp)
-as.numeric(tmp)
+as.position(tmp)
+as.positioned(tmp)
+positioned(tmp)
+unpositioned(tmp)
+unique(tmp)
 
 ## position is assigned to ordered in specified order
 tmp <- ordered(c("cm","mm","m","m","mm","cm"),
@@ -100,7 +99,9 @@ tmp
 as.numeric(tmp)
 levels(tmp)
 position(tmp)
-as.numeric(tmp)
+as.position(tmp)
+as.positioned(tmp)
+positioned(tmp)
 unpositioned(tmp)
 unique(tmp)
 
@@ -110,7 +111,11 @@ tmp
 as.numeric(tmp)
 levels(tmp)
 position(tmp)
-as.numeric(tmp)
+as.position(tmp)
+as.positioned(tmp)
+positioned(tmp)
+unpositioned(tmp)
+unique(tmp)
 
 ## factor with numeric levels, position is integer position in size order
 tmp <- factor(c(0.010, 0.001, 1.000, 1.000, 0.001, 0.010))
@@ -118,7 +123,11 @@ tmp
 as.numeric(tmp)
 levels(tmp)
 position(tmp)
-as.numeric(tmp)
+as.position(tmp)
+as.positioned(tmp)
+positioned(tmp)
+unpositioned(tmp)
+unique(tmp)
 
 ## ordered with numeric levels, position is numeric value in size order
 tmp <- ordered(c(0.010, 0.001, 1.000, 1.000, 0.001, 0.010))
@@ -126,7 +135,12 @@ tmp
 as.numeric(tmp)
 levels(tmp)
 position(tmp)
-as.numeric(tmp)
+as.position(tmp)
+as.positioned(tmp)
+positioned(tmp)
+unpositioned(tmp)
+unique(tmp)
+
 
 ## factor with numeric levels
 ## position is assigned in size order
@@ -137,7 +151,11 @@ tmp
 as.numeric(tmp)
 levels(tmp)
 position(tmp)
-as.numeric(tmp)
+as.position(tmp)
+as.positioned(tmp)
+positioned(tmp)
+unpositioned(tmp)
+unique(tmp)
 
 
 

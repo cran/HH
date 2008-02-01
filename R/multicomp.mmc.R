@@ -66,7 +66,8 @@ in the lmat.rows argument to match the groups column.\n")
     dimnames(tmp)[[1]] <- seq(nrow(tmp))
     print(tmp, quote=FALSE)
   }
-    if (length(mc.none$table[,"estimate"]) != nrow(mc.mca$lmat[lmat.rows,]))
+    if (length(mc.none$table[,"estimate"]) !=
+        nrow(mc.mca$lmat[lmat.rows,, drop=FALSE]))
       stop("Please specify lmat.rows with multicomp.mmc on a design with more than one factor.")
   mc.mca$height <- (mc.none$table[,"estimate"] %*%
                     abs(mc.mca$lmat[lmat.rows,]))[1,]
@@ -119,3 +120,5 @@ in the lmat.rows argument to match the groups column.\n")
  oldClass(result) <- oldClass(x)
  result
 }
+
+## source("c:/HOME/rmh/HH-R.package/HH/R/multicomp.mmc.R")

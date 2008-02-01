@@ -51,7 +51,7 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
     condition.name.to.use <- ""
   }
 
-  xf <- as.positioned(data[[x.factor]])
+  xf <- data[[x.factor]]
   lev.x <- levels(xf)
   num.lev.x <- position(xf)
 
@@ -156,7 +156,7 @@ panel.intxplot <-
 
   x.adjust <-
     if (offset.use)
-      x + (offset-mean(offset))[as.numeric(unpositioned(groups[subscripts]))]
+      x + (offset-mean(offset))[as.position(groups[subscripts])]
     else
       x
 
@@ -165,13 +165,13 @@ panel.intxplot <-
   g <- groups[subscripts]
   tpg.col <- rep(col, length=length(g))
 
-  panel.superpose(as.numeric(x.adjust), y, subscripts, unpositioned(groups),
+  panel.superpose(as.position(x.adjust), y, subscripts, unpositioned(groups),
                   type = "l", col=col, ...)
 
   if (rug.use) {
     for (i in seq(along=levels(g))) {
       xag <- x.adjust[g==levels(g)[i]]
-      if (length(xag)) panel.rug(as.numeric(xag),
+      if (length(xag)) panel.rug(as.position(xag),
                                  col=col[i],  ticksize = +0.03, lwd=1)
     }
   }

@@ -71,8 +71,9 @@ pulmonary.mca <- glht(pulmonary.aov,
                        linfct=mcp(smoker="Tukey"),
                        df=pulmonary.aov$df.residual,
                        vcov.=vcov.sufficient)
+old.omd <- par(omd=c(.03,1,0,1))
 plot(pulmonary.mca)
-
+par(old.omd)
 
 pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
                    "n-pnl"  =c( 3,-1,-1,-1, 0, 0), ## none vs light 
@@ -80,7 +81,8 @@ pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
                    "n-l"    =c( 0, 0, 1,-1, 0, 0), ## {} for 3 types of light
                    "m-h"    =c( 0, 0, 0, 0, 1,-1)) ## moderate vs heavy
 dimnames(pulm.lmat)[[1]] <- row.names(pulmonary)
-if.R(r=pulm.lmat <- rbind(Int=0, pulm.lmat[-1,]),
+if.R(r={pulm.lmat.glht <- rbind(Int=0, pulm.lmat[-1,])
+        pulm.lmat.glht},
      s={})
 pulm.lmat
 
@@ -88,25 +90,27 @@ pulmonary.mmc <- glht.mmc(pulmonary.aov,
                           linfct=mcp(smoker="Tukey"),
                           df=pulmonary.aov$df.residual,
                           vcov.=vcov.sufficient,
-                          lmat=pulm.lmat,
+                          lmat=pulm.lmat.glht,
+                          focus.lmat=pulm.lmat,
                           calpha=attr(confint(pulmonary.mca)$confint,"calpha"))
+old.omd <- par(omd=c(.03,.95,0,1))
 plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
 
 
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
-plot(confint(as.glht(pulmonary.mmc$mca)),
-     xlim=par()$usr[1:2], xaxs="i",
-     main="", xlab="")
+plot.matchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
 plot(pulmonary.mmc, print.lmat=TRUE, col.lmat.signif='blue', col.iso='gray')
+plot.matchMMC(pulmonary.mmc$lmat)
 
 ## pairwise and orthogonal contrasts on the same plot
 plot(pulmonary.mmc, print.mca=TRUE, print.lmat=TRUE,
      col.mca.signif='red', col.lmat.signif='blue', col.iso='gray',
      lty.lmat.not.signif=2)
+par(old.omd)
 
 })
 }

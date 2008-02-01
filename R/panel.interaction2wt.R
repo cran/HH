@@ -112,6 +112,8 @@ function(x, y, subscripts,
                    y="y", c("x", "tt"))
 
       ioh.list <- list(suff.data$x, suff.data$tt)
+      names(ioh.list) <- c(x.name, trace.name)
+      position(ioh.list[[x.name]]) <- x.position
       if (!missing(simple.offset))
         ioh.list$b.offset <- simple.offset[[trace.name]]
       if (!missing(simple.scale))
@@ -144,10 +146,9 @@ function(x, y, subscripts,
     }
     else {
       tab <- tapply(y, list(x, trace.values[subscripts]), fun)
-      su.x <- sort(unique(x))
       if.R(r={}, s=panel.lines <- lines)
       for (j in 1:ncol(tab))
-        panel.lines(x=su.x, y=tab[,j], col=tpg.col[j], lty=tpg.lty[j])
+        panel.lines(x=x.position, y=tab[,j], col=tpg.col[j], lty=tpg.lty[j])
     }
   }
 

@@ -1,5 +1,6 @@
 \name{mcalinfct}
 \alias{mcalinfct}
+\alias{meanslinfct.hh}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{MCA multiple comparisons analysis (pairwise)}
 \description{
@@ -12,9 +13,12 @@ mcalinfct(model, focus,
           mmm.data=model$model,
           formula.in=terms(model),
           linfct.Means=
-          multcomp:::meanslinfct(model, focus, mmm.data, formula.in),
+          meanslinfct.hh(model, focus, mmm.data, formula.in,
+                         contrasts.arg=model$contrasts),
           type="Tukey"
           )
+meanslinfct.hh(model, focus, mmm.data = model$model,
+               formula.in = terms(model), contrasts.arg = NULL) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,6 +34,7 @@ mcalinfct(model, focus,
     level of the focus factor.   Normally, the default is the correct value.}
   \item{type}{Name of the multiple comparison procedure to be used.
     See \code{\link[multcomp]{contrMat}}.}
+  \item{contrasts.arg}{argument to \code{model.matrix}.}
   }
 \value{
   Matrix to be used as a value for the \code{linfct} argument to

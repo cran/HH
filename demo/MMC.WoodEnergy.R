@@ -22,7 +22,11 @@ if.R(s={
 if.R(r={
   energy.glht <- glht(energy.aov.4, focus="Stove",
                       linfct=mcp(Stove="Tukey"))
-  energy.multicomp <- as.multicomp(energy.glht, focus="Stove", lmat.rows=3:4)
+  Stove.means <- model.tables(energy.aov.4, type="means",
+                              cterms="Stove")$tables$Stove
+  height.mca <- Stove.means %*% abs(t(contrMat(Stove.means, "Tukey")))
+  energy.multicomp <- as.multicomp(energy.glht, focus="Stove",
+                                   lmat.rows=3:4, height=height.mca)
 },s={
   energy.multicomp <- multicomp(energy.aov.4, focus="Stove",
                                 plot=FALSE,

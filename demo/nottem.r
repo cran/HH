@@ -38,4 +38,4 @@ nottem.diagplot
 
 nottem.loop[["1","0"]]
 
-detach("MASS")
+if.R(s=detach("MASS"), r=detach("package:MASS"))

@@ -283,8 +283,297 @@ norm.outline <- function(dfunction, left, right, mu.H0, se, deg.free=NULL,
               col=col.mean, lwd=3)
       }
 
-## OBSOLETE
-## source("~/R.and.Excel/software/RandExcelWorksheets.installer/inst/rexcelfiles/xls/R.and.Excel/normal.and.t/norm.curve2.R")
 
-## current
-## source("~/HH-R.package/HH/R//norm.curve.R")
+
+normal.and.t.dist <-
+  function(std.dev        = 1,
+           n              = NA,
+           deg.freedom    = NA,
+           mu.H0          = 0,
+           xmin           = NA,
+           xmax           = NA,
+           fx.min         = NA,
+           fx.max         = NA,
+           Use.alpha.right= TRUE,
+           alpha.right    = .05,
+           Use.alpha.left = FALSE,
+           alpha.left     = alpha.right,
+           Use.mu.H1      = FALSE,
+           mu.H1          = NA,
+           Use.obs.mean   = FALSE,
+           obs.mean       = NA,
+           hypoth.or.conf = 'Hypoth',
+           col.mean       = 'lime green',
+           col.alpha      = 'blue',
+           col.beta       = 'red',
+           col.conf       = 'pale green',
+           col.conf.arrow = 'dark green',
+           col.mean.label = 'lime green',
+           col.alpha.label= 'blue',
+           col.beta.label = 'red',
+           col.conf.label = 'dark green',
+           cex.crit       = 1.2
+           )
+  {
+    pfunction <-  function(z, df.t=NULL)
+      if (is.null(df.t) || df.t==Inf) pnorm(z) else pt(z, df.t)
+
+    qfunction <-  function(p, df.t=NULL)
+      if (is.null(df.t) || df.t==Inf) qnorm(p) else qt(p, df.t)
+
+    dfunction <-  function(z, df.t=NULL)
+      if (is.null(df.t) || df.t==Inf) dnorm(z) else dt(z, df.t)
+    
+    old.par <- par(oma=c(4,0,2,5), mar=c(7,7,4,2)+.1)
+    deg.free <- if(is.na(deg.freedom))  NULL else deg.freedom
+    dfunction.name <- if (is.null(deg.free) || deg.free==Inf) "dnorm" else "dt"
+    normal <- is.na(deg.freedom)
+    standard <- is.na(n) && is.na(std.dev) && mu.H0==0
+    standard.normal <- standard && normal
+
+    n.conf <- if (is.na(n))       1 else n
+    sd     <- if (is.na(std.dev)) 1 else std.dev
+    se     <- sd/sqrt(n.conf)
+
+    center <-if (hypoth.or.conf=="Hypoth") mu.H0 else obs.mean
+    crit.val.z <- qfunction(1-alpha.right, deg.free)
+    crit.val <- center + crit.val.z * se
+    crit.val.left.z <- qfunction(1-alpha.left, deg.free)
+    crit.val.left <- center - crit.val.left.z * se
+
+    cv <- c(crit.val.left[Use.alpha.left], crit.val[Use.alpha.right])
+
+    if (is.na(xmin)) xmin <-
+      if (hypoth.or.conf=='Hypoth')
+        min(mu.H0-3*se, mu.H1-2.5*se, obs.mean-.5*se, na.rm = TRUE)
+      else ## 'Conf'
+        min(crit.val.left-.5*se, obs.mean-3*se, na.rm = TRUE)
+
+    if (is.na(xmax)) xmax <-
+      if (hypoth.or.conf=='Hypoth')
+        max(mu.H0+3*se, mu.H1+2.5*se, obs.mean+.5*se, na.rm = TRUE)
+      else ## 'Conf'
+        max(crit.val+.5*se, obs.mean+3*se, na.rm = TRUE)
+
+    if (is.na(fx.min)) fx.min <- 0
+    if (is.na(fx.max)) fx.max <- dfunction(0, df.t=deg.free) / se
+
+    conf.level.fract <- 1
+    if (Use.alpha.left) conf.level.fract <- conf.level.fract - alpha.left
+    if (Use.alpha.right) conf.level.fract <- conf.level.fract - alpha.right
+
+    standard.normal.main <- "Standard Normal Density N(0,1)"
+    
+    normal.main <-
+      substitute(list("normal density:  " *
+                      sigma[bar(bold(x))] * " = " * group("",list(se),"")),
+                 list(se=round(se,3)))
+    
+    normal.conf.main <-
+      substitute(list(conf.level * "%  Normal Confidence Limits:  " *
+                      sigma[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
+                      "n =" * group("",n.conf,"")),
+                 list(se=round(se,3), n.conf=n.conf,
+                      conf.level=100*conf.level.fract))
+    
+    standard.t.main <-
+      substitute(list("Standard t Density, " *  nu * "=" * group("",list(df),"")),
+                 list(df=deg.free))
+    
+    t.dist.main <-
+      substitute(list("t density:  " *
+                      "s"[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
+                      nu * "=" * group("",list(df),"")),
+                 list(se=round(se,3), df=deg.free))
+
+    t.conf.main <-
+      substitute(list(conf.level * "%  t Confidence Limits:  " *
+                      s[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
+                      "n =" * group("",n.conf,"") * ", " *
+                      nu * "=" * group("",list(df),"")),
+                 list(se=round(se,3), n.conf=n.conf, df=deg.free,
+                      conf.level=100*conf.level.fract))
+
+    if (normal) {
+      if (hypoth.or.conf=="Hypoth") {
+        if (standard.normal)
+          norm.setup(mean=mu.H0, xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=standard.normal.main)
+        else
+          norm.setup(mean=mu.H0, xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=normal.main,
+                     se=se, n=n.conf)
+      } else { ## Conf
+        norm.setup(mean=obs.mean, xlim=c(xmin,xmax), ylim=c(fx.min, fx.max),
+                   sd=sd,
+                   se=se, n=n.conf,
+                   main=normal.conf.main)
+                   ##paste(
+                   ##  "Normal Confidence Limits:  se =", round(se,3),
+                   ##  "n =", n.conf))
+      }
+    } else { ## t
+      if (hypoth.or.conf=="Hypoth") {
+        if (standard)
+          norm.setup(mean=mu.H0, df.t=deg.free,
+                     xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=standard.t.main)
+        else
+          norm.setup(mean=mu.H0, n=n.conf, se=se, df.t=deg.free,
+                     xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=t.dist.main)
+      } else { ## Conf
+        norm.setup(mean=obs.mean, n=n.conf, se=se, df.t=deg.free,
+                   xlim=c(xmin,xmax), ylim=c(fx.min, fx.max),
+                   main=t.conf.main)
+                   ## paste(
+                   ##  "t Confidence Limits:  se =", round(se,3),
+                   ##  "n =", n.conf, "df =", deg.free))
+      }
+    }
+
+    if ( Use.alpha.left &&  Use.alpha.right) {cv.shade <- "outside"; cv.altshade <- "inside"}
+    if (!Use.alpha.left &&  Use.alpha.right) {cv.shade <- "right"  ; cv.altshade <- "left"  }
+    if ( Use.alpha.left && !Use.alpha.right) {cv.shade <- "left"   ; cv.altshade <- "right" }
+    if (!Use.alpha.left && !Use.alpha.right) {cv.shade <- "none"   ; cv.altshade <- "none"  }
+
+    if (hypoth.or.conf=="Hypoth" && Use.mu.H1) {
+      if (standard.normal) {
+        norm.curve(crit=cv, mean=mu.H1,
+                   col=col.beta, shade=cv.altshade,
+                   axis.name=if(is.null(deg.free)) 'z1' else 't1',
+                   axis.name.expr=if(is.null(deg.free)) expression(z[1]) else expression(t[1]),
+                   Use.obs.mean=Use.obs.mean, col.label=col.beta.label)
+      } else {
+        norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H1,
+                   col=col.beta, shade=cv.altshade,
+                   axis.name=if(is.null(deg.free)) 'z1' else 't1',
+                   axis.name.expr=if(is.null(deg.free)) expression(z[1]) else expression(t[1]),
+                   Use.obs.mean=Use.obs.mean, col.label=col.beta.label)
+      }
+    }
+    
+    if (hypoth.or.conf=="Hypoth") {
+      if (standard.normal) {
+        norm.curve(crit=cv, mean=mu.H0,
+                   col=col.alpha, shade=cv.shade,
+                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+      } else {
+        norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H0,
+                   col=col.alpha, shade=cv.shade,
+                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+      }
+    } else { ## "Conf"
+        ## if (standard.normal) {
+        ##   norm.curve(crit=cv, mean=obs.mean,
+        ##             col=col.alpha, shade=cv.shade,
+        ##           Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+        ## } else {
+          norm.curve(crit=cv,
+                     se=se, df.t=deg.free, mean=obs.mean,
+                     col=col.conf, shade=cv.altshade,
+                     Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
+                     hypoth.or.conf="Conf",
+                     col.conf.arrow=col.conf.arrow,
+                     col.conf.label=col.conf.label,
+                     cex.crit=cex.crit)
+        ##}
+    }
+    
+    obs.mean.H0.z <- (obs.mean-center)/se
+
+    obs.mean.H0.p.val <- pfunction(obs.mean.H0.z, df.t=deg.free)
+
+    if ( Use.alpha.left &&  Use.alpha.right) {
+      obs.mean.H0.p.val <- ifelse(obs.mean.H0.z >= 0,
+                                  2*(1-obs.mean.H0.p.val),
+                                  2*obs.mean.H0.p.val)
+      side <- "two-sided"
+      if (hypoth.or.conf=="Hypoth" && Use.obs.mean) {
+        obs.mean.z.pos <- abs(obs.mean.H0.z)
+        obs.mean.x.pos <- mu.H0 + obs.mean.z.pos*se
+        obs.mean.x.neg <- mu.H0 - obs.mean.z.pos*se
+        ## right side
+        norm.outline(dfunction.name, obs.mean.x.pos, par()$usr[2], mu.H0, se, deg.free, col.mean)
+        ## left side
+        norm.outline(dfunction.name, par()$usr[1], obs.mean.x.neg, mu.H0, se, deg.free, col.mean)
+      }
+    }
+    if (!Use.alpha.left &&  Use.alpha.right) {
+      obs.mean.H0.p.val <- 1-obs.mean.H0.p.val
+    obs.mean.z.pos <- obs.mean.H0.z
+    obs.mean.x.pos <- obs.mean
+    obs.mean.x.neg <- 0 ## place holder
+      side <- "right-sided"
+      if (hypoth.or.conf=="Hypoth" && Use.obs.mean) {
+        norm.outline(dfunction.name, obs.mean, par()$usr[2], mu.H0, se, deg.free, col.mean)
+      }
+    }
+    if ( Use.alpha.left && !Use.alpha.right) {
+      obs.mean.H0.p.val <- obs.mean.H0.p.val ## redundant but legible
+      obs.mean.z.pos <- abs(obs.mean.H0.z)
+      obs.mean.x.pos <- 0 ## place holder
+      obs.mean.x.neg <- obs.mean
+      side <- "left-sided"
+      if (hypoth.or.conf=="Hypoth" && Use.obs.mean) {
+        norm.outline(dfunction.name, par()$usr[1], obs.mean, mu.H0, se, deg.free, col.mean)
+      }
+    }
+    if (!Use.alpha.left && !Use.alpha.right) {
+      obs.mean.H0.p.val <- 0
+      obs.mean.z.pos <- 0
+      obs.mean.x.pos <- 0
+      obs.mean.x.neg <- 0
+      side <- ""
+    }
+
+    obs.mean.H1.z <- (obs.mean-mu.H1)/se
+    if (hypoth.or.conf=="Hypoth" && Use.obs.mean) {
+      left.margin <- .15*diff(par()$usr[1:2])
+      norm.observed(obs.mean, obs.mean.H0.z,
+                    if (Use.mu.H1) obs.mean.H1.z else NULL,
+                    col=col.mean,
+                    p.val=obs.mean.H0.p.val, p.val.x=par()$usr[2]+ left.margin,
+                    t.or.z=ifelse(is.null(deg.free) || deg.free==Inf, "z", "t"),
+                    t.or.z.position=par()$usr[1]-left.margin,
+                    cex.small=par()$cex*.7, col.label=col.mean.label,
+                    xbar.negt=if (side=="two-sided") {
+                      if (obs.mean==obs.mean.x.pos) obs.mean.x.neg else obs.mean.x.pos
+                    }
+                    else NULL,
+                    cex.large=cex.crit)
+    }
+    crit.val.H1 <- if(Use.mu.H1) (crit.val-mu.H1)/se else ""
+    crit.val.H1.left <- if(Use.mu.H1) (crit.val.left-mu.H1)/se else ""
+    beta.left <- if (Use.mu.H1) pfunction(crit.val.H1, deg.free) else ""
+    beta.right <- if (Use.mu.H1) 1-pfunction(crit.val.H1.left, deg.free) else ""
+    beta.middle <- if (Use.mu.H1) diff(pfunction(c(crit.val.H1.left, crit.val.H1), deg.free)) else ""
+
+    if.R(r=if ("RExcelEnv" %in% search()) {
+      assign("obs.mean.x.pos", obs.mean.x.pos, .GlobalEnv)#
+      assign("obs.mean.x.neg", obs.mean.x.neg, .GlobalEnv)#
+      assign("obs.mean.H0.z", obs.mean.H0.z, .GlobalEnv)
+      assign("obs.mean.z.pos",  obs.mean.z.pos, .GlobalEnv)#
+      assign("obs.mean.H0.p.val", obs.mean.H0.p.val, .GlobalEnv)
+      assign("obs.mean.H0.side", side, .GlobalEnv)
+      assign("obs.mean.H1.z", obs.mean.H1.z, .GlobalEnv)
+      
+      assign("standard.normal", standard.normal, .GlobalEnv)
+      assign("standard", standard, .GlobalEnv)
+      
+      assign("crit.val", crit.val, .GlobalEnv)
+      assign("crit.val.z", crit.val.z, .GlobalEnv)
+      assign("crit.val.H1", crit.val.H1, .GlobalEnv)
+      assign("beta.left", beta.left, .GlobalEnv)
+      
+      assign("crit.val.left", crit.val.left, .GlobalEnv)
+      assign("crit.val.left.z", -crit.val.left.z, .GlobalEnv)
+      assign("crit.val.H1.left", crit.val.H1.left, .GlobalEnv)
+      assign("beta.right", beta.right, .GlobalEnv)
+      
+      assign("beta.middle", beta.middle, .GlobalEnv)
+      
+      assign("standard.error", se, .GlobalEnv)
+    },
+         s={})
+    
+    "normal.and.t.dist"    
+  }
+
+## source("~/HH-R.package/HH/R/norm.curve.R")

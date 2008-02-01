@@ -3,6 +3,7 @@
 \alias{norm.curve}
 \alias{norm.observed}
 \alias{norm.outline}
+\alias{normal.and.t.dist}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{plot a normal or a t-curve with both x and z axes.}
 \description{
@@ -26,8 +27,45 @@ The shaded area is printed on the plot.
 
   \code{norm.observed} plots a vertical line with arrowhead markers at
   the location of the observed xbar.
+
+  \code{normal.and.t.dist} is a driver function that uses all the
+  others.  In R, when RExcel is running (currently only on Windows), it has
+  the side effect of leaving variables in the work space which are
+  intended to be used by the \code{normal.and.t} Excel worksheet in the
+  RExcel package for R on Windows.  There are no side effects in S-Plus
+  or in R when RExcel is not running.
+  
 }
 \usage{
+normal.and.t.dist(std.dev        = 1,
+                  n              = NA,
+                  deg.freedom    = NA,
+                  mu.H0          = 0,
+                  xmin           = NA,
+                  xmax           = NA,
+                  fx.min         = NA,
+                  fx.max         = NA,
+                  Use.alpha.right= TRUE,
+                  alpha.right    = .05,
+                  Use.alpha.left = FALSE,
+                  alpha.left     = alpha.right,
+                  Use.mu.H1      = FALSE,
+                  mu.H1          = NA,
+                  Use.obs.mean   = FALSE,
+                  obs.mean       = NA,
+                  hypoth.or.conf = 'Hypoth',
+                  col.mean       = 'lime green',
+                  col.alpha      = 'blue',
+                  col.beta       = 'red',
+                  col.conf       = 'pale green',
+                  col.conf.arrow = 'dark green',
+                  col.mean.label = 'lime green',
+                  col.alpha.label= 'blue',
+                  col.beta.label = 'red',
+                  col.conf.label = 'dark green',
+                  cex.crit       = 1.2
+                  )
+
 norm.setup(xlim.in=c(-2.5,2.5),
            ylim.in = c(0, 0.4)/se,
            mean=0,
@@ -70,7 +108,7 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{xlim.in, ylim.in}{\code{xlim, ylim}.
+  \item{xlim.in, ylim.in, xmin, xmax, fx.min, fx.max}{\code{xlim, ylim}.
     Defaults to correct values for standard
            Normal(0,1).  User must set values for other mean and standard
            error.}
@@ -78,10 +116,10 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
     used in calls to \code{dnorm}.}
   \item{se}{standard error of the normal distribution in xbar-scale,
     used in calls to \code{dnorm}.}
-  \item{sd, n}{standard deviation and sample size of the normal
+  \item{sd, std.dev, n}{standard deviation and sample size of the normal
     distribution in x-scale.  These may be used as an alternate way of
     specifying the standard error \code{se}.}
-  \item{df.t}{Degrees of freedom for the t distribution.  When
+  \item{df.t, deg.freedom}{Degrees of freedom for the t distribution.  When
          \code{df.t} is \code{NULL}, the normal distribution is used.}
   \item{critical.values}{Critical values in xbar-scale.
     A scalar value implies a one-sided test.  A vector of two values
@@ -106,10 +144,15 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
     Default is "right" for one-sided critical.values and "outside"
     for two-sided critical values.}
   \item{col}{color of the shaded region.}
-  \item{col.label}{color of the area of the shaded region.}
+  \item{col.label, col.alpha, col.alpha.label}{color of the area of
+    the shaded rejection region and its label.}
+  \item{col.beta, col.beta.label}{color of the area of the shaded region
+             For Type II error and its label.}
   \item{hypoth.or.conf}{\code{"Hypoth"} or \code{"Conf"}}
+  \item{col.conf}{Color of plot within confidence limits.}
   \item{col.conf.arrow}{Color of arrow denoting confidence limits.}
   \item{col.conf.label}{Color of label giving confidence level.}
+  \item{col.mean.label}{Color of label for observed mean.}
   \item{col.crit, cex.crit}{Color and cex of critical values.}
   \item{axis.name, axis.name.expr}{defaults to \code{"z"}
     for the standard normal scale centered on
@@ -126,11 +169,14 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
     Normally not needed.  When two curves are drawn, one normal and one t,
     then the second curve needs a different label for the y-axis.
     Set this value to 4 to avoid overprinting.}
-  \item{xbar}{xbar-value of the observed data.}
+  \item{xbar, obs.mean}{xbar-value of the observed data.}
   \item{t.xbar}{t-value of the observed data under the null hypothesis.}
   \item{\dots}{Other arguments which are ignored.}
   \item{Use.obs.mean}{Logical.  If \code{TRUE}, then include \code{"mean"}
    on the plot.}
+  \item{alpha.right, alpha.left}{Area in tail of curve.}
+  \item{Use.alpha.right, Use.alpha.left}{Logical.  If \code{TRUE}, then
+   include the specified $\alpha$ on the plot.}
   \item{t.xbar.H1}{t-value under alternate hypothesis.}
   \item{p.val}{under specified hypothesis}
   \item{p.val.x,t.or.z.position}{location on x-axis to put label}
@@ -145,11 +191,20 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
   \item{dfunction}{\code{"dnorm"} or \code{"dt"}}
   \item{left}{left end of interval}
   \item{right}{right end of interval}
-  \item{mu.H0}{mean under the null hypothesis.}
+  \item{mu.H0, mu.H1}{mean under the null hypothesis and alternative hypothesis.}
+  \item{Use.mu.H1}{Logical.  If \code{TRUE}, then include \code{mu.H1}
+   on the plot.}
   \item{col.mean}{Color of outline.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
+normal.and.t.dist()
+normal.and.t.dist(xmin=-4)
+normal.and.t.dist(std.dev=2)
+normal.and.t.dist(std.dev=2, Use.alpha.left=TRUE, deg.free=6)
+normal.and.t.dist(std.dev=2, Use.alpha.left=TRUE, deg.free=6, fx.max=.20)
+
+
 old.par <- par(oma=c(4,0,2,5), mar=c(7,7,4,2)+.1)
 
 norm.setup()

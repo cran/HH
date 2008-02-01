@@ -113,14 +113,14 @@ if.R(s={
   par(old.par)
 }
 ,r={
-
   cc176.linfct.orth <-
     rbind(cc176.mca$linfct[c(1,6), ],
           "AC-gf"=apply(cc176.mca$linfct[2:5, ], 2, sum))
   zapsmall(cc176.linfct.orth[,6:8])
   cc176.mmc <-
     glht.mmc(cc176.aov, linfct=mcalinfct(cc176.aov, "current"), "current",
-             lmat.rows=6:8, lmat=t(cc176.linfct.orth))
+             lmat.rows=6:8, lmat=t(cc176.linfct.orth),
+             focus.lmat=rbind(c(-1,0,-2), t(cc176.linfct.orth[,6:8])))
   print(cc176.mmc)
 
 

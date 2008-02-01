@@ -9,8 +9,9 @@ as.glht <- function (x, ...)
 as.multicomp.glht <-
   function(x,       ## glht object
            focus,   ## currently required
-           ylabel=as.character(terms(x$model)[[2]]),
+           ylabel=deparse(terms(x$model)[[2]]),
            means=model.tables(x$model, type="means", cterm=focus)$tables[[focus]],
+           height,
            lmat=t(x$linfct),
            lmat.rows=-1,
            lmat.scale.abs2=TRUE,
@@ -36,10 +37,7 @@ as.multicomp.glht <-
     
     result <- list(table=cbind(
                      estimate=confint.x$confint[,"Estimate"], #
-                     stderr=ifelse(inherits(x$model, "aov"),
-                       sqrt(anova(x$model)["Residuals", "Mean Sq"]),
-                       summary(x)$test$sigma
-                       ),
+                     stderr=0, ## placeholder
                      lower=confint.x$confint[,"lwr"], #
                      upper=confint.x$confint[,"upr"]  #
                      ),
@@ -56,6 +54,8 @@ as.multicomp.glht <-
                    ## lmat=lmat,         #
                    glht=x
                    )
+    result$table[,"stderr"] <-  ## correct stderr for the contrast
+      (result$table[,"upper"] - result$table[,"lower"]) / (2*result$crit.point)
     if (is.null(dimnames(result$table)[[1]]))
       dimnames(result$table)[[1]] <- dimnames(confint.x$confint)[[1]]
     tmp <- lmat[lmat.rows, , drop=FALSE]
@@ -72,8 +72,9 @@ as.multicomp.glht <-
     lmat.factor <- sweep(lmat.factor, 2, apply(abs(lmat.factor), 2, sum)/2, "/")
     if (length(means) != nrow(lmat.factor))
       stop("Please specify lmat.rows with glht.mmc on a design with more than one factor.")
-    result$height=(means %*% abs(lmat.factor))[1,]
-
+##    result$height <- (means %*% abs(lmat.factor))[1,]
+    result$height <- height
+    
     result$lmat <- 
       if (lmat.scale.abs2 && !contrasts.none)
         sweep(lmat, 2, apply(abs(lmat.subscript), 2, sum)/2, "/")
@@ -114,7 +115,8 @@ glht.mmc.lm <-
                stop("focus must be specified.")
              else names(linfct)
            },
-           ylabel=as.character(terms(model)[[2]]),
+           focus.lmat,
+           ylabel=deparse(terms(model)[[2]]),
            lmat=t(linfct),
            lmat.rows=-1,
            lmat.scale.abs2=TRUE,
@@ -140,8 +142,10 @@ glht.mmc.lm <-
     if (TRUE)
       {
         if (length(focus) > 1) stop("glht.mmc requires no more than one focus factor.")
-        focus.linfct <- multcomp:::meanslinfct(model, focus,
-                                               formula=terms(model))
+        focus.linfct <- ## multcomp:::meanslinfct(
+          meanslinfct.hh(  ## temporary until meanslinfct is changed
+                         model, focus, formula=terms(model),
+                         contrasts.arg=model$contrasts)
         none.glht <- glht(model, linfct=focus.linfct,
                           alternative=alternative, ...)
       }
@@ -187,9 +191,15 @@ glht.mmc.lm <-
     mca.glht <- glht(model, linfct=linfct.focus,
                      alternative=alternative, ...)
     if (!is.null(method)) mca.glht$type <- method
-
+    height.mca <-
+      if (is.null(method) || method=="Tukey")
+        means %*% abs(t(contrMat(means, "Tukey")))
+      else
+        means %*% abs(t(linfct.focus[[focus]])) ## fixme, this works for Dunnett
+    
     result$mca <- as.multicomp(mca.glht, focus=focus, ylabel=ylabel,
                                means=means,
+                               height=height.mca,
                                lmat.rows=lmat.rows,
                                lmat.scale.abs2=lmat.scale.abs2,
                                estimate.sign=estimate.sign,
@@ -199,6 +209,7 @@ glht.mmc.lm <-
     
     result$none <- as.multicomp(none.glht, focus=focus, ylabel=ylabel,
                                 means=means,
+                                height=means*2,
                                 lmat=t(none.glht$linfct), lmat.rows=lmat.rows,
                                 contrasts.none=TRUE, estimate.sign=0,
                                 level=1-result$mca$alpha,
@@ -213,8 +224,10 @@ glht.mmc.lm <-
       }
       lmat.glht <- glht(model, linfct=t(lmat),
                         alternative=alternative, ...)
+
       result$lmat <- as.multicomp(lmat.glht, focus=focus, ylabel=ylabel,
                                   means=means,
+                                  height=means %*% abs(sweep(focus.lmat, 2, apply(abs(focus.lmat), 2, sum)/2, "/")),
                                   lmat=lmat, lmat.rows=lmat.rows,
                                   level=1-result$mca$alpha,
                                   calpha=result$mca$crit.point,

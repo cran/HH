@@ -45,7 +45,8 @@ pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
                    "n-l"    =c( 0, 0, 1,-1, 0, 0), ## {} for 3 types of light
                    "m-h"    =c( 0, 0, 0, 0, 1,-1)) ## moderate vs heavy
 dimnames(pulm.lmat)[[1]] <- row.names(pulmonary)
-if.R(r=pulm.lmat <- rbind(Int=0, pulm.lmat[-1,]),
+if.R(r={pulm.lmat.glht <- rbind(Int=0, pulm.lmat[-1,])
+        print(pulm.lmat.glht)},
      s={})
 pulm.lmat
 
@@ -56,7 +57,7 @@ pulmonary.mmc <-
                 linfct=mcp(smoker="Tukey"),
                 df=pulmonary.aov$df.residual,
                 vcov.=vcov.sufficient,
-                lmat=pulm.lmat,
+                lmat=pulm.lmat.glht, focus.lmat=pulm.lmat,
                 calpha=attr(confint(pulmonary.mca)$confint,"calpha"))
        ,s=
        multicomp.mmc.mean(pulmonary$smoker,
@@ -80,13 +81,7 @@ plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
-if.R(r=
-plot(confint(as.glht(pulmonary.mmc$mca)),
-     xlim=par()$usr[1:2], xaxs="i", main="", xlab="")
-,s=
-plot(pulmonary.mmc$mca, col.signif='red', lty.signif=1, xlabel.print=FALSE,
-     xaxs="d",  plt=par()$plt+c(0,0,-.25,.05), xrange.include=c(-1, 1))
-)
+plot.matchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
 ## MMC Figure 7b

@@ -142,21 +142,21 @@ options(oldcon)
 
 catalystm.mca <-
 if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
-     s=multicomp(catalystm1.aov, plot=F))
+     s=multicomp(catalystm1.aov, plot=FALSE))
 
 catalystm.lmat <- cbind("AB-D" =c(0, 1, 1, 0,-2),
                         "A-B"  =c(0, 1,-1, 0, 0),
                         "ABD-C"=c(0, 1, 1,-3, 1))
-if.R(r=catalystm.lmat <- catalystm.lmat[-2,],
+if.R(r=catalystm.lmat.glht <- catalystm.lmat[-2,],
      s={})
-dimnames(catalystm.lmat)[[1]] <-
-if.R(s=dimnames(catalystm.mca$lmat)[[1]],
-     r=dimnames(catalystm.mca$linfct)[[2]])
+
+if.R(s=dimnames(catalystm.lmat)[[1]] <-dimnames(catalystm.mca$lmat)[[1]],
+     r=dimnames(catalystm.lmat.glht)[[1]] <-dimnames(catalystm.mca$linfct)[[2]])
 
 
 catalystm.mmc <-
 if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
-                lmat=catalystm.lmat)
+                lmat=catalystm.lmat.glht, focus.lmat=catalystm.lmat[-1,])
     ,s=multicomp.mmc(catalystm1.aov, lmat=catalystm.lmat,
                      plot=FALSE)
 )

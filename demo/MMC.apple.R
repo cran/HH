@@ -89,8 +89,7 @@ if.R(s={
   plot(apple.mmc, col.iso=16, x.offset=10)
 
   par(mar=c(-4,4,28,2)+.1, new=TRUE)
-  plot(apple.mmc$mca, col.signif=8, lty.signif=1, xlabel.print=FALSE,
-     xaxs="d",  plt=par()$plt+c(0,0,-.25,.05), xrange.include=c(-60,100))
+  plot.matchMMC(apple.mmc$mca)
 
   par(old.mar)
   
@@ -116,8 +115,7 @@ if.R(s={
   plot(apple.mmc, col.iso=16, x.offset=15, col.mca.signif="red")
 
   par(mar=c(2,4,28,2)+.1, new=TRUE)
-  plot(apple.mmc$mca, xlim=par()$usr[1:2], xaxs="i", main="", xlab="")
-
+  plot.matchMMC(apple.mmc$mca)
   par(old.mar)
   
 })
