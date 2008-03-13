@@ -30,9 +30,10 @@ as.multicomp(x, ...)
 
 \method{as.multicomp}{glht}(x,       ## glht object
            focus,   ## currently required
-           ylabel=as.character(terms(x$model)[[2]]),
+           ylabel=deparse(terms(x$model)[[2]]),
            means=model.tables(x$model, type="means",
                               cterm=focus)$tables[[focus]],
+           height,
            lmat=t(x$linfct),
            lmat.rows=-1,
            lmat.scale.abs2=TRUE,
@@ -70,7 +71,7 @@ as.glht(x, ...)
   reversing negative contrasts. $-1$: force all contrasts to be negative by
   reversing positive contrasts.  Leave contrasts as they are constructed
   by \code{glht}.}
-  \item{order.contrasts}{logical.  If \code{TRUE}, order contrasts by
+  \item{order.contrasts, height}{logical.  If \code{TRUE}, order contrasts by
   \code{height} (see \code{\link[HH]{MMC}}).}
   \item{contrasts.none}{logical.  This is an internal detail.  The
     ``contrasts'' for the group means are not real contrasts in the

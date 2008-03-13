@@ -4,8 +4,8 @@ interaction.positioned <- function(..., drop = FALSE, sep = ".",
   dotdotdot <- list(...)
   if (length(dotdotdot) != 2)
     stop("interaction.positioned requires exactly two factors")
-  a <- as.positioned(dotdotdot[[1]])  ## necessary, in case a or b is numeric
-  b <- as.positioned(dotdotdot[[2]])  ## necessary, in case a or b is numeric
+  a <- dotdotdot[[1]]
+  b <- dotdotdot[[2]]
   ## interaction as distributed does not use Methods
   ## the 'get()' is here as defensive programming
   a.b <- if.R(r=get("interaction","package:base")(a, b, drop=drop, sep=sep),

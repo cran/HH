@@ -4,7 +4,9 @@
 \title{Panel functions for bwplot.}
 \description{
   Panel function for \code{bwplot} that give the user
-  control over the placement of the boxes.
+  control over the placement of the boxes.  When used with a positioned
+  factor, the boxes are placed according to the position associated with
+  the factor.
 }
 \usage{
 panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
@@ -39,5 +41,6 @@ panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link[lattice]{panel.xyplot}},
-  \code{\link[lattice]{bwplot}}, \code{\link{interaction2wt}}}
+  \code{\link[lattice]{bwplot}}, \code{\link{interaction2wt}},
+  \code{\link{position}}}
 \keyword{dplot }

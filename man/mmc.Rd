@@ -33,7 +33,8 @@ glht.mmc(model, ...)  ## R
                stop("focus must be specified.")
              else names(linfct)
            },
-           ylabel=as.character(terms(model)[[2]]),
+           focus.lmat,
+           ylabel=deparse(terms(model)[[2]]),
            lmat=t(linfct),
            lmat.rows=-1,
            lmat.scale.abs2=TRUE,
@@ -71,6 +72,13 @@ multicomp.mmc(..., comparisons="mca",  ## S-Plus
   \item{lmat.rows}{rows in \code{lmat} for the \code{focus} factor.}
   \item{focus}{define the factor to compute contrasts of.
     See \code{\link[multcomp]{mcp}} in R.}
+\item{focus.lmat}{R only.  Contrast matrix used in the user-specified
+comparisons of the focus factor.  This is the matrix the user
+constructs.  This matrix is multiplied by the \code{lmat} from the \code{none}
+component to create the \code{lmat} for the user-specified contrasts.
+Display the \code{hibrido.lmat} and \code{maiz2.lmat} in the maiz
+example below to see what is happening.
+ }
   \item{linfct}{In R, see \code{\link[multcomp]{glht}}.}
   \item{\dots}{other arguments.  \code{alternative} and
     \code{base} are frequently used with \code{glht}.}
@@ -108,6 +116,9 @@ and the examples for an illustration how to use \code{calpha}.}
 By default, if \code{lmat} is not specified, we plot the isomeans grid
 and the pairwise comparisons for the \code{focus} factor.  By default,
 we plot the specified contrasts if the \code{lmat} is specified.
+Each contrast is plotted at a height which is the weighted average of
+the means being compared.  The weights are scaled to the sum of their
+absolute values equals 2.
 
 We get the right contrasts automatically if the aov is oneway.  If we
 specify an lmat for oneway it must have a leading row of 0.
@@ -238,16 +249,19 @@ if.R(r=par(tmp.omd), s={})
 catalystm.lmat <- cbind("AB-D" =c(0, 1, 1, 0,-2),
                         "A-B"  =c(0, 1,-1, 0, 0),
                         "ABD-C"=c(0, 1, 1,-3, 1))
-if.R(r=catalystm.lmat <- catalystm.lmat[-2,],
+if.R(r=catalystm.lmat.glht <- catalystm.lmat[-2,],
      s={})
-dimnames(catalystm.lmat)[[1]] <- dimnames(catalystm.mmc$mca$lmat)[[1]]
+if.R(r=dimnames(catalystm.lmat.glht)[[1]] <-
+                dimnames(catalystm.mmc$mca$lmat)[[1]],
+     s=dimnames(catalystm.lmat)[[1]] <-
+                dimnames(catalystm.mmc$mca$lmat)[[1]])
 zapsmall(catalystm.lmat)
 if.R(s=dimnames(catalystm.mca$lmat)[[1]],
      r=dimnames(catalystm.mca$linfct)[[2]])
 
 catalystm.mmc <-
 if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
-                lmat=catalystm.lmat)
+                lmat=catalystm.lmat.glht, focus.lmat=catalystm.lmat[-1,])
     ,s=multicomp.mmc(catalystm1.aov, lmat=catalystm.lmat,
                      plot=FALSE)
 )
@@ -352,7 +366,8 @@ panel.lmat <- cbind("3-12"=mca.lmat[,1] + mca.lmat[,2],
                      "1-2"=mca.lmat[,3])
 displayf.mmc <-
 if.R(r=glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"), focus="panel",
-                lmat.rows=5:6, lmat=panel.lmat),
+                lmat.rows=5:6, lmat=panel.lmat,
+                focus.lmat=rbind(c(-1,1), panel.lmat[5:6,])),
      s=multicomp.mmc(displayf.aov, "panel", lmat.rows=6:8,
                      lmat=panel.lmat, plot=FALSE))
 if.R(s=
@@ -459,6 +474,7 @@ maiz2.lmat <- maiz2.mmc$none$lmat \%*\%
 
 maiz2.mmc <-
 if.R(r=glht.mmc(maiz2.aov, focus="hibrido",
+                focus.lmat=hibrido.lmat,
                 lmat=maiz2.lmat, lmat.rows=9:12)
     ,s=multicomp.mmc(maiz2.aov, focus="hibrido",
                      lmat=maiz2.lmat, lmat.rows=16:20,

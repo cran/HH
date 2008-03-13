@@ -30,7 +30,7 @@ function (x, y,
     }
     
     if (horizontal) {
-        ii <- as.numeric(y[y == fac.levels[i]])
+        ii <- as.position(y[y == fac.levels[i]])
         xy <- x[y == fac.levels[i]]
       if.R({
         r=panel.bwplot(xy, ii, horizontal=horizontal, ...)
@@ -44,7 +44,7 @@ function (x, y,
     }
       else {
           yx <- y[x == fac.levels[i]]
-          ii <- as.numeric(x[x == fac.levels[i]])
+          ii <- as.position(x[x == fac.levels[i]])
         if.R(r={
           panel.bwplot(ii, yx, horizontal=horizontal, ...)
         },s={

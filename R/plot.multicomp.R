@@ -43,7 +43,7 @@ plot.multicomp.hh <-
 
          old.par <- par()       ## this is imperative.
          ##  There is a bug in plt through at least S-Plus 7.0.6
-         on.exit({par(old.par); par(new=FALSE); par(new.usr)})  ## this is imperative.
+         on.exit({par(new.usr); par(new=FALSE)})  ## this is imperative.
          old.plt <- par(plt = plt.in)
          ##        par(plt = plt.in, fig=fig.in)
          ##        old.par <- par()      ## at least one other par value is affected
@@ -170,7 +170,7 @@ plot.matchMMC <- function(x, ...,
         plot(x,
              xlim=par()$usr[1:2], xaxs="i", yaxt="n",
              main=main, xlab="", cex.axis=cex.axis)
-        signif <- apply(x$table[,c("lower","upper")], 1, prod) > 0
+        signif <- apply(x$table[,c("lower","upper"), drop=FALSE], 1, prod) > 0
         yval <- rev(seq(along=signif))
         axis(4, at=yval[signif], labels=names(signif)[signif],
              col=col.signif, col.axis=col.signif,
