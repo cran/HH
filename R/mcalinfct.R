@@ -13,7 +13,7 @@ mcalinfct <-
            ) {
     lev <- levels(mmm.data[[focus]])
     names(lev) <- lev
-    mca <- contrMat(lev, type)
+    mca <- contrMat(table(mmm.data[[focus]]), type)
 ##     result <-
     mca[, lev] %*% linfct.Means[lev,]
 ##     attr(result, "type") <- "Tukey"

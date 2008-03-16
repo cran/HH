@@ -43,6 +43,8 @@ as.multicomp(x, ...)
            level=0.95,
            calpha=NULL,
            method=x$type,
+           df,
+           vcov.,
            ...
            )
 
@@ -82,6 +84,8 @@ as.glht(x, ...)
   \item{calpha}{User-specified critical point.
     See \code{\link[HH]{confint.glht.hh}} and
     \code{\link[multcomp]{confint.glht}}.}
+  \item{df, vcov.}{Arguments forwarded through \code{glht} to
+    \code{\link[HH]{modelparm}}.}
   \item{method}{See \code{type} in \code{\link[HH]{confint.glht}}.}
 }
 \details{

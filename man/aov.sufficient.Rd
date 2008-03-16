@@ -51,7 +51,7 @@ The residuals are fake.  They are all identical and equal to the MLE
 ## This example is from Hsu and Peruggia
 
 ## This is the R version
-## See ?aov.sufficient for S-Plus
+## See ?mmc.mean for S-Plus
 
 if.R(s={},
 r={
