@@ -36,6 +36,4 @@ This function is not needed in R.  If it is used and
 }
 \seealso{\code{\link[trellis]{bwplot}} in S-Plus
   or \code{\link[lattice]{bwplot}} in R.}
-\examples{
-}
 \keyword{ dplot }

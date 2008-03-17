@@ -21,19 +21,19 @@ as.multicomp.glht <-
            level=0.95,
            calpha=NULL,
            method=x$type,
+           df,
+           vcov.,
            ...
            ) {
     dimnames(x$linfct)[[1]] <- gsub(" ", "", dimnames(x$linfct)[[1]]) ## remove blanks
     if (dimnames(x$linfct)[[2]][1] == "") dimnames(x$linfct)[[2]][1] <- "(Intercept)"
-    
-    if (!is.null(list(...)$vcov.))
-      x$vcov <- list(...)$vcov.(x$model)
+    if (!missing(vcov.)) x$vcov <- vcov.(x$model)
     
     confint.x <-
       if (is.null(calpha))
-        confint(x, level=level, ...)
+        confint(x, level=level)  ##, ...)
       else
-        confint(x, level=level, calpha=calpha, ...)
+        confint(x, level=level, calpha=calpha)  ##, ...)
     
     result <- list(table=cbind(
                      estimate=confint.x$confint[,"Estimate"], #
@@ -154,18 +154,15 @@ glht.mmc.lm <-
         mcp.args <- list("Means")
         names(mcp.args) <- focus
         none.glht <- glht(model, linfct=do.call("mcp", mcp.args),
-                          alternative=alternative) ## doesn't have access to vcov.
-        ## if I put vcov. into mcp.args, then there is an error.
-        ## none.glht <- glht(model, linfct=do.call("mcp", mcp.args),
-        ##                   alternative=alternative, ...)  ## sends vcov. to mcp, which is not where it belongs
+                          alternative=alternative)
       }
     
     means <-
       if (is.null(calpha)) {
-        confint(none.glht, calpha=1.96, ...)$confint[,"Estimate"] ## fake 1.96
+        confint(none.glht, calpha=1.96)$confint[,"Estimate"] ## fake 1.96 ## , ...
       }
       else
-        confint(none.glht, calpha=calpha, ...)$confint[,"Estimate"]
+        confint(none.glht, calpha=calpha)$confint[,"Estimate"] ## , ...
     
     
     if (is.null(linfct)) {
@@ -191,9 +188,10 @@ glht.mmc.lm <-
     mca.glht <- glht(model, linfct=linfct.focus,
                      alternative=alternative, ...)
     if (!is.null(method)) mca.glht$type <- method
+
     height.mca <-
       if (is.null(method) || method=="Tukey")
-        means %*% abs(t(contrMat(means, "Tukey")))
+        means %*% abs(t(contrMat(table(model$model[[focus]]), "Tukey")))
       else
         means %*% abs(t(linfct.focus[[focus]])) ## fixme, this works for Dunnett
     
