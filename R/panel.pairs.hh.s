@@ -3,7 +3,7 @@
 ##    1. the subpanel.scales argument
 ##    2. the panel.cex argument
 
-## In R, an alias for panel.pairs.
+## In R, a placeholder that tells the user to use panel.pairs.
 
 panel.pairs.hh <-
   function(x, y, z, subscripts, pscales, subpanel = panel.splom,

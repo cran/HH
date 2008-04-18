@@ -1,12 +1,13 @@
-"ancova" <-
-function(formula, data.in=sys.parent(), ..., x, groups,
-                   transpose=FALSE,
-                   display.plot.command=FALSE,
-                   superpose.level.name="superpose",
-                   ignore.groups=FALSE, ignore.groups.name="ignore.groups",
-                   blocks, blocks.pch=letters[seq(levels(blocks))],
-                   layout, between, main) {
+"ancova" <- function(formula, data.in=NULL,
+                     ..., x, groups,
+                     transpose=FALSE,
+                     display.plot.command=FALSE,
+                     superpose.level.name="superpose",
+                     ignore.groups=FALSE, ignore.groups.name="ignore.groups",
+                     blocks, blocks.pch=letters[seq(levels(blocks))],
+                     layout, between, main) {
   ## on.exit(browser())
+  if (missing(data.in)) stop("Please explicitly name a data.frame.")
   a.aov <- aov(formula, data=data.in)
   a.aov$call$formula <- substitute(formula)
   a.aov$call$data <- substitute(data.in)
@@ -15,6 +16,7 @@ function(formula, data.in=sys.parent(), ..., x, groups,
   ##                      a+x or a*x  gives c(TRUE,FALSE)
   ##                      a, x=x      gives c(TRUE)
   ##                      x, groups=a gives c(FALSE)
+  ## anything else is an error
   tl <- attr(a.aov$terms,"term.labels")
   if (length(tl)==3) tl <- tl[1:2]
   classes <- sapply(data.in[,tl, drop=FALSE], is.factor)
@@ -24,7 +26,24 @@ function(formula, data.in=sys.parent(), ..., x, groups,
                   ##     if (is.null(ccc)) FALSE
                   ##     else ccc=="factor"},
                   ##   data.in)
-
+  if ((length(classes)==2 && classes[1]==classes[2])## two factors or two numeric
+      ||
+      (length(classes)==1 && !classes  ## group as numeric
+       && ((!missing(groups) &&
+           !is.factor(data.in[,deparse(substitute(groups))]))
+           ||
+           (!missing(x))
+           )
+       )
+      ||
+      (length(classes)==1 && classes   ## x as factor
+       && ((!missing(x) && is.factor(data.in[,deparse(substitute(x))]))
+           ||
+           (!missing(groups))
+           ))
+      )
+    stop("ancova requires exactly one factor and exactly one numeric variable.")
+  
   formula.plot <- formula
 
   if (length(formula[[3]]) == 3) { ## (y ~ x | a) or (y ~ x | a)
