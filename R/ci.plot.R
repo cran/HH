@@ -61,7 +61,7 @@ function(lm.object,
       prediction <-
         predict(lm.object, newdata=newdata,
                 se.fit=TRUE, ci.fit=TRUE, pi.fi=TRUE,
-                conf.level=conf.level)
+                level=conf.level)
       {
         ## restore frame=0
         if (undo.it) assign(my.data.name, old.contents, frame=0)
@@ -72,11 +72,11 @@ function(lm.object,
          ,r={
            new.p <-
              predict(lm.object, newdata=newdata,
-                     se.fit=TRUE, conf.level=conf.level,
+                     se.fit=TRUE, level=conf.level,
                      interval = "prediction")
            new.c <-
              predict(lm.object, newdata=newdata,
-                     se.fit=TRUE, conf.level=conf.level,
+                     se.fit=TRUE, level=conf.level,
                      interval = "confidence")
            tmp <- new.p
            tmp$ci.fit <- new.c$fit[,c("lwr","upr"), drop=FALSE]

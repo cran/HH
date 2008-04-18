@@ -24,7 +24,7 @@
   panel is a superpose of all the groups.
 }
 \usage{
-ancova(formula, data.in = sys.parent(), ...,
+ancova(formula, data.in = NULL, ...,
        x, groups, transpose = FALSE,
        display.plot.command = FALSE,
        superpose.level.name = "superpose",

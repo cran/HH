@@ -343,7 +343,7 @@ anova(displayf.aov)
 
 ## multiple comparisons
 tmp <- if.R(
-   r=glht(displayf.aov, linfct=mcp(panel="Tukey")),
+   r=glht.mcp.993(displayf.aov, linfct=mcp(panel="Tukey")),
    s=multicomp(displayf.aov, "panel", plot=FALSE))
 zapsmall(
   if.R(r=t(tmp$linfct),
@@ -352,7 +352,10 @@ zapsmall(
 
 ## MMC plot
 displayf.mmc <-
-if.R(r=glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"), focus="panel", lmat.rows=5:6),
+if.R(r={
+        glht.mmc(displayf.aov, linfct=tmp$linfct, focus="panel", lmat.rows=5:6)
+        ## glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"), focus="panel", lmat.rows=5:6)
+},
      s=multicomp.mmc(displayf.aov, "panel", lmat.rows=6:8, plot=FALSE))
 if.R(s=
        plot(displayf.mmc)
@@ -365,7 +368,7 @@ zapsmall(mca.lmat <- displayf.mmc$mca$lmat)
 panel.lmat <- cbind("3-12"=mca.lmat[,1] + mca.lmat[,2],
                      "1-2"=mca.lmat[,3])
 displayf.mmc <-
-if.R(r=glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"), focus="panel",
+if.R(r=glht.mmc(displayf.aov, linfct=tmp$linfct, focus="panel",
                 lmat.rows=5:6, lmat=panel.lmat,
                 focus.lmat=rbind(c(-1,1), panel.lmat[5:6,])),
      s=multicomp.mmc(displayf.aov, "panel", lmat.rows=6:8,
@@ -445,9 +448,11 @@ if.R(s={
   plot.matchMMC(maiz2.mmc$mca)
   par(old.omd)
 },r={
-  maiz2.mca <- glht(maiz2.aov, linfct=mcp(hibrido="Tukey"))
+  maiz2.mca <- glht.mcp.993(maiz2.aov, linfct=mcp(hibrido="Tukey"))
   dimnames(maiz2.mca$linfct)[[2]]
-  maiz2.mmc <- glht.mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"), lmat.rows=9:12)
+  ## maiz2.mmc <- glht.mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"), lmat.rows=9:12)
+  maiz2.mmc <- glht.mmc(maiz2.aov, linfct=maiz2.mca$linfct,
+                        focus="hibrido", lmat.rows=9:12)
   old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
   plot(maiz2.mmc)
   par(omd=c(.05,.85,0,.45), new=TRUE)
@@ -473,7 +478,7 @@ maiz2.lmat <- maiz2.mmc$none$lmat \%*\%
     hibrido.lmat[c("LH74",  "P3747","P3732", "Mol17", "A632"),]
 
 maiz2.mmc <-
-if.R(r=glht.mmc(maiz2.aov, focus="hibrido",
+if.R(r=glht.mmc(maiz2.aov, focus="hibrido",  ## ??
                 focus.lmat=hibrido.lmat,
                 lmat=maiz2.lmat, lmat.rows=9:12)
     ,s=multicomp.mmc(maiz2.aov, focus="hibrido",

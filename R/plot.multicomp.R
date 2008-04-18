@@ -166,22 +166,26 @@ plot.matchMMC <- function(x, ...,
          plt=par()$plt+c(0,0,-.25,.05), x.label.adj=0, y.axis.side=4)
     invisible(par(old.xpd))
   },
-      r={
-        plot(x,
-             xlim=par()$usr[1:2], xaxs="i", yaxt="n",
-             main=main, xlab="", cex.axis=cex.axis)
-        signif <- apply(x$table[,c("lower","upper"), drop=FALSE], 1, prod) > 0
-        yval <- rev(seq(along=signif))
-        axis(4, at=yval[signif], labels=names(signif)[signif],
-             col=col.signif, col.axis=col.signif,
-             las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
-        axis(4, at=yval[!signif], labels=names(signif)[!signif],
-             las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
-        segments(x$table[signif, "lower"], yval[signif],
-                 x$table[signif, "upper"], yval[signif],
-                 col=col.signif)
-      }
-      )
+       r={
+         plot(x,
+              xlim=par()$usr[1:2], xaxs="i", yaxt="n",
+              main=main, xlab="", cex.axis=cex.axis)
+         signif <- apply(x$table[,c("lower","upper"), drop=FALSE], 1, prod) > 0
+         yval <- rev(seq(along=signif))
+         if (!all(!signif)) {
+           axis(4, at=yval[signif], labels=names(signif)[signif],
+                col=col.signif, col.axis=col.signif,
+                las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
+           segments(x$table[signif, "lower"], yval[signif],
+                    x$table[signif, "upper"], yval[signif],
+                    col=col.signif)
+         }
+         if (!all(signif)) {
+           axis(4, at=yval[!signif], labels=names(signif)[!signif],
+                las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
+         }
+       }
+       )
 }
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/plot.multicomp.R")
