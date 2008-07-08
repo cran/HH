@@ -6,7 +6,7 @@
   plot squared residuals in inches to match the y-dimension
 }
 \usage{
-resid.squares(x, y, y.hat, resid.plot = "square")
+resid.squares(x, y, y.hat, resid.plot = "square", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,6 +16,7 @@ resid.squares(x, y, y.hat, resid.plot = "square")
   \item{resid.plot}{If \code{"square"}, then plot the
     squared residuals.   If \code{TRUE} (or anything else),
     then plot straight lines for the  residuals.}
+  \item{\dots}{Other graphics arguments.}
 }
 \details{
   The goal is to get real squares on the screen or paper.

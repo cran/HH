@@ -1,5 +1,5 @@
 "resid.squares" <-
-function(x, y, y.hat, resid.plot="square") {
+function(x, y, y.hat, resid.plot="square", ...) {
   y.resid <- y - y.hat
   y.start <- ifelse(y.resid>0, y.hat, y)
   rect.height <- abs(y.resid)
@@ -12,6 +12,5 @@ function(x, y, y.hat, resid.plot="square") {
     rect.width <- 0
   symbols(x+rect.width/2, y.start+rect.height/2,
           rectangles=cbind(rect.width,rect.height),
-          inches=FALSE, add=TRUE)
+          inches=FALSE, add=TRUE, ...)
 }
-
