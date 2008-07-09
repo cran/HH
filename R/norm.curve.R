@@ -323,16 +323,18 @@ normal.and.t.dist <-
 
     dfunction <-  function(z, df.t=NULL)
       if (is.null(df.t) || df.t==Inf) dnorm(z) else dt(z, df.t)
+
+    is.na.or.blank <- function(x) is.na(x) || x==""
     
     old.par <- par(oma=c(4,0,2,5), mar=c(7,7,4,2)+.1)
-    deg.free <- if(is.na(deg.freedom))  NULL else deg.freedom
+    deg.free <- if(is.na.or.blank(deg.freedom))  NULL else deg.freedom
     dfunction.name <- if (is.null(deg.free) || deg.free==Inf) "dnorm" else "dt"
-    normal <- is.na(deg.freedom)
-    standard <- is.na(n) && is.na(std.dev) && mu.H0==0
+    normal <- is.na.or.blank(deg.freedom)
+    standard <- is.na.or.blank(n) && is.na.or.blank(std.dev) && mu.H0==0
     standard.normal <- standard && normal
 
-    n.conf <- if (is.na(n))       1 else n
-    sd     <- if (is.na(std.dev)) 1 else std.dev
+    n.conf <- if (is.na.or.blank(n))       1 else n
+    sd     <- if (is.na.or.blank(std.dev)) 1 else std.dev
     se     <- sd/sqrt(n.conf)
 
     center <-if (hypoth.or.conf=="Hypoth") mu.H0 else obs.mean
@@ -343,20 +345,20 @@ normal.and.t.dist <-
 
     cv <- c(crit.val.left[Use.alpha.left], crit.val[Use.alpha.right])
 
-    if (is.na(xmin)) xmin <-
+    if (is.na.or.blank(xmin)) xmin <-
       if (hypoth.or.conf=='Hypoth')
         min(mu.H0-3*se, mu.H1-2.5*se, obs.mean-.5*se, na.rm = TRUE)
       else ## 'Conf'
         min(crit.val.left-.5*se, obs.mean-3*se, na.rm = TRUE)
 
-    if (is.na(xmax)) xmax <-
+    if (is.na.or.blank(xmax)) xmax <-
       if (hypoth.or.conf=='Hypoth')
         max(mu.H0+3*se, mu.H1+2.5*se, obs.mean+.5*se, na.rm = TRUE)
       else ## 'Conf'
         max(crit.val+.5*se, obs.mean+3*se, na.rm = TRUE)
 
-    if (is.na(fx.min)) fx.min <- 0
-    if (is.na(fx.max)) fx.max <- dfunction(0, df.t=deg.free) / se
+    if (is.na.or.blank(fx.min)) fx.min <- 0
+    if (is.na.or.blank(fx.max)) fx.max <- dfunction(0, df.t=deg.free) / se
 
     conf.level.fract <- 1
     if (Use.alpha.left) conf.level.fract <- conf.level.fract - alpha.left
