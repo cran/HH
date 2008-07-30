@@ -8,6 +8,10 @@ panel.dotplot.tb <- function(x, y, factor=.1,
   o.y.x <- order(y, x)
   x <- x[o.y.x]
   y <- y[o.y.x]
+
+  present <- !(is.na(x) | is.na(y))
+  x <- x[present]
+  y <- y[present]
   
   subsets <- tapply(y, list(y,x), c)
 

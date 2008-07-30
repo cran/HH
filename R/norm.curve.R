@@ -31,7 +31,7 @@
 "norm.curve" <-
 function(mean=0, se=sd/sqrt(n),
          critical.values=mean + se*c(-1, 1)*z.975,
-         z=do.call("seq", as.list(c((par()$usr[1:2]-mean)/se, length=109))),
+         z=if(se==0) 0 else do.call("seq", as.list(c((par()$usr[1:2]-mean)/se, length=109))),
          shade, col="blue",
          axis.name=ifelse(is.null(df.t) || df.t==Inf, "z", "t"),
          second.axis.label.line=3,
@@ -65,7 +65,7 @@ function(mean=0, se=sd/sqrt(n),
 
   cex.small <- par()$cex*.7
   
-  z.critical.values <- (critical.values-mean)/se
+  z.critical.values <- if(se==0) c(0,0) else (critical.values-mean)/se
   
   dfunction <-  function(z, df.t=NULL)
     if (is.null(df.t) || df.t==Inf) dnorm(z) else dt(z, df.t)
@@ -93,7 +93,7 @@ function(mean=0, se=sd/sqrt(n),
       do.call("axis", axis.list)
   }
   y.ticks <- pretty(par()$usr[3:4]*se)
-  axis(2, at=y.ticks/se, labels=y.ticks, las=1)
+  if (se != 0) axis(2, at=y.ticks/se, labels=y.ticks, las=1)
   if (!(missing(se) && missing(sd) && missing(n) && mean==0)) {
     mtext(side=4,
           text=ifelse(is.null(df.t) || df.t==Inf,
@@ -301,7 +301,7 @@ normal.and.t.dist <-
            Use.mu.H1      = FALSE,
            mu.H1          = NA,
            Use.obs.mean   = FALSE,
-           obs.mean       = NA,
+           obs.mean       = 0,
            hypoth.or.conf = 'Hypoth',
            col.mean       = 'lime green',
            col.alpha      = 'blue',
@@ -337,7 +337,7 @@ normal.and.t.dist <-
     sd     <- if (is.na.or.blank(std.dev)) 1 else std.dev
     se     <- sd/sqrt(n.conf)
 
-    center <-if (hypoth.or.conf=="Hypoth") mu.H0 else obs.mean
+    center <- if (hypoth.or.conf=="Hypoth") mu.H0 else obs.mean
     crit.val.z <- qfunction(1-alpha.right, deg.free)
     crit.val <- center + crit.val.z * se
     crit.val.left.z <- qfunction(1-alpha.left, deg.free)
@@ -452,11 +452,18 @@ normal.and.t.dist <-
     }
     
     if (hypoth.or.conf=="Hypoth") {
+      if (standard) {
       if (standard.normal) {
         norm.curve(crit=cv, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
                    Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
-      } else {
+      }
+      else
+                norm.curve(crit=cv, df.t=deg.free, mean=mu.H0,
+                   col=col.alpha, shade=cv.shade,
+                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+      }
+      else {
         norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
                    Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
@@ -478,8 +485,8 @@ normal.and.t.dist <-
         ##}
     }
     
-    obs.mean.H0.z <- (obs.mean-center)/se
-
+    obs.mean.H0.z <- if((obs.mean-center)==0) 0 else (obs.mean-center)/se
+                     ## yes, exact 0 stays 0 in any scale.
     obs.mean.H0.p.val <- pfunction(obs.mean.H0.z, df.t=deg.free)
 
     if ( Use.alpha.left &&  Use.alpha.right) {
