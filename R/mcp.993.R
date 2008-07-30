@@ -1,3 +1,5 @@
+if.R(s={},
+     r={
 ## mcp2matrix from multcomp_0.993-2.tar.gz/R/mcp.R
 ### convert linear hypotheses supplied as single matrices,
 ### type arguments or expressions into one matrix
@@ -156,3 +158,4 @@ glht.mcp.993 <- function(model, linfct, ...) {
     ret$focus <- names(linfct)
     return(ret)
 }
+})
