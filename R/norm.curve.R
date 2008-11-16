@@ -9,7 +9,8 @@
            ...) {
     main.calc <-
       if (is.null(df.t) || df.t==Inf)  ## normal
-        ifelse(!(missing(se) && missing(sd) && missing(n) && mean==0),
+        ifelse(!(((missing(se) && missing(sd)) || se==1) &&
+                 missing(n) && mean==0),
                paste("normal density:  se =", round(se,3)),
                "Standard Normal Density N(0,1)")
       else { ## t distribution
@@ -157,6 +158,7 @@ function(mean=0, se=sd/sqrt(n),
   axis(1, at=critical.values, tck=-.09, labels=FALSE)
   left.margin <- .15*diff(par()$usr[1:2])
   if (axis.name=="z" || axis.name=="t") {
+    if (length(critical.values)>0)
     axis(1, at=critical.values, tick=FALSE, line=3,
          labels=round(z.critical.values, 3))
     if (!(missing(se) && missing(sd) && missing(n) && mean==0))
@@ -167,14 +169,14 @@ function(mean=0, se=sd/sqrt(n),
     if (shade != "none") {
       mtext(side=1, at=par()$usr[2]+left.margin, line=1,
             text="shaded area", cex=par()$cex)
-      pval <- format(shaded.area, digits=3, nsmall=3)
+      pval <- format(round(shaded.area,4), digits=1, nsmall=4, scientific=FALSE)
       if (hypoth.or.conf=="Hypoth")
         mtext(side=1, at=par()$usr[2]+left.margin, line=4,
               text=if.R(r=substitute(list(alpha * " = " * group("",list(p),"")), list(p=pval)),
                 s=paste("alpha =", pval)),
               cex=par()$cex, col=col.label)
       else {
-        mtext(side=1, at=par()$usr[2]+left.margin, line=4,
+        mtext(side=1, at=par()$usr[2]+left.margin*(.08/.15), line=4,
               text=if.R(r=substitute(list("Conf Level= " * group("",list(p),"")), list(p=pval)),
                 s=paste("Conf Level =", pval)),
               cex=par()$cex, col=col.conf.label)
@@ -209,7 +211,7 @@ function(mean=0, se=sd/sqrt(n),
     mtext(side=1, at=par()$usr[1]-left.margin, line=7,
           text=axis.name.expr, cex=cex.small)
     if (shade != "none") {
-      pval <- format(shaded.area, digits=3, nsmall=3)
+      pval <- format(round(shaded.area,4), digits=1, nsmall=4, scientific=FALSE)
       mtext(side=1, at=par()$usr[2]+left.margin, line=7,
             text=if.R(
               r=substitute(list(beta * " = " * group("",list(p),"")), list(p=pval)),
@@ -251,7 +253,7 @@ norm.observed <-
     mtext(side=1, text=round(-t.xbar,3), at=xbar.negt,
           line=5, cex=par()$cex, col=col.label)
   if (!is.null(p.val)) {
-    pval <- format(round(p.val,3), digits=3, nsmall=3)
+    pval <- format(round(p.val,4), digits=1, nsmall=4, scientific=FALSE)
     mtext(side=1, at=p.val.x, line=5,
           text=if.R(r=substitute(list(p * " = " * group("",list(pv),"")), list(pv=pval)),
             s=paste("p =", pval)),
@@ -330,7 +332,7 @@ normal.and.t.dist <-
     deg.free <- if(is.na.or.blank(deg.freedom))  NULL else deg.freedom
     dfunction.name <- if (is.null(deg.free) || deg.free==Inf) "dnorm" else "dt"
     normal <- is.na.or.blank(deg.freedom)
-    standard <- is.na.or.blank(n) && is.na.or.blank(std.dev) && mu.H0==0
+    standard <- is.na.or.blank(n) && (is.na.or.blank(std.dev) || std.dev==1) && mu.H0==0
     standard.normal <- standard && normal
 
     n.conf <- if (is.na.or.blank(n))       1 else n
@@ -484,7 +486,8 @@ normal.and.t.dist <-
                      cex.crit=cex.crit)
         ##}
     }
-    
+
+    if (!Use.obs.mean) obs.mean <- center
     obs.mean.H0.z <- if((obs.mean-center)==0) 0 else (obs.mean-center)/se
                      ## yes, exact 0 stays 0 in any scale.
     obs.mean.H0.p.val <- pfunction(obs.mean.H0.z, df.t=deg.free)
