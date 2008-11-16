@@ -1,10 +1,10 @@
 "vif" <-
-function(x, ...)
+function(xx, ...)
   UseMethod("vif")
 
 "vif.default" <-
-function(x, y.name, na.action=na.exclude, ...) {
-  nnames <- names(x)
+function(xx, y.name, na.action=na.exclude, ...) {
+  nnames <- names(xx)
   nn.x <- seq(along=nnames)
   if (missing(y.name))
     y.number <- 0
@@ -16,8 +16,8 @@ function(x, y.name, na.action=na.exclude, ...) {
   names(r2) <- nnames[nn.x]
   if (length(r2) < 2) stop("vif requires two or more X-variables.")
   for (i in nn.x) {
-    tmp.lm <- lm(x[,i] ~
-                 data.matrix(x[,-c(y.number, i)]),
+    tmp.lm <- lm(xx[,i] ~
+                 data.matrix(xx[,-c(y.number, i)]),
                  na.action=na.action)
   r2[nnames[i]] <- summary(tmp.lm)$r.squared
   }
@@ -25,17 +25,19 @@ function(x, y.name, na.action=na.exclude, ...) {
 }
 
 "vif.formula" <-
-function(x, data, na.action=na.exclude, ...) {
-  vif(lm(x, data, na.action=na.action, x=TRUE))
+function(xx, data, na.action=na.exclude, ...) {
+  vif(lm(xx, data, na.action=na.action, x=TRUE))
 }
 
 "vif.lm" <-
-function(x, na.action=na.exclude, ...) {
-  if(length(x$x)==0) {
-    x <- try(update(x, x = TRUE), silent=TRUE)
-    if (class(x) == "Error" || class(x)=="try-error") ## S-Plus || R
+function(xx, na.action=na.exclude, ...) {
+  xxx <- xx  ## deal with scope problem
+  if(length(xxx$x)==0 ||
+     !(class(xxx$x) == "model.matrix" || class(xxx$x) == "matrix")) {
+    xxx <- try(update(xxx, x = TRUE), silent=TRUE)
+    if (class(xxx) == "Error" || class(xx)=="try-error") ## S-Plus || R
       stop("Please recompute the 'lm' object with 'x=TRUE'.")
   }
-  x <- as.data.frame(unclass(x$x))[-1]
-  vif(x, na.action=na.action)
+  xx <- as.data.frame(unclass(xxx$x))[-1]
+  vif(xx, na.action=na.action)
 }

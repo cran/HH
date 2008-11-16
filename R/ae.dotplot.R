@@ -1,4 +1,4 @@
-## variable names in the input data.frame ae
+## variable names in the input data.frame to ae.dotplot.long
 ##
 ## RAND   treatment as randomized
 ## PREF   adverse event symptom name
@@ -10,7 +10,10 @@
 ## Calculate the percent, the relative risk, the log relative risk,
 ## and the confidence intervals.
 ## Make PREF an ordered factor, sorted by the relative risk.
-logrelrisk <- function(ae, A.name, B.name, crit.value=1.96) {
+logrelrisk <- function(ae,
+                       A.name=levels(ae$RAND)[1],
+                       B.name=levels(ae$RAND)[2],
+                       crit.value=1.96) {
   ae$PCT <- 100 * ae$SAE / ae$SN ## percent of patients
   tmp <-  ## sample relative risk
     ae$PCT[ae$RAND==B.name] /
@@ -70,7 +73,7 @@ panel.ae.dotplot <- function(x, y, groups, ..., col.AB, pch.AB, lower, upper) {
 }
 
 
-ae.dotplot <- if.R(r={
+ae.dotplot.long <- if.R(r={
   function(xr,
            A.name=levels(xr$RAND)[1],
            B.name=levels(xr$RAND)[2],
@@ -82,6 +85,8 @@ ae.dotplot <- if.R(r={
            position.right=c(.61, 0, .98, 1.), ## ignored in R
            key.y=-.2, CI.percent=95) {
     
+    if (is.null(xr$logrelrisk))
+      stop("Variable 'logrelrisk' missing.\nPlease use the logrelisk() function before using ae.dotplot().")
     result <-
       dotplot(PREF ~ PCT + logrelrisk,
               groups=xr$RAND, data=xr, outer=TRUE,
@@ -157,6 +162,8 @@ ae.dotplot <- if.R(r={
                          )
 
     ## construct right panel
+    if (is.null(xr$logrelrisk))
+      stop("Variable 'logrelrisk' missing.\nPlease use the logrelisk() function before using ae.dotplot().")
     right.plot <- dotplot(PREF ~ logrelrisk, data=xr, pch=16,
                           lower=xr$logrelriskCI.lower,
                           upper=xr$logrelriskCI.upper,
@@ -194,6 +201,60 @@ ae.dotplot <- if.R(r={
   }
 }
                    )
+
+aeReshapeToLong <- function(aewide) {
+  ## this code works in both R and S-plus
+  aewide$PREF<- ordered(aewide$Event, rev(aewide$Event))
+  aewide$Event <- NULL
+  if (! "PCT.A" %in% names(aewide))
+    aewide$PCT.A <- aewide$AE.A / aewide$N.A
+  if (! "PCT.B" %in% names(aewide))
+    aewide$PCT.B <- aewide$AE.B / aewide$N.B
+
+  aewide.names <- names(aewide)
+  aewide.namesA <- match(c("N.A", "AE.A", "PCT.A"), aewide.names)
+  aewide.namesB <- match(c("N.B", "AE.B", "PCT.B"), aewide.names)
+  aewideA <- cbind(aewide, RAND="A")
+  aewideB <- cbind(aewide, RAND="B")
+  names(aewideA)[aewide.namesA] <- c("SN","SAE","PCT")
+  names(aewideB)[aewide.namesB] <- c("SN","SAE","PCT")
+  aelong <- rbind(aewideA[-aewide.namesB], aewideB[-aewide.namesA])
+  
+  n <- nrow(aewide)
+  aelong[as.vector(outer(c(0,n), 1:n, "+")), ]
+}
+
+if (FALSE)  ## aeReshapeToLongR uses reshape and works only in R.
+  if.R(r=
+       aeReshapeToLongR <- function(aewide) {
+         aewide$PREF<- ordered(aewide$Event, rev(aewide$Event))
+         aelong$Event <- NULL
+         if (! "PCT.A" %in% names(aewide))
+           aewide$PCT.A <- aewide$AE.A / aewide$N.A
+         if (! "PCT.B" %in% names(aewide))
+           aewide$PCT.B <- aewide$AE.B / aewide$N.B
+         aelong <- reshape(aewide, v.names=c("SN","SAE","PCT"),
+                           varying=list(
+                             c("N.A", "N.B"),
+                             c("AE.A", "AE.B"),
+                             c("PCT.A", "PCT.B")),
+                           idvar="PREF",
+                           timevar="RAND",
+                           times=factor(c("A","B")),
+                           direction="long")
+         n <- nrow(aewide)
+         aelong[as.vector(outer(c(0,n), 1:n, "+")), ]
+       }
+       ,s={})
+
+
+ae.dotplot <- function(ae, ...) {
+  if (!("PREF" %in% names(ae)))
+    ae <- aeReshapeToLong(ae)
+  result <- ae.dotplot.long(ae, ...)
+  if.R(r=result,
+       s=invisible(result))
+}
 
 ## ae.dotplot(aeanonymr,
 ##            A.name="TREATMENT A (N=216)",

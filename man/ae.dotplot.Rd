@@ -1,6 +1,10 @@
 \name{ae.dotplot}
 \alias{ae.dotplot}  %% lowercase ae
 \alias{AE.dotplot}  %% uppercase AE
+\alias{AEdotplot}
+\alias{aedotplot}
+\alias{ae.dotplot.long}
+\alias{aeReshapeToLong}
 \alias{panel.ae.leftplot}
 \alias{panel.ae.rightplot}
 \alias{panel.ae.dotplot}
@@ -20,14 +24,16 @@ relative risk so that events with the largest
 increases in risk for the active treatment are
 prominent at the top of the display.}
 \usage{
-ae.dotplot(xr,
-           A.name = levels(xr$RAND)[1], B.name = levels(xr$RAND)[2],
-           col.AB = c("red","blue"), pch.AB = c(16, 17),
-           main.title = "Most Frequent On-Therapy Adverse Events Sorted by Relative Risk",
-           main.cex = 1,
-           cex.AB.points = NULL, cex.AB.y.scale = 0.6,
-           position.left = c(0, 0, 0.7, 1), position.right = c(0.61, 0, 0.98, 1),
-           key.y = -0.2, CI.percent=95)
+ae.dotplot(ae, ...)
+
+ae.dotplot.long(xr,
+                A.name = levels(xr$RAND)[1], B.name = levels(xr$RAND)[2],
+                col.AB = c("red","blue"), pch.AB = c(16, 17),
+                main.title = "Most Frequent On-Therapy Adverse Events Sorted by Relative Risk",
+                main.cex = 1,
+                cex.AB.points = NULL, cex.AB.y.scale = 0.6,
+                position.left = c(0, 0, 0.7, 1), position.right = c(0.61, 0, 0.98, 1),
+                key.y = -0.2, CI.percent=95)
 
 logrelrisk(ae, A.name, B.name, crit.value=1.96)
 
@@ -36,13 +42,27 @@ panel.ae.leftplot(x, y, groups, col.AB, ...)
 panel.ae.rightplot(x, y, ..., lwd=6, lower, upper)
 
 panel.ae.dotplot(x, y, groups, ..., col.AB, pch.AB, lower, upper) ## R only
+
+aeReshapeToLong(aewide)
+
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{ae}{data.frame containing the first 4 columns of \code{xr}
+  \item{ae}{For \code{ae.dotplot}, either a data.frame containing the Adverse
+    Event data in long format as described by the detail for \code{xr}
+    below, or a data.frame containing the Adverse event data in wide format as
+    described by the detail for \code{aewide} below.
+    For \code{logrelrisk}, a data.frame containing the first 4 columns of \code{xr}
     described below.
   }
-  \item{xr}{
+  \item{\dots}{For \code{ae.dotplot}, all the arguments listed in the
+  calling sequence for \code{ae.ddotplot.long} and possibly standard panel
+  function arguments.
+
+  For the other functions, just standard panel function arguments.
+  }
+\item{xr}{
   \code{RAND}:   treatment as randomized (factor).\\
   \code{PREF}:   adverse event symptom name (factor).\\
   \code{SN}:     number of patients in treatment group.\\
@@ -50,6 +70,20 @@ panel.ae.dotplot(x, y, groups, ..., col.AB, pch.AB, lower, upper) ## R only
   \code{PCT}: \code{SAE}/\code{SN} as a percent.\\
   \code{relrisk}: Relative risk defined as \code{PCT} for the B
   treatment divided by \code{PCT} for the A treatment.\\
+  \code{logrelrisk}: natural logarithm of \code{relrisk}.\\
+  \code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.\\
+  \code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
+  \code{logrelrisk}.  \\
+  \code{relriskCI.lower, relriskCI.upper}: back transform of the CI for
+  the log relative risk into the relative risk scale.\\
+  }
+\item{aewide}{
+  \code{Event}:   adverse event symptom name (factor).\\
+  \code{N.A, N.B}:     number of patients in treatment groups A and B.\\
+  \code{AE.A, AE.B}:    number of patients in treatment groups A and B for whom the event Event was observed.\\
+  \code{PCT.A, PCT.B}: \code{AE.A}/\code{N.A} and  \code{AE.B}/\code{N.B} as a percent.\\
+  \code{Relative.Risk}: Relative risk defined as \code{PCT.B}
+   divided by \code{PCT.A}.\\
   \code{logrelrisk}: natural logarithm of \code{relrisk}.\\
   \code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.\\
   \code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
@@ -86,7 +120,7 @@ panel.ae.dotplot(x, y, groups, ..., col.AB, pch.AB, lower, upper) ## R only
     specifying both \code{crit.value} and \code{CI.percent}
     consistently.}
 
-\item{x, y, groups, lwd, \dots}{standard panel function arguments.}
+\item{x, y, groups, lwd}{standard panel function arguments.}
 \item{lower, upper} {\code{xr$logrelriskCI.lower} and
   \code{xr$logrelriskCI.upper} inside the panel functions.}
 }
@@ -132,11 +166,15 @@ panel.ae.dotplot(x, y, groups, ..., col.AB, pch.AB, lower, upper) ## R only
 
 }
 
-\references{ Ohad Amit, Lane, Peter W., & Richard M. Heiberger (2007).
-Graphical Approaches to the Analysis of Safety Data from Clinical
-Trials. Pharmaceutical Statistics.
-\url{http://www3.interscience.wiley.com/cgi-bin/abstract/114129388/ABSTRACT?CRETRY=1&SRETRY=0} }
-
+\references{
+Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
+``Graphical Approaches to the Analysis of Safety Data from Clinical Trials''.
+{\it Pharmaceutical Statistics},
+{\bf 7}, 1, 20--35.
+% Published Online: 26 Feb 2007\\
+\url{http://www3.interscience.wiley.com/journal/114129388/abstract}
+% \url{http://www3.interscience.wiley.com/cgi-bin/abstract/114129388/ABSTRACT}.
+}
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
 ## variable names in the input data.frame aeanonym
@@ -152,9 +190,7 @@ aeanonym[1:4,]
 
 ## Calculate log relative risk and confidence intervals (95% by default).
 ## logrelrisk sets the sort order for PREF to match the relative risk.
-aeanonymr <- logrelrisk(aeanonym,
-                        A.name=levels(aeanonym$RAND)[1],
-                        B.name=levels(aeanonym$RAND)[2])
+aeanonymr <- logrelrisk(aeanonym)
 aeanonymr[1:4,]
 
 ## construct and print plot on current graphics device
@@ -176,6 +212,15 @@ ae.dotplot(aeanonymr,
 ##            B.name="TREATMENT B (N=431)")
 ## dev.off()
 
+## smaller artifical example with the wide format
+aewide <- data.frame(Event=letters[1:6],
+                     N.A=c(50,50,50,50,50,50),
+                     N.B=c(90,90,90,90,90,90),
+                     AE.A=2*(1:6),
+                     AE.B=1:6)
+aewtol <- aeReshapeToLong(aewide)
+xr <- logrelrisk(aewtol)
+ae.dotplot(xr)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

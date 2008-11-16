@@ -10,17 +10,17 @@ $R^2$ from a regression of predictor $i$ against the remaining
 predictors.  
 }
 \usage{
-vif(x, ...)
+vif(xx, ...)
 
-\method{vif}{default}(x, y.name, na.action = na.exclude, ...) ## x is a data.frame
+\method{vif}{default}(xx, y.name, na.action = na.exclude, ...) ## xx is a data.frame
 
-\method{vif}{formula}(x, data, na.action = na.exclude, ...)   ## x is a formula
+\method{vif}{formula}(xx, data, na.action = na.exclude, ...)   ## xx is a formula
 
-\method{vif}{lm}(x, na.action = na.exclude, ...)  ## x is a "lm" object computed with x=TRUE
+\method{vif}{lm}(xx, na.action = na.exclude, ...)  ## xx is a "lm" object computed with x=TRUE
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{\code{data.frame}, or \code{formula}, or \code{lm} object
+  \item{xx}{\code{data.frame}, or \code{formula}, or \code{lm} object
     computed with \code{x=TRUE}.}
   \item{na.action}{See \code{\link[stats]{na.action}}.}
   \item{\dots}{additional arguments. }
@@ -51,7 +51,7 @@ all of a model's regression coefficients differ significantly from 0
 \value{
 Vector of VIF values, one for each X-variable.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard~M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.
