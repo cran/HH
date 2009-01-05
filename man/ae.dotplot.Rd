@@ -18,7 +18,7 @@ study. The first panel displays their incidence by
 treatment group, with different symbols for each
 group. The second panel displays the relative risk
 of an event on the active arm relative to the
-placebo arm, with 95\% confidence intervals for a 2$\times$2 table.
+placebo arm, with 95\% confidence intervals for a \eqn{2\times2}{2x2} table.
 The AEs are ordered by
 relative risk so that events with the largest
 increases in risk for the active treatment are
@@ -121,7 +121,7 @@ aeReshapeToLong(aewide)
     consistently.}
 
 \item{x, y, groups, lwd}{standard panel function arguments.}
-\item{lower, upper} {\code{xr$logrelriskCI.lower} and
+\item{lower, upper}{\code{xr$logrelriskCI.lower} and
   \code{xr$logrelriskCI.upper} inside the panel functions.}
 }
 
@@ -129,7 +129,7 @@ aeReshapeToLong(aewide)
   The second panel shows relative risk of an event on the active arm
   (treatment B)
   relative to the placebo arm (treatment A), with 95\% confidence
-  intervals for a 2$\times$2 table.  Confidence intervals on the log
+  intervals for a \eqn{2\times2}{2x2} table.  Confidence intervals on the log
   relative risk are calculated using the asymptotic standard error
   formula given as Equation 3.18 in Agresti A., Categorical Data
   Analysis. Wiley: New York, 1990.
@@ -159,18 +159,14 @@ aeReshapeToLong(aewide)
  included.
  It is better to call \code{ae.dotplot} directly, perhaps with a change
  in some of the positioning arguments.
- 
-  
-
-  
 
 }
 
 \references{
 Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 ``Graphical Approaches to the Analysis of Safety Data from Clinical Trials''.
-{\it Pharmaceutical Statistics},
-{\bf 7}, 1, 20--35.
+\emph{Pharmaceutical Statistics},
+\bold{7}, 1, 20--35.
 % Published Online: 26 Feb 2007\\
 \url{http://www3.interscience.wiley.com/journal/114129388/abstract}
 % \url{http://www3.interscience.wiley.com/cgi-bin/abstract/114129388/ABSTRACT}.

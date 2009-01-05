@@ -93,7 +93,7 @@ Heiberger, R.~M. and Holland, B. (2006).
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
 Hsu, J. and Peruggia, M. (1994).
-"Graphical representations of {Tukey's} multiple comparison method."
+"Graphical representations of Tukey's multiple comparison method."
 \emph{Journal of Computational and Graphical Statistics}, 3:143--161.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }

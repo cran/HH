@@ -138,14 +138,14 @@ column per power.  \code{ladder.f} uses the simple powers and
 \code{ladder3} takes two vectors as arguments.  It returns a
 \code{data.frame} with five columns:
 
-  \code{X, Y} {data to be plotted.  The column \code{X} contains the data
+  \code{X, Y}: data to be plotted.  The column \code{X} contains the data
     from the input \code{x} taken to all the powers and aligned with the
-    similarly expanded column \code{Y}.}
+    similarly expanded column \code{Y}.
 
-  \code{x, y} {symbolic labeling of the power corresponding to \code{X,Y}.}
+  \code{x, y}: symbolic labeling of the power corresponding to \code{X,Y}.
 
-  \code{group} {result from pasting the labels in \code{x, y} with \code{*}
-    between them.}
+  \code{group}: result from pasting the labels in \code{x, y} with \code{*}
+    between them.
 }
 
 \references{ Heiberger, Richard M. and Holland, Burt (2004b).

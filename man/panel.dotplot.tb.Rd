@@ -16,8 +16,8 @@ panel.dotplot.tb(x, y, factor=.1,
 \arguments{
   \item{x, y}{See \code{\link[lattice]{dotplot}}.}
   \item{factor}{jitter factor, see \code{\link[lattice]{stripplot}}.
-  Increment is {\code{factor/max.freq} where \code{max.freq} is the
-    maximum number of duplicates of any x value in any y group.}}
+  Increment is \code{factor/max.freq} where \code{max.freq} is the
+    maximum number of duplicates of any x value in any y group.}
   \item{jitter.data, horizontal}{Always \code{TRUE}.}
   \item{max.freq}{maximum number of observation at any combination of
     response values, factor levels, and group levels.

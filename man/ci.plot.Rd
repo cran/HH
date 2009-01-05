@@ -18,7 +18,7 @@ ci.plot(lm.object, ...)
         conf.level=.95,
         data=model.frame(lm.object),
         newfit,
-        ylim=range(newfit$pi.fit),
+        ylim,
         pch=16,
         main.cex=1,
         main=list(paste(100*conf.level,
