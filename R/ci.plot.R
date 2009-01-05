@@ -9,7 +9,7 @@ function(lm.object,
          conf.level=.95,
          data=model.frame(lm.object),
          newfit,
-         ylim=range(newfit$pi.fit),
+         ylim,
          pch=16,
          main.cex=1,
          main=list(paste(100*conf.level,
@@ -18,7 +18,9 @@ function(lm.object,
          ) {
   formula.lm <- formula(lm.object)
   x.name <- as.character(formula.lm[[3]])
+  y.name <- as.character(formula.lm[[2]])
   missing.xlim <- missing(xlim)       ## R needs this
+  missing.ylim <- missing(ylim)       ## R needs this
   missing.newdata <- missing(newdata) ## R needs this
   if.R(s={
     ## Save a copy of the data.frame in frame=0 to put it where
@@ -91,6 +93,10 @@ function(lm.object,
   tpgsl <- trellis.par.get("superpose.line")
   tpgsl <- Rows(tpgsl, 1:4)
   tpgsl$col[1] <- 0
+  if (missing.ylim) {
+    ylim <- range(newfit$pi.fit, data[,y.name])
+    ylim <- ylim + diff(ylim)*c(-.02,.02) ## needed
+  }
   xyplot(formula.lm, data=data, newdata=newdata, newfit=newfit,
          newdata.x=newdata.x,
          xlim=xlim, ylim=ylim, pch=pch,
@@ -111,3 +117,4 @@ function(lm.object,
          ...)
 }
 
+## source("~/HH-R.package/HH/R/ci.plot.R")

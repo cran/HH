@@ -176,7 +176,7 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
    on the plot.}
   \item{alpha.right, alpha.left}{Area in tail of curve.}
   \item{Use.alpha.right, Use.alpha.left}{Logical.  If \code{TRUE}, then
-   include the specified $\alpha$ on the plot.}
+   include the specified \eqn{\alpha} on the plot.}
   \item{t.xbar.H1}{t-value under alternate hypothesis.}
   \item{p.val}{under specified hypothesis}
   \item{p.val.x,t.or.z.position}{location on x-axis to put label}

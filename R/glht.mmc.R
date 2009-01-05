@@ -128,11 +128,14 @@ glht.mmc.lm <-
            ...
            ) {
 
-##    if (model$contrasts[[focus]] != "contr.treatment")
     factors <- sapply(model$model, inherits, "factor")
-    contrasts.type <- sapply(model$model[factors], attr, "contrasts")
-    contrasts.type <- contrasts.type[!sapply(contrasts.type, is.null)]
-    if (any(contrasts.type != "contr.treatment"))
+    is.contr.treatment <- function(x) {
+      cx <- contrasts(x)
+      tx <- contr.treatment(nrow(cx))
+      all(cx==tx)
+    }
+    contrasts.are.treatment <- sapply(model$model[factors], is.contr.treatment)
+    if (!all(contrasts.are.treatment))
       stop("glht.mmc requires an aov in which ALL factors use treatment contrasts.")
     
     result <- list(mca=NULL)

@@ -28,11 +28,11 @@ X.residuals.formula <- function(x, data, na.action=na.exclude, ...) {
 }
 
 X.residuals.lm <- function(x, na.action=na.exclude, ...) {
-  if(length(x$x)==0) {
+  if(length(x[["x"]])==0) { ## '[["x"]]' is needed to avoid partial matching in R
     x <- try(update(x, x = TRUE), silent=TRUE)
     if (class(x) == "Error" || class(x)=="try-error") ## S-Plus || R
       stop("Please recompute the 'lm' object with 'x=TRUE'.")
   }
-  x <- as.data.frame(unclass(x$x))[-1]
+  x <- as.data.frame(unclass(x[["x"]]))[-1]
   X.residuals(x, na.action=na.action)
 }

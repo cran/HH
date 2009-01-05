@@ -23,10 +23,19 @@ function(x, y, newdata, newfit=newfit, ...) {
     axis(3, at=mean(x), tck=-.03, labels=FALSE)
     axis(3, at=mean(x), ticks=FALSE,  labels="xbar")
   },r={
+    cpl <- current.panel.limits()
+    pushViewport(viewport(xscale = cpl$xlim,
+                          yscale = cpl$ylim,
+                          clip = "off"))
+    ## put anything you want unclipped inside this:
        ## panel.abline(v=mean(x), lty=2)
        panel.axis("bottom", at=mean(x), tck=1.5, labels=FALSE)
-       panel.axis("bottom", at=mean(x), ticks=FALSE,  labels="xbar", rot=0)
+       panel.axis("bottom", at=mean(x), ticks=FALSE,  labels=expression(bar(x)), rot=0, outside=TRUE)
        panel.axis("top", at=mean(x), tck=1.5, labels=FALSE)
-       panel.axis("top", at=mean(x), ticks=FALSE,  labels="xbar", rot=0)
+       panel.axis("top", at=mean(x), ticks=FALSE,  labels=expression(bar(x)), rot=0, outside=TRUE)
+       ## end of unclipped part
+       upViewport()
      })
 }
+
+## source("~/HH-R.package/HH/R/panel.ci.plot.R")

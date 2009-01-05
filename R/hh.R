@@ -1,3 +1,2 @@
 "hh" <-
-function(file) paste(options()$HH.ROOT.DIR, file, sep="/")
-
+function(file) file.path(options()$HH.ROOT.DIR, file)

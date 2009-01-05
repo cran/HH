@@ -136,8 +136,8 @@ corresponding to the rows for the focus factor.
 \value{
 
   An \code{"mmc.multicomp"} object contains either the first two or all
-  three of the \code{"multicomp"} components \item{mca}, \item{none},
-  \item{lmat} described here.  Each  \code{"multicomp"} component in
+  three of the \code{"multicomp"} components \code{mca}, \code{none},
+  \code{lmat} described here.  Each \code{"multicomp"} component in
   R also contains a \code{"glht"} object.
 
   \item{mca}{Object containing the pairwise comparisons.}
@@ -161,7 +161,7 @@ Heiberger, R.~M. and Holland, B. (2006).
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
 Hsu, J. and Peruggia, M. (1994).
-"Graphical representations of {Tukey's} multiple comparison method."
+"Graphical representations of Tukey's multiple comparison method."
 \emph{Journal of Computational and Graphical Statistics}, 3:143--161.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
@@ -413,6 +413,7 @@ sapply(maiz[-1], contrasts)
 if.R(r={
   ## R glht.mmc requires treatment contrasts
   contrasts(maiz$nitrogeno) <- "contr.treatment"
+  contrasts(maiz$bloque) <- "contr.treatment"
   sapply(maiz[-1], contrasts)
 },
      s={})

@@ -45,8 +45,7 @@
   \item{ylab}{name of response variable}
   \item{focus}{define the factor to compute contrasts of. }
   \item{main, main2}{main and second line of title of plot}
-  \item{main.method.phrase, main2.method.phrase}
-       {default expressions for title of plot}
+  \item{main.method.phrase, main2.method.phrase}{default expressions for title of plot}
   \item{ry.mmc}{range of values on the y-axis.  It is similar to
     \code{par("ylim")}, but not the same as additional calculations are
     needed to maintain the isomeans grid as a square.}
@@ -67,13 +66,11 @@
 
   \item{col.mca.signif,
         lty.mca.signif,
-        lwd.mca.signif}
-       {color, line type, line width for significant pairwise contrasts.}
+        lwd.mca.signif}{color, line type, line width for significant pairwise contrasts.}
 
   \item{col.mca.not.signif,
         lty.mca.not.signif,
-        lwd.mca.not.signif}
-       {color, line type, line width for non-significant pairwise contrasts.}
+        lwd.mca.not.signif}{color, line type, line width for non-significant pairwise contrasts.}
 
   \item{col.lmat.signif,
         lty.lmat.signif,
@@ -106,7 +103,7 @@ Heiberger, R.~M. and Holland, B. (2006).
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
   Hsu, J. and Peruggia, M. (1994).
-"Graphical representations of {Tukey's} multiple comparison method."
+"Graphical representations of Tukey's multiple comparison method."
 \emph{Journal of Computational and Graphical Statistics}, 3:143--161.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }

@@ -82,7 +82,7 @@ they are the \code{c(left.alpha, right.alpha)}.}
     to the specified \code{alpha} levels.
     A scalar value implies a one-sided test on the right side.  A vector of two values
     implies a two-sided test.}
-  \item{main.in} {Main title.}
+  \item{main.in}{Main title.}
   \item{shade}{
     Valid values for shade are "right", "left", "inside", "outside", "none".
     Default is "right" for one-sided critical.values and "outside"
