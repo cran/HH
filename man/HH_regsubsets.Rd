@@ -67,7 +67,7 @@
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link[leaps]{regsubsets}},
-  \code{\link[leaps]{bestSubsetsRegressionModel.HH}}}
+  \code{\link[RcmdrPlugin.HH]{bestSubsetsRegressionModel.HH}}}
 % \examples{
 % ## This example works in R, not in S-Plus
 % if.R(r={

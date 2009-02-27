@@ -288,7 +288,8 @@ print.mmc.multicomp <- function (x, ...) {
 }
 
 plot.multicomp <- function (x, ...) {
-  plot(confint(as.glht(x)), ...)
+  n.contrasts <- dim(x$lmat)[2]
+  plot(confint(as.glht(x)), ylim=c(.5, n.contrasts+.5), ...)
 }
 
 ## plot.multicomp.hh is in file plot.multicomp.R
