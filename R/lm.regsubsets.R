@@ -1,6 +1,6 @@
 "lm.regsubsets" <-
 function(object, model.number, ...) {
-  sum.reg <- summary.regsubsets(object)
+  sum.reg <- summary(object)
   dim.sum.reg <- dim(sum.reg$outmat)
   vars <- sum.reg$outmat[model.number,]
   rhs <- paste(names(vars)[vars=="*"], collapse="+")

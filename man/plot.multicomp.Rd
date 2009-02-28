@@ -34,7 +34,8 @@
 plot.matchMMC(x, ...,
               xlabel.print=FALSE,
               cex.axis=par()$cex.axis,
-              col.signif='red', main="")
+              col.signif='red', main="",
+              ylabel.inside=FALSE)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -45,12 +46,17 @@ plot.matchMMC(x, ...,
   \code{"multicomp"} object.  We move them to the
   right when matching the x-axis of an MMC plot.}
   \item{\dots}{other arguments to \code{plot.multicomp}.}
-
+  \item{ylabel.inside}{Logical value, if \code{FALSE} (the default), the
+    \code{plot.matchMMC} right-axis labels are in the margin.  If
+    \code{TRUE}, the right-axis labels are in the figure area.
+    Setting the argument to
+    \code{TRUE} makes sense when plotting the \code{lmat} component of an
+    \code{mmc.multicomp} object.}
   %plot.multicomp
   \item{href}{reference line for the intervals. The default is 0. S-Plus only.}
   \item{xrange.include}{\code{xlim}
     will be extended to include these values. S-Plus only.}
-  \item{uniform}{S-Plus only.  Logical value, if TRUE and the plots fill
+  \item{uniform}{S-Plus only.  Logical value, if \code{TRUE} and the plots fill
     more than one page, the scale will be uniform across pages.}
   \item{plt.in}{S-Plus only.  Value for \code{par("plt")} to make better
   use of the space on the plotting page.}

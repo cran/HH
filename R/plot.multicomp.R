@@ -155,7 +155,8 @@ plot.multicomp.hh <-
 plot.matchMMC <- function(x, ...,
                           xlabel.print=FALSE,
                           cex.axis=par()$cex.axis,
-                          col.signif='red', main="") {
+                          col.signif='red', main="",
+                          ylabel.inside=FALSE) {
   if.R(s={
     old.xpd <- par(xpd=TRUE)
     xlim <- par()$usr[1:2]
@@ -173,16 +174,24 @@ plot.matchMMC <- function(x, ...,
          signif <- apply(x$table[,c("lower","upper"), drop=FALSE], 1, prod) > 0
          yval <- rev(seq(along=signif))
          if (!all(!signif)) {
-           axis(4, at=yval[signif], labels=names(signif)[signif],
-                col=col.signif, col.axis=col.signif,
-                las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
+           if (ylabel.inside)
+             mtext(names(signif)[signif], at=yval[signif],
+                   side=4, adj=1, line=-.6, col=col.signif, las=1)
+           else
+             axis(4, at=yval[signif], labels=names(signif)[signif],
+                  col=col.signif, col.axis=col.signif,
+                  las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
            segments(x$table[signif, "lower"], yval[signif],
                     x$table[signif, "upper"], yval[signif],
                     col=col.signif)
          }
          if (!all(signif)) {
-           axis(4, at=yval[!signif], labels=names(signif)[!signif],
-                las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
+           if (ylabel.inside)
+             mtext(names(signif)[!signif], at=yval[!signif],
+                   side=4, adj=1, line=-.6, las=1)
+           else
+             axis(4, at=yval[!signif], labels=names(signif)[!signif],
+                  las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
          }
        }
        )
