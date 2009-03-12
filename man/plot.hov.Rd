@@ -8,7 +8,7 @@
   Oneway analysis of variance makes the assumption that the variances of
   the groups are equal.
 Brown and Forsyth, 1974 present the recommended test of this assumption.
-The Brown and Forsyth test statistic is the $F$ statistic resulting
+The Brown and Forsyth test statistic is the \eqn{F} statistic resulting
 from an ordinary one-way analysis of variance on the
 absolute deviations from the median.  The \code{plot.hov} function
 graphs the components of the Brown and Forsyth test statistic.
@@ -51,7 +51,7 @@ panel.hov(..., transpose = TRUE)
   group: The observed data \code{"y"}, the data with the median
   subtracted \code{"y-med(y)"}, and the absolute deviations from the
   median \code{"abs(y-med(y))"} The Brown and Forsyth test statistic is
-  the $F$ statistic resulting from an ordinary one-way analysis of
+  the \eqn{F} statistic resulting from an ordinary one-way analysis of
   variance on the data points in the third panel.
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004b).

@@ -35,7 +35,7 @@ as.multicomp(x, ...)
                               cterm=focus)$tables[[focus]],
            height,
            lmat=t(x$linfct),
-           lmat.rows=-1,
+           lmat.rows=lmatRows(x, focus),
            lmat.scale.abs2=TRUE,
            estimate.sign=1,
            order.contrasts=TRUE,

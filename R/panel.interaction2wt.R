@@ -82,8 +82,8 @@ function(x, y, subscripts,
                                         col=tpg.col.simple[col.subscripts],
                                         box.ratio=box.ratio,
                                         ...)
-           ,s=
-           panel.bwplot.intermediate.hh(as.numeric(x.simple), y,
+           ,s=                          
+           panel.bwplot.intermediate.hh(as.numeric.positioned(x.simple), y,
                                         horizontal=FALSE,
                                         col=tpg.col.simple[col.subscripts],
                                         box.ratio=box.ratio,
@@ -98,7 +98,7 @@ function(x, y, subscripts,
                                         box.ratio=box.ratio,
                                         ...)
            ,s=
-           panel.bwplot.intermediate.hh(as.numeric(x.factor), y,
+           panel.bwplot.intermediate.hh(as.numeric.positioned(x.factor), y,
                                         horizontal=FALSE,
                                         box.ratio=box.ratio,
                                         ...)
@@ -442,7 +442,7 @@ legendGrob2wt <-   function(...) ## ...is key1, key2, etc
                 widths = do.call(max, key.widths),
                 respect = TRUE)
   key.gf <- frameGrob(layout = key.layout)
-  for (i in seq_len(nkeys))
+  for (i in `seq_len`(nkeys))
     {
       key.gf <- placeGrob(key.gf, keys[[i]], row = i, col = 1)
     }

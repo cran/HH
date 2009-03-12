@@ -1,37 +1,23 @@
 ## This file follows MMC.WoodEnergy-aov.R
 
 
-## adjusted means
-if.R(s={
-  ## Tukey method
-  energy.multicomp <- multicomp(energy.aov.4, focus="Stove",
-                                adjust=list(Wood=c(
-                                              "Osage Orange",
-                                              "Red Oak",
-                                              "Black Walnut",
-                                              "White Pine")),
-                                plot=FALSE,
-                                method="tukey", valid.check=FALSE)
-  oldClass(energy.multicomp) <- c("multicomp.hh", "multicomp")
-  energy.multicomp$crit.point
-},r=
-     cat("R multcomp glht can't do this in one step.\n"))
-
-
 ## multicomp main effect for Stove
 if.R(r={
   energy.glht <- glht(energy.aov.4, focus="Stove",
-                      linfct=mcp(Stove="Tukey"))
+                      linfct=mcp(Stove="Tukey"),
+                      interaction.average=TRUE, covariate.average=TRUE)
   Stove.means <- model.tables(energy.aov.4, type="means",
                               cterms="Stove")$tables$Stove
   height.mca <- Stove.means %*% abs(t(contrMat(Stove.means, "Tukey")))
   energy.multicomp <- as.multicomp(energy.glht, focus="Stove",
                                    lmat.rows=3:4, height=height.mca)
 },s={
-  energy.multicomp <- multicomp(energy.aov.4, focus="Stove",
+  energy.multicompS <- multicomp(energy.aov.4, focus="Stove",
                                 plot=FALSE,
                                 method="tukey", valid.check=FALSE)
-  oldClass(energy.multicomp) <- c("multicomp.hh", "multicomp")
+  oldClass(energy.multicompS) <- c("multicomp.hh", "multicomp")
+  zapsmall(energy.multicompS$lmat)
+  energy.multicompS
 })
 
 
@@ -54,8 +40,8 @@ if.R(r={
     energy.mca.4W[[i]] <-
       glht(energy.aov.4W[[i]],
            linfct=mcalinfct(energy.aov.4W[[i]], "Stove"))
-    print(energy.mca.4W[[i]])
-    plot(energy.mca.4W[[i]], xlim=c(-3,3), main=i)
+    print(confint(energy.mca.4W[[i]]))
+    plot(energy.mca.4W[[i]], xlim=c(-3,3), main=i, ylim=c(.5,3.5))
   }
   par(mfrow=c(1,1))
 },s={
@@ -68,28 +54,10 @@ if.R(r={
     print(energy.mca.4W[[i]])
     frame()
     par(new=TRUE)
-    plot(energy.mca.4W[[i]], xlim=c(-3,3), main=i)
+    plot(energy.mca.4W[[i]], xlim=c(-3,3), main=i, comparisons.per.page=6)
   }
   par(mfrow=c(1,1))
 })
-
-
-## Separate multicomp for each Wood, each with its own
-## critical values
-## (same as above, but factored differently).
-## calculate
-energy.mca.4W <- list()
-for (i in levels(energy$Wood)) {
-  energy.mca.4W[[i]] <-
-    if.R(r={
-      glht(energy.aov.4W[[i]],
-           linfct=mcalinfct(energy.aov.4W[[i]], "Stove"))
-    },s={
-      tmp <- multicomp(energy.aov.4W[[i]], method="tukey", focus="Stove")
-      oldClass(tmp) <- c("multicomp.hh", "multicomp")
-      tmp
-    })
-}
 
 
 ## Separate calculated multicomp for each Wood, with forced adjustment
@@ -129,12 +97,12 @@ for (i in levels(energy$Wood)) {
 if.R(s=
      energy.mca.4W
      ,r=
-     lapply(energy.mca.4W, function(x) confint(x, calpha=energy.tpmc))
+     lapply(energy.mca.4W, confint, calpha=energy.tpmc)
      )
 
 ## display just the tables
 if.R(s=
-     lapply(energy.mca.4W, function(x) x$table)
+     lapply(energy.mca.4W, `[[`, "table")
      ,r=
      lapply(energy.mca.4W, function(x) confint(x, calpha=energy.tpmc)$confint[,])
      )
@@ -145,7 +113,7 @@ par(mfrow=c(2,2))
 for (i in levels(energy$Wood))
   if.R(r=
        plot(confint(energy.mca.4W[[i]], calpha=energy.tpmc),
-            xlim=c(-3,3), main=i, xlab="")
+            xlim=c(-3,3), main=i, xlab="", ylim=c(.5,3.5))
        ,
        s={
          frame()
@@ -199,7 +167,7 @@ for (i in levels(energy$Wood))
     old.mar <- par(mar=c(4.1, 4.1, 1.1, 2.1))
     plot(x=0:1, y=0:1, type="n", bty="n",
          xaxt="n", yaxt="n", xlab="", ylab="")
-    text(.6, .5, i, cex=1.5, adj=0)
+    text(.6, .5, i, cex=1.5, adj=.5)
     plot(confint(energy.mmc.4W[[i]]$mca$glht, calpha=energy.tpmc),
          xlim=c(-.4, 2.8), ylim=c(0,4), main="", xlab="")
     par(old.mar)

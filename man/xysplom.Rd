@@ -113,7 +113,6 @@ tmp2 <- tmp[,1:4]
 xysplom(y ~ x , data=tmp)
 
 xysplom(y ~ x + w , data=tmp)
-xysplom(y + w ~ x , data=tmp)
 
 xysplom(y + w ~ x , data=tmp, corr=TRUE)
 xysplom(y + w ~ x , data=tmp, beta=TRUE)
@@ -121,20 +120,11 @@ xysplom(y + w ~ x , data=tmp, corr=TRUE, beta=TRUE)
 xysplom(y + w ~ x , data=tmp, abline=TRUE)
 xysplom(y + w ~ x , data=tmp, corr=TRUE, abline=FALSE)
 
-xysplom(y ~ x | g, data=tmp)
-xysplom(y ~ x | g, data=tmp, layout=c(2,1))
-
 xysplom(y + x ~ z | g, data=tmp)
 xysplom(y + x ~ z | g, data=tmp, layout=c(2,2))
-xysplom(y ~ x + z | g, data=tmp)
-xysplom(y ~ x + z | g, data=tmp, layout=c(2,2))
 
 xysplom(w + y ~ x + z, data=tmp)
-xysplom(w + y ~ x + z | g, data=tmp)
 xysplom(w + y ~ x + z | g, data=tmp, layout=c(2,4))
-
-xysplom(w + y ~ x + z, data=tmp, cartesian=FALSE)
-xysplom(w + y + x ~ z, data=tmp, cartesian=FALSE)
 xysplom(w + y ~ x + z | g, data=tmp, cartesian=FALSE)
 
 xysplom(w + y ~ x + z, data=tmp, scales=list(relation="same"))
@@ -142,10 +132,9 @@ xysplom(w + y ~ x + z, data=tmp, x.relation="same")
 
 xysplom(~ y + x + z , data=tmp)
 xysplom(~ y + x + z | g, data=tmp)
-xysplom(~ y + x + z , data=tmp, corr=TRUE)
 xysplom(~ y + x + z | g, data=tmp, corr=TRUE)
 xysplom(~ y + x + z | g, data=tmp, corr=TRUE, digits=2)
-xysplom(~ y + x + z | g, data=tmp, corr=TRUE, layout=c(3,6))
+xysplom(~ y + x + z | g, data=tmp, corr=TRUE, layout=c(3,6), par.strip.text=list(cex=.5))
 
 \dontrun{
 ## These three examples run from R and the command line in S-Plus.

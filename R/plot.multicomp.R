@@ -10,7 +10,7 @@ plot.multicomp.hh <-
            lty.signif=4, lty.not.signif=4,
            lwd.signif=1, lwd.not.signif=1,
            ...,
-           xlabel.print=TRUE, y.axis.side=2)
+           xlabel.print=TRUE, y.axis.side=2, ylabel.inside=FALSE)
 {
   if.R(r=
        NextMethod("plot")
@@ -125,17 +125,48 @@ plot.multicomp.hh <-
            if(!is.null(href))
              segments(href, rep(cpp+1 - p - 1, length(href)), href,
                       rep(cpp+1, length(href)))
-           if (sum(signif))
+           if (sum(signif)) {
              ##text(xmax + 0.1 * (xmax - xmin),
-             axis(side=y.axis.side,
-                  at=heights[signif], labels[signif], col=col.signif,
-                  adj = x.label.adj, ticks=FALSE, col.axis=col.signif)
-           if (sum(!signif))
+             if (ylabel.inside) {
+               ## axis(side=y.axis.side,
+               ##     at=heights[signif], labels=FALSE, col=col.signif,
+               ##     adj = x.label.adj, ticks=FALSE, col.axis=col.signif)
+               if (y.axis.side==2) {
+                 axis(side=4, pos=xrange[1],
+                      at=heights[signif], labels=labels[signif], col=col.signif,
+                      adj = x.label.adj, ticks=FALSE, col.axis=col.signif)
+               }
+               if (y.axis.side==4) {
+                 axis(side=2, pos=xrange[2]-diff(xrange)/25,
+                      at=heights[signif], labels=labels[signif], col=col.signif,
+                      adj = x.label.adj, ticks=FALSE, col.axis=col.signif)
+               }
+             }
+             else
+               axis(side=y.axis.side,
+                    at=heights[signif], labels=labels[signif], col=col.signif,
+                    adj = x.label.adj, ticks=FALSE, col.axis=col.signif)
+           }
+           if (sum(!signif)) {
              ##text(xmax + 0.1 * (xmax - xmin),
-             axis(side=y.axis.side,
-                  heights[!signif], labels[!signif], col=col.not.signif,
-                  adj = x.label.adj, ticks=FALSE)
-           axis(1, at = pretty(c(xmin, xmax), 10), pos = cpp - p)
+             if (ylabel.inside) {
+               if (y.axis.side==2) {
+                 axis(side=4, pos=xrange[1],
+                      at=heights[!signif], labels=labels[!signif], col=col.not.signif,
+                      adj = x.label.adj, ticks=FALSE, col.axis=col.not.signif)
+               }
+               if (y.axis.side==4) {
+                 axis(side=2, pos=xrange[2]-diff(xrange)/25,
+                      at=heights[!signif], labels=labels[!signif], col=col.not.signif,
+                      adj = x.label.adj, ticks=FALSE, col.axis=col.not.signif)
+               }
+             }
+             else
+               axis(side=y.axis.side,
+                    at=heights[!signif], labels=labels[!signif], col=col.not.signif,
+                    adj = x.label.adj, ticks=FALSE, col.axis=col.not.signif)
+           }
+       axis(1, at = pretty(c(xmin, xmax), 10), pos = cpp - p)
            if (xlabel.print) {
              text((xmax + xmin)/2, (cpp - p - 3)*(22/cpp)-(cpp/22),
                   xlabel, adj = 0.5)
@@ -156,7 +187,8 @@ plot.matchMMC <- function(x, ...,
                           xlabel.print=FALSE,
                           cex.axis=par()$cex.axis,
                           col.signif='red', main="",
-                          ylabel.inside=FALSE) {
+                          ylabel.inside=FALSE,
+                          y.axis.side=4) {
   if.R(s={
     old.xpd <- par(xpd=TRUE)
     xlim <- par()$usr[1:2]
@@ -164,7 +196,8 @@ plot.matchMMC <- function(x, ...,
     plot(x, xrange.include=xlim, xaxs="d", ## xaxs="i",
          main=main, xlab="", ...,
          col.signif=col.signif, lty.signif=1, xlabel.print=xlabel.print,
-         plt=par()$plt+c(0,0,-.25,.05), x.label.adj=0, y.axis.side=4)
+         plt=par()$plt+c(0,0,-.25,.05), x.label.adj=0,
+         y.axis.side=y.axis.side, ylabel.inside=ylabel.inside)
     invisible(par(old.xpd))
   },
        r={

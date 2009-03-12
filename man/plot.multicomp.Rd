@@ -15,6 +15,16 @@
   In S-Plus,
   \code{plot.multicomp.hh} augments the standard \code{plot.multicomp} to
   give additional user arguments to control the appearance of the plot.
+  
+  \code{plot.matchMMC} uses the \code{plot.multicomp.hh} code.
+   \code{plot.matchMMC} must immediately follow a plot of an
+  \code{mmc.multicomp} object and is applied to either the \code{$mca}
+  or \code{$lmat} component of the \code{mmc.multicomp} object.
+  \code{plot.matchMMC} is used as a tiebreaker plot for the \code{MMC}
+  plot.  \code{plot.matchMMC} matches the horizontal scaling of the
+  \code{MMC} plot and displays the individual contrasts in the same
+  order as the \code{MMC} plot.  See \code{\link{mmc}} for examples.
+  
 }
 \usage{
 \method{plot}{multicomp}(x, ...) ## R only
@@ -29,13 +39,14 @@
            lty.signif=4, lty.not.signif=4,
            lwd.signif=1, lwd.not.signif=1,
            ...,
-           xlabel.print=TRUE, y.axis.side=2)
+           xlabel.print=TRUE, y.axis.side=2, ylabel.inside=FALSE)
 
 plot.matchMMC(x, ...,
               xlabel.print=FALSE,
               cex.axis=par()$cex.axis,
               col.signif='red', main="",
-              ylabel.inside=FALSE)
+              ylabel.inside=FALSE,
+              y.axis.side=4)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -98,7 +109,7 @@ that with the appropriate \code{plot} method.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, R. M. and Holland, B. (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 }

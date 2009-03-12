@@ -16,9 +16,8 @@
 \usage{
 cp.calc(sw, data, y.name)
 
-print.cp.object(x, ...)
+\method{print}{cp.object}(x, ...)
 
-%% [.cp.object(x, ..., drop = T)
 \method{[}{cp.object}(x, ..., drop = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.

@@ -2,6 +2,7 @@
 \alias{position}
 \alias{position<-}
 \alias{is.numeric.positioned}
+\alias{as.numeric.positioned}
 \alias{as.position}
 \alias{[.positioned}
 \alias{as.positioned}
@@ -26,6 +27,7 @@ position(x)
 position(x) <- value
 
 \method{is.numeric}{positioned}(x, ...)
+\method{as.numeric}{positioned}(x, ...)
 \method{[}{positioned}(x, ..., drop=FALSE)
 as.positioned(x)
 as.position(x)

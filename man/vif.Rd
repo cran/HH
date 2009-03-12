@@ -5,8 +5,8 @@
 \alias{vif.lm}
 \title{ Calculate the Variance Inflation Factor }
 \description{
-The VIF for predictor $i$ is $1/(1-R_i^2)$, where $R_i^2$ is the
-$R^2$ from a regression of predictor $i$ against the remaining
+The VIF for predictor \eqn{i} is \eqn{1/(1-R_i^2)}, where \eqn{R_i^2} is the
+\eqn{R^2} from a regression of predictor \eqn{i} against the remaining
 predictors.  
 }
 \usage{
@@ -36,17 +36,17 @@ A simple diagnostic of collinearity is the
 \emph{variance inflation factor, VIF}
 one for each regression coefficient (other than the intercept).
 Since the condition of collinearity involves the predictors but not
-the response, this measure is a function of the $X$'s but not of $Y$.
-The VIF for predictor $i$ is $1/(1-R_i^2)$, where $R_i^2$ is the
-$R^2$ from a regression of predictor $i$ against the remaining
-predictors.  If $R_i^2$ is close to 1, this means that predictor $i$
+the response, this measure is a function of the \eqn{X}'s but not of \eqn{Y}.
+The VIF for predictor \eqn{i} is \eqn{1/(1-R_i^2)}, where \eqn{R_i^2} is the
+\eqn{R^2} from a regression of predictor \eqn{i} against the remaining
+predictors.  If \eqn{R_i^2} is close to 1, this means that predictor \eqn{i}
 is well explained by a linear function of the remaining predictors,
-and, therefore, the presence of predictor $i$ in the model is
+and, therefore, the presence of predictor \eqn{i} in the model is
 redundant.  Values of VIF exceeding 5 are considered evidence of
 collinearity: The information carried by a predictor having such a VIF
 is contained in a subset of the remaining predictors.  If, however,
 all of a model's regression coefficients differ significantly from 0
-($p$-value $<$ .05), a somewhat larger VIF may be tolerable.  
+(\eqn{p}-value \eqn{<} .05), a somewhat larger VIF may be tolerable.  
 }
 \value{
 Vector of VIF values, one for each X-variable.

@@ -121,67 +121,47 @@ When there is overprinting of labels (a consequence of level means being
 close together), a tiebreaker plot may be needed.  See \code{?MMC} for
 an example.
 }
-\seealso{\code{\link{mmc}}}
+\seealso{\code{\link{mmc}}, \code{\link{plot.matchMMC}}}
 \examples{
-## continue with the example in mmc
+## continue with the example in ?MMC
 catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
                        col.names=c("catalyst","concent"))
-if.R(r=
-oldcon <- options(contrasts = c("contr.treatment", "contr.treatment"))
-,s={})
-
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
+
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
+summary(catalystm1.aov)
 
-if.R(r=
-options(oldcon)
-,s={})
-
-catalystm.mca <-
-if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
-     s=multicomp(catalystm1.aov, plot=FALSE))
-
-catalystm.lmat <- cbind("AB-D" =c(0, 1, 1, 0,-2),
-                        "A-B"  =c(0, 1,-1, 0, 0),
-                        "ABD-C"=c(0, 1, 1,-3, 1))
-if.R(r=catalystm.lmat.glht <- catalystm.lmat[-2,],
-     s={})
-
-if.R(s=dimnames(catalystm.lmat)[[1]] <-dimnames(catalystm.mca$lmat)[[1]],
-     r=dimnames(catalystm.lmat.glht)[[1]] <-dimnames(catalystm.mca$linfct)[[2]])
+## See ?MMC to see why these contrasts are chosen
+catalystm.lmat <- cbind("AB-D" =c( 1, 1, 0,-2),
+                        "A-B"  =c( 1,-1, 0, 0),
+                        "ABD-C"=c( 1, 1,-3, 1))
+dimnames(catalystm.lmat)[[1]] <- levels(catalystm$catalyst)
 
 
 catalystm.mmc <-
-if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
-                lmat=catalystm.lmat.glht, focus.lmat=catalystm.lmat[-1,])
-    ,s=multicomp.mmc(catalystm1.aov, lmat=catalystm.lmat,
-                     plot=FALSE)
+if.R(r={glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
+                focus.lmat=catalystm.lmat)}
+    ,s={multicomp.mmc(catalystm1.aov, focus.lmat=catalystm.lmat,
+                     plot=FALSE)}
 )
-
-old.mar <- if.R(s=par(mar=c(5,12,4,6)+.1),
-                r=par(mar=c(5,6,4,4)+.1))
 
 ## pairwise contrasts, default settings
 plot(catalystm.mmc, print.lmat=FALSE)
 
-## centering, scaling, emphasize significant contrasts
-plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58), print.lmat=FALSE,
-     col.mca.signif='red')
+## Centering, scaling, emphasize significant contrasts.
+## Needed in R with 7in x 7in default plot window.
+## Not needed in S-Plus with 4x3 aspect ratio of plot window.
+plot(catalystm.mmc, x.offset=2.1, ry.mmc=c(50,58), print.lmat=FALSE)
 
 ## user-specified contrasts
-plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58),
-     col.lmat.signif='blue')
+plot(catalystm.mmc, x.offset=2.1, ry.mmc=c(50,58))
 
 ## reduce intensity of isomeans grid, number isomeans grid lines
-plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58),
-     lty.iso=2, col.iso='darkgray', iso.name=FALSE,
-     col.lmat.signif='blue')
+plot(catalystm.mmc, x.offset=2.1, ry.mmc=c(50,58),
+     lty.iso=2, col.iso='darkgray', iso.name=FALSE)
 
 ## both pairwise contrasts and user-specified contrasts
-plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50,58), lty.iso=2,
-     col.iso='darkgray', print.mca=TRUE,
-     col.lmat.signif='blue', col.mca.signif='red')
-
-par(old.mar)
+plot(catalystm.mmc, x.offset=2.1, ry.mmc=c(50,58), lty.iso=2,
+     col.iso='darkgray', print.mca=TRUE)
 }
 \keyword{hplot}
