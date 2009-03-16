@@ -4,7 +4,7 @@
 \title{Evaluate lm model with highest adjusted $R^2$.}
 \description{
 The \code{regsubsets} function in the \code{leaps} package finds the
-model with the highest adjusted $R^2$.  This function evaluates the full
+model with the highest adjusted \eqn{R^2}.  This function evaluates the full
 \code{lm} object for that model.
 }
 \usage{

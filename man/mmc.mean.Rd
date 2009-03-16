@@ -165,7 +165,7 @@ multicomp.mmc.mean(pulmonary$smoker,
                    plot=FALSE)
 
 
-old.par <- par(mar=c(5,4,4,4)+.1)
+old.omd <- par(omd=c(0,.95, 0,1))
 
 ## pairwise comparisons
 plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
@@ -173,19 +173,15 @@ plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
-plot(pulmonary.mmc$mca, col.signif='red', lty.signif=1, xlabel.print=FALSE,
-     xaxs="d",  plt=par()$plt+c(0,0,-.25,.05), xrange.include=c(-1, 1))
-
+plot.matchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
-plot(pulmonary.mmc, print.lmat=TRUE, col.lmat.signif='blue', col.iso='gray')
+plot(pulmonary.mmc)
 
 ## pairwise and orthogonal contrasts on the same plot
-plot(pulmonary.mmc, print.mca=TRUE, print.lmat=TRUE,
-     col.mca.signif='red', col.lmat.signif='blue', col.iso='gray',
-     lty.lmat.not.signif=2)
+plot(pulmonary.mmc, print.mca=TRUE, print.lmat=TRUE)
 
-par(old.par)
+par(old.omd)
 })
 }
 \keyword{hplot }

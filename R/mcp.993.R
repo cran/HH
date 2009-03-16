@@ -6,7 +6,7 @@ if.R(s={},
 mcp2matrix.993 <- function(model, linfct) {
 
     ### extract factors and contrasts
-    fc <- factor_contrasts(model)
+    fc <- `factor_contrasts`(model)
     contrasts <- fc$contrasts
     factors <- fc$factors
     intercept <- fc$intercept

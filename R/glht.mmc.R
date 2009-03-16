@@ -13,7 +13,8 @@ as.multicomp.glht <-
            means=model.tables(x$model, type="means", cterm=focus)$tables[[focus]],
            height,
            lmat=t(x$linfct),
-           lmat.rows=-1,
+##           lmat.rows=-1,
+           lmat.rows=lmatRows(x, focus),
            lmat.scale.abs2=TRUE,
            estimate.sign=1,
            order.contrasts=TRUE,
@@ -25,6 +26,8 @@ as.multicomp.glht <-
            vcov.,
            ...
            ) {
+    focus.tmp <- focus ## force evaluation
+    
     dimnames(x$linfct)[[1]] <- gsub(" ", "", dimnames(x$linfct)[[1]]) ## remove blanks
     if (dimnames(x$linfct)[[2]][1] == "") dimnames(x$linfct)[[2]][1] <- "(Intercept)"
     if (!missing(vcov.)) x$vcov <- vcov.(x$model)
@@ -117,8 +120,14 @@ glht.mmc.lm <-
            },
            focus.lmat,
            ylabel=deparse(terms(model)[[2]]),
-           lmat=t(linfct),
-           lmat.rows=-1,
+           lmat=if (missing(focus.lmat)) {
+             t(linfct)
+           } else {
+             lmatContrast(t(none.glht$linfct), focus.lmat)
+             },
+##         lmat.rows=-1,
+           lmat.rows=lmatRows(model, focus),
+
            lmat.scale.abs2=TRUE,
            estimate.sign=1,
            order.contrasts=TRUE,
@@ -216,7 +225,7 @@ glht.mmc.lm <-
                                 level=1-result$mca$alpha,
                                 calpha=result$mca$crit.point,
                                 method=result$mca$method, ...)
-   if (!missing(lmat)) {
+   if (!missing(lmat) || !missing(focus.lmat)) {
       if (lmat.scale.abs2) {
         tmp <- lmat[lmat.rows, , drop=FALSE]
         first.row <- -apply(tmp, 2, sum)
@@ -243,8 +252,6 @@ glht.mmc.glht <- function(model, ...) {
 ##  do.call("glht.mmc.lm", c(list(model=model$model), list(...)))
 NextMethod("glht.mmc", model$model)
 }
-
-
 
 ## prints glht components of mmc.multicomp object
 print.glht.mmc.multicomp <- function (x, ...) {

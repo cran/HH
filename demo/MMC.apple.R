@@ -69,19 +69,14 @@ summary(apple.ancova.5)
 ## MMC Figure 6
 if.R(s={
   ## multicomp must be done with apple.ancova.2
+
+  ## S+ 8.1.1 has a bug in multcomp.default
+  ## This example requires a patch or an update to S+
   
-  tmp <-
-    multicomp(apple.ancova.2, focus="treat",
-              comparisons="mcc", method="dunnett", valid.check=FALSE)
-  tmp
-  
-  ## find out which rows of lmat we need
-  zapsmall(tmp$lmat)
-  ## keep just the treatment rows
   apple.mmc <-
     multicomp.mmc(apple.ancova.2, focus="treat",
                   comparisons="mcc", method="dunnett", valid.check=FALSE,
-                  lmat.rows=7:12, plot=FALSE)
+                  plot=FALSE)
   apple.mmc
 
   old.mar <- par(mar=c(15,4,4,2)+.1)
@@ -96,26 +91,15 @@ if.R(s={
 },r={
   ## glht must be done with apple.ancova.2
   
-  tmp <- glht(apple.ancova.2,
-              ## linfct=mcp(treat="Dunnett", base=6)) ## not yet
-              linfct = mcp(treat=contrMat(rep(4,6), base=6)))
-  tmp
-  
-  ## find out which rows of lmat we need
-  zapsmall(tmp$linfct)
-  ## keep just the treatment rows
   apple.mmc <- glht.mmc(apple.ancova.2,
                         ## linfct=mcp(treat="Dunnett", base=6), ## not yet
-                        linfct = mcp(treat=contrMat(rep(4,6), base=6)),
-                        lmat.rows=6:10)
+                        linfct = mcp(treat=contrMat(rep(4,6), base=6)))
   apple.mmc
 
-  old.mar <- par(mar=c(15,4,4,2)+.1)
-
+  old.omd <- par(omd=c(0,1,.3,1))
   plot(apple.mmc, col.iso=16, x.offset=15, col.mca.signif="red")
-
-  par(mar=c(2,4,28,2)+.1, new=TRUE)
+  par(omd=c(0,1,0,.4), new=TRUE)
   plot.matchMMC(apple.mmc$mca)
-  par(old.mar)
-  
+  par(old.omd)
+
 })

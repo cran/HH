@@ -6,43 +6,43 @@
 
 catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
                        col.names=c("catalyst","concent"))
-if.R(r=
-oldcon <- options(contrasts = c("contr.treatment", "contr.treatment"))
-,s={})
-
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 
-if.R(r=
-options(oldcon)
-,s={})
-
-catalystm.mca <-
-if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
-     s=multicomp(catalystm1.aov, plot=FALSE))
-
-catalystm.lmat <- cbind("AB-D" =c(0, 1, 1, 0,-2),
-                        "A-B"  =c(0, 1,-1, 0, 0),
-                        "ABD-C"=c(0, 1, 1,-3, 1))
-if.R(r=catalystm.lmat.glht <- catalystm.lmat[-2,],
-     s={})
-
-if.R(s=dimnames(catalystm.lmat)[[1]] <-dimnames(catalystm.mca$lmat)[[1]],
-     r=dimnames(catalystm.lmat.glht)[[1]] <-dimnames(catalystm.mca$linfct)[[2]])
-
-
 catalystm.mmc <-
-if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
-                lmat=catalystm.lmat.glht, focus.lmat=catalystm.lmat[-1,])
-    ,s=multicomp.mmc(catalystm1.aov, lmat=catalystm.lmat,
-                     plot=FALSE)
+if.R(r=
+     glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
+    ,s=
+     multicomp.mmc(catalystm1.aov, plot=FALSE)
 )
 
-lty.contr0 <- if.R(r=3, s=2)
-lty.iso    <- if.R(r=2, s=8)
+plot(catalystm.mmc)
 
 old.mar <- if.R(s=par(mar=c(5,8,4,4)+.1),
                 r=par(mar=c(12,4,4,3)+.1))
+plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50.5,57),
+     print.lmat=FALSE)
+
+catalystm.lmat <- cbind("AB-D" =c( 1, 1, 0,-2),
+                        "A-B"  =c( 1,-1, 0, 0),
+                        "ABD-C"=c( 1, 1,-3, 1))
+dimnames(catalystm.lmat)[[1]] <- levels(catalystm$catalyst)
+
+catalystm.mmc <-
+if.R(r=
+     glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
+              focus.lmat=catalystm.lmat)
+     ,s=
+     multicomp.mmc(catalystm1.aov, focus.lmat=catalystm.lmat,
+                   plot=FALSE)
+)
+
+plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50.5,57))
+
+
+
+lty.contr0 <- if.R(r=3, s=2)
+lty.iso    <- if.R(r=2, s=8)
 
 ## MMC Figure 1, pairwise contrasts
 plot(catalystm.mmc, x.offset=1.6, ry.mmc=c(50.5,57),

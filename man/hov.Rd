@@ -7,7 +7,7 @@
   Oneway analysis of variance makes the assumption that the variances of
   the groups are equal.
 Brown and Forsyth, 1974 present the recommended test of this assumption.
-The Brown and Forsyth test statistic is the $F$ statistic resulting
+The Brown and Forsyth test statistic is the \eqn{F} statistic resulting
 from an ordinary one-way analysis of variance on the
 absolute deviations from the median.
 }

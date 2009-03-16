@@ -48,11 +48,8 @@ summary(cc176.aov,
 ## almost MMC Figure 3, mmc plot of current, default settings for display
 if.R(s={
   old.par <- par(mar=c(5,4,4,8)+.1)
-  cc176.lmat.mca <- multicomp(cc176.aov, focus="current")$lmat
-  print(dimnames(cc176.lmat.mca)[[1]])  ## from which we see we need 8:11
-  print(zapsmall(cc176.lmat.mca[8:11,]))
   cc176.mmc <-
-    multicomp.mmc(cc176.aov, lmat.rows=8:11, focus="current",
+    multicomp.mmc(cc176.aov, focus="current",
                   ry=c(56,72), x.offset=1.5,
                   valid.check=FALSE, ## Tukey method (slightly narrower bounds)
                   plot=FALSE)
@@ -61,14 +58,9 @@ if.R(s={
   par(old.par)
 }
 ,r={
-  cc176.mca <-
-    glht(cc176.aov, linfct=mcalinfct(cc176.aov, "current"))
-  print(dimnames(cc176.mca$linfct)[[2]])  ## from which we see we need 6:8
-  print(zapsmall(cc176.mca$linfct[,6:8]))
-
   cc176.mmc <-
-    glht.mmc(cc176.aov, linfct=mcalinfct(cc176.aov, "current"), "current",
-             lmat.rows=6:8)
+    glht.mmc(cc176.aov, linfct=mcp(current="Tukey"),
+             covariate.average=TRUE, interaction.average=TRUE)
   print(cc176.mmc)
   plot(cc176.mmc)
 })
@@ -93,18 +85,19 @@ if.R(
      
 
 ## MMC Figure 4, current with orthogonal contrasts and control of display
+cc176.orth <- cbind(  "g-f"=c( 1,-1, 0, 0),
+                    "60-25"=c( 0, 0, 1,-1),
+                    "gf-AC"=c( 1, 1,-1,-1))
+dimnames(cc176.orth)[[1]] <- levels(cc176$current)
+
 if.R(s={
-  cc176.lmat.orth <-
-    cbind(cc176.lmat.mca[,c(1,6)],
-         cc176.lmat.mca[,2:5] %*% c(1,1,1,1))
-   dimnames(cc176.lmat.orth)[[2]][3] <- "gf-AC"
-  zapsmall(cc176.lmat.orth[8:11,])
+
   cc176.mmc <-
-    multicomp.mmc(cc176.aov, lmat.rows=8:11, focus="current",
-                  lmat=cc176.lmat.orth,
-                  ry=c(56,72), x.offset=1.5,
-                  valid.check=FALSE, ## Tukey method
+    multicomp.mmc(cc176.aov, focus="current", method="tukey",
+                  focus.lmat=cc176.orth, valid.check=FALSE,
                   plot=FALSE)
+##                  ry=c(56,72), x.offset=1.5,
+
   print(cc176.mmc)
   old.par <- par(mar=c(5,4,4,8)+.1)
        plot(cc176.mmc, iso.name=FALSE, col.iso=16,
@@ -113,14 +106,10 @@ if.R(s={
   par(old.par)
 }
 ,r={
-  cc176.linfct.orth <-
-    rbind(cc176.mca$linfct[c(1,6), ],
-          "AC-gf"=apply(cc176.mca$linfct[2:5, ], 2, sum))
-  zapsmall(cc176.linfct.orth[,6:8])
   cc176.mmc <-
-    glht.mmc(cc176.aov, linfct=mcalinfct(cc176.aov, "current"), "current",
-             lmat.rows=6:8, lmat=t(cc176.linfct.orth),
-             focus.lmat=rbind(c(-1,0,-2), t(cc176.linfct.orth[,6:8])))
+    glht.mmc(cc176.aov, linfct=mcp(current="Tukey"),
+             focus.lmat=cc176.orth,
+             covariate.average=TRUE, interaction.average=TRUE)
   print(cc176.mmc)
 
 

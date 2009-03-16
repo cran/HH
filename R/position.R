@@ -90,5 +90,6 @@ if.R(s=
      ,
      r={})
 
+as.numeric.positioned <- function(x, ...) position(x)[as.numeric(unpositioned(x))]
 
 ## source("~/HH-R.package/HH/R/position.R")
