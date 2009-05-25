@@ -21,7 +21,7 @@
   hypothesis
   is displayed when the argument \code{axis.name="z1"} is specified.
 The shaded area is printed on the plot.
-  
+
   When the optional argument \code{df.t} is specified, then a
   t-distribution with \code{df.t} degrees of freedom is plotted.
 
@@ -29,41 +29,47 @@ The shaded area is printed on the plot.
   the location of the observed xbar.
 
   \code{normal.and.t.dist} is a driver function that uses all the
-  others.  In R, when RExcel is running (currently only on Windows), it has
-  the side effect of leaving variables in the work space which are
-  intended to be used by the \code{normal.and.t} Excel worksheet in the
-  RExcel package for R on Windows.  There are no side effects in S-Plus
-  or in R when RExcel is not running.
-  
+  others.  It's primary function is drawing a plot.  It returns
+  an invisible list containing the values it calculated and
+  displayed on the graph.
+
+  \code{norm.curve} draws the curves and filled areas as requested
+  by the \code{normal.and.t.dist} function.  Any \code{out of bounds}
+  errors (for example, with \code{normal.and.t.dist(deg.free=1)})
+  are suppressed with \code{par(err=-1)} by this function and
+  restored to the previous value when the \code{norm.curve} function completes.
+
 }
 \usage{
-normal.and.t.dist(std.dev        = 1,
+normal.and.t.dist(mu.H0          = 0,
+                  mu.H1          = NA,
+                  obs.mean       = 0,
+                  std.dev        = 1,
                   n              = NA,
                   deg.freedom    = NA,
-                  mu.H0          = 0,
+                  alpha.left     = alpha.right,
+                  alpha.right    = .05,
+                  Use.mu.H1      = FALSE,
+                  Use.obs.mean   = FALSE,
+                  Use.alpha.left = FALSE,
+                  Use.alpha.right= TRUE,
+                  hypoth.or.conf = 'Hypoth',
                   xmin           = NA,
                   xmax           = NA,
-                  fx.min         = NA,
-                  fx.max         = NA,
-                  Use.alpha.right= TRUE,
-                  alpha.right    = .05,
-                  Use.alpha.left = FALSE,
-                  alpha.left     = alpha.right,
-                  Use.mu.H1      = FALSE,
-                  mu.H1          = NA,
-                  Use.obs.mean   = FALSE,
-                  obs.mean       = 0,
-                  hypoth.or.conf = 'Hypoth',
-                  col.mean       = 'lime green',
+                  gxbar.min      = NA,
+                  gxbar.max      = NA,
+                  cex.crit       = 1.2,
+                  polygon.density= -1,
+                  polygon.lwd    = 4,
+                  col.mean       = 'limegreen',
+                  col.mean.label = 'limegreen',
                   col.alpha      = 'blue',
-                  col.beta       = 'red',
-                  col.conf       = 'pale green',
-                  col.conf.arrow = 'dark green',
-                  col.mean.label = 'lime green',
                   col.alpha.label= 'blue',
+                  col.beta       = 'red',
                   col.beta.label = 'red',
-                  col.conf.label = 'dark green',
-                  cex.crit       = 1.2
+                  col.conf       = 'palegreen',
+                  col.conf.arrow = 'darkgreen',
+                  col.conf.label = 'darkgreen'
                   )
 
 norm.setup(xlim.in=c(-2.5,2.5),
@@ -91,6 +97,9 @@ norm.curve(mean=0, se=sd/sqrt(n),
           col.conf.label=par("col"),
           col.crit=ifelse(hypoth.or.conf=="Hypoth", 'blue', col.conf.arrow),
           cex.crit=1.2,
+          polygon.density=-1,
+          polygon.lwd=4,
+          col.border=ifelse(is.na(polygon.density), FALSE, col),
           ...)
 
 norm.observed(xbar, t.xbar, t.xbar.H1=NULL,
@@ -108,7 +117,7 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{xlim.in, ylim.in, xmin, xmax, fx.min, fx.max}{\code{xlim, ylim}.
+  \item{xlim.in, ylim.in, xmin, xmax, gxbar.min, gxbar.max}{\code{xlim, ylim}.
     Defaults to correct values for standard
            Normal(0,1).  User must set values for other mean and standard
            error.}
@@ -195,6 +204,22 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
   \item{Use.mu.H1}{Logical.  If \code{TRUE}, then include \code{mu.H1}
    on the plot.}
   \item{col.mean}{Color of outline.}
+  \item{polygon.density, polygon.lwd, col.border}{\code{density, lwd,
+      border} arguments to \code{polygon}.  \code{polygon.density}
+    is \eqn{-1} by default to give a solid color filled region.
+    Setting \code{polygon.density} to a positive value (we recommend 10)
+    gives a diagonally-hatched area appropriate for printing the graph
+  on a black and white printer.}
+}
+
+\value{\item{beta.left, beta.middle, beta.right, crit.val, crit.val.H1,
+    crit.val.H1.left, crit.val.left, crit.val.left.z, crit.val.z,
+    obs.mean.H0.p.val, obs.mean.H0.side, obs.mean.H0.z, obs.mean.H1.z,
+    obs.mean.x.neg, obs.mean.x.pos, obs.mean.z.pos, standard,
+    standard.error, standard.normal}{An invisible list containing the
+    calculated values of probabilities and critical values in the data
+    scale, the null hypothesis z- or t-scale, and the alternative
+    hypothesis z- or t-scale, as specified.  }
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
@@ -202,8 +227,15 @@ normal.and.t.dist()
 normal.and.t.dist(xmin=-4)
 normal.and.t.dist(std.dev=2)
 normal.and.t.dist(std.dev=2, Use.alpha.left=TRUE, deg.free=6)
-normal.and.t.dist(std.dev=2, Use.alpha.left=TRUE, deg.free=6, fx.max=.20)
-
+normal.and.t.dist(std.dev=2, Use.alpha.left=TRUE, deg.free=6, gxbar.max=.20)
+normal.and.t.dist(std.dev=2, Use.alpha.left=TRUE, deg.free=6,
+                  gxbar.max=.20, polygon.density=10)
+normal.and.t.dist(std.dev=2, Use.alpha.left=FALSE, deg.free=6,
+                  gxbar.max=.20, polygon.density=10,
+                  mu.H1=2, Use.mu.H1=TRUE,
+                  obs.mean=2.5, Use.obs.mean=TRUE, xmin=-7)
+normal.and.t.dist(std.dev=2, hypoth.or.conf="Conf")
+normal.and.t.dist(std.dev=2, hypoth.or.conf="Conf", deg.free=8)
 
 old.par <- par(oma=c(4,0,2,5), mar=c(7,7,4,2)+.1)
 

@@ -249,9 +249,7 @@ catalystm.mmc
 if.R(s=plot(catalystm.mmc, x.offset=1),
      r=plot(catalystm.mmc, ry=c(50,58), x.offset=1.8))
 ## tiebreaker
-if.R(r=tmp.omd <- par(omd=c(par()$omd[1:2],.5,1)), s={})
 plot.matchMMC(catalystm.mmc$mca, xlabel.print=FALSE)
-if.R(r=par(tmp.omd), s={})
 
 ## user-specified contrasts
 catalystm.lmat <- cbind("AB-D" =c( 1, 1, 0,-2),
@@ -270,9 +268,7 @@ catalystm.mmc
 if.R(s=plot(catalystm.mmc, x.offset=1),
      r=plot(catalystm.mmc, ry=c(50,58), x.offset=1.8))
 ## tiebreaker
-if.R(r=tmp.omd <- par(omd=c(par()$omd[1:2],.65,1)), s={})
 plot.matchMMC(catalystm.mmc$lmat, xlabel.print=FALSE, col.signif='blue')
-if.R(r=par(tmp.omd), s={})
 par(old.omd)
 
 
@@ -311,9 +307,7 @@ multicomp(weightloss.aov,
           bounds="lower", control=4,
           valid.check=FALSE)
 )
-if.R(r=tmp.omd <- par(omd=c(0,1,.5,1)), s={})
 plot(tmp.dunnett)
-if.R(r=par(tmp.omd), s={})
 
 tmp.dunnett.mmc <-
 if.R(r=
@@ -343,11 +337,12 @@ if.R(r={
     ,s={})
 display$emergenc <- factor(display$emergenc)
 
-if.R(s={old.omd <- par(omd=c(.08,1,.05,1))},
-     r={})
+if.R(r=
 interaction2wt(time ~ emergenc * panel, data=display)
-if.R(s={par(old.omd)},
-     r={})
+     ,s=
+interaction2wt(time ~ emergenc * panel, data=display,
+               xlim=c(.5,4.5), key.in=list(x=-1.8))
+)
 
 displayf.aov <- aov(time ~ emergenc * panel, data=display)
 anova(displayf.aov)
@@ -364,7 +359,7 @@ if.R(r={
 if.R(s=
        plot(displayf.mmc)
     ,r=
-       plot(displayf.mmc, x.offset=1.7, ry=c(17.8,25.8))
+       plot(displayf.mmc, x.offset=1.7, ry=c(17,26.5))
 )
 
 
@@ -383,7 +378,7 @@ if.R(r={
 if.R(s=
        plot(displayf.mmc)
     ,r=
-       plot(displayf.mmc, x.offset=1.7, ry=c(17.8,25.8))
+       plot(displayf.mmc, x.offset=1.7, ry=c(17,26.5))
 )
 
 
@@ -406,7 +401,9 @@ position(maiz$bloque) <- c(2.25, 3.75)            ## inherits(maiz$bloque, "orde
 
 if.R(s={old.omd <- par(omd=c(.1,1,.05,1))},
      r={})
-interaction2wt(yield ~ hibrido+nitrogeno+bloque, data=maiz)
+interaction2wt(yield ~ hibrido+nitrogeno+bloque, data=maiz,
+               key.in=list(x=-5), ## ignored by R
+               par.strip.text=list(cex=.7))
 interaction2wt(yield ~ hibrido+nitrogeno, data=maiz)
  if.R(s={par(old.omd)},
       r={})

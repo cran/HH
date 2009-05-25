@@ -53,8 +53,13 @@ strip.interaction2wt(which.given, which.panel, var.name,
   \item{box.ratio}{passed to \code{panel.bwplot.intermediate.hh}},
   \item{\dots}{extra arguments, primarily color,
     to be passed to \code{panel.bwplot.intermediate.hh}}
-  \item{key.in}{arguments to be passed through to the \code{key} for the
-    trace-factor in each row of the display.}
+  \item{key.in}{S-Plus only.  Arguments to be passed through to the \code{key} for the
+    trace-factor in each row of the display.
+  The most likely argument is \code{x}, which is needed if the key is
+  not correctly placed.  Use, for example, \code{key.in=list(x=-3.5)}
+  where the units are the units of the left column of panels and the
+  value is the location where the left border of the key should be placed.
+}
   \item{factor.position}{\code{"position"} attribute of factor.}
   \item{simple}{logical.  \code{TRUE} if simple effects are to be displayed.}
   \item{simple.offset, simple.scale}{named list of offset and scale for the

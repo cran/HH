@@ -46,8 +46,12 @@ function(mean=0, se=sd/sqrt(n),
          col.conf.label=par("col"),
          col.crit=ifelse(hypoth.or.conf=="Hypoth", 'blue', col.conf.arrow),
          cex.crit=1.2,
+         polygon.density=-1,
+         polygon.lwd=4,
+         col.border=ifelse(is.na(polygon.density), FALSE, col),
          ...) {
-
+    old.err <- par(err=-1) ## prevent "out of bounds" errors from displaying
+    on.exit(par(old.err))
   ## Valid values for shade are "right", "left", "inside", "outside",
   ## "none".  Default is "right" for one-sided critical.values and
   ## "outside" for two-sided critical values.  "none" is used to
@@ -65,14 +69,14 @@ function(mean=0, se=sd/sqrt(n),
                     stop("Specify no more than 2 critical values."))
 
   cex.small <- par()$cex*.7
-  
+
   z.critical.values <- if(se==0) c(0,0) else (critical.values-mean)/se
-  
+
   dfunction <-  function(z, df.t=NULL)
     if (is.null(df.t) || df.t==Inf) dnorm(z) else dt(z, df.t)
   pfunction <-  function(z, df.t=NULL)
     if (is.null(df.t) || df.t==Inf) pnorm(z) else pt(z, df.t)
-    
+
   x.z <- mean + z*se
   lines(y=dfunction(z, df.t)/se, x=x.z)
   zvals <- trunc(range(z))
@@ -98,10 +102,10 @@ function(mean=0, se=sd/sqrt(n),
   if (!(missing(se) && missing(sd) && missing(n) && mean==0)) {
     mtext(side=4,
           text=ifelse(is.null(df.t) || df.t==Inf,
-            if.R(r=expression(f(z)/sigma[bar(x)] == f((bar(x)-mu)/sigma[bar(x)])/sigma[bar(x)]),
-                 s="f((xbar-m)/se) / se  =  f(z)/se"),
-            if.R(r=expression(f(t)/s[bar(x)] == f((bar(x)-mu)/s[bar(x)])/s[bar(x)]),
-                 s="f((xbar-m)/se) / se  =  f(t)/se")),
+            if.R(r=expression(g( ~ bar(x) ~ "") == f(( ~ bar(x)-mu[~i])/sigma[~bar(x)])/sigma[~bar(x)]),
+                 s="g(xbar) = f((xbar-mu_i)/se) / se"),
+            if.R(r=expression(g( ~ bar(x) ~ "" ) == f(( ~ bar(x)-mu[~i])/s[~bar(x)])/s[~bar(x)]),
+                 s="g(xbar) = f((xbar-mu_i)/se) / se")),
           line=second.axis.label.line, cex=par()$cex,
           col=ifelse(second.axis.label.line==3, 1, col))
     mtext(side=2,
@@ -138,7 +142,9 @@ function(mean=0, se=sd/sqrt(n),
     if (critical.one) {
       polygon(x=c(x[1], x, x[length(x)]),
               y=c(0, dfunction((x-mean)/se, df.t)/se, 0),
-              col=col)
+              col=col, density=polygon.density, lwd=polygon.lwd,
+              border=col.border,
+              angle=if (shade=="left") 45 else -45)
       if (hypoth.or.conf=="Conf") {
         y.arrow <- par()$usr[3] - diff(par()$usr[3:4])*.06
         arrows(x[1], y.arrow, x[length(x)], y.arrow,
@@ -148,10 +154,14 @@ function(mean=0, se=sd/sqrt(n),
     else {
       polygon(x=c(x1[1], x1, x1[length(x1)]),
               y=c(0, dfunction((x1-mean)/se, df.t)/se, 0),
-              col=col)
+              col=col, density=polygon.density, lwd=polygon.lwd,
+              border=col.border,
+              angle=45)
       polygon(x=c(x2[1], x2, x2[length(x2)]),
               y=c(0, dfunction((x2-mean)/se, df.t)/se, 0),
-              col=col)
+              col=col, density=polygon.density, lwd=polygon.lwd,
+              border=col.border,
+              angle=-45)
     }
   }
 
@@ -167,11 +177,11 @@ function(mean=0, se=sd/sqrt(n),
       mtext(side=1, at=par()$usr[1]-left.margin, line=1, text=axis.name, cex=cex.small)
     mtext(side=1, at=par()$usr[1]-left.margin, line=4, text=axis.name, cex=cex.small)
     if (shade != "none") {
-      mtext(side=1, at=par()$usr[2]+left.margin, line=1,
+      mtext(side=1, at=par()$usr[2]+.9*left.margin, line=1,
             text="shaded area", cex=par()$cex)
-      pval <- format(round(shaded.area,4), digits=1, nsmall=4, scientific=FALSE)
+      pval <- format(round(shaded.area,4), digits=4, nsmall=4, scientific=FALSE)
       if (hypoth.or.conf=="Hypoth")
-        mtext(side=1, at=par()$usr[2]+left.margin, line=4,
+        mtext(side=1, at=par()$usr[2]+1.45*left.margin, line=4, adj=1,
               text=if.R(r=substitute(list(alpha * " = " * group("",list(p),"")), list(p=pval)),
                 s=paste("alpha =", pval)),
               cex=par()$cex, col=col.label)
@@ -211,8 +221,8 @@ function(mean=0, se=sd/sqrt(n),
     mtext(side=1, at=par()$usr[1]-left.margin, line=7,
           text=axis.name.expr, cex=cex.small)
     if (shade != "none") {
-      pval <- format(round(shaded.area,4), digits=1, nsmall=4, scientific=FALSE)
-      mtext(side=1, at=par()$usr[2]+left.margin, line=7,
+      pval <- format(round(shaded.area,4), digits=4, nsmall=4, scientific=FALSE)
+      mtext(side=1, at=par()$usr[2]+1.45*left.margin, line=7, adj=1,
             text=if.R(
               r=substitute(list(beta * " = " * group("",list(p),"")), list(p=pval)),
               s=paste("beta =", pval)),
@@ -230,7 +240,7 @@ function(mean=0, se=sd/sqrt(n),
 norm.observed <-
   function(xbar, t.xbar, t.xbar.H1=NULL,
            col="green",
-           p.val=NULL, p.val.x=par()$usr[2]+ left.margin,
+           p.val=NULL, p.val.x=par()$usr[2] + left.margin,
            t.or.z=ifelse(is.null(deg.free) || deg.free==Inf, "z", "t"),
            t.or.z.position=par()$usr[1]-left.margin,
            cex.small=par()$cex*.7, col.label=col,
@@ -253,8 +263,8 @@ norm.observed <-
     mtext(side=1, text=round(-t.xbar,3), at=xbar.negt,
           line=5, cex=par()$cex, col=col.label)
   if (!is.null(p.val)) {
-    pval <- format(round(p.val,4), digits=1, nsmall=4, scientific=FALSE)
-    mtext(side=1, at=p.val.x, line=5,
+    pval <- format(round(p.val,4), digits=4, nsmall=4, scientific=FALSE)
+    mtext(side=1, at=par()$usr[2]+1.45*left.margin, line=5, adj=1,
           text=if.R(r=substitute(list(p * " = " * group("",list(pv),"")), list(pv=pval)),
             s=paste("p =", pval)),
           cex=par()$cex, col=col.label)
@@ -263,7 +273,7 @@ norm.observed <-
     mtext(side=1, text=round(t.xbar.H1,3), at=xbar,
           line=8, cex=par()$cex, col=col.label)
     t.or.z.expr <-
-      if (t.or.z=="z") if.R(r=expression(z[1]),s="z1")
+      if (t.or.z=="z") if.R(r=expression(z[1]), s="z1")
       else if.R(r=expression(t[1]), s="t1")
     mtext(side=1, text=t.or.z.expr, at=t.or.z.position,
           line=8, cex=cex.small)
@@ -287,34 +297,37 @@ norm.outline <- function(dfunction, left, right, mu.H0, se, deg.free=NULL,
 
 
 
-normal.and.t.dist <-
-  function(std.dev        = 1,
+normal.and.t.dist<-
+  function(
+           mu.H0          = 0,
+           mu.H1          = NA,
+           obs.mean       = 0,
+           std.dev        = 1,
            n              = NA,
            deg.freedom    = NA,
-           mu.H0          = 0,
+           alpha.left     = alpha.right,
+           alpha.right    = .05,
+           Use.mu.H1      = FALSE,
+           Use.obs.mean   = FALSE,
+           Use.alpha.left = FALSE,
+           Use.alpha.right= TRUE,
+           hypoth.or.conf = 'Hypoth',
            xmin           = NA,
            xmax           = NA,
-           fx.min         = NA,
-           fx.max         = NA,
-           Use.alpha.right= TRUE,
-           alpha.right    = .05,
-           Use.alpha.left = FALSE,
-           alpha.left     = alpha.right,
-           Use.mu.H1      = FALSE,
-           mu.H1          = NA,
-           Use.obs.mean   = FALSE,
-           obs.mean       = 0,
-           hypoth.or.conf = 'Hypoth',
-           col.mean       = 'lime green',
+           gxbar.min      = NA,
+           gxbar.max      = NA,
+           cex.crit       = 1.2,
+           polygon.density= -1,
+           polygon.lwd    = 4,
+           col.mean       = 'limegreen',
+           col.mean.label = 'limegreen',
            col.alpha      = 'blue',
-           col.beta       = 'red',
-           col.conf       = 'pale green',
-           col.conf.arrow = 'dark green',
-           col.mean.label = 'lime green',
            col.alpha.label= 'blue',
+           col.beta       = 'red',
            col.beta.label = 'red',
-           col.conf.label = 'dark green',
-           cex.crit       = 1.2
+           col.conf       = 'palegreen',
+           col.conf.arrow = 'darkgreen',
+           col.conf.label = 'darkgreen'
            )
   {
     pfunction <-  function(z, df.t=NULL)
@@ -327,7 +340,7 @@ normal.and.t.dist <-
       if (is.null(df.t) || df.t==Inf) dnorm(z) else dt(z, df.t)
 
     is.na.or.blank <- function(x) is.na(x) || x==""
-    
+
     old.par <- par(oma=c(4,0,2,5), mar=c(7,7,4,2)+.1)
     deg.free <- if(is.na.or.blank(deg.freedom))  NULL else deg.freedom
     dfunction.name <- if (is.null(deg.free) || deg.free==Inf) "dnorm" else "dt"
@@ -359,54 +372,81 @@ normal.and.t.dist <-
       else ## 'Conf'
         max(crit.val+.5*se, obs.mean+3*se, na.rm = TRUE)
 
-    if (is.na.or.blank(fx.min)) fx.min <- 0
-    if (is.na.or.blank(fx.max)) fx.max <- dfunction(0, df.t=deg.free) / se
+    if (is.na.or.blank(gxbar.min)) gxbar.min <- 0
+    if (is.na.or.blank(gxbar.max)) gxbar.max <- dfunction(0, df.t=deg.free) / se
 
     conf.level.fract <- 1
     if (Use.alpha.left) conf.level.fract <- conf.level.fract - alpha.left
     if (Use.alpha.right) conf.level.fract <- conf.level.fract - alpha.right
 
-    standard.normal.main <- "Standard Normal Density N(0,1)"
-    
-    normal.main <-
-      substitute(list("normal density:  " *
-                      sigma[bar(bold(x))] * " = " * group("",list(se),"")),
-                 list(se=round(se,3)))
-    
-    normal.conf.main <-
-      substitute(list(conf.level * "%  Normal Confidence Limits:  " *
-                      sigma[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
-                      "n =" * group("",n.conf,"")),
-                 list(se=round(se,3), n.conf=n.conf,
-                      conf.level=100*conf.level.fract))
-    
-    standard.t.main <-
-      substitute(list("Standard t Density, " *  nu * "=" * group("",list(df),"")),
-                 list(df=deg.free))
-    
-    t.dist.main <-
-      substitute(list("t density:  " *
-                      "s"[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
-                      nu * "=" * group("",list(df),"")),
-                 list(se=round(se,3), df=deg.free))
+    ## main titles for graph
+    if.R(r={
+      standard.normal.main <- "Standard Normal Density N(0,1)"
 
-    t.conf.main <-
-      substitute(list(conf.level * "%  t Confidence Limits:  " *
-                      s[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
-                      "n =" * group("",n.conf,"") * ", " *
-                      nu * "=" * group("",list(df),"")),
-                 list(se=round(se,3), n.conf=n.conf, df=deg.free,
-                      conf.level=100*conf.level.fract))
+      normal.main <-
+        substitute(list("normal density:  " *
+                        sigma[bar(bold(x))] * " = " * group("",list(se),"")) * ", " *
+                        " n = " * group("",n.conf,"") ,
+                   list(se=round(se,3), n.conf=n.conf))
+
+      normal.conf.main <-
+        substitute(list(conf.level * "%  Normal Confidence Limits:  " *
+                        sigma[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
+                        "n = " * group("",n.conf,"")),
+                   list(se=round(se,3), n.conf=n.conf,
+                        conf.level=100*conf.level.fract))
+
+      standard.t.main <-
+        substitute(list("Standard t Density, " *  nu * " = " * group("",list(df),"")),
+                   list(df=deg.free))
+
+      t.dist.main <-
+        substitute(list("t density:  " *
+                        "s"[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
+                        "n =" * group("",n.conf,"") * ", " *
+                        nu * " = " * group("",list(df),"")),
+                   list(se=round(se,3), n.conf=n.conf, df=deg.free))
+
+      t.conf.main <-
+        substitute(list(conf.level * "%  t Confidence Limits:  " *
+                        s[bar(bold(x))] * " = " * group("",list(se),"") * ", " *
+                        "n = " * group("",n.conf,"") * ", " *
+                        nu * " = " * group("",list(df),"")),
+                   list(se=round(se,3), n.conf=n.conf, df=deg.free,
+                        conf.level=100*conf.level.fract))
+
+    },s={
+      standard.normal.main <- "Standard Normal Density N(0,1)"
+
+      normal.main <- paste("normal density:  se =", round(se,3),
+                           ",  n = ", n.conf, sep="")
+
+      normal.conf.main <- paste(round(100*conf.level.fract),
+                                "%  Normal Confidence Limits:  se = ", round(se,3),
+                                ",  n = ", n.conf, sep="")
+
+      standard.t.main <- paste("Standard t Density, df =", deg.free)
+
+      t.dist.main <- paste("t density:  se =", round(se,3),
+                                ",  n = ", n.conf, ",  df = ", deg.free, sep="")
+
+      t.conf.main <- paste(round(100*conf.level.fract),
+                                "%  t Confidence Limits:  se = ", round(se,3),
+                                ",  n = ", n.conf, ",  df = ", deg.free, sep="")
+    })
 
     if (normal) {
       if (hypoth.or.conf=="Hypoth") {
         if (standard.normal)
-          norm.setup(mean=mu.H0, xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=standard.normal.main)
+          norm.setup(mean=mu.H0, xlim=c(xmin,xmax),
+                     ylim=c(gxbar.min, gxbar.max), main=standard.normal.main)
         else
-          norm.setup(mean=mu.H0, xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=normal.main,
+          norm.setup(mean=mu.H0, xlim=c(xmin,xmax),
+                     ylim=c(gxbar.min, gxbar.max), main=normal.main,
                      se=se, n=n.conf)
       } else { ## Conf
-        norm.setup(mean=obs.mean, xlim=c(xmin,xmax), ylim=c(fx.min, fx.max),
+        norm.setup(mean=obs.mean, xlim=c(xmin,xmax),
+                   ylim=c(gxbar.min, gxbar.max),
                    sd=sd,
                    se=se, n=n.conf,
                    main=normal.conf.main)
@@ -418,13 +458,15 @@ normal.and.t.dist <-
       if (hypoth.or.conf=="Hypoth") {
         if (standard)
           norm.setup(mean=mu.H0, df.t=deg.free,
-                     xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=standard.t.main)
+                     xlim=c(xmin,xmax), ylim=c(gxbar.min, gxbar.max),
+                     main=standard.t.main)
         else
           norm.setup(mean=mu.H0, n=n.conf, se=se, df.t=deg.free,
-                     xlim=c(xmin,xmax), ylim=c(fx.min, fx.max), main=t.dist.main)
+                     xlim=c(xmin,xmax), ylim=c(gxbar.min, gxbar.max),
+                     main=t.dist.main)
       } else { ## Conf
         norm.setup(mean=obs.mean, n=n.conf, se=se, df.t=deg.free,
-                   xlim=c(xmin,xmax), ylim=c(fx.min, fx.max),
+                   xlim=c(xmin,xmax), ylim=c(gxbar.min, gxbar.max),
                    main=t.conf.main)
                    ## paste(
                    ##  "t Confidence Limits:  se =", round(se,3),
@@ -438,43 +480,52 @@ normal.and.t.dist <-
     if (!Use.alpha.left && !Use.alpha.right) {cv.shade <- "none"   ; cv.altshade <- "none"  }
 
     if (hypoth.or.conf=="Hypoth" && Use.mu.H1) {
-      if (standard.normal) {
-        norm.curve(crit=cv, mean=mu.H1,
-                   col=col.beta, shade=cv.altshade,
-                   axis.name=if(is.null(deg.free)) 'z1' else 't1',
-                   axis.name.expr=if(is.null(deg.free)) expression(z[1]) else expression(t[1]),
-                   Use.obs.mean=Use.obs.mean, col.label=col.beta.label)
-      } else {
-        norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H1,
-                   col=col.beta, shade=cv.altshade,
-                   axis.name=if(is.null(deg.free)) 'z1' else 't1',
-                   axis.name.expr=if(is.null(deg.free)) expression(z[1]) else expression(t[1]),
-                   Use.obs.mean=Use.obs.mean, col.label=col.beta.label)
-      }
+        t.or.z.expr <-
+            if (is.null(deg.free)) if.R(r=expression(z[1]), s="z1")
+            else if.R(r=expression(t[1]), s="t1")
+        if (standard.normal) {
+            norm.curve(crit=cv, mean=mu.H1,
+                       col=col.beta, shade=cv.altshade,
+                       axis.name=if(is.null(deg.free)) 'z1' else 't1',
+                       axis.name.expr=t.or.z.expr,
+                       Use.obs.mean=Use.obs.mean, col.label=col.beta.label,
+                       polygon.density=polygon.density, polygon.lwd=polygon.lwd)
+        } else {
+            norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H1,
+                       col=col.beta, shade=cv.altshade,
+                       axis.name=if(is.null(deg.free)) 'z1' else 't1',
+                       axis.name.expr=t.or.z.expr,
+                       Use.obs.mean=Use.obs.mean, col.label=col.beta.label,
+                       polygon.density=polygon.density, polygon.lwd=polygon.lwd)
+        }
     }
-    
+
     if (hypoth.or.conf=="Hypoth") {
       if (standard) {
       if (standard.normal) {
         norm.curve(crit=cv, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
-                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
+                   polygon.density=polygon.density, polygon.lwd=polygon.lwd)
       }
       else
-                norm.curve(crit=cv, df.t=deg.free, mean=mu.H0,
+        norm.curve(crit=cv, df.t=deg.free, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
-                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
+                   polygon.density=polygon.density, polygon.lwd=polygon.lwd)
       }
       else {
         norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
-                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+                   Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
+                   polygon.density=polygon.density, polygon.lwd=polygon.lwd)
       }
     } else { ## "Conf"
         ## if (standard.normal) {
         ##   norm.curve(crit=cv, mean=obs.mean,
-        ##             col=col.alpha, shade=cv.shade,
-        ##           Use.obs.mean=Use.obs.mean, col.label=col.alpha.label)
+        ##              col=col.alpha, shade=cv.shade,
+        ##              Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
+        ##              polygon.density=polygon.density, polygon.lwd=polygon.lwd)
         ## } else {
           norm.curve(crit=cv,
                      se=se, df.t=deg.free, mean=obs.mean,
@@ -483,7 +534,8 @@ normal.and.t.dist <-
                      hypoth.or.conf="Conf",
                      col.conf.arrow=col.conf.arrow,
                      col.conf.label=col.conf.label,
-                     cex.crit=cex.crit)
+                     cex.crit=cex.crit,
+                     polygon.density=polygon.density, polygon.lwd=polygon.lwd)
         ##}
     }
 
@@ -505,6 +557,11 @@ normal.and.t.dist <-
         norm.outline(dfunction.name, obs.mean.x.pos, par()$usr[2], mu.H0, se, deg.free, col.mean)
         ## left side
         norm.outline(dfunction.name, par()$usr[1], obs.mean.x.neg, mu.H0, se, deg.free, col.mean)
+      }
+      else {
+        obs.mean.z.pos <- 0
+        obs.mean.x.pos <- 0
+        obs.mean.x.neg <- 0
       }
     }
     if (!Use.alpha.left &&  Use.alpha.right) {
@@ -557,35 +614,25 @@ normal.and.t.dist <-
     beta.right <- if (Use.mu.H1) 1-pfunction(crit.val.H1.left, deg.free) else ""
     beta.middle <- if (Use.mu.H1) diff(pfunction(c(crit.val.H1.left, crit.val.H1), deg.free)) else ""
 
-    if.R(r=if ("RExcelEnv" %in% search()) {
-      assign("obs.mean.x.pos", obs.mean.x.pos, .GlobalEnv)#
-      assign("obs.mean.x.neg", obs.mean.x.neg, .GlobalEnv)#
-      assign("obs.mean.H0.z", obs.mean.H0.z, .GlobalEnv)
-      assign("obs.mean.z.pos",  obs.mean.z.pos, .GlobalEnv)#
-      assign("obs.mean.H0.p.val", obs.mean.H0.p.val, .GlobalEnv)
-      assign("obs.mean.H0.side", side, .GlobalEnv)
-      assign("obs.mean.H1.z", obs.mean.H1.z, .GlobalEnv)
-      
-      assign("standard.normal", standard.normal, .GlobalEnv)
-      assign("standard", standard, .GlobalEnv)
-      
-      assign("crit.val", crit.val, .GlobalEnv)
-      assign("crit.val.z", crit.val.z, .GlobalEnv)
-      assign("crit.val.H1", crit.val.H1, .GlobalEnv)
-      assign("beta.left", beta.left, .GlobalEnv)
-      
-      assign("crit.val.left", crit.val.left, .GlobalEnv)
-      assign("crit.val.left.z", -crit.val.left.z, .GlobalEnv)
-      assign("crit.val.H1.left", crit.val.H1.left, .GlobalEnv)
-      assign("beta.right", beta.right, .GlobalEnv)
-      
-      assign("beta.middle", beta.middle, .GlobalEnv)
-      
-      assign("standard.error", se, .GlobalEnv)
-    },
-         s={})
-    
-    "normal.and.t.dist"    
+    invisible(list(beta.left=beta.left,
+                   beta.middle=beta.middle,
+                   beta.right=beta.right,
+                   crit.val=crit.val,
+                   crit.val.H1=crit.val.H1,
+                   crit.val.H1.left=crit.val.H1.left,
+                   crit.val.left=crit.val.left,
+                   crit.val.left.z=-crit.val.left.z,
+                   crit.val.z=crit.val.z,
+                   obs.mean.H0.p.val=obs.mean.H0.p.val,
+                   obs.mean.H0.side=side,
+                   obs.mean.H0.z=obs.mean.H0.z,
+                   obs.mean.H1.z=obs.mean.H1.z,
+                   obs.mean.x.neg=obs.mean.x.neg,
+                   obs.mean.x.pos=obs.mean.x.pos,
+                   obs.mean.z.pos= obs.mean.z.pos,
+                   standard=standard,
+                   standard.error=se,
+                   standard.normal=standard.normal))
   }
 
 ## source("~/HH-R.package/HH/R/norm.curve.R")

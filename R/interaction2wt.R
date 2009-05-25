@@ -65,7 +65,7 @@ interaction2wt.default <-
   x.list <- x
   for (i in names(x)) {
     x[[i]] <- as.factor(x[[i]])
-    x.list[[i]] <- as.numeric(x[[i]])
+    x.list[[i]] <- as.numeric.positioned(x[[i]])
   }
   
   factor.levels <- lapply(x, levels)
@@ -129,7 +129,7 @@ interaction2wt.default <-
          between,
          scales=scales.input,
          xaxs="e",
-         prepanel=function(x,y) list(xlim=range(x)+c(-1,1)),
+         prepanel=function(x,y) list(xlim=range(x)+c(-1,1)*.1*range(x)),
          panel=panel.input,
          strip=strip.input,
          par.strip.text=par.strip.text.input,
@@ -189,7 +189,7 @@ interaction2wt.default <-
     ## recover()
   },
        s={})
-  
+
   do.call("xyplot", xyplot.list)
 }
 

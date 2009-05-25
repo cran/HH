@@ -28,11 +28,12 @@ unpositioned <- function(x, ...) {
 }
 
 is.numeric.positioned <- function(x, ...) { ## S-Plus
-  ## S-Plus requires this and it doesn't get dispatched.
+  ## S-Plus requires this and it doesn't get dispatched
+  ## because is.numeric is not a method.
   ## It must be called explicitly
   if (is.positioned(x)) FALSE
   else
-    NextMethod("is.numeric")
+    is.numeric(x)
 }
 
 as.position <- function(x) {
@@ -90,6 +91,16 @@ if.R(s=
      ,
      r={})
 
-as.numeric.positioned <- function(x, ...) position(x)[as.numeric(unpositioned(x))]
+as.numeric.positioned <- function(x, ...){
+  if (is.numeric.positioned(x))
+    x
+  else
+    position(x)[as.numeric(unpositioned(x))]
+}
+
+is.na.positioned <- function(x) {
+  ## S-Plus requires this
+  is.na(unpositioned(x))
+}
 
 ## source("~/HH-R.package/HH/R/position.R")

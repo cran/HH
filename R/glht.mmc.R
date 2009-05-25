@@ -234,7 +234,7 @@ glht.mmc.lm <-
       }
       lmat.glht <- glht(model, linfct=t(lmat),
                         alternative=alternative, ...)
-
+      if (missing(focus.lmat)) stop("'focus.lmat' is missing.")
       result$lmat <- as.multicomp(lmat.glht, focus=focus, ylabel=ylabel,
                                   means=means,
                                   height=means %*% abs(sweep(focus.lmat, 2, apply(abs(focus.lmat), 2, sum)/2, "/")),
