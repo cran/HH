@@ -44,6 +44,7 @@ acfplot <- function(rdal, type="acf",
                     lag.0=TRUE,
                     xlim=xlim.function(lag.lim/lag.units),
                     ...) {
+  if (!is.R() && is.null(lag.units)) stop('time series must be an "rts".')
   xlim.function <- function(lu) {incr <- .02*lu[2]
                                  lu + c(-1,1)*incr}
   rdal[[type]]$tmp <-

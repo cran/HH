@@ -25,7 +25,7 @@ rearrange.diag.arma.loop(z)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{Time series vector.}
+  \item{x}{Time series vector.  In S-Plus, \code{x} must be an \code{"rts"}.}
   \item{model}{A valid S-Plus \code{model} for
     \code{\link[splus]{arima.mle}}.}
   \item{order, seasonal}{A valid R \code{order} and \code{seasonal} for

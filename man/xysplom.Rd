@@ -34,9 +34,13 @@ xysplom(x, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{In the \code{"formula"} method, a formula.  In the
-                \code{"default"} method, a data.frame}
+    \code{"default"} method, a data.frame.
+  Any variables that are used in a formula with \code{+} should be
+  numeric.  Factors are not rejected, but their levels will be
+  combined strangely.  
+}
   \item{\dots}{other arguments to \code{xyplot}.}
-
+z
 %% xysplom.formula
   \item{data}{data.frame}
   \item{na.action}{See \code{\link[stats]{na.action}} in R,

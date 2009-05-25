@@ -30,7 +30,7 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
 
   if (length(x[[3]]) > 1) {
     x.factor <- deparse(x[[3]][[2]])
-    M[[2]][[3]][[2]] <- parse(text=paste("as.numeric(", x.factor, ")"))[[1]]
+    M[[2]][[3]][[2]] <- parse(text=paste("as.numeric.positioned(", x.factor, ")"))[[1]]
 
     condition.name.to.use <-
       if ((class(x[[3]][[3]]) == "name") && missing(condition.name))
@@ -47,7 +47,7 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
   }
   else {
     x.factor <- deparse(x[[3]])
-    M[[2]][[3]] <- parse(text=paste("as.numeric(", x.factor, ")"))[[1]]
+    M[[2]][[3]] <- parse(text=paste("as.numeric.positioned(", x.factor, ")"))[[1]]
     condition.name.to.use <- ""
   }
 
@@ -131,7 +131,7 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
     else
       M$se <- M$data$sd/sqrt(M$data$nobs)
   }
-  
+
   eval(M, sys.parent(1))
 }
 ## trace(intxplot, exit=browser)
@@ -144,9 +144,9 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
 panel.intxplot <-
   function(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
            offset.use=(!missing(groups) && !missing(se)),
-           offset.scale=2*max(as.numeric(groups)),
+           offset.scale=2*max(as.numeric.positioned(groups)),
            offset=
-           as.numeric(groups[match(levels(groups), groups)]) / offset.scale,
+           as.numeric.positioned(groups[match(levels(groups), groups)]) / offset.scale,
            rug.use=offset.use)
 {
   ox <- order(x)
@@ -155,8 +155,10 @@ panel.intxplot <-
   subscripts <- subscripts[ox]
 
   x.adjust <-
-    if (offset.use)
-      x + (offset-mean(offset))[as.position(groups[subscripts])]
+    if (offset.use) {
+      position(x) +
+        (offset-mean(offset))[as.numeric(unpositioned(groups[subscripts]))]
+    }
     else
       x
 
@@ -183,9 +185,9 @@ panel.intxplot <-
     se.cv <- se*cv
     
     for (i in seq(along=x)) {
-      panel.superpose(x=c(x.adjust[i], x.adjust[i]),
+      panel.superpose(x=rep(position(x.adjust)[i], 2),
                       y=y[i] + c(-1,1)*se.cv[subscripts[i]],
-                      subscripts[c(i,i)], groups, type = "l",
+                      subscripts[c(i,i)], unpositioned(groups), type = "l",
                       col=tpg.col[i], ...)
       
 ##      browser()

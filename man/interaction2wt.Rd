@@ -147,12 +147,21 @@ vulcan <- read.table(hh("datasets/vulcan.dat"), header=TRUE)
 vulcan$filler <- factor(vulcan$filler)
 position(vulcan$raw) <- (1:4)+.5
 position(vulcan$pretreat) <- 2:4
-interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
-               par.strip.text=list(cex=.8))
+if.R(s={old.omd=par(omd=c(.1,1,.03,1))}, r={})
+if.R(r=
+     interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
+                    par.strip.text=list(cex=.8))
+     ,s=
+     interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
+                    par.strip.text=list(cex=.8),
+                    key.in=list(x=-3.5))
+)
 interaction2wt(wear ~ filler + raw, data=vulcan,
                simple=TRUE)
 interaction2wt(wear ~ filler + raw, data=vulcan,
-               simple=TRUE, simple.scale=c(filler=.15, raw=.2))
+               simple=TRUE, simple.scale=c(filler=.15, raw=.2),
+               xlim=c(.3, 5.6))
+if.R(s={par(old.omd)}, r={})
 
 if.R(r={
   ToothGrowth <- ToothGrowth  ## local copy

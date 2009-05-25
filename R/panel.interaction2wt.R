@@ -11,7 +11,7 @@ function(x, y, subscripts,
          simple.scale,
          data.x,
          col.by.row=TRUE,
-         key.in=NULL ## list of key arguments
+         key.in=NULL ## list of key arguments fo S-Plus
          ) {
   if.R(r={
     tcL <- trellis.currentLayout()
@@ -41,8 +41,9 @@ function(x, y, subscripts,
        )
   
   trace.name <- these.labels["trace.factor"]
-  x.name <- these.labels["x.factor"]
+  trace.position <- factor.position[[trace.name]]
   trace.levels <- factor.levels[[trace.name]]
+  x.name <- these.labels["x.factor"]
   x.position <- factor.position[[x.name]]
   x.levels <- factor.levels[[x.name]]
 
@@ -58,6 +59,7 @@ function(x, y, subscripts,
       other.factor <- data.x[, other.name]
       x.factor <- data.x[, x.name]
       ioh.list <- list(x.factor, other.factor)
+      names(ioh.list) <- c(x.name, other.name)
       if (!missing(simple.offset))
         ioh.list$b.offset <- simple.offset[[other.name]]
       if (!missing(simple.scale))
@@ -114,12 +116,13 @@ function(x, y, subscripts,
       ioh.list <- list(suff.data$x, suff.data$tt)
       names(ioh.list) <- c(x.name, trace.name)
       position(ioh.list[[x.name]]) <- x.position
+      position(ioh.list[[trace.name]]) <- trace.position
       if (!missing(simple.offset))
         ioh.list$b.offset <- simple.offset[[trace.name]]
       if (!missing(simple.scale))
         ioh.list$b.scale=simple.scale[[trace.name]]
       x.simple <- do.call("interaction.positioned", ioh.list)
-
+##browser()
       if (missing(se) || (is.logical(se) && !se))
         panel.intxplot(y=suff.data$y,
                        x=x.simple,
@@ -132,13 +135,14 @@ function(x, y, subscripts,
         if (is.logical(se))
           suff.data.se <- suff.data$sd/sqrt(suff.data$nobs)
         else {
-          suff.data.se <- eval(se, local=suff.data)
+          suff.data.se <- eval(se, suff.data)
         }
         panel.intxplot(y=suff.data$y,
                        x=x.simple,
                        subscripts=seq(length(suff.data$y)),
                        groups=suff.data$tt,
                        offset.use=FALSE,
+                       offset=position(x.simple), ##simple.offset[[trace.name]],
                        rug.use=TRUE,
                        se=suff.data.se,
                        ...)
@@ -168,13 +172,14 @@ function(x, y, subscripts,
 
     key.list <- list(title=trace.name,  ## S-Plus only
                      cex.title=1,
-                     corner=c(.5,.5), border=TRUE,
+                     corner=c(0,.5), border=TRUE,
                      text=list(text=trace.levels, cex=.8),
                      lines=list(col=tpg.col, lty=tpg.lty, lwd=tpg.lwd))
     key.list[names(key.in)] <- key.in
     if.R(r={},
          s={
-           key.list$x <- par()$usr[1]-.6*diff(par()$usr[1:2])
+           if (is.null(key.list$x))
+             key.list$x <- par()$usr[1]-.6*diff(par()$usr[1:2])
            do.call("key", key.list)
          }
          )

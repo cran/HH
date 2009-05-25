@@ -7,6 +7,7 @@
 \alias{[.positioned}
 \alias{as.positioned}
 \alias{is.positioned}
+\alias{is.na.positioned}
 \alias{positioned}
 \alias{print.positioned}
 \alias{unique.positioned}
@@ -29,6 +30,7 @@ position(x) <- value
 \method{is.numeric}{positioned}(x, ...)
 \method{as.numeric}{positioned}(x, ...)
 \method{[}{positioned}(x, ..., drop=FALSE)
+\method{is.na}{positioned}(x)
 as.positioned(x)
 as.position(x)
 is.positioned(x)
