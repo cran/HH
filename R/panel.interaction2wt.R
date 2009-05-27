@@ -9,10 +9,31 @@ function(x, y, subscripts,
          simple=FALSE,
          simple.offset,
          simple.scale,
+         simple.pch,
          data.x,
          col.by.row=TRUE,
-         key.in=NULL ## list of key arguments fo S-Plus
+         key.in=NULL ## list of key arguments for S-Plus
          ) {
+  if (simple) {
+## browser()
+    pch.name <- character(0)
+    if(!missing(simple.pch)) {
+      pch.name <- names(simple.pch)[match(names(data.x), names(simple.pch), 0)]
+      if (length(pch.name) > 1) pch.name <- pch.name[1]
+    }
+    if (length(pch.name) == 0)
+    {
+      pch.name <- names(data.x)[[1]]
+      simple.pch <- list(seq(along=factor.levels[[pch.name]]))
+      names(simple.pch) <- pch.name
+    }
+    pch <- list(NULL, NULL)
+    names(pch) <- names(data.x)
+    other.name <- names(factor.levels)[names(factor.levels) != pch.name]
+    other.length <- length(factor.levels[[other.name]])
+    pch[[other.name]] <- rep(simple.pch[[pch.name]], other.length)
+    pch[[pch.name]] <- rep(simple.pch[[pch.name]], each=other.length)
+  }
   if.R(r={
     tcL <- trellis.currentLayout()
     rows.per.page <- dim(tcL)[1]
@@ -82,12 +103,14 @@ function(x, y, subscripts,
            panel.bwplot.intermediate.hh(x.simple, y,
                                         horizontal=FALSE,
                                         col=tpg.col.simple[col.subscripts],
+                                        pch=pch[[x.name]],
                                         box.ratio=box.ratio,
                                         ...)
            ,s=                          
            panel.bwplot.intermediate.hh(as.numeric.positioned(x.simple), y,
                                         horizontal=FALSE,
                                         col=tpg.col.simple[col.subscripts],
+                                        pch=pch[[x.name]],
                                         box.ratio=box.ratio,
                                         ...)
            )

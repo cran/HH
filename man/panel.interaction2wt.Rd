@@ -21,6 +21,7 @@ panel.interaction2wt(x, y, subscripts,
                      simple=FALSE,
                      simple.offset,
                      simple.scale,
+                     simple.pch,
                      data.x,
                      col.by.row=TRUE,
                      key.in=NULL)
@@ -42,11 +43,12 @@ strip.interaction2wt(which.given, which.panel, var.name,
   \item{trace.values}{levels of trace-factor}
   \item{fun}{Summary function, defaults to \code{mean}}
   \item{se}{standard errors to be passed to \code{panel.intxplot}.
-    \code{se} Missing, logical, or a numeric vector.
-    If missing or \code{FALSE}, standard errors are not plotted.
+    Missing, logical, or a numeric vector.
+    If  \code{se} is  missing or \code{FALSE}, or if \code{simple} is
+    \code{FALSE}, then standard errors are not plotted.
     If \code{TRUE}, the standard errors are calculated from the
-    sufficient statistics for each group as the groups standard deviation
-    divided by the square root of the group observation
+    sufficient statistics for each group as the group's standard deviation
+    divided by the square root of the group's observation
     count.  If a numeric vector, it is evaluated in the environment of
     the sufficient statistics.
   },
@@ -61,12 +63,19 @@ strip.interaction2wt(which.given, which.panel, var.name,
   value is the location where the left border of the key should be placed.
 }
   \item{factor.position}{\code{"position"} attribute of factor.}
-  \item{simple}{logical.  \code{TRUE} if simple effects are to be displayed.}
+  \item{simple}{logical.  If \code{TRUE}, then simple effects are to be displayed.}
   \item{simple.offset, simple.scale}{named list of offset and scale for the
     response and trace factors.  See
     \code{\link{interaction.positioned}} for their use.}
+  \item{simple.pch}{Named list containing plotting characters for each
+    level of one or more of the factors.  It is used only when
+    \code{simple==TRUE}.  If the list contains plotting characters for
+    both factors in the formula, the item associated with the first
+    factor in the formula is used.  If the \code{simple.pch} is missing,
+    then the integers for the levels of the first factor in the model
+    formula are used (For model formula \code{y ~ A*B}, the values are
+    \code{seq(along=levels(A))}).  }
   \item{data.x}{\code{data.frame} containing factors from the input data.frame}
-
   \item{col.by.row}{logical.  If \code{TRUE} (the default), simple
 effects plots color the simple effects on the main diagonals in the same
 color as the trace levels in their row.  If \code{FALSE}, then simple
@@ -91,5 +100,46 @@ effects are colored to match the x levels in their column.}
 % }
 \seealso{\code{\link{interaction2wt}},
   \code{\link{panel.bwplot.intermediate.hh}}}
+\examples{
+\dontrun{
+tmp <- data.frame(y=rnorm(48),
+                  A=factor(rep(1:2, 24)),
+                  B=factor(rep(rep(1:3, each=2), 8)),
+                  C=factor(rep(rep(1:4, each=6), 2)))
+interaction2wt(y ~ A+B+C, data=tmp,
+               key.in=list(x=-3), ## key.in is ignored by R
+               xlim=c(.4, 4.5))
+interaction2wt(y ~ B+C, data=tmp, key.in=list(x=-2), xlim=c(.4, 4.5))
+position(tmp$B) <- c(1, 2.4, 3.8)
+interaction2wt(y ~ B+C, data=tmp, key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ B+C, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ C+B, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ B+C, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               simple.pch=list(C=c(16,17,18,19)),
+               key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ C+B, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               simple.pch=list(C=c(16,17,18,19)),
+               key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ C+B, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               simple.pch=list(A=c(1:2), B=c(3:5), C=c(16,17,18,19)),
+               key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ C+B, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               simple.pch=list(A=c(1:2)),
+               key.in=list(x=-2), xlim=c(.4, 4.5))
+interaction2wt(y ~ B+C, data=tmp, simple=TRUE,
+               simple.scale=list(B=.18, C=.27),  box.ratio=.2,
+               simple.pch=list(B=c(16,17,18)),
+               key.in=list(x=-2), xlim=c(.4, 4.5),
+               se=TRUE)
+}
+}
 \keyword{ aplot }% at least one, from doc/KEYWORDS
 \keyword{ design }% __ONLY ONE__ keyword per line
