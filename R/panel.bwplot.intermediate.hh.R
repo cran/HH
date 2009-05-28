@@ -23,8 +23,12 @@ function (x, y,
   if (!missing(col)) tpg.col <- rep(col, length=length(fac.levels))
 
   for (i in seq(along=fac.levels)) {
-    if (!missing(pch)) box.par$box.dot$pch <- pch[i]
+    if (!missing(pch)) {
+      box.par$box.dot$pch <- pch[i]
+      box.par$plot.symbol$pch <- pch[i]
+    }
     for (j in names(box.par)) {
+##browser()
       box.par[[j]]$col <- tpg.col[i]
       trellis.par.set(j, box.par[[j]])
     }
@@ -57,3 +61,5 @@ function (x, y,
       }
   }
 }
+
+##source("c:/HOME/rmh/HH-R.package/HH/R/panel.bwplot.intermediate.hh.R")
