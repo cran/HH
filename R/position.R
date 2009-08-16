@@ -45,9 +45,11 @@ as.position <- function(x) {
 
 "[.positioned" <- function (x, ..., drop = FALSE) {
   if.R(s={drop=FALSE}, r={}) ## S-Plus has an argument matching problem
+  position.x <- position(x)
+  x <- unpositioned(x)
   y <- NextMethod("[")
-  if (drop) position(y) <- position(x)[!is.na(match(levels(x), levels(y)))]
-  else  position(y) <- position(x)
+  if (drop) position(y) <- position.x[!is.na(match(levels(x), levels(y)))]
+  else  position(y) <- position.x
   y
 }
 
