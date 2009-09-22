@@ -95,9 +95,17 @@ command that draws the graph.  This is strictly for debugging the
     levels and the superpose panel including all groups.}
   \item{main}{Character with a main header title to be done on the top
     of each page.}
-  \item{y,subscripts}{In \code{"panel.ancova"}, see
-    \code{\link[lattice]{panel.xyplot}} in R and both
-    \code{\link[trellis]{xyplot}} and \code{\link[trellis]{trellis.args}} in S-Plus.}
+  \item{y,subscripts}{In \code{"panel.ancova"},
+%% R
+#ifndef S-Plus
+see \code{\link[lattice]{panel.xyplot}}.
+#endif
+#ifdef S-Plus
+see both
+    \code{\link[trellis]{xyplot}} and
+    \code{\link[trellis]{trellis.args}}.
+#endif
+  }
   \item{object}{An \code{"aov"}} object.  The functions using this
   argument are methods for the similarly named generic functions.
 \item{coef, contrasts, classes}{Internal variables used to communicate between

@@ -15,8 +15,13 @@ panel.bwplott(x, y, box.ratio = 1,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x, y, box.ratio, font, pch, cex, col, \dots}{See
-    \code{\link[trellis]{panel.bwplot}} in S-Plus or
-    \code{\link[lattice]{panel.bwplot}} in R.
+%% R
+#ifndef S-Plus
+    \code{\link[lattice]{panel.bwplot}}.
+#endif
+#ifdef S-Plus
+    \code{\link[trellis]{panel.bwplot}}.
+#endif
   }
   \item{transpose}{logical.  If \code{FALSE}, the plot is printed in the
     default orientation.  If \code{TRUE}, the \code{x}- and
@@ -34,6 +39,13 @@ trellis panel.
 \note{
 This function is not needed in R.  If it is used and 
 }
-\seealso{\code{\link[trellis]{bwplot}} in S-Plus
-  or \code{\link[lattice]{bwplot}} in R.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[lattice]{xyplot}}.
+#endif
+#ifdef S-Plus
+  \code{\link[trellis]{bwplot}}.
+#endif
+}
 \keyword{ dplot }

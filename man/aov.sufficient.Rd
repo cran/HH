@@ -24,8 +24,23 @@ vcov.sufficient(object, ...)
 
 \arguments{
   \item{formula, data, projections, qr, contrasts, \dots}{See
-    \code{\link[stats]{aov}} in R, \code{\link[splus]{aov}} in S-Plus.}
-  \item{weights}{See \code{\link[stats]{lm}} in R, \code{\link[splus]{lm}} in S-Plus.}
+%% R
+#ifndef S-Plus
+    \code{\link[stats]{aov}}.
+#endif
+#ifdef S-Plus  
+    \code{\link[splus]{aov}}.
+#endif
+  }
+  \item{weights}{See
+%% R
+#ifndef S-Plus
+    \code{\link[stats]{lm}}.
+#endif
+#ifdef S-Plus  
+    \code{\link[splus]{lm}}.
+#endif
+  }
   \item{sd}{vector of within-group standard deviations.}
   \item{object}{\code{"aov"} object constructed by
     \code{aov.sufficient}.  It also works with regular \code{aov} objects.
@@ -45,8 +60,15 @@ The residuals are fake.  They are all identical and equal to the MLE
   requires the \code{vcov.} and \code{df} arguments.
   
 }
-\seealso{\code{\link{MMC}} and \code{\link[stats]{aov}} in R,
-  \code{\link[splus]{aov}} in S-Plus.}
+\seealso{\code{\link{MMC}} and
+%% R
+#ifndef S-Plus
+  \code{\link[stats]{aov}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{aov}}.
+#endif
+}
 \examples{
 ## This example is from Hsu and Peruggia
 

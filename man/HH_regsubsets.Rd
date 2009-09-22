@@ -23,7 +23,7 @@
            names = abbreviate(dimnames(incidence)[[2]], minlength = abbrev),
            abbrev = 1, min.size = 1, max.size = dim(sumry$which)[2],
            statistic = c("bic", "cp", "adjr2", "rsq", "rss", "stderr"),
-           las = par("las"), 
+           las = par("las"),
            cex.subsets = 1, ..., main=statistic)
 
 \method{plot}{summary_HH_regsubsets}(x, ...,
@@ -37,7 +37,7 @@
   \item{object}{ An object of class \code{"regsubsets"}.}
   \item{x}{ An object of class \code{"summary_HH_regsubsets"}.}
   \item{statistic}{Name of statistic to be plotted for each model.}
-  \item{\dots}{ Other arguments to be passed down to 
+  \item{\dots}{ Other arguments to be passed down to
     \code{subsets.regsubsets} and \code{plot}.}
 
   \item{names}{Abbreviations of variable names.}
@@ -66,8 +66,9 @@
   All the others are support functions.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[leaps]{regsubsets}},
-  \code{\link[RcmdrPlugin.HH]{bestSubsetsRegressionModel.HH}}}
+\seealso{\code{\link[leaps]{regsubsets}}
+  %  , \code{\link[RcmdrPlugin.HH]{bestSubsetsRegressionModel.HH}}
+}
 % \examples{
 % ## This example works in R, not in S-Plus
 % if.R(r={

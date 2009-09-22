@@ -14,8 +14,8 @@ panel.dotplot.tb(x, y, factor=.1,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x, y}{See \code{\link[lattice]{dotplot}}.}
-  \item{factor}{jitter factor, see \code{\link[lattice]{stripplot}}.
+  \item{x, y}{See \code{\link[lattice]{xyplot}}.}
+  \item{factor}{jitter factor, see \code{\link[lattice]{xyplot}}.
   Increment is \code{factor/max.freq} where \code{max.freq} is the
     maximum number of duplicates of any x value in any y group.}
   \item{jitter.data, horizontal}{Always \code{TRUE}.}
@@ -23,7 +23,7 @@ panel.dotplot.tb(x, y, factor=.1,
     response values, factor levels, and group levels.
     If the formula includes one or more conditioning factors, then the
     user is responsible for providing a value for \code{max.freq}.}
-  \item{\dots}{Other arguments for \code{\link[lattice]{dotplot}}.}
+  \item{\dots}{Other arguments for \code{\link[lattice]{xyplot}}.}
 }
 \details{
 Creates (possibly grouped) Dotplot of x against y.  y is the `factor'.

@@ -14,7 +14,7 @@
   panel, change the formula from \code{(y ~ x | g)} to \code{(x ~ y |
   g)}.  The HH \code{t.trellis} function in R calls
   \code{lattice::t.trellis} to interchange the conditioning variables
-  for an R trellis object.  See \code{\link[lattice]{t.trellis}}.
+  for an R trellis object.  See \code{\link[lattice]{update.trellis}}.
   
 }
 \usage{
@@ -48,8 +48,15 @@ to interchange the conditioning variables.
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{In R: \code{\link[lattice]{t.trellis}}.
-  In S-Plus: \code{\link[trellis]{xyplot}}.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[lattice]{update.trellis}}
+#endif
+#ifdef S-Plus
+  \code{\link[trellis]{xyplot}}
+#endif
+}
 \examples{
 tmp <- data.frame(y=rnorm(30), x=factor(rep(1:3,10)))
 if.R(r=

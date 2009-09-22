@@ -7,10 +7,26 @@
   the stepwise function in S-Plus.  }
 \description{
   Rearranges and improves the legibility of the output from
-  the \code{\link[splus]{stepwise}} function in S-Plus.
+  the
+%% R
+#ifndef S-Plus
+  \code{stepwise}
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{stepwise}}
+#endif
+  function in S-Plus.
   The output can be used for the Cp plot.
   \code{cp.calc} works only in S-Plus.
-  Use \code{\link[leaps]{regsubsets}} in R.  The example below works in
+  Use
+%% R
+#ifndef S-Plus
+  \code{\link[leaps]{regsubsets}}
+#endif
+#ifdef S-Plus  
+  \code{regsubsets}
+#endif
+  in R.  The example below works in
   both languages.
 }
 \usage{
@@ -22,7 +38,15 @@ cp.calc(sw, data, y.name)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{sw}{Output from the S-Plus \code{\link[splus]{stepwise}} function.}
+  \item{sw}{Output from the S-Plus
+%% R
+#ifndef S-Plus
+  \code{stepwise}
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{stepwise}}
+#endif
+ function.}
   \item{data}{Dataset name from which \code{"sw"} was calculated.}
   \item{y.name}{Name of response variable for which \code{"sw"} was calculated.}
   \item{x}{Object of class \code{"cp.object"}. }

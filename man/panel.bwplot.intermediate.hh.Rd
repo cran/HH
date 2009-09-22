@@ -18,7 +18,7 @@ panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x, y, pch, col, horizontal}{see
-    \code{\link[lattice]{bwplot}} and
+    \code{\link[lattice]{xyplot}} and
       \code{\link[lattice]{panel.bwplot}}.}
 
   \item{transpose}{S-Plus only.  The HH library transposes
@@ -41,6 +41,6 @@ panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link[lattice]{panel.xyplot}},
-  \code{\link[lattice]{bwplot}}, \code{\link{interaction2wt}},
+  \code{\link[lattice]{xyplot}}, \code{\link{interaction2wt}},
   \code{\link{position}}}
 \keyword{dplot }

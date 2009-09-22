@@ -27,8 +27,15 @@ environment, then the corresponding character vector is removed from the
 result.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[base]{objects}} in R,
-  \code{\link[splus]{objects}} in S-Plus.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[base]{ls}},
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{objects}}.
+#endif
+}
 \examples{
 objip("qq")
 objip("^qq")

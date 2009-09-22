@@ -138,8 +138,15 @@ in Chambers and Hastie", \emph{Statistical Models in S}.
  ISBN 0-387-40270-5.
  }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[stats]{lm.influence}} in R,
- \code{\link[splus]{lm.influence}} in S-Plus.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[stats]{lm.influence}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{lm.influence}}.
+#endif
+}
 \examples{
 kidney <- read.table(hh("datasets/kidney.dat"), header=TRUE)
 

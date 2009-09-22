@@ -16,7 +16,14 @@ panel.pairs.hh(x, y, z, subscripts, pscales, subpanel = panel.splom,
 \arguments{
 
   \item{x, y, z, subscripts, pscales, subpanel, varnames, \dots}{See
-  \code{\link[trellis]{splom}} in S-Plus.}
+%% R
+#ifndef S-Plus
+    \code{splom}
+#endif
+#ifdef S-Plus
+    \code{\link[trellis]{splom}}
+#endif
+    in S-Plus.}
   \item{subpanel.scales}{Controls the size of the tick labels in the
   diagonal panel.}
   \item{panel.cex}{Controls the size of the variable names in the
@@ -26,7 +33,15 @@ panel.pairs.hh(x, y, z, subscripts, pscales, subpanel = panel.splom,
 \code{"trellis" object}.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\link[trellis]{splom} in S-Plus. }
+\seealso{
+%% R
+#ifndef S-Plus
+    \code{splom}
+#endif
+#ifdef S-Plus
+  \code{\link[trellis]{splom}}
+#endif
+  in S-Plus. }
 \examples{
 if.R(s={
      longley <- data.frame(longley.x, Employed = longley.y)

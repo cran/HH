@@ -102,8 +102,14 @@ plot.  These names are not visible in the plot when
 % strip.ladder
 \item{which.given, which.panel, var.name, factor.levels,
   shingle.intervals, par.strip.text}{See
-  \code{\link[lattice]{strip.default}} in R or
-  \code{\link[trellis]{strip.default}} in S-Plus.}
+%% R
+#ifndef S-Plus
+  \code{\link[lattice]{strip.default}}.
+#endif
+#ifdef S-Plus
+  \code{\link[trellis]{strip.default}}.
+#endif
+}
 \item{strip.names, style}{We always print the \code{strip.names}
   in \code{style=1}.  Multicolored styles are too busy.}
 }

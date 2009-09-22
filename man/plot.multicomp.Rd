@@ -116,14 +116,27 @@ Heiberger, R. M. and Holland, B. (2006).
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different libraries.
+%% R
+#ifndef S-Plus
   Multiple comparisons in R are based on \code{\link[multcomp]{glht}}.
+  Multiple comparisons in S-Plus are based on \code{multicomp}.
+#endif
+#ifdef S-Plus  
+  Multiple comparisons in R are based on \code{glht}.
   Multiple comparisons in S-Plus are based on \code{\link[splus]{multicomp}}.
+#endif
   The MMC plot in the HH library is the same in both systems.
   The details of getting the plot differ.
 }
 \seealso{\code{\link{mmc}} in both languages,
-  \code{\link[multcomp]{glht}} in R,
-  \code{\link[splus]{multicomp}} in S-Plus.}
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{multicomp}}.
+#endif
+}
 \examples{
 ## data and ANOVA
 catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,

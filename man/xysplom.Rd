@@ -43,8 +43,15 @@ xysplom(x, ...)
 z
 %% xysplom.formula
   \item{data}{data.frame}
-  \item{na.action}{See \code{\link[stats]{na.action}} in R,
-    \code{\link[splus]{na.exclude}} in S-Plus.  Defaults to \code{na.pass}
+  \item{na.action}{See
+ %% R
+#ifndef S-Plus
+   \code{\link[stats]{na.action}}.
+#endif
+#ifdef S-Plus
+    \code{\link[splus]{na.exclude}}.
+#endif
+    Defaults to \code{na.pass}
     because \code{xyplot} does sensible things with missing data.}
 
 %% xysplom.default
@@ -105,7 +112,15 @@ z
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[lattice]{xyplot}} in R.}
+\seealso{
+#ifndef S-Plus
+  \code{\link[lattice]{xyplot}}
+#endif
+#ifdef S-Plus
+  \code{xyplot}
+#endif
+  in R.
+}
 \examples{
 
 ## xysplom syntax options

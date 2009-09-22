@@ -15,7 +15,14 @@ arima.diag.hh(z, acf.resid = TRUE,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z,acf.resid,lag.max,gof.lag,resid,std.resid,plot,type,\dots}{
-  See \code{\link[splus]{arima.diag}}.}
+%% R
+#ifndef S-Plus
+    This function is a no-op in R.  The arguments are not used.
+#endif
+#ifdef S-Plus  
+    See \code{\link[splus]{arima.diag}}.
+#endif
+  }
 \item{x}{The time series.  This must be specified when arima.diag is
 called from inside another function.}
 }
@@ -28,9 +35,24 @@ called from inside another function.}
   This function is a no-op in R.
 }
 \value{
-  See \code{\link[splus]{arima.diag}}.
+%% R
+#ifndef S-Plus
+    This function is a no-op in R.  It returns \code{NA}.
+#endif
+#ifdef S-Plus  
+    See \code{\link[splus]{arima.diag}}.
+#endif
 }
 
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link{tsdiagplot}}, \code{\link[splus]{arima.diag}}}
+\seealso{\code{\link{tsdiagplot}} in both systems and
+%% R
+#ifndef S-Plus
+  \code{arima.diag}
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{arima.diag}}.
+#endif
+  in S-Plus.
+}
 \keyword{ ts }

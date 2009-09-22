@@ -16,7 +16,15 @@ GSremove(pages, sheet = "GSD2$Page")
   the \code{graphsheet} or \code{trellis.device} function is used.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[splus]{graphsheet}} in S-Plus.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{graphsheet}
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{graphsheet}}
+#endif
+  in S-Plus.}
 \examples{
 \dontrun{
 trellis.device()

@@ -119,7 +119,10 @@ chisq.observed <- function(chisq.obs, col="green",
                        df=1,
                        ncp=0,
                        log.p=FALSE,
-                       axis.name="chisq") {
+                       axis.name="chisq",
+                       shade="right",
+                       shaded.area=0,
+                       display.obs=TRUE) {
   abline(v=chisq.obs, col=col, lty=5)
   chisq.obs2 <- c(chisq.obs, chisq.obs)
   arrows(chisq.obs2, par()$usr[3:4]+c(-.01,.01), chisq.obs2, par()$usr[3:4],
@@ -129,16 +132,36 @@ chisq.observed <- function(chisq.obs, col="green",
   mtext(side=3, text=round(chisq.obs,3), at=chisq.obs, line=.5, cex=par()$cex, col=col)
 
   ## shade=="right"  ## we outline the right region only
+  if (shade=="right" || shade=="outside") {
   x <- seq(chisq.obs, par()$usr[2], length=51)
-  shaded.area <- 1-pchisq.intermediate(q=chisq.obs, df=df, ncp=ncp, log.p=log.p)
+  shaded.area <- shaded.area +
+    1-pchisq.intermediate(q=chisq.obs, df=df, ncp=ncp, log.p=log.p)
   left.margin <- .15*diff(par()$usr[1:2])
+    if (display.obs) {
   mtext(side=1, at=par()$usr[2]+left.margin, line=4.5,
         text=format(shaded.area, digits=3), cex=par()$cex, col=col)
   mtext(side=1, text=round(chisq.obs,3), at=chisq.obs, line=4.5, cex=par()$cex, col=col)
   mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
+    }
+}
   
+  if (shade=="left" || shade=="outside") {
+  x <- seq(chisq.obs, par()$usr[2], length=51)
+  shaded.area <- shaded.area +
+    pchisq.intermediate(q=chisq.obs, df=df, ncp=ncp, log.p=log.p)
+  left.margin <- .15*diff(par()$usr[1:2])
+    if (display.obs) {
+  mtext(side=1, at=par()$usr[2]+left.margin, line=4.5,
+        text=format(shaded.area, digits=3), cex=par()$cex, col=col)
+  mtext(side=1, text=round(chisq.obs,3), at=chisq.obs, line=4.5, cex=par()$cex, col=col)
+  mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
+}
+}
+
   lines(x=c(x[1], x, x[length(x)], x[1]),
         y=c(0, dchisq.intermediate(x=x, df=df, ncp=ncp, log=log.p), 0, 0),
         col=col, lwd=3)
+  invisible(shaded.area)
 }
+
 ## source("~/HH-R.package/HH/R/chisq.curve.R")

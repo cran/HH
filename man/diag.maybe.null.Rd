@@ -15,7 +15,15 @@ diag.maybe.null(x, ...)
   \item{\dots}{Other arguments to \code{diag}.}
 }
 \author{Richard M. Heiberger (rmh@temple.edu)}
-\seealso{\code{\link[base]{diag}} in R, \code{\link[splus]{diag}} in S-Plus.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[base]{diag}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{diag}}.
+#endif
+}
 \examples{
 diag.maybe.null(NULL)
 diag.maybe.null(NA)

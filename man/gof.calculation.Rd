@@ -22,10 +22,26 @@ gof.calculation(acf.list, gof.lag, n, n.parms)
   It is used only in S-Plus.
 }
 \value{
-See the \code{gof} value described in \code{\link[splus]{arima.diag}} in S-Plus.
+  See the \code{gof} value described in
+%% R
+#ifndef S-Plus
+  \code{arima.diag}
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{arima.diag}}
+#endif
+  in S-Plus.
 }
 \author{Richard M. Heiberger (rmh@temple.edu)}
-\seealso{\code{\link[splus]{arima.diag}} in S-Plus. }
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{arima.diag}
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{arima.diag}}
+#endif
+  in S-Plus. }
 \examples{
 if.R(s={
 co2.arima <- arima.mle(co2, list(list(order=c(0,1,1)),

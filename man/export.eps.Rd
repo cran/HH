@@ -16,9 +16,41 @@ export.eps(FileName.in, Name.in="GSD2", ...)
   \item{\dots}{other arguments in R, ignored in S-Plus.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[grDevices]{dev.copy2eps}} in R,
-  \code{\link[sgui]{export.graph}} in S.}
-\examples{
+%\seealso{\code{\link[grDevices]{dev2}} in R,
+%  \code{\link[sgui]{export.graph}} in S-Plus.}
+
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[grDevices]{dev2}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[sgui]{export.graph}}.
+#endif
+}
+
+% \seealso{\code{\link[grDevices]{dev2}} in R,
+%   %\code{\link[sgui]{export.graph}}
+%    \code{export.graph}
+%   in S-Plus.}
+
+% \seealso{
+%   \Sexpr[results=rd]{if.R(s="dev2",
+%                           r="\\\\code{\\\\link[grDevices]{dev2}}")}
+% 			in R,
+%   \Sexpr[results=rd]{if.R(r="export.graph",
+%                           s="\\\\code{\\\\link[ssgui]{export.graph}}")}
+% 			in S-Plus.
+%   }
+
+% \seealso{
+%   \Sexpr[results=rd]{if (is.R()) "\\\\code{\\\\link[grDevices]{dev2}}" else "dev2"}
+% 			in R,
+%   \Sexpr[results=rd]{if (is.R()) "export.graph" else "\\\\code{\\\\link[sgui]{export.graph}}"}
+% 			in S-Plus.
+% }
+  
+  \examples{
 \dontrun{
 trellis.device()
 plot(1:10)

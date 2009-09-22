@@ -13,7 +13,7 @@
   rejection region or do-not-reject region.  \code{F.observed} and
   \code{chisq.observed} plots a vertical line with arrowhead markers at
   the location of the observed xbar and outlines the area corresponding
-  to the p-value.  }
+  to the \eqn{p}-value.  }
 \usage{
 F.setup(df1=1,
         df2=Inf,
@@ -40,7 +40,10 @@ F.observed(f.obs, col="green",
            df2=Inf,
            ncp=0,
            log.p=FALSE,
-           axis.name="f")
+           axis.name="f",
+           shade="right",
+           shaded.area=0,
+           display.obs=TRUE)
 
 chisq.setup(df=1,
            ncp=0,
@@ -64,7 +67,10 @@ chisq.observed(chisq.obs, col="green",
                df=1,
                ncp=0,
                log.p=FALSE,
-               axis.name="chisq")
+               axis.name="chisq",
+               shade="right",
+               shaded.area=0,
+               display.obs=TRUE)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -80,7 +86,8 @@ one or two values.  If one value, it is the right alpha.  If two values,
 they are the \code{c(left.alpha, right.alpha)}.}
   \item{critical.values}{Critical values.  Initial values correspond
     to the specified \code{alpha} levels.
-    A scalar value implies a one-sided test on the right side.  A vector of two values
+    A scalar value implies a one-sided test on the right side.
+    A vector of two values
     implies a two-sided test.}
   \item{main.in}{Main title.}
   \item{shade}{
@@ -88,9 +95,20 @@ they are the \code{c(left.alpha, right.alpha)}.}
     Default is "right" for one-sided critical.values and "outside"
     for two-sided critical values.}
   \item{col}{color of the shaded region and the area of the shaded region.}
+  \item{shaded.area}{Numerical value of the area.  This value may
+  be cumulated over two calls to the function (one call for left, one
+  call for right).
+  The \code{shaded.area} is the return value of the function.
+  The calling program is responsible for the
+  cumulation.}
+  \item{display.obs}{Logical.  If \code{TRUE}, print the numerical value
+    of the observed value, plot a vertical \code{abline} at the value,
+    and use it for showing the \eqn{p}-value.
+    If \code{FALSE}, don't print or plot the observed value; just use it
+  for showing the \eqn{p}-value.}
   \item{f,chisq}{Values used to draw curve.  Replace them if more
     resolution is needed.}
-  \item{f.obs, chisq.obs}{Observed values of statistic.  p-values are
+  \item{f.obs, chisq.obs}{Observed values of statistic.  \eqn{p}-values are
     calculated for these values.}
   \item{axis.name}{Axis name.}
   \item{\dots}{Other arguments which are ignored.}

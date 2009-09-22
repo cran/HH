@@ -60,7 +60,7 @@ if.R(s={
 ,r={
   cc176.mmc <-
     glht.mmc(cc176.aov, linfct=mcp(current="Tukey"),
-             covariate.average=TRUE, interaction.average=TRUE)
+             covariate_average=TRUE, interaction_average=TRUE)
   print(cc176.mmc)
   plot(cc176.mmc)
 })
@@ -109,7 +109,7 @@ if.R(s={
   cc176.mmc <-
     glht.mmc(cc176.aov, linfct=mcp(current="Tukey"),
              focus.lmat=cc176.orth,
-             covariate.average=TRUE, interaction.average=TRUE)
+             covariate_average=TRUE, interaction_average=TRUE)
   print(cc176.mmc)
 
 

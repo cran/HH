@@ -20,6 +20,7 @@ lm.regsubsets(object, model.number, ...)
 \code{"lm"} object for the selected model.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[stats]{lm}},  \code{\link[leaps]{regsubsets}},
-  \code{\link[RcmdrPlugin.HH]{bestSubsetsRegressionModel.HH}}}
+\seealso{\code{\link[stats]{lm}},  \code{\link[leaps]{regsubsets}}
+%%  , \code{\link[RcmdrPlugin.HH]{bestSubsetsRegressionModel.HH}}
+}
 \keyword{regression}

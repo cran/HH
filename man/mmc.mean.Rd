@@ -71,7 +71,14 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
     \code{\link{mmc}}.}
   \item{ry}{See argument \code{ry.mmc} in \code{\link{plot.mmc.multicomp}}.}
   \item{crit.point}{See argument \code{crit.point} in S-Plus
-    \code{\link[splus]{multicomp}}.  The equivalent is not in \code{glht}.}
+%% R
+#ifndef S-Plus
+    \code{multicomp}.
+#endif
+#ifdef S-Plus  
+    \code{\link[splus]{multicomp}}.
+#endif
+    The equivalent is not in \code{glht}.}
   \item{iso.name, x.offset}{See \code{\link{plot.mmc.multicomp}}.}
 }
 \value{
@@ -100,9 +107,23 @@ Hsu, J. and Peruggia, M. (1994).
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different functions.
   MMC plots in R are constructed by \code{glht.mmc}
-  based on  \code{\link[multcomp]{glht}}.
+  based on
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{glht}.
+#endif
   MMC plots in S-Plus are constructed by 
-  \code{multicomp.mmc} based on the S-Plus \code{\link[splus]{multicomp}}.
+  \code{multicomp.mmc} based on the S-Plus
+%% R
+#ifndef S-Plus
+  \code{multicomp}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{multicomp}}.
+#endif
   The MMC plot is the same in both systems.  The details of getting the
   plot differ.
 }
