@@ -77,6 +77,12 @@ zapsmall(lmatContrast(catalystm.mmc$none$lmat, catalystm.lmat))
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{mmc}},
-  \code{\link[multcomp]{glht}} in R,
-  \code{\link[splus]{multicomp}} in S-Plus.}
+%% R
+#ifndef S-Plus
+\code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{multicomp}}.
+#endif
+}
 \keyword{ dplot }

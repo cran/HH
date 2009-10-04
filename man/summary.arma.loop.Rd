@@ -24,7 +24,15 @@
 \arguments{
   \item{x, object}{object to be summarized or printed or subscripted.}
   \item{\dots}{additional arguments}
-  \item{drop}{See \code{\link[base]{Extract}} in R, \code{\link[main]{Subscript}} in S-Plus.}
+  \item{drop}{See
+%% R
+#ifndef S-Plus
+\code{\link[base]{Extract}}.
+#endif
+#ifdef S-Plus  
+\code{\link[main]{Subscript}}.
+#endif
+  }
 }
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \seealso{\code{\link{arma.loop}}, \code{\link{tsacfplots}}, \code{\link{tsdiagplot}}}

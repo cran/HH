@@ -74,19 +74,41 @@ as.glht(x, ...)
   reversing positive contrasts.  Leave contrasts as they are constructed
   by \code{glht}.}
   \item{order.contrasts, height}{logical.  If \code{TRUE}, order contrasts by
-  \code{height} (see \code{\link[HH]{MMC}}).}
+  \code{height} (see \code{\link[HH]{mmc}}).}
   \item{contrasts.none}{logical.  This is an internal detail.  The
     ``contrasts'' for the group means are not real contrasts in the
     sense they don't compare anything.  \code{glht.mmc.glht} sets this
     argument to \code{TRUE} for the \code{none} component.
   }
   \item{level}{Confidence level.  Defaults to 0.95.}
-  \item{calpha}{User-specified critical point.
-    See \code{\link[HH]{confint.glht.hh}} and
-    \code{\link[multcomp]{confint.glht}}.}
-  \item{df, vcov.}{Arguments forwarded through \code{glht} to
-    \code{\link[HH]{modelparm}}.}
-  \item{method}{See \code{type} in \code{\link[HH]{confint.glht}}.}
+  \item{calpha}{R only.  User-specified critical point.
+    See
+%% R
+#ifndef S-Plus
+    \code{\link[multcomp]{confint.glht}}.
+#endif
+#ifdef S-Plus  
+    \code{confint.glht}.
+#endif
+  }
+  \item{df, vcov.}{R only.  Arguments forwarded through \code{glht} to
+%% R
+#ifndef S-Plus
+    \code{\link[multcomp]{modelparm}}.
+#endif
+#ifdef S-Plus  
+    \code{modelparm}.
+#endif
+  }
+  \item{method}{R only.  See \code{type} in
+%% R
+#ifndef S-Plus
+    \code{\link[multcomp]{confint.glht}}.
+#endif
+#ifdef S-Plus  
+    \code{confint.glht}.
+#endif
+  }
 }
 \details{
 The \code{mmc.multicomp} \code{print}
@@ -129,12 +151,32 @@ Heiberger, R.~M. and Holland, B. (2006).
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different libraries.
-  MMC plots in R are based on \code{\link[multcomp]{glht}}.
-  MMC plots in S-Plus are based on \code{\link[splus]{multicomp}}.
+  MMC plots in R are based on
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{glht}.
+#endif
+  MMC plots in S-Plus are based on
+%% R
+#ifndef S-Plus
+  \code{multicomp}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{multicomp}}.
+#endif
   The MMC plot is the same in both systems.  The details of gettting the
   plot differ.
   }
 \seealso{\code{\link{mmc}},
-  \code{\link[multcomp]{glht}} in R,
-  \code{\link[splus]{multicomp}} in S-Plus.}
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{multicomp}}.
+#endif
+  }
 \keyword{ dplot }

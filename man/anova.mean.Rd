@@ -21,14 +21,20 @@ anova.mean(object, n, ybar, s, ..., ylabel = "ylabel")
 }
 \value{
   Analysis of variance table, identical to the ANOVA table
-  that would have been produced
-  by \code{\link[splus]{anova.lm}} in S-Plus
-  and \code{\link[stats]{anova.lm}} in R
+  that would have been produced by \code{anova.lm}
   if the original data, rather than the summary data, had been available.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[splus]{anova.lm}} in S-Plus
-  and \code{\link[stats]{anova.lm}} in R.  \code{\link{plot.mmc.multicomp}}}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[stats]{anova.lm}},
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{anova.lm}},
+#endif
+  \code{\link{plot.mmc.multicomp}}
+}
 \examples{
 ## pulmonary data used in Hsu and Peruggia paper defining the mean-mean plot
 ## See ?plot.mmc.multicomp for details on the dataset.

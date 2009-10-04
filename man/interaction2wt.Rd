@@ -88,13 +88,26 @@ interaction2wt(x, ...)
     displayed.  Arguments \code{simple.offset}, \code{simple.scale}, and
     \code{col.by.row} may also be needed.  See
     \code{\link{panel.interaction2wt}} for details.}
-  \item{box.ratio}{\code{\link[lattice]{bwplot}} in R or
-    \code{\link[trellis]{bwplot}} in S-Plus.}
+  \item{box.ratio}{
+%% R
+#ifndef S-Plus
+    \code{\link[lattice]{xyplot}}.
+#endif
+#ifdef S-Plus
+    \code{\link[trellis]{bwplot}}.
+#endif
+  }
 
 Trellis/Lattice arguments.  Default values are set by the
 the \code{formula} method.  The user may override the defaults.
-See also \code{\link[lattice]{xyplot}} in R and
-\code{\link[trellis]{trellis.args}} in S-Plus.
+See also
+%% R
+#ifndef S-Plus
+\code{\link[lattice]{xyplot}}.
+#endif
+#ifdef S-Plus
+\code{\link[trellis]{trellis.args}}.
+#endif
 
   \item{relation}{\code{trellis} argument.}
   \item{x.relation}{\code{x} value of \code{relation} argument.}

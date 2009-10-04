@@ -8,7 +8,7 @@
 \description{
   Loop through a series of ARIMA models and display coordinated
   tables and diagnostic graphs.  The complete example from the Heiberger
-  and Teles article, also included in the Heiberger and Holland book, si
+  and Teles article, also included in the Heiberger and Holland book, is
   illustrated.
 }
 \usage{
@@ -27,9 +27,23 @@ rearrange.diag.arma.loop(z)
 \arguments{
   \item{x}{Time series vector.  In S-Plus, \code{x} must be an \code{"rts"}.}
   \item{model}{A valid S-Plus \code{model} for
-    \code{\link[splus]{arima.mle}}.}
+%% R
+#ifndef S-Plus
+    \code{arima.mle}.
+#endif
+#ifdef S-Plus
+    \code{\link[splus]{arima.mle}}.
+#endif
+  }
   \item{order, seasonal}{A valid R \code{order} and \code{seasonal} for
-    \code{\link[stats]{arima}}.}
+%% R
+#ifndef S-Plus
+    \code{\link[stats]{arima}}.
+#endif
+#ifdef S-Plus
+    \code{arima}.
+#endif
+  }
   \item{series}{Character string describing the time series.}
   \item{\dots}{Additional arguments for \code{arima.mle} or \code{arima}.}
 

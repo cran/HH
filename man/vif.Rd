@@ -22,7 +22,15 @@ vif(xx, ...)
 \arguments{
   \item{xx}{\code{data.frame}, or \code{formula}, or \code{lm} object
     computed with \code{x=TRUE}.}
-  \item{na.action}{See \code{\link[stats]{na.action}}.}
+  \item{na.action}{See
+ %% R
+#ifndef S-Plus
+   \code{\link[stats]{na.action}}.
+#endif
+#ifdef S-Plus
+    \code{\link[splus]{na.exclude}}.
+#endif
+  }
   \item{\dots}{additional arguments. }
 
   \item{y.name}{Name of Y-variable to be excluded from the computations.}
@@ -58,7 +66,15 @@ Vector of VIF values, one for each X-variable.
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[stats]{lm}} in R or \code{\link[splus]{lm}} in S-Plus.}
+\seealso{
+%% R
+#ifndef S-Plus
+  \code{\link[stats]{lm}}.
+#endif
+#ifdef S-Plus
+  \code{\link[splus]{lm}}.
+#endif
+}
 \examples{
 usair <- read.table(hh("datasets/usair.dat"),                    
                     col.names=c("SO2","temp","mfgfirms","popn",

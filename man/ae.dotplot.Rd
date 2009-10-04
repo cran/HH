@@ -101,14 +101,25 @@ aeReshapeToLong(aewide)
   \item{position.left, position.right}{\code{position} of the left and
     right plots.  This argument is use in S-Plus only, not in R.
      See the discussion of \code{position} in
- \code{\link[lattice]{print.trellis}} in R,
- \code{\link[trellis]{print.trellis}} in S-Plus.  }
-    
+%% R
+#ifndef S-Plus
+ \code{\link[lattice]{print.trellis}},
+#endif
+#ifdef S-Plus
+ \code{\link[trellis]{print.trellis}}.
+#endif
+    }
   \item{key.y}{Position of the key (legend) in the combined plot.  This
-   is the \code{y} argument of the \code{key}.  See
-   \code{\link[trellis]{key}} in S-Plus, and the discussion of the
-   \code{key} argument to \code{xyplot} in \code{\link[lattice]{xyplot}} in
-   R.}
+   is the \code{y} argument of the \code{key}.
+%% R
+#ifndef S-Plus
+   See the discussion of the \code{key} argument to \code{xyplot} in
+   \code{\link[lattice]{xyplot}}.
+#endif
+#ifdef S-Plus
+   See \code{\link[trellis]{key}}.
+#endif
+ }
 
   \item{crit.value}{Critical value used to compute confidence intervals
     on the log relative risk.  Defaults to 1.96.  User is responsible

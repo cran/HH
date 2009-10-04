@@ -80,7 +80,15 @@ multicomp.mmc(x,  ## S-Plus
     \code{glht}.   Required for user-specified contrasts.}
   \item{lmat.rows}{rows in \code{lmat} for the \code{focus} factor.}
   \item{focus}{define the factor to compute contrasts of.
-    See \code{\link[multcomp]{mcp}} in R.}
+    See
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{glht}.
+#endif
+ in R.}
 \item{focus.lmat}{R only.  Contrast matrix used in the user-specified
 comparisons of the focus factor.  This is the matrix the user
 constructs.  This matrix is multiplied by the \code{lmat} from the \code{none}
@@ -88,7 +96,15 @@ component to create the \code{lmat} for the user-specified contrasts.
 Display the \code{hibrido.lmat} and \code{maiz2.lmat} in the maiz
 example below to see what is happening.
  }
-  \item{linfct}{In R, see \code{\link[multcomp]{glht}}.}
+  \item{linfct}{In R, see
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{glht}.
+#endif
+}
   \item{\dots}{other arguments.  \code{alternative} and
     \code{base} are frequently used with \code{glht}.}
   \item{comparisons}{argument to \code{multicomp}}
@@ -102,7 +118,15 @@ example below to see what is happening.
     \code{lmat}) components by height on the MMC plot.  This will place the
     contrasts in the multicomp plots in the same order as in the MMC plot.}
   \item{alternative}{Direction of alternative hypothesis.
-    See \code{\link[multcomp]{confint}} in R.  S-Plus \code{multicomp}
+    See
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}
+#endif
+#ifdef S-Plus  
+  \code{glht}
+#endif
+ in R.  S-Plus \code{multicomp}
     uses the argument \code{bounds} for this concept.
   }
   \item{level}{Confidence level.  Defaults to 0.95.}
@@ -177,14 +201,35 @@ Hsu, J. and Peruggia, M. (1994).
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different functions.
   MMC plots in R are constructed by \code{glht.mmc}
-  based on  \code{\link[multcomp]{glht}}.
+  based on
+%% R
+#ifndef S-Plus
+  \code{\link[multcomp]{glht}}.
+#endif
+#ifdef S-Plus  
+  \code{glht}.
+#endif
   MMC plots in S-Plus are constructed by 
-  \code{multicomp.mmc} based on the S-Plus \code{\link[splus]{multicomp}}.
+  \code{multicomp.mmc} based on the S-Plus
+%% R
+#ifndef S-Plus
+  \code{multicomp}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{multicomp}}.
+#endif
   The MMC plot is the same in both systems.  The details of getting the
   plot differ.
   
-  Function \code{glht.mmc} calls \code{\link[multcomp]{glht}} and
-  \code{\link[multcomp]{confint.glht}}.  With a large number of levels
+  Function \code{glht.mmc} calls
+%% R
+#ifndef S-Plus
+ \code{\link[multcomp]{glht}} and \code{\link[multcomp]{confint.glht}}.
+#endif
+#ifdef S-Plus  
+  \code{glht} and \code{confint.glht}.
+#endif
+  With a large number of levels
   for the focus factor, the \code{confint} function is exceedingly slow
   (80 minutes for 30 levels on 1.5GHz Windows XP). Therefore,
   always specify \code{calpha} to reduce the time to under a second for
@@ -352,7 +397,7 @@ anova(displayf.aov)
 displayf.mmc <-
 if.R(r={
         glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"),
-                 interaction.average=TRUE)
+                 interaction_average=TRUE)
 },
      s=multicomp.mmc(displayf.aov, "panel", plot=FALSE))
 
@@ -370,7 +415,7 @@ dimnames(panel.lmat)[[1]] <- levels(display$panel)
 displayf.mmc <-
 if.R(r={
         glht.mmc(displayf.aov, linfct=mcp(panel="Tukey"),
-                 interaction.average=TRUE, focus.lmat=panel.lmat)
+                 interaction_average=TRUE, focus.lmat=panel.lmat)
 },
      s=multicomp.mmc(displayf.aov, "panel",
        focus.lmat=panel.lmat, plot=FALSE))
@@ -454,7 +499,7 @@ if.R(s={
   par(old.omd)
 },r={
   maiz2.mmc <- glht.mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"),
-                    interaction.average=TRUE)
+                    interaction_average=TRUE)
   old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
   plot(maiz2.mmc)
   par(omd=c(.05,.85,0,.5), new=TRUE)
@@ -476,7 +521,7 @@ maiz2.mmc <-
          focus.lmat=hibrido.lmat,
          plot=FALSE),
        r=glht.mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"),
-         interaction.average=TRUE, focus.lmat=hibrido.lmat)
+         interaction_average=TRUE, focus.lmat=hibrido.lmat)
        )
 
 if.R(s={

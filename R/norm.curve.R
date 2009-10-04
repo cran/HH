@@ -614,6 +614,7 @@ normal.and.t.dist<-
     beta.right <- if (Use.mu.H1) 1-pfunction(crit.val.H1.left, deg.free) else ""
     beta.middle <- if (Use.mu.H1) diff(pfunction(c(crit.val.H1.left, crit.val.H1), deg.free)) else ""
 
+    ## par(old.par) ## oma and mar are potentially useful
     invisible(list(beta.left=beta.left,
                    beta.middle=beta.middle,
                    beta.right=beta.right,

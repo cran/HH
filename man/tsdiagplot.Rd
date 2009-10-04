@@ -77,9 +77,23 @@ gofplot(rdal,
   \item{p.max, q.max}{Maximum number of AR and MA arguments to use in
     the series of ARIMA models.}
   \item{model}{A valid S-Plus \code{model} for
-    \code{\link[splus]{arima.mle}}.}
+%% R
+#ifndef S-Plus
+    \code{arima.mle}.
+#endif
+#ifdef S-Plus
+    \code{\link[splus]{arima.mle}}.
+#endif
+  }
   \item{order}{A valid R \code{order} for
-    \code{\link[stats]{arima}}.  The additional argument \code{seasonal} may also be used.}
+%% R
+#ifndef S-Plus
+    \code{\link[stats]{arima}}.
+#endif
+#ifdef S-Plus
+    \code{arima}.
+#endif
+    The additional argument \code{seasonal} may also be used.}
   \item{lag.max}{Maximum lag for the acf and pacf plots.}
   \item{gof.lag}{Maximum lag for the gof plots.}
   

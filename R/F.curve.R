@@ -122,27 +122,49 @@ F.observed <- function(f.obs, col="green",
                        df2=Inf,
                        ncp=0,
                        log.p=FALSE,
-                       axis.name="f") {
-  abline(v=f.obs, col=col, lty=5)
+                       axis.name="f",
+                       shade="right",
+                       shaded.area=0,
+                       display.obs=TRUE) {
   f.obs2 <- c(f.obs, f.obs)
-  arrows(f.obs2, par()$usr[3:4]+c(-.01,.01), f.obs2, par()$usr[3:4],
-         xpd=TRUE, col=col, length=.1)
-  axis(side=1, at=f.obs, label=FALSE, col=col)
-  axis(side=3, at=f.obs, label=FALSE, col=col)
-  mtext(side=3, text=round(f.obs,3), at=f.obs, line=.5, cex=par()$cex, col=col)
-
-  ## shade=="right"  ## we outline the right region only
-  x <- seq(f.obs, par()$usr[2], length=51)
-  shaded.area <- 1-pf.intermediate(q=f.obs, df1=df1, df2=df2, ncp=ncp, log.p=log.p)
-  left.margin <- .15*diff(par()$usr[1:2])
-  mtext(side=1, at=par()$usr[2]+left.margin, line=4.5,
-        text=format(shaded.area, digits=3), cex=par()$cex, col=col)
-  mtext(side=1, text=round(f.obs,3), at=f.obs, line=4.5, cex=par()$cex, col=col)
-  mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
+  if (display.obs) {
+    abline(v=f.obs, col=col, lty=5)
+    arrows(f.obs2, par()$usr[3:4]+c(-.01,.01), f.obs2, par()$usr[3:4],
+           xpd=TRUE, col=col, length=.1)
+    axis(side=1, at=f.obs, label=FALSE, col=col)
+    axis(side=3, at=f.obs, label=FALSE, col=col)
+    mtext(side=3, text=round(f.obs,3), at=f.obs, line=.5, cex=par()$cex, col=col)
+  }
   
+  ## shade=="right"  ## we outline the right region only
+  if (shade=="right" || shade=="outside") {
+    x <- seq(f.obs, par()$usr[2], length=51)
+    shaded.area <- shaded.area +
+      1-pf.intermediate(q=f.obs, df1=df1, df2=df2, ncp=ncp, log.p=log.p)
+    left.margin <- .15*diff(par()$usr[1:2])
+    if (display.obs) {
+      mtext(side=1, text=round(f.obs,3), at=f.obs, line=4.5, cex=par()$cex, col=col)
+      mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
+    }
+  }
+  
+  if (shade=="left" || shade=="outside") {
+    x <- seq(par()$usr[1], f.obs, length=51)
+    shaded.area <- shaded.area +
+      pf.intermediate(q=f.obs, df1=df1, df2=df2, ncp=ncp, log.p=log.p)
+    left.margin <- .15*diff(par()$usr[1:2])
+    if (display.obs) {
+      mtext(side=1, text=round(f.obs,3), at=f.obs, line=4.5, cex=par()$cex, col=col)
+      mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
+    }
+  }
+  
+  ## mtext(side=1, at=par()$usr[2]+left.margin, line=4.5,
+  ##      text=format(shaded.area, digits=3), cex=par()$cex, col=col)
   lines(x=c(x[1], x, x[length(x)], x[1]),
         y=c(0, df.intermediate(x=x, df1=df1, df2=df2, ncp=ncp, log=log.p), 0, 0),
         col=col, lwd=3)
+  invisible(shaded.area)
 }
 
 ## source("~/HH-R.package/HH/R/F.curve.R")

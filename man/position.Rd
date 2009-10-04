@@ -45,11 +45,25 @@ unpositioned(x, ...)
   \item{value}{numerical values to be
     associated with \code{levels(x)}.
   The \code{length(value)} must equal \code{length(levels(as.factor(x)))}.}
-\item{\dots}{other arguments.}
-\item{drop}{See \code{\link[base]{'['}}in R or \code{\link[main]{'['}}
-  in S-Plus.}
-\item{incomparables}{See \code{\link[base]{unique}}in R or
-  \code{\link[splus]{unique}} in S-Plus.}
+  \item{\dots}{other arguments.}
+  \item{drop}{See
+%% R
+#ifndef S-Plus
+\code{\link[base]{Extract}}.
+#endif
+#ifdef S-Plus  
+\code{\link[main]{Subscript}}.
+#endif
+  }
+\item{incomparables}{See
+%% R
+#ifndef S-Plus
+  \code{\link[base]{unique}}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{unique}}.
+#endif
+}
 }
 \value{
 
@@ -77,8 +91,15 @@ unpositioned(x, ...)
 
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link{panel.interaction2wt}}, \code{\link[base]{factor}}
-  in R, \code{\link[splus]{factor}} in S-Plus.}
+\seealso{\code{\link{panel.interaction2wt}},
+%% R
+#ifndef S-Plus
+ \code{\link[base]{factor}}.
+#endif
+#ifdef S-Plus  
+ \code{\link[splus]{factor}}.
+#endif
+}
 \examples{
 ## ordered with character levels defaults to
 ## integer position of specified levels

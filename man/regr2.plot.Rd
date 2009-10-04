@@ -20,14 +20,37 @@ regr2.plot(x, y, z,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x,y,z}{See \code{\link[graphics]{persp}} in R,
-    \code{\link[splus]{persp}} in S-Plus.}
+  \item{x,y,z}{See
+%% R
+#ifndef S-Plus
+    \code{\link[graphics]{persp}}.
+#endif
+#ifdef S-Plus  
+    \code{\link[splus]{persp}}.
+#endif
+  }
   \item{main.in}{\code{main} title for plot.}
   \item{resid.plot}{Argument to \code{\link{resid.squares}}.}
   \item{plot.base.plane, plot.back.planes, plot.base.points}{Should
     these items be plotted?}
-  \item{eye}{See \code{\link[splus]{persp}} in S-Plus.}
-  \item{theta, phi, r, ticktype}{See \code{\link[graphics]{persp}} in R}
+  \item{eye}{S-Plus only.  See
+%% R
+#ifndef S-Plus
+  \code{persp}.
+#endif
+#ifdef S-Plus  
+  \code{\link[splus]{persp}}.
+#endif
+  }
+  \item{theta, phi, r, ticktype}{R only.  See
+%% R
+#ifndef S-Plus
+    \code{\link[graphics]{persp}}.
+#endif
+#ifdef S-Plus  
+  \code{persp}.
+#endif
+  }
   \item{\dots}{Other arguments to \code{persp}.}
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004b).
