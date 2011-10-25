@@ -1,3 +1,7 @@
+if.R(r=persp.setup <- function(...) {},
+     s={}   ## persp.setup is used in S-Plus, and is not needed or used in R
+   )
+
 
 persp.plane <- function(x, y, z, persp.out, ...) {
 

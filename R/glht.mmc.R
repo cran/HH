@@ -103,8 +103,42 @@ as.glht.multicomp <- function(x, ...) x$glht
 glht.mmc <- function (model, ...) 
   UseMethod("glht.mmc")
 
-glht.mmc.lm <-
-  function(model,       ## lm object
+glht.mmc.lm <- function (model,
+           linfct=NULL,
+           focus=
+           if (is.null(linfct))
+           {
+             if (length(model$contrasts)==1) names(model$contrasts)
+             else stop("focus or linfct must be specified.")
+           }
+           else
+           {
+             if (is.null(names(linfct)))
+               stop("focus must be specified.")
+             else names(linfct)
+           },
+           focus.lmat,
+           ylabel=deparse(terms(model)[[2]]),
+           lmat=if (missing(focus.lmat)) {
+             t(linfct)
+           } else {
+             lmatContrast(t(none.glht$linfct), focus.lmat)
+             },
+##         lmat.rows=-1,
+           lmat.rows=lmatRows(model, focus),
+
+           lmat.scale.abs2=TRUE,
+           estimate.sign=1,
+           order.contrasts=TRUE,
+           level=.95,
+           calpha=NULL,
+           alternative = c("two.sided", "less", "greater"),
+           ...
+           )
+  NextMethod("glht.mmc")
+
+glht.mmc.default <-     ## this works for model inherits from "lm"
+  function(model,       ## It needs work for lme objects
            linfct=NULL,
            focus=
            if (is.null(linfct))
@@ -137,13 +171,15 @@ glht.mmc.lm <-
            ...
            ) {
 
-    factors <- sapply(model$model, inherits, "factor")
+    mmm.data <- model$model
+    if (inherits(model, "lme")) mmm.data <- model$data
+    factors <- sapply(mmm.data, inherits, "factor")
     is.contr.treatment <- function(x) {
       cx <- contrasts(x)
       tx <- contr.treatment(nrow(cx))
       all(cx==tx)
     }
-    contrasts.are.treatment <- sapply(model$model[factors], is.contr.treatment)
+    contrasts.are.treatment <- sapply(mmm.data[, factors, drop=FALSE], is.contr.treatment)
     if (!all(contrasts.are.treatment))
       stop("glht.mmc requires an aov in which ALL factors use treatment contrasts.")
     
@@ -154,10 +190,9 @@ glht.mmc.lm <-
     if (TRUE)
       {
         if (length(focus) > 1) stop("glht.mmc requires no more than one focus factor.")
-        focus.linfct <- ## multcomp:::meanslinfct(
-          meanslinfct.hh(  ## temporary until meanslinfct is changed
-                         model, focus, formula=terms(model),
-                         contrasts.arg=model$contrasts)
+        focus.linfct <-
+          multcomp:::meanslinfct(model, focus, formula=terms(model),
+                                 contrasts.arg=model$contrasts)
         none.glht <- glht(model, linfct=focus.linfct,
                           alternative=alternative, ...)
       }
@@ -203,7 +238,7 @@ glht.mmc.lm <-
 
     height.mca <-
       if (is.null(method) || method=="Tukey")
-        means %*% abs(t(contrMat(table(model$model[[focus]]), "Tukey")))
+        means %*% abs(t(contrMat(table(mmm.data[[focus]]), "Tukey")))
       else
         means %*% abs(t(linfct.focus[[focus]])) ## fixme, this works for Dunnett
     
@@ -225,7 +260,12 @@ glht.mmc.lm <-
                                 level=1-result$mca$alpha,
                                 calpha=result$mca$crit.point,
                                 method=result$mca$method, ...)
-   if (!missing(lmat) || !missing(focus.lmat)) {
+    ## Workaround for incorrect handling of vcov for group means
+    ## in multcomp:::lme in R.
+    if (inherits(result$none$glht$model, "lme"))
+        result$none$table[, c("stderr","lower","upper")] <- NA
+    ## End workaround
+    if (!missing(lmat) || !missing(focus.lmat)) {
       if (lmat.scale.abs2) {
         tmp <- lmat[lmat.rows, , drop=FALSE]
         first.row <- -apply(tmp, 2, sum)

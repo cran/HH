@@ -175,7 +175,7 @@ function(x, y, subscripts,
       tab <- tapply(y, list(x, trace.values[subscripts]), fun)
       if.R(r={}, s=panel.lines <- lines)
       for (j in 1:ncol(tab))
-        panel.lines(x=x.position, y=tab[,j], col=tpg.col[j], lty=tpg.lty[j])
+        panel.lines(x=x.position, y=tab[,j], col=tpg.col[j], lty=tpg.lty[j], lwd=tpg.lwd[j])
     }
   }
 

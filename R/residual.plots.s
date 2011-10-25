@@ -110,11 +110,22 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
   ## partial residuals against X.j
   X.res <- X.residuals(lm.object)
   names(X.res) <- paste(names(X.res), "X", sep="|")
+
+  firstColumn <- function(x) {
+    llx <- length(levels(x))
+    if (llx==0) TRUE else c(TRUE, rep(FALSE, max(llx-2, 0)))
+  }
+  X.resSubscript <- X.res[ , unlist(sapply(X, firstColumn))]
+
+  main4 <- if (length(X.resSubscript) == length(X.res))
+    "partial residuals of y against the other X columns ~ residuals of x against the other X columns"
+  else
+     "partial residuals of y against the other X columns ~ residuals of x against the other X columns\nOnly the first dummy variable is shown for factors"
   pres.Xj <-
     xysplom(y=partial.resids,
-            x=X.res,
+            x=X.resSubscript,
             cartesian=FALSE,
-            main="partial residuals of y against the other X columns ~ residuals of x against the other X columns",
+            main=main4,
             xlab="", ylab="",
             ## ylab="partial residuals of y against the other X columns",
             ## xlab="residuals of x.j \n against other x variables",

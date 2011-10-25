@@ -6,6 +6,7 @@
 \alias{glht.mmc}
 \alias{glht.mmc.glht}
 \alias{glht.mmc.lm}
+\alias{glht.mmc.default}
 \alias{[.mmc.multicomp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{MMC (mean--mean multiple comparisons) plots.}

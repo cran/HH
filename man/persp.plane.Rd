@@ -3,6 +3,7 @@
 \alias{persp.floor}
 \alias{persp.back.wall.x}
 \alias{persp.back.wall.y}
+\alias{persp.setup}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Helper functions for regr2.plot}
 \description{
@@ -13,6 +14,8 @@ persp.plane(x, y, z, persp.out, ...)
 persp.floor(x, y, z, persp.out, ...)
 persp.back.wall.x(x, y, z, persp.out, ...)
 persp.back.wall.y(x, y, z, persp.out, ...)
+persp.setup(...) ## persp.setup is not needed or used in R.
+                 ## persp.setup is in the "splus" Chapter in S-Plus.
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
