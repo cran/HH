@@ -63,6 +63,18 @@ lmatRows.lm <-
        }
        )
 
+## lmatRows.lme <-
+##   if.R(r=
+##        function(x, focus) {
+##          if (missing(focus)) stop("'lmatRows' requires the 'focus' argument.")
+##          which(substring(names(x$coefficients$fixed), 1, nchar(focus)) == focus)
+##        }
+##        ,s=
+##        function(x, focus) {
+##          stop("'lmatRows.lme' not yet designed for S-Plus.")
+##        }
+##        )
+
 ## Used in both R and S-Plus
 lmatContrast <- function(lmat.none, contrast.matrix) {
   levels <- dimnames(contrast.matrix)[[1]]

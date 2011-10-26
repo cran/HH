@@ -1,0 +1,171 @@
+2.8_2_full              
+2.8_2              
+abrasion           
+acacia             
+aedotplot          
+animal             
+anneal             
+apple              
+ara                
+balance            
+barleyp            
+batch              
+bean               
+birthweight        
+blood              
+blyth              
+breast             
+budworm            
+byss               
+c3c4               
+catalystm          
+cc135              
+cc176              
+cement             
+census4            
+cereals_HH.original  x
+cereals            
+cereals.htm          x  
+cereals.info         x  
+cereals2             x
+chimp              
+circuit            
+co2                
+concord            
+crash              
+crash.datatable      x  
+crime              
+darwin             
+diamond            
+display            
+distress           
+draft70mn          
+drunk              
+eggs               
+elnino             
+employM16          
+energy             
+esr                
+fabricwear         
+fat.dat                
+fat
+fat.htm               x 
+fat.txt               x 
+feed               
+filmcoat           
+filter             
+fruitflies         
+furnace            
+girlht             
+glasses            
+golf               
+gum                
+gunload            
+har1               
+har2               
+har3               
+hardness           
+heartvalve         
+hooppine           
+hospital           
+hotdog             
+houseprice_erie    
+houseprice         
+htwt               
+iceskate               
+iceskate_w3_saved.txt  x
+iceskate_w3.awk        x
+iceskate_w3            x
+iceskate_w3.sh         x
+iceskate_w3.txt        x
+iceskate.cmt           x
+iceskate.htm           x
+icu                
+income             
+inconsistent       
+intubate           
+ironpot            
+kangaroo           
+kidney             
+kyphosis           
+lake               
+leukemia.lee       
+lft.asat           
+lifeins            
+longley            
+lymph              
+maiz               
+manhours           
+market             
+mice               
+mileage            
+mortality          
+mpg                
+muscle             
+njgolf             
+normtemp           
+notch              
+nottem             
+oats               
+odoffna            
+operator           
+ozone              
+paper              
+patient            
+plasma             
+political          
+potency            
+pox                
+product            
+psycho             
+pulmonary          
+pulse              
+radioact           
+rent               
+retard             
+rhiz1_alfalfa      
+rhiz3_clover       
+rhizobium1         
+rhizobium3         
+salary             
+salinity           
+salk               
+seeding            
+selfexam           
+shipment           
+sickle             
+simpson.datatable      x
+skateslc           
+smokers            
+spacshu            
+spindle            
+sprint             
+stopdist           
+surface            
+tablet1            
+teachers           
+testing            
+testscore          
+tires              
+tongue             
+tser.mystery.X     
+tser.mystery.Y     
+tser.mystery.Z     
+tsq                
+turkey             
+tv                 
+tv.txt                x 
+usair              
+uscrime            
+vocab              
+vulcan             
+vulcan0               x
+washday            
+water              
+weightloss         
+weld               
+wheat              
+wool               
+workstation        
+yates              
+yatesppl           

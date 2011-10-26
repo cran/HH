@@ -44,7 +44,7 @@ interaction2wt.default <-
            scales.additional,
            main.in=paste(responselab,
              ": main effects and 2-way interactions", sep=""),
-           xlab=list(labels=""), ylab=list(labels=""),
+           xlab="", ylab="",
            simple=FALSE,
            box.ratio=if (simple) .32 else 1,
            label.as.interaction.formula=TRUE,
@@ -61,23 +61,46 @@ interaction2wt.default <-
 
   if (k<2) stop("interaction2wt requires at least two factors.")
   if (simple && k != 2) stop("Simple effects requires exactly two factors.")
-  
+
   x.list <- x
   for (i in names(x)) {
     x[[i]] <- as.factor(x[[i]])
     x.list[[i]] <- as.numeric.positioned(x[[i]])
   }
-  
+
   factor.levels <- lapply(x, levels)
   factor.position <- lapply(x, position)
 
-  scales.input <- list(x=list(
-                         relation=x.relation,
-                         alternating=FALSE,
-                         xaxt="n",  ## S-Plus
-                         draw=FALSE ## R
-                         ),
-                       y=list(relation=y.relation, alternating=2))
+##   scales.input <- list(x=list(
+##                          relation=x.relation,
+##                          alternating=FALSE,
+##                          xaxt="n",  ## S-Plus
+##                          draw=FALSE ## R
+##                          ),
+##                        y=list(relation=y.relation, alternating=2))
+##
+##
+##     scales.input <- if.R(r={
+##       list(x=list(
+##              relation=x.relation,
+##              alternating=FALSE,
+##              draw=FALSE
+##              ),
+##            y=list(relation=y.relation, alternating=2))
+##     }, s={
+##       list(x=list(
+##              relation=x.relation,
+##              alternating=FALSE,
+##              xaxt="n",
+##              ),
+##            y=list(relation=y.relation, alternating=2))
+##     })
+##
+    xlist <- if.R(r={list(relation=x.relation, alternating=FALSE, draw=FALSE)},
+                  s={list(relation=x.relation, alternating=FALSE, xaxt="n"  )})
+    scales.input <- list(x=xlist,
+                         y=list(relation=y.relation, alternating=2))
+
 
   if (!missing(scales.additional)) {
     scales.input$x[names(scales.additional$x)] <- scales.additional$x
@@ -86,10 +109,11 @@ interaction2wt.default <-
   if.R(r={
     scales.input$x$at <- NULL
     scales.input$y$at <- NULL
-    scales.input$rot <- rep(rot,2)
+    scales.input$x$rot <- rot[1]
+    scales.input$y$rot <- rep(rot,2)[2]
   },
        s={})
-  
+
   ccd <- data.frame(response.var=rep(response.var, length=n*k*k),
                     x.values    =unlist(rep(as.list(x.list), k)),
                     trace.values=unlist(rep(as.list(x.list), rep(k,k))),
@@ -109,7 +133,7 @@ interaction2wt.default <-
   }
   else
     formula <- response.var ~ x.values | x.factor * trace.factor
-  
+
   if (!missing(main.cex)) {
     main.in <- as.list(main.in)
     main.in$cex <- main.cex
@@ -135,7 +159,7 @@ interaction2wt.default <-
          par.strip.text=par.strip.text.input,
          layout=c(k, k),
          main=main.in,
-         xlab=list(labels=""), ylab=list(labels=""),
+         xlab="", ylab="",
          cex=cex, las=1, aspect=1,
          simple=simple,
          data.x=x,
@@ -157,7 +181,7 @@ interaction2wt.default <-
              right=list(
                at2=pcpy,
                labels2=pcpy,
-               rot2=rep(rot,2)[2],
+               rot2=rot[2],
                labels3=rep(responselab.expression, k)
                )
              ),
@@ -212,3 +236,4 @@ function(which.given,
                 ...)
 }
 
+## source("c:/HOME/rmh/HH-R.package/HH/R/interaction2wt.R")

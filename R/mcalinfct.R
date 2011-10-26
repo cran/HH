@@ -5,12 +5,13 @@ mcalinfct <-
            mmm.data=model$model,
            formula.in=terms(model),
            linfct.Means=
-           ## multcomp:::meanslinfct(
-           meanslinfct.hh(  ## temporary until meanslinfct is changed
-                          model, focus, mmm.data, formula.in,
-                          contrasts.arg=model$contrasts),
+           multcomp:::meanslinfct(model, focus, mmm.data, formula.in,
+           contrasts.arg=model$contrasts),
            type="Tukey"
            ) {
+    if (inherits(model, "lme")) ## changed rmh
+      mmm.data <- model$data    ## changed rmh
+
     lev <- levels(mmm.data[[focus]])
     names(lev) <- lev
     mca <- contrMat(table(mmm.data[[focus]]), type)

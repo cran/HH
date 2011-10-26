@@ -8,9 +8,14 @@
 ## the covariable is taken into account.
 ##
 
-## Please see file hh/dsgntwo/code/apple3.s for the discussion of the
-## apple example in HH.  This file contains only the minimum needed to
-## reproduce the example in the MMC paper.
+## Please see files hh/dsgntwo/code/apple3.s and
+## hh/dsgntwo/code/apple3.r for the discussion of the apple example in
+## HH.  This file contains only the minimum needed to reproduce the
+## example in the MMC paper:
+##   Heiberger, Richard M. and Holland, Burt (2006). "Mean--mean
+##   multiple comparison displays for families of linear contrasts."
+##   Journal of Computational and Graphical Statistics, 15:937--955.
+
 
 
 apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
