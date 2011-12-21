@@ -4,7 +4,16 @@
 \alias{as.data.frame.listOfNamedMatrices}
 \alias{as.listOfNamedMatrices}
 \alias{print.listOfNamedMatrices}
+\alias{as.MatrixList}
+\alias{as.MatrixList.array}
+\alias{print.MatrixList}
 \alias{matrix}
+
+\alias{[.listOfNamedMatrices}
+\alias{as.listOfNamedMatrices.array}
+\alias{as.listOfNamedMatrices.list}
+\alias{as.listOfNamedMatrices.MatrixList}
+
 \title{Convert a list of matrices to a single matrix}
 \description{
 
@@ -22,7 +31,14 @@
 is.listOfNamedMatrices(x, ...,  xName=deparse(substitute(x)))
 \method{as.data.frame}{listOfNamedMatrices}(x, ...)
 as.listOfNamedMatrices(x, ...,  xName=deparse(substitute(x))) 
+\method{[}{listOfNamedMatrices}(x, ...)
+\method{as.listOfNamedMatrices}{array}(x, ...,  xName=deparse(substitute(x)))
+\method{as.listOfNamedMatrices}{list}(x, ...,  xName=deparse(substitute(x)))
+\method{as.listOfNamedMatrices}{MatrixList}(x, ...,  xName=deparse(substitute(x)))
 \method{print}{listOfNamedMatrices}(x, ...)
+as.MatrixList(x, ...)
+\method{as.MatrixList}{array}(x, ...)
+\method{print}{MatrixList}(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,7 +48,9 @@ as.listOfNamedMatrices(x, ...,  xName=deparse(substitute(x)))
     The number of rows and their names will normally differ across the
     matrices.   Each named item in the list may be a vector, matrix, array,
     data.frame, two-dimensional table, two-dimensional ftable, or
-    two-dimensional structable}
+    two-dimensional structable
+    For the \code{as.MatrixList} methods, an array.
+}
   \item{\dots}{Other arguments.  Not used.}
   \item{abbreviate}{
     Logical.  If \code{TRUE}, then use the
@@ -67,6 +85,11 @@ as.listOfNamedMatrices(x, ...,  xName=deparse(substitute(x)))
   \code{\link[Rcmdr]{Commander}} package because \code{Rcmdr} follows
   its calls to the R \code{\link[utils]{data}} function with an attempt,
   futile in this case, to force the resulting object to be a \code{data.frame}.
+
+The \code{as.MatrixList} methods construct a list of matrices from an
+array.  Each matrix has the first two dimensions of the array.  The
+result list is itself an array defined by all but the first two
+dimensions of the argument array.
 }
 
 \author{ Richard M. Heiberger <rmh@temple.edu> }
@@ -77,11 +100,16 @@ data(ProfChal)
 
 ## Single matrix with long list item names and long row names
 ## of argument list retained as an attribute.
-as.matrix.listOfNamedMatrices(ProfChal, minlength=6)
+ProfChal[2:3]
+print(ProfChal[2:3], minlength=6)
 
 ## Original list of matrices is difficult to read because
 ## it is displayed on too many lines.
-ProfChal
+print.default(ProfChal[2:3])
+
+tmp3 <- array(1:24, dim=c(2,3,4), dimnames=list(A=letters[1:2], B=LETTERS[3:5], C=letters[6:9]))
+as.MatrixList(tmp3)
+sapply(as.MatrixList(tmp3), as.likert, simplify=FALSE)  ## odd number of levels.
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

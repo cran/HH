@@ -8,9 +8,7 @@
 \alias{as.likert.table}
 \alias{as.likert.matrix}
 \alias{as.likert.numeric}
-\alias{as.MatrixList}
-\alias{as.MatrixList.array}
-\alias{is.likert.capable}
+\alias{is.likertCapable}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{Support functions for diverging stacked barcharts for Likert, semantic
@@ -28,26 +26,24 @@ as.likert(x, ...)
 \method{as.likert}{formula}(x, ...)  ## doesn't work yet
 \method{as.likert}{ftable}(x, ...)
 \method{as.likert}{table}(x, ...)
-\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL, ...)
+\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL, ..., reverse=FALSE)
 \method{as.likert}{numeric}(x, ...)
 
-as.MatrixList(x, ...)
-\method{as.MatrixList}{array}(x, ...)
-is.likert.capable(x, ...)
+is.likertCapable(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{For the \code{as.likert} methods, a numeric object stored as a vector, matrix,
     two-dimensional table, two-dimensional ftable, or
     two-dimensional structable (as defined in the \code{vcd} package).
-    For the \code{as.MatrixList} methods, an array.
-    For \code{is.likert} and \code{is.likert.capable}, any object.
+    For \code{is.likert} and \code{is.likertCapable}, any object.
     This is the only required argument.}
   \item{rowlabel, collabel}{\code{names(dimnames(x))}, where \code{x} is
     the argument to the \code{as.likert} functions.
     These will become the \code{xlab} and \code{ylab} of the likert plot.}
   \item{\dots}{other arguments.  They will be ignored by
-    the \code{as.likert} and \code{as.MatrixList} methods.}
+    the \code{as.likert} method.}
+  \item{reverse}{logical.  If \code{TRUE}, reverse the rows in the result.}
 }
 \details{
 Please see \code{\link{likert}} for information on the plot for which
@@ -77,13 +73,8 @@ There are four
 
  \code{is.likert} returns a \code{TRUE} or \code{FALSE} value.
 
- \code{is.likert.capable} returns a \code{TRUE} or \code{FALSE} value
+ \code{is.likertCapable} returns a \code{TRUE} or \code{FALSE} value
  if the argument can used as an argument to one of the \code{plot.likert} methods.
-
-The \code{as.MatrixList} methods construct a list of matrices from an
-array.  Each matrix has the first two dimensions of the array.  The
-result list is itself an array defined by all but the first two
-dimensions of the argument array.
 
 }
 \seealso{\code{\link{likert}}}
@@ -111,10 +102,5 @@ as.likert(tmp2)  ## even number of levels.
 
 is.likert(tmp2)
 is.likert(as.likert(tmp2))
-
-
-tmp3 <- array(1:24, dim=c(2,3,4), dimnames=list(A=letters[1:2], B=LETTERS[3:5], C=letters[6:9]))
-as.MatrixList(tmp3)
-sapply(as.MatrixList(tmp3), as.likert, simplify=FALSE)  ## odd number of levels.
 }
 \keyword{hplot}

@@ -1,0 +1,289 @@
+## # Export all names
+## exportPattern(".")
+
+##> matrix(ls(2, all=TRUE))
+## hand investigated and then sorted
+
+
+## .__C__ancova                          
+## .__T__$:base                          
+## .__T__$<-:base                        
+## .__T__[:base                          
+## .arima.info.names.not.ordered         
+## .Depends                              
+## .S3MethodsClasses                     
+## emptyLegend
+## panel.acf
+## panel.ae.dotplot
+## panel.ae.leftplot
+## panel.ae.rightplot
+## panel.axis.right
+## panel.bwplott
+## panel.case
+## panel.ci.plot
+## panel.gof
+## panel.interaction2wt
+## panel.pairs.hh
+## panel.std.resid
+## pop.vp.hh
+## print1.tsdiagplot
+## print2.tsdiagplot
+## push.vp.hh
+## strip.interaction2wt
+## strip.ladder
+## strip.xysplom
+## yscale.components.right.HH.list.of.panels
+export(
+F.curve,
+F.observed,
+F.setup,
+GSremove,
+LikertPercentCountColumns,
+ResizeEtc,
+X.residuals,
+acf.pacf.plot,
+acfplot,
+ae.dotplot,
+ae.dotplot.long,
+aeReshapeToLong,
+aicsigplot,
+ancova,
+anova.mean,
+antilogit,
+aov.sufficient,
+arima.diag.hh,
+arima.model,
+arma.loop,
+as.MatrixList,
+as.glht,
+as.likert,
+as.listOfNamedMatrices,
+as.multicomp,
+as.numeric.positioned,
+as.position,
+as.positioned,
+as.pyramidLikert,
+as.rts,
+axis.i2wt,
+brewer.pal.likert,
+chisq.curve,
+chisq.observed,
+chisq.setup,
+ci.plot,
+col.hh,
+combineTwoTrellisColumns,
+cp.calc,
+dchisq.intermediate,
+df.intermediate,
+diag.arma.loop,
+diag.maybe.null,
+do.formula.trellis.xysplom,
+emptyMainLeftAxisLeftStripBottomLegend,
+export.eps,
+glht.mmc,
+gof.calculation,
+gofplot,
+grid.xaxis.hh,
+grid.yaxis.hh,
+hh,
+hh.file,
+hh.file.DOS,
+hov,
+hov.bf,
+if.R,
+interaction2wt,
+interaction.positioned,
+intxplot,
+is.likert,
+is.likertCapable,
+is.listOfNamedMatrices,
+is.positioned,
+ladder,
+ladder.f,
+ladder.fstar,
+ladder3,
+legendGrob2wt,
+lm.case,
+lm.regsubsets,
+lmatContrast,
+lmatRows,
+logit,
+logrelrisk,
+make.xaxis.hh.labels,
+make.yaxis.hh.labels,
+mcalinfct,
+multicomp.label.change,
+multicomp.mean,
+multicomp.mmc,
+multicomp.mmc.mean,
+multicomp.order,
+multicomp.reverse,
+norm.curve,
+norm.observed,
+norm.outline,
+norm.setup,
+normal.and.t.dist,
+npar.arma,
+npar.rarma,
+npar.sarma,
+objip,
+odds.ratio,
+orthog.complete,
+orthog.construct,
+panel.ancova,
+panel.bwplot.intermediate.hh,
+panel.cartesian,
+panel.dotplot.tb,
+panel.hov,
+panel.intxplot,
+panel.likert,
+panel.xysplom,
+partial.corr,
+pchisq.intermediate,
+persp.back.wall.x,
+persp.back.wall.y,
+persp.floor,
+persp.plane,
+persp.setup,
+pf.intermediate,
+plot.case,
+plot.hov,
+plot.hov.bf,
+plot.likert,
+plot.matchMMC,
+plot.odds.ratio,
+position,
+"position<-",
+positioned,
+print.pyramidLikert,
+qchisq.intermediate,
+qf.intermediate,
+rearrange.diag.arma.loop,
+regr1.plot,
+regr2.plot,
+resid.squares,
+residplot,
+residual.plots,
+seqplot,
+strip.background0,
+sufficient,
+summary_HH,
+title.grob,
+title.trellis,
+tsacfplots,
+tsdiagplot,
+units.ts,
+unpositioned,
+vcov.sufficient,
+vif,
+xysplom,
+yscale.components.right.HH
+)
+
+## units.ts is something needed for compatability between R and S-Plus
+
+
+## register all the methods for generics elsewhere in case namespace is
+## loaded but not currently attached.
+S3method("[", arma.loop)
+S3method("[", cp.object)
+S3method("[", diag.arma.loop)
+S3method("[", listOfNamedMatrices)
+S3method("[", mmc.multicomp)
+S3method("[", positioned)
+S3method(X.residuals, default)
+S3method(X.residuals, formula)
+S3method(X.residuals, lm)
+S3method(anova, ancova)
+S3method(as.MatrixList, array)
+S3method(as.character, arima.model)
+S3method(as.data.frame, listOfNamedMatrices)
+S3method(as.glht, multicomp)
+S3method(as.likert, data.frame)
+S3method(as.likert, formula)
+S3method(as.likert, ftable)
+S3method(as.likert, likert)
+S3method(as.likert, matrix)
+S3method(as.likert, numeric)
+S3method(as.likert, table)
+S3method(as.listOfNamedMatrices, data.frame)
+S3method(as.listOfNamedMatrices, matrix)
+S3method(as.listOfNamedMatrices, MatrixList)
+S3method(as.listOfNamedMatrices, array)
+S3method(as.listOfNamedMatrices, list)
+S3method(as.matrix, listOfNamedMatrices)
+S3method(as.multicomp, glht)
+S3method(ci.plot, lm)
+S3method(coef, ancova)
+S3method(coef, arima.HH)
+S3method(glht.mmc, default)
+S3method(glht.mmc, glht)
+S3method(glht.mmc, lm)
+S3method(interaction2wt, default)
+S3method(interaction2wt, formula)
+S3method(is.na, positioned)
+S3method(is.numeric, positioned)
+S3method(lmatRows, glht)
+S3method(lmatRows, lm)
+S3method(lmatRows, mmc.multicomp)
+S3method(lmatRows, multicomp)
+S3method(model.frame, ancova)
+S3method(multicomp.label.change, mmc.multicomp)
+S3method(multicomp.label.change, multicomp)
+S3method(plot, ancova)
+S3method(plot, mmc.multicomp)
+S3method(plot, multicomp)
+S3method(plot, multicomp.hh)
+S3method(plot, summary_HH_regsubsets)
+S3method(plot.likert, array)
+S3method(plot.likert, data.frame)
+S3method(plot.likert, default)
+S3method(plot.likert, ftable)
+S3method(plot.likert, list)
+S3method(plot.likert, structable)
+S3method(plot.likert, table)
+S3method(predict, ancova)
+S3method(print, MatrixList)
+S3method(print, ancova)
+S3method(print, arma.loop)
+S3method(print, arma.loop.list)
+S3method(print, cp.object)
+S3method(print, glht.mmc.multicomp)
+S3method(print, listOfNamedMatrices)
+S3method(print, mmc.multicomp)
+S3method(print, multicomp)
+S3method(print, multicomp.hh)
+S3method(print, positioned)
+S3method(print, pyramidLikert)
+S3method(print, summary_HH_regsubsets)
+S3method(print, tsacfplots)
+S3method(print, tsdiagplot)
+S3method(seqplot, default)
+S3method(seqplot, forecast)
+S3method(seqplot, rts)
+S3method(seqplot, ts)
+S3method(summary, ancova)
+S3method(summary, arma.loop)
+S3method(summary, arma.loop.list)
+S3method(summary_HH, regsubsets)
+S3method(t, trellis)
+S3method(unique, positioned)
+S3method(vif, default)
+S3method(vif, formula)
+S3method(vif, lm)
+S3method(xysplom, default)
+S3method(xysplom, formula)
+
+
+## # Import all packages listed as Imports or Depends
+## import(
+##   lattice,
+##   stats,
+##   grid,
+##   multcomp,
+##   mvtnorm,
+##   methods,
+##   leaps,
+##   RColorBrewer,
+##   latticeExtra
+## )

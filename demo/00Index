@@ -7,8 +7,10 @@ MMC.catalystm      one factor with orthogonal contrasts.  Construction of MMC pl
 MMC.mmc.explain    functions used in explanation of construction of MMC plot
 MMC.cc176          three factors and covariate
 MMC.pulmonary      one factor with orthogonal contrasts. sufficient statistics
+PoorChildren       Count of Poor Children, by Child's Poorness, Number of Working Parents, Concentration of Poor Households
 arima.sim.XYZ      HH Exercises 18.1 18.2 18.3
 book.plots   	   sample code for adjusting graphic parameters for book publishing
+likert-paper       R code for all examples in Likert paper to be submitted
 nottem       	   HH Exercise 18.5.  Nottingham temperatures from MASS.  In R, one of the models didn't complete. 
 tsamstat     	   All tables and graphs in the Heiberger and Teles article, and some additional ones, are here.
 tsq                HH Exercise 18.7

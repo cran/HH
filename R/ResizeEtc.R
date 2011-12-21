@@ -2,6 +2,8 @@ ResizeEtc <- function(c.list,
                       condlevelsName,
                       x.same, y.same,
                       layout,
+                      strip=TRUE,
+                      strip.left=TRUE,
                       strip.values, strip.left.values,
                       strip.par, strip.left.par,  ## only the second is effective when both are specified
                       resize.height, resize.width,
@@ -35,14 +37,14 @@ ResizeEtc <- function(c.list,
   ## I would like them to use par.strip.text and par.strip.left.text, where the
   ## new par.strip.left.text defaults to the current value of par.strip.text
   resultE <- resultD
-  if (!missing(strip.values)) {
-    resultE <- update(resultE, strip=TRUE)
+  if (!missing(strip.values) && strip) {
+    resultE <- update(resultE, strip=strip)
     resultE$condlevels[[condlevelsName]] <- strip.values
   }
 
   resultF <- resultE
-  if (!missing(strip.left.values)) {
-    resultF <- update(resultF, strip.left=TRUE)
+  if (!missing(strip.left.values) && strip.left) {
+    resultF <- update(resultF, strip.left=strip.left)
     resultF$condlevels[[condlevelsName]] <- strip.left.values
   }
 
@@ -68,6 +70,10 @@ ResizeEtc <- function(c.list,
                     w=resizePanels(resultH, w=resize.width+1),
                     h=resizePanels(resultH, h=resize.height+1),
                     resultH)
+  resultI <- if (strip)
+    resultI
+  else
+    update(resultI, strip=strip)
 
   resultJ <- resultI
     if (!missing(main)) {
@@ -83,7 +89,7 @@ ResizeEtc <- function(c.list,
 }
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/ResizeEtc.R")
-
+## environment(ResizeEtc) <- environment(plot.likert)
 
 if (FALSE) {
   ResizeEtc(A + as.layer(B))

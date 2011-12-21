@@ -202,9 +202,9 @@ function(object, ...)
 function(object, ...)
   NextMethod("coef")
 
-"coefficients.ancova" <-
-function(object, ...)
-  NextMethod("coef")
+## "coefficients.ancova" <-
+## function(object, ...)
+##   NextMethod("coef")
 
 "panel.ancova" <-
 function(x, y, subscripts, groups, transpose=FALSE, ...,

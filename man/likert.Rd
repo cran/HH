@@ -10,17 +10,20 @@
 %% \alias{plot.likert.numeric}
 \alias{plot.likert.data.frame}
 \alias{panel.likert}
+\alias{yscale.components.right.HH}
+\alias{brewer.pal.likert}
 \alias{floating}
+\alias{pyramid}
 \alias{sliding}
 \alias{semantic}
 \alias{differential}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{Diverging stacked barcharts for Likert, semantic
-differential, and rating scale data.}
+differential, rating scale data, and population pyramids.}
 \description{
 Constructs and plots diverging stacked barcharts for Likert, semantic
-differential, and rating scale data.
+differential, rating scale data, and population pyramids.
 }
 \usage{
 \method{plot}{likert}(x, ...)
@@ -34,16 +37,18 @@ differential, and rating scale data.
             ## c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr",
             ## "RdGy", "RdYlBu", "RdYlGn", "Spectral"),
             reference.line.col="gray65",
-            middle.col="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.col in the RdBu scheme
+            middle.color="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.col in the RdBu scheme
             col.strip.background="gray97",
-            col=mybrewer(x, middle.col),
+            col=brewer.pal.likert(attr(x, "nlevels"), BrewerPaletteName, middle.color),
             as.percent=FALSE,
             ...,
+            key.border.white=TRUE,
             xName=deparse(substitute(x)),
             rightAxisLabels=rowSums(abs(x)),
             rightAxis=!missing(rightAxisLabels),
             ylab.right=if (rightAxis) "Row Totals" else NULL,
-            panel=panel.likert)
+            panel=panel.barchart,
+            yscale.components=yscale.components.right.HH)
 
 \method{plot.likert}{array}(x,
             condlevelsName=paste(names(dimnames(x))[-(1:2)], collapse="."),
@@ -51,8 +56,10 @@ differential, and rating scale data.
             main=paste("layers of", xName, "by", condlevelsName),
             layout=c(1, length(dim(x))-2),
             positive.order=FALSE,
+            strip=TRUE,
             strip.left=TRUE,
             strip.left.values=rev(names(tt.pl)), ## constructed from dimnames(x)[-(1:2)]
+            strip.values=rev(names(tt.pl)),
             strip.left.par=list(cex=1, lines=1),
             ...)
 
@@ -62,14 +69,17 @@ differential, and rating scale data.
             main=paste("List items of", xName, "by", condlevelsName),
             layout=c(1, length(x)),
             positive.order=FALSE,
+            strip=TRUE,
             strip.left=TRUE,
             strip.left.values=rev(names(x)),
+            strip.values=rev(names(x)),
             strip.left.par=list(cex=1, lines=1),
             main.middle=.5,
             ...,
             rightAxisLabels=sapply(x, rowSums, simplify=FALSE),
             rightAxis=!missing(rightAxisLabels),
-            resize.height.tuning=-.5)
+            resize.height.tuning=-.5,
+            yscale.components=yscale.components.right.HH)
 
 \method{plot.likert}{table}(x, ..., xName=deparse(substitute(x)))
 \method{plot.likert}{ftable}(x, ..., xName=deparse(substitute(x)))
@@ -77,7 +87,11 @@ differential, and rating scale data.
 %% \method{plot.likert}{numeric}(x, ..., xName=deparse(substitute(x)))
 \method{plot.likert}{data.frame}(x, ..., xName=deparse(substitute(x)))
 
-panel.likert(..., rightAxisLabels, rightAxis)
+panel.likert(..., rightAxisLabels, rightAxis) ## defunct
+
+brewer.pal.likert(n, name,  middle.color)
+
+yscale.components.right.HH(...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -106,18 +120,19 @@ panel.likert(..., rightAxisLabels, rightAxis)
   }
   \item{ylab, xlab, ylab.right, main}{Standard \code{lattice} graph
     labels in \code{\link[lattice]{barchart}}.}
-  \item{BrewerPaletteName}{\code{\link[RColorBrewer]{RColorBrewer}}
+  \item{BrewerPaletteName, name}{\code{\link[RColorBrewer]{RColorBrewer}}
     palette names. We default to the diverging palette \code{RdBu}.
-    If there are more levels than \code{RColorBrewer} normally handles, we
-    automatically interpolate with
-    \code{\link[grDevices]{colorRampPalette}}.
     Diverging palettes are usually appropriate for two-directional
     scales (Agree--Disagree).  Sequential palettes are often appropriate
     for one-directional scales (Age Ranges).  Qualitative palettes are
     usually not appropriate for likert plots.
   }
+  \item{n}{Number of colors in the palette.
+    If there are more levels than \code{RColorBrewer} normally handles, we
+    automatically interpolate with
+    \code{\link[grDevices]{colorRampPalette}}.}
   \item{reference.line.col}{Color for reference line at zero.}
-  \item{middle.col}{Darker middle color than the default
+  \item{middle.color}{Darker middle color than the default
     \code{"#F7F7F7"} in the \code{RdBu} scheme.}
   \item{col.strip.background}{Background color for the strip labels.}
   \item{col}{Colors for the levels of the agreement factor.
@@ -126,6 +141,9 @@ panel.likert(..., rightAxisLabels, rightAxis)
     palettes from \code{link[RColorBrewer]{RColorBrewer}}
     in the argument \code{BrewerPaletteName} will be appropriate.
   }
+  \item{key.border.white}{Logical. If \code{TRUE}, then place a white
+    border around the \code{rect} in the key, else use the \code{col} of
+    the rect itself.}
   \item{\dots}{other arguments. These will be passed to the
     \code{barchart}
     function by the \code{plot.likert} method.
@@ -148,14 +166,14 @@ panel.likert(..., rightAxisLabels, rightAxis)
   % }{Arguments to the lattice \code{key}.
   %   See the discussion of \code{key} in \code{\link[lattice]{barchart}}.
   % }
-  \item{strip.left}{Logical. The default \code{strip.left=TRUE}
+  \item{strip.left, strip}{Logical. The default \code{strip.left=TRUE}
     places the strip
     labels on the left of each panel as in the
     first professional challenges example.
     The alternative \code{strip.left=FALSE} puts
     the strip labels on the top of each panel, the traditional
     lattice strip label position.}
-  \item{condlevelsName, strip.left.values,
+  \item{condlevelsName, strip.left.values, strip.values,
     strip.left.par, layout, main.middle}{Arguments which will be passed to
     \code{\link{ResizeEtc}}.}
   \item{xName}{Name of the argument in its original environment.}
@@ -172,9 +190,16 @@ panel.likert(..., rightAxisLabels, rightAxis)
     between bars as specified by the \code{resize.height} argument to
     the \code{\link{ResizeEtc}} function.}
   \item{panel}{panel function eventually to be used by \code{barchart}.
-    The \code{panel.likert} function calls the regular
-    \code{panel.barchart} and also handles the placement of the right axis
-    labels when needed.}
+    %The \code{panel.likert} function calls the regular
+    %\code{panel.barchart} and also handles the placement of the right axis
+    %labels when needed.
+  }
+  \item{yscale.components}{See
+    \code{\link[lattice]{yscale.components.default}}.
+    \code{yscale.components.right.HH} constructs the right y-axis
+    labels, when needed, as the names of the left y-axis labels.  The
+    names are placed automatically by the \code{plot.likert} methods based on
+    the value of the arguments \code{as.percent}, \code{rightAxis}, and \code{rightAxisLabels}.}
 }
 \details{
   The counts (or percentages) of respondents on each row who agree with
@@ -182,13 +207,14 @@ panel.likert(..., rightAxisLabels, rightAxis)
   percentages) who disagree are shown to the left. The counts (or
   percentages) for respondents who neither agree nor disagree are split
   down the middle and are shown in a neutral color. The neutral category
-  is omitted when the scale has an even number of choices. The
-  categories within each sector are ordered by the counts (or
-  percentages) who agree (by default). It is difficult to compare
+  is omitted when the scale has an even number of choices.  It is difficult to compare
   lengths without a common baseline. In this situation, we are primarily
   interested in the total count (or percent) to the right or left of the
   zero line; the breakdown into strongly or not is of lesser interest so
-  that the primary comparisons do have a common baseline of zero.
+  that the primary comparisons do have a common baseline of zero. The
+  rows within each panel are displayed in their original order by
+  default. If the argument \code{positive.order=TRUE} is specified, the rows
+  are ordered by the counts (or percentages) who agree. 
 
   Diverging stacked barcharts are also called "two-directional stacked
   barcharts".  Some authors use the term "floating barcharts" for
@@ -255,17 +281,8 @@ require(lattice)
 require(latticeExtra)
 require(HH)
 
-data(ProfChal)  ## List of matrices.  See below for discussion of the dataset.
-##
-## ProfChal[[2]]
-##
-## The as.matrix.listOfNamedMatrices display is easier to read when the
-## rownames are very long, as in this example.  Because the default
-## print of the matrix repeats the rownames several times, with only a
-## few columns of the data shown in each repetition, the actual matrix
-## structure of the data values is obscured.
-##
-as.matrix.listOfNamedMatrices(ProfChal[2])
+data(ProfChal)  ## List of named matrices.  See below for discussion of the dataset.
+ProfChal[[2]]
 
 ## Count plot
 plot.likert(ProfChal[[2]],
@@ -296,7 +313,8 @@ plot.likert(tmp3, layout=c(1,4), auto.key=list(columns=3))
 plot.likert(tmp4, layout=c(3,2), auto.key=list(columns=4))
 plot.likert(tmp4, layout=c(3,2),
             auto.key=list(columns=4),
-            rightAxis=TRUE, between=list(x=c(4,4)))
+            rightAxis=TRUE, between=list(x=2),
+            par.settings=list(layout.widths=list(ylab.right=5, right.padding=0)))
 plot.likert(tmp4, layout=c(3,2),
             auto.key=list(columns=4, border=TRUE, padding.text=4, height=.5))
 plot.likert(tmp4, layout=c(3,2), auto.key=list(columns=4), strip.left=FALSE)
@@ -343,8 +361,7 @@ plot.likert(ProfChal[[2]],
             horizontal=FALSE,
             scales=list(x=list(rot=90)),
             auto.key=list(columns=1, space="right", reverse=TRUE),
-            main="Vertical diverging stacked barcharts are possible.
-They usually do not look good and are not recommended.",
+            main="Vertical diverging stacked barcharts are possible.\nThey usually do not look good and are not recommended.",
             sub="This plot looks less bad in a 8.5in x 7in window.")
 
 
@@ -388,6 +405,37 @@ plot.likert(AudiencePercent,
             col=brewer.pal(9, "Blues")[4:7],
             sub="This plot looks better in a 7in x 3.5in window.")
 
+## Population Pyramid
+data(USAge.table)
+USA79 <- USAge.table[75:1, 2:1, "1979"]/1000000
+PL <- plot.likert(USA79,
+                  main="Population of United States 1979 (ages 0-74)",
+                  xlab="Count in Millions",
+                  ylab="Age",
+                  scales=list(
+                    y=list(
+                      limits=c(0,77),
+                      at=seq(1,76,5),
+                      labels=seq(0,75,5),
+                      tck=.5))
+                     )
+PL
+as.pyramidLikert(PL)
+
+plot.likert(USAge.table[75:1, 2:1, c("1979","1959","1939")]/1000000,
+                  main="Population of United States 1939,1959,1979 (ages 0-74)",
+                  sub="Look for the Baby Boom",
+                  xlab="Count in Millions",
+                  ylab="Age",
+                  scales=list(
+                    y=list(
+                      limits=c(0,77),
+                      at=seq(1,76,5),
+                      labels=seq(0,75,5),
+                      tck=.5)),
+                  strip.left=FALSE,
+                  layout=c(3,1))
+
 
 ## Professional Challenges example.
 ##
@@ -401,9 +449,13 @@ plot.likert(AudiencePercent,
 ##
 data(ProfChal)
 ## ProfChal
-as.matrix.listOfNamedMatrices(ProfChal, minlength=6)
+print(ProfChal, minlength=6)
 
 ## 1. Plot counts with rows in each panel sorted by positive counts.
+##
+plot.likert(ProfChal,
+            main="This works, but needs more specified arguments to look good",
+            sub="This looks better in a 10inx7in window")
 ##
 ## Strip labels on left (the default for plot.likert).
 ## positive.order=TRUE is the recommended (but not default) setting for
@@ -419,10 +471,12 @@ plot.likert(ProfChal, box.width=unit(.4,"cm"),
             positive.order=TRUE,
             rightAxis=TRUE,  ## display row count totals
             sub="This plot looks better in a 10in x 7in window.")
-ProfChalCountsPlot
+## ProfChalCountsPlot
+update(ProfChalCountsPlot, par.settings=list(layout.widths=list(ylab.right=5, right.padding=0)))
 
+\dontrun{
 ## Strip labels on top (the default for most lattice plots).
-## Change line spacing
+## Change line spacing in the "Attitude" panel
 names(ProfChal)[6] <- "Attitude toward Professional Recognition"
 plot.likert(ProfChal, box.width=unit(.3,"cm"),
             strip.left=FALSE,
@@ -432,6 +486,7 @@ plot.likert(ProfChal, box.width=unit(.3,"cm"),
             positive.order=TRUE)
 ## Restore original line spacing
 names(ProfChal)[6] <- "Attitude\ntoward\nProfessional\nRecognition"
+}
 
 ## 2. Plot percents with rows in each panel sorted by positive percents.
 ##    This is a different sequence than the counts.  Row Counts are
@@ -443,82 +498,115 @@ plot.likert(ProfChal,
             strip.left.par=list(cex=.7, lines=5),
             main='Is your job professionally challenging?',
             main.middle=.65,
+            xlab="Percent",
             positive.order=TRUE,
             sub="This plot looks better in a 10in x 7in window.")
-ProfChalPctPlot
+## ProfChalPctPlot
+update(ProfChalPctPlot, par.settings=list(layout.widths=list(ylab.right=5, right.padding=0)))
 
 
 
-## 3. Putting both percents and counts on the same plot requires
-##    coordination The easiest way is to order the original tables of
-##    counts by the percents.
+## 3. Putting both percents and counts on the same plot
 
-## Manually construct RowTotals and Tables of Row percents
-rowTotals <- sapply(ProfChal, rowSums, simplify=FALSE)
-rowTotals
-ProfChalPct <- sapply(ProfChal, function(x) x / rowSums(x) * 100,
-                      simplify=FALSE)
-as.matrix.listOfNamedMatrices(ProfChalPct, minlength=6)
+## Change name in the "Attitude" panel
+names(ProfChal)[6] <- "Prof Recog"
+  
+LikertPercentCountColumns(ProfChal,
+                          main="Is your job professionally challenging?",
+                          sub="LikertPercentCountColumns test, 9x8 window")
 
-## Find sort order for each matrix in the list
-PctOrders <- sapply(ProfChalPct,
-                    function(x) attr(as.likert(x), "positive.order"),
-                    simplify=FALSE)
-PctOrders
+## Restore original name
+names(ProfChal)[6] <- "Attitude\ntoward\nProfessional\nRecognition"
 
-## Original data on Count scale, but ordered as for Percents
-ProfChalOrdered <- mapply(FUN=function(L,O) L[order(O),,drop=FALSE],
-                          ProfChal, PctOrders,
-                          SIMPLIFY=FALSE)
-as.matrix.listOfNamedMatrices(ProfChalOrdered, minlength=6)
 
-## Counts plot in Pct order
-CountsPlot <-
-plot.likert(ProfChalOrdered,
-            box.width=unit(.4,"cm"),
-            strip.left.par=list(cex=.7, lines=5),
-            main='Is your job professionally challenging?',
-            main.middle=.65,
-            xlab="Counts", ylab.right="Row Count Totals",
-            rightAxis=TRUE,
-            sub="This plot looks better in a 10in x 7in window.")
-CountsPlot
 
-## Pct plot in Pct order
-PctPlot <-
-plot.likert(ProfChalOrdered,
-            as.percent="noRightAxis", ## suppress right axis
-            box.width=unit(.4,"cm"),
-            strip.left.par=list(cex=.7, lines=5),
-            main='Is your job professionally challenging?',
-            main.middle=.65,
-            xlab="Percent",
-            sub="This plot looks better in a 10in x 7in window.")
-PctPlot
 
-## Remove main title, left axis tick labels, left strip, bottom legend
-## from plot and keep the vertical spacing allocated to those items.
-CountsPlotRevised <- emptyMainLeftAxisLeftStripBottomLegend(CountsPlot)
-CountsPlotRevised
-
-## Manual stretching of the graph window may be needed to get the
-## alignment right.  For the standard 7x7 window, this aligns well
-## (using either the pdf device or the windows device).
-##
-PctPlotUpdate <-
-update(PctPlot,
-       sub="The 'position' arguments are set for a 7in x 7in window")
-print(PctPlotUpdate, position=c(0,0,.83,1), more=TRUE)
-print(CountsPlotRevised, position=c(.76,0,1,1), more=FALSE)
-
-## This graph looks better in a wider window.
-## Manual stretching of graph window may be needed to get the alignment right.
-## The x position values (.8 and .75) are by trial and error.
-## They depend on the current configuration of the plotting window.
-print(PctPlot, position=c(0,0,.8,1), more=TRUE)
-print(CountsPlotRevised, position=c(.75,0,1,1), more=FALSE)
 
 ## The ProfChal data is done again with explicit use of ResizeEtc
 ## in ?HH:::ResizeEtc
 }
 \keyword{hplot}
+
+
+
+% ## 3. Putting both percents and counts on the same plot requires
+% ##    coordination The easiest way is to order the original tables of
+% ##    counts by the percents.
+
+% ## Manually construct RowTotals and Tables of Row percents
+% rowTotals <- sapply(ProfChal, rowSums, simplify=FALSE)
+% rowTotals
+% ProfChalPct <- as.listOfNamedMatrices(
+%                    sapply(ProfChal, function(x) x / rowSums(x) * 100,
+%                           simplify=FALSE))
+% print(ProfChalPct, minlength=6)
+
+% ## Find sort order for each matrix in the list
+% PctOrders <- sapply(ProfChalPct,
+%                     function(x) attr(as.likert(x), "positive.order"),
+%                     simplify=FALSE)
+% PctOrders
+
+% ## Original data on Count scale, but ordered as for Percents
+% ProfChalOrdered <- as.listOfNamedMatrices(
+%                    mapply(FUN=function(L,O) L[order(O),,drop=FALSE],
+%                           ProfChal, PctOrders,
+%                           SIMPLIFY=FALSE))
+% print(ProfChalOrdered, minlength=6)
+
+% ## Counts plot in Pct order
+% CountsPlot <-
+% plot.likert(ProfChalOrdered,
+%             box.width=unit(.4,"cm"),
+%             strip.left.par=list(cex=.7, lines=5),
+%             main='Is your job professionally challenging?',
+%             main.middle=.65,
+%             xlab="Counts", ylab.right="Row Count Totals",
+%             rightAxis=TRUE,
+%             sub="This plot looks better in a 10in x 7in window.")
+% CountsPlot
+
+% ## Pct plot in Pct order
+% PctPlot <-
+% plot.likert(ProfChalOrdered,
+%             as.percent="noRightAxis", ## suppress right axis
+%             box.width=unit(.4,"cm"),
+%             strip.left.par=list(cex=.7, lines=5),
+%             main='Is your job professionally challenging?',
+%             main.middle=.65,
+%             xlab="Percent",
+%             sub="This plot looks better in a 10in x 7in window.")
+% PctPlot
+
+
+% \dontrun{
+% ## These require functions not in the package because they
+% ## are not yet stable.
+% plotPctCounts(PctPlot, CountsPlot, plab=.47, f=.7)
+
+% keepTrellis(CountsPlot,
+%             Main=FALSE, LeftAxis=FALSE, LeftStrip=FALSE, BottomLegend=FALSE)
+% }
+
+% ## Remove main title, left axis tick labels, left strip, bottom legend
+% ## from plot and keep the vertical spacing allocated to those items.
+% CountsPlotRevised <- emptyMainLeftAxisLeftStripBottomLegend(CountsPlot) ## ugly but it works
+% CountsPlotRevised
+
+% ## Manual stretching of the graph window may be needed to get the
+% ## alignment right.  For the standard 7x7 window, this aligns well
+% ## (using either the pdf device or the windows device).
+% ##
+% PctPlotUpdate <-
+% update(PctPlot,
+%        sub="The 'position' arguments are set for a 7in x 7in window")
+% print(PctPlotUpdate, position=c(0,0,.83,1), more=TRUE)
+% print(CountsPlotRevised, position=c(.76,0,1,1), more=FALSE)
+
+% ## This graph looks better in a wider window.
+% ## Manual stretching of graph window may be needed to get the alignment right.
+% ## The x position values (.8 and .75) are by trial and error.
+% ## They depend on the current configuration of the plotting window.
+% print(PctPlot, position=c(0,0,.8,1), more=TRUE)
+% print(CountsPlotRevised, position=c(.75,0,1,1), more=FALSE)
+

@@ -3,7 +3,11 @@
 \alias{AudiencePercent}
 \alias{Design_2.8_2}
 \alias{Design_2.8_2_full}
+\alias{NZScienceTeaching}
+\alias{PoorChildren}
 \alias{ProfChal}
+\alias{ProfDiv}
+\alias{SFF8121}
 \alias{abrasion}
 \alias{acacia}
 \alias{animal}
@@ -168,6 +172,41 @@ For \code{ProfChal}, see \code{\link{plot.likert}}.
 
 \code{AudiencePercent} is from personal communication by the market
 researcher who did the study.
+
+\code{SFF8121} is student evaluations of my class compared to the
+average of all graduate classes in the Spring 2010 semester.
+Personal communication from the Temple University
+Office of the Provost to me.
+
+\code{ProfDiv} is "Profit-and-Dividend Status of 348 Corportations in
+the United States for the period from 1929 to 1935" from
+Brinton WC (1939),
+ \emph{Graphic Presentation}.
+ Brinton Associates.
+  \url{http://www.archive.org/details/graphicpresentat00brinrich}.
+
+  \code{NZScienceTeaching} is from
+  New Zealand Ministry of Research Science and Technology(2006),
+ ``Staying in Science."
+\url{http://www.morst.govt.nz/Documents/publications/researchreports/Staying-in-Science-summary.pdf}.
+
+\code{PoorChildren} is from
+``Poor Children, Working Parents",
+Analysis of data from the CensusBureau's American Community Survey.
+Comparison of Census areas of 100,000 or more people,
+based on samples from 2005 to 2009.
+
+Source: Data from the U.S. Census Bureau's American Community Survey;
+analysis by Andrew A. Beveridge, QueensCollege.
+Copyright 2011 The New York Times Company
+
+\url{http://www.nytimes.com/imagepages/2011/12/03/opinion/03blow-ch.html?ref=opinion}
+
+\url{http://www.nytimes.com/2011/12/03/opinion/blow-newts-war-on-poor-children.html?_r=1}
+
+Naomi Robbins and I discuss the PoorChildren example in the Forbes online column:
+\url{http://www.forbes.com/sites/naomirobbins/2011/12/20/alternative-to-charles-blows-figure-in-newts-war-on-poor-children-2/}
+\code{demo(PoorChildren, package="HH")}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \references{
