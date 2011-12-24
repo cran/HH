@@ -9,7 +9,7 @@
 \alias{summary.ancova}
 \alias{plot.ancova}
 \alias{coef.ancova}
-\alias{coefficients.ancova}
+%\alias{coefficients.ancova}
 \alias{panel.ancova}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Compute and plot oneway analysis of covariance}
@@ -52,7 +52,7 @@ panel.ancova(x, y, subscripts, groups,
 
 \method{coef}{ancova}(object, ...)
 
-\method{coefficients}{ancova}(object, ...)
+%\method{coefficients}{ancova}(object, ...)
 
 }
 %- maybe also 'usage' for other objects documented here.

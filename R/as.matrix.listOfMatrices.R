@@ -64,7 +64,11 @@ is.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x))) {
   result
 }
 
-as.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x))) {
+as.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x)))
+  UseMethod("as.listOfNamedMatrices")
+
+
+as.listOfNamedMatrices.list <- function(x, ...,  xName=deparse(substitute(x))) {
   force(xName)
   result <- is.listOfNamedMatrices(x, ..., xName=xName)
   if (!result) {
@@ -74,6 +78,39 @@ as.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x))) {
     class(x) <- c("listOfNamedMatrices", class(x))
   x
 }
+
+as.listOfNamedMatrices.matrix <- function(x, ...,  xName=deparse(substitute(x))) {
+  force(xName)
+  tmp2 <- data.matrix(x)
+  dim(tmp2) <- c(dim(tmp2)[1], 1, dim(tmp2)[2])
+  dimnames(tmp2) <- list(dimnames(x)[[1]],
+                         "nonsense",
+                         dimnames(x)[[2]])
+  tmp3 <- as.listOfNamedMatrices(aperm(tmp2, c(2,3,1)), ..., xName=xName)
+  tmp4 <- sapply(names(tmp3),
+                 function(x) {
+                   dimnames(tmp3[[x]])[[1]] <- x
+                   tmp3[[x]]},
+                 simplify=FALSE)
+  class(tmp4) <- class(tmp3)
+  tmp4
+}
+
+as.listOfNamedMatrices.data.frame <- function(x, ...,  xName=deparse(substitute(x))) {
+  force(xName)
+  as.listOfNamedMatrices(data.matrix(x), ..., xName=xName)
+}
+
+as.listOfNamedMatrices.MatrixList <- function(x, ...,  xName=deparse(substitute(x))) {
+  force(xName)
+  NextMethod("as.listOfNamedMatrices")
+}
+
+as.listOfNamedMatrices.array <- function(x, ...,  xName=deparse(substitute(x))) {
+  force(xName)
+  as.listOfNamedMatrices(as.MatrixList(x), ..., xName=xName)
+}
+
 
 as.data.frame.listOfNamedMatrices <- function(x, ...) {
   xName <- deparse(substitute(x))
@@ -99,5 +136,40 @@ print.listOfNamedMatrices <- function(x, ...) {
   print(as.matrix(x, ...))
   invisible(x)
 }
+
+`[.listOfNamedMatrices` <- function(x, ...) {
+  result <- NextMethod("[")
+  class(result) <- class(x)
+  result
+}
+
+
+as.MatrixList <- function(x, ...)
+  UseMethod("as.MatrixList")
+
+as.MatrixList.array <- function(x, ...) {
+  ldx <- length(dim(x))
+  xa <- lapply(apply(x, 3:ldx, function(x) list(x)), `[[`, 1)
+  dim(xa) <- dim(x)[-(1:2)]
+  dimnames(xa) <- dimnames(x)[-(1:2)]
+  if (is.null(names(xa))) { ## getting here means ldx > 3
+    nxa <- outer(dimnames(x)[[3]], dimnames(x)[[4]], "paste", sep=".")
+    if (ldx >= 5) {
+      for (i in 5:ldx)
+      nxa <- outer(nxa, dimnames(x)[[i]],, "paste", sep=".")
+    }
+    names(xa) <- nxa
+  }
+  class(xa) <- c("MatrixList", "list", class(xa))
+  xa
+}
+
+
+print.MatrixList <- function(x, ...) {
+    cat("'MatrixList'.\n")
+  print(as.listOfNamedMatrices(x, ...))
+  invisible(x)
+}
+
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/as.matrix.listOfMatrices.R")

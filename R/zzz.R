@@ -1,3 +1,4 @@
-.First.lib <- function(lib, pkg) {
-  options(HH.ROOT.DIR=paste(lib, pkg, sep="/"))
+## .First.lib <- function(lib, pkg) {
+.onLoad <- function(libname, pkgname) {
+    options(HH.ROOT.DIR=paste(libname, pkgname, sep="/"))
 }

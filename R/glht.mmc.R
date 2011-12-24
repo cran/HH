@@ -310,7 +310,10 @@ print.glht.mmc.multicomp <- function (x, ...) {
 
 ## prints table and height components of multicomp object
 print.multicomp <- function (x, ...) {
-  print(cbind(x$table, height=x$height/2))
+  if (inherits(x, "TukeyHSD")) ## protect against "multicomp" class in stats:::TukeyHSD output
+    NextMethod("print")
+  else
+    print(cbind(x$table, height=x$height/2))
   invisible(x)
 }
 

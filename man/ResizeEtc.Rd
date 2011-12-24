@@ -11,6 +11,8 @@ ResizeEtc(c.list,
            condlevelsName,
            x.same, y.same,
            layout,
+           strip=TRUE,
+           strip.left=TRUE,
            strip.values, strip.left.values,
            strip.par, strip.left.par,  ## only the second is effective
                                        ## when both are specified
@@ -27,6 +29,7 @@ ResizeEtc(c.list,
 \item{x.same, y.same}{If \code{TRUE}, force all panels to have the same
   \code{x.limits} or \code{y.limits}.}
 \item{layout}{Standard lattice \code{layout} argument.}
+\item{strip, strip.left}{standard lattice arguments described in \code{\link[lattice]{barchart}.}}
 \item{strip.values, strip.left.values}{strip names for the panels.
   Only the second is effective when both are specified.}
 \item{strip.par, strip.left.par}{\code{par.strip.text}.
