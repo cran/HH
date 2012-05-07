@@ -1,6 +1,9 @@
-"plot.hov" <-
+plot.hov <- function(...)
+  .Defunct("hovPlot", package="HH")
+
+"hovPlot" <-
 function(x, data=sys.parent(), method="bf",
-                     transpose.in=TRUE, ...) {
+                     transpose=TRUE, ...) {
   if (method != "bf")
     stop("Only 'bf', Brown-Forsyth method is currently available.")
   if.R(r={
@@ -17,14 +20,17 @@ function(x, data=sys.parent(), method="bf",
     y.name     <- deparse(dft$expr[[1]])
     group.name <- deparse(dft$expr[[2]])
   })
-  plot.hov.bf(y, group, y.name, group.name, transpose=transpose.in)
+  hovPlot.bf(y, group, y.name, group.name, transpose=transpose)
 }
 
-"plot.hov.bf" <-
+plot.hov.bf <- function(...)
+  .Defunct("hovPlot.bf", package="HH")
+
+"hovPlot.bf" <-
 function(x, group,
                         y.name=deparse(substitute(x)),
                         group.name=deparse(substitute(group)),
-                        transpose.in=TRUE, ...) {
+                        transpose=TRUE, ...) {
   med <- tapply(x, group, median)
   w <- x - med[group]
   z <- abs(w)
@@ -53,7 +59,7 @@ function(x, group,
                          xlab=list(y.name, cex=1.4),
                          ylab=list(group.name, cex=1.4),
                          layout=c(3,1))
-           if (transpose.in) tmp <- t(tmp)
+           if (transpose) tmp <- t(tmp)
            tmp
        })
 }

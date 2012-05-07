@@ -7,7 +7,7 @@ multicomp.mean <- function(group, n, ybar, s, alpha=.05,
 
   if.R(r={
     multicomp.default <- NA ## make R-2.6.0dev happy
-    stop("multicomp.mean works only in S-Plus.  Use aov.sufficient and glht in R.")
+    stop("multicomp.mean works only in S-Plus.  Use aovSufficient and glht in R.")
   },s={})
 
   rec.n <- diag(1/n)
@@ -64,7 +64,7 @@ multicomp.mmc.mean <- function(group, n, ybar, s, ylabel, focus.name,
                                df=sum(n)-length(n),
                                sigmahat=(sum((n-1)*s^2)/df)^.5) {
   
-  if.R(r=stop("multicomp.mmc.mean works only in S-Plus.  Use aov.sufficient and glht.mmc in R."),
+  if.R(r=stop("multicomp.mmc.mean works only in S-Plus.  Use aovSufficient and mmc in R."),
        s={})
 
   ## pairwise differences

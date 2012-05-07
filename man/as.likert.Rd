@@ -1,14 +1,16 @@
 \name{as.likert}
 \alias{is.likert}
 \alias{as.likert}
-\alias{as.likert.likert}
 \alias{as.likert.data.frame}
 \alias{as.likert.formula}
 \alias{as.likert.ftable}
 \alias{as.likert.table}
 \alias{as.likert.matrix}
-\alias{as.likert.numeric}
+\alias{as.likert.listOfNamedMatrices}
+\alias{as.likert.array}
+\alias{as.likert.default}
 \alias{is.likertCapable}
+\alias{rev.likert}
 %- Also NEED an '\alias' for EACH other topic documented here.
 
 \title{Support functions for diverging stacked barcharts for Likert, semantic
@@ -21,21 +23,29 @@ Constructs class="likert" objects to be used by the plot.likert methods.
 is.likert(x)
 
 as.likert(x, ...)
-\method{as.likert}{likert}(x, ...)
+\method{as.likert}{default}(x, ...)
 \method{as.likert}{data.frame}(x, ...)
 \method{as.likert}{formula}(x, ...)  ## doesn't work yet
 \method{as.likert}{ftable}(x, ...)
 \method{as.likert}{table}(x, ...)
-\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL, ..., reverse=FALSE)
-\method{as.likert}{numeric}(x, ...)
+\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL, ...,
+                ReferenceZero=NULL,
+                xlimEqualLeftRight=FALSE,
+                xTickLabelsPositive=TRUE)
+\method{as.likert}{listOfNamedMatrices}(x, ...)
+\method{as.likert}{array}(x, ...)
+%% \method{as.likert}{numeric}(x, ...)
+
+\method{rev}{likert}(x)
 
 is.likertCapable(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{For the \code{as.likert} methods, a numeric object stored as a vector, matrix,
-    two-dimensional table, two-dimensional ftable, or
-    two-dimensional structable (as defined in the \code{vcd} package).
+    two-dimensional table, two-dimensional ftable,
+    two-dimensional structable (as defined in the \code{vcd} package),
+    or list of named matrices.
     For \code{is.likert} and \code{is.likertCapable}, any object.
     This is the only required argument.}
   \item{rowlabel, collabel}{\code{names(dimnames(x))}, where \code{x} is
@@ -43,8 +53,15 @@ is.likertCapable(x, ...)
     These will become the \code{xlab} and \code{ylab} of the likert plot.}
   \item{\dots}{other arguments.  They will be ignored by
     the \code{as.likert} method.}
-  \item{reverse}{logical.  If \code{TRUE}, reverse the rows in the result.}
-}
+  \item{ReferenceZero}{Please see discussion of this argument
+    in \code{\link{likert}}.}
+  \item{xlimEqualLeftRight}{Logical. The default is \code{FALSE}.  If
+    \code{TRUE}, then the left and right x limits are set to negative
+    and positive of the larger of the absolute value of the original x limits.}
+  \item{xTickLabelsPositive}{Logical. The default is \code{TRUE}.
+    If \code{TRUE}, then the tick labels on the negative side are
+    displayed as positive values.}
+  }
 \details{
 Please see \code{\link{likert}} for information on the plot for which
 \code{as.likert} prepares the data.

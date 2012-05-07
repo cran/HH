@@ -1,12 +1,14 @@
 \name{lm.case}
-\alias{lm.case}
+\alias{case}
+\alias{case.lm}
+%% \alias{lm.case}  %% leaving this in case someone searches on the older name
 \alias{plot.case}
 \alias{panel.case}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ case statistics for regression analysis}
 \description{
   Case statistics for regression analysis.
-  \code{lm.case} calculates the statistics.
+  \code{case.lm} calculates the statistics.
   \code{plot.case} plots the cases, one statistic per panel, and
   illustrates and itemizes all observations for which the standard
   thresholds are exceeded.  \code{plot.case} returns a \code{"trellis"}
@@ -15,9 +17,10 @@
   \code{panel.case} is a panel function for \code{plot.case}.
 }
 \usage{
-lm.case(fit, lms = summary.lm(fit), lmi = lm.influence(fit))
+case(fit, ...)
+\method{case}{lm}(fit, lms = summary.lm(fit), lmi = lm.influence(fit), ...)
 
-plot.case(x, fit,
+\method{plot}{case}(x, fit,
           which=c("stu.res","si","h","cook","dffits",
             dimnames(x)[[2]][-(1:8)]),  ##DFBETAS
           between.in=list(y=4, x=9),
@@ -40,14 +43,14 @@ panel.case(x, y, subscripts, rownames, group.names,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-%%lm.case
+%%case.lm
   \item{fit}{\code{"lm"} object computed with \code{x=TRUE}}
   \item{lms}{\code{summary.lm(fit)}}
   \item{lmi}{\code{lm.influence(fit)}}
 
 
 %% plot.case
-\item{x}{In \code{plot.case}, the matrix output from \code{lm.case}
+\item{x}{In \code{plot.case}, the matrix output from \code{case.lm}
   containing case diagnostics on each observation in the original
   dataset.
   In \code{panel.case}, the x variable to be plotted}
@@ -94,7 +97,7 @@ panel.case(x, y, subscripts, rownames, group.names,
 }
 \details{
 \code{lm.influence} is part of S-Plus and R
-\code{lm.case} and \code{plot.case} are based on:
+\code{case.lm} and \code{plot.case} are based on:
 Section 4.3.3 "Influence of Individual Obervations
 in Chambers and Hastie", \emph{Statistical Models in S}.
 
@@ -102,7 +105,7 @@ in Chambers and Hastie", \emph{Statistical Models in S}.
 
 }
 \value{
-  \code{lm.case} returns a matrix, with one row for each observation
+  \code{case.lm} returns a matrix, with one row for each observation
   in the original dataset.  The columns contain the diagnostic statistics:
  \code{e} (residuals),
  \code{h}* (hat diagonals),
@@ -148,22 +151,25 @@ in Chambers and Hastie", \emph{Statistical Models in S}.
 #endif
 }
 \examples{
-kidney <- read.table(hh("datasets/kidney.dat"), header=TRUE)
+data(kidney)
 
 kidney2.lm <- lm(clearance ~ concent + age + weight + concent*age,
-                 data=kidney, x=TRUE)  ## the lm object must be computed with x=TRUE
+                 data=kidney,
+                 na.action=na.exclude,  ## recommended
+                 x=TRUE)  ## the lm object must be computed with x=TRUE
 
-kidney2.case <- lm.case(kidney2.lm)
+kidney2.case <- case(kidney2.lm)
 
 ## this picture looks much better in portrait, specification is device dependent
 ## trellis.device(postscript, horizontal=TRUE)  ## postscript
 ## trellis.device(orientation="portrait")       ## S-Plus graphsheet
 
-plot.case(kidney2.case, kidney2.lm, par.strip.text=list(cex=.9),
-          layout=c(2,3))
+plot(kidney2.case, kidney2.lm, par.strip.text=list(cex=.9),
+     layout=c(2,3))
 
-.lm.case.large ## file placed by default into frame 0 in S-Plus
-               ## and into globalenv() in R
+.lm.case.large ## object placed by the panel.case function
+               ## into frame 0 in S-Plus by default
+               ## and into globalenv() in R by default
 }
 \keyword{hplot}
 \keyword{regression}

@@ -1,5 +1,6 @@
-\name{anova.mean}
-\alias{anova.mean}
+\name{anovaMean}
+%% \alias{anova.mean} %% old name
+\alias{anovaMean}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ANOVA table from the group sample sizes, means, and standard deviations.}
 \description{
@@ -8,7 +9,7 @@
   needed.
 }
 \usage{
-anova.mean(object, n, ybar, s, ..., ylabel = "ylabel")
+anovaMean(object, n, ybar, s, ..., ylabel = "ylabel")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,18 +40,12 @@ anova.mean(object, n, ybar, s, ..., ylabel = "ylabel")
 ## pulmonary data used in Hsu and Peruggia paper defining the mean-mean plot
 ## See ?plot.mmc.multicomp for details on the dataset.
 
-pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
-                        row.names=NULL)
-names(pulmonary)[3] <- "FVC"
-names(pulmonary)[1] <- "smoker"
-pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
-row.names(pulmonary) <- pulmonary$smoker
-pulmonary
+data(pulmonary)
 
-anova.mean(pulmonary$smoker,
-           pulmonary$n,
-           pulmonary$FVC,
-           pulmonary$s,
-           ylabel="pulmonary")
+anovaMean(pulmonary$smoker,
+          pulmonary$n,
+          pulmonary$FVC,
+          pulmonary$s,
+          ylabel="pulmonary")
 }
 \keyword{models}

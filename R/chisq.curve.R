@@ -127,8 +127,8 @@ chisq.observed <- function(chisq.obs, col="green",
   chisq.obs2 <- c(chisq.obs, chisq.obs)
   arrows(chisq.obs2, par()$usr[3:4]+c(-.01,.01), chisq.obs2, par()$usr[3:4],
          xpd=TRUE, col=col, length=.1)
-  axis(side=1, at=chisq.obs, label=FALSE, col=col)
-  axis(side=3, at=chisq.obs, label=FALSE, col=col)
+  axis(side=1, at=chisq.obs, labels=FALSE, col=col)
+  axis(side=3, at=chisq.obs, labels=FALSE, col=col)
   mtext(side=3, text=round(chisq.obs,3), at=chisq.obs, line=.5, cex=par()$cex, col=col)
 
   ## shade=="right"  ## we outline the right region only

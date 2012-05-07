@@ -10,7 +10,8 @@
   counts in the second column.
 }
 \usage{
-LikertPercentCountColumns(x, w=c(3,1), ...,
+LikertPercentCountColumns(x, w=c(3,1), ..., positive.order=FALSE,
+                          as.percent="Capture and then ignore this argument",
                           strip.lines=.8, strip.cex=.8)
 
 combineTwoTrellisColumns(LLLRRR, w=c(1,1), strip.lines=.8, strip.cex=.7, ...)
@@ -25,7 +26,13 @@ combineTwoTrellisColumns(LLLRRR, w=c(1,1), strip.lines=.8, strip.cex=.7, ...)
   \item{LLLRRR}{two-row matrix of \code{"trellis"} objects.  The first/second
     row of \code{LLLRRR} contains the first/second column of the resulting
     trellis object.
-    The row names of each pair of \code{"trellis"} objects must be the same.}
+    The row names of each pair of \code{"trellis"} objects must be the
+    same.}
+  \item{positive.order}{See the discussion in \code{\link{likert}}.}
+  \item{as.percent}{Capture this argument and ignore it.  The
+    \code{as.percent}
+    argument of \code{\link{likert}} is \code{TRUE} in the left column
+    and \code{FALSE} in the right column.}
 }
 \value{A \code{"trellis"} object.}
 \details{Changes component values of the  \code{"trellis"} object using manipulations
@@ -51,10 +58,12 @@ names(ProfChal)[6] <- "Attitude\ntoward\nProfessional\nRecognition"
 ## Same example with details illustrated for two displays with coordinated x-axis
 ## labels within each pair of panels.
 ##
-LLL <- sapply(ProfChal[6:1], plot.likert, as.percent="noRightAxis", xlab="Percent", simplify=FALSE)
-RRR <- sapply(ProfChal[6:1], plot.likert, rightAxis=TRUE, xlab="Count", simplify=FALSE)
+LLL <- sapply(as.likert(ProfChal), plot, as.percent="noRightAxis", xlab="Percent", simplify=FALSE)
+RRR <- sapply(as.likert(ProfChal), plot, rightAxis=TRUE, xlab="Count",
+              scales=list(x=list(at=c(0,250,500))),
+              simplify=FALSE)
 LLLRRR <- rbind(Percent=LLL, Count=RRR) ## rbind is needed
-dimnames(LLLRRR)[[2]][1] <- "Prof Recog"  ## original is "Attitude\ntoward\nProfessional\nRecognition"
+dimnames(LLLRRR)[[2]][6] <- "Prof Recog"  ## original is "Attitude\ntoward\nProfessional\nRecognition"
 combineTwoTrellisColumns(LLLRRR, w=c(3,1),
                          main="Is your job professionally challenging?",
                          sub="combineTwoTrellisColumns test")

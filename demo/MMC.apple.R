@@ -18,10 +18,7 @@
 
 
 
-apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
-old.contr <- options(contrasts=c("contr.treatment", "contr.treatment"))
-apple$treat <- factor(apple$treat)
-apple$block <- factor(apple$block)
+data(apple)
 
 apple.ancova.2 <- aov(yield ~ block + pre + treat, data=apple, x=TRUE)
 anova(apple.ancova.2)
@@ -89,22 +86,22 @@ if.R(s={
   plot(apple.mmc, col.iso=16, x.offset=10)
 
   par(mar=c(-4,4,28,2)+.1, new=TRUE)
-  plot.matchMMC(apple.mmc$mca)
+  plotMatchMMC(apple.mmc$mca)
 
   par(old.mar)
   
 },r={
   ## glht must be done with apple.ancova.2
   
-  apple.mmc <- glht.mmc(apple.ancova.2,
-                        ## linfct=mcp(treat="Dunnett", base=6), ## not yet
-                        linfct = mcp(treat=contrMat(rep(4,6), base=6)))
+  apple.mmc <- mmc(apple.ancova.2,
+                    ## linfct=mcp(treat="Dunnett", base=6), ## not yet
+                    linfct = mcp(treat=contrMat(rep(4,6), base=6)))
   apple.mmc
 
   old.omd <- par(omd=c(0,1,.3,1))
   plot(apple.mmc, col.iso=16, x.offset=15, col.mca.signif="red")
   par(omd=c(0,1,0,.4), new=TRUE)
-  plot.matchMMC(apple.mmc$mca)
+  plotMatchMMC(apple.mmc$mca)
   par(old.omd)
 
 })

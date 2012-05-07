@@ -78,9 +78,9 @@ attributes:
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
 ## This example is from Section 9.15 of Heiberger and Holland (2004).
-usair <- read.table(hh("datasets/usair.dat"),                    
-                    col.names=c("SO2","temp","mfgfirms","popn",
-                                "wind","precip","raindays"))
+data(usair)
+if.R(s={usair <- usair}, r={})
+
 splom(~usair, main="U.S. Air Pollution Data with SO2 response", cex=.5)
 ## export.eps(hh("regb/figure/regb.f1.usair.eps"))
 
@@ -121,7 +121,7 @@ if.R(s={
 ## export.eps(hh("regb/figure/regb.f3.usair.eps"))
 },r={
   usair.regsubset <- regsubsets(lnSO2~lnmfg+lnpopn+precip+raindays+temp+wind, data=usair, nbest=2)
-  usair.subsets.Summary <- summary_HH(usair.regsubset)
+  usair.subsets.Summary <- summaryHH(usair.regsubset)
   tmp <- (usair.subsets.Summary$cp <= 10)
   usair.subsets.Summary[tmp,]
   plot(usair.subsets.Summary[tmp,], statistic='cp', legend=FALSE)

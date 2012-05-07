@@ -83,7 +83,7 @@ HarperCollins.
 }
 \seealso{\code{\link{resid.squares}}}
 \examples{
-hardness <- read.table(hh("datasets/hardness.dat"), header=TRUE)
+data(hardness)
 
 ## linear and quadratic regressions
 hardness.lin.lm  <- lm(hardness ~ density,                data=hardness)

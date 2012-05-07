@@ -76,9 +76,9 @@ Vector of VIF values, one for each X-variable.
 #endif
 }
 \examples{
-usair <- read.table(hh("datasets/usair.dat"),                    
-                    col.names=c("SO2","temp","mfgfirms","popn",
-                                "wind","precip","raindays"))
+data(usair)
+if.R(s={usair <- usair}, r={})
+
 usair$lnSO2 <- log(usair$SO2)
 usair$lnmfg <- log(usair$mfgfirms)
 usair$lnpopn <- log(usair$popn)

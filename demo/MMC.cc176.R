@@ -6,7 +6,7 @@ if.R(r=
 old.contr <- options(contrasts=c("contr.treatment", "contr.treatment"))
 ,s={})
 
-cc176 <- matrix(scan(hh("datasets/cc176.dat")), ncol=2, byrow=TRUE)
+data(cc176)
 
 current.levels <- c("galvanic","faradic","60.cycle","25.cycle")
 cc176 <-
@@ -59,8 +59,8 @@ if.R(s={
 }
 ,r={
   cc176.mmc <-
-    glht.mmc(cc176.aov, linfct=mcp(current="Tukey"),
-             covariate_average=TRUE, interaction_average=TRUE)
+    mmc(cc176.aov, linfct=mcp(current="Tukey"),
+        `covariate_average`=TRUE, `interaction_average`=TRUE)
   print(cc176.mmc)
   plot(cc176.mmc)
 })
@@ -107,9 +107,9 @@ if.R(s={
 }
 ,r={
   cc176.mmc <-
-    glht.mmc(cc176.aov, linfct=mcp(current="Tukey"),
-             focus.lmat=cc176.orth,
-             covariate_average=TRUE, interaction_average=TRUE)
+    mmc(cc176.aov, linfct=mcp(current="Tukey"),
+        focus.lmat=cc176.orth,
+        `covariate_average`=TRUE, `interaction_average`=TRUE)
   print(cc176.mmc)
 
 

@@ -1,3 +1,28 @@
+as.pyramidLikert <- function(x, ...,
+                             panel.width=.48,
+                             px=list(
+                               L=c(0, panel.width),
+                               R=c(1-panel.width, 1),
+                               M=c(panel.width, 1-panel.width)),
+                             keepLegend=(length(x$legend$bottom$args$text) > 2),
+                             xlab.top=list(
+                               L=list(x$legend$bottom$args$text[1]),
+                               R=list(x$legend$bottom$args$text[2]),
+                               M=list(x$ylab, just=1))) {
+  if (!inherits(x, "trellis") || length(x$panel.args) > 1)
+    stop("'as.pyramidLikert' requires a single-panel 'trellis' object.", call.=FALSE)
+  class(x) <- c("pyramidLikert", class(x))
+  
+  if (missing(xlab.top) && !is.null(x$xlab.top)) {
+    xlab.top$L <- x$xlab.top[1]
+    xlab.top$R <- x$xlab.top[2]
+  }
+  attr(x, "xlab.top") <- xlab.top
+  attr(x, "px") <- px
+  attr(x, "keepLegend") <- keepLegend
+  x
+}
+
 print.pyramidLikert <- function(x, ...,
                                  panel.width=.48,
                                  px=list(
@@ -10,11 +35,22 @@ print.pyramidLikert <- function(x, ...,
                                   R=list(x$legend$bottom$args$text[2]),
                                   M=list(x$ylab, just=1))) {
 
-  if (missing(xlab.top) && !is.null(x$xlab.top)) {
-    xlab.top$L <- x$xlab.top[1]
-    xlab.top$R <- x$xlab.top[2]
-  }
+  if (!is.null(attr(x, "xlab.top")))
+    xlab.top <- attr(x, "xlab.top")
+  else {
+    if (missing(xlab.top) && !is.null(x$xlab.top)) {
+      xlab.top$L <- x$xlab.top[1]
+      xlab.top$R <- x$xlab.top[2]
+    }}
 
+  if (missing(keepLegend) && !is.null(attr(x, "keepLegend")))
+    keepLegend <- attr(x, "keepLegend")
+
+  if (missing(panel.width) && missing(px) && !is.null(attr(x, "px")))
+    px <- attr(x, "px")
+    
+    
+    
   ## x <- plot.likert(x, ...)
   ## x is a single-panel trellis object
   if (length(x$panel.args) > 1)
@@ -27,7 +63,7 @@ print.pyramidLikert <- function(x, ...,
     K$legend$bottom$args <- emptyLegend(K$legend$bottom$args)
   else
     K$legend <- NULL
-  K$x.limits <- max(K$x.limits) * c(-1,1)
+  K$x.limits <- max(abs(K$x.limits)) * c(-1,1)
   K.ylab <- ifelse(is.null(K$ylab), " ", K$ylab)
   K$ylab <- NULL
   K <- update(K, par.settings=list(
@@ -97,6 +133,7 @@ print.pyramidLikert <- function(x, ...,
                       right.padding=1
                       )))
   M$plot.args$panel.width <- list(x=0.001, units="mm", data=NULL)
+  M$x.scales$labels[] <- ""
   if (keepLegend) M$legend$bottom$args <- x$legend$bottom$args
 
   ## if (keepLegend) {
@@ -116,13 +153,6 @@ print.pyramidLikert <- function(x, ...,
   
 }
 
-as.pyramidLikert <- function(x, ...) {
-  if (!inherits(x, "trellis"))
-    stop("'as.pyramidLikert' requires a single-panel 'trellis' object.", call.=FALSE)
-  class(x) <- c("pyramidLikert", class(x))
-  x
-}
-
 emptyLegend <- function(args) { ## empty a legend and keep the space allocated to the legend.
   if (is.null(args)) args
   args$text[] <- " "
@@ -139,18 +169,17 @@ emptyLegend <- function(args) { ## empty a legend and keep the space allocated t
 if (FALSE) {
 c49 <- USAge.table[75:1, 2:1, "1949"]/1000000
 
-PL <- plot.likert(c49,
-                  main="Population of United States 1979 (ages 0-74)",
-                  sub="pick a window size",
-                  xlab="Count in Millions",
-                  ylab="Age",
-                  scales=list(
-                    y=list(
-                      limits=c(0,77),
-                      at=seq(1,76,5),
-                      labels=seq(0,75,5),
-                      tck=.5))
-                     )
+PL <- likert(c49,
+             main="Population of United States 1979 (ages 0-74)",
+             xlab="Count in Millions",
+             ylab="Age",
+             scales=list(
+               y=list(
+                 limits=c(0,77),
+                 at=seq(1,76,5),
+                 labels=seq(0,75,5),
+                 tck=.5))
+             )
 PL
 print.pyramidLikert(PL)
 as.pyramidLikert(PL)
@@ -159,25 +188,24 @@ PL0
 print(as.pyramidLikert(PL), panel.width=.45)
 plot(PL0)
 
-PL.no.ylab <- plot.likert(c49,
-                          main="Population of United States 1979 (ages 0-74)",
-                          xlab="Count in Millions",
-                          ## ylab="Age",
-                          ## sub="pick a window size",
-                          scales=list(
-                            y=list(
-                              limits=c(0,77),
-                              at=seq(1,76,5),
-                              labels=seq(0,75,5),
-                              tck=.5))
-                          )
+PL.no.ylab <- likert(c49,
+                     main="Population of United States 1979 (ages 0-74)",
+                     xlab="Count in Millions",
+                     ylab="",
+                     scales=list(
+                       y=list(
+                         limits=c(0,77),
+                         at=seq(1,76,5),
+                         labels=seq(0,75,5),
+                       tck=.5))
+                     )
 PL.no.ylab
-print.pyramidLikert(PL.no.ylab)
+as.pyramidLikert(PL.no.ylab)
 
 ## alternate spacing
-print.pyramidLikert(PL, panel.width=.4) ## too much space in middle
-print.pyramidLikert(update(PL, xlim=c(-2.05,2.05)), panel.width=.4) ## too much space in middle
-print.pyramidLikert(update(PL, xlim=c(-2.05,2.05)), panel.width=.6) ## silly with overlap
+as.pyramidLikert(PL, panel.width=.4) ## too much space in middle
+as.pyramidLikert(update(PL, xlim=c(-2.05, 2.05)), panel.width=.4) ## too much space in middle
+as.pyramidLikert(update(PL, xlim=c(-2.05, 2.05)), panel.width=.6) ## silly with overlap
 
 }
 

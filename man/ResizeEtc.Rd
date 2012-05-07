@@ -18,7 +18,6 @@ ResizeEtc(c.list,
                                        ## when both are specified
            resize.height, resize.width,
            main,
-           main.middle=.5,
            ...)
 }
 \arguments{
@@ -37,8 +36,6 @@ ResizeEtc(c.list,
 \item{resize.height, resize.width}{\code{h} and \code{w} arguments to
   \code{\link[latticeExtra]{resizePanels}}.}
 \item{main}{Main title for resulting combined plot.}
-\item{main.middle}{X-location for middle of main title in
-  \code{"npc"} coordinates.}
 \item{\dots}{Other arguments to \code{\link[lattice]{barchart}.}}
 }
 \value{
@@ -60,12 +57,12 @@ require(HH)
 data(ProfChal)
 ProfChal
 
-AA <- plot.likert(ProfChal[[1]], box.width=unit(.4,"cm"), positive.order=TRUE)
-BB <- plot.likert(ProfChal[[2]], box.width=unit(.4,"cm"), positive.order=TRUE)
-CC <- plot.likert(ProfChal[[3]], box.width=unit(.4,"cm"), positive.order=TRUE)
-DD <- plot.likert(ProfChal[[4]], box.width=unit(.4,"cm"), positive.order=TRUE)
-EE <- plot.likert(ProfChal[[5]], box.width=unit(.4,"cm"), positive.order=TRUE)
-FF <- plot.likert(ProfChal[[6]], box.width=unit(.4,"cm"), positive.order=TRUE)
+AA <- likert(ProfChal[[1]], box.width=unit(.4,"cm"), positive.order=TRUE)
+BB <- likert(ProfChal[[2]], box.width=unit(.4,"cm"), positive.order=TRUE)
+CC <- likert(ProfChal[[3]], box.width=unit(.4,"cm"), positive.order=TRUE)
+DD <- likert(ProfChal[[4]], box.width=unit(.4,"cm"), positive.order=TRUE)
+EE <- likert(ProfChal[[5]], box.width=unit(.4,"cm"), positive.order=TRUE)
+FF <- likert(ProfChal[[6]], box.width=unit(.4,"cm"), positive.order=TRUE)
 
 BB
 
@@ -76,20 +73,19 @@ BB
 ## print(EE, more=TRUE,  split=c(2,2,3,2))
 ## print(FF, more=FALSE, split=c(3,2,3,2))
 
-ResizeEtc(c.list=c(FF,EE,DD,CC,BB,AA),
+ResizeEtc(c.list=c(AA,BB,CC,DD,EE,FF),
           layout=c(1,6), main="Not yet good enough")
 
-Group <- rev(names(ProfChal))
+Group <- names(ProfChal)
 
-ResizeEtc(c.list=c(FF,EE,DD,CC,BB,AA),
+ResizeEtc(c.list=c(AA,BB,CC,DD,EE,FF),
           condlevelsName='Group',
           x.same=TRUE,
           layout=c(1,6),
           strip.left.values=Group,
           strip.left.par=list(cex=.7, lines=5),
-          resize.height=c(2,2,2,4,5,1)+.5,
-          main='Is your job professionally challenging?',
-          main.middle=.65)
+          resize.height=c(1,5,4,2,2,2)+.5,
+          main=list("Is your job professionally challenging?", x=unit(.65, "npc")))
 
 
 }

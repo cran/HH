@@ -12,8 +12,21 @@
 ## .arima.info.names.not.ordered         
 ## .Depends                              
 ## .S3MethodsClasses                     
+## ResizeEtcLikert
+## axis.RightAdjustRight
 ## emptyLegend
-## panel.acf
+## emptyLeftAxisLeftStrip
+## emptyMainLeftAxisLeftStripBottomLegend
+## leftLabels.trellis
+## rightLabels.trellis
+## panelOnly.trellis
+## mainSubLegend.trellis
+## mcp2matrix.993
+## emptyRightAxis
+## case.lm
+## coefArimaHH
+## glht.mcp
+## mcp2matrix2
 ## panel.ae.dotplot
 ## panel.ae.leftplot
 ## panel.ae.rightplot
@@ -25,15 +38,18 @@
 ## panel.interaction2wt
 ## panel.pairs.hh
 ## panel.std.resid
+## plot.case
+## plot.multicomp.hh.adjusted
 ## pop.vp.hh
 ## print1.tsdiagplot
 ## print2.tsdiagplot
 ## push.vp.hh
+## rev.likert
 ## strip.interaction2wt
-## strip.ladder
 ## strip.xysplom
 ## yscale.components.right.HH.list.of.panels
 export(
+ColorSet,
 F.curve,
 F.observed,
 F.setup,
@@ -48,9 +64,9 @@ ae.dotplot.long,
 aeReshapeToLong,
 aicsigplot,
 ancova,
-anova.mean,
+anovaMean,
 antilogit,
-aov.sufficient,
+aovSufficient,
 arima.diag.hh,
 arima.model,
 arma.loop,
@@ -64,8 +80,11 @@ as.position,
 as.positioned,
 as.pyramidLikert,
 as.rts,
+as.TwoTrellisColumns,
+as.TwoTrellisColumns5,
 axis.i2wt,
 brewer.pal.likert,
+case,
 chisq.curve,
 chisq.observed,
 chisq.setup,
@@ -78,9 +97,8 @@ df.intermediate,
 diag.arma.loop,
 diag.maybe.null,
 do.formula.trellis.xysplom,
-emptyMainLeftAxisLeftStripBottomLegend,
 export.eps,
-glht.mmc,
+glhtWithMCP.993,
 gof.calculation,
 gofplot,
 grid.xaxis.hh,
@@ -90,6 +108,8 @@ hh.file,
 hh.file.DOS,
 hov,
 hov.bf,
+hovPlot,
+hovPlot.bf,
 if.R,
 interaction2wt,
 interaction.positioned,
@@ -103,7 +123,8 @@ ladder.f,
 ladder.fstar,
 ladder3,
 legendGrob2wt,
-lm.case,
+likert,
+likertColor,
 lm.regsubsets,
 lmatContrast,
 lmatRows,
@@ -112,6 +133,7 @@ logrelrisk,
 make.xaxis.hh.labels,
 make.yaxis.hh.labels,
 mcalinfct,
+mmc,
 multicomp.label.change,
 multicomp.mean,
 multicomp.mmc,
@@ -127,9 +149,10 @@ npar.arma,
 npar.rarma,
 npar.sarma,
 objip,
-odds.ratio,
+OddsRatio,
 orthog.complete,
 orthog.construct,
+panel.acf,
 panel.ancova,
 panel.bwplot.intermediate.hh,
 panel.cartesian,
@@ -140,22 +163,18 @@ panel.likert,
 panel.xysplom,
 partial.corr,
 pchisq.intermediate,
-persp.back.wall.x,
-persp.back.wall.y,
-persp.floor,
-persp.plane,
-persp.setup,
+perspBack.wall.x,
+perspBack.wall.y,
+perspFloor,
+perspPlane,
+## persp.setup,
 pf.intermediate,
-plot.case,
-plot.hov,
-plot.hov.bf,
 plot.likert,
-plot.matchMMC,
-plot.odds.ratio,
+plotMatchMMC,
+plotOddsRatio,
 position,
 "position<-",
 positioned,
-print.pyramidLikert,
 qchisq.intermediate,
 qf.intermediate,
 rearrange.diag.arma.loop,
@@ -165,18 +184,21 @@ resid.squares,
 residplot,
 residual.plots,
 seqplot,
+seqplotForecast,
 strip.background0,
+strip.ladder,
 sufficient,
-summary_HH,
+summaryHH,
 title.grob,
 title.trellis,
 tsacfplots,
 tsdiagplot,
 units.ts,
 unpositioned,
-vcov.sufficient,
+vcovSufficient,
 vif,
 xysplom,
+xscale.components.top.HH,
 yscale.components.right.HH
 )
 
@@ -202,10 +224,11 @@ S3method(as.glht, multicomp)
 S3method(as.likert, data.frame)
 S3method(as.likert, formula)
 S3method(as.likert, ftable)
-S3method(as.likert, likert)
 S3method(as.likert, matrix)
-S3method(as.likert, numeric)
+S3method(as.likert, array)
+S3method(as.likert, default)
 S3method(as.likert, table)
+S3method(as.likert, listOfNamedMatrices)
 S3method(as.listOfNamedMatrices, data.frame)
 S3method(as.listOfNamedMatrices, matrix)
 S3method(as.listOfNamedMatrices, MatrixList)
@@ -213,12 +236,11 @@ S3method(as.listOfNamedMatrices, array)
 S3method(as.listOfNamedMatrices, list)
 S3method(as.matrix, listOfNamedMatrices)
 S3method(as.multicomp, glht)
+S3method(case, lm)
 S3method(ci.plot, lm)
 S3method(coef, ancova)
-S3method(coef, arima.HH)
-S3method(glht.mmc, default)
-S3method(glht.mmc, glht)
-S3method(glht.mmc, lm)
+S3method(mmc, default)
+S3method(mmc, glht)
 S3method(interaction2wt, default)
 S3method(interaction2wt, formula)
 S3method(is.na, positioned)
@@ -231,15 +253,18 @@ S3method(model.frame, ancova)
 S3method(multicomp.label.change, mmc.multicomp)
 S3method(multicomp.label.change, multicomp)
 S3method(plot, ancova)
+S3method(plot, case)
 S3method(plot, mmc.multicomp)
 S3method(plot, multicomp)
 S3method(plot, multicomp.hh)
-S3method(plot, summary_HH_regsubsets)
+S3method(plot, summaryHH.regsubsets)
+S3method(plot, likert)
 S3method(plot.likert, array)
 S3method(plot.likert, data.frame)
 S3method(plot.likert, default)
 S3method(plot.likert, ftable)
 S3method(plot.likert, list)
+## S3method(plot.likert, numeric)
 S3method(plot.likert, structable)
 S3method(plot.likert, table)
 S3method(predict, ancova)
@@ -248,24 +273,25 @@ S3method(print, ancova)
 S3method(print, arma.loop)
 S3method(print, arma.loop.list)
 S3method(print, cp.object)
-S3method(print, glht.mmc.multicomp)
+## S3method(print, glht.mmc.multicomp)
 S3method(print, listOfNamedMatrices)
 S3method(print, mmc.multicomp)
 S3method(print, multicomp)
 S3method(print, multicomp.hh)
 S3method(print, positioned)
 S3method(print, pyramidLikert)
-S3method(print, summary_HH_regsubsets)
+S3method(print, TwoTrellisColumns)
+S3method(print, summaryHH.regsubsets)
 S3method(print, tsacfplots)
 S3method(print, tsdiagplot)
+S3method(rev, likert)
 S3method(seqplot, default)
-S3method(seqplot, forecast)
 S3method(seqplot, rts)
 S3method(seqplot, ts)
 S3method(summary, ancova)
 S3method(summary, arma.loop)
 S3method(summary, arma.loop.list)
-S3method(summary_HH, regsubsets)
+S3method(summaryHH, regsubsets)
 S3method(t, trellis)
 S3method(unique, positioned)
 S3method(vif, default)

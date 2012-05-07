@@ -1,11 +1,13 @@
 \name{extra}
+#ifndef S-Plus
 \alias{as.rts}
+#endif
 \alias{units.ts}
 \alias{title.trellis}
 \alias{title.grob}
 \alias{as.character.arima.model}
 \alias{arima.model}
-\alias{coef.arima.HH}
+\alias{coefArimaHH}
 \alias{.arima.info.names.not.ordered}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Miscellaneous functions that I wish were in or consistent between
@@ -15,7 +17,9 @@ S-Plus and R.}
 S-Plus and R.
 }
 \usage{
+#ifndef S-Plus
 as.rts(x, ...)
+#endif
 
 \method{units}{ts}(x)
 
@@ -24,11 +28,11 @@ title.trellis(main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
 
 title.grob(main=NULL, y=.985, gp=gpar(cex=1.5))
 
-as.character.arima.model(x, model=arima.model(x), ...)
+\method{as.character}{arima.model}(x, ...)
 
 arima.model(x)
 
-coef.arima.HH(object, ...)
+coefArimaHH(object, ...)
 
 .arima.info.names.not.ordered (model)
 }
@@ -41,6 +45,7 @@ coef.arima.HH(object, ...)
   \item{object}{\code{"arima"} object in S-Plus.}
   \item{y, gp}{See \code{\link[grid]{grid.text}} in R.}
 }
+\value{ The result object of \code{arima.model} has class \code{"arima.model"}}
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \seealso{\code{\link{arma.loop}}}
 % Add one or more standard keywords, see file 'KEYWORDS' in the

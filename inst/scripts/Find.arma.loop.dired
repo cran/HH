@@ -1,0 +1,96 @@
+  c:/HOME/rmh/:
+  find . \( -name \*.\[rRsS\] -exec grep arma.loop {} \; \) -ls
+                 arma.loop(X, model=list(order=c(2,0,2)))
+                 arma.loop(X, order=c(2,0,2))
+  X.diag <- rearrange.diag.arma.loop(diag.arma.loop(X.loop, x=X))
+  4222124650872893    2 -rwxrwxrwx   1 rmh      mkpasswd      850 Apr 14  2009 8004.s09/0416/arima.sim.X.s
+                 arma.loop(X, model=list(order=c(2,0,2)))
+                 arma.loop(X, order=c(2,0,2))
+  X.diag <- rearrange.diag.arma.loop(diag.arma.loop(X.loop, X))
+                 arma.loop(Y, model=list(order=c(2,0,2)))
+                 arma.loop(Y, order=c(2,0,2))
+  Y.diag <- rearrange.diag.arma.loop(diag.arma.loop(Y.loop, Y))
+                 arma.loop(Z, model=list(order=c(2,0,2)))
+                 arma.loop(Z, order=c(2,0,2))
+  Z.diag <- rearrange.diag.arma.loop(diag.arma.loop(Z.loop, Z))
+  3377699720731432    2 -rwxrwxrwx   1 rmh      mkpasswd     2567 Apr 16  2009 8004.s09/0416/arima.sim.XYZ.s
+  FemEmp.loopPQ <- arma.loop(FemEmp, list(list(order=c(2,1,2)),
+  FemEmp.loopPQ <- arma.loop(FemEmp, 
+  FemEmp.diagsPQ <- diag.arma.loop(FemEmp.loopPQ, lag.max=36, x=FemEmp)
+  434878839018172723    2 -rwxrwxrwx   1 rmh      mkpasswd     1621 May  6  2009 8004.s09/0507/employ.r
+  Male16Emp.loopPQ <- arma.loop(Male16Emp, list(list(order=c(2,1,2)),
+  Male16Emp.loopPQ <- arma.loop(Male16Emp, 
+  Male16Emp.diagsPQ <- diag.arma.loop(Male16Emp.loopPQ, lag.max=36, x=Male16Emp)
+  1407374884038470    2 -rw-rw-rw-   1 rmh      mkpasswd     1694 May  4  2011 8004.s11/0505/employM16.r
+                 arma.loop(X, model=list(order=c(2,0,2)))
+                 arma.loop(X, order=c(2,0,2))
+  X.diag <- rearrange.diag.arma.loop(diag.arma.loop(X.loop, X))
+                 arma.loop(Y, model=list(order=c(2,0,2)))
+                 arma.loop(Y, order=c(2,0,2))
+  Y.diag <- rearrange.diag.arma.loop(diag.arma.loop(Y.loop, Y))
+                 arma.loop(Z, model=list(order=c(2,0,2)))
+                 arma.loop(Z, order=c(2,0,2))
+  Z.diag <- rearrange.diag.arma.loop(diag.arma.loop(Z.loop, Z))
+  844424930312637    2 -rwxr-xr-x   1 rmh      mkpasswd     2412 Jul 24  2007 HH-R.package/HH/demo/arima.sim.XYZ.r
+                      arma.loop(nottem,  list(list(order=c(2,0,2)),
+                      arma.loop(nottem,  order=c(2,0,2),
+  nottem.diag <- rearrange.diag.arma.loop(diag.arma.loop(nottem.loop, nottem))
+  2814749767511152    2 -rwxr-xr-x   1 rmh      mkpasswd     1599 Jan 10 12:42 HH-R.package/HH/demo/nottem.r
+                     arma.loop(co2,
+                     arma.loop(co2,
+  ddco2.diags <- diag.arma.loop(ddco2.loop, co2, lag.max=36)
+         arma.loop(co2, list(list(order=c(2,1,2)),
+         arma.loop(co2, 
+  ddco2.diagsPQ <- diag.arma.loop(ddco2.loopPQ, co2, lag.max=36)
+  1407374883733948    4 -rwxr-xr-x   1 rmh      mkpasswd     5989 Jan 17 09:03 HH-R.package/HH/demo/tsamstat.r
+                 arma.loop(tsq, model=list(order=c(2,0,2)))
+                 arma.loop(tsq, order=c(2,0,2))
+    rearrange.diag.arma.loop(diag.arma.loop(tsq.loop, tsq))
+  844424930312641    2 -rwxr-xr-x   1 rmh      mkpasswd     1246 Jul 24  2007 HH-R.package/HH/demo/tsq.r
+  product.loop <- arma.loop(product, list(list(order=c(2,1,2))))
+  product.diags <- diag.arma.loop(product.loop, lag.max=60)
+  product1.loop <- arma.loop(product, list(list(order=c(2,0,2))))
+  product1.diags <- diag.arma.loop(product1.loop, lag.max=60)
+  ddco2.loop <- arma.loop(co2, list(list(order=c(2,1,2)),
+  ddco2.diags <- diag.arma.loop(ddco2.loop, lag.max=36)
+  ddco2.loopPQ <- arma.loop(co2, list(list(order=c(2,1,2)),
+  ddco2.diagsPQ <- diag.arma.loop(ddco2.loopPQ, lag.max=36)
+  X.loop <- arma.loop(X, model=list(order=c(2,0,2)))
+  X.diag <- rearrange.diag.arma.loop(diag.arma.loop(X.loop))
+  Y.loop <- arma.loop(Y, model=list(order=c(2,0,2)))
+  Y.diag <- rearrange.diag.arma.loop(diag.arma.loop(Y.loop))
+  Z.loop <- arma.loop(Z, model=list(order=c(2,0,2)))
+  Z.diag <- rearrange.diag.arma.loop(diag.arma.loop(Z.loop))
+  nottem.loop <- arma.loop(nottem,  list(list(order=c(2,0,2)),
+  nottem.diag <- rearrange.diag.arma.loop(diag.arma.loop(nottem.loop))
+  tsq.loop <- arma.loop(tsq, list(list(order=c(2,0,2))))
+    rearrange.diag.arma.loop(diag.arma.loop(tsq.loop))
+  54887620459184349   10 -rwxrwxrwx   1 rmh      mkpasswd    18384 Mar 22 11:32 HH-R.package/HH/inst/scripts/Ch18-tser.r
+                           s=arma.loop(x, model=model,
+                           r=arma.loop(x, order=order,
+                         diags=diag.arma.loop(armas, x,
+                         ts.diag=rearrange.diag.arma.loop(diags),
+  arma.loop <- function(x,
+    class(z) <- "arma.loop"
+  "[.arma.loop" <- function(x, ..., drop = TRUE)
+  summary.arma.loop <- function(object, ...) {
+    class(coef) <- "arma.loop.list"
+    class(t.coef) <- "arma.loop.list"
+  print.arma.loop <- function(x, ...) {
+  summary.arma.loop.list <- function(object, ...) {
+  print.arma.loop.list <- function(x, ...) {
+  diag.arma.loop <- function(z, x=stop("The time series x is needed in S-Plus when p=q=0."),
+    class(d) <- "diag.arma.loop"
+  "[.diag.arma.loop" <- function(x, ..., drop = TRUE)
+  ## trace("[.arma.loop", exit=browser)
+  ## trace("[.diag.arma.loop", exit=browser)
+  ## remove("[.arma.loop")
+  ## remove("[.diag.arma.loop")
+  rearrange.diag.arma.loop <- function(z) {
+  27303072741338055   18 -rwxr-xr-x   1 rmh      mkpasswd    33615 Jan 17 09:03 HH-R.package/HH/R/ARIMA-trellis.s
+ Male16Emp.loopPQ <- arma.loop(Male16Emp, list(list(order=c(2,1,2)),
+  Male16Emp.loopPQ <- arma.loop(Male16Emp, 
+  Male16Emp.diagsPQ <- diag.arma.loop(Male16Emp.loopPQ, lag.max=36, x=Male16Emp)
+  281474977201223    2 ----------   1 rmh      mkpasswd     1694 May  4  2011 tmp/8004.s11/0505/employM16.r
+  
+  find finished at Thu Mar 22 13:25:01

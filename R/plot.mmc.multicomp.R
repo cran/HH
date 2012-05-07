@@ -127,10 +127,10 @@ plot.mmc.multicomp <-
              yb-yb.max, (yb+yb.max)/2, lty=lty.iso, col=col.iso, lwd=lwd.iso)
     abline(v=0, lty=lty.contr0, col=col.contr0, lwd=lwd.contr0)
 
-    axis(1, at=yb.min-yb, tck=.02, label=FALSE)
-    ##  axis(1, at=yb.min-yb, tick=FALSE, label=names(yb), line=-2.5)
-    axis(1, at=yb-yb.min, tck=.02, label=FALSE)
-    ##  axis(1, at=yb-yb.min, tick=FALSE, label=names(yb), line=-2.5)
+    axis(1, at=yb.min-yb, tck=.02, labels=FALSE)
+    ##  axis(1, at=yb.min-yb, tick=FALSE, labels=names(yb), line=-2.5)
+    axis(1, at=yb-yb.min, tck=.02, labels=FALSE)
+    ##  axis(1, at=yb-yb.min, tick=FALSE, labels=names(yb), line=-2.5)
 
     yb.names <- if (iso.name) names(ybar)[ybo] else names(yb)
     yb.min.index <- match(yb.min,yb)
@@ -141,7 +141,7 @@ plot.mmc.multicomp <-
     ## y-axis labels
     for (i in seq(along=ybar)) {
       axis(2, at=ybar[i], adj=1,                   ## exterior labels and ticks
-           label=format(round(ybar[i], decdigits.ybar), nsmall=decdigits.ybar),
+           labels=format(round(ybar[i], decdigits.ybar), nsmall=decdigits.ybar),
            las=1)
       ##   both format and round are needed!
       left.interior.label.args <-
@@ -155,7 +155,7 @@ plot.mmc.multicomp <-
       if.R(r=names(left.interior.label.args)[5] <- "hadj",
            s={})
       do.call("axis", left.interior.label.args)
-      axis(2, at=ybar[i], label=FALSE, tck=.02)        ## interior ticks
+      axis(2, at=ybar[i], labels=FALSE, tck=.02)        ## interior ticks
     }
     
 
@@ -213,7 +213,7 @@ plot.mmc.multicomp <-
                 col=col.mca.signif, las=1,
                 xpd=if.R(s=TRUE, r=NA))
 
-        axis(4, at=yy/2, tck=-.01, label=FALSE)
+        axis(4, at=yy/2, tck=-.01, labels=FALSE)
       }
     }
 
@@ -265,7 +265,7 @@ plot.mmc.multicomp <-
           mtext(dimnames(lmat$table)[[1]][signif], at=yy[signif]/2,
                 side=4, adj=1, line=-.6, col=col.lmat.signif, las=1)
         
-        axis(4, at=yy/2, tck=.01, label=FALSE)
+        axis(4, at=yy/2, tck=.01, labels=FALSE)
       }
     }
     ## par(old.par) ## restore par() settings

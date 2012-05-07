@@ -726,7 +726,7 @@ legendGrob2wt <-   function(...) ## ...is key1, key2, etc
                 widths = do.call(max, key.widths),
                 respect = TRUE)
   key.gf <- frameGrob(layout = key.layout)
-  for (i in `seq_len`(nkeys))
+  for (i in seq(length=nkeys))
     {
       key.gf <- placeGrob(key.gf, keys[[i]], row = i, col = 1)
     }

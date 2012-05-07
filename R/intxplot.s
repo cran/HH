@@ -55,8 +55,6 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
   lev.x <- levels(xf)
   num.lev.x <- position(xf)
 
-  y.name <- deparse(x[[2]])
-
   if (data.is.summary)
     M$data <- data
   else
@@ -66,7 +64,7 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
         switch(summary.function,
                sufficient=
                M$data <- sufficient(data,
-                                    y=y.name,
+                                    yname=deparse(x[[2]]),
                                     c(x.factor.name, trace.factor.name)),
                
                bwplot=stop("bwplot not yet implemented inside 'intxplot'."),

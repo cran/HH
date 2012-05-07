@@ -1,6 +1,7 @@
 \name{aov.sufficient}
-\alias{aov.sufficient}
-\alias{vcov.sufficient}
+\alias{aovSufficient}
+%% \alias{aov.sufficient} %% old name
+\alias{vcovSufficient}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Analysis of variance from sufficient statistics for groups.}
 \description{
@@ -10,15 +11,15 @@
   The correct ANOVA table is produced.  The residuals are fake.
   The generic \code{vcov} and \code{summary.lm} don't work for the
   variance of the regression coefficients in this case.
-  Use \code{vcov.sufficient}.
+  Use \code{vcovSufficient}.
 }
 \usage{
-aov.sufficient(formula, data = NULL,
-               projections = FALSE, qr = TRUE, contrasts = NULL,
-               weights = data$n, sd = data$s,
-               ...)
+aovSufficient(formula, data = NULL,
+              projections = FALSE, qr = TRUE, contrasts = NULL,
+              weights = data$n, sd = data$s,
+              ...)
 
-vcov.sufficient(object, ...)
+vcovSufficient(object, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 
@@ -43,11 +44,11 @@ vcov.sufficient(object, ...)
   }
   \item{sd}{vector of within-group standard deviations.}
   \item{object}{\code{"aov"} object constructed by
-    \code{aov.sufficient}.  It also works with regular \code{aov} objects.
+    \code{aovSufficient}.  It also works with regular \code{aov} objects.
   }
 }
-\value{For \code{aov.sufficient}, an object of class c("aov", "lm").
-For \code{vcov.sufficient}, a function that returns the covariance
+\value{For \code{aovSufficient}, an object of class c("aov", "lm").
+For \code{vcovSufficient}, a function that returns the covariance
   matrix of the regression coefficients.}
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{
@@ -56,7 +57,7 @@ The residuals are fake.  They are all identical and equal to the MLE
   ANOVA table.  They may cause confusion or warnings in other programs.
   The standard errors and t-tests of the coefficients are not calculated
   by \code{summary.lm}.
-  Using the \code{aov} object from \code{aov.sufficient} in \code{glht}
+  Using the \code{aov} object from \code{aovSufficient} in \code{glht}
   requires the \code{vcov.} and \code{df} arguments.
   
 }
@@ -78,27 +79,22 @@ The residuals are fake.  They are all identical and equal to the MLE
 if.R(s={},
 r={
 
-pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
-                        row.names=NULL)
-names(pulmonary)[3] <- "FVC"
-names(pulmonary)[1] <- "smoker"
-pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
-row.names(pulmonary) <- pulmonary$smoker
+data(pulmonary)
 pulmonary
-pulmonary.aov <- aov.sufficient(FVC ~ smoker,
+pulmonary.aov <- aovSufficient(FVC ~ smoker,
                                 data=pulmonary)
 summary(pulmonary.aov)
 
-pulmonary.mmc <- glht.mmc(pulmonary.aov,
-                          linfct=mcp(smoker="Tukey"),
-                          df=pulmonary.aov$df.residual,
-                          vcov.=vcov.sufficient)
-old.omd <- par(omd=c(.03,.95,0,1))
-plot(pulmonary.mmc)
+pulmonary.mmc <- mmc(pulmonary.aov,
+                     linfct=mcp(smoker="Tukey"),
+                     df=pulmonary.aov$df.residual,
+                     vcov.=vcovSufficient)
+old.omd <- par(omd=c(.0,.95,0,1))
+plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05)
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
-plot.matchMMC(pulmonary.mmc$mca)
+plotMatchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
 pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
@@ -109,17 +105,18 @@ pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
 dimnames(pulm.lmat)[[1]] <- row.names(pulmonary)
 pulm.lmat
 
-pulmonary.mmc <- glht.mmc(pulmonary.aov,
-                          linfct=mcp(smoker="Tukey"),
-                          df=pulmonary.aov$df.residual,
-                          vcov.=vcov.sufficient,
-                          focus.lmat=pulm.lmat)
+pulmonary.mmc <- mmc(pulmonary.aov,
+                     linfct=mcp(smoker="Tukey"),
+                     df=pulmonary.aov$df.residual,
+                     vcov.=vcovSufficient,
+                     focus.lmat=pulm.lmat)
 
-plot(pulmonary.mmc)
-plot.matchMMC(pulmonary.mmc$lmat, col.signif='blue')
+plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05)
+plotMatchMMC(pulmonary.mmc$lmat, col.signif='blue')
 
 ## pairwise and orthogonal contrasts on the same plot
-plot(pulmonary.mmc, print.mca=TRUE, print.lmat=TRUE)
+plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05,
+     print.mca=TRUE, print.lmat=TRUE)
 par(old.omd)
 
 })

@@ -35,7 +35,7 @@ function (side = c("bottom", "left", "top", "right"), at = pretty(scale.range),
     labels <- labels[keep.at]
     keep.labels <- TRUE
     nal <- length(at)/2 + 0.5
-    all.id <- seq_along(at)
+    all.id <- seq(along=at)
     lower.id <- all.id <= nal
     upper.id <- all.id >= nal
     axid <- if (half) {
@@ -127,3 +127,140 @@ right = grid.text(label = labels[axid &
 ## https://stat.ethz.ch/pipermail/r-help/2011-October/292806.html
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/panel.axis.right.R")
+
+
+
+## based on axis.default
+#
+## Right axis labels are right adjusted.  Otherwise no change.
+##
+## default function to draw axes.  This (or its user-specified
+## replacement) will be called once for each side of each panel,
+## regardless of whether relation == "same".
+
+axis.RightAdjustRight <-
+    function(side = c("top", "bottom", "left", "right"),
+             scales, components, as.table,
+             labels = c("default", "yes", "no"),
+             ticks = c("default", "yes", "no"),
+             ...,
+             prefix = lattice:::lattice.getStatus("current.prefix")) # rmh
+{
+    side <- match.arg(side)
+    labels <- match.arg(labels)
+    ticks <- match.arg(ticks)
+
+    row <- lattice:::lattice.getStatus("current.focus.row", prefix = prefix) # rmh
+    column <- lattice:::lattice.getStatus("current.focus.column", prefix = prefix) # rmh
+    panel.layout <- trellis.currentLayout("panel", prefix = prefix)
+    layout.dim <- dim(panel.layout)
+
+    determineStatus <- function(x)
+    {
+        ## whether the relevant component of 'components' wants us to
+        ## draw something here
+        if (is.null(x) || (is.logical(x) && !x)) FALSE
+        else TRUE
+    }
+    lastPanel <- function()
+    {
+        ## is this the last panel? In that case, it is considered to
+        ## be ``on the boundary'' on the right side.
+        ((pn <- panel.number(prefix = prefix)) > 0 && pn == max(panel.layout))
+    }
+    atBoundary <- function()
+    {
+        switch(side,
+               top = if (as.table) row == 1 else row == layout.dim[1],
+               bottom = if (!as.table) row == 1 else row == layout.dim[1],
+               left = column == 1,
+               right = column == layout.dim[2] || lastPanel())
+    }
+
+    ## FIXME: what about scales$relation ?
+    do.ticks <-
+        switch(ticks,
+               yes = TRUE,
+               no = FALSE,
+               default = scales$draw && determineStatus(components[[side]]) &&
+               (if (scales$relation == "same") atBoundary() else TRUE))
+    do.labels <-
+        switch(labels,
+               yes = TRUE,
+               no = FALSE,
+
+               default =
+               scales$draw &&
+               (if (scales$relation == "same") {
+
+                   atBoundary() &&
+
+                   ## rule: if (alternating[row/column] %in% c(2, 3)) for
+                   ## a ``boundary'' panel, then draw, otherwise don't.
+                   switch(side,
+                          top    = rep(scales$alternating, length.out = column)[column] %in% c(2, 3),
+                          bottom = rep(scales$alternating, length.out = column)[column] %in% c(1, 3),
+                          left   = rep(scales$alternating, length.out = row)[row] %in% c(1, 3),
+                          right  = rep(scales$alternating, length.out = row)[row] %in% c(2, 3))
+
+               } else TRUE)) 
+
+    if (do.ticks || do.labels)
+    {
+        comp.list <-
+            switch(side,
+                   top = if (is.logical(components[["top"]]) && components[["top"]])
+                   components[["bottom"]] else components[["top"]],
+                   bottom = components[["bottom"]],
+                   left = components[["left"]],
+                   right = if (is.logical(components[["right"]]) && components[["right"]])
+                   components[["left"]] else components[["right"]])
+        scales.tck <-
+            switch(side,
+                   left = ,
+                   bottom = scales$tck[1],
+                   right = ,
+                   top = scales$tck[2])
+        if (!is.logical(comp.list)) ## must be FALSE if it is
+        {
+            ## WAS: (but did not allow ticks$at and labels$at to be different)
+            ## panel.axis(side = side,
+            ##            at = comp.list$ticks$at,
+            ##            labels = comp.list$labels$labels,
+            ##            draw.labels = do.labels, 
+            ##            check.overlap = comp.list$labels$check.overlap,
+            ##            outside = TRUE,
+            ##            ticks = do.ticks,
+            ##            tck = scales.tck * comp.list$ticks$tck,
+            ##            ...)
+            if (do.ticks)
+                HH:::panel.axis.right(side = side,  ##rmh
+                           at = comp.list$ticks$at,
+                           labels = FALSE,
+                           draw.labels = FALSE, 
+                           check.overlap = FALSE,
+                           outside = TRUE,
+                           ticks = TRUE,
+                           tck = scales.tck * comp.list$ticks$tck,
+                           ...)
+            if (do.labels)
+                HH:::panel.axis.right(side = side,  ##rmh
+                           at = comp.list$labels$at,
+                           labels = comp.list$labels$labels,
+                           draw.labels = TRUE, 
+                           check.overlap = comp.list$labels$check.overlap,
+                           outside = TRUE,
+                           ticks = FALSE,
+                           tck = scales.tck * comp.list$ticks$tck,
+                           ...)
+        }
+    }
+}
+## environment(axis.RightAdjustRight) <- environment(xyplot)
+
+
+
+## axis.RightAdjustRight was written by Richard Heiberger, based on the
+## lattice:::axis.default function.
+
+## source("c:/HOME/rmh/HH-R.package/HH/R/axis.RightAdjustRight.R")

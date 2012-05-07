@@ -106,7 +106,7 @@ Hsu, J. and Peruggia, M. (1994).
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
   completely different functions.
-  MMC plots in R are constructed by \code{glht.mmc}
+  MMC plots in R are constructed by \code{mmc}
   based on
 %% R
 #ifndef S-Plus
@@ -132,20 +132,14 @@ Hsu, J. and Peruggia, M. (1994).
 ## This example is from Hsu and Peruggia
 
 ## This is the S-Plus version
-## See ?aov.sufficient for R
+## See ?aovSufficient for R
 
 if.R(r={},
 s={
 
-pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
-                        row.names=NULL)
-names(pulmonary)[3] <- "FVC"
-names(pulmonary)[1] <- "smoker"
-pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
-row.names(pulmonary) <- pulmonary$smoker
-pulmonary
-pulmonary.aov <- aov.sufficient(FVC ~ smoker,
-                                data=pulmonary)
+data(pulmonary)
+pulmonary.aov <- aovSufficient(FVC ~ smoker,
+                               data=pulmonary)
 summary(pulmonary.aov)
 
 
@@ -194,7 +188,7 @@ plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
-plot.matchMMC(pulmonary.mmc$mca)
+plotMatchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
 plot(pulmonary.mmc)

@@ -1,0 +1,31 @@
+c:/HOME/rmh/HH-R.package/HH/inst/scripts/Ch12-tway.r
+
+## S-Plus
+> warnings()
+Warning messages --
+1: Model was refit to allow projection in: model.tables(rhiz.alfalfa.aov, type = "means", se = TRUE)
+2: Model was refit to allow projection in: model.tables(rhiz.clover.aov, type = "means", se = TRUE)
+3: Graphics error: Figure specified in inches too large (in zzfigz) in: par(omi = omi.axes + e + omi
+	+ 0.2)
+4: Graphics error: Figure specified in inches too large (in zzfigz) in: par(omi = omi + shrink)
+5: Model was refit to allow projection in: model.tables(rhiz.clover.nest.aov, type = "means", se =
+	TRUE)
+6: Model was refit to allow projection in: model.tables(rhiz.clover.aov, type = "means", se = TRUE)
+7: Model was refit to allow projection in: model.tables(feed.int.aov, type = "means", se = TRUE)
+8: Model was refit to allow projection in: model.tables(feed.aov, type = "means", se = TRUE)
+> source("c:/HOME/rmh/HH-R.package/HH/inst/scripts/Ch12-tway.r"                 , echo=TRUE, auto.print=TRUE)
+WARNING: Line out of bounds: x1 = 0.100000, y1 = 76.279999, x2 = 13.600000, y2 = 76.279999, ymin = 84.
+545776, ymax = 185.284531
+WARNING: Line out of bounds: x1 = 0.600000, y1 = 76.279999, x2 = 6.600000, y2 = 76.279999, ymin = 84.5
+45776, ymax = 185.284531
+>
+
+
+## R
+> ## rhiz-alf-mmc.s
+> if.R(r={
++ old.par <- par(omd=c(0,.85 ,0,1))
++ alf.mmc <- mmc(rhiz.alfalfa.aov, focus="strain")
++ plot(alf.mmc, x.offset=.3, ry= .... [TRUNCATED] 
+Error in plot.new() : figure region too large
+> alf.mmc

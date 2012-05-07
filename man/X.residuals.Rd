@@ -57,11 +57,9 @@ Data.frame of residuals, one column from each regression.
   \code{\link[splus]{lm}},
 #endif
   \code{\link{vif}},
-  \code{\link{lm.case}}.}
+  \code{\link{case.lm}}.}
 \examples{
-usair <- read.table(hh("datasets/usair.dat"),                    
-                    col.names=c("SO2","temp","mfgfirms","popn",
-                                "wind","precip","raindays"))
+data(usair)
 usair$lnSO2 <- log(usair$SO2)
 usair$lnmfg <- log(usair$mfgfirms)
 usair$lnpopn <- log(usair$popn)

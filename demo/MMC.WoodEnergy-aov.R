@@ -20,19 +20,7 @@
 ## they use the S-Plus multicomp adjust argument.  The glht function
 ## in the R multcomp package doesn't have an equivalent argument.
 
-energy <- if.R(r=read.table(hh("datasets/energy.dat"), header=TRUE, sep=","),
-               s=importData(hh("datasets/energy.dat")))
-
-energy$Wood <- ordered(energy$Wood,
-                       levels=c(
-                         "Osage Orange",
-                         "Red Oak",
-                         "Black Walnut",
-                          "White Pine"))
-                       
-energy$Stove <- factor(energy$Stove, labels=c("A","B","C"))
-
-energy <- energy[order(energy$Moist, energy$Wood, energy$Kind),]
+data(energy)
 
 tpg.sl.original <- trellis.par.get("superpose.line")
 tpg.sl <- as.data.frame(tpg.sl.original)

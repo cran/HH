@@ -72,10 +72,10 @@ normal.and.t.dist(mu.H0          = 0,
                   col.conf.label = 'darkgreen'
                   )
 
-norm.setup(xlim.in=c(-2.5,2.5),
-           ylim.in = c(0, 0.4)/se,
+norm.setup(xlim=c(-2.5,2.5),
+           ylim = c(0, 0.4)/se,
            mean=0,
-           main.in=main.calc,
+           main=main.calc,
            se=sd/sqrt(n), sd=1, n=1,
            df.t=NULL,
            Use.obs.mean=TRUE,
@@ -117,7 +117,7 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{xlim.in, ylim.in, xmin, xmax, gxbar.min, gxbar.max}{\code{xlim, ylim}.
+  \item{xlim, ylim, xmin, xmax, gxbar.min, gxbar.max}{\code{xlim, ylim}.
     Defaults to correct values for standard
            Normal(0,1).  User must set values for other mean and standard
            error.}
@@ -133,7 +133,7 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
   \item{critical.values}{Critical values in xbar-scale.
     A scalar value implies a one-sided test.  A vector of two values
     implies a two-sided test.}
-  \item{main.in}{Main title.  Default value is:
+  \item{main}{Main title.  Default value is:
     \code{
       if (is.null(df.t))  ## normal
         ifelse(!(missing(se) && missing(sd) && missing(n)),
@@ -257,14 +257,14 @@ norm.setup(xlim=c(75,125), mean=100, se=5)
 norm.curve(100, 5, 100+5*c(-1.96, 1.96))
 
 norm.setup(xlim=c(-3, 6))
-norm.curve(crit=1.645, mean=1.645+1.281552, col='green',
+norm.curve(critical.values=1.645, mean=1.645+1.281552, col='green',
            shade="left", axis.name="z1")
-norm.curve(crit=1.645, col='red')
+norm.curve(critical.values=1.645, col='red')
 
 norm.setup(xlim=c(-6, 12), se=2)
-norm.curve(crit=2*1.645, se=2, mean=2*(1.645+1.281552),
+norm.curve(critical.values=2*1.645, se=2, mean=2*(1.645+1.281552),
            col='green', shade="left", axis.name="z1")
-norm.curve(crit=2*1.645, se=2, mean=0,
+norm.curve(critical.values=2*1.645, se=2, mean=0,
            col='red', shade="right")
 
 
@@ -326,17 +326,17 @@ obs.mean <- 14.8
 
 alt.t <- (mu.alt - crit.val) / se.val
 norm.setup(xlim=c(12, 19), se=se.val, df.t=df.val)
-norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.alt,
+norm.curve(critical.values=crit.val, se=se.val, df.t=df.val, mean=mu.alt,
            col='green', shade="left", axis.name="t1")
-norm.curve(crit=crit.val, se=se.val, df.t=df.val, mean=mu.H0,
+norm.curve(critical.values=crit.val, se=se.val, df.t=df.val, mean=mu.H0,
            col='gray', shade="right")
 norm.observed(obs.mean, (obs.mean-mu.H0)/se.val)
 
 ## normal
 norm.setup(xlim=c(12, 19), se=se.val)
-norm.curve(crit=crit.val, se=se.val, mean=mu.alt,
+norm.curve(critical.values=crit.val, se=se.val, mean=mu.alt,
            col='green', shade="left", axis.name="z1")
-norm.curve(crit=crit.val, se=se.val, mean=mu.H0,
+norm.curve(critical.values=crit.val, se=se.val, mean=mu.H0,
            col='gray', shade="right")
 norm.observed(obs.mean, (obs.mean-mu.H0)/se.val)
 
@@ -344,19 +344,19 @@ norm.observed(obs.mean, (obs.mean-mu.H0)/se.val)
 
 ## normal and t
 norm.setup(xlim=c(12, 19), se=se.val, main="t(6) and normal")
-norm.curve(crit=15.5, se=se.val, mean=16.3,
+norm.curve(critical.values=15.5, se=se.val, mean=16.3,
            col='gray', shade="right")
-norm.curve(crit=15.5, se.val, df.t=6, mean=14.7,
+norm.curve(critical.values=15.5, se.val, df.t=6, mean=14.7,
            col='green', shade="left", axis.name="t1", second.axis.label.line=4)
-norm.curve(crit=15.5, se=se.val, mean=16.3,
+norm.curve(critical.values=15.5, se=se.val, mean=16.3,
            col='gray', shade="none")
 
 norm.setup(xlim=c(12, 19), se=se.val, main="t(6) and normal")
-norm.curve(crit=15.5, se=se.val, mean=15.5,
+norm.curve(critical.values=15.5, se=se.val, mean=15.5,
            col='gray', shade="right")
-norm.curve(crit=15.5, se=se.val, df.t=6, mean=15.5,
+norm.curve(critical.values=15.5, se=se.val, df.t=6, mean=15.5,
            col='green', shade="left", axis.name="t1", second.axis.label.line=4)
-norm.curve(crit=15.5, se=se.val, mean=15.5,
+norm.curve(critical.values=15.5, se=se.val, mean=15.5,
            col='gray', shade="none")
 
 

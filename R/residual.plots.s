@@ -28,16 +28,21 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
   resids <- resid(lm.object)
   yhat <- predict(lm.object, type="terms")
 
-  if (inherits(X, "model.matrix"))
-    X <- data.frame(data.frameAux.default(X), check.names=FALSE)
-  ##
-  ## Don't ask, just use it.  But if you want to know: as.data.frame()
-  ## applied to a model.matrix produces a list with the model.matrix
-  ## as its sole component.  S-Plus does this intentionally with the
-  ## function data.frameAux.model.matrix.  They do not consider it a
-  ## bug.  The statement here creates an ordinary data.frame in which
-  ## each column consists of one column from the model.matrix.
-
+  if.R(r={
+    X <- data.frame(X, check.names=FALSE)
+  },
+       s={
+         if (inherits(X, "model.matrix"))
+           X <- data.frame(data.frameAux.default(X), check.names=FALSE)
+         ##
+         ## Don't ask, just use it.  But if you want to know: as.data.frame()
+         ## applied to a model.matrix produces a list with the model.matrix
+         ## as its sole component.  S-Plus does this intentionally with the
+         ## function data.frameAux.model.matrix.  They do not consider it a
+         ## bug.  The statement here creates an ordinary data.frame in which
+         ## each column consists of one column from the model.matrix.
+       })
+  
   if (dim(yhat)[[2]] != dim(X)[[2]])
    stop("The model has factors or interactions.  Please use the `X=' argument.")
   partial.resids <- yhat + resids
@@ -144,6 +149,8 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
   
   list(y.X=y.X, res.X=res.X, pres.X=pres.X, pres.Xj=pres.Xj)
 }
+## source("c:/HOME/rmh/HH-R.package/HH/R/residual.plots.s")
+## assignInNamespace("residual.plots", residual.plots, "HH")
 
 
 ## ## longley regression example.

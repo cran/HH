@@ -1,6 +1,12 @@
-"lm.case" <-
-function(fit, lms=summary.lm(fit), lmi=lm.influence(fit)) {
-  e <- fit$residuals
+case <- function(fit, ...)
+  UseMethod("case")
+
+lm.case <- function(...)
+  .Defunct("case.lm", package="HH")
+
+case.lm <-  ## previously lm.case
+function(fit, lms=summary.lm(fit), lmi=lm.influence(fit), ...) {
+  e <- resid(fit)
   s <- lms$sigma
   xxi <- diag(lms$cov.unscaled)
   si <- lmi$sigma
@@ -13,34 +19,37 @@ if.R(s=
   sta.res <- e/(s*(1-h)^.5)
   stu.res <- e/(si*(1-h)^.5)  ## uses si, not s
   dfbetas <- bi/(si %o% xxi^.5)
-  dimnames(dfbetas)[[2]] <- names(fit$coefficients)
+  dimnames(dfbetas)[[2]] <- names(coef(fit))
   dffit <- h*e/(1-h)
   dffits <- h^.5*e/(si*(1-h))
   cook <- sta.res^2/length(xxi) * h/(1-h)
   tmp <- cbind(e, h, si, sta.res, stu.res, dffit, dffits, cook, dfbetas)
-  if(is.null(fit$na.action))
-    return(tmp)
-  else
-    return(naresid(fit$na.action, tmp))
+  class(tmp) <- c("case", class(tmp))
+  ## if(is.null(fit$na.action))
+  ##   return(tmp)
+  ## else
+  ##   return(naresid(fit$na.action, tmp))
+  tmp
 }
+## environment(case.lm) <- environment(plot.likert)
 
 ## plot.case is based on:
 ## Section 4.3.3 Influence of Individual Obervations
 ## in Chambers and Hastie, Statistical Models in S.
-"plot.case" <- function(x, fit,
-                        which=c("stu.res","si","h","cook","dffits",
-                          dimnames(x)[[2]][-(1:8)]),  ##DFBETAS
-                        between.in=list(y=4, x=9),
-                        oma=c(0,0,0,4), cex.threshold=if.R(r=1.2, s=1.6),
-                        main.in=list(
-                          paste(deparse(fit$call), collapse=""),
-                          cex=main.cex),
-                        sigma.in=summary.lm(fit)$sigma,
-                        p.in=summary.lm(fit)$df[1]-1,
-                        obs.large=".lm.case.large",
-                        obs.large.env=if.R(r=globalenv(), s=0),
-                        main.cex=NULL,
-                        ...) {
+plot.case <- function(x, fit,
+                      which=c("stu.res","si","h","cook","dffits",
+                        dimnames(x)[[2]][-(1:8)]),  ##DFBETAS
+                      between.in=list(y=4, x=9),
+                      oma=c(0,0,0,4), cex.threshold=if.R(r=1.2, s=1.6),
+                      main.in=list(
+                        paste(deparse(fit$call), collapse=""),
+                        cex=main.cex),
+                      sigma.in=summary.lm(fit)$sigma,
+                      p.in=summary.lm(fit)$df[1]-1,
+                      obs.large=".lm.case.large",
+                      obs.large.env=if.R(r=globalenv(), s=0),
+                      main.cex=NULL,
+                      ...) {
   p <- p.in
   n <- dim(x)[1]
 
@@ -87,11 +96,12 @@ if.R(s=
          cex.threshold=cex.threshold,
          par.settings = list( ## R only.  Ignored by panel.case in S-Plus
            ##clip = list(panel = FALSE),
+           clip=list(panel="off"),
            layout.widths = list(axis.key.padding = 16)),
          obs.large=obs.large, obs.large.env=obs.large.env,
          ...)
 }
-
+## environment(plot.case) <- environment(plot.likert)
 
 
 "panel.case" <- function(x, y, subscripts, rownames, group.names,
@@ -113,19 +123,19 @@ if.R(s=
 
   ## turn off clipping in R
   ## --- needed for axis ticks and labels outside the plot region
-  if.R(r={
-    cpl <- current.panel.limits()
-    pushViewport(viewport(xscale = cpl$xlim,
-                          yscale = cpl$ylim,
-                          clip = "off"))
-    ## put anything you want unclipped inside this:
-  },s={})
+  ## if.R(r={
+  ##   cpl <- current.panel.limits()
+  ##   pushViewport(viewport(xscale = cpl$xlim,
+  ##                         yscale = cpl$ylim,
+  ##                         clip = "off"))
+  ##   ## put anything you want unclipped inside this:
+  ## },s={})
   
   new.viewport <- FALSE
   switch(panel.label,
          "deleted std dev"={y.plot <- y-ss
                             lin.pretty.y <- pretty.y-ss
-                            if.R(s={par.usr <-par()$usr
+                            if.R(s={par.usr <- par()$usr
                                     par(usr=c(par.usr[1:2], par.usr[3:4]-ss))},
                                  r={new.viewport <- TRUE
                                     cvp <- current.viewport()
@@ -153,11 +163,11 @@ if.R(s=
             thresh.label <- c("1 / n", "2 (p+1)/n", "3 (p+1)/n")
             thresh.id <- c(0, 2*(pp+1)/nn)
           },
-         "Cook's distance"={if.R(s={par.usr <-par()$usr
-                                    par(usr=c(par.usr[1:2], 0, max(1.05, y)))},
+         "Cook's distance"={if.R(s={par.usr <- par()$usr
+                                    par(usr=c(par.usr[1:2], 0, max(1.05, y, na.rm=TRUE)))},
                                  r={new.viewport <- TRUE
                                     cvp <- current.viewport()
-                                    cvp$yscale <- c(0, max(1.05, y))
+                                    cvp$yscale <- c(0, max(1.05, y, na.rm=TRUE))
                                     pushViewport(cvp)
                                   })
                             pretty.y <- if.R(s=pretty(par()$usr[3:4]),
@@ -249,14 +259,14 @@ if.R(s=
              side="bottom",
              at=i, labels=names.x[i],
              text.cex=1.2*cex.x,
-             tick=TRUE, tck=-.06, outside=TRUE, rot=0))
+             ticks=TRUE, tck=-.06, outside=TRUE, rot=0))
   if (new.viewport) popViewport()
 
   ## restore clipping in R
-  if.R(r=
-       ## end of unclipped part
-       upViewport()
-       ,s={})
+  ## if.R(r=
+  ##      ## end of unclipped part
+  ##      upViewport()
+  ##      ,s={})
 
   ## save the row.names of the observations crossing the threshold.
   if (!exists(obs.large, obs.large.env))
@@ -265,3 +275,4 @@ if.R(s=
   tmp[[panel.label]] <- names.x[subs]
   assign(obs.large, tmp, obs.large.env)
 }
+## environment(panel.case) <- environment(plot.likert)

@@ -1,8 +1,8 @@
 "norm.setup" <-
-  function(xlim.in=c(-2.5,2.5),
-           ylim.in=c(0,.4)/se,
+  function(xlim=c(-2.5,2.5),
+           ylim=c(0,.4)/se,
            mean=0,
-           main.in=main.calc,
+           main=main.calc,
            se=sd/sqrt(n), sd=1, n=1,
            df.t=NULL,
            Use.obs.mean=TRUE,
@@ -19,13 +19,13 @@
                paste("t density:  se = ", round(se,3), ", df = ", df.t, sep=""),
                paste("standard t density, df =", df.t))
       }
-    plot(xlim=xlim.in, ylim=ylim.in,
-         x=xlim.in, y=ylim.in,
+    plot(xlim=xlim, ylim=ylim,
+         x=xlim, y=ylim,
          yaxt="n", type="n",
          las=1,
          xlab="",
          ylab=ifelse(is.null(df.t) || df.t==Inf, "f(z)", "f(t)"),
-         main=main.in)
+         main=main)
     axis(4, las=1)
 }
 
@@ -251,8 +251,8 @@ norm.observed <-
   xbar2 <- c(xbar, xbar)
   arrows(xbar2, par()$usr[3:4]+c(-.01,.01), xbar2, par()$usr[3:4],
          xpd=TRUE, col=col.label, length=.1)
-  axis(side=1, at=xbar, label=FALSE, col=col)
-  axis(side=3, at=xbar, label=FALSE, col=col)
+  axis(side=1, at=xbar, labels=FALSE, col=col)
+  axis(side=3, at=xbar, labels=FALSE, col=col)
   mtext(side=3, text=round(xbar,3), at=xbar, line=.5,
         cex=cex.large, col=col.label)
   mtext(side=1, text=round(t.xbar,3), at=xbar,
@@ -484,14 +484,14 @@ normal.and.t.dist<-
             if (is.null(deg.free)) if.R(r=expression(z[1]), s="z1")
             else if.R(r=expression(t[1]), s="t1")
         if (standard.normal) {
-            norm.curve(crit=cv, mean=mu.H1,
+            norm.curve(critical.values=cv, mean=mu.H1,
                        col=col.beta, shade=cv.altshade,
                        axis.name=if(is.null(deg.free)) 'z1' else 't1',
                        axis.name.expr=t.or.z.expr,
                        Use.obs.mean=Use.obs.mean, col.label=col.beta.label,
                        polygon.density=polygon.density, polygon.lwd=polygon.lwd)
         } else {
-            norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H1,
+            norm.curve(critical.values=cv, se=se, df.t=deg.free, mean=mu.H1,
                        col=col.beta, shade=cv.altshade,
                        axis.name=if(is.null(deg.free)) 'z1' else 't1',
                        axis.name.expr=t.or.z.expr,
@@ -503,31 +503,31 @@ normal.and.t.dist<-
     if (hypoth.or.conf=="Hypoth") {
       if (standard) {
       if (standard.normal) {
-        norm.curve(crit=cv, mean=mu.H0,
+        norm.curve(critical.values=cv, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
                    Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
                    polygon.density=polygon.density, polygon.lwd=polygon.lwd)
       }
       else
-        norm.curve(crit=cv, df.t=deg.free, mean=mu.H0,
+        norm.curve(critical.values=cv, df.t=deg.free, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
                    Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
                    polygon.density=polygon.density, polygon.lwd=polygon.lwd)
       }
       else {
-        norm.curve(crit=cv, se=se, df.t=deg.free, mean=mu.H0,
+        norm.curve(critical.values=cv, se=se, df.t=deg.free, mean=mu.H0,
                    col=col.alpha, shade=cv.shade,
                    Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
                    polygon.density=polygon.density, polygon.lwd=polygon.lwd)
       }
     } else { ## "Conf"
         ## if (standard.normal) {
-        ##   norm.curve(crit=cv, mean=obs.mean,
+        ##   norm.curve(critical.values=cv, mean=obs.mean,
         ##              col=col.alpha, shade=cv.shade,
         ##              Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,
         ##              polygon.density=polygon.density, polygon.lwd=polygon.lwd)
         ## } else {
-          norm.curve(crit=cv,
+          norm.curve(critical.values=cv,
                      se=se, df.t=deg.free, mean=obs.mean,
                      col=col.conf, shade=cv.altshade,
                      Use.obs.mean=Use.obs.mean, col.label=col.alpha.label,

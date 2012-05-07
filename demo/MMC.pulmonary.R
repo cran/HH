@@ -4,17 +4,12 @@
 ## "Graphical representations of {Tukey's} multiple comparison method."
 ## Journal of Computational and Graphical Statistics, 3:143--161.
 
-pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
-                        row.names=NULL)
-names(pulmonary)[3] <- "FVC"
-names(pulmonary)[1] <- "smoker"
-pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
-row.names(pulmonary) <- pulmonary$smoker
+data(pulmonary)
 pulmonary
-pulmonary.aov <- aov.sufficient(FVC ~ smoker,
-                                data=pulmonary,
-                                weights=pulmonary$n,
-                                sd=pulmonary$s)
+pulmonary.aov <- aovSufficient(FVC ~ smoker,
+                               data=pulmonary,
+                               weights=pulmonary$n,
+                               sd=pulmonary$s)
 summary(pulmonary.aov)
 
 
@@ -24,15 +19,15 @@ if.R(r=
      glht(pulmonary.aov,
           linfct=mcp(smoker="Tukey"),
           df=pulmonary.aov$df.residual,
-          vcov.=vcov.sufficient)
-,s=
-multicomp.mean(pulmonary$smoker,
-               pulmonary$n,
-               pulmonary$FVC,
-               pulmonary$s,
-               ylabel="pulmonary",
-               focus="smoker")
-)
+          vcov.=vcovSufficient)
+     ,s=
+     multicomp.mean(pulmonary$smoker,
+                    pulmonary$n,
+                    pulmonary$FVC,
+                    pulmonary$s,
+                    ylabel="pulmonary",
+                    focus="smoker")
+     )
 
 pulmonary.mca
 ## lexicographic ordering of contrasts, some positive and some negative
@@ -53,12 +48,12 @@ pulm.lmat
 ## mmc.multicomp object
 pulmonary.mmc <-
   if.R(r=
-       glht.mmc(pulmonary.aov,
-                linfct=mcp(smoker="Tukey"),
-                df=pulmonary.aov$df.residual,
-                vcov.=vcov.sufficient,
-                lmat=pulm.lmat.glht, focus.lmat=pulm.lmat,
-                calpha=attr(confint(pulmonary.mca)$confint,"calpha"))
+       mmc(pulmonary.aov,
+           linfct=mcp(smoker="Tukey"),
+           df=pulmonary.aov$df.residual,
+           vcov.=vcovSufficient,
+           lmat=pulm.lmat.glht, focus.lmat=pulm.lmat,
+           calpha=attr(confint(pulmonary.mca)$confint,"calpha"))
        ,s=
        multicomp.mmc.mean(pulmonary$smoker,
                           pulmonary$n,
@@ -81,7 +76,7 @@ plot(pulmonary.mmc, print.mca=TRUE, print.lmat=FALSE)
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
-plot.matchMMC(pulmonary.mmc$mca)
+plotMatchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
 ## MMC Figure 7b

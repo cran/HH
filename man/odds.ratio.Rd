@@ -1,6 +1,7 @@
-\name{odds.ratio}
-\alias{odds.ratio}
-\alias{plot.odds.ratio}
+\name{OddsRatio}
+%% \alias{odds.ratio} old name
+\alias{OddsRatio}
+\alias{plotOddsRatio}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Calculate or plot the odds ratio for a 2x2 table of counts.}
 \description{
@@ -10,9 +11,9 @@
   and specified probability for row1.
 }
 \usage{
-odds.ratio(x, alpha = 0.05)
+OddsRatio(x, alpha = 0.05)
 
-plot.odds.ratio(x,
+plotOddsRatio(x,
  ylab = "prob(col1 | row1)", xlab = "prob(col1 | row2)",
  alpha = c(0.05, 0.5),
  legend.x=1.05,
@@ -22,18 +23,18 @@ plot.odds.ratio(x,
 \arguments{
   \item{x}{2 x 2 table of counts}
   \item{alpha}{Significance levels of test.
-    \code{odds.ratio} requires a single number in the range [0,1].
-    \code{plot.odds.ratio} accepts more than one number on the range
+    \code{OddsRatio} requires a single number in the range [0,1].
+    \code{plotOddsRatio} accepts more than one number on the range
     [0,1] and draws confidence lines at each value.}  \item{xlab,
-    ylab}{x- and y-labels for the plot.  Sensible defaults are generated.}
+    ylab}{x- and y-labels for the plot  Sensible defaults are generated.}
   \item{\dots}{other arguments, currently ignored. }
   \item{legend.x}{x position of left-hand side of legend.}
   \item{oma}{outer margin \code{par()$oma}, needed to make room for legend. }
 }
 \value{
-  \code{plot.odds.ratio} draws a plot and invisibly returns the same
-  list as \code{odds.ratio} for the first value of \code{alpha}.
-  \code{odds.ratio} returns the list:
+  \code{plotOddsRatio} draws a plot and invisibly returns the same
+  list as \code{OddsRatio} for the first value of \code{alpha}.
+  \code{OddsRatio} returns the list:
 \item{p1, p2}{proportion of each row total observed in the first column.}          
 \item{omega1, omega2}{odds for each row, p/(1-p)}        
 \item{psihat}{odds ratio, omega2/omega1}      
@@ -59,18 +60,11 @@ plot.odds.ratio(x,
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
-glasses <- read.table(hh("datasets/glasses.dat"), header=FALSE)
-
-glasses <- matrix(unlist(glasses),
-                  nrow=2,
-                  dimnames=list(
-                    c("glasses","no.glasses"),
-                    c("delinq","non.del")))
-
+data(glasses)
 
 ## draw the iso-odds ratio plot with 50\% CI and 95\% CI,
 ## invisibly return the 95\% CI
-plot.odds.ratio(glasses)
+plotOddsRatio(glasses)
 }
 \keyword{hplot }
 \keyword{htest }

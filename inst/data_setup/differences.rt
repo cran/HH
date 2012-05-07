@@ -1,0 +1,125 @@
+## > snames <- ls()
+## > dump(rnames)
+"snames" <- 
+c(".First.lib", ".Last.value", ".Random.seed", "Design_2.8_2", 
+	"Design_2.8_2_full", "abrasion", "acacia", "aedotplot", "animal", 
+	"anneal", "apple", "ara", "balance", "barleyp", "basemtf", "batch",
+	"bean", "birthweight", "blood", "blyth", "breast", "budworm", "byss",
+	"c3c4", "catalystm", "cc135", "cc176", "cement", "census4", "cereals",
+	"chimp", "circuit", "co2", "concord", "crash", "crime", "darwin", 
+	"diamond", "display", "distress", "draft", "drunk", "eggs", "elnino",
+	"employM16", "energy", "esr", "exdate", "expdays", "expper", 
+	"fabricwear", "fat", "fat.dat", "feed", "filmcoat", "filter", 
+	"fruitflies", "furnace", "gar12", "gate", "girlht", "glasses", "golf",
+	"green", "gum", "gunload", "har1", "har2", "har3", "hardness", 
+	"heartvalve", "hooppine", "hospital", "hotdog", "houseprice", "hpErie",
+	"htwt", "iceskate", "icu", "income", "inconsistent", "intubate", 
+	"invexp", "invgate", "invgate2", "ip", "ironpot", "kangaroo", "kidney",
+	"kyphosis", "lake", "ldate", "leukemia", "lft.asat", "lifeins", 
+	"linvgate", "listp", "logage", "logappl", "logbaths", "logbeds", 
+	"logdra", "logiexp", "logkita", "loglot", "loglp", "logpdisc", 
+	"lograte", "logsp", "logstor", "logtime", "longley", "longlp", 
+	"longtom", "lotsize", "lotsizef", "lpsp", "lshh", "lymph", "maiz",
+	"manhours", "market", "mice", "mileage", "mortality", "mpg", "muscle",
+	"njgolf", "njgolf2", "noappl", "nobase", "normtemp", "notch", "nottem",
+	"oats", "odoffna", "operator", "own", "ozone", "paper", "patient",
+	"pdisc", "plasma", "political", "potency", "pox", "primf", "product",
+	"psycho", "pulmonary", "pulse", "radioact", "rellp", "reltom", "rent",
+	"retard", "rhiz.alfalfa", "rhiz.clover", "rhizobium1", "rhizobium3",
+	"salary", "salinity", "salk", "sdate", "seeding", "selfexam", "setdate",
+	"shipment", "shortlp", "shorttom", "sickle", "skateslc", "smokers",
+	"spacshu", "spindle", "sprint", "stopdist", "stylef", "surface", 
+	"tablet1", "teachers", "testing", "testscore", "time.months", "tires",
+	"tom", "tomlp", "tomper", "tomrlp", "tongue", "tser.mystery.X", 
+	"tser.mystery.Y", "tser.mystery.Z", "tsq", "turkey", "tv", "usair",
+	"uscrime", "vocab", "vulcan", "washday", "water", "weightloss", "weld",
+	"wheat", "wool", "workstation", "yates", "yatesppl")
+
+## > rnames <- ls()
+## > dump(rnames)
+rnames <-
+c("abrasion", "acacia", "aedotplot", "animal", "anneal", "apple", 
+"ara", "balance", "barleyp", "batch", "bean", "birthweight", 
+"blood", "blyth", "breast", "budworm", "byss", "c3c4", "catalystm", 
+"cc135", "cc176", "cement", "census4", "cereals", "chimp", "circuit", 
+"co2", "concord", "crash", "crime", "darwin", "Design_2.8_2", 
+"Design_2.8_2_full", "diamond", "display", "distress", "draft", 
+"drunk", "eggs", "elnino", "employM16", "energy", "esr", "fabricwear", 
+"fat", "fat.dat", "feed", "filmcoat", "filter", "fruitflies", 
+"furnace", "girlht", "glasses", "golf", "gum", "gunload", "har1", 
+"har2", "har3", "hardness", "heartvalve", "hooppine", "hospital", 
+"hotdog", "houseprice", "hpErie", "htwt", "i", "iceskate", "icu", 
+"income", "inconsistent", "intubate", "ip", "ironpot", "kangaroo", 
+"kidney", "kyphosis", "lake", "leukemia", "lft.asat", "lifeins", 
+"longley", "lshh", "lymph", "maiz", "manhours", "market", "mice", 
+"mileage", "mortality", "mpg", "muscle", "njgolf", "normtemp", 
+"notch", "nottem", "oats", "odoffna", "operator", "ozone", "paper", 
+"patient", "plasma", "political", "potency", "pox", "product", 
+"psycho", "pulmonary", "pulse", "radioact", "rent", "retard", 
+"rhiz.alfalfa", "rhiz.clover", "rhizobium1", "rhizobium3", "salary", 
+"salinity", "salk", "seeding", "selfexam", "shipment", "sickle", 
+"skateslc", "smokers", "spacshu", "spindle", "sprint", "stopdist", 
+"surface", "tablet1", "teachers", "testing", "testscore", "tires", 
+"tongue", "tser.mystery.X", "tser.mystery.Y", "tser.mystery.Z", 
+"tsq", "turkey", "tv", "usair", "uscrime", "vocab", "vulcan", 
+"washday", "water", "weightloss", "weld", "wheat", "wool", "workstation", 
+"yates", "yatesppl")
+
+
+> rnames[!rnames %in% snames]
+[1] "i"
+> snames[!snames %in% rnames]
+ [1] ".First.lib"  
+ [2] ".Last.value" 
+ [3] ".Random.seed"
+ [4] "basemtf"     
+ [5] "exdate"      
+ [6] "expdays"     
+ [7] "expper"      
+ [8] "gar12"       
+ [9] "gate"        
+[10] "green"       
+[11] "invexp"      
+[12] "invgate"     
+[13] "invgate2"    
+[14] "ldate"       
+[15] "linvgate"    
+[16] "listp"       
+[17] "logage"      
+[18] "logappl"     
+[19] "logbaths"    
+[20] "logbeds"     
+[21] "logdra"      
+[22] "logiexp"     
+[23] "logkita"     
+[24] "loglot"      
+[25] "loglp"       
+[26] "logpdisc"    
+[27] "lograte"     
+[28] "logsp"       
+[29] "logstor"     
+[30] "logtime"     
+[31] "longlp"      
+[32] "longtom"     
+[33] "lotsize"     
+[34] "lotsizef"    
+[35] "lpsp"        
+[36] "njgolf2"     
+[37] "noappl"      
+[38] "nobase"      
+[39] "own"         
+[40] "pdisc"       
+[41] "primf"       
+[42] "rellp"       
+[43] "reltom"      
+[44] "sdate"       
+[45] "setdate"     
+[46] "shortlp"     
+[47] "shorttom"    
+[48] "stylef"      
+[49] "time.months" 
+[50] "tom"         
+[51] "tomlp"       
+[52] "tomper"      
+[53] "tomrlp"      
+> 

@@ -156,10 +156,7 @@ See also
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{panel.interaction2wt}}}
 \examples{
-vulcan <- read.table(hh("datasets/vulcan.dat"), header=TRUE)
-vulcan$filler <- factor(vulcan$filler)
-position(vulcan$raw) <- (1:4)+.5
-position(vulcan$pretreat) <- 2:4
+data(vulcan)
 if.R(s={old.omd=par(omd=c(.1,1,.03,1))}, r={})
 if.R(r=
      interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,

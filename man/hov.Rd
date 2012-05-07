@@ -49,14 +49,11 @@ Brown, M.~B. and Forsyth, A.~B. (1974).
 \emph{Journal of the American Statistical Association}, 69:364--367.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{ \code{\link[stats]{aov}},  \code{\link{plot.hov}}}
+\seealso{ \code{\link[stats]{aov}},  \code{\link{hovPlot}}}
 \examples{
-turkey <- read.table(hh("datasets/turkey.dat"), header=FALSE)
-names(turkey) <- c("diet","wt.gain")
-turkey$diet <- factor(turkey$diet,
-                      labels=c("control","A1","A2","B1","B2"))
+data(turkey)
 
 hov(wt.gain ~ diet, data=turkey)
-plot.hov(wt.gain ~ diet, data=turkey)
+hovPlot(wt.gain ~ diet, data=turkey)
 }
 \keyword{ models }

@@ -182,13 +182,21 @@ plot.multicomp.hh <-
        )
 }
 
+plot.matchMMC <- function(...)
+  .Defunct("plotMatchMMC", package="HH")
 
-plot.matchMMC <- function(x, ...,
-                          xlabel.print=FALSE,
-                          cex.axis=par()$cex.axis,
-                          col.signif='red', main="",
-                          ylabel.inside=FALSE,
-                          y.axis.side=4) {
+plotMatchMMC <- function(x, ...,
+                         xlabel.print=FALSE,
+                         cex.axis=par()$cex.axis,
+                         col.signif='red', main="",
+                         ylabel.inside=FALSE,
+                         y.axis.side=4,
+                         adjusted=FALSE) {
+  if (inherits(x, "mmc.multicomp")) {
+    x <- if (!is.null(x$lmat)) x$lmat else x$mca
+  }
+  if (!inherits(x, "multicomp.hh"))
+    stop('plotMatchMMC requires a "multicomp.hh" or "mmc.multicomp" object.')
   if.R(s={
     old.xpd <- par(xpd=TRUE)
     xlim <- par()$usr[1:2]
@@ -201,9 +209,14 @@ plot.matchMMC <- function(x, ...,
     invisible(par(old.xpd))
   },
        r={
-         plot(x,
-              xlim=par()$usr[1:2], xaxs="i", yaxt="n",
-              main=main, xlab="", cex.axis=cex.axis)
+         if (adjusted) 
+           plot.multicomp.adjusted(x,
+                xlim=par()$usr[1:2], xaxs="i", yaxt="n",
+                main=main, xlab="", cex.axis=cex.axis)
+         else
+           plot(x,
+                xlim=par()$usr[1:2], xaxs="i", yaxt="n",
+                main=main, xlab="", cex.axis=cex.axis)
          signif <- apply(x$table[,c("lower","upper"), drop=FALSE], 1, prod) > 0
          yval <- rev(seq(along=signif))
          if (!all(!signif)) {
@@ -229,5 +242,5 @@ plot.matchMMC <- function(x, ...,
        }
        )
 }
-
+## assignInNamespace("plotMatchMMC", plotMatchMMC, "HH")
 ## source("c:/HOME/rmh/HH-R.package/HH/R/plot.multicomp.R")

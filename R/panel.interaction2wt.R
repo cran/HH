@@ -134,7 +134,7 @@ function(x, y, subscripts,
     if (simple) {
       suff.data <-
         sufficient(data.frame(y, x, tt=trace.values[subscripts]),
-                   y="y", c("x", "tt"))
+                   yname="y", c("x", "tt"))
 
       ioh.list <- list(suff.data$x, suff.data$tt)
       names(ioh.list) <- c(x.name, trace.name)
@@ -470,7 +470,7 @@ legendGrob2wt <-   function(...) ## ...is key1, key2, etc
                 widths = do.call(max, key.widths),
                 respect = TRUE)
   key.gf <- frameGrob(layout = key.layout)
-  for (i in `seq_len`(nkeys))
+  for (i in seq(length=nkeys))
     {
       key.gf <- placeGrob(key.gf, keys[[i]], row = i, col = 1)
     }

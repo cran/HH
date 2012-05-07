@@ -191,4 +191,8 @@ njgolf$ex.ymd  <- njgolf$exday   <- njgolf$exmonth <- njgolf$exyear  <- NULL
 njgolf$set.ymd <- njgolf$setday  <- njgolf$setmonth<- njgolf$setyear <- NULL
 
 remove(list=names(tmp))
-rm(sdate.origin, tmp, njgolf2)
+if.R(r={
+  rm(i, sdate.origin, tmp, njgolf2)
+}, s={
+  rm(tmp, njgolf2)
+})

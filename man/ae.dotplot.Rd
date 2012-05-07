@@ -192,13 +192,13 @@ Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 ##
 ## Input sort order is PREF/RAND
 
-aeanonym <- read.table(hh("datasets/aedotplot.dat"), header=TRUE, sep=",")
-aeanonym[1:4,]
+data(aeanonym)
+head(aeanonym)
 
 ## Calculate log relative risk and confidence intervals (95% by default).
 ## logrelrisk sets the sort order for PREF to match the relative risk.
 aeanonymr <- logrelrisk(aeanonym)
-aeanonymr[1:4,]
+head(aeanonymr)
 
 ## construct and print plot on current graphics device
 ae.dotplot(aeanonymr,

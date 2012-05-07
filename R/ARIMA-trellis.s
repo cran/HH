@@ -204,7 +204,7 @@ tsdiagplot <- function(x,
   method <- armas[[nrow(armas), ncol(armas)]]$method
   mm <- arima.model(armas[[nrow(armas), ncol(armas)]])
   mm[[1]]$order[c(1,3)] <- c("p","q")
-  mmc <- as.character.arima.model(model=mm)
+  mmc <- as.character(mm)
   series <- sum.armas$series
   main.diag <- paste("series:", series, "  model:", mmc, "  by", method)
   result <- list(
@@ -479,15 +479,17 @@ else {
   result
 }
 
+seqplot.forecast <- function(...)
+  .Defunct("seqplotForecast", package="HH")
 
-seqplot.forecast <- function(xts, forecast, multiplier=1.96,
-                             series=deparse(substitute(observed)), ylim,
-                             CI.percent=round((1-2*(1-pnorm(multiplier)))*100,2),
-                             main = paste(
-                               series, " with forecast + ",
-                               CI.percent, "% CI", sep=""),
-                             xlab=NULL, ylab=NULL,
-                             ...) ## x.at, xlim
+seqplotForecast <- function(xts, forecast, multiplier=1.96,
+                            series=deparse(substitute(observed)), ylim,
+                            CI.percent=round((1-2*(1-pnorm(multiplier)))*100,2),
+                            main = paste(
+                              series, " with forecast + ",
+                              CI.percent, "% CI", sep=""),
+                            xlab=NULL, ylab=NULL,
+                            ...) ## x.at, xlim
 {
   ## on input, xts is observed data
   if.R(s={
@@ -569,7 +571,7 @@ summary.arma.loop <- function(object, ...) {
   model <- array("", dim=dim(object), dimnames=dimnames.object)
   for (q in dimnames.object[[2]]) for (p in dimnames.object[[1]]) {
     model.object[[p,q]] <- arima.model(object[[p,q]])
-    model[[p,q]]   <- as.character.arima.model(model=model.object[[p,q]])
+    model[[p,q]]   <- as.character(model.object[[p,q]])
     if (is.null(object[[p,q]]$sigma2)) next
     sigma2[p,q] <- object[[p,q]]$sigma2
     if (is.null(object[[p,q]]$aic)) next
@@ -577,7 +579,7 @@ summary.arma.loop <- function(object, ...) {
 
     if (npar.sarma(model.object[[p,q]], arima=TRUE) == 0) next
     mi.coef <- if.R(r=coef(object[[p,q]]),
-                    s=coef.arima.HH(object[[p,q]]))
+                    s=coefArimaHH(object[[p,q]]))
     coef[[p,q]]  <- mi.coef
     rec.sd <- diag.maybe.null(object[[p,q]]$var.coef)^-.5
     t.coef[[p,q]] <- mi.coef * rec.sd
@@ -589,7 +591,7 @@ summary.arma.loop <- function(object, ...) {
 
   mm <- model.object[[length(object)]]
   mm[[1]]$order[c(1,3)] <- c("p","q")
-  model <- as.character.arima.model(model=mm)
+  model <- as.character(mm)
 
   list(series=object[[2]]$series, model=model, sigma2=sigma2, aic=aic,
        coef=coef, t.coef=t.coef)
@@ -674,7 +676,7 @@ diag.arma.loop <- function(z, x=stop("The time series x is needed in S-Plus when
   }
   mm <- arima.model(z[[length(z)]])
   mm[[1]]$order[c(1,3)] <- c("p","q")
-  attr(d,"model") <- as.character.arima.model(model=mm)
+  attr(d,"model") <- as.character(mm)
   class(d) <- "diag.arma.loop"
   d
 }

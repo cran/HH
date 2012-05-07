@@ -1,19 +1,20 @@
 \name{seqplot.forecast}
-\alias{seqplot.forecast}
+%% \alias{seqplot.forecast} %% old name
+\alias{seqplotForecast}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{seqplot with confidence bands for the forecast region.}
 \description{
   \code{seqplot} with confidence bands for the forecast region.
 }
 \usage{
-seqplot.forecast(xts, forecast, multiplier = 1.96,
-                 series = deparse(substitute(observed)), ylim,
-                 CI.percent=round((1-2*(1-pnorm(multiplier)))*100,2),
-                 main = paste(
-                 series, " with forecast + ",
-                 CI.percent, "\% CI", sep=""),
-                 xlab=NULL, ylab=NULL,
-                 ...) ## x.at, xlim
+seqplotForecast(xts, forecast, multiplier = 1.96,
+                series = deparse(substitute(observed)), ylim,
+                CI.percent=round((1-2*(1-pnorm(multiplier)))*100,2),
+                main = paste(
+                series, " with forecast + ",
+                CI.percent, "\% CI", sep=""),
+                xlab=NULL, ylab=NULL,
+                ...) ## x.at, xlim
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

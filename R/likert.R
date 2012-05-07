@@ -1,14 +1,17 @@
+likert <- function(x, ..., xName=deparse(substitute(x))) ## simplifies calling sequence
+  plot.likert(x, ..., xName=xName)
+
 plot.likert <- function(x, ...)
   UseMethod("plot.likert")
 
 
-## yscale.components.right.HH.good <- function(...) {
-##   ans <- yscale.components.default(...)
-##   ans$right <- ans$left
-##   ans$right$labels$labels <- names(ans$left$labels$labels) ## this requires named left labels!
-##   ans
-## }
-## ## environment(yscale.components.right.HH) <- environment(plot.likert)
+xscale.components.top.HH <- function(...) {
+  ans <- xscale.components.default(...)
+  ans$top <- ans$bottom
+  ans$top$labels$labels <- names(ans$top$labels$labels) ## this requires named bottom labels!
+  ans
+}
+## environment(xscale.components.top.HH) <- environment(plot.likert)
 
 yscale.components.right.HH <- function(...) {
   ans <- yscale.components.default(...)
@@ -18,41 +21,19 @@ yscale.components.right.HH <- function(...) {
 }
 ## environment(yscale.components.right.HH) <- environment(plot.likert)
 
-## yscale.components.right.HH.list.of.panels.NorightAxis <- function(...) {
-##   ans <- yscale.components.default(...)
-##   lr <- list(...)$right
-##   if (!is.null(lr) && lr) {
-##     ans$right <- ans$left
-##     ans$right$labels$labels <- get("x", env=sys.parent())$y.limits.right[list(...)[[1]]]
-##   }
-##   ans
-## }
-## ## environment(yscale.components.right.HH) <- environment(plot.likert)
 
-## yscale.components.right.HH.list.of.panels <- function(...) { ## currently unused
-##   ans <- yscale.components.default(...)
-##   ans$right <- ans$left
-##   scalls <- sys.calls()
-##   my.calls <- sapply(scalls, `[[`, 1)
-##   which.call <- match("print.trellis", my.calls)
-##   ylr <- scalls[[which.call]][[2]]$y.limits.right
-##   yl <- scalls[[which.call]][[2]]$y.limits
-##   ##recover()
-##   ans$right$labels$labels <- names(ans$right$labels$labels)
-##   ans
+panel.likert <- function(...)
+  .Defunct("panel.barchart", package="HH")
+## panel.likert <- function(..., rightAxisLabels, rightAxis) {
+##   panel.barchart(...)
+##   if (rightAxis) panel.axis.right(side="right", at=1:length(rightAxisLabels),
+##                                   labels=rightAxisLabels, outside=TRUE)
 ## }
-## ## environment(yscale.components.right.HH) <- environment(plot.likert)
-
-panel.likert <- function(..., rightAxisLabels, rightAxis) {
-  panel.barchart(...)
-  if (rightAxis) panel.axis.right(side="right", at=1:length(rightAxisLabels),
-                                  labels=rightAxisLabels, outside=TRUE)
-}
 
 plot.likert.default <- function(x,
                                 positive.order=FALSE,
                                 ylab=names(dimnames(x)[1]),
-                                xlab="Frequency",
+                                xlab=if (as.percent != FALSE) "Percent" else "Count",
                                 main=xName,
                                 BrewerPaletteName="RdBu",
                                 ## These are the diverging palettes in RColorBrewer
@@ -61,27 +42,40 @@ plot.likert.default <- function(x,
                                 reference.line.col="gray65",
                                 middle.color="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.color in the RdBu scheme
                                 col.strip.background="gray97",
-                                col=brewer.pal.likert(attr(x, "nlevels"), BrewerPaletteName, middle.color),
+                                col=likertColor(attr(x, "nlevels"),
+                                  ReferenceZero, BrewerPaletteName, middle.color),
                                 as.percent=FALSE,
+                                par.settings.in=NULL,
+                                horizontal=TRUE,
+                                ReferenceZero=NULL,
                                 ...,
                                 key.border.white=TRUE,
                                 xName=deparse(substitute(x)),
                                 rightAxisLabels=rowSums(abs(x)),
                                 rightAxis=!missing(rightAxisLabels),
-                                ylab.right=if (rightAxis) "Row Totals" else NULL,
+                                ylab.right=if (rightAxis) "Row Count Totals" else NULL,
                                 panel=panel.barchart,
-                                yscale.components=yscale.components.right.HH) {
+                                xscale.components=xscale.components.top.HH,
+                                yscale.components=yscale.components.right.HH,
+                                xlimEqualLeftRight=FALSE,
+                                xTickLabelsPositive=TRUE,
+                                reverse=FALSE) {
   force(xName)
   ## rightAxisMissing <- missing(rightAxis)  ## needed by as.percent
   x.input <- x
-  x <- as.likert(x, reverse=TRUE)
+  if (is.null(dim(x))) {
+    x <- t(x)
+    dimnames(x)[[1]] <- ""
+  }
   force(rightAxis)
   force(rightAxisLabels)
   force(ylab.right)
   ## BrewerPaletteName <- match.arg(BrewerPaletteName)
   if (as.percent != FALSE) {
-    x.pct <- x.input / rowSums(abs(x.input)) * 100
-    x <- as.likert(x.pct, reverse=TRUE)
+    x.pct <- x / rowSums(abs(x)) * 100
+    x.pct[x==0] <- 0
+    x <- as.likert(x.pct,
+                   ReferenceZero=ReferenceZero)
     if (as.percent != "noRightAxis") {
       rightAxis <- TRUE
       if (is.null(ylab.right))
@@ -89,17 +83,36 @@ plot.likert.default <- function(x,
     }
     else
       rightAxis <- FALSE
+  } else {
+    x <- as.likert(x,
+                   ReferenceZero=ReferenceZero)
   }
-##recover()
+  
+  if (!is.null(ReferenceZero) && !is.null(attr(x, "ReferenceZero"))) {
+    if (ReferenceZero != attr(x, "ReferenceZero"))
+      warning(paste('(Argument ReferenceZero = ', ReferenceZero, ') != (',
+                    'as.likert ReferenceZero = ', attr(x, "ReferenceZero"), ')\n',
+                    'as.likert ReferenceZero =', attr(x, "ReferenceZero"),
+                    'will be used.'))
+  }
+  if (is.null(ReferenceZero) && !is.null(attr(x, "ReferenceZero")))
+    ReferenceZero <- attr(x, "ReferenceZero")
+  if (!is.null(ReferenceZero) && is.null(attr(x, "ReferenceZero")))
+    warning(paste('(Argument ReferenceZero = ', ReferenceZero, ') != (',
+                  'as.likert ReferenceZero = NULL)\n',
+                  'Argument ReferenceZero will be ignored.'))
 
-  auto.key.likert <- list(title=names(dimnames(x)[2]),
-                          text=attr(x, "levels"),
+  key.title <- names(dimnames(x)[2])
+  if (is.null(key.title)) key.title <- " "
+  auto.key.likert <- list(title=key.title,
+                          lines.title=1.5,
+                          text=attr(x, "original.levels"),
                           cex=.7,
                           border=FALSE,
                           height=1,
                           space="bottom",
                           columns=attr(x, "nlevels"),
-##                          columns=min(2, length(attr(x, "levels"))), ## attr(x, "nlevels"),
+##                          columns=min(2, length(attr(x, "original.levels"))), ## attr(x, "nlevels"),
                           padding.text=1,
                           size=2,
                           between=.5,
@@ -112,7 +125,7 @@ plot.likert.default <- function(x,
                           rectangles=FALSE) ## This line is necessary and not redundant.
 
   dotdotdot <- list(...)
-  if (match("auto.key", names(dotdotdot), 0) != 0) {
+  if (!is.null(dotdotdot$auto.key)) {
     ak <- dotdotdot$auto.key
     auto.key.likert[names(ak)] <- ak
     dotdotdot$auto.key <- NULL
@@ -121,6 +134,8 @@ plot.likert.default <- function(x,
   ##   col=col, border=col,
   ##   height=auto.key.likert$height, size=auto.key.likert$size)
 
+  dotdotdot$scales$alternating <- 1
+  
   if (missing(ylab) && (is.null(ylab)||is.na(ylab))) ylab <- NULL
   ## RColorBrewer diverging palettes: c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral")
   ## These are the middle colors from RCOlorBrewer:
@@ -136,124 +151,248 @@ plot.likert.default <- function(x,
   ## [1] "RdYlGn"   "#FFFFBF"
   ## [1] "Spectral" "#FFFFBF"
 
-  nc <- ncol(x)
-  if (missing(middle.color)) middle.color ## "#F7F7F7"
-  ## if middle.color is missing as an argument, then use the default value from the argument list
-  if (attr(x, "even.col")) {
-    likert.palette=col[c((nc/2):1, ((nc/2)+1):nc)]
-  }
-  else {
-    likert.palette=col[c((nc/2):1, ((nc/2)+1):(nc-1))]
-  }
+  ## nc <- ncol(x)
+  ## if (missing(middle.color)) middle.color ## "#F7F7F7"
+  ## ## if middle.color is missing as an argument, then use the default value from the argument list
+  ## if (attr(x, "even.col")) { ## no zero to split
+  ##   likert.palette <- col[c((nc/2):1, ((nc/2)+1):nc)]
+  ## }
+  ## else { ## yes zero to split
+  ##   likert.palette <- col[c((nc/2):1, ((nc/2)+1):(nc-1))]
+  ## }
+  likert.palette <- col[attr(x, "color.seq")]
+
   if (positive.order) {
-    x.attr <- attributes(x)
-    x.attr$dim <- NULL
-    x.attr$dimnames <- NULL
-    x.attr$original.order <- order(x.attr$positive.order)
-    x <- x[x.attr$positive.order,, drop=FALSE]
-    attributes(x)[names(x.attr)] <- x.attr
-    rightAxisLabels <- rightAxisLabels[x.attr$positive.order]
+    ## x.attr <- attributes(x)
+    ## x.attr$dim <- NULL
+    ## x.attr$dimnames <- NULL
+    ## x.attr$original.order <- order(x.attr$positive.order)
+    ## x[] <- x[x.attr$positive.order,, drop=FALSE]
+    ## attributes(x)[names(x.attr)] <- x.attr
+    ## rightAxisLabels <- rightAxisLabels[x.attr$positive.order] ## rev(rev(rightAxisLabels)[x.attr$positive.order])
+    pos.order <- attr(x, "positive.order")
+    attr(x, "original.order") <- order(pos.order)
+    x[] <- x[pos.order, , drop=FALSE]
+    dimnames(x)[[1]] <- dimnames(x)[[1]][pos.order]
+    rightAxisLabels <- rightAxisLabels[pos.order]
   }
+  if ((horizontal + positive.order + reverse) %% 2) { ## if one or three, then reverse
+    x <- rev(x)
+    rightAxisLabels <- rev(rightAxisLabels)
+  }
+  
+  par.settings <- list(strip.background=list(col=col.strip.background),
+                       reference.line=list(col=reference.line.col),
+                       layout.heights=list(
+                         main.key.padding=2.5,
+                         key.axis.padding=0,
+                         axis.top=.75,
+                         xlab.key.padding=2),
+                       layout.widths=list(
+                         ylab.right=if (rightAxis) 5 else
+                         trellis.par.get("layout.widths")$ylab.right,
+                         right.padding=if (rightAxis) 0 else
+                         trellis.par.get("layout.widths")$right.padding),
+                       clip=list(panel="off"))
+  par.settings[names(par.settings.in)] <- par.settings.in
   barchart.args <- list(x=x,
+                        as.table=TRUE,
                         col=likert.palette,
                         border=likert.palette,
                         auto.key=auto.key.likert,
                         xlab=xlab, ylab=ylab,
                         ylab.right=ylab.right,
-                        par.settings=list(
-                          strip.background=list(col=col.strip.background),
-                          reference.line=list(col=reference.line.col),
-                          layout.heights=list(
-                            main.key.padding=2.5,
-                            key.axis.padding=0,
-                            axis.top=.75,
-                            xlab.key.padding=2),
-                          clip=list(panel="off")),
+                        par.settings=par.settings,
                         reference.line=TRUE,
                         main=main,
-                        rightAxisLabels=rightAxisLabels,
-                        rightAxis=rightAxis,
+                        horizontal=horizontal,
+                        ## rightAxisLabels=rightAxisLabels,
+                        ## rightAxis=rightAxis,
                         panel=panel,
+                        xscale.components=xscale.components,
                         yscale.components=yscale.components)
   barchart.args[names(dotdotdot)] <- dotdotdot
-  if (!is.null(barchart.args$horizontal) && !barchart.args$horizontal) {
+  ## if (!is.null(barchart.args$horizontal) && !barchart.args$horizontal) {
+  ##   tmp <- barchart.args$xlab
+  ##   barchart.args$xlab <- barchart.args$ylab
+  ##   barchart.args$ylab <- tmp
+  ## } else {
+  ##   barchart.args$horizontal <- TRUE
+  ## }
+  if (is.null(barchart.args$horizontal))
+    barchart.args$horizontal <- TRUE
+  if (!barchart.args$horizontal) {
     tmp <- barchart.args$xlab
     barchart.args$xlab <- barchart.args$ylab
     barchart.args$ylab <- tmp
   }
-  ## if (barchart.args$rightAxis) {
-  ##   barchart.args$par.settings$layout.widths$axis.key.padding <- 6
-  ##   ## this is a glitch until I understand layout.widths$right.axis
-  ## }
-  result <-do.call("barchart", barchart.args)
+  result <- do.call("barchart", barchart.args)
   if (rightAxis) {
-    result$y.scales$alternating <- 3
-##    result$y.limits.right <- rightAxisLabels
-    names(result$y.limits) <- rightAxisLabels
-    class(result) <- c("trellis.right.HH", class(result))
+    if (barchart.args$horizontal) {
+      result$y.scales$alternating <- 3
+      names(result$y.limits) <- rightAxisLabels ## rev(rightAxisLabels)
+      result$y.scales$tck <- c(1, 1)
+      result$y.scales$col.line <- 0
+    } else {
+      result$x.scales$alternating <- 3
+      names(result$x.limits) <- rightAxisLabels
+    }
+    ## class(result) <- c("trellis.right.HH", class(result))
   }
+
+  if (horizontal) {
+    if (xlimEqualLeftRight
+        ## &&
+        ## (is.null(list(...)$xlim) &&
+        ##  is.null(list(...)$scales$limits) &&
+        ##  is.null(list(...)$scales$x$limits))
+        ) result$x.limits <- c(-1,1) * max(abs(result$x.limits))
+    
+    if (xTickLabelsPositive
+        &&
+        (is.null(list(...)$scales$labels) &&
+         is.null(list(...)$scales$x$labels))
+        ) {
+      if (!is.numeric(result$x.scales$at)) {
+        x.range <- result$x.limits
+        tn <- list(...)$scales$x$tick.number
+        if (is.null(tn)) tn <- list(...)$scales$tick.number
+        if (is.null(tn)) tn <- formals(pretty.default)$n
+        result$x.scales$at <- pretty(x.range, tn)
+      }
+      result$x.scales$labels <- abs(result$x.scales$at)
+    }
+  } else { ## vertical
+    if (xlimEqualLeftRight
+        ## &&
+        ## (is.null(list(...)$ylim) &&
+        ##  is.null(list(...)$scales$limits) &&
+        ##  is.null(list(...)$scales$y$limits))
+        ) result$y.limits <- c(-1,1) * max(abs(result$y.limits))
+    
+    if (xTickLabelsPositive
+        &&
+        (is.null(list(...)$scales$labels) &&
+         is.null(list(...)$scales$y$labels))
+        ) {
+      if (!is.numeric(result$y.scales$at)) {
+        y.range <- result$y.limits
+        tn <- list(...)$scales$y$tick.number
+        if (is.null(tn)) tn <- list(...)$scales$tick.number
+        if (is.null(tn)) tn <- formals(pretty.default)$n
+        result$y.scales$at <- pretty(y.range)
+      }
+      result$y.scales$labels <- abs(result$y.scales$at)
+    }
+  }
+
+  result$axis <- HH:::axis.RightAdjustRight
   result
 }
 ## environment(plot.likert.default) <- environment(plot.likert)
+## assignInNamespace("plot.likert.default", plot.likert.default, "HH")
 
 plot.likert.array <- function(x,  ## an array
                               condlevelsName=paste(names(dimnames(x))[-(1:2)], collapse="."),
                               xName=deparse(substitute(x)),
                               main=paste("layers of", xName, "by", condlevelsName),
-                              layout=c(1, length(dim(x))-2),
+                              layout=if (horizontal) c(1, length(dim(x))-2) else c(length(dim(x))-2, 1),
                               positive.order=FALSE,
                               strip=TRUE,
                               strip.left=TRUE,
-                              strip.left.values=rev(names(tt.pl)), ## constructed from dimnames(x)[-(1:2)]
-                              strip.values=rev(names(tt.pl)),
+                              strip.left.values=names(x.pl), ## constructed from dimnames(x)[-(1:2)]
+                              strip.values=names(x.pl),
                               strip.left.par=list(cex=1, lines=1),
-                              ...) {
+                              horizontal=TRUE,
+                              ...,
+                              resize.height=c("nrow","rowSums"),
+                              resize.width=1) {
+  force(condlevelsName)
   force(xName)
   if (length(dim(x))==2) NextMethod("plot.likert")
-  tt <- as.MatrixList.array(x)  ## list of matrices, one per each layer of array
-  tt.pl <- lapply(tt, plot.likert, positive.order=positive.order, ...) ## named list of likert plots
-  tt.pl.nonames <- tt.pl ## if (strip.left) about to become unnamed list of likert plots
-  names(tt.pl.nonames) <- NULL ## names are removed
+  if (class(resize.height)=="character") {
+    resize.height <- switch(match.arg(resize.height),
+                            nrow=rep(dim(x)[1], layout[2])+1,
+                            rowSums=apply(x, length(dim(x)), function(x) sum(abs(x))),
+                            stop("invalid value for resize.height"))
+  }
+  if (length(resize.height) != layout[2])
+    stop("Wrong length for resize.height.")
+  x <- as.MatrixList(x)  ## list of matrices, one per each layer of array
+  x <- lapply(x, as.likert, ...)
+  x.pl <- lapply(x, plot.likert, positive.order=positive.order, horizontal=horizontal, ...) ## named list of likert plots
+  x.pl.nonames <- x.pl ## if (strip.left) about to become unnamed list of likert plots
+  names(x.pl.nonames) <- NULL ## names are removed
+
   if (strip.left) {
-    ResizeEtc(do.call("c", rev(tt.pl.nonames)),
-              condlevelsName=condlevelsName,
-              x.same=TRUE,
-              layout=layout,
-              strip=strip,
-              strip.left.values=strip.left.values,
-              strip.left.par=strip.left.par,
-              resize.height=rep(dim(x)[1], layout[2])+1,
-              main=main)
+    ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+                         x,
+                         x.pl.nonames,
+                         horizontal=horizontal,
+                         condlevelsName=condlevelsName,
+                         x.same=horizontal, y.same=!horizontal,
+                         layout=layout,
+                         strip=strip,
+                         strip.left.values=strip.left.values,
+                         strip.left.par=strip.left.par,
+                         resize.height=resize.height,
+                         resize.width=resize.width,
+                         main=main)
   } else {
-    ResizeEtc(do.call("c", rev(tt.pl.nonames)),
-            condlevelsName=condlevelsName,
-              x.same=TRUE,
-              layout=layout,
-              strip=strip,
-              strip.values=strip.values,
-              resize.height=rep(dim(x)[1], layout[2])+1,
-              main=main)
+    ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+                         x,
+                         x.pl.nonames,
+                         horizontal=horizontal,
+                         condlevelsName=condlevelsName,
+                         x.same=horizontal, y.same=!horizontal,
+                         layout=layout,
+                         strip=strip,
+                         strip.values=strip.values,
+                         resize.height=resize.height,
+                         resize.width=resize.width,
+                         main=main)
   }
 }
+## environment(plot.likert.array) <- environment(plot.likert)
+
 
 plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftables, or 2D structables, or all-numeric data.frames
                              condlevelsName="ListNames",
                              xName=deparse(substitute(x)),
                              main=paste("List items of", xName, "by", condlevelsName),
-                             layout=c(1, length(x)),
+                             layout=if (horizontal) c(1, length(x)) else c(length(x), 1),
                              positive.order=FALSE,
-                             strip=TRUE,
-                             strip.left=TRUE,
-                             strip.left.values=rev(names(x)),
-                             strip.values=rev(names(x)),
+                             strip=!horizontal,
+                             strip.left=horizontal,
+                             strip.left.values=names(x),
+                             strip.values=names(x),
+                             strip.par=list(cex=1, lines=1),
                              strip.left.par=list(cex=1, lines=1),
-                             main.middle=.5,
+                             horizontal=TRUE,
                              ...,
-                             rightAxisLabels=sapply(x, rowSums, simplify=FALSE),
+                             rightAxisLabels=sapply(x, function(x) rowSums(abs(x)), simplify=FALSE),
                              rightAxis=!missing(rightAxisLabels),
                              resize.height.tuning=-.5,
+                             resize.height=if (missing(layout)) {
+                               c("nrow","rowSums")
+                             } else {
+                               rep(1, layout[2])
+                             },
+                             resize.width=if (missing(layout)) {1 } else {
+                               rep(1, layout[1])
+                             },
+                             box.ratio=if (
+                               length(resize.height)==1 &&
+                               resize.height == "rowSums") 1000 else 2,
+                             xscale.components=xscale.components.top.HH,
                              yscale.components=yscale.components.right.HH) {
   force(xName)
+  force(layout)
+  force(resize.height)
+  force(resize.width)
+  force(box.ratio)
+  if (!is.null(dim(x))) stop(paste(xName, " has dimension=", deparse(dim(x)),
+                                   ". plot.likert.list requires a list without a dim attribute.", sep=""))
   for (nxi in names(x)) { ## convert vectors to single-row matrices
     xi <- x[[nxi]]
     if (is.numeric(xi) && is.null(dim(xi))) x[[nxi]] <- t(xi)
@@ -269,42 +408,103 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
     if (sapply(x, function(xx) is.data.frame(xx) && !all(sapply(xx, is.numeric))))
       stop("A data.frame in a plot.likert.list argument must have only numeric columns.")
   }
-  nRows <- sapply(x, nrow)
+  if (class(resize.height)=="character") {
+    if (resize.height=="rowSums" && !all(sapply(x, nrow)==1))
+      stop("resize.height='rowSums' is not valid for panels with more than one row.")
+    resize.height <- switch(match.arg(resize.height, c("nrow","rowSums")),
+                            nrow=sapply(x, nrow)+resize.height.tuning,
+                            rowSums=sapply(x, function(x) rowSums(abs(x)), simplify=TRUE),
+                            stop("invalid value for resize.height"))
+  }
+  ## if (length(resize.height) != length(x))
+  ##   stop("Wrong length for resize.height.")
+  if (!horizontal) {
+    tmp <- resize.height
+    resize.height <- resize.width
+    resize.width <- tmp
+  }
+  if (any(layout != c(length(resize.width), length(resize.height))))
+    warning(paste("Inconsistent layout=", deparse(layout),
+                  "and length(resize.width)=", deparse(length(resize.width)),
+                  "and length(resize.height)=", deparse(length(resize.height))))
   x.pl <- mapply(plot.likert, x,
-                 rightAxisLabels=sapply(rightAxisLabels, rev, simplify=FALSE),
+                 rightAxisLabels=rightAxisLabels,
                  MoreArgs=list(
-                   positive.order=positive.order, ...,
+                   positive.order=positive.order, horizontal=horizontal, ...,
+                   box.ratio=box.ratio,
                    rightAxis=rightAxis,
+                   xscale.components=xscale.components,
                    yscale.components=yscale.components),
-                  SIMPLIFY=FALSE, USE.NAMES=TRUE)  ## named list of likert plots
+                 SIMPLIFY=FALSE, USE.NAMES=TRUE)  ## named list of likert plots
   x.pl.nonames <- x.pl ## if (strip.left) about to become unnamed list of likert plots
   names(x.pl.nonames) <- NULL ## names are removed
+
   result <-
     if (strip.left) {
-      ResizeEtc(do.call("c", rev(x.pl.nonames)),
-                condlevelsName=condlevelsName,
-                x.same=TRUE,
-                layout=layout,
-                strip=strip,
-                strip.left.values=strip.left.values,
-                strip.left.par=strip.left.par,
-                resize.height=rev(nRows+resize.height.tuning),
-                main=main,
-                main.middle=main.middle)
+  ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+                       x,
+                       x.pl.nonames,
+                       horizontal=horizontal,
+                       condlevelsName=condlevelsName,
+                       x.same=horizontal, y.same=!horizontal,
+                       layout=layout,
+                       strip=strip,
+                       strip.left.values=strip.left.values,
+                       strip.left.par=strip.left.par,
+                       resize.height=resize.height,
+                       resize.width=resize.width,
+                       main=main)
     } else {
-      ResizeEtc(do.call("c", rev(x.pl.nonames)),
-                condlevelsName=condlevelsName,
-                x.same=TRUE,
-                layout=layout,
-                strip=strip,
-                strip.values=strip.values,
-                resize.height=rev(nRows+resize.height.tuning),
-                main=main,
-                main.middle=main.middle)
-    }
-  result$y.limits.right <- rightAxisLabels
+  ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+                       x,
+                       x.pl.nonames,
+                       horizontal=horizontal,
+                       condlevelsName=condlevelsName,
+                       x.same=horizontal, y.same=!horizontal,
+                       layout=layout,
+                       strip=strip,
+                       strip.values=strip.values,
+                       strip.par=strip.par,
+                       resize.height=resize.height,
+                       resize.width=resize.width,
+                       main=main)
+}
   result
 }
+## environment(plot.likert.list) <- environment(plot.likert)
+
+
+ResizeEtc.likertPlot <- function(c.list,
+                                 x,
+                                 x.pl.nonames,
+                                 horizontal,
+                                 ...) {
+  result <- ResizeEtc(c.list, ...)
+  
+  ## fix up axes
+  if (any(unlist(lapply(x, attr, "xlimEqualLeftRight")))) {
+    if (horizontal)
+      result$x.limits <- c(-1, 1)*max(abs(result$x.limits))
+    else
+      result$y.limits <- c(-1, 1)*max(abs(result$y.limits)) 
+  }
+  if (any(unlist(lapply(x, attr, "xTickLabelsPositive")))) {
+    if (horizontal) {
+      xscales <- sapply(x.pl.nonames, function(x) x$x.scales[c("at","labels","tick.number")])
+      winner <- which.max(sapply(xscales["at",], function(x) diff(range(x))))
+      result$x.scales$at <- x.pl.nonames[[winner]]$x.scales$at
+      result$x.scales$labels <- x.pl.nonames[[winner]]$x.scales$labels
+    }
+    else {
+      yscales <- sapply(x.pl.nonames, function(x) x$y.scales[c("at","labels","tick.number")])
+      winner <- which.max(sapply(yscales["at",], function(x) diff(range(x))))
+      result$y.scales$at <- x.pl.nonames[[winner]]$y.scales$at
+      result$y.scales$labels <- x.pl.nonames[[winner]]$y.scales$labels
+    }
+  }
+  result
+}
+## environment(ResizeEtc.likert) <- environment(plot.likert)
 
 plot.likert.table <- function(x, ..., xName=deparse(substitute(x))){
   force(xName)
@@ -326,33 +526,6 @@ plot.likert.structable <- function(x, ..., xName=deparse(substitute(x))){
 plot.likert.data.frame <- function(x, ..., xName=deparse(substitute(x))){
   force(xName)
   plot.likert(data.matrix(x), xName=xName, ...)
-}
-
-
-brewer.pal.likert <- function(n, name,  middle.color) {
-  
-  is.odd <- function(x)  x%%2 == 1
-  
-  palette <-
-    if (n <= 2) {
-      bp <- brewer.pal(n=3, name=name)
-      if (n==1) bp[2] else bp[-2]
-    }
-    else {
-      if (n <= 11)
-        brewer.pal(n=n, name=name)
-      else {
-        if (is.odd(n))
-          colorRampPalette(brewer.pal(n=11, name=name))(n)
-        else
-          colorRampPalette(brewer.pal(n=10, name=name))(n)
-      }
-    }
-  if (is.odd(n) && !missing(middle.color)) {
-    middle <- (n %/% 2) + 1
-    palette[middle] <- middle.color
-  }
-  palette
 }
 
 

@@ -1,9 +1,9 @@
-\name{HH_regsubsets}
-\alias{HH_regsubsets}
-\alias{summary_HH}
-\alias{summary_HH.regsubsets}
-\alias{print.summary_HH_regsubsets}
-\alias{plot.summary_HH_regsubsets}
+\name{HH.regsubsets}
+\alias{HH.regsubsets}
+\alias{summaryHH}
+\alias{summaryHH.regsubsets}
+\alias{print.summaryHH.regsubsets}
+\alias{plot.summaryHH.regsubsets}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Display tabular results for Best Subsets Regression.}
 \description{
@@ -17,16 +17,16 @@
 }
 \usage{
 
-`summary_HH`(object, ...)
+`summaryHH`(object, ...)
 
-\method{summary_HH}{regsubsets}(object,
+\method{summaryHH}{regsubsets}(object,
            names = abbreviate(dimnames(incidence)[[2]], minlength = abbrev),
            abbrev = 1, min.size = 1, max.size = dim(sumry$which)[2],
            statistic = c("bic", "cp", "adjr2", "rsq", "rss", "stderr"),
            las = par("las"),
            cex.subsets = 1, ..., main=statistic)
 
-\method{plot}{summary_HH_regsubsets}(x, ...,
+\method{plot}{summaryHH.regsubsets}(x, ...,
            statistic="adjr2", legend=FALSE,
            col="darkgray", cex=1, pch=16,
            col.text="black", cex.text=1, col.abline="darkgray")
@@ -35,7 +35,7 @@
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{ An object of class \code{"regsubsets"}.}
-  \item{x}{ An object of class \code{"summary_HH_regsubsets"}.}
+  \item{x}{ An object of class \code{"summaryHH.regsubsets"}.}
   \item{statistic}{Name of statistic to be plotted for each model.}
   \item{\dots}{ Other arguments to be passed down to
     \code{subsets.regsubsets} and \code{plot}.}
@@ -59,9 +59,9 @@
   statistic is \code{cp}.}
 }
 \value{
-  \code{summary_HH} produces a table of models, with
+  \code{summaryHH} produces a table of models, with
   \code{p, rsq, rss, adjr2, cp, bic, stderr} for each.
-  \code{plot.summary_HH_regsubsets} plots the specified statistic
+  \code{plot.summaryHH.regsubsets} plots the specified statistic
   from the summary.
   All the others are support functions.
 }
@@ -75,7 +75,7 @@
 % data(Prestige, package="car")
 % Subsets.1 <- regsubsets(prestige~census+education+income+women,
 %                         data=Prestige, nbest=2)
-% summary_HH(Subsets.1, statistic.plot='cp')
+% summaryHH(Subsets.1, statistic.plot='cp')
 % },s={}
 % )
 % }

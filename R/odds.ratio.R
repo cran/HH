@@ -1,4 +1,7 @@
-"odds.ratio" <-
+odds.ratio <- function(...)
+  .Defunct("OddsRatio", package="HH")
+
+"OddsRatio" <-
 function(x, alpha=.05) {
   p1 <- x[1,1] / (x[1,1] + x[1,2])
   p2 <- x[2,1] / (x[2,1] + x[2,2])
@@ -7,7 +10,7 @@ function(x, alpha=.05) {
 
   if (length(alpha) != 1  || (alpha < 0 || 1 < alpha))
     stop("alpha must be a number in the range [0,1].")
-  psihat <- omega2 / omega1
+  psihat <- as.numeric(omega2 / omega1)
   s.ln.psihat <- sqrt(sum(1/x))
   ci.ln.psihat <- log(psihat) + c(-1,1) * qnorm(1-alpha/2) * s.ln.psihat
   ci.psihat <- exp(ci.ln.psihat)
@@ -37,7 +40,10 @@ function(x, alpha=.05) {
        ci.prob2 = ci.prob2)
 }
 
-"plot.odds.ratio" <-
+plot.odds.ratio <- function(...)
+  .Defunct("plotOddsRatio", package="HH")
+
+"plotOddsRatio" <-
   function(x,
            ylab="prob(col1 | row1)",
            xlab="prob(col1 | row2)",
@@ -55,7 +61,7 @@ function(x, alpha=.05) {
   old.pty <- par(pty="s")
   old.oma <- par(oma=oma)
   for (i in seq(along=alpha)) {
-    tmp <- odds.ratio(x, alpha[i])
+    tmp <- OddsRatio(x, alpha[i])
     if (i == 1) {
       matplot(y=tmp$prob1, x=cbind(tmp$prob2, tmp$ci.prob2),
               type="l", lty=c(1,3,3), col=1,

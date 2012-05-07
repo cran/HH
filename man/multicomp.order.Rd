@@ -77,10 +77,9 @@ Heiberger, R.~M. and Holland, B. (2006).
 \seealso{\code{\link{MMC}}, \code{\link{as.glht} in R},
   \code{\link{multicomp.reverse}}}
 \examples{
-## continue with the example in glht.mmc in R, or multicomp.mmc in S-Plus
-catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
-                       col.names=c("catalyst","concent"))
-catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
+## continue with the example in mmc in R, or multicomp.mmc in S-Plus
+data(catalystm)
+
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 
 if.R(r={
@@ -89,7 +88,7 @@ catalystm.mca <-
 print(confint(catalystm.mca))
 
 catalystm.mmc <-
-   glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
+   mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
 ## the contrasts have been ordered by height (see ?MMC),
 ## which in this example corresponds to sort.order=c(1,2,4,3,5,6),
 ## and reversed, to make the contrast Estimates positive.
@@ -114,7 +113,7 @@ print(catalystm.mmc$mca)
 ## therefore used in more complex two-way ANOVA examples.  We illustrate
 ## here by changing all factor level "A" to "control".
 print(multicomp.label.change(catalystm.mmc$mca, "A", "control"))
-
 })
+
 }
 \keyword{ dplot }
