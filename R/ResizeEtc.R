@@ -8,7 +8,7 @@ ResizeEtc <- function(c.list,
                       strip.par, strip.left.par,  ## only the second is effective when both are specified
                       resize.height, resize.width,
                       main,
-                      main.middle=.5,  ## main.middle is in npc units until I figure out how to use native units
+                      ## sub,
                       ...) {
 
   resultA <- c.list
@@ -24,7 +24,7 @@ ResizeEtc <- function(c.list,
   resultC <- resultB
   if (!missing(y.same) && y.same) {
     resultC$y.limits <- range(resultC$y.limits)
-    resultC$x.scales$relation <- "same"
+    resultC$y.scales$relation <- "same"
   }
 
   resultD <-
@@ -76,16 +76,22 @@ ResizeEtc <- function(c.list,
     update(resultI, strip=strip)
 
   resultJ <- resultI
-    if (!missing(main)) {
-      resultJ <- update(resultJ, main=list(main, x=unit(main.middle, "npc")))
+    if (!missing(main) && !is.null(main)) {
+      resultJ <- update(resultJ, main=main)
     }
 
-  resultK <- resultJ
+##  resultK <- resultJ
+##    if (!is.null(sub)) {
+##      resultK <- update(resultK, sub=sub)
+##    }
+##
+##  resultL <- resultK
+  resultL <- resultJ
     if (length(list(...))) {
-      resultK <- update(resultJ, ...)
+      resultL <- update(resultL, ...)
     }
 
-  resultK
+  resultL
 }
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/ResizeEtc.R")
@@ -102,3 +108,4 @@ if (FALSE) {
   ResizeEtc(A + as.layer(B), resize.width=c(1,2))
   ResizeEtc(A + as.layer(B), main="abcd")
 }
+## environment(ResizeEtc) <- environment(plot.likert)

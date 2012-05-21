@@ -11,7 +11,7 @@ function(formula.in, data=sys.parent(),
          dsx=xlab,
          dsy=ylab,
          ladder.function=ladder.f,
-         strip.number=1,
+         strip.number=if.R(r=2, s=1),
          strip.names,
          strip.style=1,
          strip,
@@ -20,11 +20,14 @@ function(formula.in, data=sys.parent(),
          layout=c(length(tmp$x.power), length(tmp$y.power)),
          axis.key.padding = 10, ## R right axis
          key.axis.padding = 10, ## R top axis
+         useOuter=TRUE, ## R useOuterStrips(combineLimits(result))
          ...) {
   ## plot all possible powers of y variable against x variable
   if ((length(formula.in[[2]]) != 1) || (length(formula.in[[3]]) != 1))
     stop("The left-hand side and right-hand side of the formula must each have exactly one variable.")
   tmp <- ladder3(data[xlab], data[ylab], dsx, dsy, ladder.function)
+  if.R(r=if (useOuter) strip.number <- 2,
+       s={})
   formula.out <- switch(as.character(strip.number),
                         "1"=formula(Y ~ X | group),
                         "0"=formula(Y ~ X | x * y),
@@ -49,6 +52,8 @@ function(formula.in, data=sys.parent(),
     })} else strip.function <- strip
   if (strip.number==0) strip.function <- FALSE
   if.R(r={}, s=old.par <- par(oma=oma))
+  if.R(r=scales$relation <- "free",
+       s={})
   xyplot.args <- list(formula.out, data=tmp$data,
                       panel=panel.in,
                       xlab=xlab, ylab=ylab,
@@ -67,13 +72,12 @@ function(formula.in, data=sys.parent(),
                              list(axis.key.padding=axis.key.padding),
                              layout.heights=
                              list(key.axis.padding=key.axis.padding)))
-  xyplot.splus.args <- list()
-  if.R(r=
-       xyplot.args <- c(xyplot.args, xyplot.R.args)
-       ,s=
-       xyplot.args <- c(xyplot.args, xyplot.splus.args)
-       )
+  if.R(r=xyplot.args <- c(xyplot.args, xyplot.R.args),
+       s={})
   result <- do.call("xyplot", xyplot.args)
+  if (useOuter)
+    if.R(r=result <- useOuterStrips(combineLimits(result)),
+         s={})
   result
 }
 

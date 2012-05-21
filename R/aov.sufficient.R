@@ -1,4 +1,8 @@
-aov.sufficient <-
+aov.sufficient <- function(...)
+  .Defunct("aovSufficient", package="HH")
+  
+  
+aovSufficient <-
   function(formula, data = NULL, projections = FALSE, qr = TRUE, contrasts = NULL,
            weights=data$n, sd=data$s, ...) {
     tmp <- sys.call()
@@ -14,10 +18,13 @@ aov.sufficient <-
 
 
 ## summary.lm does not give standard errors and t-tests for results
-## calculated by aov.sufficient.  We need vcov.sufficient in R.
+## calculated by aovSufficient.  We need vcovSufficient in R.
 ## It gives the same answer as the generic vcov when the generic vcov works.
-if.R(r=
-vcov.sufficient <- function(object, ...) {
+if.R(r={
+vcov.sufficient <- function(...)
+  .Defunct("vcovSufficient", package="HH")
+
+vcovSufficient <- function(object, ...) {
   x <- object["x"][[1]] ## prevents partial matching with "xlevels" in R.
                         ## S-Plus doesn't have an "xlevels" component.
   if (length(x)==0) {
@@ -31,5 +38,6 @@ vcov.sufficient <- function(object, ...) {
     else
       crossprod(x, object$weights * x)
   solve(xwx)*anova(object)$`Mean Sq`[2]
+}
 }
 ,s={})

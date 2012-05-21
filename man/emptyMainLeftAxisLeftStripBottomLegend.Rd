@@ -47,15 +47,19 @@ require(HH)
 data(ProfChal)
 Empl <- ProfChal[[2]]
 
-pct   <- plot.likert(Empl, as.percent="noRightAxis", xlab="Percent")
+pct   <- likert(Empl, as.percent="noRightAxis", xlab="Percent")
 pct
-count <- plot.likert(Empl, rightAxis=TRUE,
-                     xlab="Count", ylab.right="Row Count Totals")
+count <- likert(Empl, rightAxis=TRUE,
+                xlab="Count", ylab.right="Row Count Totals",
+                scales=list(x=list(at=c(0, 100, 200))))
 count
-countEmptied <- emptyMainLeftAxisLeftStripBottomLegend(count)
+countEmptied <- HH:::emptyMainLeftAxisLeftStripBottomLegend(count)
 countEmptied
-print(pct,   position=c(.00, 0, .8, 1), more=TRUE)
-print(countEmptied, position=c(.702, 0,1.0, 1), more=FALSE)
 
+tmp <- update(resizePanels(c(pct, countEmptied, y.same=TRUE), w=c(.8, .2)),
+              scales=list(y=list(alternating=3)),
+              between=list(x=1))
+tmp$y.limits <- count$y.limits
+tmp
 }
 \keyword{hplot}

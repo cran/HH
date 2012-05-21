@@ -1,10 +1,10 @@
 is.likert <- function(x) inherits(x, "likert")
 
-as.likert <- function(x, ...)
+as.likert <- function(x, ...) {
+  if (is.likert(x)) return(x)
   UseMethod("as.likert")
+}
 
-as.likert.likert <- function(x, ...) return(x)
-  
 as.likert.data.frame <- function(x, ...) {
   as.likert(data.matrix(x), ...)
 }
@@ -33,57 +33,85 @@ as.likert.table <- function(x, ...) {
   as.likert.matrix(x, ...)
 }
  
-as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ..., reverse=FALSE) {
+as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
+                             ReferenceZero=NULL,
+                             xlimEqualLeftRight=FALSE,
+                             xTickLabelsPositive=TRUE) {
+  ## All the as.likert calls end here.  This one accepts and ignores '...'.
+  ## All the others may use the arguments here in their ... arguments.
+  if (any(x < 0))
+    stop("Argument to the likert() function must be non-negative.",
+         call.=FALSE)
+  nc <- ncol(x)
+  ## if (is.null(ReferenceZero)) ReferenceZero <- (nc+1)/2
+  ## if (ReferenceZero < 1) ReferenceZero <- .5
+  ## if (ReferenceZero > nc) ReferenceZero <- nc + .5
 
-  is.even <- function(x) x%%2 == 0
+  ## is.wholenumber <-
+  ##   function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
 
+  ## maxcolorset <- if (is.wholenumber(ReferenceZero)) (-nc):nc else c(-rev(1:nc), 1:nc)
+  ## start.position <- nc - ceiling(ReferenceZero) + 2
+  ## colorset <- maxcolorset[seq(start.position, length=nc)]
+  colorset <- ColorSet(nc, ReferenceZero)
+
+  ndnx <- names(dimnames(x))
   if (is.null(dimnames(x))) dimnames(x) <- list(1:nrow(x), NULL)
   if (is.null(dimnames(x)[[1]])) dimnames(x)[[1]] <- 1:nrow(x)
   
   levels <- dimnames(x)[[2]]
   if (is.null(levels)) {
-    if (ncol(x) == 1) levels <- ""
-    else levels <- LETTERS[1:ncol(x)]
+    levels <- LETTERS[1:nc]
     dimnames(x)[[2]] <- levels
   }
   
   if (!is.null(rowlabel)) names(dimnames(x))[1] <- rowlabel
   if (!is.null(collabel)) names(dimnames(x))[2] <- collabel
-  if (reverse)
-    x <- x[nrow(x):1,, drop=FALSE]
   
-  nc <- ncol(x)
-  if(is.even(nc)) {
-    ind.neg <- 1:(nc/2)
-    ind.pos <- (nc/2+1):nc
-##    x[,rev(ind.neg)] <- -x[,ind.neg, drop=FALSE]
-    x <- cbind(-x[,rev(ind.neg), drop=FALSE],
-               x[,-ind.neg, drop=FALSE])
-    attr(x, "even.col") <- TRUE
+  if(!(0 %in% colorset)) {
+    ind.neg <- rev((1:nc)[colorset < 0])
+    ind.pos <- (1:nc)[colorset > 0]
+    x <- cbind(-x[,ind.neg, drop=FALSE],
+               x[,ind.pos, drop=FALSE])
+    attr(x, "color.seq") <- c(ind.neg, ind.pos)
+    attr(x, "positive.order") <- order(apply(x[, ind.pos, drop=FALSE], 1, sum))
   }
-  else {
+  else { ## (0 %in% colorset)
     if (nc > 1) {
-      ind.neg <- floor(nc/2):1
-      ind.zero <- ceiling(nc/2)
-      ind.pos <- (ind.zero+1):nc
+      ind.neg <- rev((1:nc)[colorset < 0])
+      ind.pos <- (1:nc)[colorset > 0]
+      ind.zero <- (1:nc)[colorset == 0]
       x <- cbind(-x[,ind.zero, drop=FALSE]/2,
                  -x[,ind.neg, drop=FALSE],
                  x[,ind.zero, drop=FALSE]/2,
                  x[,ind.pos, drop=FALSE])
+      attr(x, "color.seq") <- c(ind.zero, ind.neg, ind.pos)
+      pos.columns <- seq(to=ncol(x), length=length(c(ind.zero,ind.pos)))
+      attr(x, "positive.order") <- order(apply(x[, pos.columns, drop=FALSE], 1, sum))
     } else {
+      attr(x, "positive.order") <- order(x[, 1])
       x <- cbind(-x/2, x/2)
+      attr(x, "color.seq") <- 1
     }
-    attr(x, "even.col") <- FALSE
   }
+  
+  names(dimnames(x)) <- ndnx
   attr(x, "nlevels") <- nc
-  attr(x, "levels") <- levels
-  pos.cols <- if (nc > 1) -(1:(ncol(x)/2)) else 1
-  attr(x, "positive.order") <- order(apply(x[, pos.cols, drop=FALSE], 1, sum))
+  attr(x, "original.levels") <- levels
+  attr(x, "xlimEqualLeftRight") <- xlimEqualLeftRight
+  attr(x, "xTickLabelsPositive") <- xTickLabelsPositive
+  attr(x, "ReferenceZero") <- ReferenceZero
   class(x) <- c("likert", class(x))
   x
 }
+## environment(as.likert.matrix) <- environment(plot.likert)
+## assignInNamespace(x, value, ns, pos = -1,
+##                   envir = as.environment(pos))
+## assignInNamespace("as.likert.matrix", as.likert.matrix, "HH")
 
-as.likert.numeric <- function(x, ...) {
+
+as.likert.default <- function(x, ...) {
+  ## simple vector because anything else got dispatched elsewhere
   x <- t(x)
   if (is.null(dimnames(x))) dimnames(x) <- list("", 1:length(x))
   if (is.null(dimnames(x)[[1]])) dimnames(x)[[1]] <- ""
@@ -97,6 +125,32 @@ is.likertCapable <- function(x, ...) {
   ("package:vcd" %in% search() && is.structable(x)) ||
   is.data.frame(x) ||
   is.listOfNamedMatrices(x)
+}
+
+
+as.likert.listOfNamedMatrices <- function(x, ...) {
+  result <- sapply(x, as.likert, simplify=FALSE, ...)
+  class(result) <- c("likert", "list")
+  result
+}
+
+as.likert.array <- function(x, ...)
+  as.likert(as.listOfNamedMatrices(x), ...)
+
+rev.likert <- function(x) {
+  ## Reverses the rows of a matrix "likert" object,
+  ## or each item within a list "likert" object,
+  ## and retains all attributes.
+
+  if (is.matrix(x)) {
+    z <- x
+    z[] <- if (nrow(x)) x[nrow(x):1L, , drop=FALSE] else x
+    dimnames(z)[[1]] <- rev(dimnames(x)[[1]])
+    z
+  }
+  else {
+    sapply(x, rev, simplify=FALSE)
+  }
 }
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/as.likert.R")

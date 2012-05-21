@@ -28,7 +28,7 @@ ladder(formula.in, data=sys.parent(),
        dsx=xlab,
        dsy=ylab,
        ladder.function=ladder.f,
-       strip.number=1,
+       strip.number=if.R(r=2, s=1),
        strip.names,
        strip.style=1,
        strip,
@@ -37,6 +37,7 @@ ladder(formula.in, data=sys.parent(),
        layout=c(length(tmp$x.power), length(tmp$y.power)),
        axis.key.padding = 10, ## R right axis
        key.axis.padding = 10, ## R top axis
+       useOuter=TRUE, ## R useOuterStrips(combineLimits(result))
        ...)
 
 ladder3(x, y,
@@ -75,10 +76,10 @@ strip.ladder(which.given,
   \item{cex, pch, between, scales, layout}{arguments for \code{xyplot}.}
   \item{dsx, dsy}{Names to be used as level names in
     \code{ladder.function} for the generated factor distinguishing the
-powers.  They default to \code{xlab, ylab}.  For long variable names,
-an abbreviated name here will decrease clutter in the ladder of powers
-plot.  These names are not visible in the plot when
-\code{strip=FALSE}.}
+    powers.  They default to \code{xlab, ylab}.  For long variable names,
+    an abbreviated name here will decrease clutter in the ladder of powers
+    plot.  These names are not visible in the plot when
+    \code{strip=FALSE}.}
   \item{ladder.function}{function to use to create data.frame of powers
     of input variable.}
   \item{strip.number}{Number of strip labels in each panel of the display.
@@ -86,6 +87,11 @@ plot.  These names are not visible in the plot when
     2: two strip labels of the form \code{ylab: y^p} and \code{xlab: x^q},
     where \code{p} and \code{q} are the powers returned by \code{ladders};
   \code{y} and \code{x} are the arguments \code{dsy} and \code{dsx}.}
+  \item{useOuter}{logical, defaults to \code{TRUE}. In R, this implies
+    that \code{strip.number} is forced to \code{2} and that the 
+    resulting \code{"trellis"} object will be sent through
+    \code{useOuterStrips(combineLimits(result))}.
+    This argument is ignored by S-Plus.}
   \item{strip.style}{\code{style} argument to \code{strip}.}
   \item{oma}{argument to \code{par} in S-Plus.}
   \item{\dots}{other arguments to \code{xyplot}.}
@@ -172,52 +178,33 @@ An analysis of transformations.
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{panel.cartesian}}}
 \examples{
-## some country names have embedded blanks
-tv <- if.R(r=
-           read.fwf(hh("datasets/tv.dat"),
-                    widths=c(22,6,7,7,4,2),
-                    strip.white=TRUE,
-                    na.strings="*",
-                    row.names=1)
-           ,s=
-           read.table(hh("datasets/tv.dat"),
-                      sep=c(1,23,29,36,43,47),
-                      na.strings="*")
-           )
-names(tv) <- c("life.exp","ppl.per.tv","ppl.per.phys",
-               "fem.life.exp","male.life.exp")
+data(tv)
 
-
-## Default: single strip label per panel
+## default
+## R: outer strip labels
+## S-Plus: one strip label per panel (too full for this example, see below)
 ladder(life.exp ~ ppl.per.phys, data=tv,
-       main="Ladder of Powers for Life Expectancy and People per Physician",
-       dsx="ppp", dsy="le")
-
-## double strip label
-if.R(r=
-ladder(life.exp ~ ppl.per.phys, data=tv,
-       main="Ladder of Powers for Life Expectancy and People per Physician",
-       strip.number=2,
-       dsx="ppp", dsy="le")
-,s=
-ladder(life.exp ~ ppl.per.phys, data=tv,
-       main="Ladder of Powers for Life Expectancy and People per Physician",
-       strip.number=2,
-       dsx="ppp", dsy="le",
-       axis3.line=1.2)
-)
-
-## turn off strip labels
-if.R(r=
-ladder(life.exp ~ ppl.per.phys, data=tv,
-       strip.number=0,,
        main="Ladder of Powers for Life Expectancy and People per Physician")
-,s=
-ladder(life.exp ~ ppl.per.phys, data=tv,
-       strip.number=0,,
-       main="Ladder of Powers for Life Expectancy and People per Physician",
-       axis3.line=0)
-)
+
+## one strip label
+if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=1, useOuter=FALSE,
+              dsx="ppp", dsy="le"),
+     s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=1,
+              dsx="ppp", dsy="le")) ## S-Plus default
+
+## two strip labels
+if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=2, useOuter=FALSE),
+     s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=2,
+              axis3.line=1.2))
+
+## outer strip labels
+if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, useOuter=TRUE), ## R default
+     s={}) ## S-Plus not available
+
+## no strip labels (probably silly, but possible)
+if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0, useOuter=FALSE),
+     s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0,
+              axis3.line=0))
 }
 \keyword{hplot}
 \keyword{dplot}

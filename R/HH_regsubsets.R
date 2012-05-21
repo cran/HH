@@ -1,7 +1,7 @@
-`summary_HH` <- function (object, ...) 
-  UseMethod("summary_HH")
+`summaryHH` <- function (object, ...) 
+  UseMethod("summaryHH")
 
-`summary_HH.regsubsets` <-
+`summaryHH.regsubsets` <-
   function(object,
            names = abbreviate(dimnames(incidence)[[2]], minlength = abbrev),
            abbrev = 1, min.size = 1, max.size = dim(sumry$which)[2],
@@ -47,12 +47,12 @@
       data.frame(row.names=abbrevs, model=model.names, stringsAsFactors=FALSE)
     attr(.Summary, "n.max.adjr2") <- which.max(.Summary$adjr2)
     attr(.Summary, "n") <- sumry$nn
-    class(.Summary) <- c("summary_HH_regsubsets", "data.frame")
+    class(.Summary) <- c("summaryHH.regsubsets", "data.frame")
     .Summary
 }
 
 
-`plot.summary_HH_regsubsets` <-
+`plot.summaryHH.regsubsets` <-
   function(x, ..., statistic="adjr2", legend=FALSE,
            col="darkgray", cex=1, pch=16,
            col.text="black", cex.text=1, col.abline="darkgray") {
@@ -85,7 +85,7 @@
     }
   }
 
-`print.summary_HH_regsubsets` <-
+`print.summaryHH.regsubsets` <-
 function(x, ..., digits=3) {
   NextMethod("print", ..., digits=digits)
   cat('\nModel variables with abbreviations\n')

@@ -30,7 +30,7 @@ displayed in the margins of the plot.  The appearance depends on the
 setting of the trellis \code{between} argument.  Getting it to look good
 for any given plot requires experimentation.  Since it is redundant with
 the information in the strip labels, leaving it at the default \code{""}
-is often the best thing to do..}
+is often the best thing to do.}
   \item{xg.label}{group labels for rows of the scatterplot matrix}
   \item{yg.label}{group labels for rows of the scatterplot matrix}
   \item{g.cex}{\code{cex} for the group labels}
@@ -48,12 +48,7 @@ critical points.}
 }
 \seealso{\code{\link{ladder}}, \code{\link{xysplom}}}
 \examples{
-
-rent <- read.table(hh("datasets/rent.dat"),   ## Weisberg's file alr162
-                   col.names=c("rnt.alf","rnt.till",
-                     "cow.dens","prop.past","lime"))
-rent$lime <- factor(rent$lime, labels=c("no.lime","lime"))
-rent$alf.till <- rent$rnt.alf / rent$rnt.till
+data(rent)  ## Weisberg's file alr162
 
 rent.lm <- lm(rnt.alf ~ rnt.till + cow.dens + lime, data=rent)
 rent$resid.rent <- resid(rent.lm)
@@ -101,7 +96,7 @@ xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
           alternating=FALSE, labels=FALSE, ticks=FALSE),
         between=list(x=1, y=3))
 
-
+tmp <-
 xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         layout=c(2,2),
         xlab="", ylab="",
@@ -112,6 +107,10 @@ xysplom(resid.rent ~ rnt.till + cow.dens | lime, data=rent,
         axis3.line=3.6,
         scales=list(alternating=FALSE, labels=FALSE, ticks=FALSE),
         rescale=list(x=FALSE, y=FALSE),
-        between=list(x=1, y=5))
+        between=list(x=4, y=5))
+if.R(r=tmp$par.settings <- list(layout.widths=list(right.padding=4)),
+     s={})
+tmp
+
 }
 \keyword{hplot}% at least one, from doc/KEYWORDS

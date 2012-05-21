@@ -1,7 +1,8 @@
 \name{plot.multicomp}
 \alias{plot.multicomp}
 \alias{plot.multicomp.hh}
-\alias{plot.matchMMC}
+\alias{plot.multicomp.adjusted}
+\alias{plotMatchMMC}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Multiple comparisons plot that gives independent user control
   over the appearance of the significant and not significant comparisons.
@@ -11,17 +12,19 @@
   comparisons.
   In R, both \code{plot.multicomp} \code{plot.multicomp.hh} coerce their argument
   to an \code{"glht"} object and plots
-  that with the appropriate \code{plot} method. 
+  that with the appropriate \code{plot} method.
+  In R, \code{plot.multicomp.adjusted} replaces the bounds
+  calculated by \code{multcomp:::confint.glht} with bounds that 
   In S-Plus,
   \code{plot.multicomp.hh} augments the standard \code{plot.multicomp} to
   give additional user arguments to control the appearance of the plot.
   
-  \code{plot.matchMMC} uses the \code{plot.multicomp.hh} code.
-   \code{plot.matchMMC} must immediately follow a plot of an
+  \code{plotMatchMMC} uses the \code{plot.multicomp.hh} code.
+   \code{plotMatchMMC} must immediately follow a plot of an
   \code{mmc.multicomp} object and is applied to either the \code{$mca}
   or \code{$lmat} component of the \code{mmc.multicomp} object.
-  \code{plot.matchMMC} is used as a tiebreaker plot for the \code{MMC}
-  plot.  \code{plot.matchMMC} matches the horizontal scaling of the
+  \code{plotMatchMMC} is used as a tiebreaker plot for the \code{MMC}
+  plot.  \code{plotMatchMMC} matches the horizontal scaling of the
   \code{MMC} plot and displays the individual contrasts in the same
   order as the \code{MMC} plot.  See \code{\link{mmc}} for examples.
   
@@ -41,24 +44,27 @@
            ...,
            xlabel.print=TRUE, y.axis.side=2, ylabel.inside=FALSE)
 
-plot.matchMMC(x, ...,
-              xlabel.print=FALSE,
-              cex.axis=par()$cex.axis,
-              col.signif='red', main="",
-              ylabel.inside=FALSE,
-              y.axis.side=4)
+plotMatchMMC(x, ...,
+             xlabel.print=FALSE,
+             cex.axis=par()$cex.axis,
+             col.signif='red', main="",
+             ylabel.inside=FALSE,
+             y.axis.side=4,
+             adjusted=FALSE)
 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{A \code{"multicomp"} object.}
+  \item{x}{A \code{"multicomp"} object.  \code{plotMatchMMC} will also
+    accept a \code{mmc.multicomp} object.  It will use the \code{lmat}
+    component if there is one, otherwise it will use the \code{mca} component.}
   \item{ylabel}{Y label on graph.}
 \item{y.axis.side}{Y labels are on the left by default when plotting a
   \code{"multicomp"} object.  We move them to the
   right when matching the x-axis of an MMC plot.}
   \item{\dots}{other arguments to \code{plot.multicomp}.}
   \item{ylabel.inside}{Logical value, if \code{FALSE} (the default), the
-    \code{plot.matchMMC} right-axis labels are in the margin.  If
+    \code{plotMatchMMC} right-axis labels are in the margin.  If
     \code{TRUE}, the right-axis labels are in the figure area.
     Setting the argument to
     \code{TRUE} makes sense when plotting the \code{lmat} component of an
@@ -83,7 +89,7 @@ plot.matchMMC(x, ...,
   \item{lty.signif, lwd.signif}{Line type, and line width for
     significant comparisons. S-Plus only.}
   \item{col.signif}{Color for significant comparisons. S-Plus only for
-    \code{plot.multicomp}.  Both R and S-Plus for \code{plot.matchMMC}.}
+    \code{plot.multicomp}.  Both R and S-Plus for \code{plotMatchMMC}.}
   \item{col.not.signif, lty.not.signif, lwd.not.signif}{Color, line
     type, and line width for non-significant comparisons. S-Plus only.}
   \item{xlabel.print}{logical.  When \code{TRUE}, the caption under the
@@ -93,12 +99,24 @@ plot.matchMMC(x, ...,
     plot is used as a tiebreaker plot for the MMC plot.  S-Plus only.}
    \item{cex.axis}{\code{cex} for axis ticklabels.}
    \item{main}{Main title for plot.}
-}
+   \item{adjusted}{Logical. When \code{TRUE},
+     \code{HH:::plot.multicomp.adjusted} is used to replace the standard
+     confidence bounds
+     calculated by \code{multcomp:::confint.glht}, with bounds
+     calculated by \code{as.multicomp.glht} with a rescaled critical
+     value based on rescaling the standard error.  This rescaling is
+     used to construct a common standard error for a set of anova tables that are
+     partitioned for the simple effects on an analysis conditioned on
+     the levels of one of the factors.  See the
+     \code{clover.commonstrMS.clov.mmc} example in file \code{hh("scripts/Ch12-tway.r")}.}
+     
+
+ }
 \value{
 \code{plot.multicomp} plots a \code{"multicomp"} object.  In S-Plus, this
 masks the standard \code{plot.multicomp} in order to provide additional
 arguments for controlling the appearance.  It defaults to the standard
-appearance.  In R, it coerces its argument to an \code{"glht"} object and plots
+appearance.  In R, it coerces its argument to a \code{"glht"} object and plots
 that with the appropriate \code{plot} method.
 }
 
@@ -139,9 +157,7 @@ Heiberger, R. M. and Holland, B. (2006).
 }
 \examples{
 ## data and ANOVA
-catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
-                       col.names=c("catalyst","concent"))
-catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
+data(catalystm)
 
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 summary(catalystm1.aov)

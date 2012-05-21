@@ -4,7 +4,7 @@
 \alias{as.glht}
 \alias{as.glht.multicomp}
 \alias{print.mmc.multicomp}
-\alias{print.glht.mmc.multicomp}
+%% \alias{print.glht.mmc.multicomp}
 \alias{print.mmc.multicomp}
 \alias{print.multicomp}
 \alias{print.multicomp.hh}
@@ -24,7 +24,7 @@
 
 \method{print}{multicomp.hh}(x, ...) ## R only
 
-print.glht.mmc.multicomp(x, ...) ## R.  yes, spell it out.
+%% print.glht.mmc.multicomp(x, ...) ## R.  yes, spell it out.
 
 as.multicomp(x, ...)
 
@@ -56,8 +56,8 @@ as.glht(x, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{\code{"glht"} object for \code{as.multicomp}.
-    A \code{"mmc.multicomp"} object for \code{print.mmc.multicomp} and
-    \code{print.glht.mmc.multicomp}.
+    A \code{"mmc.multicomp"} object for \code{print.mmc.multicomp}.
+    %% and \code{print.glht.mmc.multicomp}.
     A \code{"multicomp"} object for \code{as.glht} and \code{print.multicomp}.}
   \item{\dots}{other arguments.}
 
@@ -77,7 +77,7 @@ as.glht(x, ...)
   \code{height} (see \code{\link[HH]{mmc}}).}
   \item{contrasts.none}{logical.  This is an internal detail.  The
     ``contrasts'' for the group means are not real contrasts in the
-    sense they don't compare anything.  \code{glht.mmc.glht} sets this
+    sense they don't compare anything.  \code{mmc.glht} sets this
     argument to \code{TRUE} for the \code{none} component.
   }
   \item{level}{Confidence level.  Defaults to 0.95.}
@@ -118,9 +118,9 @@ MMC plot for each component of the \code{mmc.multicomp} object.
 \code{print.multicomp} displays the confidence intervals and heights for
 a single component.
 
-\code{print.glht.mmc.multicomp(x, ...)} uses \code{print.glht} on each
-component of a \code{mmc.multicomp} object and therefore prints only
-the estimates of the comparisons.
+% \code{print.glht.mmc.multicomp(x, ...)} uses \code{print.glht} on each
+% component of a \code{mmc.multicomp} object and therefore prints only
+% the estimates of the comparisons.
 }
 \value{
 \code{as.multicomp} is a generic function to change its argument to a

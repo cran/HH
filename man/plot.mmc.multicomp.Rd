@@ -121,13 +121,9 @@ When there is overprinting of labels (a consequence of level means being
 close together), a tiebreaker plot may be needed.  See \code{?MMC} for
 an example.
 }
-\seealso{\code{\link{mmc}}, \code{\link{plot.matchMMC}}}
+\seealso{\code{\link{mmc}}, \code{\link{plotMatchMMC}}}
 \examples{
-## continue with the example in ?MMC
-catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
-                       col.names=c("catalyst","concent"))
-catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
-
+data(catalystm)
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 summary(catalystm1.aov)
 
@@ -139,14 +135,16 @@ dimnames(catalystm.lmat)[[1]] <- levels(catalystm$catalyst)
 
 
 catalystm.mmc <-
-if.R(r={glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
-                focus.lmat=catalystm.lmat)}
+if.R(r={mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
+            focus.lmat=catalystm.lmat)}
     ,s={multicomp.mmc(catalystm1.aov, focus.lmat=catalystm.lmat,
                      plot=FALSE)}
 )
 
+\dontrun{
 ## pairwise contrasts, default settings
 plot(catalystm.mmc, print.lmat=FALSE)
+}
 
 ## Centering, scaling, emphasize significant contrasts.
 ## Needed in R with 7in x 7in default plot window.

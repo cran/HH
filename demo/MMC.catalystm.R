@@ -4,19 +4,15 @@
 
 
 
-catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
-                       col.names=c("catalyst","concent"))
-catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
+data(catalystm)
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 
 catalystm.mmc <-
 if.R(r=
-     glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
+     mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
     ,s=
      multicomp.mmc(catalystm1.aov, plot=FALSE)
 )
-
-plot(catalystm.mmc)
 
 old.mar <- if.R(s=par(mar=c(5,8,4,4)+.1),
                 r=par(mar=c(12,4,4,3)+.1))
@@ -30,7 +26,7 @@ dimnames(catalystm.lmat)[[1]] <- levels(catalystm$catalyst)
 
 catalystm.mmc <-
 if.R(r=
-     glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
+     mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey"),
               focus.lmat=catalystm.lmat)
      ,s=
      multicomp.mmc(catalystm1.aov, focus.lmat=catalystm.lmat,

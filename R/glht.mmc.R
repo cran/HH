@@ -74,7 +74,7 @@ as.multicomp.glht <-
 
     lmat.factor <- sweep(lmat.factor, 2, apply(abs(lmat.factor), 2, sum)/2, "/")
     if (length(means) != nrow(lmat.factor))
-      stop("Please specify lmat.rows with glht.mmc on a design with more than one factor.")
+      stop("Please specify lmat.rows with mmc on a design with more than one factor.")
 ##    result$height <- (means %*% abs(lmat.factor))[1,]
     result$height <- height
     
@@ -100,45 +100,50 @@ as.multicomp.glht <-
 
 as.glht.multicomp <- function(x, ...) x$glht
 
-glht.mmc <- function (model, ...) 
-  UseMethod("glht.mmc")
+glht.mmc <- function(...)
+  .Defunct("mmc", package="HH")
+mmc <- function (model, ...) 
+  UseMethod("mmc")
 
-glht.mmc.lm <- function (model,
-           linfct=NULL,
-           focus=
-           if (is.null(linfct))
-           {
-             if (length(model$contrasts)==1) names(model$contrasts)
-             else stop("focus or linfct must be specified.")
-           }
-           else
-           {
-             if (is.null(names(linfct)))
-               stop("focus must be specified.")
-             else names(linfct)
-           },
-           focus.lmat,
-           ylabel=deparse(terms(model)[[2]]),
-           lmat=if (missing(focus.lmat)) {
-             t(linfct)
-           } else {
-             lmatContrast(t(none.glht$linfct), focus.lmat)
-             },
-##         lmat.rows=-1,
-           lmat.rows=lmatRows(model, focus),
+## mmc.lm <- function (model,
+##            linfct=NULL,
+##            focus=
+##            if (is.null(linfct))
+##            {
+##              if (length(model$contrasts)==1) names(model$contrasts)
+##              else stop("focus or linfct must be specified.")
+##            }
+##            else
+##            {
+##              if (is.null(names(linfct)))
+##                stop("focus must be specified.")
+##              else names(linfct)
+##            },
+##            focus.lmat,
+##            ylabel=deparse(terms(model)[[2]]),
+##            lmat=if (missing(focus.lmat)) {
+##              t(linfct)
+##            } else {
+##              lmatContrast(t(none.glht$linfct), focus.lmat)
+##              },
+## ##         lmat.rows=-1,
+##            lmat.rows=lmatRows(model, focus),
 
-           lmat.scale.abs2=TRUE,
-           estimate.sign=1,
-           order.contrasts=TRUE,
-           level=.95,
-           calpha=NULL,
-           alternative = c("two.sided", "less", "greater"),
-           ...
-           )
-  NextMethod("glht.mmc")
+##            lmat.scale.abs2=TRUE,
+##            estimate.sign=1,
+##            order.contrasts=TRUE,
+##            level=.95,
+##            calpha=NULL,
+##            alternative = c("two.sided", "less", "greater"),
+##            ...
+##            )
+##   NextMethod("glht.mmc")
 
-glht.mmc.default <-     ## this works for model inherits from "lm"
-  function(model,       ## It needs work for lme objects
+## glht.mmc.default ## old name
+glht.mmc.default <- function(...)
+  .Defunct("mmc.default", package="HH")
+mmc.default <-     ## this works for model inherits from "lm"
+  function(model,  ## It needs work for lme objects
            linfct=NULL,
            focus=
            if (is.null(linfct))
@@ -181,7 +186,7 @@ glht.mmc.default <-     ## this works for model inherits from "lm"
     }
     contrasts.are.treatment <- sapply(mmm.data[, factors, drop=FALSE], is.contr.treatment)
     if (!all(contrasts.are.treatment))
-      stop("glht.mmc requires an aov in which ALL factors use treatment contrasts.")
+      stop("mmc requires an aov in which ALL factors use treatment contrasts.")
     
     result <- list(mca=NULL)
 
@@ -189,7 +194,7 @@ glht.mmc.default <-     ## this works for model inherits from "lm"
 
     if (TRUE)
       {
-        if (length(focus) > 1) stop("glht.mmc requires no more than one focus factor.")
+        if (length(focus) > 1) stop("mmc requires no more than one focus factor.")
         focus.linfct <-
           multcomp:::meanslinfct(model, focus, formula=terms(model),
                                  contrasts.arg=model$contrasts)
@@ -275,37 +280,44 @@ glht.mmc.default <-     ## this works for model inherits from "lm"
       lmat.glht <- glht(model, linfct=t(lmat),
                         alternative=alternative, ...)
       if (missing(focus.lmat)) stop("'focus.lmat' is missing.")
-      result$lmat <- as.multicomp(lmat.glht, focus=focus, ylabel=ylabel,
-                                  means=means,
-                                  height=means %*% abs(sweep(focus.lmat, 2, apply(abs(focus.lmat), 2, sum)/2, "/")),
-                                  lmat=lmat, lmat.rows=lmat.rows,
-                                  level=1-result$mca$alpha,
-                                  calpha=result$mca$crit.point,
-                                  method=result$mca$method, ...)
+      result$lmat <-
+        as.multicomp(lmat.glht, focus=focus, ylabel=ylabel,
+                     means=means,
+                     height=means %*%
+                     abs(sweep(focus.lmat, 2,
+                               apply(abs(focus.lmat), 2, sum)/2, "/"))[names(means),],
+                     lmat=lmat, lmat.rows=lmat.rows,
+                     level=1-result$mca$alpha,
+                     calpha=result$mca$crit.point,
+                     method=result$mca$method, ...)
     }
 
     class(result) <- "mmc.multicomp"
     result
   }
+## assignInNamespace("mmc.default", mmc.default, "HH")
 
-glht.mmc.glht <- function(model, ...) {
-##  do.call("glht.mmc.lm", c(list(model=model$model), list(...)))
-NextMethod("glht.mmc", model$model)
+
+mmc.glht <- function(model, ...) {
+  ##  do.call("mmc", c(list(model=model$model), list(...)))
+  NextMethod("mmc", model$model)
 }
 
-## prints glht components of mmc.multicomp object
-print.glht.mmc.multicomp <- function (x, ...) {
-  cat(paste("Fit:", deparse(x$mca$glht$model$call, width.cutoff=500), "\n"))
-  cat("Focus =", x$mca$focus, "\n")
-  cat("Estimated Quantile =", x$mca$crit.point, "\n")
-  cat(round((1-x$mca$alpha)*100), "% family-wise confidence level\n", sep="")
-  tmp <- list(mca = x$mca$glht, none = x$none$glht)
-  if (is.null(tmp$none)) tmp$none <- x$none$table
-  if (!is.null(x$lmat)) 
-    tmp$lmat <- x$lmat$glht
-  print(tmp)
-  invisible(x)
-}
+print.glht.mmc.multicomp <- function(...)
+  .Defunct("print.mmc.multicomp", package="HH")
+## ## prints glht components of mmc.multicomp object
+## print.glht.mmc.multicomp <- function (x, ...) {
+##   cat(paste("Fit:", deparse(x$mca$glht$model$call, width.cutoff=500), "\n"))
+##   cat("Focus =", x$mca$focus, "\n")
+##   cat("Estimated Quantile =", x$mca$crit.point, "\n")
+##   cat(round((1-x$mca$alpha)*100), "% family-wise confidence level\n", sep="")
+##   tmp <- list(mca = x$mca$glht, none = x$none$glht)
+##   if (is.null(tmp$none)) tmp$none <- x$none$table
+##   if (!is.null(x$lmat)) 
+##     tmp$lmat <- x$lmat$glht
+##   print(tmp)
+##   invisible(x)
+## }
 
 
 ## prints table and height components of multicomp object
@@ -341,6 +353,20 @@ plot.multicomp <- function (x, ...) {
   n.contrasts <- dim(x$lmat)[2]
   plot(confint(as.glht(x)), ylim=c(.5, n.contrasts+.5), ...)
 }
+
+plot.multicomp.adjusted <- function (x, ...) {
+  ## We used the standard plot function
+  ##    multcomp:::plot.confint.glht
+  ## with possibly different confidence bounds
+  n.contrasts <- dim(x$lmat)[2]
+  x.confint <- confint(as.glht(x))
+  x.adjusted <- x.confint
+  x.adjusted$confint[,c("lwr","upr")] <-
+    x$table[, c("lower","upper"), drop=FALSE]
+  plot(x.adjusted, ylim=c(.5, n.contrasts+.5), ...)
+}
+## assignInNamespace("plot.multicomp.adjusted", plot.multicomp.adjusted, "HH")
+
 
 ## plot.multicomp.hh is in file plot.multicomp.R
 })

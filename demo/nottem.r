@@ -24,13 +24,11 @@ nottem.loop <- if.R(s=
                     arma.loop(nottem,  list(list(order=c(2,0,2)),
                                        list(order=c(2,1,0), period=12)))
                     ,r=
-                    try(  ## ERROR AND WARNING
                     arma.loop(nottem,  order=c(2,0,2),
-                                       seasonal=list(order=c(2,1,0), period=12))
+                                       seasonal=list(order=c(2,1,0), period=12),
+                              method="ML")
                     )
-                    )
-options(digits=4)
-nottem.loop
+print(nottem.loop, digits=4)
 
 nottem.diag <- rearrange.diag.arma.loop(diag.arma.loop(nottem.loop, nottem))
 nottem.diagplot <- tsdiagplot(armas=nottem.loop, ts.diag=nottem.diag, lwd=1)

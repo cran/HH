@@ -110,14 +110,7 @@ panel.intxplot(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
 \examples{
 ## This uses the same data as the HH Section 12.13 rhizobium example.
 
-rhiz.clover <- read.table(hh("datasets/rhiz3-clover.dat"), header=TRUE)
-rhiz.clover$comb <- factor(rhiz.clover$comb,
-                         labels=c("clover","clover+alfalfa"))
-position(rhiz.clover$comb) <- c(2,5)
-rhiz.clover$strain <-
-  factor(rhiz.clover$strain,
-         labels=c('3DOk1','3DOk5','3DOk4','3DOk7','3DOk13','k.comp'))
-rhiz.clover$Npg <- rhiz.clover$nitro / rhiz.clover$weight
+data(rhiz.clover)
 
 ## interaction plot, no se
 intxplot(Npg ~ strain, groups=comb, data=rhiz.clover)

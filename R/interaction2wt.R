@@ -166,7 +166,7 @@ interaction2wt.default <-
          box.ratio=box.ratio,
          ...)
   if.R(r={
-    cpy <- range(ccd$response.var)
+    cpy <- range(ccd$response.var, na.rm=TRUE)
     pcpy <- pretty(cpy)
     pcpy <- pcpy[(cpy[1] <= pcpy) & (pcpy <= cpy[2])]
 ## recover()

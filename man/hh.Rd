@@ -98,6 +98,10 @@ uses the MS DOS convention for file paths.
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
 hotdog <- read.table(hh("datasets/hotdog.dat"), header=TRUE)
+## This form of data input for files from the text has been replaced by
+## the alternate form
+##     data(hotdog)
+
 
 \dontrun{
 ## Define the HHfile.ROOT.DIR option first.

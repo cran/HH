@@ -144,7 +144,7 @@ see both
 \code{\link[lattice]{xyplot}}
 }
 \examples{
-hotdog <- read.table(hh("datasets/hotdog.dat"), header=TRUE)
+data(hotdog)
 
 ## y ~ x                     ## constant line across all groups
 ancova(Sodium ~ Calories,     data=hotdog, groups=Type)
@@ -165,11 +165,9 @@ ancova(Sodium ~ Type * Calories, data=hotdog)
 hotdog.ancova <- ancova(Sodium ~ Type * Calories, data=hotdog)
 attr(hotdog.ancova, "trellis")
 
+
 ## label points in the panels by the value of the block factor
-apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
-apple$treat <- factor(apple$treat)
-contrasts(apple$treat) <- contr.treatment(6)
-apple$block <- factor(apple$block)
+data(apple)
 ancova(yield ~ treat + pre, data=apple, blocks=block)
 
 }

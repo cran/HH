@@ -66,7 +66,7 @@ panel.ae.dotplot <- function(x, y, groups, ..., col.AB, pch.AB, lower, upper) {
   panel.num <- if.R(s=get("cell", frame=sys.parent()),
                     r=panel.number())
   if (panel.num==1)
-    panel.ae.leftplot(x, y, groups=groups, col=col.AB, pch=pch.AB, ...)
+    panel.ae.leftplot(x, y, groups=groups, col.AB=col.AB, pch=pch.AB, ...)
   if (panel.num==2)
     panel.ae.rightplot(x, y, ..., lwd=6, pch=16,
                        lower=lower, upper=upper)

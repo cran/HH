@@ -1,9 +1,12 @@
-if.R(r=persp.setup <- function(...) {},
+if.R(r={persp.setup <- function(...)
+     .Defunct("persp.setup", package="HH", "'persp.setup' is not used in R.")},
      s={}   ## persp.setup is used in S-Plus, and is not needed or used in R
    )
 
+persp.plane <- function(...)
+  .Defunct("perspPlane", package="HH")
 
-persp.plane <- function(x, y, z, persp.out, ...) {
+perspPlane <- function(x, y, z, persp.out, ...) {
 
   if.R(r=perspp <- trans3d, s={})
 
@@ -44,8 +47,11 @@ persp.plane <- function(x, y, z, persp.out, ...) {
 }
 
 ##floor
-persp.floor <- function(x, y, z, persp.out, ...) {
-  persp.plane(x,
+persp.floor <- function(...)
+  .Defunct("perspFloor", package="HH")
+
+perspFloor <- function(x, y, z, persp.out, ...) {
+  perspPlane(x,
               y,
               matrix(min(z), length(x), length(y)),
               persp.out,
@@ -53,8 +59,11 @@ persp.floor <- function(x, y, z, persp.out, ...) {
 }
 
 ##back wall along x
-persp.back.wall.x <- function(x, y, z, persp.out, ...) {
-  persp.plane(x,
+persp.back.wall.x <- function(...)
+  .Defunct("perspBack.wall.x", package="HH")
+
+perspBack.wall.x <- function(x, y, z, persp.out, ...) {
+  perspPlane(x,
               rep(max(y), length(pretty(z))),
               matrix(pretty(z), length(x), length(pretty(z)), byrow=TRUE),
               persp.out,
@@ -62,8 +71,11 @@ persp.back.wall.x <- function(x, y, z, persp.out, ...) {
 }
 
 ##back wall along y
-persp.back.wall.y <- function(x, y, z, persp.out, ...) {
-  persp.plane(rep(max(x), length(pretty(z))),
+persp.back.wall.y <- function(...)
+  .Defunct("perspBack.wall.y", package="HH")
+
+perspBack.wall.y <- function(x, y, z, persp.out, ...) {
+  perspPlane(rep(max(x), length(pretty(z))),
               y,
               matrix(pretty(z), length(pretty(z)), length(y)),
               persp.out,
@@ -76,15 +88,15 @@ persp.back.wall.y <- function(x, y, z, persp.out, ...) {
 ## y <- 1:10
 ## z <- matrix(1:50, 5, 10)
 ## persp.out <- persp(x, y, z)
-## persp.floor(x, y, z, persp.out, col=2, lty=2)
-## persp.back.wall.x(x, y, z, persp.out, col=3, lty=3)
-## persp.back.wall.y(x, y, z, persp.out, col=4, lty=4)
+## perspFloor(x, y, z, persp.out, col=2, lty=2)
+## perspBack.wall.x(x, y, z, persp.out, col=3, lty=3)
+## perspBack.wall.y(x, y, z, persp.out, col=4, lty=4)
 
 ## debugging tools
-## persp.setup(col=c(0,0,0)) # set colors to background color: top, hidden, bottom
-## persp.setup(restore=TRUE)    # restore default values
+## perspSetup(col=c(0,0,0)) # set colors to background color: top, hidden, bottom
+## perspSetup(restore=TRUE)    # restore default values
 ## 
-## trace(persp.plane, exit=browser)
+## trace(perspPlane, exit=browser)
 ## 0
 ## untrace()
 ## 

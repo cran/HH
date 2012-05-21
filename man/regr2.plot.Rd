@@ -71,7 +71,7 @@ HarperCollins.
 }
 \seealso{\code{\link{resid.squares}}, \code{\link{regr1.plot}}}
 \examples{
-fat <- read.table(hh("datasets/fat.data"), header=TRUE)
+data(fat)
 regr2.plot(fat[,"abdomin"], xlab="abdomin",
            fat[,"biceps"],  ylab="biceps",
            fat[,"bodyfat"], zlab="bodyfat",

@@ -35,7 +35,8 @@ resid.squares(x, y, y.hat, resid.plot = "square", ...)
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{regr1.plot}}}
 \examples{
-hardness <- read.table(hh("datasets/hardness.dat"), header=TRUE)
+data(hardness)
+
 hardness.lin.lm  <- lm(hardness ~ density, data=hardness)
 
 plot(hardness ~ density, data=hardness, xlim=c(22,73), ylim=c(0,3400))

@@ -131,8 +131,8 @@ F.observed <- function(f.obs, col="green",
     abline(v=f.obs, col=col, lty=5)
     arrows(f.obs2, par()$usr[3:4]+c(-.01,.01), f.obs2, par()$usr[3:4],
            xpd=TRUE, col=col, length=.1)
-    axis(side=1, at=f.obs, label=FALSE, col=col)
-    axis(side=3, at=f.obs, label=FALSE, col=col)
+    axis(side=1, at=f.obs, labels=FALSE, col=col)
+    axis(side=3, at=f.obs, labels=FALSE, col=col)
     mtext(side=3, text=round(f.obs,3), at=f.obs, line=.5, cex=par()$cex, col=col)
   }
   

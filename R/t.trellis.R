@@ -30,8 +30,11 @@
          
          if (x$panel=="panel.bwplot.intermediate.hh" ||
              x$panel=="panel.bwplott" ||
+             x$panel=="panel.barchartt" ||
+             x$panel=="panel.dotplott" ||
              x$panel=="panel.stripplot" ||
-             x$panel=="panel.ancova" ) {
+             x$panel=="panel.ancova" ||
+             x$panel=="panel.histogram.hh") {
            if (is.null(x$transpose))
              x$transpose <- TRUE
            else
@@ -40,6 +43,21 @@
          
          if (x$panel=="panel.bwplot") {
            x$panel <- "panel.bwplott"
+           x$transpose <- TRUE
+         }
+         
+         if (x$panel=="panel.barchart") {
+           x$panel <- "panel.barchartt"
+           x$transpose <- TRUE
+         }
+         
+         if (x$panel=="panel.dotplot") {
+           x$panel <- "panel.dotplott"
+           x$transpose <- TRUE
+         }
+         
+         if (x$panel=="panel.histogram") {
+           x$panel <- "panel.histogram.hh"
            x$transpose <- TRUE
          }
          

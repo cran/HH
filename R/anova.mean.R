@@ -1,4 +1,7 @@
-"anova.mean" <-
+anova.mean <- function(...)
+  .Defunct("anovaMean", package="HH")
+
+"anovaMean" <-
 function(object, n, ybar, s, ..., ylabel="ylabel") {
   ## the object argument contains the levels of the factor
   df <- sum(n)-length(ybar)

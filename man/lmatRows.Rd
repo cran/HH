@@ -57,13 +57,11 @@ values in each system.
 \examples{
 ## catalystm example
 ## See ?MMC for more on this example
-catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
-                       col.names=c("catalyst","concent"))
-catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
+data(catalystm)
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 
 catalystm.mmc <-
-  if.R(r=glht.mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
+  if.R(r=mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
        s=multicomp.mmc(catalystm1.aov, plot=FALSE))
 dimnames(catalystm.mmc$mca$lmat)[[1]]
 lmatRows(catalystm1.aov, focus="catalyst")

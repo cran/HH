@@ -1,5 +1,40 @@
-Design_2.8_2_full       <- read.table(hh("datasets/2.8-2-full.dat"), header=TRUE)               ; head(Design_2.8_2_full       )
-Design_2.8_2            <- read.table(hh("datasets/2.8-2.dat"), header=FALSE, col.names=c("blocks","trt"))                   ; head(Design_2.8_2            )
+## R:
+##  require(HH)
+##  old.HH.ROOT.DIR <- options(HH.ROOT.DIR="c:/HOME/rmh/HH-R.package/HH/inst")
+##  source("c:/HOME/rmh/HH-R.package/HH/inst/data_setup/readHHdata.R", echo=TRUE, print.eval=TRUE)
+##  options(old.HH.ROOT.DIR)
+
+## S-Plus:
+##  getwd()
+##  require(HH)
+##  old.HH.ROOT.DIR <- options(HH.ROOT.DIR="c:/HOME/rmh/HH-R.package/HH/inst")
+##  source("c:/HOME/rmh/HH-R.package/HH/inst/data_setup/readHHdata.R", echo=TRUE, auto.print=TRUE)
+##  options(old.HH.ROOT.DIR)
+##  rm(old.HH.ROOT.DIR)
+##
+##  rm(.First.lib, .Last.value, .Random.seed)
+##  q()
+## The file paste(getwd(), ".Data", sep="/")
+## contains the data objects.
+
+## Manually rename the .Data directory to
+## "c:/HOME/rmh/HH-R.package/HH/inst/HH.Data"
+## Manually remove the file c:/HOME/rmh/HH-R.package/HH/inst/HH.Data/.Audit
+
+if.R(r={},
+     s={
+       as.table <- function(x) {
+         class(x) <- c("table", oldClass(x))
+         x
+       }})
+
+
+R282 <- read.table(hh("datasets/2.8-2-full.dat"), header=TRUE)
+R282$blocks <- factor(R282$blocks)
+for (i in 3:10) R282[[i]] <- factor(R282[[i]])
+head(R282)
+
+`Design_2.8_2`            <- read.table(hh("datasets/2.8-2.dat"), header=FALSE, col.names=c("blocks","trt"))                   ; head(`Design_2.8_2`            )
 abrasion                <- read.table(hh("datasets/abrasion.dat"), header=TRUE)                 ; head(abrasion                )
 
 acacia <- matrix(c(2,13,10,3), nrow=2, byrow=TRUE,
@@ -8,20 +43,43 @@ acacia <- matrix(c(2,13,10,3), nrow=2, byrow=TRUE,
                    invasion=c("Not.Inv","Invaded")))
 acacia <- as.table(acacia)
 
-aedotplot               <- read.table(hh("datasets/aedotplot.dat"), header=TRUE, sep=",")                ; head(aedotplot               )
+aeanonym <- read.table(hh("datasets/aedotplot.dat"), header=TRUE, sep=",") ; head(aedotplot)
 animal                  <- read.table(hh("datasets/animal.dat"), header=TRUE)                   ; head(animal                  )
 anneal                  <- read.table(hh("datasets/anneal.dat"), header=TRUE)                   ; head(anneal                  )
-apple                   <- read.table(hh("datasets/apple.dat"), header=TRUE)                    ; head(apple                   )
+
+apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
+apple$treat <- factor(apple$treat)
+contrasts(apple$treat) <- contr.treatment(6)
+apple$block <- factor(apple$block)
+head(apple)
+
 ara                     <- read.table(hh("datasets/ara.dat"), header=TRUE)                      ; head(ara                     )
 balance                 <- read.table(hh("datasets/balance.dat"), header=FALSE, col.names=c("sway","age"))                  ; head(balance                 )
 barleyp                 <- read.table(hh("datasets/barleyp.dat"), header=TRUE)                  ; head(barleyp                 )
-batch                   <- read.table(hh("datasets/batch.dat"), header=TRUE)                    ; head(batch                   )
+batch                   <- read.table(hh("datasets/batch.dat"), header=TRUE)   ; batch$Batch <- factor(batch$Batch)                 ; head(batch                   )
 bean                    <- read.table(hh("datasets/bean.dat"), header=TRUE)                     ; head(bean                    )
 birthweight             <- read.table(hh("datasets/birthweight.dat"), header=TRUE);  birthweight$gender <- factor(birthweight$gender, labels=c("F","M"))            ; head(birthweight             )
 blood                   <- read.table(hh("datasets/blood.dat"), header=FALSE, col.names=c("times","diets")) ; blood$diets <- factor(blood$diets, labels=LETTERS[1:4])                   ; head(blood                   )
-blyth                   <- read.table(hh("datasets/blyth.dat"), header=TRUE)                    ; head(blyth                   )
+
+## blyth <- read.table(hh("datasets/blyth.dat"), header=TRUE)
+## head(blyth )
+blyth.df <- read.table(hh("datasets/blyth.dat"), header=TRUE)
+blyth.df$treatment <- ordered(blyth.df$treatment, levels=c("standard","new"))
+tmp <- tapply(blyth.df$count, blyth.df[,-1], c)
+class(tmp) <- c("table","array")
+tmp
+##
+blyth <- matrix(tmp, 2, 4)
+dimnames(blyth) <- list(dimnames(tmp)[[1]],
+                            interaction(blyth.df[c(1,3,5,7),4:3]))
+rm(tmp, blyth.df)
+blyth
+
 breast                  <- read.table(hh("datasets/breast.dat"), header=TRUE)                   ; head(breast                  )
-budworm                 <- read.table(hh("datasets/budworm.dat"), header=TRUE)                  ; head(budworm                 )
+
+budworm <- read.table(hh("datasets/budworm.dat"), header=TRUE)
+names(budworm)[[2]] <- "numdead"
+head(budworm )
 
 byss <- read.table(hh("datasets/byss.dat"),
                    col.names=c("yes","no","dust","race","sex",
@@ -42,7 +100,18 @@ catalystm <- read.table(hh("datasets/catalystm.dat"), header=FALSE,
 catalystm$catalyst <- factor(catalystm$catalyst, labels=c("A","B","C","D"))
 head(catalystm               )
 
-cc135                   <- read.table(hh("datasets/cc135.dat"), header=TRUE)                    ; head(cc135                   )
+cc135 <- read.table(hh("datasets/cc135.dat"), header=TRUE)
+names(cc135)[8] <- "res.treat"
+cc135$treat   <- factor(cc135$treat,
+      labels=c("roughage","limited.grain","full.grain"))
+cc135$period  <- factor(cc135$period)
+cc135$cow     <- factor(cc135$cow)
+cc135$square  <- factor(cc135$square)
+cc135$res.treat <- factor(cc135$res.treat, levels=c(1:3,0),
+      labels=c("roughage","limited.grain","full.grain","none"))
+cc135$sequence <- factor(cc135$sequence)
+cc135$nores    <- factor(cc135$nores, labels=c("None","Res"))
+head(cc135)
 
 cc176 <- matrix(scan(hh("datasets/cc176.dat")), ncol=2, byrow=TRUE)
 current.levels <- c("galvanic","faradic","60.cycle","25.cycle")
@@ -54,10 +123,16 @@ cc176 <-
                rep(3,4)),8), levels=current.levels),
              minutes=ordered(rep(rep(c(1,2,3,5),rep(12,4)), 2)),
              rep=rep(c("I","II"), c(48,48)))
+       dimnames(contrasts(cc176$current))[[1]] <- levels(cc176$current) ## needed in R
+       dimnames(contrasts(cc176$minutes))[[1]] <- levels(cc176$minutes) ## needed in R
 rm(current.levels)
 ## contrasts(cc176$n.treats)
 contrasts(cc176$n.treats) <-
+  if.R(s=
+       contr.poly(c(1,3,6))
+       ,r=
        contr.poly(3, scores=c(1,3,6))
+       )
 ## contrasts(cc176$n.treats)
 head(cc176                   )
 
@@ -66,31 +141,71 @@ census4                 <- read.table(hh("datasets/census4.dat"), header=FALSE) 
 cereals                 <- read.table(hh("datasets/cereals.dat"), header=TRUE)                  ; head(cereals                 )
 ## cereals.info            <- read.table(hh("datasets/cereals.info"), header=TRUE)                 ; head(cereals.info            )
 chimp                   <- read.table(hh("datasets/chimp.dat"), header=TRUE)                    ; head(chimp                   )
-circuit                 <- read.table(hh("datasets/circuit.dat"), header=TRUE)                  ; head(circuit                 )
-co2                     <- datasets::co2                     ; head(co2                     ) ## Use the builtin R data set
+
+circuit <- read.table(hh("datasets/circuit.dat"), header=TRUE)
+for (i in 1:5) circuit[,i] <- factor(circuit[,i])
+head(circuit)
+
+co2 <- if.R(r=datasets::co2,      ## Use the builtin R data set
+            s={
+              co2 <- as.rts(get("co2", "data")) ## rts of the builtin S-Plus data set
+              attr(attr(co2, "tspar"), "units") <- "months"
+            }
+            )
+head(co2)
+
 concord                 <- read.table(hh("datasets/concord.dat"), header=TRUE)                  ; head(concord                 )
-crash                   <- read.table(hh("datasets/crash.dat"), header=TRUE)                    ; head(crash                   )
+
+crash <- read.table(hh("datasets/crash.dat"), header=TRUE)
+crash$passengers <- ordered(crash$passengers)
+position(crash$agerange) <- c(1.2, 2.5, 3.7)
+head(crash )
+
 ## crash.datatable         <- read.table(hh("datasets/crash.datatable"), header=TRUE)              ; head(crash.datatable         )
+
 crime                   <- as.table(data.matrix(read.table(hh("datasets/crime.dat"), header=TRUE)))                    ; head(crime                   )
 darwin                  <- read.table(hh("datasets/darwin.dat"), header=FALSE, col.names=c("cross","self"))                   ; head(darwin                  )
 diamond                 <- read.table(hh("datasets/diamond.dat"), header=TRUE)                  ; head(diamond                 )
-display                 <- read.table(hh("datasets/display.dat"), header=TRUE)                  ; head(display                 )
+
+display <- read.table(hh("datasets/display.dat"), header=TRUE)
+display$panel <- factor(display$panel)
+display$panel.ordered <- factor(display$panel)
+position(display$panel.ordered) <- (1:3)+.5
+display$emergenc <- factor(display$emergenc)
+head(display)
+
 distress                <- read.table(hh("datasets/distress.dat"), header=FALSE, col.names=c("birthwt","outcome"))                 ; head(distress                )
 
 ## draft70mn               <- read.table(hh("datasets/draft70mn.dat"), header=TRUE)                ; head(draft70mn               )
-draft70mn <- read.fwf(hh("datasets/draft70mn.dat"), header=FALSE,
-                      widths=c(5,rep(4,11)),
-                      col.names=month.abb)
-head(draft70mn               )
-draft <- stack(draft70mn)
-names(draft) <- c("rank","month")
+if.R(r={
+  draft70mn <- read.fwf(hh("datasets/draft70mn.dat"), header=FALSE,
+                        widths=c(5,rep(4,11)),
+                        col.names=month.abb)
+  draft <- stack(draft70mn)
+  names(draft) <- c("rank","month")
+}, s={
+  draft70mn <- read.table(hh("datasets/draft70mn.dat"), header=FALSE,
+                          sep=seq(3,47,4),
+                          col.names=month.abb)
+  draft <- data.frame(rank=unlist(draft70mn),
+                      month=rep(names(draft70mn), nrow(draft70mn)))
+})
+head(draft70mn)
 draft$monthOrd <- ordered(draft$month, month.abb)
-head(draft               )
+head(draft)
+levels(draft$month)
+levels(draft$monthOrd)
 
-drunk <- read.table(hh("datasets/drunk.dat"),
+drunk <- if.R(r={
+  read.table(hh("datasets/drunk.dat"),
                     col.names=c('0-29','30-39','40-49','50-59','>=60'),
                     row.names=c("males","females"),
                     check.names=FALSE)
+}, s={
+  read.table(hh("datasets/drunk.dat"),
+                    col.names=c('0-29','30-39','40-49','50-59','>=60'),
+                    row.names=c("males","females"))
+})
 drunk <- as.table(data.matrix(drunk))
 names(dimnames(drunk)) <- c("sex","age")
 head(drunk)
@@ -104,10 +219,13 @@ ts(elnino[1:24], start=c(1955,1), frequency=12)
 ## c:/HOME/rmh/504.s05/0407/elnino.text
 
 employM16 <- read.table(hh("datasets/employM16.dat"))[,5:16]
-employM16 <- ts(t(employM16), start=c(1948,1), frequency=12)
-ts(employM16[1:24], start=c(1948,1), frequency=12)
+employM16 <- if.R(r=ts(as.vector(t(employM16)), start=c(1948,1), frequency=12),
+                  s=rts(as.vector(t(data.matrix(m16))),
+                    start=1948, frequency=12, units="months"))
 
 energy <- read.table(hh("datasets/energy.dat"), header=TRUE, sep=",")
+  ## energy <- if.R(r=read.table(hh("datasets/energy.dat"), header=TRUE, sep=","),
+  ##                s=importData(hh("datasets/energy.dat")))
 energy$Wood <- ordered(energy$Wood,
                        levels=c(
                          "Osage Orange",
@@ -118,7 +236,7 @@ energy$Stove <- factor(energy$Stove, labels=c("A","B","C"))
 ## energy <- energy[order(energy$Moist, energy$Wood, energy$Kind),]
 head(energy)
 
-esr                     <- read.table(hh("datasets/esr.dat"), header=FALSE, col.names=c("fibrin","gammaglob","ESR"))                      ; head(esr                     )
+esr <- read.table(hh("datasets/esr.dat"), header=FALSE, col.names=c("fibrin","gammaglob","ESR")) ; head(esr)
 
 fabricwear              <- read.table(hh("datasets/fabricwear.dat"), header=FALSE, col.names=c("speed","wear"))
 fabricwear$speed <- ordered(fabricwear$speed)
@@ -135,7 +253,12 @@ fat                     <- read.table(hh("datasets/fat.data"), header=TRUE)     
 ## fat.htm                 <- read.table(hh("datasets/fat.htm"), header=TRUE)                      ; head(fat.htm                 )
 ## fat.txt                 <- read.table(hh("datasets/fat.txt"), header=TRUE)                      ; head(fat.txt                 )
 
-feed                    <- read.table(hh("datasets/feed.dat"), header=TRUE)                     ; head(feed                    )
+feed <- read.table(hh("datasets/feed.dat"), header=TRUE)
+feed$temp <- ordered(feed$temp)
+feed$supp <- ordered(feed$supp)
+position(feed$temp) <- 2:4
+position(feed$supp) <- 1:5
+head(feed)
 
 filmcoat <- read.table(hh("datasets/filmcoat.dat"),
                        col.names=c("temprt","pressure","coat"))
@@ -167,19 +290,32 @@ gum <- data.frame(Gum=rep(rep(c("Standard","Bicarbonate"), c(8,8)), 3))
 ## we use Time in 10 minute units, counting from 20 minutes after eating candy,
 ## then chew gum for 10 minutes, then wait another 20 minutes.
 gum$Time <- ordered(rep(c(20,30,50), c(16,16,16)))
-contrasts(gum$Time) <- contr.poly(3, c(20,30,50))
+contrasts(gum$Time) <- if.R(r=contr.poly(3, c(20,30,50)),
+                            s=contr.poly(c(20,30,50)))
 gum$subject <- factor(rep(1:8, 6))
 gum$pH <-  unlist(gum.in[2:4])
 rm(gum.in)
 head(gum)
 
-gunload                 <- read.table(hh("datasets/gunload.dat"), header=TRUE)                  ; head(gunload                 )
+gunload <- read.table(hh("datasets/gunload.dat"), header=TRUE)
+gunload$method <- factor(gunload$method, labels=c("new","old"))
+gunload$group <- factor(gunload$group, labels=c("slight","average","heavy"))
+gunload$team <- factor(gunload$team)
+head(gunload)
+
 har1                    <- read.table(hh("datasets/har1.dat"), header=TRUE)                     ; head(har1                    )
 
-har2                    <- read.table(hh("datasets/har2.dat"), header=TRUE, fill=TRUE)
-har2 <- stack(har2)
-names(har2) <- c("weight", "treatment")
-levels(har2$treatment) <- c("control","treated")
+if.R(r={
+  har2 <- read.table(hh("datasets/har2.dat"), header=TRUE, fill=TRUE)
+  har2 <- stack(har2)
+  names(har2) <- c("weight", "treatment")
+  levels(har2$treatment) <- c("control","treated")
+}, s={
+  har2 <- importData(hh("datasets/har2.dat"), type="ASCII", colNameRow=1)
+  har2 <- data.frame(weight=unlist(har2),
+                     treatment=rep(c("treated", "control"), each=nrow(har2)))
+  row.names(har2) <- 1:nrow(har2)
+})
 har2 <- har2[!is.na(har2$weight),]
 head(har2)
 
@@ -222,14 +358,14 @@ htwt                    <- read.table(hh("datasets/htwt.dat"), header=TRUE, na="
 ## iceskate.htm            <- read.table(hh("datasets/iceskate.htm"), header=TRUE)                 ; head(iceskate.htm            )
 
 ## 2002  OLYMPICS WOMEN'S SKATING FINALS
-iceskate <- scan(hh("datasets/iceskate-w3.dat"), what="", multi.line=T)
-iceskate <- matrix(iceskate, 23, 28, byrow=T)
+iceskate <- scan(hh("datasets/iceskate-w3.dat"), what="", multi.line=TRUE)
+iceskate <- matrix(iceskate, 23, 28, byrow=TRUE)
 iceskate <- data.frame(country=iceskate[,2],
                        technical=iceskate[,c(7:15)],
                        presentation=iceskate[,c(20:28)],
                        row.names=paste(iceskate[,3], iceskate[,4]))
 for (i in 2:19) iceskate[,i] <- as.numeric(as.character(iceskate[,i]))
-rm(i)
+if.R(r=rm(i), s={})
 head(iceskate)
 
 
@@ -257,10 +393,18 @@ intubate$vent <- factor(intubate$vent,
 intubate$invas <- factor(intubate$invas,
                              levels=c("yes","no"),
                              labels=c("invas.intub","not.invas"))
-structable( ~ center + invas + vent, direction=c("v","v","h"), data=intubate)
+if.R(r={
+  require(vcd)
+  structable( ~ center + invas + vent, direction=c("v","v","h"), data=intubate)
+}, s={
+  tmp <- tapply(intubate$Freq, intubate[, c(2,3,1)], c)
+  names(dimnames(tmp)) <- c("vent","invas","center")
+  print(as.table(tmp))
+  rm(tmp)
+})
 
 ironpot                 <- read.table(hh("datasets/ironpot.dat"), header=TRUE)                  ; head(ironpot                 )
-kangaroo                <- read.table(hh("datasets/kangaroo.dat"), header=TRUE)                 ; head(kangaroo                )
+kangaroo                <- read.table(hh("datasets/kangaroo.dat"), header=TRUE, skip=1)                 ; head(kangaroo                )
 kidney                  <- read.table(hh("datasets/kidney.dat"), header=TRUE)                   ; head(kidney                  )
 kyphosis                <- read.table(hh("datasets/kyphosis.dat"), header=FALSE, col.names=c("row.names","Kyphosis","Age","Number","Start"), row.names=1)                 ; head(kyphosis                )
 lake                    <- read.table(hh("datasets/lake.dat"), header=TRUE)                     ; head(lake                    )
@@ -274,10 +418,35 @@ head(leukemia)
 
 lft.asat                <- read.table(hh("datasets/lft.asat.dat"), header=TRUE,sep=",")                 ; head(lft.asat                )
 lifeins                 <- read.table(hh("datasets/lifeins.dat"), header=TRUE)                  ; head(lifeins                 )
-##longley                 <- read.table(hh("datasets/longley.dat"), header=FALSE)                  ; head(longley                 )
-longley <- datasets::longley; head(longley)
-lymph                   <- read.table(hh("datasets/lymph.dat"), header=TRUE)                    ; head(lymph                   )
-maiz                    <- read.table(hh("datasets/maiz.dat"), header=TRUE)                     ; head(maiz                    )
+
+## longley <- read.table(hh("datasets/longley.dat"), header=FALSE)
+## head(longley                 )
+longley <- if.R(r=datasets::longley,
+                s=data.frame(longley.x, Employed = longley.y))
+head(longley)
+
+lymph <- read.table(hh("datasets/lymph.dat"), header=TRUE)
+names(lymph)[1] <- "nodes"
+lymph$X.ray <- factor(lymph$X.ray)
+lymph$stage <- factor(lymph$stage)
+lymph$grade <- factor(lymph$grade)
+## We will be jittering the 0/1 values of nodes to increase the
+## visibility of the individual points.  Since we will do this
+## in many graphs, we jitter them once and reuse the jittered
+## points in all plots.
+lymph$nodes.j <- jitter(lymph$nodes,
+                        if.R(s=5, r=.5))
+lymph$nodes <- factor(lymph$nodes)
+head(lymph)
+
+maiz <- read.table(hh("datasets/maiz.dat"), header=TRUE)
+maiz$hibrido <- factor(maiz$hibrido,
+                       levels=c("P3747","P3732","Mol17","A632","LH74"))
+maiz$nitrogeno <- factor(maiz$nitrogeno)
+position(maiz$nitrogeno) <- c(1.2, 2.4, 3.6, 4.8)
+position(maiz$bloque) <- c(2.25, 3.75)
+
+
 manhours                <- read.table(hh("datasets/manhours.dat"), header=FALSE,
                                       col.names=c("manhours", "occupanc", "checkins", "svcdesk",
                                         "common", "wings", "berthing", "rooms"))                ; head(manhours                )
@@ -285,14 +454,22 @@ market                  <- read.table(hh("datasets/market.dat"), header=TRUE)   
 mice                    <- read.table(hh("datasets/mice.dat"), header=TRUE)                     ; head(mice                    )
 mileage                 <- read.table(hh("datasets/mileage.dat"), header=TRUE)                  ; head(mileage                 )
 
-mortality               <- read.fwf(hh("datasets/mortality.dat"), header=FALSE, col.names=c("x","birthweight","dead","alive"), row.names="birthweight", skip=3, widths=c(1,10,9,14))[,-1]
+mortality <- if.R(r={
+  read.fwf(hh("datasets/mortality.dat"), header=FALSE,
+           col.names=c("x","birthweight","dead","alive"),
+           row.names="birthweight", skip=3, widths=c(1,10,9,14))[,-1]
+}, s={
+  read.table(hh("datasets/mortality.dat"), header=FALSE,
+             col.names=c("birthweight","dead","alive"),
+             row.names="birthweight", skip=3, sep=c(2,12,21))
+})
 mortality <- as.table(data.matrix(mortality))
 names(dimnames(mortality)) <- c("birthweight","outcome")
 mortality
 
 mpg                     <- read.table(hh("datasets/mpg.dat"), header=TRUE)                      ; head(mpg                     )
 muscle                  <- read.table(hh("datasets/muscle.dat"), header=TRUE)                   ; head(muscle                  )
-source("njgolf-read.r") ; head(njgolf)
+source(hh("data_setup/njgolf-read.r")) ; head(njgolf)
 normtemp                <- read.table(hh("datasets/normtemp.dat"), header=FALSE, col.names=c("BodyTempF","Gender","HeartRate"))
 normtemp$Gender=factor(normtemp$Gender, labels=c("male","female"))
 head(normtemp) ## Journal of Statistics Education (Shoemaker 1996)
@@ -303,14 +480,25 @@ notch$machine <- factor(notch$machine,
                         labels=c("Tinius1","Tinius2","Satec","Tokyo"))
 head(notch)
 
-## nottem                  <- read.table(hh("datasets/nottem.dat"), header=TRUE)                   ; head(nottem                  )
-nottem <- datasets::nottem
+## nottem <- read.table(hh("datasets/nottem.dat"), header=TRUE)
+## head(nottem)
+
+if.R(r={nottem <- datasets::nottem},
+     s={
+       library(MASS)
+       nottem <- get("nottem", where="MASS")
+       detach("MASS")
+     }
+     )
+head(nottem)
+
 oats                    <- read.table(hh("datasets/oats.dat"), header=TRUE)                     ; head(oats                    )
 odoffna                 <- read.table(hh("datasets/odoffna.dat"), header=TRUE)                  ; head(odoffna                 )
 operator                <- read.table(hh("datasets/operator.dat"), header=TRUE)                 ; head(operator                )
 
 ozone <- read.table(hh("datasets/ozone.dat"), na.strings="-9999")
-ozone <- ts(as.vector(t(ozone[,5:16])), start=c(1926,1), freq=12)
+ozone <- if.R(r=ts(as.vector(t(ozone[,5:16])), start=c(1926,1), freq=12),
+              s=rts(as.vector(t(arosa[,5:16])), start=c(1926,1), freq=12))
 ts(ozone[1:36], start=c(1926,1), frequency=12)
 
 paper                   <- read.table(hh("datasets/paper.dat"), header=FALSE, col.names=paste("material", 1:5, sep="."))
@@ -320,19 +508,29 @@ paper                   <- read.table(hh("datasets/paper.dat"), header=FALSE, co
 ## page 375
 paper <- data.frame(smoothness=unlist(paper),
                     material=factor(rep(1:5, rep(32,5))))
-row.names(paper) <- NULL
+row.names(paper) <- if.R(r=NULL,
+                         s=1:nrow(paper))
 head(paper)
 
-## patient                 <- read.table(hh("datasets/patient.dat"), header=TRUE)                  ; head(patient                 )
-tmp <- read.fwf(hh("datasets/patient.dat"),
-                width=c(8,8,8,8,8),
-                col.names=c("stomach","bronchus",
+## patient <- read.table(hh("datasets/patient.dat"), header=TRUE)
+## head(patient)
+if.R(r={
+  tmp <- read.fwf(hh("datasets/patient.dat"),
+                  width=c(8,8,8,8,8),
+                  col.names=c("stomach","bronchus",
                     "colon","ovary","breast"))
-patient <- stack(tmp)
-names(patient) <- c("surv.time", "organ")
+  patient <- stack(tmp)
+  names(patient) <- c("surv.time", "organ")
+}, s={
+  tmp <- read.table(hh("datasets/patient.dat"),
+                    sep=c(1,9,17,25,32),
+                    col.names=c("stomach","bronchus",
+                      "colon","ovary","breast"))
+  patient <- data.frame(surv.time=unlist(tmp), organ=rep(names(tmp), each=nrow(tmp)))
+})
 patient <- patient[!is.na(patient$surv.time),]
 head(patient)
-
+rm(tmp)
 
 plasma <- data.frame(plasma=scan(hh("datasets/plasma.dat")),
                      time=factor(rep(1:5, 10),
@@ -352,7 +550,8 @@ head(potency)
 pox                     <- read.table(hh("datasets/pox.dat"), header=FALSE, col.names=c("admission","later"))                      ; head(pox                     )
 
 product <- scan(hh("datasets/product.dat"))
-product <- ts(diff(product))
+product <- if.R(r=ts(diff(product)),
+                s=rts(diff(product)))
 ts(product[1:20])
 
 psycho <- read.table(hh("datasets/psycho.dat"), header=FALSE,
@@ -364,8 +563,19 @@ psycho$n.not <- psycho$n.total - psycho$n.taking
 contrasts(psycho$age.group) <- contr.poly(psycho$mean.age[1:5])
 head(psycho)
 
-pulmonary               <- read.table(hh("datasets/pulmonary.dat"), header=TRUE)                ; head(pulmonary               )
-pulse                   <- read.table(hh("datasets/pulse.dat"), header=TRUE)                    ; head(pulse                   )
+pulmonary <- read.table(hh("datasets/pulmonary.dat"), header=TRUE,
+                        row.names=NULL)
+names(pulmonary)[3] <- "FVC"
+names(pulmonary)[1] <- "smoker"
+pulmonary$smoker <- factor(pulmonary$smoker, levels=pulmonary$smoker)
+row.names(pulmonary) <- pulmonary$smoker
+head(pulmonary)
+
+pulse <- read.table(hh("datasets/pulse.dat"), header=TRUE)
+names(pulse) <- c("task","pulse")
+pulse$task <- factor(pulse$task)
+head(pulse)
+
 radioact                <- read.table(hh("datasets/radioact.dat"), header=TRUE)                 ; head(radioact                )
 
 rent <- read.table(hh("datasets/rent.dat"), header=FALSE,   ## Weisberg's file alr162
@@ -376,19 +586,45 @@ rent$alf.till <- rent$rnt.alf / rent$rnt.till
 head(rent)
 
 retard                  <- read.table(hh("datasets/retard.dat"), header=TRUE)                   ; head(retard                  )
-rhiz1_alfalfa           <- read.table(hh("datasets/rhiz1-alfalfa.dat"), header=TRUE)            ; head(rhiz1_alfalfa           )
-rhiz3_clover            <- read.table(hh("datasets/rhiz3-clover.dat"), header=TRUE)             ; head(rhiz3_clover            )
+
+rhiz.alfalfa <- read.table(hh("datasets/rhiz1-alfalfa.dat"), header=TRUE)
+rhiz.alfalfa$comb <- factor(rhiz.alfalfa$comb,
+                            labels=c("alfalfa","alfalfa+clover"))
+rhiz.alfalfa$strain <-
+  factor(rhiz.alfalfa$strain,
+         labels=c('3DOa1','3DOa7','3DOa10','3DOa12','3DOa15','a.comp'))
+rhiz.alfalfa$Npg <- rhiz.alfalfa$nitro / rhiz.alfalfa$weight
+head(rhiz.alfalfa)
+
+rhiz.clover <- read.table(hh("datasets/rhiz3-clover.dat"), header=TRUE)
+rhiz.clover$comb <- factor(rhiz.clover$comb,
+                           labels=c("clover","clover+alfalfa"))
+rhiz.clover$strain <-
+  factor(rhiz.clover$strain,
+         labels=c('3DOk1','3DOk5','3DOk4','3DOk7','3DOk13','k.comp'))
+rhiz.clover$Npg <- rhiz.clover$nitro / rhiz.clover$weight
+head(rhiz.clover)
+
 rhizobium1              <- read.table(hh("datasets/rhizobium1.dat"), header=TRUE)               ; head(rhizobium1              )
 rhizobium3              <- read.table(hh("datasets/rhizobium3.dat"), header=TRUE)               ; head(rhizobium3              )
 salary                  <- read.table(hh("datasets/salary.dat"), header=TRUE, na.strings="*")                   ; head(salary                  )
 
-salinity <- read.fwf(hh("datasets/salinity.dat"),
-                     width=c(5,8,8),
-                     col.names=c("1", "2", "3"), check.names=FALSE)
-salinity <- stack(salinity)
-names(salinity) <- c("salinity","body")
+if.R(r={
+  salinity <- read.fwf(hh("datasets/salinity.dat"),
+                       width=c(5,8,8),
+                       col.names=c("1", "2", "3"), check.names=FALSE)
+  salinity <- stack(salinity)
+  names(salinity) <- c("salinity","body")
+}, s={
+  salinity <- read.table(hh("datasets/salinity.dat"),
+                         sep=c(1,9,16),
+                         col.names=c("1", "2", "3"))
+  salinity <- data.frame(salinity=unlist(salinity),
+                         body=rep(names(salinity), each=nrow(salinity)))
+})
 salinity <- salinity[!is.na(salinity$salinity),]
-row.names(salinity) <- NULL
+row.names(salinity) <- if.R(r=NULL,
+                            s=1:nrow(salinity))
 head(salinity)
 
 ## salk                    <- read.table(hh("datasets/salk.dat"), header=TRUE)                     ; head(salk                    )
@@ -396,18 +632,31 @@ salk <- read.table(hh("datasets/salk.dat"),
                    col.names=c("age", "vaccine", "paralyze", "Freq"))
 salk$age <- ordered(salk$age,
                     labels=c("0-4", "5-9", "10-14", "15-19", "20-39", "40+"))
-structable(~ age + vaccine + paralyze, data=salk,  direction=c("v","v","h"),
-           main="Recommended display---specified, paralyze split last")
-
+if.R(r={
+  require(vcd)
+  structable(~ age + vaccine + paralyze, data=salk,  direction=c("v","v","h"),
+             main="Recommended display---specified, paralyze split last")
+}, s={
+    tmp <- tapply(salk$Freq, salk[, c(2,3,1)], c)
+    names(dimnames(tmp)) <- c("vaccine","paralyze", "age")
+    print(as.table(tmp))
+    rm(tmp)
+})
+     
 
 seeding                 <- read.table(hh("datasets/seeding.dat"), header=TRUE)                  ; head(seeding                 )
 
-selfexam <- read.fwf(hh("datasets/selfexam.dat"),
-                     widths=c(13,10,15,5),
-                     row.names=1,
-                     skip=2, header=FALSE)
-names(selfexam) <- read.table(hh("datasets/selfexam.dat"),
-                              skip=1, nrows=1, as.is=TRUE)[-1]
+if.R(r={
+  selfexam <- read.fwf(hh("datasets/selfexam.dat"),
+                       widths=c(13,10,15,5),
+                       row.names=1,
+                       skip=2, header=FALSE)
+  names(selfexam) <- read.table(hh("datasets/selfexam.dat"),
+                                skip=1, nrows=1, as.is=TRUE)[-1]
+}, s={
+  selfexam <- read.table(hh("datasets/selfexam.dat"),
+                         sep=c(1,14,24,39), skip=1, header=TRUE)
+})
 row.names(selfexam) <- gsub(" ", "", row.names(selfexam))
 selfexam <- as.table(data.matrix(selfexam))
 names(dimnames(selfexam)) <- c("age","frequency")
@@ -425,8 +674,16 @@ smokers <- read.table(hh("datasets/smokers.dat"), header=FALSE, col.names=c("age
 smokers$smoker <- ordered(smokers$smoker, levels=c("yes","no"))
 smokers$dead <- ordered(smokers$dead, levels=c("yes","no"))
 ##Appleton:1996
-structable(~ smoker + age + dead, data=smokers,  direction=c("h","v","v"))
-
+if.R(r={
+  require(vcd)
+  structable(~ smoker + age + dead, data=smokers,  direction=c("h","v","v"))
+}, s={
+  tmp <- tapply(smokers$Freq, smokers[, c(2,3,1)], c)
+  names(dimnames(tmp)) <- c("smoker","dead", "age")
+  print(as.table(tmp))
+  rm(tmp)
+})
+     
 spacshu                 <- read.table(hh("datasets/spacshu.dat"), header=FALSE, col.names=c("tempF", "damage"))                  ; head(spacshu                 )
 spindle                 <- read.table(hh("datasets/spindle.dat"), header=TRUE)                  ; head(spindle                 )
 sprint                  <- read.table(hh("datasets/sprint.dat"), header=TRUE)                   ; head(sprint                  )
@@ -435,8 +692,13 @@ surface                 <- read.table(hh("datasets/surface.dat"), header=TRUE)  
 
 ## tablet1                 <- read.table(hh("datasets/tablet1.dat"), header=TRUE)                  ; head(tablet1                 )
 tablet1 <- read.table(hh("datasets/tablet1.dat"), col.names=LETTERS[1:4])
-tablet1 <- stack(tablet1)
-names(tablet1) <- c("time","tablet")
+if.R(r={
+  tablet1 <- stack(tablet1)
+  names(tablet1) <- c("time","tablet")
+}, s={
+  tablet1 <- data.frame(time=unlist(tablet1),
+                        tablet=rep(names(tablet1), each=nrow(tablet1)))
+})
 head(tablet1)
 
 teachers                <- read.table(hh("datasets/teachers.dat"), header=FALSE, col.names=c("English","Greek"))                 ; head(teachers                )
@@ -446,27 +708,65 @@ testing <- data.frame(strength=scan(hh("datasets/testing.dat")),
                       gauger=factor(rep(c(1,2,3), c(12,12,12))))
 head(testing)
 
-testscore               <- read.table(hh("datasets/testscore.dat"), header=TRUE)                ; head(testscore               )
-tires                   <- read.table(hh("datasets/tires.dat"), header=TRUE)                    ; head(tires                   )
-tongue                  <- read.table(hh("datasets/tongue.dat"), header=TRUE)                   ; head(tongue                  )
-tser.mystery.X          <- ts(scan(hh("datasets/tser.mystery.X.dat")))           ; ts(tser.mystery.X[1:12])
-tser.mystery.Y          <- ts(scan(hh("datasets/tser.mystery.Y.dat")))           ; ts(tser.mystery.Y[1:12])
-tser.mystery.Z          <- ts(scan(hh("datasets/tser.mystery.Z.dat")))           ; ts(tser.mystery.Z[1:12])
-tsq                     <- ts(scan(hh("datasets/tsq.dat")))                      ; ts(tsq[1:12])
-## turkey                  <- read.table(hh("datasets/turkey.dat"), header=TRUE)                   ; head(turkey                  )
+testscore <- read.table(hh("datasets/testscore.dat"), header=TRUE)
+testscore$sex       <- factor(testscore$sex,
+                              labels=c("female","male"))
+testscore$grade     <- ordered(testscore$grade)
+testscore$standing  <- factor(testscore$standing,
+                              labels=c("good", "average", "poor"))
+testscore$order     <- factor(testscore$order,
+                              labels=c("high", "medium", "low"))
+head(testscore )
+
+tires <- read.table(hh("datasets/tires.dat"), header=TRUE)
+tires$car      <- factor(tires$car)
+tires$position <- factor(tires$position)
+tires$brand    <- factor(tires$brand)
+head(tires)
+
+tongue <- read.table(hh("datasets/tongue.dat"), header=TRUE)
+head(tongue)
+
+tser.mystery.X <- scan(hh("datasets/tser.mystery.X.dat"))
+tser.mystery.X <- if.R(r=ts(tser.mystery.X), s=rts(tser.mystery.X))
+ts(tser.mystery.X[1:12])
+
+tser.mystery.Y <- scan(hh("datasets/tser.mystery.Y.dat"))
+tser.mystery.Y <- if.R(r=ts(tser.mystery.Y), s=rts(tser.mystery.Y))
+ts(tser.mystery.Y[1:12])
+
+tser.mystery.Z <- scan(hh("datasets/tser.mystery.Z.dat"))
+tser.mystery.Z <- if.R(r=ts(tser.mystery.Z), s=rts(tser.mystery.Z))
+ts(tser.mystery.Z[1:12])
+
+tsq <- scan(hh("datasets/tsq.dat"))
+tsq <- if.R(r=ts(tsq), s=rts(tsq, units="days"))
+ts(tsq[1:12])
+
+## turkey <- read.table(hh("datasets/turkey.dat"), header=TRUE) ; head(turkey)
 turkey <- read.table(hh("datasets/turkey.dat"), header=FALSE, col.names=c("diet","wt.gain"))
 turkey$diet <- factor(turkey$diet,
                       labels=c("control","A1","A2","B1","B2"))
 head(turkey)
 
-## tv.txt                  <- read.table(hh("datasets/tv.txt"), header=TRUE)                       ; head(tv.txt                  )
-tv <- read.fwf(hh("datasets/tv.dat"),
-               width=c(22,6,7,7,4,2),
-               strip.white=TRUE,
-               row.names=1,
-               na.strings="*",
-               col.names=c("country","life.exp","ppl.per.tv","ppl.per.phys",
-                 "fem.life.exp","male.life.exp"))
+## tv.txt <- read.table(hh("datasets/tv.txt"), header=TRUE)
+## head(tv.txt)
+## some country names have embedded blanks
+tv <- if.R(r={
+  read.fwf(hh("datasets/tv.dat"),
+           width=c(22,6,7,7,4,2),
+           strip.white=TRUE,
+           row.names=1,
+           na.strings="*",
+           col.names=c("country","life.exp","ppl.per.tv","ppl.per.phys",
+             "fem.life.exp","male.life.exp"))
+}, s={
+  read.table(hh("datasets/tv.dat"),
+             sep=c(1,23,29,36,43,47),
+             na.strings="*",
+             col.names=c("country","life.exp","ppl.per.tv","ppl.per.phys",
+               "fem.life.exp","male.life.exp"))
+})
 head(tv)
 
 usair <- read.table(hh("datasets/usair.dat"),                    
@@ -476,16 +776,48 @@ head(usair)
 
 uscrime                 <- read.table(hh("datasets/uscrime.dat"), header=TRUE)                  ; head(uscrime                 )
 vocab                   <- read.table(hh("datasets/vocab.dat"), header=FALSE, col.names="score")                    ; head(vocab                   )
-vulcan                  <- read.table(hh("datasets/vulcan.dat"), header=TRUE)                   ; head(vulcan                  )
-## vulcan0                 <- read.table(hh("datasets/vulcan0.dat"), header=TRUE)                  ; head(vulcan0                 )
+
+vulcan <- read.table(hh("datasets/vulcan.dat"), header=TRUE)
+vulcan$filler <- factor(vulcan$filler)
+vulcan$pretreat <- factor(vulcan$pretreat)
+vulcan$raw <- factor(vulcan$raw)
+position(vulcan$pretreat) <- c(2,3,4)
+position(vulcan$raw) <- (1:4)+.5
+head(vulcan)
+
 washday                 <- read.table(hh("datasets/washday.dat"), header=TRUE)                  ; head(washday                 )
 water                   <- read.table(hh("datasets/water.dat"), header=TRUE)                    ; head(water                   )
-weightloss              <- read.table(hh("datasets/weightloss.dat"), header=TRUE)               ; head(weightloss              )
+
+weightloss <- read.table(hh("datasets/weightloss.dat"), header=TRUE)
+weightloss <- data.frame(loss=unlist(weightloss),
+                         group=rep(names(weightloss), rep(10,5)))
+head(weightloss )
+
 weld                    <- read.table(hh("datasets/weld.dat"), header=TRUE)                     ; head(weld                    )
 wheat                   <- read.table(hh("datasets/wheat.dat"), header=TRUE)                    ; head(wheat                   )
 wool                    <- read.table(hh("datasets/wool.dat"), header=TRUE)                     ; head(wool                    )
-workstation             <- read.table(hh("datasets/workstation.dat"), header=TRUE)              ; head(workstation             )
+
+workstation <- read.table(hh("datasets/workstation.dat"), header=TRUE)
+workstation$method <- factor(workstation$method)
+workstation$station <- factor(workstation$station)
+head(workstation)
+
 yates                   <- read.table(hh("datasets/yates.dat"), header=TRUE)                    ; head(yates                   )
-yatesppl                <- read.table(hh("datasets/yatesppl.dat"), header=TRUE)                 ; head(yatesppl                )
+
+yatesppl <- read.table(hh("datasets/yatesppl.dat"), header=TRUE)
+yatesppl$blocks   <- factor(yatesppl$blocks  )
+yatesppl$plots    <- factor(yatesppl$plots   )
+yatesppl$subplots <- factor(yatesppl$subplots)
+yatesppl$variety  <- factor(yatesppl$variety )
+yatesppl$nitrogen <- factor(yatesppl$nitrogen)
+head(yatesppl)
+
 ## lft.asat <- read.csv(hh("/h2/datasets/lft.asat.dat"), header=TRUE);  head(lft.asat) redundant
 ## AudiencePercent is originally in rda form.
+
+
+if.R(r={},
+     s={
+       if (exists("as.table", where=1))
+         rm(as.table)
+     })

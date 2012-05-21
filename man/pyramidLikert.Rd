@@ -20,7 +20,17 @@
                       R=list(x$legend$bottom$args$text[2]),
                       M=list(x$ylab, just=1)))
 
-as.pyramidLikert(x, ...)
+as.pyramidLikert(x, ...,
+                 panel.width=.48,
+                 px=list(
+                   L=c(0, panel.width),
+                   R=c(1-panel.width, 1),
+                   M=c(panel.width, 1-panel.width)),
+                 keepLegend=(length(x$legend$bottom$args$text) > 2),
+                 xlab.top=list(
+                   L=list(x$legend$bottom$args$text[1]),
+                   R=list(x$legend$bottom$args$text[2]),
+                   M=list(x$ylab, just=1)))
 }
 \arguments{
 \item{x}{a single-panel \code{'trellis'} object.}
@@ -55,17 +65,17 @@ that it produces a plot.
 library(HH)
 data(USAge.table)  ## from latticeExtra
 USA79 <- USAge.table[75:1, 2:1, "1979"]/1000000
-PL <- plot.likert(USA79,
-                  main="Population of United States 1979 (ages 0-74)",
-                  xlab="Count in Millions",
-                  ylab="Age",
-                  scales=list(
-                    y=list(
-                      limits=c(0,77),
-                      at=seq(1,76,5),
-                      labels=seq(0,75,5),
-                      tck=.5))
-                     )
+PL <- plot(as.likert(USA79),
+                     main="Population of United States 1979 (ages 0-74)",
+                     xlab="Count in Millions",
+                     ylab="Age",
+                     scales=list(
+                       y=list(
+                         limits=c(0,77),
+                         at=seq(1,76,5),
+                         labels=seq(0,75,5),
+                         tck=.5))
+                        )
 PL
 as.pyramidLikert(PL)
 
@@ -74,17 +84,35 @@ as.pyramidLikert(PL)
 ## This example is based on the example in demo(PoorChildren, package="HH")
 data(PoorChildren)
 PCWPpalette <- c("#A8C2C0", "#C9E9E6", "#D0E39A", "#A3B37B")
-PCcount <- plot.likert(PoorChildren, col=PCWPpalette,
-                       ylab="Percent of\npoor households\nin area",
-                       xlab="Number of Children",
-                       xlab.top=c("\n\nNo Working Parents", "\n\nOne or more Working Parents"),
-                       ylab.right=NULL,
-                       scales=list(x=list(
-                           at=seq(-2,2,1)*1000000,
-                           labels=c("2,000,000", "1,000,000","0","1,000,000","2,000,000"))),
-                       rightAxis=FALSE)
+PCcount <- likert(PoorChildren, col=PCWPpalette,
+                  ylab="Percent of\npoor households\nin area",
+                  xlab="Number of Children",
+                  xlab.top=c("\n\nNo Working Parents", "\n\nOne or more Working Parents"),
+                  ylab.right=NULL,
+                  scales=list(x=list(
+                      at=seq(-2,2,1)*1000000,
+                      labels=c("2,000,000", "1,000,000","0","1,000,000","2,000,000"))),
+                  rightAxis=FALSE)
 PCcount
-print(as.pyramidLikert(PCcount), panel.width=.44)
+as.pyramidLikert(PCcount, panel.width=.44)
+
+
+## Here the bars are all 100\% wide and the area and height of the bars
+## are proportional to the Row Count Totals.
+PL3 <-
+likert(as.listOfNamedMatrices(PoorChildren),
+       col=PCWPpalette, as.percent=TRUE,
+       ylab="Percent of poor households in area",
+       xlab="Percent of Children",
+       xlab.top=c("No Working Parents", "One or more Working Parents"),
+       ylab.right="Row Count Totals",
+       main="Poor Children, Working Parents",
+       strip=FALSE,
+       strip.left=FALSE,
+       rightAxisLabels=format(rowSums(PoorChildren), big.mark=","),
+       resize.height="rowSums",
+       par.settings=list(axis.line=list(col="transparent")))
+PL3
 
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }

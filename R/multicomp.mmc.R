@@ -17,7 +17,7 @@ multicomp.mmc <- function(x,
                           ...) {
   if.R(r={
     multicomp.lm <- NA ## make R-2.6.0dev happy
-    stop("multicomp.mmc works only in S-Plus.  Use glht.mmc in R.")
+    stop("multicomp.mmc works only in S-Plus.  Use mmc in R.")
   },
        s={})
 

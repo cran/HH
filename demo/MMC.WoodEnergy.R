@@ -5,7 +5,7 @@
 if.R(r={
   energy.glht <- glht(energy.aov.4, focus="Stove",
                       linfct=mcp(Stove="Tukey"),
-                      interaction_average=TRUE, covariate_average=TRUE)
+                      `interaction_average`=TRUE, `covariate_average`=TRUE)
   Stove.means <- model.tables(energy.aov.4, type="means",
                               cterms="Stove")$tables$Stove
   height.mca <- Stove.means %*% abs(t(contrMat(Stove.means, "Tukey")))
@@ -131,8 +131,8 @@ energy.mmc.4W <- list()
 for (i in levels(energy$Wood)) {
   energy.mmc.4W[[i]] <-
     if.R(r={
-      glht.mmc(energy.aov.4W[[i]], calpha=energy.tpmc,
-               linfct=mca.14, lmat.rows=3:4, focus="Stove")
+      mmc(energy.aov.4W[[i]], calpha=energy.tpmc,
+          linfct=mca.14, lmat.rows=3:4, focus="Stove")
     },s={
       multicomp.mmc(energy.aov.4W[[i]],
                     focus="Stove",

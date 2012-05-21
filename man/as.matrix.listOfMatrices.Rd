@@ -27,17 +27,17 @@
 
 }
 \usage{
-\method{as.matrix}{listOfNamedMatrices}(x, ..., abbreviate = TRUE, minlength = 4)
-is.listOfNamedMatrices(x, ...,  xName=deparse(substitute(x)))
+\method{as.matrix}{listOfNamedMatrices}(x, abbreviate = TRUE, minlength = 4, ...)
+is.listOfNamedMatrices(x,  xName=deparse(substitute(x)))
 \method{as.data.frame}{listOfNamedMatrices}(x, ...)
-as.listOfNamedMatrices(x, ...,  xName=deparse(substitute(x))) 
+as.listOfNamedMatrices(x,  xName=deparse(substitute(x))) 
 \method{[}{listOfNamedMatrices}(x, ...)
-\method{as.listOfNamedMatrices}{array}(x, ...,  xName=deparse(substitute(x)))
-\method{as.listOfNamedMatrices}{list}(x, ...,  xName=deparse(substitute(x)))
-\method{as.listOfNamedMatrices}{MatrixList}(x, ...,  xName=deparse(substitute(x)))
+\method{as.listOfNamedMatrices}{array}(x, xName=deparse(substitute(x)))
+\method{as.listOfNamedMatrices}{list}(x, xName=deparse(substitute(x)))
+\method{as.listOfNamedMatrices}{MatrixList}(x, xName=deparse(substitute(x)))
 \method{print}{listOfNamedMatrices}(x, ...)
-as.MatrixList(x, ...)
-\method{as.MatrixList}{array}(x, ...)
+as.MatrixList(x)
+\method{as.MatrixList}{array}(x)
 \method{print}{MatrixList}(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.

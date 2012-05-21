@@ -1,5 +1,5 @@
-as.matrix.listOfNamedMatrices <- function(x, ..., abbreviate=TRUE, minlength=4) {
-  result <- is.listOfNamedMatrices(x, ..., xName=deparse(substitute(x)))
+as.matrix.listOfNamedMatrices <- function(x, abbreviate=TRUE, minlength=4, ...) {
+  result <- is.listOfNamedMatrices(x, xName=deparse(substitute(x)))
   if (!result) {
     stop(attr(result,"reason"))
   }
@@ -23,7 +23,7 @@ as.matrix.listOfNamedMatrices <- function(x, ..., abbreviate=TRUE, minlength=4) 
 }
 
 
-is.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x))) {
+is.listOfNamedMatrices <- function(x, xName=deparse(substitute(x))) {
   force(xName)
   result <- inherits(x, "listOfNamedMatrices")
   if (result) return(result)
@@ -64,13 +64,13 @@ is.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x))) {
   result
 }
 
-as.listOfNamedMatrices <- function(x, ...,  xName=deparse(substitute(x)))
+as.listOfNamedMatrices <- function(x, xName=deparse(substitute(x)))
   UseMethod("as.listOfNamedMatrices")
 
 
-as.listOfNamedMatrices.list <- function(x, ...,  xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.list <- function(x, xName=deparse(substitute(x))) {
   force(xName)
-  result <- is.listOfNamedMatrices(x, ..., xName=xName)
+  result <- is.listOfNamedMatrices(x, xName=xName)
   if (!result) {
     stop(attr(result,"reason"))
   }
@@ -79,14 +79,14 @@ as.listOfNamedMatrices.list <- function(x, ...,  xName=deparse(substitute(x))) {
   x
 }
 
-as.listOfNamedMatrices.matrix <- function(x, ...,  xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.matrix <- function(x, xName=deparse(substitute(x))) {
   force(xName)
   tmp2 <- data.matrix(x)
   dim(tmp2) <- c(dim(tmp2)[1], 1, dim(tmp2)[2])
   dimnames(tmp2) <- list(dimnames(x)[[1]],
                          "nonsense",
                          dimnames(x)[[2]])
-  tmp3 <- as.listOfNamedMatrices(aperm(tmp2, c(2,3,1)), ..., xName=xName)
+  tmp3 <- as.listOfNamedMatrices(aperm(tmp2, c(2,3,1)), xName=xName)
   tmp4 <- sapply(names(tmp3),
                  function(x) {
                    dimnames(tmp3[[x]])[[1]] <- x
@@ -96,19 +96,19 @@ as.listOfNamedMatrices.matrix <- function(x, ...,  xName=deparse(substitute(x)))
   tmp4
 }
 
-as.listOfNamedMatrices.data.frame <- function(x, ...,  xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.data.frame <- function(x, xName=deparse(substitute(x))) {
   force(xName)
-  as.listOfNamedMatrices(data.matrix(x), ..., xName=xName)
+  as.listOfNamedMatrices(data.matrix(x), xName=xName)
 }
 
-as.listOfNamedMatrices.MatrixList <- function(x, ...,  xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.MatrixList <- function(x, xName=deparse(substitute(x))) {
   force(xName)
   NextMethod("as.listOfNamedMatrices")
 }
 
-as.listOfNamedMatrices.array <- function(x, ...,  xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.array <- function(x, xName=deparse(substitute(x))) {
   force(xName)
-  as.listOfNamedMatrices(as.MatrixList(x), ..., xName=xName)
+  as.listOfNamedMatrices(as.MatrixList(x), xName=xName)
 }
 
 
@@ -123,7 +123,7 @@ if (sys.nframe() > 10) { ## inside Rcmdr
 It's items are not variables in a data.frame.
 You may ignore the messages:
 in the Rcmdr Messages Window:
-  ERROR: the dataset ProfChal is no longer available.
+  ERROR: the dataset", xName, "is no longer available.
 in the R Console:
   Error in get(dataSet, envir = .GlobalEnv) : invalid first argument."))
 }
@@ -133,7 +133,7 @@ in the R Console:
 
 print.listOfNamedMatrices <- function(x, ...) {
   cat("'listOfNamedMatrices'.\n")
-  print(as.matrix(x, ...))
+  print(as.matrix(x), ...)
   invisible(x)
 }
 
@@ -144,30 +144,31 @@ print.listOfNamedMatrices <- function(x, ...) {
 }
 
 
-as.MatrixList <- function(x, ...)
+as.MatrixList <- function(x)
   UseMethod("as.MatrixList")
 
-as.MatrixList.array <- function(x, ...) {
+as.MatrixList.array <- function(x) {
   ldx <- length(dim(x))
   xa <- lapply(apply(x, 3:ldx, function(x) list(x)), `[[`, 1)
   dim(xa) <- dim(x)[-(1:2)]
   dimnames(xa) <- dimnames(x)[-(1:2)]
+  names(dimnames(xa)) <- names(dimnames(x))[-(1:2)]
   if (is.null(names(xa))) { ## getting here means ldx > 3
     nxa <- outer(dimnames(x)[[3]], dimnames(x)[[4]], "paste", sep=".")
     if (ldx >= 5) {
       for (i in 5:ldx)
-      nxa <- outer(nxa, dimnames(x)[[i]],, "paste", sep=".")
+      nxa <- outer(nxa, dimnames(x)[[i]], "paste", sep=".")
     }
     names(xa) <- nxa
   }
   class(xa) <- c("MatrixList", "list", class(xa))
   xa
 }
-
+## environment(as.MatrixList.array) <- environment(plot.likert)
 
 print.MatrixList <- function(x, ...) {
     cat("'MatrixList'.\n")
-  print(as.listOfNamedMatrices(x, ...))
+  print(as.listOfNamedMatrices(x), ...)
   invisible(x)
 }
 

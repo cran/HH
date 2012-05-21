@@ -137,7 +137,8 @@ gofplot(rdal,
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \seealso{\code{\link{tsacfplots}}, \code{\link{arma.loop}}}
 \examples{
-X <- as.rts(scan(hh("datasets/tser.mystery.X.dat")))
+data(tser.mystery.X)
+X <- tser.mystery.X
 
 X.dataplot <- tsacfplots(X, lwd=1, pch.seq=16, cex=.7)
 X.dataplot

@@ -1,5 +1,5 @@
-as.rts <- if.R(r=function(x, ...) as.ts(x, ...),
-               s=as.rts)
+if.R(r={as.rts <- function(x, ...) as.ts(x, ...)},
+     s={})
 
 units.ts <- function(x) "months"
 
@@ -14,10 +14,10 @@ title.trellis <- function(main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
 }
 
 ## from ~/hh/splus.library/print.arima-bug.fix.s
-as.character.arima.model <- function(x, model=arima.model(x), ...) {
-  if (!is.null(names(model))) model <- list(model)
-  for (i in seq(along=model)) {
-    mi <- model[[i]]
+as.character.arima.model <- function(x, ...) {
+  if (!is.null(names(x))) x <- list(x)
+  for (i in seq(along=x)) {
+    mi <- x[[i]]
     mic <- paste("(",paste(mi$order, collapse=","),")",sep="")
     if (!is.null(mi$period)) mic <- paste(mic, mi$period, sep="")
     if (i == 1)
@@ -29,21 +29,27 @@ as.character.arima.model <- function(x, model=arima.model(x), ...) {
 }
 
 arima.model <- function(x) {
-  if.R(s=x$model,
-       r={
-         arma <- x$arma
-         if (is.null(arma)) list(list(order=c(0,0,0)))
-         else {
-           result <-  list(list(order=arma[c(1,6,2)]),
-                           list(order=arma[c(3,7,4)], period=arma[5]))
-           if (all(result[[2]]$order==0)) result[[2]] <- NULL
-           result
-       }}
-       )
+  result <-
+    if.R(s=x$model,
+         r={
+           arma <- x$arma
+           if (is.null(arma)) list(list(order=c(0,0,0)))
+           else {
+             result <-  list(list(order=arma[c(1,6,2)]),
+                             list(order=arma[c(3,7,4)], period=arma[5]))
+             if (all(result[[2]]$order==0)) result[[2]] <- NULL
+             result
+           }}
+         )
+  class(result) <- "arima.model"
+  result
 }
 
+coef.arima.HH <- function(...)
+  .Defunct("coefArimaHH", package="HH")
 
-coef.arima.HH <-
+
+coefArimaHH <-
 if.R(r=stats:::coef.Arima,
      s=
   function(object, ...) {

@@ -69,7 +69,7 @@ Heiberger, Richard~M. and Holland, Burt (2004b).
     \link{ci.plot},
     \link{interaction2wt},
     \link{ladder},
-    \link{lm.case},
+    \link{case.lm},
     \link{norm.curve},
     \link{hov},
     \link{resid.squares},
@@ -79,7 +79,7 @@ Heiberger, Richard~M. and Holland, Burt (2004b).
 \examples{
 ## interaction2wt()
 ## multicomp.mmc()  ## S-Plus
-## glht.mmc()       ## R
+## mmc()       ## R
 ## ancova()
 ## xysplom()
 ## plot.case()

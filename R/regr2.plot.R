@@ -69,7 +69,7 @@ regr2.plot <- function(x, y, z,
   points(persp.fit.points, pch=9, col=2)
 
   ## 3D fitted plane
-  persp.plane(pretty(x), pretty(y), fit.plane, persp.out,
+  perspPlane(pretty(x), pretty(y), fit.plane, persp.out,
               col=2, lty=3)
 
   if (plot.base.points) {
@@ -91,14 +91,14 @@ regr2.plot <- function(x, y, z,
 
   ## 3D base plane and back walls
   if (plot.base.plane)
-    persp.floor(pretty(x), pretty(y), fit.plane*0,
+    perspFloor(pretty(x), pretty(y), fit.plane*0,
                 persp.out,
                 col=1, lty=2)
   if (plot.back.planes) {
-    persp.back.wall.x(pretty(x), pretty(y), fit.plane,
+    perspBack.wall.x(pretty(x), pretty(y), fit.plane,
                       persp.out,
                       col=1, lty=2)
-    persp.back.wall.y(pretty(x), pretty(y), fit.plane,
+    perspBack.wall.y(pretty(x), pretty(y), fit.plane,
                       persp.out,
                       col=1, lty=2)
   }

@@ -1,8 +1,9 @@
-tsq <- scan(hh("datasets/tsq.dat"))
-tsq <- as.rts(tsq)
-if.R(s=attr(attr(tsq,"tspar"),"units") <- "days",
-     r={})
+## tsq <- scan(hh("datasets/tsq.dat"))
+## tsq <- as.rts(tsq)
+## if.R(s=attr(attr(tsq,"tspar"),"units") <- "days",
+##      r={})
 
+data(tsq)
 tsq[96:100]   ## last 5 of n=100 observations
 
 tsq.plot <- tsacfplots(tsq, main="tsq 1", lwd=1)
@@ -12,14 +13,13 @@ tsq.plot
 ## export.eps(hh("tser/figure/tsq1.ps"))
 
 tmp <- tsq.plot$acf.plots
-acfs <- if.R(s=
-             t(matrix(tmp$y, ncol=2,
-                      dimnames=list(matrix(tmp$x, ncol=2)[,1], c("acf","pacf"))))
-             ,r={
+acfs <- if.R(r={
                acfs <- t(sapply(tmp$panel.args, `[[`, "y"))
                dimnames(acfs) <- list(c("acf","pacf"), 0:(dim(acfs)[2]-1))
                acfs
-             }
+             }, s=
+             t(matrix(tmp$y, ncol=2,
+                      dimnames=list(matrix(tmp$x, ncol=2)[,1], c("acf","pacf"))))
              )
 round(acfs[,1:6], digits=3)
 

@@ -10,6 +10,7 @@
 \alias{SFF8121}
 \alias{abrasion}
 \alias{acacia}
+\alias{aeanonym}
 \alias{animal}
 \alias{anneal}
 \alias{apple}
@@ -114,11 +115,12 @@
 \alias{psycho}
 \alias{pulmonary}
 \alias{pulse}
+\alias{R282}
 \alias{radioact}
 \alias{rent}
 \alias{retard}
-\alias{rhiz1_alfalfa}
-\alias{rhiz3_clover}
+\alias{rhiz.alfalfa}
+\alias{rhiz.clover}
 \alias{rhizobium1}
 \alias{rhizobium3}
 \alias{salary}
