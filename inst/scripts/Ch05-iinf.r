@@ -143,7 +143,7 @@ par(plt=par()$plt+c(-.21,-.21,0,0))
 
 ## d1 <- rt(100,5)
 ## the d1 we used is in file ex.tquant.d1.s
-source(hh("scripts/ex.tquant.d1.s")) ## dump of the d1 object
+source(hh.old("scripts/ex.tquant.d1.s")) ## dump of the d1 object
 ## ex.tquant.d1.s  lives in the same script directory as Ch05-iinf.r
 ## source("c:/HOME/rmh/HH-R.package/HH/inst/scripts/ex.tquant.d1.s")
 
@@ -225,7 +225,7 @@ old.par <- par(mar=par("mar")+c(0,1,0,0))
 
 ## t9 <- rt(100,9)
 ## the t9 we used is in file goffit-t9-t3-t5.s
-source(hh("scripts/goffit-t9-t3-t5.s")) ## dump of the t9 object
+source(hh.old("scripts/goffit-t9-t3-t5.s")) ## dump of the t9 object
 ## goffit-t9-t3-t5.s lives in the same script directory as Ch05-iinf.r
 ## source("c:/HOME/rmh/HH-R.package/HH/inst/scripts/goffit-t9-t3-t5.s")
 ## to reproduce the data in hh("iinf/figure/iinf.f3.ps.gz")

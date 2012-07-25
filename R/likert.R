@@ -1,9 +1,15 @@
-likert <- function(x, ..., xName=deparse(substitute(x))) ## simplifies calling sequence
-  plot.likert(x, ..., xName=xName)
+## likert <- function(x, ..., xName=deparse(substitute(x))) ## simplifies calling sequence
+##   plot.likert(x, ..., xName=xName)
 
-plot.likert <- function(x, ...)
-  UseMethod("plot.likert")
-
+if.R(r={
+  plot.likert <- function(x, ...)
+    UseMethod("plot.likert")
+}, s={
+  plot.likert <- function(x, ...)
+    stop("The likert functions are not available in S-Plus.")
+})
+     
+likert <- plot.likert
 
 xscale.components.top.HH <- function(...) {
   ans <- xscale.components.default(...)

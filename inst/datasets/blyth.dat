@@ -1,9 +1,0 @@
- count condition treatment location 
-  950  not       standard  A
-   50  survive   standard  A
- 9000  not       new       A
- 1000  survive   new       A
- 5000  not       standard  B
- 5000  survive   standard  B
-    5  not       new       B
-   95  survive   new       B

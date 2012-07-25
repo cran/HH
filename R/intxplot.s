@@ -112,7 +112,9 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
   if (missing(main))
     M$main <- list(main.title, cex=main.cex)
   if (missing(panel)) M$panel <- panel
-  if (!missing(key.lines)) M$key$lines <- key.lines
+  if (missing(key.lines) && !is.null(list(...)$par.settings$superpose.line))
+    key.lines <- list(...)$par.settings$superpose.line
+  if (!missing(key.lines)) M$key$lines[names(key.lines)] <- key.lines
 
   M$key.length <- NULL
   M$key.lines <- NULL

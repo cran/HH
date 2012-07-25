@@ -23,9 +23,10 @@ differential, rating scale data, and population pyramids.}
 \description{
 Constructs and plots diverging stacked barcharts for Likert, semantic
 differential, rating scale data, and population pyramids.
+These functions are available in R.  They are not currently available in S-Plus.
 }
 \usage{
-likert(x, ..., xName = deparse(substitute(x)))
+likert(x, ...)
 \method{plot}{likert}(x, ...)
 \method{plot.likert}{default}(x,
             positive.order=FALSE,
@@ -300,7 +301,8 @@ yscale.components.right.HH(...)
   percentages) who disagree are shown to the left. The counts (or
   percentages) for respondents who neither agree nor disagree are split
   down the middle and are shown in a neutral color. The neutral category
-  is omitted when the scale has an even number of choices.  It is difficult to compare
+  is omitted when the scale has an even number of choices.
+  It is difficult to compare
   lengths without a common baseline. In this situation, we are primarily
   interested in the total count (or percent) to the right or left of the
   zero line; the breakdown into strongly or not is of lesser interest so

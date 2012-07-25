@@ -11,13 +11,14 @@
 ## the covariable is taken into account.
 ##
 
-if.R(r=data(apple),
-     s={
-       apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
-       apple$treat <- factor(apple$treat)
-       contrasts(apple$treat) <- contr.treatment(6)
-       apple$block <- factor(apple$block)
-     })
+## if.R(r=data(apple),
+##      s={
+##        apple <- read.table(hh("datasets/apple.dat"), header=TRUE)
+##        apple$treat <- factor(apple$treat)
+##        contrasts(apple$treat) <- contr.treatment(6)
+##        apple$block <- factor(apple$block)
+##      })
+data(apple)
 
 apple.ancova.1 <- aov(yield ~ block + pre*treat, data=apple)
 anova(apple.ancova.1)

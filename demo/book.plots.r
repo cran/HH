@@ -12,7 +12,7 @@
 
 
 if (FALSE) {
-trellis.device(file=hh("tser/figure/tsamsta4.ps"), postscript, horizontal=TRUE)
+trellis.device(file=hh.old("tser/figure/tsamsta4.ps"), postscript, horizontal=TRUE)
 strip.background0()
 tsdiagplot(armas=ddco2.loopPQ, diags=ddco2.diagsPQ,
 	   lag.lim=c(-2,38),
