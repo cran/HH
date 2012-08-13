@@ -1,5 +1,6 @@
 \name{hh}
 \alias{hh}
+\alias{hh.old}
 \alias{hh.file}
 \alias{hh.file.DOS}
 \alias{HH.ROOT.DIR}
@@ -15,7 +16,8 @@
   the \code{options()$HHfile.ROOT.DIR} directory.
 }
 \usage{
-hh(file)
+hh(file)     ## gives message about change in usage beginning with HH_2.3-17
+hh.old(file) ## new name for function hh() prior to HH_2.3-17
 hh.file(file)
 hh.file.DOS(file, displayForCutAndPaste=TRUE)
 }
@@ -51,6 +53,17 @@ used as an argument to an R or S-Plus function.
 }
 }
 \details{
+Beginning with HH_2.3-17, access to datasets with the notation
+\code{hh("abcde <- datasets/abcde.dat")} is defunct.  Instead, use the
+notation \code{data(abcde)}.  The old notation will generate an error
+with a message to use the new notation.
+
+The files accessed with the notation
+\code{hh("chaptername/code/normpdf.r")} are defunct.  Instead use the
+new files accessed with the notation
+\code{hh.old("scripts/Chxx-chaptername.r")}.  The old notation will
+generate an error with a message to use the new notation.
+
 The datasets from the Heiberger and Holland (2004) online files are
 all given paths relative to the beginning of the \code{hh} directory,
 which must be stored as \code{options()$HH.ROOT.DIR}.
@@ -97,7 +110,7 @@ uses the MS DOS convention for file paths.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
-hotdog <- read.table(hh("datasets/hotdog.dat"), header=TRUE)
+## hotdog <- read.table(hh.old("datasets/hotdog.dat"), header=TRUE)
 ## This form of data input for files from the text has been replaced by
 ## the alternate form
 ##     data(hotdog)

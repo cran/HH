@@ -69,7 +69,7 @@ par(old.mar)
 
 
 ## illustrate the construction of the isomeans grid and the contrasts
-source(hh("demo/MMC.mmc.explain.R"))  ## mmc.jcs.explain() and tpg.col()
+source(hh.old("demo/MMC.mmc.explain.R"))  ## mmc.jcs.explain() and tpg.col()
 
 group <- levels(catalystm$catalyst)
 n <- c(4,4,4,4)

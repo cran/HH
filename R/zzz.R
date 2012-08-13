@@ -3,7 +3,7 @@
 ## .First.lib <- function(library, section) { ## S-Plus notation
 .First.lib <- function(libname, pkgname) {  ## R notation, to be used by S-Plus
   invisible(options(HH.ROOT.DIR=paste(libname, pkgname, sep="/")))
-  attach(hh("HH.Data"))
+  attach(hh.new("HH.Data"))
 }  
 
 if.R(r={

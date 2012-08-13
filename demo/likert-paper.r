@@ -44,8 +44,8 @@ update(ProfChalPctPlot, par.settings=list(layout.widths=list(ylab.right=5)))
 ## http://www.morst.govt.nz/Documents/publications/researchreports/Staying-in-Science-summary.pdf
 
 ## New Zealand students still taking science in Year 13.
-## "Students’ interest in science, and views about secondary science teaching"
-## "Students’ feelings about making tertiary study decisions"
+## "Students' interest in science, and views about secondary science teaching"
+## "Students' feelings about making tertiary study decisions"
 data(NZScienceTeaching)
 NZScienceTeaching
 likert(NZScienceTeaching, ## 10in x 5in  ## NZscienceteaching.pdf
