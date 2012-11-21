@@ -1,4 +1,4 @@
-\name{aov.sufficient}
+\name{aovSufficient}
 \alias{aovSufficient}
 %% \alias{aov.sufficient} %% old name
 \alias{vcovSufficient}
@@ -29,7 +29,7 @@ vcovSufficient(object, ...)
 #ifndef S-Plus
     \code{\link[stats]{aov}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{\link[splus]{aov}}.
 #endif
   }
@@ -38,7 +38,7 @@ vcovSufficient(object, ...)
 #ifndef S-Plus
     \code{\link[stats]{lm}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{\link[splus]{lm}}.
 #endif
   }
@@ -59,14 +59,14 @@ The residuals are fake.  They are all identical and equal to the MLE
   by \code{summary.lm}.
   Using the \code{aov} object from \code{aovSufficient} in \code{glht}
   requires the \code{vcov.} and \code{df} arguments.
-  
+
 }
 \seealso{\code{\link{MMC}} and
 %% R
 #ifndef S-Plus
   \code{\link[stats]{aov}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{aov}}.
 #endif
 }
@@ -85,12 +85,14 @@ pulmonary.aov <- aovSufficient(FVC ~ smoker,
                                 data=pulmonary)
 summary(pulmonary.aov)
 
+\dontrun{
 pulmonary.mmc <- mmc(pulmonary.aov,
                      linfct=mcp(smoker="Tukey"),
                      df=pulmonary.aov$df.residual,
                      vcov.=vcovSufficient)
 old.omd <- par(omd=c(.0,.95,0,1))
 plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05)
+
 ## tiebreaker plot, with contrasts ordered to match MMC plot,
 ## with all contrasts forced positive and with names also reversed,
 ## and with matched x-scale.
@@ -98,7 +100,7 @@ plotMatchMMC(pulmonary.mmc$mca)
 
 ## orthogonal contrasts
 pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
-                   "n-pnl"  =c( 3,-1,-1,-1, 0, 0), ## none vs light 
+                   "n-pnl"  =c( 3,-1,-1,-1, 0, 0), ## none vs light
                    "p-nl"   =c( 0, 2,-1,-1, 0, 0), ## {} arbitrary 2 df
                    "n-l"    =c( 0, 0, 1,-1, 0, 0), ## {} for 3 types of light
                    "m-h"    =c( 0, 0, 0, 0, 1,-1)) ## moderate vs heavy
@@ -118,7 +120,7 @@ plotMatchMMC(pulmonary.mmc$lmat, col.signif='blue')
 plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05,
      print.mca=TRUE, print.lmat=TRUE)
 par(old.omd)
-
+}
 })
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

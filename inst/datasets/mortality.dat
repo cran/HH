@@ -1,0 +1,5 @@
+                     outcome           
+                dead         alive
+ birthweight     
+ <= 2500 gm      530          4340
+ >  2500 gm      333         32637

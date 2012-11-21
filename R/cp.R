@@ -20,8 +20,11 @@
 ## text(x=usair.cp$p[tmp], y=usair.cp$cp[tmp], row.names(usair.cp)[tmp])
 
 cp.calc <- function(sw, data, y.name) {
-  tss <- if.R(s=var(data[[y.name]], SumSquares=TRUE),
-              r=var(data[[y.name]]) * (length(data[[y.name]])-1))
+  tss <-
+    ## if.R(s=var(data[[y.name]], SumSquares=TRUE),
+    ## r=
+    var(data[[y.name]]) * (length(data[[y.name]])-1)
+    ##)
   r2 <- (tss-sw$rss)/tss
   n <- nrow(data)
   num.x <- max(sw$size)

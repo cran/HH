@@ -10,7 +10,12 @@ arima.diag.hh(z, acf.resid = TRUE,
               lag.max = round(max(gof.lag + n.parms + 1, 10 * log10(n))),
               gof.lag = 15, resid = FALSE,
               std.resid = TRUE, plot = TRUE, type = "h", ...,
+#ifndef S-Plus
+              x=eval(parse(text = series.name)))
+#endif
+#ifdef S-Plus
               x=eval(parse(text = series.name), local = sys.parent()))
+#endif
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +24,7 @@ arima.diag.hh(z, acf.resid = TRUE,
 #ifndef S-Plus
     This function is a no-op in R.  The arguments are not used.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     See \code{\link[splus]{arima.diag}}.
 #endif
   }
@@ -39,7 +44,7 @@ called from inside another function.}
 #ifndef S-Plus
     This function is a no-op in R.  It returns \code{NA}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     See \code{\link[splus]{arima.diag}}.
 #endif
 }
@@ -50,7 +55,7 @@ called from inside another function.}
 #ifndef S-Plus
   \code{arima.diag}
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{arima.diag}}.
 #endif
   in S-Plus.

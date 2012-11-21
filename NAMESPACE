@@ -5,13 +5,13 @@
 ## hand investigated and then sorted
 
 
-## .__C__ancova                          
-## .__T__$:base                          
-## .__T__$<-:base                        
-## .__T__[:base                          
-## .arima.info.names.not.ordered         
-## .Depends                              
-## .S3MethodsClasses                     
+## .__C__ancova
+## .__T__$:base
+## .__T__$<-:base
+## .__T__[:base
+## .arima.info.names.not.ordered
+## .Depends
+## .S3MethodsClasses
 ## ResizeEtcLikert
 ## axis.RightAdjustRight
 ## emptyLegend
@@ -49,6 +49,9 @@
 ## strip.xysplom
 ## yscale.components.right.HH.list.of.panels
 export(
+AEdotplot,
+AElogrelrisk,
+AEmatchSortorder,
 ColorSet,
 F.curve,
 F.observed,
@@ -207,6 +210,12 @@ yscale.components.right.HH
 
 ## register all the methods for generics elsewhere in case namespace is
 ## loaded but not currently attached.
+S3method("AEdotplot", data.frame)
+S3method("AEdotplot", AElogrelrisk)
+S3method("AEdotplot", AEtable)
+S3method("AEdotplot", formula)
+S3method("print", AEdotplot)
+S3method("c", AEdotplot)
 S3method("[", arma.loop)
 S3method("[", cp.object)
 S3method("[", diag.arma.loop)
@@ -294,6 +303,7 @@ S3method(summary, arma.loop.list)
 S3method(summaryHH, regsubsets)
 S3method(t, trellis)
 S3method(unique, positioned)
+S3method(update, AEdotplot)
 S3method(vif, default)
 S3method(vif, formula)
 S3method(vif, lm)
