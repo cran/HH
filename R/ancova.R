@@ -43,7 +43,7 @@
            ))
       )
     stop("ancova requires exactly one factor and exactly one numeric variable.")
-  
+
   formula.plot <- formula
 
   if (length(formula[[3]]) == 3) { ## (y ~ x | a) or (y ~ x | a)
@@ -73,7 +73,7 @@
     }
     if (missing(groups) == missing(x)) stop("Invalid formula")
   }
-  
+
   ## xyplot(formula.plot, data=data.in, ...) ## constructed
   m <- match.call()
   m[[1]] <- as.name("xyplot")
@@ -95,12 +95,12 @@
   m$panel <- "panel.ancova"
   a.labels <- dimnames(m$contrasts)[[1]]
 
-  tpgs <- trellis.par.get("superpose.symbol") 
-  tpgl <- trellis.par.get("superpose.line") 
-  
+  tpgs <- trellis.par.get("superpose.symbol")
+  tpgl <- trellis.par.get("superpose.line")
+
   m$key <- list(text=list(a.labels),   ## treatment key
-                points = Rows(tpgs, 1:length(a.labels)), 
-                lines = Rows(tpgl, 1:length(a.labels)), 
+                points = Rows(tpgs, 1:length(a.labels)),
+                lines = Rows(tpgl, 1:length(a.labels)),
                 border=TRUE,
                 space="right",
                 title=as.character(formula.plot[[3]][[3]]))
@@ -135,14 +135,14 @@
   }
   m$data <- data3
   m$groups <- data3$new.groups
-  if (missing(layout)) 
+  if (missing(layout))
     m$layout <- c(length(levels.a)+1, 1)
   else m$layout <- layout
-  if (missing(between)) 
+  if (missing(between))
     m$between <- list(x=c(rep(0,length(levels.a)-1),2), y=0)
   else m$between <- between
   m$superpose.level.name <- NULL
-  
+
   ## print or evaluate the xyplot call
   if (display.plot.command) print(m)
   m$transpose <- NULL
@@ -217,7 +217,7 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
   else
     coefs.a <- (1:n.contr) + (1:2)[classes]
   a <- coef[1] + contrasts %*% coef[coefs.a]
-  
+
   if (length(classes)==1)
     b <- rep(0, length(a))
   else {
@@ -227,20 +227,23 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
     else
       b <- rep(b, length(a))
   }
-  
+
   if (transpose) {
     a.untransposed <- a
     a <- ifelse (b==0, 0, -a/b)
     b <- 1/b  ## if (b==0) Inf
   }
-  
+
   tpgs <- trellis.par.get("superpose.symbol")
   tpgl <- trellis.par.get("superpose.line")
 
   ## browser()
-  cell <- if.R(r=panel.number(),
-               s=get("n", frame=sys.parent()))
-  
+  cell <-
+    ## if.R(r=
+         panel.number()
+         ## ,
+         ##       s=get("n", frame=sys.parent()))
+
   if (cell == length(a)+1) {
 
     if (missing(blocks))
@@ -268,7 +271,7 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
         tmp.lm <- coef(lm(x ~ y))       # transpose=TRUE interchanged the names
                                         # we must un-transpose here
         ## isolate coefficients
-        a <- tmp.lm["(Intercept)"]    
+        a <- tmp.lm["(Intercept)"]
         b <- tmp.lm["y"]
         ## transpose coefficients
         a[] <- ifelse (b==0, 0, -a/b)   # keep "(Intercept)" name

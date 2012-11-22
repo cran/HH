@@ -22,22 +22,22 @@ function(lm.object,
   missing.xlim <- missing(xlim)       ## R needs this
   missing.ylim <- missing(ylim)       ## R needs this
   missing.newdata <- missing(newdata) ## R needs this
-  if.R(s={
-    ## Save a copy of the data.frame in frame=0 to put it where
-    ## model.frame.lm needs to find it when the example data is
-    ## run through Splus CMD check.
-    my.data.name <- as.character(lm.object$call$data)
-    if (length(my.data.name)==0)
-      stop("Please provide an lm.object calculated with an explicit 'data=my.data.frame' argument.")
-    undo.it <- (!is.na(match(my.data.name, objects(0))))
-    if (undo.it) old.contents <- get(my.data.name, frame=0)
-    my.data <- try(get(my.data.name))
-    if (class(my.data)=="Error")
-      my.data <- try(get(my.data.name, frame=sys.parent()))
-    if (class(my.data)=="Error")
-      stop("Please send me an email with a reproducible situation that got you here. (rmh@temple.edu)")
-    assign(my.data.name, my.data, frame=0)
-  },r={})
+  ## if.R(s={
+  ##   ## Save a copy of the data.frame in frame=0 to put it where
+  ##   ## model.frame.lm needs to find it when the example data is
+  ##   ## run through Splus CMD check.
+  ##   my.data.name <- as.character(lm.object$call$data)
+  ##   if (length(my.data.name)==0)
+  ##     stop("Please provide an lm.object calculated with an explicit 'data=my.data.frame' argument.")
+  ##   undo.it <- (!is.na(match(my.data.name, objects(0))))
+  ##   if (undo.it) old.contents <- get(my.data.name, frame=0)
+  ##   my.data <- try(get(my.data.name))
+  ##   if (class(my.data)=="Error")
+  ##     my.data <- try(get(my.data.name, frame=sys.parent()))
+  ##   if (class(my.data)=="Error")
+  ##     stop("Please send me an email with a reproducible situation that got you here. (rmh@temple.edu)")
+  ##   assign(my.data.name, my.data, frame=0)
+  ## },r={})
   default.newdata <- data.frame(seq(xlim[1], xlim[2], length=51))
   names(default.newdata) <- x.name
   if (missing.xlim) xlim <- xlim + diff(xlim)*c(-.02,.02) ## needed
@@ -58,20 +58,21 @@ function(lm.object,
   }
   if (missing.xlim) xlim <- xlim + diff(xlim)*c(-.02,.02) ## repeat is needed
   if (missing(newfit)) newfit <-
-    if.R(s={
-      
-      prediction <-
-        predict(lm.object, newdata=newdata,
-                se.fit=TRUE, ci.fit=TRUE, pi.fi=TRUE,
-                level=conf.level)
-      {
-        ## restore frame=0
-        if (undo.it) assign(my.data.name, old.contents, frame=0)
-        else remove(my.data.name, frame=0)
-      }
-      prediction
-    }
-         ,r={
+    ## if.R(s={
+
+    ##   prediction <-
+    ##     predict(lm.object, newdata=newdata,
+    ##             se.fit=TRUE, ci.fit=TRUE, pi.fi=TRUE,
+    ##             level=conf.level)
+    ##   {
+    ##     ## restore frame=0
+    ##     if (undo.it) assign(my.data.name, old.contents, frame=0)
+    ##     else remove(my.data.name, frame=0)
+    ##   }
+    ##   prediction
+    ## }
+    ##      ,r=
+         {
            new.p <-
              predict(lm.object, newdata=newdata,
                      se.fit=TRUE, level=conf.level,
@@ -89,7 +90,8 @@ function(lm.object,
            attr(tmp$pi.fit,"conf.level") <- conf.level
            tmp$fit <- tmp$fit[,"fit", drop=FALSE]
            tmp
-         })
+         }
+##         )
   tpgsl <- trellis.par.get("superpose.line")
   tpgsl <- Rows(tpgsl, 1:4)
   tpgsl$col[1] <- 0

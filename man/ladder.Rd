@@ -88,7 +88,7 @@ strip.ladder(which.given,
     where \code{p} and \code{q} are the powers returned by \code{ladders};
   \code{y} and \code{x} are the arguments \code{dsy} and \code{dsx}.}
   \item{useOuter}{logical, defaults to \code{TRUE}. In R, this implies
-    that \code{strip.number} is forced to \code{2} and that the 
+    that \code{strip.number} is forced to \code{2} and that the
     resulting \code{"trellis"} object will be sent through
     \code{useOuterStrips(combineLimits(result))}.
     This argument is ignored by S-Plus.}
@@ -186,6 +186,7 @@ data(tv)
 ladder(life.exp ~ ppl.per.phys, data=tv,
        main="Ladder of Powers for Life Expectancy and People per Physician")
 
+\dontrun{
 ## one strip label
 if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=1, useOuter=FALSE,
               dsx="ppp", dsy="le"),
@@ -205,6 +206,7 @@ if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, useOuter=TRUE), ## R default
 if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0, useOuter=FALSE),
      s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0,
               axis3.line=0))
+}
 }
 \keyword{hplot}
 \keyword{dplot}

@@ -11,6 +11,11 @@ PoorChildren       Count of Poor Children, by Child's Poorness, Number of Workin
 arima.sim.XYZ      HH Exercises 18.1 18.2 18.3
 book.plots   	   sample code for adjusting graphic parameters for book publishing
 likert-paper       R code for all examples in Likert paper to be submitted
-nottem       	   HH Exercise 18.5.  Nottingham temperatures from MASS.  In R, one of the models didn't complete. 
+nottem       	   HH Exercise 18.5.  Nottingham temperatures from MASS.  In R, one of the models didn't complete.
 tsamstat     	   All tables and graphs in the Heiberger and Teles article, and some additional ones, are here.
 tsq                HH Exercise 18.7
+bwplot.examples    Examples controlling spacing and colors of boxplots using the panel.bwplot.intermediate.hh and position functions in the HH package.
+ancova             This demo produces a composite graph illustrating four models with a factor and a covariate.
+AEdotplotManyExamples Many examples that are not needed in the Examples section and that I didn't want to lose.
+xysplomManyExamples Many examples that are not needed in the Examples section and that I didn't want to lose.
+likertManyExamples Many examples that are not needed in the Examples section and that I didn't want to lose.

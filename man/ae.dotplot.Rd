@@ -1,8 +1,6 @@
 \name{ae.dotplot}
 \alias{ae.dotplot}  %% lowercase ae
 \alias{AE.dotplot}  %% uppercase AE
-\alias{AEdotplot}
-\alias{aedotplot}
 \alias{ae.dotplot.long}
 \alias{aeReshapeToLong}
 \alias{panel.ae.leftplot}
@@ -19,10 +17,12 @@ treatment group, with different symbols for each
 group. The second panel displays the relative risk
 of an event on the active arm relative to the
 placebo arm, with 95\% confidence intervals for a \eqn{2\times2}{2x2} table.
-The AEs are ordered by
+By default, the AEs are ordered by
 relative risk so that events with the largest
 increases in risk for the active treatment are
-prominent at the top of the display.}
+prominent at the top of the display.  See the Details section for
+information
+on changing the sort order.}
 \usage{
 ae.dotplot(ae, ...)
 
@@ -39,7 +39,7 @@ logrelrisk(ae, A.name, B.name, crit.value=1.96)
 
 panel.ae.leftplot(x, y, groups, col.AB, ...)
 
-panel.ae.rightplot(x, y, ..., lwd=6, lower, upper)
+panel.ae.rightplot(x, y, ..., lwd=6, lower, upper, cex=.7)
 
 panel.ae.dotplot(x, y, groups, ..., col.AB, pch.AB, lower, upper) ## R only
 
@@ -97,7 +97,9 @@ aeReshapeToLong(aewide)
   \item{cex.AB.y.scale}{Character expansion for the left tick labels
     (the symptom names). }
   \item{main.title, main.cex}{Main title and character expansion for the
-  combined plot in \code{ae.dotplot}.}
+    combined plot in \code{ae.dotplot}.}
+  \item{cex}{The character expansion for the points in the left and
+   right plots.}
   \item{position.left, position.right}{\code{position} of the left and
     right plots.  This argument is use in S-Plus only, not in R.
      See the discussion of \code{position} in
@@ -144,6 +146,11 @@ aeReshapeToLong(aewide)
   relative risk are calculated using the asymptotic standard error
   formula given as Equation 3.18 in Agresti A., Categorical Data
   Analysis. Wiley: New York, 1990.
+
+  By default the \code{ae.dotplot} function sorts the events by relative risk.
+  To change the sort order, you must redefine the ordering of the
+  ordered factor \code{PREF}.  See the examples below.
+
 }
 
 \value{
@@ -156,7 +163,7 @@ aeReshapeToLong(aewide)
 
  \code{ae.leftplot} returns a \code{"trellis"} object containing a
  horizontal dotplot of the percents against each of the symptom names.
- 
+
  \code{ae.rightplot} returns a \code{"trellis"} object containing a
  horizontal plot on the log scale of the relative risk confidence
  intervals against each of the symptom names.
@@ -197,7 +204,7 @@ head(aeanonym)
 
 ## Calculate log relative risk and confidence intervals (95% by default).
 ## logrelrisk sets the sort order for PREF to match the relative risk.
-aeanonymr <- logrelrisk(aeanonym)
+aeanonymr <- logrelrisk(aeanonym) ## sorts by relative risk
 head(aeanonymr)
 
 ## construct and print plot on current graphics device
@@ -218,6 +225,23 @@ ae.dotplot(aeanonymr,
 ##            A.name="TREATMENT A (N=216)",
 ##            B.name="TREATMENT B (N=431)")
 ## dev.off()
+
+## To change the sort order, redefine the PREF factor.
+## For this example, to plot alphabetically, use the statement
+aeanonymr$PREF <- ordered(aeanonymr$PREF, levels=sort(levels(aeanonymr$PREF)))
+ae.dotplot(aeanonymr,
+           A.name="TREATMENT A (N=216)",
+           B.name="TREATMENT B (N=431)",
+           main.title="change the main title to reflect the new sort order")
+
+## to restore the order back to the default, use
+relrisk <- aeanonymr[seq(1, nrow(aeanonymr), 2), "relrisk"]
+PREF <- unique(aeanonymr$PREF)
+aeanonymr$PREF <- ordered(aeanonymr$PREF, levels=PREF[order(relrisk)])
+ae.dotplot(aeanonymr,
+           A.name="TREATMENT A (N=216)",
+           B.name="TREATMENT B (N=431)",
+           main.title="back to the original sort order")
 
 ## smaller artifical example with the wide format
 aewide <- data.frame(Event=letters[1:6],

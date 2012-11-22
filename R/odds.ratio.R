@@ -72,11 +72,11 @@ plot.odds.ratio <- function(...)
       if.R(r=old.xpd <- par(xpd=NA), s={})
       legend(x=legend.x, y=.6, lty=c(1,4,3,2), col=1,
              legend=c("  0%CI", "50%CI", "95%CI", "x=y"))
-      if.R(s=
-           legend(x=legend.x, y=.4, marks=13, legend=c("MLE   "))
-           ,r=
+      ## if.R(s=
+      ##      legend(x=legend.x, y=.4, marks=13, legend=c("MLE   "))
+      ##      ,r=
            legend(x=legend.x, y=.4, pch=13,   legend=c("MLE   "))
-           )
+           ## )
       if.R(r=par(old.xpd), s={})
       result <- tmp
     }

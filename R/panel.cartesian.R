@@ -10,14 +10,14 @@ function(x, y,
 
   lin <- function(x, px, pu.x)
     ((x-px[1])/(px[2]-px[1])) * (pu.x[2]-pu.x[1]) + pu.x[1]
-  
+
   if.R(r={
     which.parent <- 1
     while(!(exists("rows.per.page", frame=which.parent)))
       which.parent <- which.parent + 1
-    
+
     cell <- panel.number()
-    
+
     trellis.object <- get("x", pos=sys.frame(which.parent))
     cols.per.page <- get("cols.per.page", pos=sys.frame(which.parent))
     rows.per.page <- get("rows.per.page", pos=sys.frame(which.parent))
@@ -30,14 +30,14 @@ function(x, y,
                           y=rep(rep(y.label, length=rows.per.page),
                             rep(cols.per.page, rows.per.page)))
     these.labels <- panel.labels[this.cell,]
-## browser()    
-    
+## browser()
+
     x.up <- trellis.object$x
     y.up <- trellis.object$y
-    
+
     par.x <- trellis.object$x.scales
     par.y <- trellis.object$y.scales
-    
+
     pu.x <-
       if (par.x$relation=="same")
         trellis.object$x.limits
@@ -50,41 +50,41 @@ function(x, y,
         trellis.object$y.limits[[cell]]
   },
        s={
-         which.parent <- 1
-         while(!(exists("cell", frame=sys.parent(which.parent))))
-           which.parent <- which.parent + 1
-         
-         cell <- get("cell", frame=sys.parent(which.parent))
-         num.cell <- get("num.cell", frame=sys.parent(which.parent))
-         which.cell <- get("which.cell", frame=sys.parent(which.parent))
-         this.cell <- match(cell, which.cell)
-         panel.labels <- get("panel.labels", frame=sys.parent(which.parent))
-         if (ncol(panel.labels)==1) {
-           rn <- dimnames(panel.labels)[[1]]
-           panel.labels <-
-             if (version$major < 8)
-               t(sapply(panel.labels, function(x) sapply(formula(x)[3:2], deparse)))
-             else
-               do.call("rbind", strsplit(panel.labels[,1], " * "))[,c(3,1)]
-           dimnames(panel.labels) <- list(rn, c("x","y"))
-         }
-         these.labels <- panel.labels[this.cell,]
-         
-         x.up <- get("x", frame=sys.parent(which.parent))
-         y.up <- get("y", frame=sys.parent(which.parent))
-         
-         glist <- get("glist", frame=sys.parent(which.parent))
-         
-         par.x <- get("scale.x", frame=sys.parent(which.parent))
-         par.y <- get("scale.y", frame=sys.parent(which.parent))
+         ## which.parent <- 1
+         ## while(!(exists("cell", frame=sys.parent(which.parent))))
+         ##   which.parent <- which.parent + 1
 
-         gx <- glist[[names(these.labels)[1]]]
-         rx <- range(x.up[gx$levels[gx$given] == these.labels[1]], na.rm=TRUE)
-         gy <- glist[[names(these.labels)[2]]]
-         ry <- range(y.up[gy$levels[gy$given] == these.labels[2]], na.rm=TRUE)
+         ## cell <- get("cell", frame=sys.parent(which.parent))
+         ## num.cell <- get("num.cell", frame=sys.parent(which.parent))
+         ## which.cell <- get("which.cell", frame=sys.parent(which.parent))
+         ## this.cell <- match(cell, which.cell)
+         ## panel.labels <- get("panel.labels", frame=sys.parent(which.parent))
+         ## if (ncol(panel.labels)==1) {
+         ##   rn <- dimnames(panel.labels)[[1]]
+         ##   panel.labels <-
+         ##     if (version$major < 8)
+         ##       t(sapply(panel.labels, function(x) sapply(formula(x)[3:2], deparse)))
+         ##     else
+         ##       do.call("rbind", strsplit(panel.labels[,1], " * "))[,c(3,1)]
+         ##   dimnames(panel.labels) <- list(rn, c("x","y"))
+         ## }
+         ## these.labels <- panel.labels[this.cell,]
 
-         if (any(is.na(rx))) rx <- range(x, na.rm=TRUE)
-         if (any(is.na(ry))) ry <- range(y, na.rm=TRUE)
+         ## x.up <- get("x", frame=sys.parent(which.parent))
+         ## y.up <- get("y", frame=sys.parent(which.parent))
+
+         ## glist <- get("glist", frame=sys.parent(which.parent))
+
+         ## par.x <- get("scale.x", frame=sys.parent(which.parent))
+         ## par.y <- get("scale.y", frame=sys.parent(which.parent))
+
+         ## gx <- glist[[names(these.labels)[1]]]
+         ## rx <- range(x.up[gx$levels[gx$given] == these.labels[1]], na.rm=TRUE)
+         ## gy <- glist[[names(these.labels)[2]]]
+         ## ry <- range(y.up[gy$levels[gy$given] == these.labels[2]], na.rm=TRUE)
+
+         ## if (any(is.na(rx))) rx <- range(x, na.rm=TRUE)
+         ## if (any(is.na(ry))) ry <- range(y, na.rm=TRUE)
        })
 
 ##cat(cell,num.cell,which.cell,gy,"\n")
@@ -107,7 +107,7 @@ function(x, y,
       x.cell <- x
       pretty.x.cell <- pretty(x)
     }
-    
+
     ry <- range(y, na.rm=TRUE)
     if (diff(ry)==0) ry <- ry + c(-1,1)
     pretty.y <- pretty(ry)
@@ -137,7 +137,7 @@ function(x, y,
            x.cell <- x
            pretty.x.cell <- pretty.x
          }
-         
+
          if (diff(ry)==0) ry <- ry + c(-1,1)
          pretty.y <- pretty(ry)
          if (rescale$y) {
@@ -152,7 +152,7 @@ function(x, y,
            pretty.y.cell <- pretty.y
          }
        })
-  
+
   panel.xyplot(x.cell, y.cell, ...)
 ##browser()
 
@@ -167,7 +167,7 @@ function(x, y,
        },
          s=axis(2, at=pretty.y.cell, labels=pretty.y, ticks=TRUE, cex=par.y$cex,
            tck=3*par()$tck, adj=1))
-  
+
   if (these.labels[1] == rev(unique(panel.labels[,"x"]))[1]) { ## right column
     if.R(r={
          push.vp.hh()
@@ -188,7 +188,7 @@ function(x, y,
                                            unique(panel.labels[,2]))]),
                 side=4, line=3, at=mean(par()$usr[3:4]), srt=0, adj=1, cex=g.cex)
   })}
-  
+
   if (these.labels[2] == panel.labels[1,2]) ## bottom row
     if.R(r={
          push.vp.hh()

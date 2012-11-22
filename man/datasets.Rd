@@ -1,5 +1,6 @@
 \name{datasets}
 \alias{datasets}
+\alias{AEdata}
 \alias{AudiencePercent}
 \alias{Design_2.8_2}
 \alias{Design_2.8_2_full}

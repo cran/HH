@@ -4,20 +4,20 @@ interaction2wt <- function(x, ...)
 "interaction2wt.formula" <-
 function(x, data=sys.parent(), responselab,
 			    ...) {
-  if.R(
-       r={
+  ## if.R(
+  ##      r={
          do.formula.trellis <- NA ## make R-2.6.0dev happy
          dft <- do.formula.trellis.xysplom(x, data=data)
          y.in <- dft$y[[1]]
          x.in <- dft$x
          if (missing(responselab)) responselab <- names(dft$y)
-       },
-       s={
-         dft <- do.formula.trellis(x)
-         y.in <- eval(dft$expr[[1]], local=data)
-         x.in <- data[,dft$xlab,drop=FALSE]
-         if (missing(responselab)) responselab <- dft$ylab
-       })
+       ## },
+       ## s={
+       ##   dft <- do.formula.trellis(x)
+       ##   y.in <- eval(dft$expr[[1]], local=data)
+       ##   x.in <- data[,dft$xlab,drop=FALSE]
+       ##   if (missing(responselab)) responselab <- dft$ylab
+       ## })
   if (is.null(x.in) || is.null(y.in))
     stop("both x and y are needed in formula")
   interaction2wt.default(x=x.in, response.var=y.in,

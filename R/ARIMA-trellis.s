@@ -53,7 +53,7 @@ acfplot <- function(rdal, type="acf",
                          sort(unique(rdal[[type]]$ar)),
                          FUN=function(ma,ar) paste("ar:",ar," ma:",ma, sep="")))
   rdal[[type]]$subset <- (lag.0 | rdal[[type]]$lag != 0)
-  
+
   xyplot(acf ~ lag | tmp, data=rdal[[type]], subset=subset,
          n.used=rdal$n.used,
          layout=c(length(sort(unique(rdal[[type]]$ma))),
@@ -124,8 +124,11 @@ panel.acf <- function(..., n.used) {
   if (length(n.used)==1) this.n <- n.used
   else {
     this.frame <- sys.parent()
-    this.cell <- if.R(s=get("cell", frame=this.frame)
-                      ,r=packet.number())
+    this.cell <-
+      ## if.R(s=get("cell", frame=this.frame)
+      ##      ,r=
+           packet.number()
+##            )
     ##this.arma <- get("panel.labels", frame=this.frame)[this.cell]
     this.n <- t(n.used)[this.cell]
   }
@@ -248,7 +251,7 @@ if.R(r={xrg.left <- .44; xa.left <- .73; y.top.bottom <- .48; y.bottom.top <- .4
 ##     title.trellis(x$main)
 ##     par(oldpar.oma)
 ##   }
-  
+
   invisible(x)
 }
 
@@ -269,7 +272,7 @@ acf.bottom <- .48
 pacf.top <- .47
 aic.sigma2.top <- .54
 })
-  
+
   print(x$acf,   position=c( .00, acf.bottom,  .45,  .95), more=TRUE)
   print(x$pacf,  position=c( .00, .00,  .45,  pacf.top), more=TRUE)
 
@@ -284,7 +287,7 @@ aic.sigma2.top <- .54
     par(oma=c(0,0,0,0))
     title.trellis(x$main)
   }
-  
+
 ## page 2
   if (is.main.title)
     par(oma=c(0,0,6,0))
@@ -311,7 +314,7 @@ aic.sigma2.top <- .54
 }
 
 
-tsacfplots <- function(x,          
+tsacfplots <- function(x,
                        ylab=deparse(substitute(x)),
                        x.name=ylab[[1]],
                        main=paste("Series:", x.name),
@@ -331,7 +334,7 @@ tsacfplots <- function(x,
     acf.plots <- acf.pacf.plot(x, series=x.name, lag.max=lag.max, lag.0=lag.0,
                                main=NULL,
                                lag.at=lag.at, lag.units=lag.units)
-  
+
   result <- list(xplot=xplot, acf.plots=acf.plots, main=main)
   class(result) <- "tsacfplots"
   result
@@ -345,7 +348,7 @@ print.tsacfplots <- function(x, ...) {
   invisible(x)
 }
 
-acf.pacf.plot <- function(x,       
+acf.pacf.plot <- function(x,
                           ylab=NULL,
                           series=deparse(substitute(x)),
                           main=paste("ACF and PACF:", series),
@@ -398,7 +401,7 @@ arma.loop <- function(x,
        r={if( !missing(model) || missing(order) )  ## missing(seasonal) is OK
           stop("Please use valid arguments for arima.")})
   if.R(s={},
-       r={model <- 
+       r={model <-
             if (missing(seasonal))
               list(list(order=order))
             else
@@ -460,7 +463,7 @@ else {
       input.method <- list(...)$method
       tmp$method <- ifelse(is.null(input.method), "CSS-ML", input.method)
     })
-         
+
     if.R(s=if (!is.null(names(tmp$model))) tmp$model <- list(tmp$model),
          r={})
     tmp$series <- series
@@ -707,7 +710,7 @@ rearrange.diag.arma.loop <- function(z) {
   gof     <- list(gof=vector(), df=vector(), p=vector(), lag=vector(),
                   ar=vector(), ma=vector())
   resid   <- list(resid=vector(), time=vector(), ar=vector(), ma=vector())
-  
+
   for (q in dz[[2]]) for (p in dz[[1]]) {
     if (length(z[[p,q]]) == 0) {
 
@@ -715,21 +718,21 @@ rearrange.diag.arma.loop <- function(z) {
       acf$lag <- c(acf$lag, NA)
       acf$ar  <- c(acf$ar, p)
       acf$ma  <- c(acf$ma, q)
-      
+
       pacf$acf <- c(pacf$acf, NA)
       pacf$lag <- c(pacf$lag, NA)
       pacf$ar  <- c(pacf$ar, p)
       pacf$ma  <- c(pacf$ma, q)
-      
+
       n.used[p,q] <- 0
-      
+
       gof$gof <- c(gof$gof, NA)
       gof$df  <- c(gof$df,  NA)
       gof$p   <- c(gof$p,   NA)
       gof$lag <- c(gof$lag, NA)
       gof$ar  <- c(gof$ar, p)
       gof$ma  <- c(gof$ma, q)
-      
+
       resid$resid <- c(resid$resid, NA)
       resid$time  <- c(resid$time, NA)
       resid$ar    <- c(resid$ar, p)

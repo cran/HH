@@ -4,7 +4,7 @@ arima.diag.hh <-
                 lag.max = round(max(gof.lag + n.parms + 1, 10 * log10(n))),
                 gof.lag = 15, resid = FALSE,
                 std.resid = TRUE, plot = TRUE, type = "h", ...,
-                x=eval(parse(text = series.name), local = sys.parent()))
+                x=eval(parse(text = series.name)))
        {
          n.parms <- NA
          n <- NA
@@ -74,7 +74,7 @@ arima.diag.hh <-
 				gof <- gof[(n.parms + 1):gof.lag]
 				for(i in 1:nlags)
 					gof.p.value[[i]] <- (1 - pchisq(gof[[i]], gof.df[[i]]))
-				gof <- list(statistic = gof, df = gof.df, p.value = gof.p.value, lag = 
+				gof <- list(statistic = gof, df = gof.df, p.value = gof.p.value, lag =
 					acf.list$lag[(n.parms + 1):gof.lag + 1])
 			}
 			else stop(paste("gof.lag must be bigger than", n.parms))

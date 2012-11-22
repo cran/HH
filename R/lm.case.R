@@ -109,14 +109,28 @@ plot.case <- function(x, fit,
                          par.settings, ## R only. S-Plus ignores this argument
                          obs.large, obs.large.env,
                          ...) {
-  cell.num <- if.R(s=get("cell", frame=sys.parent()),
-                   r=panel.number())
-  panel.label <- if.R(s=get("panel.labels", frame=sys.parent())[cell.num],
-                      r=group.names[cell.num])
-  cex.x <- if.R(s=get("cex.x", frame=sys.parent()),
-                r=trellis.par.get("axis.text")$cex)
-  cex.y <- if.R(s=get("cex.y", frame=sys.parent()),
-                r=cex.x)
+
+  cell.num <-
+    ## if.R(s=get("cell", frame=sys.parent()),
+    ##                r=
+                   panel.number()
+                   ## )
+  panel.label <-
+    ## if.R(s=get("panel.labels", frame=sys.parent())[cell.num],
+    ##                   r=
+         group.names[cell.num]
+         ## )
+  cex.x <-
+    ## if.R(s=get("cex.x", frame=sys.parent()),
+    ##             r=
+         trellis.par.get("axis.text")$cex
+         ## )
+  cex.y <-
+    ## if.R(s=get("cex.y", frame=sys.parent()),
+    ##             r=
+         cex.x
+         ## )
+
   y.plot <- y
   pretty.y <- pretty(y)
   lin.pretty.y <- pretty.y
@@ -130,7 +144,7 @@ plot.case <- function(x, fit,
   ##                         clip = "off"))
   ##   ## put anything you want unclipped inside this:
   ## },s={})
-  
+
   new.viewport <- FALSE
   switch(panel.label,
          "deleted std dev"={y.plot <- y-ss

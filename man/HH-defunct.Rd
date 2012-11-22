@@ -23,31 +23,30 @@
 
 \title{Defunct Functions in Package 'HH'}
 
-\description{ The functions listed here are no longer part of the HH
+\description{ The function names listed here are no longer part of the HH
   package.  Their task has been assigned to different function names.
 }
 
 \usage{
-anova.mean(...)
-vcov.sufficient(...)
-aov.sufficient(...)
-print.glht.mmc.multicomp(...)
-coef.arima.HH(...)
-glht.mmc(...)
-odds.ratio(...)
-plot.odds.ratio(...)
-persp.plane(...)
-persp.plane(...)
-persp.floor(...)
-persp.back.wall.x(...)
-persp.back.wall.y(...)
-persp.setup(...)
-plot.hov(...)
-plot.hov.bf(...)
-plot.matchMMC(...)
-seqplot.forecast(...)
-panel.likert(...)
-lm.case(...)
+anova.mean(...)               ## anovaMean
+vcov.sufficient(...)          ## vcovSufficient
+aov.sufficient(...)           ## aovSufficient
+print.glht.mmc.multicomp(...) ## print.mmc.multicomp
+coef.arima.HH(...)            ## coefArimaHH
+glht.mmc(...)                 ## mmc
+odds.ratio(...)               ## OddsRatio
+plot.odds.ratio(...)          ## plotOddsRatio
+persp.plane(...)              ## perspPlane
+persp.floor(...)              ## perspFloor
+persp.back.wall.x(...)        ## perspBack.wall.x
+persp.back.wall.y(...)        ## perspBack.wall.y
+persp.setup(...)              ## not used in R, S-Plus only
+plot.hov(...)                 ## hovPlot
+plot.hov.bf(...)              ## hovPlot.bf
+plot.matchMMC(...)            ## plotMatchMMC
+seqplot.forecast(...)         ## seqplotForecast
+panel.likert(...)             ## panel.barchart
+lm.case(...)                  ## case.lm
 }
 \arguments{
 \item{\dots}{other arguments.}

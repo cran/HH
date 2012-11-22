@@ -23,10 +23,10 @@ logrelrisk <- function(ae,
   tmp.order <- order(tmp) ## sort by logrelrisk
   ##  ordered(ae$PREF) <- as.character(unique(ae$PREF))[tmp.order]  ## S-Plus only
   ae$PREF <- ordered(ae$PREF, levels=(ae$PREF[ae$RAND==A.name])[tmp.order]) ## R and S-Plus
-  
+
   ae$relrisk <- as.vector(rbind(tmp,tmp))
   ae$logrelrisk <- log(ae$relrisk)
-  
+
   ase.logrelrisk <-
     ## sample asymptotic standard error of relative risk
     ##  (Agresti, Equation 3.18)
@@ -37,7 +37,7 @@ logrelrisk <- function(ae,
          (ae$PCT[ae$RAND==A.name]/100   *
           ae$SN[ae$RAND==A.name]  ))
   ae$ase.logrelrisk <- as.vector(rbind(ase.logrelrisk, ase.logrelrisk))
-  
+
   ae$logrelriskCI.lower <- ae$logrelrisk - crit.value*ae$ase.logrelrisk
   ae$logrelriskCI.upper <- ae$logrelrisk + crit.value*ae$ase.logrelrisk
   ae$relriskCI.lower <- exp(ae$logrelriskCI.lower)
@@ -48,23 +48,29 @@ logrelrisk <- function(ae,
 
 
 panel.ae.leftplot <- function(x, y, groups, col.AB, ...) {
-  panel.abline(h=y, lty=2, lwd=0, col=1)
+  panel.abline(h=y, lty=2, lwd=.3, col=1)
+  panel.abline(v=0, lty=3, lwd=.3, col=1)
   panel.superpose(x, y, groups=groups, col=col.AB, ...)
 }
 
-panel.ae.rightplot <- function(x, y, ..., lwd=6, lower, upper) {
+panel.ae.rightplot <- function(x, y, ..., lwd=6, lower, upper, cex=.7) {
   if.R(r={}, s={panel.segments <- segments; panel.points <- points})
-  panel.abline(v=0, lty=3, lwd=0)
-  panel.abline(h=y, lty=2, lwd=0, col=1)
+  panel.abline(v=0, lty=3, lwd=.3)
+  panel.abline(h=y, lty=2, lwd=.3, col=1)
   panel.segments(lower, y, upper, y, lwd=2)
-  panel.xyplot(x, y, ..., col=1, cex=.7)
   panel.points(lower, y, pch=3, col=1, cex=.4)
+  panel.xyplot(x, y, ..., col=1, cex=cex)
   panel.points(upper, y, pch=3, col=1, cex=.4)
 }
+## assignInNamespace("panel.ae.leftplot",  panel.ae.leftplot,  "HH")
+## assignInNamespace("panel.ae.rightplot", panel.ae.rightplot, "HH")
 
 panel.ae.dotplot <- function(x, y, groups, ..., col.AB, pch.AB, lower, upper) {
-  panel.num <- if.R(s=get("cell", frame=sys.parent()),
-                    r=panel.number())
+  panel.num <-
+    ## if.R(s=get("cell", frame=sys.parent()),
+    ##                 r=
+    panel.number()
+  ##          )
   if (panel.num==1)
     panel.ae.leftplot(x, y, groups=groups, col.AB=col.AB, pch=pch.AB, ...)
   if (panel.num==2)
@@ -84,7 +90,7 @@ ae.dotplot.long <- if.R(r={
            position.left= c(0,   0, .70, 1.), ## ignored in R
            position.right=c(.61, 0, .98, 1.), ## ignored in R
            key.y=-.2, CI.percent=95) {
-    
+
     if (is.null(xr$logrelrisk))
       stop("Variable 'logrelrisk' missing.\nPlease use the logrelisk() function before using ae.dotplot().")
     result <-
@@ -147,9 +153,9 @@ ae.dotplot.long <- if.R(r={
                    text = list(""),
                    columns = 2,
                    space="bottom")
-    
+
     ae.main <- list(" ", cex=1.5)
-    
+
     ## construct left panel
     left.plot <- dotplot(PREF ~ PCT, data=xr, groups = RAND,
                          col=col.AB, pch=pch.AB,
@@ -219,7 +225,7 @@ aeReshapeToLong <- function(aewide) {
   names(aewideA)[aewide.namesA] <- c("SN","SAE","PCT")
   names(aewideB)[aewide.namesB] <- c("SN","SAE","PCT")
   aelong <- rbind(aewideA[-aewide.namesB], aewideB[-aewide.namesA])
-  
+
   n <- nrow(aewide)
   aelong[as.vector(outer(c(0,n), 1:n, "+")), ]
 }

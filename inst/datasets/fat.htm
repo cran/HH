@@ -1,0 +1,468 @@
+<!DOCTYPE HTML PUBLIC "+//ISBN 82-7640-037::WWW//DTD HTML//EN//2.0" "html.dtd"
+>
+<html><head><title>Journal of Statistics Education, V4N1:
+Johnson</title></head> <body bgcolor=#ffffff>
+ 
+<H1>Fitting Percentage of Body Fat to Simple Body Measurements</H1>
+
+
+                      Roger W. Johnson<br>
+                      Carleton College
+
+<P><CITE>Journal of Statistics Education</CITE> v.4, n.1 (1996)</P>
+
+
+    
+<P>Copyright (c) 1996 by Roger W. Johnson, all rights reserved.  This
+text may be freely shared among individuals, but it may not be
+republished in any medium without express written consent from the
+author and advance notification of the editor.</P>
+
+<HR> <P><STRONG>Key Words:</STRONG> Multiple regression.</P>
+
+
+
+                          
+<H2>Abstract</H2>
+
+         
+<P>Percentage of body fat, age, weight, height, and ten body
+circumference measurements (e.g., abdomen) are recorded for 252 men.
+Body fat, one measure of health, has been accurately estimated by an
+underwater weighing technique.  Fitting body fat to the other
+measurements using multiple regression
+ provides a convenient way of estimating body fat for men using only a
+scale and a measuring tape.  This dataset can be used to show students
+the utility of multiple regression and to provide
+         practice in model building.</P>
+
+
+
+                          
+<H1>1.  Introduction</H1>
+
+
+<P>1 A variety of popular health books suggest that readers assess
+their health, at least in part, by estimating their percentage of body
+fat.  <a href="#bailey2">Bailey (1994, pp. 179-186)</a>, for instance, presents tables of
+estimates based on age, gender, and various skinfold measurements
+obtained using a caliper.  <a href="#bailey">Bailey (1991, p.  18)</a> suggests that "15
+percent fat for men and 22 percent fat for women are maximums for good
+health."  <a href="#behnke">Behnke and Wilmore (1974, pp.  66-67)</a>, <a href="#wilmore">Wilmore (1976,
+p. 247)</a>, <a href="#katch">Katch and McArdle (1977, pp.  120-132)</a>, and <a
+href="#abdel">Abdel-Malek, et al. (1985)</a> are other sources of
+predictive equations for body fat.  These predictive equations use
+    skinfold measurements, body circumference measurements (e.g.,
+abdominal circumference), and, in the Abdel-Malek article, simply
+height and weight.  <a href="#gardner">Gardner and Poehlman (1993, 1994)</a> supplement these
+body measurements with a measure of physical activity to predict body
+density from which, as we shall see below, body fat can be
+estimated.</P>
+
+<P>2 Such predictive equations for the determination of body fat
+ can be determined through multiple regression.  A group of subjects
+is gathered, and various body measurements and an accurate estimate of
+the percentage of body fat are recorded for each.  Then body fat can
+be fit to the other measurements using multiple regression, giving, we
+hope, a useful predictive equation for people similar to the subjects.
+The various measurements other than body fat recorded on the subjects
+are, implicitly, ones that are easy to obtain and serve as proxies for
+body fat, which is not so easily obtained.</P>
+
+<P>3 In the dataset provided by Dr. A. Garth Fisher (personal
+communication, October 5, 1994), age, weight, height, and 10 body
+circumference measurements are recorded for 252 men.  Each man's
+percentage of body fat was accurately estimated by an underwater
+weighing technique discussed below.  A complete listing of the
+variables in the dataset appears in the Appendix.</P>
+
+
+
+         
+<H1>2.  Determination of the Percentage of Body Fat from Underwater
+Weighing</H1>
+
+
+<P>4 The percentage of body fat for an individual can be estimated
+from body density.  As an approximation, assume that the body consists
+of two components -- lean tissue and fat tissue.  Letting</P>
+
+<pre>     D = body density, 
+     W = body weight, 
+     A = proportion of lean tissue, 
+     B = proportion of fat tissue (so A + B = 1),
+     a = density of lean tissue, and 
+     b = density of fat tissue, </pre>
+     
+  <p> we have</p>
+
+<pre>     D = weight/volume 
+       = W/[lean tissue volume + fat tissue volume] 
+       = W/[A*W/a + B*W/b] 
+       = 1/[(A/a) + (B/b)].  </pre>
+
+<p>Solving for B we find</p>
+
+<pre>     B = (1/D) * [ab/(a - b)] - [b/(a - b)].</pre>
+
+<P>5 Using the estimates a = 1.10 gm/cm^3 and b = 0.90 gm/cm^3 (see
+<a href="#katch">Katch and McArdle 1977, p. 111</a>, or <a href="#wilmore">Wilmore 1976, p. 123</a>), we come up
+with "Siri's equation" (<a href="#siri">Siri 1956</a>):</P>
+
+     
+<blockquote>Percentage of body fat (i.e., 100 * B) = 495/D -
+450,</blockquote>
+
+     
+<p>where D is in units of gm/cm^3.  The dataset provided also
+gives a second estimate of body fat due to <a href="#brozek">Brozek, Grande, Anderson,
+and Keys (1963, p. 137)</a>:</p>
+
+     
+<blockquote>Percentage of body fat = 457/D - 414.2,</blockquote>
+
+     
+<p>which is considered accurate for "individuals in whom the
+body weight has been free from large, recent fluctuations."  There
+does not seem to be uniform agreement in the literature as to which of
+these two methods is best.</p>
+
+<P>6 Volume, and hence the body density D, can be accurately measured
+in a variety of ways.  The technique of underwater weighing "computes
+body volume as the difference between body weight measured in air and
+weight measured during water submersion.
+ In other words, body volume is equal to the loss of weight in water
+with the appropriate temperature correction for the water's density"
+(<a href="#katch">Katch and McArdle 1977, p. 113</a>).  Using this technique,</P>
+
+     
+<PRE>Body density = W/[(W - WW)/c.f. - LV],
+
+     where
+
+     W = weight in air (kg)
+     WW = weight in water (kg)
+     c.f. = water correction factor
+            (equal to 1 at 39.2 degrees F because one gram of
+            water occupies exactly one cm^3 at this temperature,
+            equal to .997 at 76-78 degrees F)
+     LV = residual lung volume (liters)</PRE>
+
+     
+<P>(<a href="#katch">Katch and McArdle 1977, p. 115</a>).  The dataset provided here
+contains the weights of the subjects, but not the values of the three
+other quantities.  Other methods of determining body volume are given
+in <a href="#behnke">Behnke and Wilmore (1974, p. 22 ff.)</a>.</P>
+
+
+
+                      
+<H1>3.  Student Explorations</H1>
+
+
+<P>7 I have presented this dataset to my students after I have
+discussed multiple regression and have illustrated, in the lab with
+another dataset, some techniques that they might try (e.g., plots of
+dependent versus independent variables, residual plots, the use of
+transformations of the independent variables in the model) when trying
+to build a regression model.  They work in pairs on the following
+questions after I have given them some background on the
+    variables in the dataset.</P>
+
+<P>8 (a) Examine the data and note any unusual cases.  Sort the
+ cases, for example, by height, weight, and percentage of fat and note
+the distributions.  What should be done, if anything, about these
+unusual cases?  Suggest some rules for changing or deleting
+outliers.</P>
+
+     
+<BLOCKQUOTE>Comments: Much to the dismay of some students, there are a
+     few apparent errors in the dataset.  Case 42, for instance,
+     apparently weighs 205 pounds, but measures only 29.5 inches
+     in height!  Fortunately, we can infer the correct values
+     from other variables in the file.  The lean body weight or
+     fat free weight of this individual is listed as 140.1
+     pounds, which is, up to rounding, (1 - fraction of body fat
+     using Brozek's equation) * 205.  Consequently, the listed
+     weight is probably correct.  From the adiposity index of
+     29.9 kg/meters^2, which is weight divided by height^2, one
+     can infer that the height should probably be 69.5 inches
+     instead of 29.5 inches (a change in just one of the digits).
+     One can check for internal consistency between other
+     variables as well.  In cases 48, 76, and 96, for instance,
+     the density values do not give rise to the two estimates of
+     body fat percentage recorded.  In each case, a change of a
+     single digit in the density gives the body fat percentages
+     indicated for that individual.  In particular, it seems that
+     the following changes (among others) are in order:</BLOCKQUOTE>
+
+<PRE>
+                 Listed        Apparently Correct
+     Case     Body Density        Body Density
+     ----     ------------     ------------------
+      48          1.0665             1.0865
+      76          1.0666             1.0566
+      96          1.0991             1.0591
+
+     </PRE> <BLOCKQUOTE>Such errors help students become more aware of
+data
+     integrity issues.  Also note that case 182 is a particularly
+     lean individual whose predicted percentage of body fat is
+     negative according to Siri's and Brozek's equation and has
+     been truncated to zero in the dataset.</BLOCKQUOTE>
+
+<P>9 (b) Choose one of the two percentage of body fat estimates,
+  either Brozek's method or Siri's method.  Fit this percentage of
+body fat in terms of some subset of the remaining variables excluding
+density, which is not easily measured.  The researchers who collected
+these data, <a href="#penrose">Penrose, Nelson, and Fisher (1985)</a>, built a regression
+model for fat free weight = (1 - fraction of body fat) * weight that
+used the variables weight, age, age^2, height, and
+  (abdomen - wrist).  Do you find any of these variables useful in
+fitting percentage of body fat?  September 14, 1995 articles in
+<CITE>The New England Journal of Medicine</CITE> link high values of
+the adiposity index (weight/height^2), sometimes called the body mass
+index, to increased risk of premature death.  See if this variable is
+useful in your model.  Also try weight^1.2/height^3.3 as suggested in
+<a href="#abdel">Abdel-Malek, et al. (1985)</a>.  Why should one bother to fit percentage
+of body fat using these other variables?</P>
+
+<P>10 (c) (This question requires a tape measure and/or a scale.)
+    Estimate the percentage of body fat for each member of your group
+using your regression model.  Is this model appropriate for all the
+members of your group?  How about for other people in class?  What is
+the most general audience to which your model can be applied?  (Note:
+1 inch = 2.54 cm.)</P>
+
+      
+<BLOCKQUOTE>Comment: Most students see that the model should not be
+      used for women; other students get into more subtle issues
+      regarding the age of college students compared to the age of
+      the men in the dataset.</BLOCKQUOTE>
+
+<P>11 (d) Comment on the accuracy of your model.  Discuss, in
+particular, what the standard error means.  What kind of error should
+a user of this model expect as opposed to the prediction error for
+those folks who were used to build the model?</P>
+
+      
+<BLOCKQUOTE>Comment: Before starting this lab I have already discussed
+      the "incestuous" nature of the standard error value and how
+      the model is likely to give an error larger than the
+      standard error for cases that were not used to build
+it.</BLOCKQUOTE>
+
+<P>12 (e) Estimate the percentage of American men with percentage
+    of body fat less than 15% (the maximum for good health given by
+<a href="#bailey">Bailey (1991)</a> above).  What assumptions did you make?</P>
+
+<P>13 (f) (Advanced) <a href="#penrose">Penrose, Nelson, and Fisher (1985)</a> built
+ their regression model using just the first 143 cases of the 252
+cases in the dataset.  The remaining 109 cases were used to get a true
+estimate of the error of the model (c.f.  question d).  Here is an
+alternative "cross-validation" approach to error estimation I would
+like you to consider (but do not actually perform):</P>
+
+
+      
+<BLOCKQUOTE><STRONG>i.</STRONG> Build a regression model using all 252
+cases.</BLOCKQUOTE>
+
+    
+<BLOCKQUOTE><STRONG> ii.</STRONG> Using the model (i.e., variables)
+above, refit the
+          model coefficients using all the cases but the first
+          and record the error in body fat using this model on
+          the first case.</BLOCKQUOTE>
+
+    
+<BLOCKQUOTE><STRONG>iii.</STRONG> Repeat <STRONG>ii.</STRONG>, leaving
+out, in turn, just the second, just
+          the third, ... , just the 252nd case, each time
+          recording the error.</BLOCKQUOTE>
+
+     
+<BLOCKQUOTE><STRONG>iv. </STRONG> Compute the standard deviation of
+the 252 errors to
+          provide an estimate of the accuracy of the
+model.</BLOCKQUOTE>
+
+
+<P>14 Why is the resulting error estimate (the standard deviation
+   in <STRONG>iv</STRONG>.)  a better estimate of the true error that
+one should expect in using the model than the standard error?  Discuss
+the advantages and disadvantages of this alternative cross-validation
+procedure compared to what Penrose, Nelson, and Fisher did.</P>
+
+<P>15 In keeping with the other data analysis labs undertaken during
+the term, I serve as a resource/coach for student pairs during the
+class period in which they initially look at these data.  After this
+class period the student pairs arrange to meet outside of class to
+continue their analysis and eventually write up their findings in a
+polished, word-processed report.  Further details may be found in
+<a href="#egge">Egge, Foley, Haskins, and Johnson (1994, 1995)</a>.</P>
+
+
+
+                         
+<H1>4.  Concluding Notes</H1>
+
+
+<P>16 My students have enjoyed working with this dataset and, upon
+    hearing that I have a caliper and tables to estimate body fat from
+various skinfold measurements, come to me to borrow them!  I show the
+students a few of the regression models produced after the assignment
+is due to remind them how subjective the model building process is and
+how different people can come up with some rather different, but
+perhaps equally effective, models.</P>
+
+
+
+                         
+<H1>5.  Getting the Data</H1>
+
+
+<P>17  The file <a href="../datasets/fat.dat">fat.dat</a>
+contains the raw data.  The file
+<a href="../datasets/fat.txt">fat.txt</a> is a
+documentation file containing a brief description of the
+dataset.
+</p>
+
+                            
+<H2>Acknowledgments</H2>
+
+
+      
+<P>Thanks to Dr. A. Garth Fisher (1994) who generously provided the
+dataset to freely distribute and use for non-commercial purposes.
+Thanks also to Richard Wetzel, M.D., for enlightening correspondence
+about some of the difficulties involved in body fat estimation and for
+tracking down some references.</P>
+
+
+
+<HR>
+                
+<H1>Appendix - Key to Variables in fat.dat</H1>
+
+
+      
+<PRE>Columns
+        3 - 5 Case Number
+       10 - 13 Percent body fat using Brozek's equation,
+                 457/Density - 414.2
+       18 - 21 Percent body fat using Siri's equation,
+                 495/Density - 450
+       24 - 29 Density (gm/cm^3)
+       36 - 37 Age (yrs)
+       40 - 45 Weight (lbs)
+       49 - 53 Height (inches)
+       58 - 61 Adiposity index = Weight/Height^2 (kg/m^2)
+       65 - 69 Fat Free Weight
+                 = (1 - fraction of body fat) * Weight,
+                 using Brozek's formula (lbs)
+       74 - 77 Neck circumference (cm)
+       81 - 85 Chest circumference (cm)
+       89 - 93 Abdomen circumference (cm) "at the umbilicus
+                 and level with the iliac crest"
+       97 - 101 Hip circumference (cm)
+      106 - 109 Thigh circumference (cm)
+      114 - 117 Knee circumference (cm)
+      122 - 125 Ankle circumference (cm)
+      130 - 133 Extended biceps circumference (cm)
+      138 - 141 Forearm circumference (cm)
+      146 - 149 Wrist circumference (cm) "distal to the
+                 styloid processes" </PRE>
+
+<HR>
+
+                              
+<H1>References</H1>
+
+
+       
+<P><a name="abdel">Abdel-Malek</a>, A. K., Mukherjee, D., and Roche,
+A. F.  (1985), "A Method of Constructing an Index of Obesity,"
+<CITE>Human Biology</CITE>, 57(3), 415-430.</P>
+
+       
+<P><a name="bailey">Bailey</a>, C. (1991), <CITE>The New Fit or
+Fat</CITE>, Boston:
+  Houghton-Mifflin.</P>
+
+       
+<P><a name="bailey2">----- (1994)</a>, <CITE>Smart Exercise: Burning
+Fat, Getting Fit</CITE>,
+          Boston: Houghton-Mifflin.  </P>
+       
+<P><a name="behnke">Behnke</a>, A., and Wilmore, J. (1974),
+<CITE>Evaluation and Regulation of Body Build and Composition</CITE>,
+Englewood Cliffs, N.J.: Prentice Hall.</P>
+
+       
+<P><a name="brozek">Brozek</a>, J., Grande, F., Anderson, J., and
+Keys, A. (1963), "Densitometric Analysis of Body Composition: Revision
+of Some Quantitative Assumptions," <CITE>Annals of the New York
+Academy of Sciences</CITE>, 110, 113-140.</P>
+
+       
+<P><a name="egge">Egge</a>, E., Foley, S., Haskins, L., and Johnson,
+R. (1994), "A Data Analysis Based Elementary
+Statistics Course," in <CITE>Proceedings of the Section on
+Statistical Education, American Statistical Association</CITE>, pp.
+144-149.</P>
+
+       
+<P>----- (1995), <CITE>Statistics Lab Manual</CITE> (3rd ed.), Department
+of Mathematics and Computer Science, Carleton College.</P>
+
+       
+<P><a name="gardner">Gardner</a>, A. W., and Poehlman, E. T. (1993),
+"Physical Activity Is a Significant Predictor of Body Density in
+Women," <CITE>American Journal of Clinical Nutrition</CITE>, 57,
+8-14.</P>
+
+       
+<P><a name="gardner2">----- (1994)</a>, "Leisure Time Physical
+Activity Is a Significant Predictor of Body Density in Men,"
+<CITE>Journal of Clinical Epidemiology</CITE>, 47(3), 283-291.</P>
+
+       
+<P><a name="katch">Katch</a>, F., and McArdle, W. (1977),
+<CITE>Nutrition, Weight Control, and Exercise</CITE>, Boston: Houghton
+Mifflin.</P>
+
+       
+<P><a name="penrose">Penrose</a>, K., Nelson, A., and Fisher,
+A. (1985), "Generalized Body Composition Prediction Equation for Men
+Using Simple Measurement Techniques" (abstract), <CITE>Medicine and
+Science in Sports and Exercise</CITE>, 17(2), 189.</P>
+
+       
+<P><a name="siri">Siri</a>, W. E. (1956), "Gross Composition of the
+Body," in <CITE>Advances in Biological and Medical Physics</CITE>
+(Vol. IV),
+     eds. J. H. Lawrence and C. A. Tobias, New York: Academic
+Press.</P>
+
+       
+<P><a name="wilmore">Wilmore</a>, J. (1976), <CITE>Athletic Training
+and Physical Fitness: Physiological Principles of the Conditioning
+Process</CITE>, Boston: Allyn and Bacon.</P>
+
+<HR>
+<p>
+      Roger W. Johnson <BR>
+      Department of Mathematics and Computer Science <BR>
+      Carleton College <BR>
+      Northfield, MN 55057-4001
+      
+<ADDRESS>rjohnson@carleton.edu</ADDRESS> 
+</p>
+<HR>
+      
+<a href="../toc.html#1996">Return to Table of Contents</a> | <a href="../index.html">Return to the JSE Home Page</a>
+</body>
+</html>
+

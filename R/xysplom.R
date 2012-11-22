@@ -37,7 +37,7 @@ function(x, y=x, group, relation="free",
 
   if (!is.null(xlim.in)) scales.in$x$limits <- xlim.in
   if (!is.null(ylim.in)) scales.in$y$limits <- ylim.in
-  
+
   if (is.matrix(x) && !is.null(dimnames(x)[[2]])) {
     dx2 <- dimnames(x)[[2]]
     dx2.done <- TRUE
@@ -118,7 +118,7 @@ function(x, y=x, group, relation="free",
     else           formula <- y.list ~ x.list |     y * group
   }
   options(old.warn)
-  
+
 
   switch(paste(c("corr", "beta")[c(corr, beta)], collapse="."),
     corr={
@@ -159,7 +159,7 @@ function(x, y=x, group, relation="free",
     }
   )
   panel.to.use <-
-    if (missing(panel.input) && abline) 
+    if (missing(panel.input) && abline)
       panel=function(x,y,...) {
         panel.xyplot(x,y,...)
         panel.abline(lm(y~x, na.action=na.exclude))
@@ -195,7 +195,8 @@ function(which.given,
   vnwg <- var.name[which.given]
   if (match(vnwg, c("corr","beta","corr.beta"), 0)) {
 ###browser()
-    if.R(r={
+    ## if.R(r=
+         {
            which.parent <- 1
            while(!(exists("rows.per.page", frame=which.parent)))
              which.parent <- which.parent + 1
@@ -203,13 +204,14 @@ function(which.given,
            xy <- get("x",pos=sys.frame(which.parent))$panel.args[[cell]]
            x <- xy$x
            y <- xy$y
-         },
-         s={
-           subs <- get("index.list",
-                       frame=sys.parent())[[get("cell",frame=sys.parent())]]
-           x <- get("x",frame=sys.parent())[subs]
-           y <- get("y",frame=sys.parent())[subs]
-         })
+         }
+         ## ,
+         ## s={
+         ##   subs <- get("index.list",
+         ##               frame=sys.parent())[[get("cell",frame=sys.parent())]]
+         ##   x <- get("x",frame=sys.parent())[subs]
+         ##   y <- get("y",frame=sys.parent())[subs]
+         ## })
     digits <- as.numeric(factor.levels[which.panel[which.given]])
     if (vnwg != "beta") corr <- round(cor(na.exclude(cbind(x,y)))[1,2], digits)
     if (vnwg != "corr") beta <- format(coef(lm(y ~ x, na.action=na.exclude))[2], digits=4)

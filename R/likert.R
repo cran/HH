@@ -411,7 +411,7 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
       stop("All items in a list for plot.likert must have the same number of columns.")
     if (is.data.frame(x))
       stop("plot.likert.list does not accept a data.frame.\nPlease use plot.likert.data.frame.")
-    if (sapply(x, function(xx) is.data.frame(xx) && !all(sapply(xx, is.numeric))))
+    if (any(sapply(x, function(xx) is.data.frame(xx) && !all(sapply(xx, is.numeric)))))
       stop("A data.frame in a plot.likert.list argument must have only numeric columns.")
   }
   if (class(resize.height)=="character") {
