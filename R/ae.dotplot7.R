@@ -482,10 +482,20 @@ AEdotplot.formula <- function(xr, groups=NULL, data=NULL,
 
   this.call <- sys.call(1)
 
-  if (is.null(condition.name))
-    AEdotplot(newdata, ...,
-              sortbyRelativeRisk=sortbyRelativeRisk,
-              sub=sub)
+  if (is.null(condition.name)) {             ## formula
+    conditionName <- list(...)$conditionName ## argument
+    if (is.null(conditionName)) {
+      conditionName <- deparse(substitute(data))
+      AEdotplot(newdata, ...,
+                conditionName=conditionName,
+                sortbyRelativeRisk=sortbyRelativeRisk,
+                sub=sub)
+    }
+    else
+      AEdotplot(newdata, ...,
+                sortbyRelativeRisk=sortbyRelativeRisk,
+                sub=sub)
+  }
   else
     AEdotplot(newdata, ...,
               conditionVariable=newdata$condition,

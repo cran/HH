@@ -1,6 +1,7 @@
 \name{likert}
 \alias{likert}
 \alias{plot.likert}
+\alias{plot.likert.formula}
 \alias{plot.likert.default}
 \alias{plot.likert.array}
 \alias{plot.likert.list}
@@ -28,6 +29,7 @@ These functions are available in R.  They are not currently available in S-Plus.
 \usage{
 likert(x, ...)
 \method{plot}{likert}(x, ...)
+\method{plot.likert}{formula}(x, data, ..., xName=deparse(sys.call()), main)
 \method{plot.likert}{default}(x,
             positive.order=FALSE,
             ylab=names(dimnames(x)[1]),
@@ -118,13 +120,15 @@ yscale.components.right.HH(...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{Any numeric object stored as a vector, matrix, array,
+  \item{x}{For the formula method, a model formula.  Otherwise,
+    any numeric object stored as a vector, matrix, array,
     data.frame, table, ftable,
     structable (as defined in the \code{vcd} package), or as a list of
     named two-dimensional objects.  This is the only required argument.
     See the Details section for restrictions on the form of data.frame,
     list, ftable, and structable arguments.
-    }
+  }
+  \item{data}{For the formula method, a \code{data.frame.}}
   \item{positive.order}{If \code{FALSE}, the default value, the original
     order of the rows is retained.  This is necessary for arrays,
     because each panel has the same rownames.  If \code{TRUE}, rows are
@@ -423,6 +427,13 @@ likert(ProfChal[[2]],
 likert(ProfChal[[2]], as.percent=TRUE,
        main='Is your job professionally challenging?',
        sub="This plot looks better in a 9in x 4in window.")
+
+## formula method
+data(NZScienceTeaching)
+NZScienceTeaching.df <- as.likertDataFrame(NZScienceTeaching)
+likert(Question ~ . | Subtable, data=NZScienceTeaching.df)
+
+
 
 ## Examples with higher-dimensional arrays.
 tmp3 <- array(1:24, dim=c(2,3,4),

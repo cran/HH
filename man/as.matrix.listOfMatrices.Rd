@@ -14,6 +14,10 @@
 \alias{as.listOfNamedMatrices.list}
 \alias{as.listOfNamedMatrices.MatrixList}
 
+\alias{as.likertDataFrame}
+\alias{as.likertDataFrame.listOfNamedMatrices}
+\alias{as.likertDataFrame.array}
+
 \title{Convert a list of matrices to a single matrix}
 \description{
 
@@ -30,15 +34,21 @@
 \method{as.matrix}{listOfNamedMatrices}(x, abbreviate = TRUE, minlength = 4, ...)
 is.listOfNamedMatrices(x,  xName=deparse(substitute(x)))
 \method{as.data.frame}{listOfNamedMatrices}(x, ...)
-as.listOfNamedMatrices(x,  xName=deparse(substitute(x))) 
+as.listOfNamedMatrices(x,  xName=deparse(substitute(x)), ...)
 \method{[}{listOfNamedMatrices}(x, ...)
-\method{as.listOfNamedMatrices}{array}(x, xName=deparse(substitute(x)))
-\method{as.listOfNamedMatrices}{list}(x, xName=deparse(substitute(x)))
-\method{as.listOfNamedMatrices}{MatrixList}(x, xName=deparse(substitute(x)))
+\method{as.listOfNamedMatrices}{array}(x, xName=deparse(substitute(x)), ...)
+\method{as.listOfNamedMatrices}{list}(x, xName=deparse(substitute(x)), ...)
+\method{as.listOfNamedMatrices}{MatrixList}(x, xName=deparse(substitute(x)), ...)
 \method{print}{listOfNamedMatrices}(x, ...)
+
 as.MatrixList(x)
 \method{as.MatrixList}{array}(x)
 \method{print}{MatrixList}(x, ...)
+
+as.likertDataFrame(x, xName=deparse(substitute(x)))
+\method{as.likertDataFrame}{listOfNamedMatrices}(x, xName=deparse(substitute(x)))
+\method{as.likertDataFrame}{array}(x, xName=deparse(substitute(x)))
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -70,7 +80,7 @@ as.MatrixList(x)
   list item names with the abbreviation of the individual matrix rownames.
   The original names are retained as the \code{"Subtables.Rows"}
   attribute.
-  
+
   The result of \code{is.listOfNamedMatrices} is logical value.
 
   \code{print.listOfNamedMatrices} prints
@@ -110,6 +120,14 @@ print.default(ProfChal[2:3])
 tmp3 <- array(1:24, dim=c(2,3,4), dimnames=list(A=letters[1:2], B=LETTERS[3:5], C=letters[6:9]))
 as.MatrixList(tmp3)
 sapply(as.MatrixList(tmp3), as.likert, simplify=FALSE)  ## odd number of levels.
+
+data(NZScienceTeaching)
+tmp <- as.likertDataFrame(NZScienceTeaching)
+tmp
+\dontrun{
+likert(Question ~ ., tmp)
+likert(Question ~ . | Subtable, data=tmp)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
