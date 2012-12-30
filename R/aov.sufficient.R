@@ -1,15 +1,16 @@
 aov.sufficient <- function(...)
   .Defunct("aovSufficient", package="HH")
-  
-  
+
+
 aovSufficient <-
-  function(formula, data = NULL, projections = FALSE, qr = TRUE, contrasts = NULL,
+  function(formula, data = NULL, projections = FALSE, qr = TRUE,
+           contrasts = NULL,
            weights=data$n, sd=data$s, ...) {
-    tmp <- sys.call()
-    tmp[[1]] <- as.name("aov")
-    tmp$sd <- NULL
-    tmp$x <- TRUE
-    result <- eval(tmp, sys.parent())
+    ## data$weights <- weights  ## this works when, as in the pulmonary example, the weights are
+    ## named 'n',  but has the risk of overwriting a variable named weights in some other example.
+    environment(formula) <- environment()  ## this seems to be the right way to get the local
+    ## 'weights' variable recognized down the line by model.frame.default.
+    result <- aov(formula=formula, data=data, weights=weights, x=TRUE)
     result$df.residual <- sum(weights-1)
     Sq.res <- (weights-1)*sd^2
     result$residuals[] <- sqrt(sum(Sq.res)/sum(weights))

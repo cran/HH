@@ -76,6 +76,7 @@ arma.loop,
 as.MatrixList,
 as.glht,
 as.likert,
+as.likertDataFrame,
 as.listOfNamedMatrices,
 as.multicomp,
 as.numeric.positioned,
@@ -238,6 +239,10 @@ S3method(as.likert, array)
 S3method(as.likert, default)
 S3method(as.likert, table)
 S3method(as.likert, listOfNamedMatrices)
+S3method(as.likertDataFrame, array)
+S3method(as.likertDataFrame, matrix)
+S3method(as.likertDataFrame, data.frame)
+S3method(as.likertDataFrame, listOfNamedMatrices)
 S3method(as.listOfNamedMatrices, data.frame)
 S3method(as.listOfNamedMatrices, matrix)
 S3method(as.listOfNamedMatrices, MatrixList)
@@ -271,6 +276,7 @@ S3method(plot, likert)
 S3method(plot.likert, array)
 S3method(plot.likert, data.frame)
 S3method(plot.likert, default)
+S3method(plot.likert, formula)
 S3method(plot.likert, ftable)
 S3method(plot.likert, list)
 ## S3method(plot.likert, numeric)

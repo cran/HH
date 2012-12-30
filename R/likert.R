@@ -8,7 +8,7 @@ if.R(r={
   plot.likert <- function(x, ...)
     stop("The likert functions are not available in S-Plus.")
 })
-     
+
 likert <- plot.likert
 
 xscale.components.top.HH <- function(...) {
@@ -93,7 +93,7 @@ plot.likert.default <- function(x,
     x <- as.likert(x,
                    ReferenceZero=ReferenceZero)
   }
-  
+
   if (!is.null(ReferenceZero) && !is.null(attr(x, "ReferenceZero"))) {
     if (ReferenceZero != attr(x, "ReferenceZero"))
       warning(paste('(Argument ReferenceZero = ', ReferenceZero, ') != (',
@@ -109,6 +109,7 @@ plot.likert.default <- function(x,
                   'Argument ReferenceZero will be ignored.'))
 
   key.title <- names(dimnames(x)[2])
+  if (is.null(key.title)) key.title <- attr(x,"names.dimnames")[[2]]
   if (is.null(key.title)) key.title <- " "
   auto.key.likert <- list(title=key.title,
                           lines.title=1.5,
@@ -141,7 +142,7 @@ plot.likert.default <- function(x,
   ##   height=auto.key.likert$height, size=auto.key.likert$size)
 
   dotdotdot$scales$alternating <- 1
-  
+
   if (missing(ylab) && (is.null(ylab)||is.na(ylab))) ylab <- NULL
   ## RColorBrewer diverging palettes: c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral")
   ## These are the middle colors from RCOlorBrewer:
@@ -186,7 +187,7 @@ plot.likert.default <- function(x,
     x <- rev(x)
     rightAxisLabels <- rev(rightAxisLabels)
   }
-  
+
   par.settings <- list(strip.background=list(col=col.strip.background),
                        reference.line=list(col=reference.line.col),
                        layout.heights=list(
@@ -253,7 +254,7 @@ plot.likert.default <- function(x,
         ##  is.null(list(...)$scales$limits) &&
         ##  is.null(list(...)$scales$x$limits))
         ) result$x.limits <- c(-1,1) * max(abs(result$x.limits))
-    
+
     if (xTickLabelsPositive
         &&
         (is.null(list(...)$scales$labels) &&
@@ -275,7 +276,7 @@ plot.likert.default <- function(x,
         ##  is.null(list(...)$scales$limits) &&
         ##  is.null(list(...)$scales$y$limits))
         ) result$y.limits <- c(-1,1) * max(abs(result$y.limits))
-    
+
     if (xTickLabelsPositive
         &&
         (is.null(list(...)$scales$labels) &&
@@ -486,13 +487,13 @@ ResizeEtc.likertPlot <- function(c.list,
                                  horizontal,
                                  ...) {
   result <- ResizeEtc(c.list, ...)
-  
+
   ## fix up axes
   if (any(unlist(lapply(x, attr, "xlimEqualLeftRight")))) {
     if (horizontal)
       result$x.limits <- c(-1, 1)*max(abs(result$x.limits))
     else
-      result$y.limits <- c(-1, 1)*max(abs(result$y.limits)) 
+      result$y.limits <- c(-1, 1)*max(abs(result$y.limits))
   }
   if (any(unlist(lapply(x, attr, "xTickLabelsPositive")))) {
     if (horizontal) {

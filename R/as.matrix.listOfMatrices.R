@@ -5,7 +5,7 @@ as.matrix.listOfNamedMatrices <- function(x, abbreviate=TRUE, minlength=4, ...) 
   }
   ggg <- names(x)
   if (abbreviate) ggg <- abbreviate(ggg, minlength=minlength)
-  
+
   nnn <- sapply(x,
                 function(xi, abbreviate=abbreviate, minlength=minlength) {
                   nn <- rownames(xi)
@@ -49,7 +49,7 @@ is.listOfNamedMatrices <- function(x, xName=deparse(substitute(x))) {
   for (nxi in names(x)) { ## verify that any data.frames have only numeric columns
     xi <- x[[nxi]]
     if (is.data.frame(xi))
-      result <- (!all(sapply(xi, is.numeric)))
+      result <- (all(sapply(xi, is.numeric)))
     if (!result) {
       attr(result, "reason") <-
         paste("At least one item in", xName, "is a data.frame with a non-numeric column.")
@@ -64,11 +64,11 @@ is.listOfNamedMatrices <- function(x, xName=deparse(substitute(x))) {
   result
 }
 
-as.listOfNamedMatrices <- function(x, xName=deparse(substitute(x)))
+as.listOfNamedMatrices <- function(x, xName=deparse(substitute(x)), ...)
   UseMethod("as.listOfNamedMatrices")
 
 
-as.listOfNamedMatrices.list <- function(x, xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.list <- function(x, xName=deparse(substitute(x)), ...) {
   force(xName)
   result <- is.listOfNamedMatrices(x, xName=xName)
   if (!result) {
@@ -79,14 +79,14 @@ as.listOfNamedMatrices.list <- function(x, xName=deparse(substitute(x))) {
   x
 }
 
-as.listOfNamedMatrices.matrix <- function(x, xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.matrix <- function(x, xName=deparse(substitute(x)), ...) {
   force(xName)
   tmp2 <- data.matrix(x)
   dim(tmp2) <- c(dim(tmp2)[1], 1, dim(tmp2)[2])
   dimnames(tmp2) <- list(dimnames(x)[[1]],
                          "nonsense",
                          dimnames(x)[[2]])
-  tmp3 <- as.listOfNamedMatrices(aperm(tmp2, c(2,3,1)), xName=xName)
+  tmp3 <- as.listOfNamedMatrices(aperm(tmp2, c(2,3,1)), xName=xName, ...)
   tmp4 <- sapply(names(tmp3),
                  function(x) {
                    dimnames(tmp3[[x]])[[1]] <- x
@@ -96,17 +96,17 @@ as.listOfNamedMatrices.matrix <- function(x, xName=deparse(substitute(x))) {
   tmp4
 }
 
-as.listOfNamedMatrices.data.frame <- function(x, xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.data.frame <- function(x, xName=deparse(substitute(x)), ...) {
   force(xName)
-  as.listOfNamedMatrices(data.matrix(x), xName=xName)
+  as.listOfNamedMatrices(data.matrix(x), xName=xName, ...)
 }
 
-as.listOfNamedMatrices.MatrixList <- function(x, xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.MatrixList <- function(x, xName=deparse(substitute(x)), ...) {
   force(xName)
   NextMethod("as.listOfNamedMatrices")
 }
 
-as.listOfNamedMatrices.array <- function(x, xName=deparse(substitute(x))) {
+as.listOfNamedMatrices.array <- function(x, xName=deparse(substitute(x)), ...) {
   force(xName)
   as.listOfNamedMatrices(as.MatrixList(x), xName=xName)
 }

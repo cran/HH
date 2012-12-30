@@ -32,7 +32,7 @@ as.likert.ftable <- function(x, ...) {
 as.likert.table <- function(x, ...) {
   as.likert.matrix(x, ...)
 }
- 
+
 as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
                              ReferenceZero=NULL,
                              xlimEqualLeftRight=FALSE,
@@ -58,16 +58,16 @@ as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
   ndnx <- names(dimnames(x))
   if (is.null(dimnames(x))) dimnames(x) <- list(1:nrow(x), NULL)
   if (is.null(dimnames(x)[[1]])) dimnames(x)[[1]] <- 1:nrow(x)
-  
+
   levels <- dimnames(x)[[2]]
   if (is.null(levels)) {
     levels <- LETTERS[1:nc]
     dimnames(x)[[2]] <- levels
   }
-  
+
   if (!is.null(rowlabel)) names(dimnames(x))[1] <- rowlabel
   if (!is.null(collabel)) names(dimnames(x))[2] <- collabel
-  
+
   if(!(0 %in% colorset)) {
     ind.neg <- rev((1:nc)[colorset < 0])
     ind.pos <- (1:nc)[colorset > 0]
@@ -94,7 +94,7 @@ as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
       attr(x, "color.seq") <- 1
     }
   }
-  
+
   names(dimnames(x)) <- ndnx
   attr(x, "nlevels") <- nc
   attr(x, "original.levels") <- levels
@@ -152,5 +152,26 @@ rev.likert <- function(x) {
     sapply(x, rev, simplify=FALSE)
   }
 }
+
+
+## This simplified function appears in the JSS submitted paper.
+## It is here for discussion but it not exported.
+## The user can access it with HH:::as.likert.simplified.odd
+as.likert.simplified.odd <- function(x,                          ##  1
+       nc=ncol(x), colorset=(1:nc)-(nc+1)/2) {                   ##  2
+    ind.neg <- rev((1:nc)[colorset < 0])                         ##  3
+    ind.pos <- (1:nc)[colorset > 0]                              ##  4
+    ind.zero <- (1:nc)[colorset == 0]                            ##  5
+    x <- cbind(-x[, ind.zero, drop = FALSE]/2,                   ##  6
+               -x[, ind.neg, drop = FALSE],                      ##  7
+                x[, ind.zero, drop = FALSE]/2,                   ##  8
+                x[, ind.pos, drop = FALSE])                      ##  9
+    attr(x, "color.seq") <- c(ind.zero, ind.neg, ind.pos)        ## 10
+    pos.columns <- seq(to = ncol(x),                             ## 10
+         length = length(c(ind.zero, ind.pos)))                  ## 12
+    attr(x, "positive.order") <- order(apply(x[, pos.columns,    ## 13
+        drop = FALSE], 1, sum))                                  ## 14
+    x                                                            ## 15
+}                                                                ## 16
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/as.likert.R")
