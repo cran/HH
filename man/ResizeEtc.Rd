@@ -55,14 +55,15 @@ require(HH)
 ## Here, it is done with explicit use of ResizeEtc.
 
 data(ProfChal)
-ProfChal
+tmp <- data.matrix(ProfChal[,1:5])
+rownames(tmp) <- ProfChal$Question
 
-AA <- likert(ProfChal[[1]], box.width=unit(.4,"cm"), positive.order=TRUE)
-BB <- likert(ProfChal[[2]], box.width=unit(.4,"cm"), positive.order=TRUE)
-CC <- likert(ProfChal[[3]], box.width=unit(.4,"cm"), positive.order=TRUE)
-DD <- likert(ProfChal[[4]], box.width=unit(.4,"cm"), positive.order=TRUE)
-EE <- likert(ProfChal[[5]], box.width=unit(.4,"cm"), positive.order=TRUE)
-FF <- likert(ProfChal[[6]], box.width=unit(.4,"cm"), positive.order=TRUE)
+AA <- likert(tmp[1,], box.width=unit(.4,"cm"), positive.order=TRUE)
+BB <- likert(tmp[2:6,], box.width=unit(.4,"cm"), positive.order=TRUE)
+CC <- likert(tmp[7:10,], box.width=unit(.4,"cm"), positive.order=TRUE)
+DD <- likert(tmp[11:12,], box.width=unit(.4,"cm"), positive.order=TRUE)
+EE <- likert(tmp[13:14,], box.width=unit(.4,"cm"), positive.order=TRUE)
+FF <- likert(tmp[15:16,], box.width=unit(.4,"cm"), positive.order=TRUE)
 
 BB
 
@@ -76,7 +77,7 @@ BB
 ResizeEtc(c.list=c(AA,BB,CC,DD,EE,FF),
           layout=c(1,6), main="Not yet good enough")
 
-Group <- names(ProfChal)
+Group <- levels(ProfChal$Subtable)
 
 ResizeEtc(c.list=c(AA,BB,CC,DD,EE,FF),
           condlevelsName='Group',

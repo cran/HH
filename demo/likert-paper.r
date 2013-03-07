@@ -1,55 +1,104 @@
-## This file requires the HH package, version 2.3-25 or newer.
+## This file requires the HH package, version 2.3-30 or newer.
 ## Many of the examples will require stretching of the display window.
 ## Recommended width by height values are included in the comments.
+
+## If you want to create pdf files, then manually set
+##     PrintPDF <- TRUE
+## before running this script.
+## If the variable PrintPDF is not already set, it will be set to FALSE
+if (class(try(PrintPDF, silent=TRUE))=="try-error")
+  PrintPDF <- FALSE
 
 library(HH)
 
 data(ProfChal)
-ProfChal.df <- as.likertDataFrame(ProfChal)
 
-PCQ <- as.character(ProfChal.df$Question)
+PCQ <- as.character(ProfChal$Question)
 PCQ[6] <- "Other (including retired, students,\nnot employed, etc.)" ## insert line break
-ProfChal.df$Question <- factor(PCQ, levels=PCQ)
-attributes(ProfChal.df)$names.dimnames <- c("Characteristic","ResponseLevel")
+ProfChal$Question <- factor(PCQ, levels=PCQ)
+attributes(ProfChal)$names.dimnames <- c("Characteristic","ResponseLevel")
 
 ## Figure 1
-ProfChalPctPlot <- ## 8in x 7in  ## ProfChal.pdf
-likert(Question ~ . | Subtable, ProfChal.df,
+ProfChalPctPlot <- ## 8in x 9in  ## ProfChal.pdf
+likert(Question ~ . | Subtable, ProfChal,
        as.percent=TRUE,    ## implies display Row Count Totals
-       box.width=unit(.4,"cm"),
-       strip.left.par=list(cex=.6, lines=5),
+       ylab=NULL,
        main=list("Is your job professionally challenging?", x=unit(.65, "npc")),
+       strip.left=strip.custom(bg="gray85"),
+       strip=FALSE,
+       par.strip.text=list(cex=.6, lines=5),
        positive.order=TRUE,
-       par.settings=list(layout.widths=list(ylab.right=7)))
+       layout=c(1,6),
+       scales=list(y=list(relation="free"))  ## implies resizePanels
+       )
 ProfChalPctPlot
 
+if (PrintPDF) {
+pdf("ProfChal.pdf", width=8, height=9)
+print(ProfChalPctPlot)
+dev.off()
+}
+
+
 ## Table 1
-EmpRows <- ProfChal.df$Subtable == "Employment sector"
-ProfChal2 <- ProfChal.df[EmpRows, 1:5]
-rownames(ProfChal2) <- substr(ProfChal.df[EmpRows, "Question"], 1, 5)
+EmpRows <- ProfChal$Subtable == "Employment sector"
+ProfChal2 <- ProfChal[EmpRows, 1:5]
+rownames(ProfChal2) <- substr(ProfChal[EmpRows, "Question"], 1, 5)
 ProfChal2
 as.likert(ProfChal2)
 
 
 ## Table 2
-rownames(ProfChal2) <- ProfChal.df$Question[EmpRows]
+rownames(ProfChal2) <- ProfChal$Question[EmpRows]
 ProfChal2[1:5]
 
+
 ## Figure 2
-likert(Question ~ . , data=ProfChal.df[EmpRows,],  ## 8in x 3in  ## PC2C.pdf
-       xlab="Count",
+PC2C <-
+likert(Question ~ . , data=ProfChal[EmpRows,],  ## 9in x 3in  ## PC2C.pdf
+       ylab=NULL,
        main="Is your job professionally challenging?")
+PC2C
+
+if (PrintPDF) {
+pdf("PC2C.pdf", width=9, height=3)
+print(PC2C)
+dev.off()
+}
+
+
 
 ## Figure 3
-likert(Question ~ . , data=ProfChal.df[EmpRows,],  ## 8in x 3in  ## PC2Cpct.pdf
-       xlab="Count", as.percent=TRUE,
+PC2Cpct <-
+likert(Question ~ . , data=ProfChal[EmpRows,],  ## 9in x 3in  ## PC2Cpct.pdf
+       as.percent=TRUE,
+       ylab=NULL,
        main="Is your job professionally challenging?")
+PC2Cpct
+
+if (PrintPDF) {
+pdf("PC2Cpct.pdf", width=9, height=3)
+print(PC2Cpct)
+dev.off()
+}
+
 
 ## Figure 4
-likert(Question ~ . , data=ProfChal.df[EmpRows,],  ## 8in x 3in  ## PC2Cpctpo.pdf
+PC2Cpctpo <-
+likert(Question ~ . , data=ProfChal[EmpRows,],  ## 9in x 3in  ## PC2Cpctpo.pdf
        as.percent=TRUE,
+       ylab=NULL,
        main="Is your job professionally challenging?",
        positive.order=TRUE)
+PC2Cpctpo
+
+if (PrintPDF) {
+pdf("PC2Cpctpo.pdf", width=9, height=3)
+print(PC2Cpctpo)
+dev.off()
+}
+
+
 
 
 ## Figure 5
@@ -58,30 +107,35 @@ likert(Question ~ . , data=ProfChal.df[EmpRows,],  ## 8in x 3in  ## PC2Cpctpo.pd
 ## ProfChal6_132.pdf
 ## 9in x 9in
 data(ProfChal)
-ProfChal.df <- as.likertDataFrame(ProfChal)
 ##
-AA <- likert(Question ~ . , ProfChal.df[1,],
-             main=levels(ProfChal.df$Subtable)[1],
+AA <- likert(Question ~ . , ProfChal[1,],
+             ylab=NULL,
+             main=levels(ProfChal$Subtable)[1],
              as.percent=TRUE, box.width=unit(.4,"cm"),
              positive.order=TRUE)
-BB <- likert(Question ~ . , ProfChal.df[2:6,],
-             main=levels(ProfChal.df$Subtable)[2],
+BB <- likert(Question ~ . , ProfChal[2:6,],
+             ylab=NULL,
+             main=levels(ProfChal$Subtable)[2],
              as.percent=TRUE, box.width=unit(.4,"cm"),
              positive.order=TRUE)
-CC <- likert(Question ~ . , ProfChal.df[7:10,],
-             main=levels(ProfChal.df$Subtable)[3],
+CC <- likert(Question ~ . , ProfChal[7:10,],
+             ylab=NULL,
+             main=levels(ProfChal$Subtable)[3],
              as.percent=TRUE, box.width=unit(.4,"cm"),
              positive.order=TRUE)
-DD <- likert(Question ~ . , ProfChal.df[11:12,],
-             main=levels(ProfChal.df$Subtable)[4],
+DD <- likert(Question ~ . , ProfChal[11:12,],
+             ylab=NULL,
+             main=levels(ProfChal$Subtable)[4],
              as.percent=TRUE, box.width=unit(.4,"cm"),
              positive.order=TRUE)
-EE <- likert(Question ~ . , ProfChal.df[13:14,],
-             main=levels(ProfChal.df$Subtable)[5],
+EE <- likert(Question ~ . , ProfChal[13:14,],
+             ylab=NULL,
+             main=levels(ProfChal$Subtable)[5],
              as.percent=TRUE, box.width=unit(.4,"cm"),
              positive.order=TRUE)
-FF <- likert(Question ~ . , ProfChal.df[15:16,],
-             main=levels(ProfChal.df$Subtable)[6],
+FF <- likert(Question ~ . , ProfChal[15:16,],
+             ylab=NULL,
+             main=levels(ProfChal$Subtable)[6],
              as.percent=TRUE, box.width=unit(.4,"cm"),
              positive.order=TRUE)
 ##
@@ -94,16 +148,57 @@ print(EE, more=TRUE,  split=c(1,2,1,3))
 print(FF, more=FALSE, split=c(1,3,1,3))
 ## ProfChal6_132.pdf
 
+if (PrintPDF) {
+pdf("ProfChal6_131.pdf", width=9, height=9)
+print(AA, more=TRUE,  split=c(1,1,1,3))
+print(BB, more=TRUE,  split=c(1,2,1,3))
+print(CC, more=FALSE,  split=c(1,3,1,3))
+dev.off()
+pdf("ProfChal6_132.pdf", width=9, height=9)
+print(DD, more=TRUE,  split=c(1,1,1,3))
+print(EE, more=TRUE,  split=c(1,2,1,3))
+print(FF, more=FALSE, split=c(1,3,1,3))
+dev.off()
+}
 
 ## Figure 1, reprise
-tmp <- resizePanels(c(AA,BB,CC,DD,EE,FF, layout=c(1,6), x.same=TRUE), c(1,5,4,2,2,2)-.5)
-tmp <- update(tmp, main=ProfChalPctPlot$main, strip.left=TRUE, par.strip.text=list(cex=.6, lines=5))
-tmp$condlevels <- list(ListNames=levels(ProfChal.df$Subtable))
-tmp$y.limits <- lapply(list(AA,BB,CC,DD,EE,FF), `[[`, "y.limits")
-tmp$par.settings$layout.widths$ylab.right <- 7
-tmp
+ProfChalReprise <- resizePanels(c(AA,BB,CC,DD,EE,FF, layout=c(1,6), x.same=TRUE), h=c(1,5,4,2,2,2))
+ProfChalReprise$condlevels <- list(ListNames=levels(ProfChal$Subtable))
+ProfChalReprise <- update(ProfChalReprise, main=ProfChalPctPlot$main, strip.left=strip.custom(bg="gray97"),
+                          par.strip.text=list(cex=.6, lines=5))
+ProfChalReprise$y.limits <- lapply(list(AA,BB,CC,DD,EE,FF), `[[`, "y.limits")
+ProfChalReprise
+
+if (PrintPDF) {
+pdf("ProfChalReprise.pdf", width=9, height=7)
+print(ProfChalReprise)
+dev.off()
+}
 
 ## Figure 6
+ProfChalPercentCount <- ## 11in x 9in  ## twocolumn.pdf
+LikertPercentCountColumns(Question ~ . | Subtable, ProfChal,
+                          layout=c(1,6), scales=list(y=list(relation="free")),
+                          ylab=NULL, between=list(y=0),
+                          strip.left=strip.custom(bg="gray97"), strip=FALSE,
+                          par.strip.text=list(cex=.6, lines=5),
+                          positive.order=TRUE,
+                          main="Is your job professionally challenging?",                                   px=list(
+                             LL=c(.00,  .40),
+                             LP=c(.36,  .70),
+                             ML=c(.50,  .51),  ## visually center the legend
+                             RP=c(.71,  .89),
+                             RL=c(.87, 1.00)))
+ProfChalPercentCount
+
+if (PrintPDF) {
+pdf("twocolumn.pdf", width=11, height=9)
+print(ProfChalPercentCount)
+dev.off()
+}
+
+
+## Figure 7
 ## http://www.morst.govt.nz/Documents/publications/researchreports/
 ## Staying-in-Science-summary.pdf
 
@@ -111,45 +206,64 @@ tmp
 ## "Students' interest in science, and views about secondary science teaching"
 ## "Students' feelings about making tertiary study decisions"
 data(NZScienceTeaching)
-NZScienceTeaching.df <- as.likertDataFrame(NZScienceTeaching)
-attributes(NZScienceTeaching.df)$names.dimnames <- c("Question", "Agreement")
 
-likert(Question ~ . | Subtable, NZScienceTeaching.df, ## 10in x 5in  ## NZscienceteaching.pdf
+NZscienceteaching <-
+likert(Question ~ . | Subtable, NZScienceTeaching, ## 10in x 5in  ## NZscienceteaching.pdf
        main="New Zealand Students Still Taking Science in Year 13",
-       auto.key=list(between=.8, cex=.8),
+       layout=c(1,2),
        xlab="Percent",
-       scales=list(y=list(cex=.9)),
-       strip.left.par=list(cex=1.2, lines=1.3))
+       ylab=NULL,
+       scales=list(y=list(relation="free")),
+       strip=FALSE,
+       strip.left=strip.custom(bg="gray97"),
+       par.strip.text=list(cex=1.2, lines=1.2)
+       )
+NZscienceteaching
+
+if (PrintPDF) {
+pdf("NZscienceteaching.pdf", width=10, height=5)
+print(NZscienceteaching)
+dev.off()
+}
 
 
-## Figure 7
+
+## Figure 8
 ## 9in x 7.5in   ## SFF8121.pdf
 data(SFF8121)
 SFF8121.df <- as.likertDataFrame(SFF8121)
 ## as.MatrixList(SFF8121)
+SFF8121.likert <-
 likert(Question ~ . | Subtable, SFF8121.df,
-       layout=c(2,1), between=list(x=1),
-       scales=list(x=list(alternating=FALSE)),
-       strip.left=FALSE,
+       layout=c(2,1),
        xlab="Percent",
-       main="Student Feedback Forms, Spring 2010")
+       main="Student Feedback Forms, Spring 2010",
+       strip=strip.custom(bg="gray97"),
+       par.strip.text=list(cex=.6))
+SFF8121.likert
+## warnings -- wrong bg in pdf in Mac 15.2.2
+
+if (PrintPDF) {
+pdf("SFF8121.likert.pdf", width=9, height=7.5)
+print(SFF8121.likert)
+dev.off()
+}
 
 
-## Figure 8
+## Figure 9
 ## PopUSA1939-1979.pdf
 ## this needs a 17x8 window
 data(USAge.table) ## from package:latticeExtra
-## tmp <- USAge.table[75:1, 2:1, seq(40,80,10)]
-tmp.df <- as.likertDataFrame(USAge.table[75:1, 2:1, seq(40,80,10)]/1000000)
+tmp.df <- as.likertDataFrame(USAge.table[1:75, 2:1, seq(40,80,10)]/1000000)
 names(tmp.df)[3] <- "Age"
 names(tmp.df)[4] <- "Year"
 PL5 <-
 likert(Age ~ . | Year, tmp.df,
-       strip.left=FALSE, strip=TRUE,
        main="Population of United States (ages 0-74)",
        xlab="Count in Millions",
        ylab="Age",
        sub="Look for the Baby Boom",
+       reverse=FALSE,
        scales=list(
          y=list(
            limits=c(0,77),
@@ -159,14 +273,25 @@ likert(Age ~ . | Year, tmp.df,
            tck=1),
          x=list(alternating=FALSE, at=-2:2)),
        auto.key=list(title=NULL),
-       layout=c(5,1), between=list(x=.5))
+       strip=strip.custom(bg="gray97"),
+       par.strip.text=list(cex=1),
+       layout=c(5,1), between=list(x=.5),
+       yscale.components=yscale.components.default)
+PL5
+
+if (PrintPDF) {
+pdf("PL5.pdf", width=17, height=8)
+print(PL5)
+dev.off()
+}
 
 
 ## 7x8 window
-PL <- likert(Age ~ . , tmp.df[tmp.df$Year=="1979",],
+PL <- likert( ~ . , data.frame(USAge.table[1:75, 2:1, "1979"]/1000000),
              main="Population of United States 1979 (ages 0-74)",
              xlab="Count in Millions",
              ylab="Age",
+             reverse=FALSE,
              scales=list(
                y=list(
                  limits=c(0,77),
@@ -175,38 +300,59 @@ PL <- likert(Age ~ . , tmp.df[tmp.df$Year=="1979",],
                  tck=.5))
                 )
 PL
-## Figure 9
-## popUSA1979.pdf
-as.pyramidLikert(PL)
+
+if (PrintPDF) {
+pdf("PL.pdf", width=7, height=8)
+print(PL)
+dev.off()
+}
 
 
 ## Figure 10
+## popUSA1979.pdf
+as.pyramidLikert(PL)
+
+if (PrintPDF) {
+pdf("PLpyr.pdf", width=7, height=8)
+print(as.pyramidLikert(PL))
+dev.off()
+}
+
+
+## Figure 11
 ## top is historical
 ## bottom
 ## ProfitDividend.pdf
 ## 4.5in x 2.75in
 data(ProfDiv)
-ProfDiv.df <- as.likertDataFrame(ProfDiv)
-names(ProfDiv.df)[5] <- "Year"
-likert(Year ~ ., ProfDiv.df, horizontal=FALSE, positive.order=FALSE,
-       auto.key=list(reverse=TRUE, columns=1, space="right",
-         size=4, padding.text=1.5),
-       ylab="Year", xlab="Per Cent",
+ProfDivPlot <-
+likert( ~ ., data.frame(ProfDiv), horizontal=FALSE, positive.order=FALSE,
+       auto.key=list(size=4, padding.text=1.5, title=names(dimnames(ProfDiv))[2], cex.title=.9),
+       ylab="Per Cent",
+       xlab=names(dimnames(ProfDiv))[1],
        main=paste("Profit-and-Dividend Status of 348 Corportations",
          "in the United States\nfor the period from 1929 to 1935."),
-       sub="Dun's Review, April 1938",
-       par.settings=list(layout.widths=list(right.padding=2.5)))
+       sub="Dun's Review, April 1938"
+      )
+ProfDivPlot
+
+if (PrintPDF) {
+pdf("ProfDiv.pdf", width=7, height=4)
+print(ProfDivPlot)
+dev.off()
+}
 
 
-## Figure 11
+## Figure 12
 ## PoorChildren
 ## Colors taken from NY Times figure using Snagit editor
 PCWPpalette <- c("#A8C2C0", "#C9E9E6", "#D0E39A", "#A3B37B")
 data(PoorChildren)
-PoorChildren.df <- as.likertDataFrame(PoorChildren)
-names(PoorChildren.df)[5] <- "PctPoorHH"
-PoorChildren.df$Subtable <- PoorChildren.df$PctPoorHH
-likert(PctPoorHH ~ . | Subtable, PoorChildren.df,
+rowCounts <- rowSums(PoorChildren)
+PoorChildren$Subtable <- factor(rownames(PoorChildren), levels=rownames(PoorChildren))
+
+PoorChildrenPlot <-
+likert( ~ . | Subtable, PoorChildren,
        col=PCWPpalette, as.percent=TRUE,
        ylab="Percent of poor households in area",
        xlab="Percent of Children",
@@ -214,164 +360,107 @@ likert(PctPoorHH ~ . | Subtable, PoorChildren.df,
        ylab.right="Row Count Totals",
        main="Poor Children, Working Parents",
        strip=FALSE,
-       strip.left=FALSE,
-       rightAxisLabels=format(rowSums(PoorChildren), big.mark=","),
-       resize.height="rowSums",
+       rightAxisLabels=format(rowCounts, big.mark=","),
        par.settings=list(
          axis.line=list(col="transparent"),
-         layout.widths=list(ylab.right=7)))
+         layout.widths=list(ylab.right=1, axis.key.padding=10)
+         ),
+       box.ratio=500,
+       layout=c(1,6),
+       between=list(y=0),
+       scales=list(y=list(relation="free", tck=c(0,3))),
+       h.resizePanels=rowCounts
+       )
+PoorChildrenPlot
 
-## Figure 12   ## not yet in formula method
-tmp4 <- colSums(PoorChildren)[c(2,1,3,4)]
-ByWP <- rbind(matrix(0,4,2,dimnames=list(letters[1:4],NULL)),
-              cbind(NWP=tmp4, '1+WP'=tmp4))
-ByWP[cbind(5:8, c(2,2,1,1))] <- 0
-ByWP
-##
-PL4vert <-
-likert(as.listOfNamedMatrices(t(ByWP)), as.percent=TRUE, horizontal=FALSE,
-       col=c(rep("transparent",4), PCWPpalette[c(2,1,3,4)]),
-       strip.left=FALSE, strip=FALSE,
-       ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
-       rightAxisLabels=format(colSums(ByWP), big.mark=","),
-       resize.width=1,
-       resize.height=colSums(ByWP), ## horizontal=FALSE applies this to width
-       layout=c(2,1),
-       box.ratio=1000,
-       xlab="Percent of Children, All Areas",
-       xlab.top=c("No Working Parents", "One or more Working Parents"),
-       ylab="Number of Children",
-       main="Poor Children, Working Parents",
-       par.settings=list(axis.line=list(col="transparent"),
-         layout.widths=list(axis.right=0, ylab.right=1)))
-## PL4vert
-PL4vert$legend$bottom$args$text <-
-            PL4vert$legend$bottom$args$text[c(6,5,7,8)]
-PL4vert$legend$bottom$args$rect$col <-
-            PL4vert$legend$bottom$args$rect$col[c(6,5,7,8)]
-PL4vert$legend$bottom$args$columns <- 4
-for (i in seq(along=PL4vert$x.limits))
-  PL4vert$x.limits[[i]] <- names(PL4vert$x.limits[[i]])
-PL4vert
 
-{
-## Figure 12 revised 1
-  tmp2 <- data.frame(t(apply(PoorChildren.df[1:4], 2, sum)), all=1, check.names=FALSE)
-  likNWP <- likert(all ~ ., data=tmp2[,c(2:1,5)], horizontal=FALSE, Ref=0,
-                   col=PCWPpalette[2:1], as.percent=TRUE,
-                   xlab.top="No Working Parents",
-                   xlab="Percent of Children, All Areas",
-                   ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
-                   ylab=format(sum(tmp2[,2:1]), big.mark=","))
-  likWP  <- likert(all ~ ., data=tmp2[,c(3:4,5)], horizontal=FALSE, Ref=0,
-                   col=PCWPpalette[3:4], as.percent=TRUE,
-                   xlab.top="One or More Working Parents",
-                   xlab="Percent of Children, All Areas",
-                   ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
-                   ylab=format(sum(tmp2[,3:4]), big.mark=","))
-  lik <- resizePanels(c(likNWP, likWP), w=c(sum(tmp2[,2:1]), sum(tmp2[,3:4])))
-  lik <- update(lik, par.settings=list(axis.line=list(col="transparent"),
-                       layout.widths=list(axis.right=0, ylab.right=1.2)))
-  lik <- update(lik,
-                between=list(x=0),
-                scales=list(x=list(limits=list(
-                              format(sum(tmp2[,2:1]), big.mark=","),
-                              format(sum(tmp2[,3:4]), big.mark=",")))),
-                xlab="Number of Children",
-                xlab.top=c("No Working Parents", "One or More Working Parents"),
-                main="Poor Children, Working Parents",
-                box.ratio=1000)
-  lik$legend$bottom$args$text <- c(likNWP$legend$bottom$args$text[2:1],
-                                   likWP$legend$bottom$args$text)
-  lik$legend$bottom$args$rect$col <- c(likNWP$legend$bottom$args$rect$col[2:1],
-                                       likWP$legend$bottom$args$rect$col)
-  lik$legend$bottom$args$columns <- 4
-  lik
-}
-
-{
-## Figure 12 revised 2
-  PCWP <- data.frame(t(apply(PoorChildren.df[c(2,1,3,4)], 2, sum)), check.names=FALSE)
-  PCWP2 <- cbind(rbind(PCWP, PCWP),
-                 WP=ordered(c("NWP","1+WP"), levels=c("NWP","1+WP")),
-                 all=1)
-  PCWP2[1, 3:4] <- 0
-  PCWP2[2, 1:2] <- 0
-
-  PClik <-
-    likert(all ~ . | WP, data=PCWP2, horizontal=FALSE, Ref=0,
-           col=PCWPpalette[c(2,1,3,4)], as.percent=TRUE)
-
-  PClik <- resizePanels(PClik, w=c(sum(PCWP2[,1:2]), sum(PCWP2[,3:4])))
-  PClik <- update(PClik, par.settings=list(
-                           axis.line=list(col="transparent"),
-                           layout.widths=list(axis.right=0, ylab.right=1.2)))
-  PClik <- update(PClik,
-                  scales=list(x=list(limits=list(
-                                       format(sum(PCWP2[,1:2]), big.mark=","),
-                                       format(sum(PCWP2[,3:4]), big.mark=",")))),
-                  xlab="Number of Children",
-                  xlab.top=c("No Working Parents", "One or More Working Parents"),
-                  ylab="Percent of Children, All Areas",
-                  ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
-                  main="Poor Children, Working Parents",
-                  box.ratio=1000,
-                  strip=FALSE)
-  PClik$legend$bottom$args$text <- PClik$legend$bottom$args$text[c(2,1,3,4)]
-  PClik$legend$bottom$args$rect$col <-  PClik$legend$bottom$args$rect$col[c(2,1,3,4)]
-  PClik
-}
-
-{
-## Figure 12 revised 2a
-  PCWP <- data.frame(t(apply(PoorChildren.df[c(2,1,3,4)], 2, sum)), check.names=FALSE)
-  PCWP2 <- cbind(rbind(PCWP, PCWP),
-                 WP=ordered(c("NWP","1+WP"), levels=c("NWP","1+WP")),
-                 all=1)
-  PCWP2[1, 3:4] <- 0
-  PCWP2[2, 1:2] <- 0
-  PCWPcounts <- c(sum(PCWP2[,1:2]), sum(PCWP2[,3:4]))
-  PClik <-
-    likert(all ~ . | WP, data=PCWP2, horizontal=FALSE, Ref=0,
-           col=PCWPpalette[c(2,1,3,4)], as.percent=TRUE,
-           ## above is the working part.  below is cosmetics
-           par.settings=list(
-             axis.line=list(col="transparent"),
-             layout.widths=list(axis.right=0, ylab.right=1.2)),
-           xlab="Number of Children",
-           xlab.top=c("No Working Parents", "One or More Working Parents"),
-           ylab="Percent of Children, All Areas",
-           ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
-           main="Poor Children, Working Parents",
-           box.ratio=1000,
-           strip=FALSE)
-  PClik$x.limits <- as.list(format(PCWPcounts, big.mark=","))
-  PClik$legend$bottom$args$text <- PClik$legend$bottom$args$text[c(2,1,3,4)]
-  PClik$legend$bottom$args$rect$col <-  PClik$legend$bottom$args$rect$col[c(2,1,3,4)]
-  PClik <- resizePanels(PClik, w=PCWPcounts)
-  PClik
+if (PrintPDF) {
+pdf("PoorChildrenPlot.pdf", width=8, height=7)
+print(PoorChildrenPlot)
+dev.off()
 }
 
 
-{
-  ## Figure 12 revised 3
-  ## This variant doesn't allow width control.
-  ## box.width=rep(rowSums(PCWP2[,1:4]), each=2)/8000000
-  ## applies to each item in the stacked bar, not to the entire bar
-  ##
-  ## PClik <-
-  ##   likert(WP ~ ., data=PCWP2[1:5], horizontal=FALSE, Ref=0,
-  ##          col=PCWPpalette[c(2,1,3,4)], as.percent=TRUE)
-}
 
 ## Figure 13
+tmp4 <- colSums(PoorChildren)[c(2,1,3,4)]
+ByWP <- rbind(NWP=tmp4, '1+WP'=tmp4)
+ByWP[cbind(c(2,2,1,1), 1:4)] <- 0
+ByWP <- data.frame(ByWP,
+                   Number=rowSums(ByWP),
+                   NumberLabel=format(rowSums(ByWP), big.mark=","),
+                   WP=factor(rownames(ByWP), levels=rownames(ByWP)),
+                   check.names=FALSE)
+ByWP
+
+## note the sequencing: Mod, Ext, Mod, Ext
+## this, together with Ref=0 in the likert() call,
+## gets entire graph on the positive side in the intended order.
+
+## Figure 13, no box.width control because
+##    box.width=rep(rowSums(PCWP2[,1:4]), each=2)/8000000
+## is applied by barchart to each item in the stacked bar, not to the entire bar.
+##
+PClikNWC <-
+  likert(NumberLabel ~ ., data=ByWP[,-5], horizontal=FALSE, Ref=0,
+         col=PCWPpalette[c(2,1,3,4)], as.percent="noRightAxis",
+         xlab="Number of Children",
+         ylab="Percent of Children, All Areas",
+         xlab.top=c("No Working Parents", "One or More Working Parents"),
+         ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
+         main="Poor Children, Working Parents",
+         auto.key=list(
+           space="bottom", columns=4, between=1,
+           text=names(PCWP2[c(4,3,1,2)]),
+           rect=list(col=PCWPpalette[c(4,3,2,1)], border="white")))
+PClikNWC
+
+if (PrintPDF) {
+pdf("PClikNWC.pdf", width=8, height=7)
+print(PClikNWC)
+dev.off()
+}
+
+
+## Figure 13 with width control by controlling panel width
+PClikWC <-
+  likert(NumberLabel ~ . | WP, data=ByWP[-5], horizontal=FALSE, Ref=0,
+         col=PCWPpalette[c(2,1,3,4)], as.percent="noRightAxis",
+         xlab="Number of Children",
+         ylab="Percent of Children, All Areas",
+         xlab.top=c("No Working Parents", "One or More Working Parents"),
+         ylab.right=list(c("Moderately\nPoor", "Extremely\nPoor"), rot=0),
+         main="Poor Children, Working Parents",
+         auto.key=list(
+           space="bottom", columns=4, between=1,
+           text=names(ByWP[c(4,3,1,2)]),
+           rect=list(col=PCWPpalette[c(4,3,2,1)], border="white")),
+         ## arguments for multi-panel width control
+         box.ratio=1000,
+         strip=FALSE,
+         layout=c(2,1),
+         scales=list(x=list(relation="free")),
+         par.settings=list(axis.line=list(col="transparent")),
+         w.resizePanels=ByWP$Number ## this line makes the panel widths
+         ## hence the effective box.width,
+         ## proportional to the Number of persons
+         )
+PClikWC
+
+if (PrintPDF) {
+pdf("PClikWC.pdf", width=8, height=7)
+print(PClikWC)
+dev.off()
+}
+
+
+
+## Figure 14
 ## AudiencePercent.pdf
 ## 7in x 4in
 data(AudiencePercent)
-AudiencePercent.df <- as.likertDataFrame(AudiencePercent)
-AudiencePercent.df$Subtable <- factor("A")
-names(AudiencePercent.df)[5] <- "Brands"
-likert(Brands ~ . , AudiencePercent.df,
+AudiencePercentPlot <-
+likert( ~ . , data.frame(AudiencePercent),
        positive.order=TRUE,
        auto.key=list(between=1, between.columns=2),
        xlab=paste("Percentage of audience younger than 35",
@@ -380,55 +469,91 @@ likert(Brands ~ . , AudiencePercent.df,
        main="Brand A has the most even distribution of ages",
        scales=list(x=list(at=seq(-90,60,10),
                      labels=as.vector(rbind("", abs(seq(-80,60,20)))))),
-       col=brewer.pal(9, "Blues")[4:7])
+       col=sequential_hcl(11)[5:2])
+AudiencePercentPlot
 
+if (PrintPDF) {
+pdf("AudiencePercentPlot.pdf", width=7, height=4)
+print(AudiencePercentPlot)
+dev.off()
+}
 
 ## Grouped Bar Chart  ## we are not recommending this plot for this data
-## Figure 14
-tmp <- data.frame(ProfChal[[2]])
+## Figure 15
+tmp <- ProfChal2
 dimnames(tmp)[[1]][5] <- "Other (including retired, students,\nnot employed, etc.)"
 tmp <- data.frame(stack(tmp),
-                  Employment=row.names(tmp))
+                  Employment=factor(row.names(tmp), levels=row.names(tmp)))
 names(tmp)[1:2] <- c("Count", "Agreement")
 tmp$Agreement <- factor(tmp$Agreement, unique(tmp$Agreement))
-tmp$Percent <- as.vector(ProfChal[[2]] / rowSums(ProfChal[[2]]))
-## Figure 14a
+tmp$Percent <- unlist(ProfChal2 / rowSums(ProfChal2))
+
+## Figure 15a
 ## PctAEv.pdf ## 16in x 6in
+PctAEv <-
 barchart(Percent ~ Agreement | Employment, data=tmp,
-         col=brewer.pal(5, "RdBu"),
+         col=rev(diverge_hcl(5)),
          horizontal=FALSE, layout=c(5,1), between=list(x=1), box.ratio=10,
          origin=0,
-         par.strip.text=list(cex=.9, lines=2.5),
+         par.strip.text=list(cex=.7, lines=2.5),  ## cex too large on quartz
          scales=list(x=list(rot=90)),
          main="Percent ~ Agreement | Employment")
-##
-## Figure 14b
-## PctAEh.pdf ## 16in x 3in
+PctAEv
+
+if (PrintPDF) {
+pdf("PctAEv.pdf", width=11.5, height=4)
+print(PctAEv)
+dev.off()
+}
+
+
+## Figure 15b
+## PctAEh.pdf ## 16in x 4in
+PctAEh <-
 barchart(Agreement ~ Percent | Employment, data=tmp,
-         col=brewer.pal(5, "RdBu"),
+         col=rev(diverge_hcl(5)),
          horizontal=TRUE, layout=c(5,1), between=list(x=1), box.ratio=10,
          origin=0,
-         par.strip.text=list(cex=.9, lines=2.5),
+         par.strip.text=list(cex=.7, lines=2.5),  ## cex too large on quartz
          scales=list(x=list(alternating=1)),
          main="Agreement ~ Percent | Employment")
+PctAEh
+
+if (PrintPDF) {
+pdf("PctAEh.pdf", width=12, height=3.5)
+print(PctAEh)
+dev.off()
+}
 
 
 
 ## Heat Map   ## we are not recommending this plot for this data
-## Figure 15 ## 8in x 5in
+## Figure 16 ## 9in x 5in
 ## PC2CpctpoHM.pdf
-likert(Question ~ . , data=ProfChal.df[EmpRows,], ## 8in x 3in  ## PC2CpctpoHM.pdf
+PC2CpctpoHM <-
+likert( ~ . , data=ProfChal2, ## 8in x 3in  ## PC2CpctpoHM.pdf
        as.percent=TRUE,
        main="Is your job professionally challenging?",
        ReferenceZero=0,
-       col=brewer.pal(5, "RdBu"),  ## col= needed because Ref=0 sets all colors to positive
+       col=rev(diverge_hcl(5)),  ## col= needed because ReferenceZero=0 sets all colors to positive
        box.ratio=20)
+PC2CpctpoHM
+
+if (PrintPDF) {
+pdf("PC2CpctpoHM.pdf", width=9, height=5)
+print(PC2CpctpoHM)
+dev.off()
+}
 
 
-## Figure 16
+## Figure 17
+## Same content as Figure 1, as drawn in file likertMosaic-paper.r
+
+
+## Figure 18
 ## screen shot from Tableau worksheet JSS_figures6-1.twbx
 ## TableauWorksheet.pdf
 
-## Figure 17
+## Figure 19
 ## pdf file drawn by Tableau
-## Figure12b.pdf
+## tableau_redone2.pdf

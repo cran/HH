@@ -244,6 +244,7 @@ Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 
 \examples{
+\dontrun{
 ## variable names in the input data.frame aeanonym
 ## RAND   treatment as randomized
 ## PREF   adverse event symptom name
@@ -268,9 +269,10 @@ class(aeanonymr$PREF)
 levels(aeanonymr$PREF)
 
 AEdotplot(aeanonym)
+\dontrun{
 AEdotplot(aeanonym, sort=FALSE)
+}
 AEdotplot(aeanonym, conditionVariable=aeanonym$OrgSys)
-
 
 aefake <- rbind(cbind(aeanonym, group="ABC"), cbind(aeanonym, group="DEF"))
 aefake$SAE[67:132] <- sample(aefake$SAE[67:132])
@@ -287,14 +289,14 @@ AEfakeGR1 <- AEdotplot(aefake[KEEP & (1:132) <= 66,],
                        conditionVariable=aefake$OrgSys.group[KEEP & (1:132) <= 66])
 AEfakeGR2 <- AEdotplot(aefake[KEEP & (1:132) >= 67,],
                        conditionVariable=aefake$OrgSys.group[KEEP & (1:132) >= 67])
-\dontrun{
+
 AEfakeGR1
 AEfakeGR2
-}
+
 AEfakeMatched <- AEmatchSortorder(AEfakeGR1, AEfakeGR2)
 update(do.call(c, AEfakeMatched),
        main="ABC sorted by Relative Risk; DEF matches ABC order")
-
+}
 ## Please see  ?AEdotplot  for examples using the formula method
 ##
 ## Many more examples are in demo("AEdotplotManyExamples")

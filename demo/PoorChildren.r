@@ -45,12 +45,26 @@ PCcount <- likert(PoorChildren, col=PCWPpalette,
                     x=list(
                       at=seq(-2,2,1)*1000000,
                       labels=c("2,000,000", "1,000,000","0","1,000,000","2,000,000"))),
-                  rightAxisLabels=format(rev(rowSums(PoorChildren)), big.mark=","))
-## PCcount
-PCcount2 <- update(PCcount, par.settings=list(axis.line=list(col="transparent")))
-PCcount2
-## update(PCcount2, sub="Figure 2a")
+                  rightAxisLabels=format(rev(rowSums(PoorChildren)), big.mark=","),
+                  par.settings=list(
+                    axis.line=list(col="transparent"),
+                    layout.widths=list(ylab.right=1, axis.key.padding=0)
+                    )
+                  )
+PCcount
+## update(PCcount, sub="Figure 2a")
 
+## Population pyramid style, with y-axis in the center
+PCcountPP <- likert(PoorChildren, col=PCWPpalette,
+                  ylab="Percent of\npoor households\nin area",
+                  xlab="Number of Children",
+                  xlab.top=c("\n\nNo Working Parents", "\n\nOne or more Working Parents"),
+                  ylab.right=NULL,
+                  scales=list(x=list(
+                      at=seq(-2,2,1)*1000000,
+                      labels=c("2,000,000", "1,000,000","0","1,000,000","2,000,000"))),
+                  rightAxis=FALSE)
+as.pyramidLikert(PCcountPP, panel.width=.44)
 
 
 ## Figure 2b

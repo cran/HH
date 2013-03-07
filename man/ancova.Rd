@@ -135,7 +135,7 @@ see both
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-% \note{ ~~further notes~~ 
+% \note{ ~~further notes~~
 %  ~Make other sections like Warning with \section{Warning }{....} ~
 % }
 \seealso{
@@ -170,6 +170,9 @@ attr(hotdog.ancova, "trellis")
 data(apple)
 ancova(yield ~ treat + pre, data=apple, blocks=block)
 
+## Please see
+##      demo("ancova")
+## for a composite graph illustrating the four models listed above.
 }
 %\keyword{ ~kwd1 }% at least one, from doc/KEYWORDS
 %\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

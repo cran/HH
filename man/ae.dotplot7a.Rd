@@ -139,6 +139,8 @@ head(AEdata)
 
 AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata)
 AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata)
+
+\dontrun{
 %% AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata[c(AEdata$OrgSys %in% c("GI","Resp")),])
 AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata[c(AEdata$OrgSys \%in\% c("GI","Resp")),])
 
@@ -151,6 +153,7 @@ AEdotplot(AE ~ nAE/nTRT | OrgSys, groups=TRT, data=ABCD.12345, sort=FALSE)
 ## suppress third panel
 tmp <- AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata)
 print(tmp, AEtable=FALSE)
+}
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

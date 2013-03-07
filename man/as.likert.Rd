@@ -28,10 +28,13 @@ as.likert(x, ...)
 \method{as.likert}{formula}(x, ...)  ## doesn't work yet
 \method{as.likert}{ftable}(x, ...)
 \method{as.likert}{table}(x, ...)
-\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL, ...,
+\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL,
                 ReferenceZero=NULL,
+                ...,
                 xlimEqualLeftRight=FALSE,
-                xTickLabelsPositive=TRUE)
+                xTickLabelsPositive=TRUE,
+                padding=FALSE,
+                reverse.left=TRUE)
 \method{as.likert}{listOfNamedMatrices}(x, ...)
 \method{as.likert}{array}(x, ...)
 %% \method{as.likert}{numeric}(x, ...)
@@ -61,6 +64,17 @@ is.likertCapable(x, ...)
   \item{xTickLabelsPositive}{Logical. The default is \code{TRUE}.
     If \code{TRUE}, then the tick labels on the negative side are
     displayed as positive values.}
+
+  \item{padding, reverse.left}{\code{padding} is \code{FALSE} for
+    \code{likert} and \code{TRUE} for \code{likertMosaic}.
+    \code{reverse.left} is \code{TRUE} for \code{likert} and \code{FALSE}
+    for \code{likertMosaic}.  \code{likert} is based on
+    \code{\link[lattice]{barchart}}
+    and requires that the sequencing of negative values be reversed. \code{likertMosiac} is
+    based on \code{\link[vcd]{mosaic}} and needs padding on left and right
+    to fill the rectangle implied by the convex hull of the plot.
+  }
+
   }
 \details{
 Please see \code{\link{likert}} for information on the plot for which

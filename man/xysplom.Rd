@@ -147,7 +147,5 @@ if.R(r=
     )
 }
 
-## There are many mmore examples in
-## demo(xysplomManyExamples)
 }
 \keyword{hplot}% at least one, from doc/KEYWORDS

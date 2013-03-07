@@ -108,25 +108,30 @@ dimensions of the argument array.
 \examples{
 data(ProfChal)
 
-## Single matrix with long list item names and long row names
-## of argument list retained as an attribute.
-ProfChal[2:3]
-print(ProfChal[2:3], minlength=6)
+tmp <- data.matrix(ProfChal[,1:5])
+rownames(tmp) <- ProfChal$Question
+ProfChal.list <- split.data.frame(tmp, ProfChal$Subtable)
 
 ## Original list of matrices is difficult to read because
 ## it is displayed on too many lines.
-print.default(ProfChal[2:3])
+ProfChal.list[2:3]
+
+## Single matrix with long list item names and long row names
+## of argument list retained as an attribute.
+as.listOfNamedMatrices(ProfChal.list[2:3], minlength=6)
 
 tmp3 <- array(1:24, dim=c(2,3,4), dimnames=list(A=letters[1:2], B=LETTERS[3:5], C=letters[6:9]))
+tmp3
 as.MatrixList(tmp3)
+
+\dontrun{
 sapply(as.MatrixList(tmp3), as.likert, simplify=FALSE)  ## odd number of levels.
 
 data(NZScienceTeaching)
-tmp <- as.likertDataFrame(NZScienceTeaching)
-tmp
-\dontrun{
-likert(Question ~ ., tmp)
-likert(Question ~ . | Subtable, data=tmp)
+likert(Question ~ ., NZScienceTeaching)
+likert(Question ~ . | Subtable, data=NZScienceTeaching)
+likert(Question ~ . | Subtable, data=NZScienceTeaching,
+       layout=c(1,2), scales=list(y=list(relation="free")))
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
