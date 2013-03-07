@@ -10,6 +10,7 @@ if.R(r={
 })
 
 likert <- plot.likert
+likertplot <- plot.likert
 
 xscale.components.top.HH <- function(...) {
   ans <- xscale.components.default(...)
@@ -71,6 +72,7 @@ plot.likert.default <- function(x,
   x.input <- x
   if (is.null(dim(x))) {
     x <- t(x)
+    if (is.null(dimnames(x))) dimnames(x) <- list("", letters[seq(along=x)])
     dimnames(x)[[1]] <- ""
   }
   force(rightAxis)
@@ -412,8 +414,8 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
       stop("All items in a list for plot.likert must have the same number of columns.")
     if (is.data.frame(x))
       stop("plot.likert.list does not accept a data.frame.\nPlease use plot.likert.data.frame.")
-    if (any(sapply(x, function(xx) is.data.frame(xx) && !all(sapply(xx, is.numeric)))))
-      stop("A data.frame in a plot.likert.list argument must have only numeric columns.")
+    ## if (any(sapply(x, function(xx) is.data.frame(xx) && !all(sapply(xx, is.numeric)))))
+    ##   stop("A data.frame in a plot.likert.list argument must have only numeric columns.")
   }
   if (class(resize.height)=="character") {
     if (resize.height=="rowSums" && !all(sapply(x, nrow)==1))
@@ -434,6 +436,9 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
     warning(paste("Inconsistent layout=", deparse(layout),
                   "and length(resize.width)=", deparse(length(resize.width)),
                   "and length(resize.height)=", deparse(length(resize.height))))
+  x <- lapply(x, function(z)
+              if (is.data.frame(z)) data.matrix(z[, sapply(z, is.numeric), drop=FALSE]) else z
+              )
   x.pl <- mapply(plot.likert, x,
                  rightAxisLabels=rightAxisLabels,
                  MoreArgs=list(
@@ -532,7 +537,8 @@ plot.likert.structable <- function(x, ..., xName=deparse(substitute(x))){
 ## }
 plot.likert.data.frame <- function(x, ..., xName=deparse(substitute(x))){
   force(xName)
-  plot.likert(data.matrix(x), xName=xName, ...)
+    x.num <- data.matrix(x[, sapply(x, is.numeric), drop=FALSE]) ## not redundant, data.matrix converts character columns to NA, and factor columns to integers
+  plot.likert(x.num, xName=xName, ...)
 }
 
 

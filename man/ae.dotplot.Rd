@@ -234,6 +234,7 @@ ae.dotplot(aeanonymr,
            B.name="TREATMENT B (N=431)",
            main.title="change the main title to reflect the new sort order")
 
+\dontrun{
 ## to restore the order back to the default, use
 relrisk <- aeanonymr[seq(1, nrow(aeanonymr), 2), "relrisk"]
 PREF <- unique(aeanonymr$PREF)
@@ -252,6 +253,7 @@ aewide <- data.frame(Event=letters[1:6],
 aewtol <- aeReshapeToLong(aewide)
 xr <- logrelrisk(aewtol)
 ae.dotplot(xr)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

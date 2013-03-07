@@ -642,7 +642,7 @@ if.R(r={
     print(as.table(tmp))
     rm(tmp)
 })
-     
+
 
 seeding                 <- read.table(hh("datasets/seeding.dat"), header=TRUE)                  ; head(seeding                 )
 
@@ -683,7 +683,7 @@ if.R(r={
   print(as.table(tmp))
   rm(tmp)
 })
-     
+
 spacshu                 <- read.table(hh("datasets/spacshu.dat"), header=FALSE, col.names=c("tempF", "damage"))                  ; head(spacshu                 )
 spindle                 <- read.table(hh("datasets/spindle.dat"), header=TRUE)                  ; head(spindle                 )
 sprint                  <- read.table(hh("datasets/sprint.dat"), header=TRUE)                   ; head(sprint                  )
@@ -769,7 +769,7 @@ tv <- if.R(r={
 })
 head(tv)
 
-usair <- read.table(hh("datasets/usair.dat"),                    
+usair <- read.table(hh("datasets/usair.dat"),
                     col.names=c("SO2","temp","mfgfirms","popn",
                                 "wind","precip","raindays"))
 head(usair)
@@ -828,90 +828,85 @@ if.R(r={},
 ## likert paper datasets.  Not part of HH book.
 
 AudiencePercent <-
-structure(c(0.9, 1.7, 5.5, 2, 2.7, 3.2, 48.1, 60.9, 67.6, 64, 
-82.4, 62.5, 31.8, 31.2, 11.1, 14, 8.2, 27.4, 19.2, 6.2, 15.8, 
-20, 6.7, 6.9), .Dim = c(6L, 4L), .Dimnames = structure(list(Brands = c("A", 
-"B", "C", "D", "E", "F"), Age = c("20 & under", "21-35", "36-50", 
+structure(c(0.9, 1.7, 5.5, 2, 2.7, 3.2, 48.1, 60.9, 67.6, 64,
+82.4, 62.5, 31.8, 31.2, 11.1, 14, 8.2, 27.4, 19.2, 6.2, 15.8,
+20, 6.7, 6.9), .Dim = c(6L, 4L), .Dimnames = structure(list(Brands = c("A",
+"B", "C", "D", "E", "F"), Age = c("20 & under", "21-35", "36-50",
 "51+")), .Names = c("Brands", "Age")))
 
 NZScienceTeaching <-
-structure(list(`Interest in Science` = structure(c(1, 2, 3, 4, 
-5, 9, 2, 6, 7, 16, 32, 38, 17, 19, 19, 31, 33, 30, 51, 40, 50, 
-33, 23, 20, 25, 32, 21, 16, 7, 2), .Dim = c(6L, 5L), .Dimnames = list(
-    c("Science is really interesting", "I'm glad I decided to take science subjects this year", 
-    "High school has increased my interest in science", "I was interested in science even before I started high school", 
-    "My science classes are often taught in a boring way", "Science is mostly just about learning facts"
-    ), c("Strongly disagree", "Disagree", "Neutral", "Agree", 
-    "Strongly agree"))), `Tertiary Study` = structure(c(5, 6, 
-10, 18, 17, 15, 20, 28, 33, 37, 28, 37, 30, 30, 28, 12, 14, 12, 
-12, 5), .Dim = 4:5, .Dimnames = list(c("I feel overwhelmed by all the options", 
-"I wish there were more people I could talk to", "I worry that I'm not making good choices", 
-"I've been given advice or information that wasn't helpful"), 
-    c("Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"
-    )))), .Names = c("Interest in Science", "Tertiary Study"), class = c("listOfNamedMatrices", 
-"list"))
+structure(list(`Strongly disagree` = c(1, 2, 3, 4, 5, 9, 5, 6,
+10, 18), Disagree = c(2, 6, 7, 16, 32, 38, 17, 15, 20, 28), Neutral = c(17,
+19, 19, 31, 33, 30, 33, 37, 28, 37), Agree = c(51, 40, 50, 33,
+23, 20, 30, 30, 28, 12), `Strongly agree` = c(25, 32, 21, 16,
+7, 2, 14, 12, 12, 5), Question = structure(1:10, .Label = c("Science is really interesting",
+"I'm glad I decided to take science subjects this year", "High school has increased my interest in science",
+"I was interested in science even before I started high school",
+"My science classes are often taught in a boring way", "Science is mostly just about learning facts",
+"I feel overwhelmed by all the options", "I wish there were more people I could talk to",
+"I worry that I'm not making good choices", "I've been given advice or information that wasn't helpful"
+), class = "factor"), Subtable = structure(c(1L, 1L, 1L, 1L,
+1L, 1L, 2L, 2L, 2L, 2L), class = "factor", .Label = c("Interest in Science",
+"Tertiary Study"))), .Names = c("Strongly disagree", "Disagree",
+"Neutral", "Agree", "Strongly agree", "Question", "Subtable"), row.names = c(NA,
+10L), class = "data.frame", names.dimnames = c("Question", "Agreement"
+))
+
 
 PoorChildren <-
-structure(list(Extremely.poor.NWP = c(606352, 1001894, 998587, 
-533108, 406372, 391888), Moderately.poor.NWP = c(354007, 641736, 
-629566, 308569, 242874, 197773), `Moderately.poor.1+WP` = c(930909, 
-1548697, 1417142, 637017, 457117, 348115), `Extremely.poor.1+WP` = c(337828, 
-566705, 535242, 251701, 197478, 183158)), .Names = c("Extremely.poor.NWP", 
+structure(list(Extremely.poor.NWP = c(606352, 1001894, 998587,
+533108, 406372, 391888), Moderately.poor.NWP = c(354007, 641736,
+629566, 308569, 242874, 197773), `Moderately.poor.1+WP` = c(930909,
+1548697, 1417142, 637017, 457117, 348115), `Extremely.poor.1+WP` = c(337828,
+566705, 535242, 251701, 197478, 183158)), .Names = c("Extremely.poor.NWP",
 "Moderately.poor.NWP", "Moderately.poor.1+WP", "Extremely.poor.1+WP"
-), row.names = c("10 or less", "10 to 15", "15 to 20", "20 to 25", 
+), row.names = c("10 or less", "10 to 15", "15 to 20", "20 to 25",
 "25 to 30", "30 or more"), class = "data.frame")
 
 ProfChal <-
-structure(list(` ` = structure(c(4, 21, 27, 230, 283), .Dim = c(1L, 
-5L), .Dimnames = list("All Survey Responses", c("Strongly Disagree", 
-"Disagree", "No Opinion", "Agree", "Strongly Agree"))), `Employment sector` = structure(c(0, 
-0, 2, 0, 2, 5, 11, 3, 0, 2, 8, 5, 5, 2, 5, 78, 88, 34, 15, 15, 
-162, 72, 27, 11, 10), .Dim = c(5L, 5L), .Dimnames = list(c("Academic (nonstudent)", 
-"Business and industry", "Federal, state, and local government", 
-"Private consultant/self-employed", "Other (including retired, students, not employed, etc.)"
-), c("Strongly Disagree", "Disagree", "No Opinion", "Agree", 
-"Strongly Agree"))), Race = structure(c(4, 0, 0, 0, 11, 4, 1, 
-2, 18, 4, 2, 1, 167, 49, 3, 6, 200, 65, 4, 8), .Dim = 4:5, .Dimnames = list(
-    c("White", "Asian", "Black or African American", "Other"), 
-    c("Strongly Disagree", "Disagree", "No Opinion", "Agree", 
-    "Strongly Agree"))), Education = structure(c(2, 2, 12, 9, 
-10, 17, 86, 143, 65, 217), .Dim = c(2L, 5L), .Dimnames = list(
-    c("Associate's and Bachelor's", "Master's and Above"), c("Strongly Disagree", 
-    "Disagree", "No Opinion", "Agree", "Strongly Agree"))), Gender = structure(c(3, 
-1, 12, 7, 15, 12, 146, 78, 180, 102), .Dim = c(2L, 5L), .Dimnames = list(
-    c("Male", "Female"), c("Strongly Disagree", "Disagree", "No Opinion", 
-    "Agree", "Strongly Agree"))), `Attitude\ntoward\nProfessional\nRecognition` = structure(c(12, 
-0, 9, 8, 30, 8, 156, 81, 156, 105), .Dim = c(2L, 5L), .Dimnames = list(
-    c("Not Important", "Important"), c("Strongly Disagree", "Disagree", 
-    "No Opinion", "Agree", "Strongly Agree")))), .Names = c(" ", 
+structure(list(`Strongly Disagree` = c(4, 0, 0, 2, 0, 2, 4, 0,
+0, 0, 2, 2, 3, 1, 12, 0), Disagree = c(21, 5, 11, 3, 0, 2, 11,
+4, 1, 2, 12, 9, 12, 7, 9, 8), `No Opinion` = c(27, 8, 5, 5, 2,
+5, 18, 4, 2, 1, 10, 17, 15, 12, 30, 8), Agree = c(230, 78, 88,
+34, 15, 15, 167, 49, 3, 6, 86, 143, 146, 78, 156, 81), `Strongly Agree` = c(283,
+162, 72, 27, 11, 10, 200, 65, 4, 8, 65, 217, 180, 102, 156, 105
+), Question = structure(1:16, .Label = c("All Survey Responses",
+"Academic (nonstudent)", "Business and industry", "Federal, state, and local government",
+"Private consultant/self-employed", "Other (including retired, students, not employed, etc.)",
+"White", "Asian", "Black or African American", "Other", "Associate's and Bachelor's",
+"Master's and Above", "Male", "Female", "Not Important", "Important"
+), class = "factor"), Subtable = structure(c(1L, 2L, 2L, 2L,
+2L, 2L, 3L, 3L, 3L, 3L, 4L, 4L, 5L, 5L, 6L, 6L), class = "factor", .Label = c(" ",
 "Employment sector", "Race", "Education", "Gender", "Attitude\ntoward\nProfessional\nRecognition"
-), class = c("listOfNamedMatrices", "list"))
+))), .Names = c("Strongly Disagree", "Disagree", "No Opinion",
+"Agree", "Strongly Agree", "Question", "Subtable"), row.names = c(NA,
+-16L), class = "data.frame")
 
 ProfDiv <-
-structure(c(12, 18, 24, 39, 24, 9, 3, 2, 3, 8, 18, 19, 12, 2, 
-55, 45, 43, 30, 42, 60, 73, 31, 34, 25, 13, 15, 19, 22), .Dim = c(7L, 
-4L), .Dimnames = structure(list(Year = c("1935", "1934", "1933", 
-"1932", "1931", "1930", "1929"), `Profit-and-Dividend` = c("UnProf-NoDiv", 
-"UnProf-Div", "Prof-Div", "Prof-NoDiv")), .Names = c("Year", 
+structure(c(12, 18, 24, 39, 24, 9, 3, 2, 3, 8, 18, 19, 12, 2,
+55, 45, 43, 30, 42, 60, 73, 31, 34, 25, 13, 15, 19, 22), .Dim = c(7L,
+4L), .Dimnames = structure(list(Year = c("1935", "1934", "1933",
+"1932", "1931", "1930", "1929"), `Profit-and-Dividend` = c("UnProf-NoDiv",
+"UnProf-Div", "Prof-Div", "Prof-NoDiv")), .Names = c("Year",
 "Profit-and-Dividend")))
 
 SFF8121 <-
-structure(c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-0, 8, 0, 0, 0, 0, 17, 8, 0, 0, 9, 0, 0, 17, 0, 8, 58, 25, 8, 
-8, 8, 36, 25, 42, 33, 42, 50, 42, 58, 83, 92, 92, 55, 75, 50, 
-50, 58, 42, 1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 2, 3, 3, 3, 2, 3, 4, 
-2, 4, 2, 4, 3, 14, 10, 8, 10, 9, 13, 12, 11, 8, 12, 11, 52, 43, 
-40, 39, 36, 37, 39, 38, 42, 39, 38, 31, 43, 48, 49, 51, 43, 45, 
+structure(c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+0, 8, 0, 0, 0, 0, 17, 8, 0, 0, 9, 0, 0, 17, 0, 8, 58, 25, 8,
+8, 8, 36, 25, 42, 33, 42, 50, 42, 58, 83, 92, 92, 55, 75, 50,
+50, 58, 42, 1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 2, 3, 3, 3, 2, 3, 4,
+2, 4, 2, 4, 3, 14, 10, 8, 10, 9, 13, 12, 11, 8, 12, 11, 52, 43,
+40, 39, 36, 37, 39, 38, 42, 39, 38, 31, 43, 48, 49, 51, 43, 45,
 45, 47, 43, 46), .Dim = c(11L, 5L, 2L), .Dimnames = structure(list(
-    Question = c("1. I came well prepared for class.", "2. The instructor clearly explained the\neducational objectives of this course.", 
-    "3. The instructor was well organized and\nprepared for class.", 
-    "4. The instructor was conscientious in meeting\nclass and office hour responsibilities.", 
-    "5. The instructor promoted a classroom\natmosphere in which I felt free to\nask questions.", 
-    "6. The instructor provided useful feedback\nabout exams, projects, and assignments.", 
-    "7. So far, the instructor has applied grading\npolicies fairly.", 
-    "8. The instructor taught this course well.", "9. The course content was consistent\nwith the educational objectives of\nthis course.", 
-    "10. The course increased my ability to\nanalyze and critically evaluate\nideas, arguments, and points of view.", 
-    "11. I learned a great deal in this course."), ResponseLevel = c("Strongly Disagree", 
-    "Disagree", "Neutral", "Agree", "Strongly Agree"), SDCLU = c("Stat 8121 --- Statistical Computing", 
-    "All Graduate Courses")), .Names = c("Question", "ResponseLevel", 
+    Question = c("1. I came well prepared for class.", "2. The instructor clearly explained the\neducational objectives of this course.",
+    "3. The instructor was well organized and\nprepared for class.",
+    "4. The instructor was conscientious in meeting\nclass and office hour responsibilities.",
+    "5. The instructor promoted a classroom\natmosphere in which I felt free to\nask questions.",
+    "6. The instructor provided useful feedback\nabout exams, projects, and assignments.",
+    "7. So far, the instructor has applied grading\npolicies fairly.",
+    "8. The instructor taught this course well.", "9. The course content was consistent\nwith the educational objectives of\nthis course.",
+    "10. The course increased my ability to\nanalyze and critically evaluate\nideas, arguments, and points of view.",
+    "11. I learned a great deal in this course."), ResponseLevel = c("Strongly Disagree",
+    "Disagree", "Neutral", "Agree", "Strongly Agree"), SDCLU = c("Stat 8121 --- Statistical Computing",
+    "All Graduate Courses")), .Names = c("Question", "ResponseLevel",
 "SDCLU")))

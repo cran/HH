@@ -124,7 +124,7 @@ xyplot(polynomial ~ speed | power, data= tmp.tr, type="b", layout=c(1,5),
          panel.xyplot(...)
          panel.abline(h=0, lty=2)
        },
-       strip=function(...) strip.default(..., strip.names = c(TRUE, TRUE)), 
+       strip=function(...) strip.default(..., strip.names = c(TRUE, TRUE)),
        scales=list(cex=1, x=list(alternating=1), y=list(alternating=1)),
        par.strip.text=list(cex=1.4))
 )
@@ -140,9 +140,9 @@ summary.lm(fabricwear.aov, corr=FALSE)
 ## hotdog.s
 ## http://lib.stat.cmu.edu/DASL/Stories/Hotdogs.html
 
-## Datafile Name: Hot dogs 
-## Datafile Subjects: Food 
-## Story Names: Hot dogs 
+## Datafile Name: Hot dogs
+## Datafile Subjects: Food
+## Story Names: Hot dogs
 
 ## Reference: Moore, David S., and George P. McCabe (1989). Introduction
 ## to the Practice of Statistics. Original source: Consumer Reports, June
@@ -423,8 +423,10 @@ removeLegendAxes <-
          x$ylab <- NULL
          x$xlab <- NULL
          x$legend <- NULL
-         x$x.scales$alternating <- 0 
+         x$x.scales$alternating <- 0
          x$y.scales$alternating <- 0
+         x$x.scales$tck <- c(0,0)
+         x$y.scales$tck <- c(0,0)
          x$par.strip.text$cex <- .7
          x
        }, s=
@@ -432,7 +434,7 @@ removeLegendAxes <-
          x$ylab <- NULL
          x$xlab <- NULL
          x$key <- NULL
-         x$scales$alternating <- 0 
+         x$scales$alternating <- 0
          x$par.strip.text$cex <- .8
          x
        }

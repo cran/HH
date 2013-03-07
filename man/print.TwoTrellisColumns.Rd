@@ -1,10 +1,6 @@
 \name{print.TwoTrellisColumns}
-\alias{print.TwoTrellisColumns}
 \alias{print.TwoTrellisColumns5}
-\alias{as.TwoTrellisColumns}
 \alias{as.TwoTrellisColumns5}
-\alias{emptyLeftAxisLeftStrip}
-
 \alias{leftLabels.trellis}
 \alias{rightLabels.trellis}
 \alias{panelOnly.trellis}
@@ -17,20 +13,6 @@
   control of widths.  Left y tick-labels and left.strip are removed from the
   right-hand plot.}
 \usage{
-as.TwoTrellisColumns(left,  ## left  is the left trellis object
-                     right, ## right is the right trellis object
-                     ## Both left and right must have identical
-                     ## settings for number and size of vertical panels,
-                     ## left-axis labels, number of lines in main, sub, legend
-                     ## and maybe some other items
-                     ...,
-                     panel.width=.48,
-                     px=list(
-                       L=c(0, panel.width),
-                       R=c(1-panel.width, 1),
-                       M=c(panel.width, 1-panel.width)),
-                     keepLegend=TRUE)
-
 as.TwoTrellisColumns5(left,  ## left  is the left trellis object
                       right, ## right is the right trellis object
                       ## Both left and right must have identical
@@ -44,17 +26,17 @@ as.TwoTrellisColumns5(left,  ## left  is the left trellis object
                         ML=pwc[2:3],
                         RP=pwc[3:4],
                         RL=pwc[4:5]),
-                      pwc=cumsum(pw)
+                      pwc=cumsum(pw),
+                      strip.left=TRUE,
+                      y.tck=c(0,0)
                       )
-\method{print}{TwoTrellisColumns}(x, px=attr(x, "px"), ...)
+
 \method{print}{TwoTrellisColumns5}(x, px=attr(x, "px"), ...)
 
-emptyLeftAxisLeftStrip(x)
 leftLabels.trellis(x)
 rightLabels.trellis(x)
-panelOnly.trellis(x)
+panelOnly.trellis(x, strip.left=FALSE, y.tck=0)
 mainSubLegend.trellis(x)
-emptyLeftAxisLeftStrip(x)
 emptyRightAxis(x)
 }
 
@@ -63,104 +45,178 @@ emptyRightAxis(x)
     Both must have the identical settings for number and size of
     vertical panels, left-axis labels, number of
     lines in main, sub, legend.}
-\item{panel.width}{Numeric scalar between 0 and 0.5. Common width of left and right panels. The default
-value .48 value works well for the \code{USAge.table} example.
-This number is expanded in the \code{px} argument to the \code{x} values
-used in the \code{position} argument of the \code{\link[lattice]{print.trellis}} function.}
-\item{px}{\code{x} values used in the position argument of the
-\code{print.trellis} function.
-The default makes the Left and Right panels the same width and the
-Middle containing the y-axis is given the remainder.  Overlapping is
-permitted.
-The appearance depends on the width of the graphics device.
-The user must determine which values of \code{px} give the best appearance.}
-\item{keepLegend}{If \code{TRUE} and \code{x} contains a bottom legend,
-then it is printed along with
-the Middle section containing the y-axis.
-If \code{FALSE} or there is no bottom legend, then the bottom legend is not printed.}
-\item{\dots}{Other arguments are ignored.}
-\item{x}{A \code{"TwoTrellisColumns"} object which will be printed.} 
-\item{pw, pwc}{\code{pw} vector of five positive numbers that sum to 1.  These
-  are the relative widths of the five sections of the result: LeftLabels,
-  LeftPanel, MainSubLegend, RightPanel, RightLabels.  \code{pwc} is
-  the cumulative sum of \code{pw}.
-  \code{pwc} is expanded in the \code{px} argument to the \code{x} values
-used in the \code{position} argument of the \code{\link[lattice]{print.trellis}} function.
-}
+  \item{x}{\code{"trellis"} object.}
+  \item{px}{These are used \code{x}-values used in the position argument
+    of the \code{print.trellis} function.  The default (constructed from
+    the \code{pw} argument) makes the Left and Right panels the same
+    width and the Middle containing the y-axis is given the remainder.
+    Overlapping is permitted.  The appearance depends on the width of
+    the graphics device.}
+  \item{pw, pwc}{\code{pw} vector of five positive numbers that sum to 1.  These
+    are the relative widths of the five sections of the result: LeftLabels,
+    LeftPanel, MainSubLegend, RightPanel, RightLabels.  \code{pwc} is
+    the cumulative sum of \code{pw}.
+    \code{pwc} is expanded in the \code{px} argument to the \code{x} values
+    used in the \code{position} argument of the
+    \code{\link[lattice]{print.trellis}} function.
+  }
+  \item{strip.left}{See \code{\link[lattice]{barchart}}.}
+  \item{y.tck}{A vector of one or two numeric values.
+    This will be used as the \code{y} \code{tck} value
+    for the right column of panels.  See \code{'tck'} in
+    \code{\link[lattice]{barchart}} for details.}
+  \item{\dots}{Other arguments are ignored.}
 }
 
-\details{\code{as.TwoTrellisColumns} works by stripping the title, subtitle, and
-bottom legend from the left and right arguments.  It removes the left
-tick-labels and the \code{strip.left}
-from the right argument.  It constructs a middle object and places the
-title, subtitle, and bottom legend on the middle argument.
+\details{
+\code{as.TwoTrellisColumns5} constructs a \code{"TwoTrellisColumns5"}
+object, which is a list of five trellis objects named \code{"LL", "LP",
+"ML", "RP", "RL"}.  \code{LL} is the left labels from the \code{left}
+input object. \code{LP} is the panels from the \code{left} input object.
+\code{ML} is the middle labels from the \code{left} object; these are
+the \code{main} title, \code{sub} title, and \code{legend}.  \code{RP}
+is the panels from the \code{right} input object.  \code{RL} is the
+right labels from the \code{right} input object.
 
-\code{print.TwoTrellisColumns} is a print method for two conformable
-\code{trellis} objects.  The three objects are printed on the same graph window using the
-\code{px} values as the x-position arguments for the
-\code{print.trellis} function.
+\code{print.TwoTrellisColumns5} is a print method for a
+\code{"TwoTrellisColumns5"} object.  It takes left-to-right positioning
+information from the \code{"px"} attribute of its argument \code{x} or
+from an input argument.  The numbers are used as the \code{"x"}
+information for the \code{position} argument to the \code{print.trellis}
+method.
 
-\code{emptyLeftAxisLeftStrip,
+\code{emptyLeftAxis,
 leftLabels.trellis,
 rightLabels.trellis,
 panelOnly.trellis,
 mainSubLegend.trellis,
-emptyLeftAxisLeftStrip,
+emptyLeftStrip,
 emptyRightAxis} blanks out the various components of the trellis
 argument and retains their vertical spacing.
 }
-\value{A \code{"TwoTrellisColumns"} object, consisting of a list
+
+\value{A \code{"TwoTrellisColumns5"} object, consisting of a list
   containing the constructed left, middle, and right trellis objects,
   and an attribute containing the \code{px} value.}
 
 \seealso{\code{\link{likert}} for the details on the motivating example.}
 \examples{
 library(HH)
+
+
+## These are based on the Professional Challenges example in ?likert
 data(ProfChal)
+levels(ProfChal$Subtable)[6] <- "Prof Recog" ## reduce length of label
 
-## Putting both percents and counts on the same plot requires
-## coordination.  The easiest way is to order the original tables of
-## counts by the order of the percent plot.
+## initial ordering of Question factor
+PCC <- likert(Question ~ . | Subtable, ProfChal, ylab=NULL,
+              rightAxis=TRUE,
+              layout=c(1,6),
+              strip=FALSE,
+              strip.left=strip.custom(bg="gray97"),
+              par.strip.text=list(cex=.7),
+              scales=list(y=list(relation="free")),
+              main="Is your job professionally challenging?")
 
-names(ProfChal)[6] <- "Prof Recog" ## reduce length of label
+## initial ordering of Question factor
+PCP <- likert(Question ~ . | Subtable, ProfChal, ylab=NULL,
+              as.percent=TRUE,
+              layout=c(1,6),
+              strip=FALSE,
+              strip.left=strip.custom(bg="gray97"),
+              par.strip.text=list(cex=.7),
+              scales=list(y=list(relation="free")),
+              main="Is your job professionally challenging?")
 
-percentPlot <- likert(ProfChal, as.percent="noRightAxis", positive.order=TRUE,
-                      main="Is your job professionally challenging?",
-                      strip.left.par=list(cex=.7))
+\dontrun{
+## default equal widths of the two panels
+as.TwoTrellisColumns5(PCP, PCC)  ## 11in x 7in
+
+## make left panel twice as wide as right panel
+as.TwoTrellisColumns5(PCP, PCC, pw=c(.3, .4, .01, .2, .09))  ## 11in x 7in
+##                                   --------------------    ## sum to 1.00
+
+## make left panel twice as wide as right panel, and control position of main and legend
+as.TwoTrellisColumns5(PCP, PCC,  ## 11in x 7in
+                      px=list(
+                        LL=c(.00,  .30),
+                        LP=c(.30,  .70),
+                        ML=c(.60,  .61),  ## arbitrary, visually center the labels and legend
+                        RP=c(.71,  .91),
+                        RL=c(.91, 1.00)))
+}
+
+## Size that works in default 7x7 window.  7x7 is not recommended for
+## this example because most of the space is used for labeling and not
+## much for the panels containing the data.  Use the px values for the
+## 11x7 illustrated above in the dontrun section.
+
+as.TwoTrellisColumns5(PCP, PCC,  ## 7in x 7in
+                      px=list(
+                        LL=c(.00,  .50),
+                        LP=c(.50,  .70),
+                        ML=c(.50,  .51),  ## arbitrary, visually center the labels and legend
+                        RP=c(.71,  .87),
+                        RL=c(.87, 1.00)))
+
+## Ordering the rows by the lengths of the positive bars and also
+## put percents and counts on the same plot.
+## The easiest way is to use the LikertPercentCountColumns function:
+
+LikertPercentCountColumns(Question ~ . | Subtable, ProfChal,
+                          layout=c(1,6), scales=list(y=list(relation="free")),
+                          ylab=NULL, between=list(y=0),
+                          strip.left=strip.custom(bg="gray97"), strip=FALSE,
+                          par.strip.text=list(cex=.7),
+                          positive.order=TRUE,
+                          main="Is your job professionally challenging?")
+
+\dontrun{
+
+## Ordering the rows by the lengths of the positive bars and also
+## putting percents and counts on the same plot requires coordination.
+## The easiest way is to order the original tables of counts by the
+## order of the percent plot.
+
+percentPlot <- likert(Question ~ . | Subtable, ProfChal,
+                      as.percent=TRUE,
+                      layout=c(1,6), scales=list(y=list(relation="free")),
+                      ylab=NULL, between=list(y=0),
+                      strip.left=strip.custom(bg="gray97"), strip=FALSE,
+                      par.strip.text=list(cex=.7),
+                      positive.order=TRUE,
+                      main="Is your job professionally challenging?")
 ## percentPlot
-pct.order <- percentPlot$y.limits
+pct.order <- percentPlot$y.limits[[1]]
 
-ProfChal.pct.order <- sapply(seq(along=ProfChal),
-                           function(i, mylist, myorder)
-                             {mylist[[i]][rev(myorder[[i]]),,drop=FALSE]},
-                           ProfChal, pct.order,
-                           simplify=FALSE)
-names(ProfChal.pct.order) <- names(ProfChal)
-class(ProfChal.pct.order) <- class(ProfChal)
+ProfChal2 <- ProfChal
+ProfChal2$Question <- factor(ProfChal2$Question, levels=rev(pct.order))
 
-countPlot   <- likert(ProfChal.pct.order, rightAxis=TRUE,
-                      scales=list(x=list(at=c(0, 250, 500))),
+countPlot   <- likert(Question ~ . | Subtable, ProfChal2,
+                      layout=c(1,6),
+                      rightAxis=TRUE,
+                      scales=list(y=list(relation="free"),
+                                  x=list(at=c(0, 250, 500))),
+                      ylab=NULL, between=list(y=0),
+                      strip.left=strip.custom(bg="gray97"), strip=FALSE,
+                      par.strip.text=list(cex=.7),
                       main="Is your job professionally challenging?")
 ## countPlot
-names(ProfChal)[6] <- "Attitude\ntoward\nProfessional\nRecognition" ## Restore original label
+levels(ProfChal$Subtable)[6] <- "Attitude\ntoward\nProfessional\nRecognition" ## Restore original label
 
-as.TwoTrellisColumns(percentPlot, countPlot,
-                     px=list(L=c(0,.77),   ## left labels and left panel    ## Overlap is ok.
-                             M=c(.60,.61), ## main, sub, and legend of left ## Do it visually for
-                             R=c(.71,1)))  ## right panel and right labels  ## the graphics window width.
+## Size that works in default 7x7 window.  7x7 is not recommended for
+## this example because most of the space is used for labeling and not
+## much for the panels containing the data.  Use the px values for the
+## 11x7 illustrated above in the dontrun section.
 
-as.TwoTrellisColumns5(percentPlot, countPlot)  ## bad overlap for this example with 7in x 7in window
-
-as.TwoTrellisColumns5(percentPlot, countPlot, ## acceptable in 7in x 7in
-                     pw=c(.528, .186, .01, .186, .09)) ## These 5 numbers must sum to 1.
-
-as.TwoTrellisColumns5(percentPlot, countPlot, ## better in 7in x 7in
-                     px=list(
-                       LL=c(0.000, 0.528),  ## 0.528 makes LL and LP touch without overlap        ## left labels and strip.left
-                       LP=c(0.528, 0.714),                                                        ## left panel
-                       ML=c(0.580, 0.581),  ## shifted left, to center main and key               ## main, sub, key from left argument
-                       RP=c(0.724, 0.910),  ## gap from 0.714 to 0.724 puts space between columns ## right panel
-                       RL=c(0.920, 1.000))) ## extra space                                        ## right labels
+as.TwoTrellisColumns5(percentPlot, countPlot,  ## 7in x 7in
+                      px=list(
+                        LL=c(.00,  .50),
+                        LP=c(.50,  .70),
+                        ML=c(.50,  .51),  ## arbitrary, visually center the labels and legend
+                        RP=c(.71,  .87),
+                        RL=c(.87, 1.00)))
+}
 }
 
 \author{ Richard M. Heiberger <rmh@temple.edu> }

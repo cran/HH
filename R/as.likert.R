@@ -33,26 +33,19 @@ as.likert.table <- function(x, ...) {
   as.likert.matrix(x, ...)
 }
 
-as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
+as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL,
                              ReferenceZero=NULL,
+                             ...,
                              xlimEqualLeftRight=FALSE,
-                             xTickLabelsPositive=TRUE) {
+                             xTickLabelsPositive=TRUE,
+                             padding=FALSE,
+                             reverse.left=TRUE) {
   ## All the as.likert calls end here.  This one accepts and ignores '...'.
   ## All the others may use the arguments here in their ... arguments.
   if (any(x < 0))
     stop("Argument to the likert() function must be non-negative.",
          call.=FALSE)
   nc <- ncol(x)
-  ## if (is.null(ReferenceZero)) ReferenceZero <- (nc+1)/2
-  ## if (ReferenceZero < 1) ReferenceZero <- .5
-  ## if (ReferenceZero > nc) ReferenceZero <- nc + .5
-
-  ## is.wholenumber <-
-  ##   function(x, tol = .Machine$double.eps^0.5)  abs(x - round(x)) < tol
-
-  ## maxcolorset <- if (is.wholenumber(ReferenceZero)) (-nc):nc else c(-rev(1:nc), 1:nc)
-  ## start.position <- nc - ceiling(ReferenceZero) + 2
-  ## colorset <- maxcolorset[seq(start.position, length=nc)]
   colorset <- ColorSet(nc, ReferenceZero)
 
   ndnx <- names(dimnames(x))
@@ -68,32 +61,50 @@ as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
   if (!is.null(rowlabel)) names(dimnames(x))[1] <- rowlabel
   if (!is.null(collabel)) names(dimnames(x))[2] <- collabel
 
-  if(!(0 %in% colorset)) {
-    ind.neg <- rev((1:nc)[colorset < 0])
-    ind.pos <- (1:nc)[colorset > 0]
-    x <- cbind(-x[,ind.neg, drop=FALSE],
-               x[,ind.pos, drop=FALSE])
-    attr(x, "color.seq") <- c(ind.neg, ind.pos)
-    attr(x, "positive.order") <- order(apply(x[, ind.pos, drop=FALSE], 1, sum))
+  ind.neg <- (1:nc)[colorset < 0]
+  ind.pos <- (1:nc)[colorset > 0]
+  ind.zero <- (1:nc)[colorset == 0]
+
+  x.neg <- x[,ind.neg, drop=FALSE]
+  x.pos <- x[,ind.pos, drop=FALSE]
+  x.zero <- x[,ind.zero, drop=FALSE]
+  x.zero.pos <- x.zero
+  if(0 %in% colorset)
+    dimnames(x.zero.pos)[[2]] <- paste(dimnames(x)[[2]][ind.zero], "Positive")
+
+  positive.order <- order(rowSums(cbind(x.zero.pos/2, x.pos)))
+
+  if (padding) { ## for mosaic
+    x.neg.pad <- {tmp <- as.matrix(rowSums(x.neg))
+                  if (ncol(x.zero) > 0) tmp <- tmp + x.zero/2
+                  max(tmp) - tmp}
+    dimnames(x.neg.pad)[[2]] <- "left padding"
+    x.pos.pad <- {tmp <- as.matrix(rowSums(x.pos))
+                  if (ncol(x.zero.pos) > 0) tmp <- tmp + x.zero.pos/2
+                  max(tmp) - tmp}
+    dimnames(x.pos.pad)[[2]] <- "right padding"
+    ind.pad <- 1
+  } else { ## for barchart
+    x.neg.pad <- x[, 0, drop=FALSE]
+    x.pos.pad <- x.neg.pad
+    ind.pad <- 0
   }
-  else { ## (0 %in% colorset)
-    if (nc > 1) {
-      ind.neg <- rev((1:nc)[colorset < 0])
-      ind.pos <- (1:nc)[colorset > 0]
-      ind.zero <- (1:nc)[colorset == 0]
-      x <- cbind(-x[,ind.zero, drop=FALSE]/2,
-                 -x[,ind.neg, drop=FALSE],
-                 x[,ind.zero, drop=FALSE]/2,
-                 x[,ind.pos, drop=FALSE])
-      attr(x, "color.seq") <- c(ind.zero, ind.neg, ind.pos)
-      pos.columns <- seq(to=ncol(x), length=length(c(ind.zero,ind.pos)))
-      attr(x, "positive.order") <- order(apply(x[, pos.columns, drop=FALSE], 1, sum))
-    } else {
-      attr(x, "positive.order") <- order(x[, 1])
-      x <- cbind(-x/2, x/2)
-      attr(x, "color.seq") <- 1
-    }
+
+  if (reverse.left) { ## for barchart
+    x <- cbind(-x.zero/2,    -x.neg[, rev(seq_len(ncol(x.neg))), drop=FALSE], -x.neg.pad,
+               x.zero.pos/2,  x.pos,                                           x.pos.pad)
+
+    attr(x, "color.seq") <- c(ind.zero, rev(ind.neg), 0[ind.pad],
+                              ind.zero,     ind.pos,  0[ind.pad])
+  } else { ## for mosaic
+    x <- cbind(x.neg.pad,    x.neg, x.zero/2,
+               x.zero.pos/2, x.pos, x.pos.pad)
+
+    attr(x, "color.seq") <- c(0[ind.pad], ind.neg, ind.zero,
+                              ind.zero, ind.pos, 0[ind.pad])
   }
+
+  attr(x, "positive.order") <- positive.order
 
   names(dimnames(x)) <- ndnx
   attr(x, "nlevels") <- nc
@@ -104,6 +115,8 @@ as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL, ...,
   class(x) <- c("likert", class(x))
   x
 }
+
+
 ## environment(as.likert.matrix) <- environment(plot.likert)
 ## assignInNamespace(x, value, ns, pos = -1,
 ##                   envir = as.environment(pos))

@@ -17,6 +17,8 @@
 ## emptyLegend
 ## emptyLeftAxisLeftStrip
 ## emptyMainLeftAxisLeftStripBottomLegend
+## getLikertData
+## getVarNames
 ## leftLabels.trellis
 ## rightLabels.trellis
 ## panelOnly.trellis
@@ -39,8 +41,10 @@
 ## panel.pairs.hh
 ## panel.std.resid
 ## plot.case
+## plot.likert.formula.old
 ## plot.multicomp.hh.adjusted
 ## pop.vp.hh
+## PositiveOrder
 ## print1.tsdiagplot
 ## print2.tsdiagplot
 ## push.vp.hh
@@ -84,7 +88,7 @@ as.position,
 as.positioned,
 as.pyramidLikert,
 as.rts,
-as.TwoTrellisColumns,
+## as.TwoTrellisColumns,
 as.TwoTrellisColumns5,
 axis.i2wt,
 brewer.pal.likert,
@@ -94,7 +98,7 @@ chisq.observed,
 chisq.setup,
 ci.plot,
 col.hh,
-combineTwoTrellisColumns,
+## combineTwoTrellisColumns,
 cp.calc,
 dchisq.intermediate,
 df.intermediate,
@@ -128,7 +132,10 @@ ladder.fstar,
 ladder3,
 legendGrob2wt,
 likert,
+likertplot,
 likertColor,
+likertColorBrewer,
+likertMosaic,
 lm.regsubsets,
 lmatContrast,
 lmatRows,
@@ -259,6 +266,12 @@ S3method(interaction2wt, default)
 S3method(interaction2wt, formula)
 S3method(is.na, positioned)
 S3method(is.numeric, positioned)
+S3method(likertMosaic, array)
+S3method(likertMosaic, data.frame)
+S3method(likertMosaic, default)
+S3method(likertMosaic, formula)
+S3method(likertMosaic, list)
+S3method(likertMosaic, matrix)
 S3method(lmatRows, glht)
 S3method(lmatRows, lm)
 S3method(lmatRows, mmc.multicomp)
@@ -295,7 +308,8 @@ S3method(print, multicomp)
 S3method(print, multicomp.hh)
 S3method(print, positioned)
 S3method(print, pyramidLikert)
-S3method(print, TwoTrellisColumns)
+## S3method(print, TwoTrellisColumns)
+S3method(print, TwoTrellisColumns5)
 S3method(print, summaryHH.regsubsets)
 S3method(print, tsacfplots)
 S3method(print, tsdiagplot)

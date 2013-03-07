@@ -13,7 +13,7 @@ ColorSet <- function(nc, ReferenceZero=NULL) {
 }
 
 
-likertColor <- function(nc, ReferenceZero=NULL,
+likertColorBrewer <- function(nc, ReferenceZero=NULL,
                         BrewerPaletteName="RdBu", middle.color="gray90") {
   colorset <- ColorSet(nc, ReferenceZero)
   ncolors <- max(abs(colorset))*2 + (0 %in% colorset)
@@ -23,10 +23,22 @@ likertColor <- function(nc, ReferenceZero=NULL,
 }
 
 
+likertColor <- function(nc, ReferenceZero=NULL, ...) {
+  colorset <- ColorSet(nc, ReferenceZero)
+  ncolors <- max(abs(colorset))*2 + (0 %in% colorset)
+  oneN2 <- (1:max(abs(colorset)))
+  which <- c(-rev(oneN2), 0[0 %in% colorset], oneN2) %in% colorset
+  if (nc == 1 && (is.null(ReferenceZero) || ReferenceZero==1))
+      diverge_hcl(3)[2]
+  else
+    rev(diverge_hcl(ncolors))[which]
+}
+
+
 brewer.pal.likert <- function(n, name,  middle.color) {
-  
+
   is.odd <- function(x)  x%%2 == 1
-  
+
   palette <-
     if (n <= 2) {
       bp <- brewer.pal(n=3, name=name)

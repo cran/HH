@@ -79,40 +79,22 @@ PL <- plot(as.likert(USA79),
 PL
 as.pyramidLikert(PL)
 
+likert(USAge.table[75:1, 2:1, c("1939","1959","1979")]/1000000,
+       main="Population of United States 1939,1959,1979 (ages 0-74)",
+       sub="Look for the Baby Boom",
+       xlab="Count in Millions",
+       ylab="Age",
+       scales=list(
+         y=list(
+           limits=c(0,77),
+           at=seq(1,76,5),
+           labels=seq(0,75,5),
+           tck=.5)),
+       strip.left=FALSE, strip=TRUE,
+       layout=c(3,1), between=list(x=.5))
 
 
-## This example is based on the example in demo(PoorChildren, package="HH")
-data(PoorChildren)
-PCWPpalette <- c("#A8C2C0", "#C9E9E6", "#D0E39A", "#A3B37B")
-PCcount <- likert(PoorChildren, col=PCWPpalette,
-                  ylab="Percent of\npoor households\nin area",
-                  xlab="Number of Children",
-                  xlab.top=c("\n\nNo Working Parents", "\n\nOne or more Working Parents"),
-                  ylab.right=NULL,
-                  scales=list(x=list(
-                      at=seq(-2,2,1)*1000000,
-                      labels=c("2,000,000", "1,000,000","0","1,000,000","2,000,000"))),
-                  rightAxis=FALSE)
-PCcount
-as.pyramidLikert(PCcount, panel.width=.44)
-
-
-## Here the bars are all 100\% wide and the area and height of the bars
-## are proportional to the Row Count Totals.
-PL3 <-
-likert(as.listOfNamedMatrices(PoorChildren),
-       col=PCWPpalette, as.percent=TRUE,
-       ylab="Percent of poor households in area",
-       xlab="Percent of Children",
-       xlab.top=c("No Working Parents", "One or more Working Parents"),
-       ylab.right="Row Count Totals",
-       main="Poor Children, Working Parents",
-       strip=FALSE,
-       strip.left=FALSE,
-       rightAxisLabels=format(rowSums(PoorChildren), big.mark=","),
-       resize.height="rowSums",
-       par.settings=list(axis.line=list(col="transparent")))
-PL3
+## For additional examples, see demo(PoorChildren, package="HH")
 
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
