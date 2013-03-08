@@ -1,4 +1,4 @@
-plot.likert.formula <- function(x, data, ReferenceZero=NULL,
+plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="",
 
                                 scales.in=NULL,   ## use scales=
                                 between.in=NULL,  ## use between=
@@ -44,28 +44,37 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL,
 
                                 ## color options
                                 reference.line.col="gray65",
-                                middle.color="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.col in the RdBu scheme
                                 key.border.white=TRUE,
-                                BrewerPaletteName="RdBu",
                                 col=likertColor(Nums.attr$nlevels,
-                                  ReferenceZero=ReferenceZero,
-                                  BrewerPaletteName,
-                                  middle.color)
+                                  ReferenceZero=ReferenceZero)
                                 ) {
-  x.sys.call <- deparse(match.call()[1:3], width.cutoff = 500L)
   ## force(rightAxis)
+  rightAxisMissing <- missing(rightAxis)  ## needed by as.percent
 
+
+if (!missing(value)) {
+  x.sys.call <- deparse(match.call()[1:4], width.cutoff = 500L)
+  varNamesUsedLong <- c(getVarNames(x, data), list(Value=value)) ## list(Question, Conditions, Nums, Value)
+  levelsName <- varNamesUsedLong$LevelNames[[1]]
+  data.list.list <- getLikertDataLong(x, data, varNamesUsedLong)
+  data.list <- data.list.list$data.list  ## reshaped
+  varNamesUsed <- data.list.list$varNamesUsed ## Nums names to match reshaped data, Value no longer needed
+  x <- data.list.list$x ## or FormulaString
+} else {
+  x.sys.call <- deparse(match.call()[1:3], width.cutoff = 500L)
 
   varNamesUsed <- getVarNames(x, data)
   ## list(QuestionName, CondNames, LevelNames) ## Subset of data columns actually used
 
   data.list <- getLikertData(data, varNamesUsed) ## list(Question, Conditions, Nums)
+}
+
 
   if (as.percent != FALSE) {
     Nums.pct <- data.list$Nums / rowSums(data.list$Nums) * 100
     Nums.pct[data.list$Nums == 0] <- 0
     Nums.lik <- as.likert(Nums.pct, ReferenceZero=ReferenceZero)
-    if (as.percent != "noRightAxis") {
+    if (rightAxisMissing && as.percent != "noRightAxis" ) {
       rightAxis <- TRUE
       if (missing(ylab.right))
         ylab.right <- "Row Count Totals"
@@ -192,7 +201,7 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL,
   else
     {
       auto.key=list(
-        title="",
+        title=levelsName,
         text=Nums.attr$original.levels,
         columns=ifelse(horizontal, Nums.attr$nlevels, 1),
         space=ifelse(horizontal, "bottom", "right"),
@@ -330,9 +339,7 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL,
     result <- resizePanels(result, w=w.resizePanels)
   }
 
-
   result
-
 }
 
 
@@ -450,6 +457,26 @@ getLikertData <- function(data, varNamesUsed) {
 
 }
 
+getLikertDataLong <- function(x, data, varNamesUsedLong) {
+  if (class(x[[3]]) == "call") {
+    cond <- deparse(x[[3]][[3]])
+    aaa <- strsplit(cond, " ", fixed=TRUE)[[1]]
+    aaa[aaa=='+'] <- ' + '
+    bbb <- paste(rev(aaa), collapse="")
+    y <- paste(bbb, ' + ', as.character(x[[2]]), ' ~ ', x[[3]][[2]], sep='')
+    levelsName <- as.character(x[[3]][[2]])
+    x[[3]][[2]] <- as.name(".")
+  } else {
+    y <- x
+    levelsName <- as.character(x[[3]])
+    x[[3]] <- as.name(".")
+  }
+
+  varNamesUsed <- c(varNamesUsedLong[c("QuestionName","CondNames")],
+                    Nums=levels(data[[varNamesUsedLong$LevelNames]]))
+  data2 <- cast(y, data=data[unlist(varNamesUsedLong)], value=varNamesUsedLong$Value)
+  list(data.list=getLikertData(data2, varNamesUsed), varNamesUsed=varNamesUsed, x=x)
+}
 
 likertStripDefault <- strip.custom(
   bg="gray97", ## col.strip.background,

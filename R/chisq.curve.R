@@ -18,7 +18,8 @@
          las=1,
          xlab="",
          ylab="Chisq density",
-         main=main.in)
+         main=main.in,
+         ...)
     abline(h=0, v=0)
     axis(4, las=1)
   }
@@ -34,11 +35,17 @@
            axis.name="chisq",
            ...) {
 
-  ## Valid values for shade are "right", "left", "inside", "outside",
-  ## "none".  Default is "right" for one-sided critical.values and
-  ## "outside" for two-sided critical values.  "none" is used to
-  ## redraw an outline of the curve that would otherwise be obscured
-  ## by a solid color from the shaded area of another curve.
+    ## Valid values for shade are "right", "left", "inside", "outside",
+    ## "none".  Default is "right" for one-sided critical.values and
+    ## "outside" for two-sided critical values.  "none" is used to
+    ## redraw an outline of the curve that would otherwise be obscured
+    ## by a solid color from the shaded area of another curve.
+
+    ## NA and missing alpha
+    switch(1 + length(alpha),
+           alpha <- c(0,0),
+           if (is.na(alpha)) alpha <- c(0,0),
+           alpha[is.na(alpha)] <- 0)
 
     chisq.alpha <- if (length(alpha)==1)
       qchisq.intermediate(p=1-alpha, df=df, ncp=0, log.p=log.p)
@@ -46,14 +53,14 @@
       qchisq.intermediate(p=c(alpha[1], 1-alpha[2]), df=df, ncp=ncp, log.p=log.p)
 
     lines(y=dchisq.intermediate(x=chisq, df=df, ncp=ncp, log=log.p), x=chisq)
-          
+
     if (missing(shade))
       shade <- switch(length(critical.values)+1,
                       "none",
                       "right",
                       "outside",
                       stop("Specify no more than 2 critical values."))
-    
+
     critical.one <- TRUE
     if (length(critical.values)==1) {
       if (shade=="right") {
@@ -98,7 +105,7 @@
                 col=col)
       }
     }
-    
+
     axis(1, at=critical.values, tck=-.09, labels=FALSE)
     left.margin <- .15*diff(par()$usr[1:2])
     mtext(side=1, at=par()$usr[1]-left.margin, line=1, text=axis.name)
@@ -144,9 +151,9 @@ chisq.observed <- function(chisq.obs, col="green",
   mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
     }
 }
-  
+
   if (shade=="left" || shade=="outside") {
-  x <- seq(chisq.obs, par()$usr[2], length=51)
+  x <- seq(par()$usr[1], chisq.obs, length=51)
   shaded.area <- shaded.area +
     pchisq.intermediate(q=chisq.obs, df=df, ncp=ncp, log.p=log.p)
   left.margin <- .15*diff(par()$usr[1:2])

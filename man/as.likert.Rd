@@ -28,9 +28,10 @@ as.likert(x, ...)
 \method{as.likert}{formula}(x, ...)  ## doesn't work yet
 \method{as.likert}{ftable}(x, ...)
 \method{as.likert}{table}(x, ...)
-\method{as.likert}{matrix}(x, rowlabel=NULL, collabel=NULL,
+\method{as.likert}{matrix}(x,
                 ReferenceZero=NULL,
                 ...,
+                rowlabel=NULL, collabel=NULL,
                 xlimEqualLeftRight=FALSE,
                 xTickLabelsPositive=TRUE,
                 padding=FALSE,

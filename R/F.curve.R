@@ -19,7 +19,8 @@
          las=1,
          xlab="",
          ylab="F density",
-         main=main.in)
+         main=main.in,
+         ...)
     abline(h=0, v=0)
     axis(4, las=1)
   }
@@ -36,11 +37,17 @@
            axis.name="f",
            ...) {
 
-  ## Valid values for shade are "right", "left", "inside", "outside",
-  ## "none".  Default is "right" for one-sided critical.values and
-  ## "outside" for two-sided critical values.  "none" is used to
-  ## redraw an outline of the curve that would otherwise be obscured
-  ## by a solid color from the shaded area of another curve.
+    ## Valid values for shade are "right", "left", "inside", "outside",
+    ## "none".  Default is "right" for one-sided critical.values and
+    ## "outside" for two-sided critical values.  "none" is used to
+    ## redraw an outline of the curve that would otherwise be obscured
+    ## by a solid color from the shaded area of another curve.
+
+    ## NA and missing alpha
+    switch(1 + length(alpha),
+           alpha <- c(0,0),
+           if (is.na(alpha)) alpha <- c(0,0),
+           alpha[is.na(alpha)] <- 0)
 
     f.alpha <- if (length(alpha)==1)
       qf.intermediate(p=1-alpha, df1=df1, df2=df2, ncp=ncp, log.p=log.p)
@@ -48,14 +55,14 @@
       qf.intermediate(p=c(alpha[1], 1-alpha[2]), df1=df1, df2=df2, ncp=ncp, log.p=log.p)
 
     lines(y=df.intermediate(x=f, df1=df1, df2=df2, ncp=ncp, log=log.p), x=f)
-          
+
     if (missing(shade))
       shade <- switch(length(critical.values)+1,
                       "none",
                       "right",
                       "outside",
                       stop("Specify no more than 2 critical values."))
-    
+
     critical.one <- TRUE
     if (length(critical.values)==1) {
       if (shade=="right") {
@@ -100,7 +107,7 @@
                 col=col)
       }
     }
-    
+
     axis(1, at=critical.values, tck=-.09, labels=FALSE)
     left.margin <- .15*diff(par()$usr[1:2])
     mtext(side=1, at=par()$usr[1]-left.margin, line=1, text=axis.name)
@@ -135,7 +142,7 @@ F.observed <- function(f.obs, col="green",
     axis(side=3, at=f.obs, labels=FALSE, col=col)
     mtext(side=3, text=round(f.obs,3), at=f.obs, line=.5, cex=par()$cex, col=col)
   }
-  
+
   ## shade=="right"  ## we outline the right region only
   if (shade=="right" || shade=="outside") {
     x <- seq(f.obs, par()$usr[2], length=51)
@@ -147,7 +154,7 @@ F.observed <- function(f.obs, col="green",
       mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
     }
   }
-  
+
   if (shade=="left" || shade=="outside") {
     x <- seq(par()$usr[1], f.obs, length=51)
     shaded.area <- shaded.area +
@@ -158,7 +165,7 @@ F.observed <- function(f.obs, col="green",
       mtext(side=1, at=par()$usr[1]-left.margin, line=4.5, text=axis.name, col=col)
     }
   }
-  
+
   ## mtext(side=1, at=par()$usr[2]+left.margin, line=4.5,
   ##      text=format(shaded.area, digits=3), cex=par()$cex, col=col)
   lines(x=c(x[1], x, x[length(x)], x[1]),
