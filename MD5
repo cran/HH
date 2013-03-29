@@ -1,8 +1,8 @@
-b8a905e3ec888b89f5ea8fb0bf2aefa4 *DESCRIPTION
+7a2d24c1b10132bcb8ce4bc866d058c7 *DESCRIPTION
 b9357cf1b7546847333749e361d0f6a3 *NAMESPACE
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 54c0770cd01079ee25e6e6048daa0826 *R/ARIMA-trellis.s
-bde2774aa0b43c3c54138f93f1277340 *R/F.curve.R
+6281e056176138255362a318e132d28b *R/F.curve.R
 9670d15b2ef05a99ffc811c936d61df5 *R/HH_regsubsets.R
 2fa25d4b97d4ac094115076c0b66c937 *R/LikertPercentCountColumns.R
 6d0fec46d94e5f29ae720c0c1a3cbb5b *R/ResizeEtc.R
@@ -13,11 +13,11 @@ c59f94c02816242e6eab126e47132cc5 *R/ancova.R
 493ab1e2512629fac2eb6c30738de992 *R/anova.mean.R
 684bd7fa39d086c914fbf35e8000a6a1 *R/aov.sufficient.R
 eba5f51ad166a71377f9fb206224470a *R/arima.diag.hh.s
-b27ec24f5424e393b4c506d746f0b150 *R/as.likert.R
-c8b6a3f7e18c5b28d0f5f57160bedf9c *R/as.matrix.listOfMatrices.R
+8c5b7da0dedca989bcc0a1d88ee062f5 *R/as.likert.R
+e8ffecbade1dd6dac0684d5ea2092fc1 *R/as.matrix.listOfMatrices.R
 2de6e2b7d7561d1db897e34caa236780 *R/barchart.hh.R
 70fac78ba301272b7662705cade5d9b4 *R/bwplott.R
-c5e42e6710185cc017e7de636fe525e5 *R/chisq.curve.R
+c4cbf7022fe31f9d49ad2672607fc2e0 *R/chisq.curve.R
 4333dc6551a7e8d38d2c7fb1ea76df9f *R/ci.plot.R
 5099c64583cd8e51610b75991207dc98 *R/col.hh.R
 963080cb170c306451442edc1e19a080 *R/cp.R
@@ -38,10 +38,10 @@ f9a54ed2d9e5250b6941b5dd576d4d1f *R/histogram.hh.R
 89bec3465e6ca8acd32b7c35de4c0169 *R/interaction2wt.R
 9b6d24ff29833139c9a4ddd085e34432 *R/intxplot.s
 15890d183603ee284f3e4875aaab9679 *R/ladder.R
-38b1ec6518db038485c815a6fdf53452 *R/likert.R
+7c0a70a206ee873acba93c30a5f39b43 *R/likert.R
 95e78efef9b03abaf1481de82aee2da9 *R/likert.formula.DataFrame.r
-799974005b1aae2ab429cf1cc64ae632 *R/likert.formula.R
-d83965a74f35b1e2494d4e4124dec046 *R/likertColor.R
+06ef1ce70dfc623480e355388d6bc8bb *R/likert.formula.R
+5bf7d2e7b9e873c7783fd5b84e3989de *R/likertColor.R
 e877b9fed94ad8dfbeb5326fce1e802f *R/likertMosaic.R
 fa4fef9d3d36a49834fabdb99f966bd8 *R/lm.case.R
 1ba72041128bf341509a8f9bb34f54a1 *R/lm.regsubsets.R
@@ -81,7 +81,7 @@ ff2fa4b8ef041a3a858655728ecdd356 *R/regr2.plot.R
 af1322ce537d8f4be33cbb621bf0d340 *R/resid.squares.R
 3b16d5a81d2597aaffd46a7db1a4840b *R/residual.plots.s
 4e00ec1076cb339b9366fee587bf8edc *R/stripbak.s
-b258e2049ed955a125900c2737656c1e *R/sufficient.s
+77f72360ca5daaf55a86bc50e7b6fd27 *R/sufficient.s
 967d26b4c0cb8f1b0da78ad4cca5630f *R/t.trellis.R
 785921f4384899a8ce937e7d138d480c *R/trellis.device.hh.r
 407344d6ba25b28688cbd24ef5f7f10e *R/trellis.device.hh.s
@@ -683,7 +683,7 @@ d7bfe02bb1b2a5fbd151fb373b398ca4 *man/ancova.Rd
 3c021995e2cd04fb4febe0d74e04cc20 *man/aov.sufficient.Rd
 1f7b30ac568cfe11025d7f2f3f6a9665 *man/arima.diag.hh.Rd
 a3affc271c6ef76c4d731a3c74570b7f *man/arma.loop.Rd
-17e250570d8cb0ad86866212636dec5c *man/as.likert.Rd
+8029e4c57881e813323d7854196156a7 *man/as.likert.Rd
 4d206119bb2832ae7a1a17ab42abae5a *man/as.matrix.listOfMatrices.Rd
 1cd6def66b826d50bc77b0ee03584d05 *man/as.multicomp.Rd
 37472e86c0f55dccaac53a9137cb4935 *man/axis.i2wt.Rd
@@ -708,7 +708,7 @@ e70fc11bfa9000f19f576f9c1f1a1e39 *man/interaction2wt.Rd
 376cd27896e5a4d6370c0c39e4bcd6f0 *man/intxplot.Rd
 46aef2f463e830fc781a65165020dca3 *man/ladder.Rd
 fd4f19fb9da677e1f98c9a2bff7df8df *man/legendGrob2wt.Rd
-67775b82560b9f92630ffa9f7528231f *man/likert.Rd
+c47162915b0631074fd9fc69608593f2 *man/likert.Rd
 faadd1a61c4ed8f317a7390457656ed8 *man/likertColor.Rd
 92f48a7220c509ab2e637166a5fc5474 *man/likertMosaic.Rd
 b58047d09f022308c98836c626bfcf0f *man/lm.case.Rd

@@ -148,6 +148,7 @@ as.MatrixList <- function(x)
   UseMethod("as.MatrixList")
 
 as.MatrixList.array <- function(x) {
+  if (is.null(dimnames(x)) || any(sapply(dimnames(x), is.null))) stop("The object must have dimnames.")
   ldx <- length(dim(x))
   xa <- lapply(apply(x, 3:ldx, function(x) list(x)), `[[`, 1)
   dim(xa) <- dim(x)[-(1:2)]

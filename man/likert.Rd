@@ -32,7 +32,7 @@ likert(x, ...)
 likertplot(x, ...)
 \method{plot}{likert}(x, ...)
 %\method{plot.likert}{formula}(x, data, ..., xName=deparse(sys.call()), main)
-\method{plot.likert}{formula}(x, data, ReferenceZero=NULL,
+\method{plot.likert}{formula}(x, data, ReferenceZero=NULL, value, levelsName="",
                                 scales.in=NULL,   ## use scales=
                                 between.in=NULL,  ## use between=
                                 auto.key.in=NULL, ## use auto.key=
@@ -68,28 +68,19 @@ likertplot(x, ...)
                                 w.resizePanels=sapply(result$x.used.at, length),
                                 ## color options
                                 reference.line.col="gray65",
-                                middle.color="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.col in the RdBu scheme
                                 key.border.white=TRUE,
-                                BrewerPaletteName="RdBu",
                                 col=likertColor(Nums.attr$nlevels,
-                                  ReferenceZero=ReferenceZero,
-                                  BrewerPaletteName,
-                                  middle.color)
+                                  ReferenceZero=ReferenceZero)
                                 )
 \method{plot.likert}{default}(x,
             positive.order=FALSE,
             ylab=names(dimnames(x)[1]),
             xlab=if (as.percent != FALSE) "Percent" else "Count",
             main=xName,
-            BrewerPaletteName="RdBu",
-            ## These are the diverging palettes in RColorBrewer
-            ## c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr",
-            ## "RdGy", "RdYlBu", "RdYlGn", "Spectral"),
             reference.line.col="gray65",
-            middle.color="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.col in the RdBu scheme
             col.strip.background="gray97",
             col=likertColor(attr(x, "nlevels"),
-              ReferenceZero, BrewerPaletteName, middle.color),
+              ReferenceZero),
             as.percent=FALSE,
             par.settings.in=NULL,
             horizontal=TRUE,
@@ -108,26 +99,32 @@ likertplot(x, ...)
             reverse=FALSE)
 
 \method{plot.likert}{array}(x,
-            condlevelsName=paste(names(dimnames(x))[-(1:2)], collapse="."),
-            xName=deparse(substitute(x)),
-            main=paste("layers of", xName, "by", condlevelsName),
-            layout=if (horizontal) c(1, length(dim(x))-2) else c(length(dim(x))-2, 1),
-            positive.order=FALSE,
-            strip=TRUE,
-            strip.left=TRUE,
-            strip.left.values=names(x.pl), ## constructed from dimnames(x)[-(1:2)]
-            strip.values=names(x.pl),
-            strip.left.par=list(cex=1, lines=1),
-            horizontal=TRUE,
-            ...,
-            resize.height=c("nrow","rowSums"),
-            resize.width=1)
+                            condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]", sep=""),
+                            xName=deparse(substitute(x)),
+                            main=paste("layers of", xName, "by", condlevelsName),
+                            ...)
+%% \method{plot.likert}{array}(x,
+%%             condlevelsName=paste(names(dimnames(x))[-(1:2)], collapse="."),
+%%             xName=deparse(substitute(x)),
+%%             main=paste("layers of", xName, "by", condlevelsName),
+%%             layout=if (horizontal) c(1, length(dim(x))-2) else c(length(dim(x))-2, 1),
+%%             positive.order=FALSE,
+%%             strip=TRUE,
+%%             strip.left=TRUE,
+%%             strip.left.values=names(x.pl), ## constructed from dimnames(x)[-(1:2)]
+%%             strip.values=names(x.pl),
+%%             strip.left.par=list(cex=1, lines=1),
+%%             horizontal=TRUE,
+%%             ...,
+%%             resize.height=c("nrow","rowSums"),
+%%             resize.width=1)
 
-\method{plot.likert}{list}(x,  ## named list of matrices or 2D tables, ftables, structables
+\method{plot.likert}{list}(x,  ## named list of matrices, 2D tables, 2D ftables, or 2D structables, or all-numeric data.frames
             condlevelsName="ListNames",
             xName=deparse(substitute(x)),
             main=paste("List items of", xName, "by", condlevelsName),
-            layout=if (horizontal) c(1, length(x)) else c(length(x), 1),
+            layout=if (length(dim.x) > 1) dim.x else {
+                               if (horizontal) c(1, length(x)) else c(length(x), 1)},
             positive.order=FALSE,
             strip=!horizontal,
             strip.left=horizontal,
@@ -140,7 +137,7 @@ likertplot(x, ...)
             rightAxisLabels=sapply(x, function(x) rowSums(abs(x)), simplify = FALSE),
             rightAxis=!missing(rightAxisLabels),
             resize.height.tuning=-.5,
-            resize.height=if (missing(layout)) {
+            resize.height=if (missing(layout) || length(dim.x) != 2) {
               c("nrow","rowSums")
             } else {
               rep(1, layout[2])
@@ -189,6 +186,13 @@ yscale.components.right.HH(...)
     argument would be specified \code{ReferenceZero=2} indicating that
     the graphical split would be in the middle of the second group with
     label \code{"Neutral"}.}
+  \item{value}{Name of the numeric variable containing the data when the
+    formula method is used with the long data form.  The predictor in the
+    formula will be a factor name.  The name of the predictor will be
+    used as the title in the key.}
+  \item{levelsName}{(optional) Name of the implied factor distinguishing the
+    columns of the response variables when the formula method is used
+    with the wide data form.  This name will be used as the title in the key.}
   \item{positive.order}{If \code{FALSE}, the default value, the original
     order of the rows is retained.  This is necessary for arrays,
     because each panel has the same rownames.  If \code{TRUE}, rows are
@@ -214,14 +218,6 @@ yscale.components.right.HH(...)
     ones that are prespecified in the \code{plot.likert.default}.}
   \item{ylab, xlab, ylab.right, main}{Standard \code{lattice} graph
     labels in \code{\link[lattice]{barchart}}.}
-  \item{BrewerPaletteName}{\code{\link[RColorBrewer]{RColorBrewer}}
-    palette names. We default to the diverging palette \code{RdBu}.
-    Diverging palettes are usually appropriate for two-directional
-    scales (Agree--Disagree).  Sequential palettes are often appropriate
-    for one-directional scales (Age Ranges).  Qualitative palettes are
-    usually not appropriate for likert plots.  For even more control,
-    the user can specify an arbitrary color set using the \code{col} argument.
-  }
   \item{col}{Vector of color names for the levels of the agreement factor.
     Although the colors can be specified as an arbitrary vector of color names, for example,
     \code{col=c('red','blue','#4AB3F2')}, usually specifying one of the diverging
@@ -232,8 +228,6 @@ yscale.components.right.HH(...)
     \code{AudiencePercent} example below for this usage.
   }
   \item{reference.line.col}{Color for reference line at zero.}
-  \item{middle.color}{Darker middle color than the default
-    \code{"#F7F7F7"} in the \code{RdBu} scheme.}
   \item{col.strip.background}{Background color for the strip labels.}
   \item{key.border.white}{Logical. If \code{TRUE}, then place a white
     border around the \code{rect} in the key, else use the \code{col} of
@@ -401,6 +395,19 @@ yscale.components.right.HH(...)
  A \code{"trellis"} object containing the plot.  The plot will be
  automatically displayed unless the result is assigned to an object.
 }
+
+\note{
+  The current version of the \code{likert} function uses the default diverging
+  palette from \code{\link[colorspace]{diverge_hcl}} as the default.
+  Previous versions used the \code{RColorBrewer} palette \code{"RdBu"} as the default
+  color palette.  The previous color palette is still available with an expicit
+  call to \code{\link{likertColorBrewer}}, for example
+
+  \code{col=likertColorBrewer(nc, ReferenceZero=ReferenceZero,
+                              BrewerPaletteName="RdBu",
+                              middle.color="gray90")}
+}
+
 \seealso{\code{\link[lattice]{barchart}}, \code{\link{ResizeEtc}},
          \code{\link{as.likert}}, \code{\link{as.matrix.listOfNamedMatrices}}}
 \references{
@@ -509,6 +516,17 @@ likert(Question ~
        scales=list(y=list(relation="free")), layout=c(1,2))
 }
 
+\dontrun{
+## formula notation with long data arrangement
+NZScienceTeachingLong <- melt(NZScienceTeaching, id.vars=c("Question", "Subtable"))
+names(NZScienceTeachingLong)[3] <- "Agreement"
+head(NZScienceTeachingLong)
+
+likert(Question ~ Agreement | Subtable, value="value", data=NZScienceTeachingLong,
+       ylab=NULL,
+       scales=list(y=list(relation="free")), layout=c(1,2))
+}
+
 ## Examples with higher-dimensional arrays.
 tmp3 <- array(1:24, dim=c(2,3,4),
               dimnames=list(A=letters[1:2], B=LETTERS[3:5], C=letters[6:9]))
@@ -540,14 +558,13 @@ likert(Responses, horizontal=FALSE,
        sub="This plot looks better in a 4in x 3in window.")
 
 
-## Color palettes from RColorBrewer can be named.
-##
+\dontrun{
 ## Since age is always positive and increases in a single direction,
 ## this example uses colors from a sequential palette for the age
 ## groups.  In this example we do not use a diverging palette that is
 ## appropriate when groups are defined by a characteristic, such as
 ## strength of agreement or disagreement, that can increase in two directions.
-\dontrun{
+
 ## Initially we use the default Blue palette in the sequential_hcl function.
 likert(AudiencePercent,
        auto.key=list(between=1, between.columns=2),

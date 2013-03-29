@@ -15,6 +15,10 @@ ColorSet <- function(nc, ReferenceZero=NULL) {
 
 likertColorBrewer <- function(nc, ReferenceZero=NULL,
                         BrewerPaletteName="RdBu", middle.color="gray90") {
+  ## These are the diverging palettes in RColorBrewer
+  ## c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr",
+  ## "RdGy", "RdYlBu", "RdYlGn", "Spectral"),
+  ## "#F7F7F7" is the RColorBrewer default for middle.color in the RdBu scheme
   colorset <- ColorSet(nc, ReferenceZero)
   ncolors <- max(abs(colorset))*2 + (0 %in% colorset)
   oneN2 <- (1:max(abs(colorset)))

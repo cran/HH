@@ -42,15 +42,10 @@ plot.likert.default <- function(x,
                                 ylab=names(dimnames(x)[1]),
                                 xlab=if (as.percent != FALSE) "Percent" else "Count",
                                 main=xName,
-                                BrewerPaletteName="RdBu",
-                                ## These are the diverging palettes in RColorBrewer
-                                ## c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr",
-                                ## "RdGy", "RdYlBu", "RdYlGn", "Spectral"),
                                 reference.line.col="gray65",
-                                middle.color="gray90",  ## "#F7F7F7" is the RColorBrewer default for middle.color in the RdBu scheme
                                 col.strip.background="gray97",
                                 col=likertColor(attr(x, "nlevels"),
-                                  ReferenceZero, BrewerPaletteName, middle.color),
+                                  ReferenceZero),
                                 as.percent=FALSE,
                                 par.settings.in=NULL,
                                 horizontal=TRUE,
@@ -68,7 +63,7 @@ plot.likert.default <- function(x,
                                 xTickLabelsPositive=TRUE,
                                 reverse=FALSE) {
   force(xName)
-  ## rightAxisMissing <- missing(rightAxis)  ## needed by as.percent
+  rightAxisMissing <- missing(rightAxis)  ## needed by as.percent
   x.input <- x
   if (is.null(dim(x))) {
     x <- t(x)
@@ -78,13 +73,12 @@ plot.likert.default <- function(x,
   force(rightAxis)
   force(rightAxisLabels)
   force(ylab.right)
-  ## BrewerPaletteName <- match.arg(BrewerPaletteName)
   if (as.percent != FALSE) {
     x.pct <- x / rowSums(abs(x)) * 100
     x.pct[x==0] <- 0
     x <- as.likert(x.pct,
                    ReferenceZero=ReferenceZero)
-    if (as.percent != "noRightAxis") {
+    if (rightAxisMissing && as.percent != "noRightAxis" ) {
       rightAxis <- TRUE
       if (is.null(ylab.right))
         ylab.right <- "Row Count Totals"
@@ -300,7 +294,56 @@ plot.likert.default <- function(x,
 }
 ## environment(plot.likert.default) <- environment(plot.likert)
 ## assignInNamespace("plot.likert.default", plot.likert.default, "HH")
+plot.likert.array <- function(x,  ## an array
+                              condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]", sep=""),
+                              xName=deparse(substitute(x)),
+                              main=paste("layers of", xName, "by", condlevelsName),
+                              ...) {
+  ##force(condlevelsName)
+  force(xName)
+  if (length(dim(x))==2) NextMethod("plot.likert")
+  x <- as.MatrixList(x)  ## list of matrices, one per each layer of array
+  plot.likert.list(x,
+                   condlevelsName=condlevelsName,
+                   xName=xName,
+                   main=main,
+                   ...)
+}
+  ## x <- lapply(x, as.likert, ...)
+  ## x.pl <- lapply(x, plot.likert, positive.order=positive.order, horizontal=horizontal, ...) ## named list of likert plots
+  ## x.pl.nonames <- x.pl ## if (strip.left) about to become unnamed list of likert plots
+  ## names(x.pl.nonames) <- NULL ## names are removed
 
+  ## if (strip.left) {
+  ##   ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+  ##                        x,
+  ##                        x.pl.nonames,
+  ##                        horizontal=horizontal,
+  ##                        condlevelsName=condlevelsName,
+  ##                        x.same=horizontal, y.same=!horizontal,
+  ##                        layout=layout,
+  ##                        strip=strip,
+  ##                        strip.left.values=strip.left.values,
+  ##                        strip.left.par=strip.left.par,
+  ##                        resize.height=resize.height,
+  ##                        resize.width=resize.width,
+  ##                        main=main)
+  ## } else {
+  ##   ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+  ##                        x,
+  ##                        x.pl.nonames,
+  ##                        horizontal=horizontal,
+  ##                        condlevelsName=condlevelsName,
+  ##                        x.same=horizontal, y.same=!horizontal,
+  ##                        layout=layout,
+  ##                        strip=strip,
+  ##                        strip.values=strip.values,
+  ##                        resize.height=resize.height,
+  ##                        resize.width=resize.width,
+  ##                        main=main)
+  ## }
+  ## }
+if (FALSE) {
 plot.likert.array <- function(x,  ## an array
                               condlevelsName=paste(names(dimnames(x))[-(1:2)], collapse="."),
                               xName=deparse(substitute(x)),
@@ -309,7 +352,6 @@ plot.likert.array <- function(x,  ## an array
                               positive.order=FALSE,
                               strip=TRUE,
                               strip.left=TRUE,
-                              strip.left.values=names(x.pl), ## constructed from dimnames(x)[-(1:2)]
                               strip.values=names(x.pl),
                               strip.left.par=list(cex=1, lines=1),
                               horizontal=TRUE,
@@ -363,13 +405,14 @@ plot.likert.array <- function(x,  ## an array
   }
 }
 ## environment(plot.likert.array) <- environment(plot.likert)
-
+}
 
 plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftables, or 2D structables, or all-numeric data.frames
                              condlevelsName="ListNames",
                              xName=deparse(substitute(x)),
                              main=paste("List items of", xName, "by", condlevelsName),
-                             layout=if (horizontal) c(1, length(x)) else c(length(x), 1),
+                             layout=if (length(dim.x) > 1) dim.x else {
+                               if (horizontal) c(1, length(x)) else c(length(x), 1)},
                              positive.order=FALSE,
                              strip=!horizontal,
                              strip.left=horizontal,
@@ -382,12 +425,14 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
                              rightAxisLabels=sapply(x, function(x) rowSums(abs(x)), simplify=FALSE),
                              rightAxis=!missing(rightAxisLabels),
                              resize.height.tuning=-.5,
-                             resize.height=if (missing(layout)) {
+                             resize.height=if (missing(layout) || length(dim.x) != 2) {
                                c("nrow","rowSums")
                              } else {
                                rep(1, layout[2])
                              },
-                             resize.width=if (missing(layout)) {1 } else {
+                             resize.width=if (missing(layout)) {
+                               1
+                             } else {
                                rep(1, layout[1])
                              },
                              box.ratio=if (
@@ -396,18 +441,19 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
                              xscale.components=xscale.components.top.HH,
                              yscale.components=yscale.components.right.HH) {
   force(xName)
-  force(layout)
-  force(resize.height)
-  force(resize.width)
-  force(box.ratio)
-  if (!is.null(dim(x))) stop(paste(xName, " has dimension=", deparse(dim(x)),
-                                   ". plot.likert.list requires a list without a dim attribute.", sep=""))
+  ##force(layout)
+  ##force(resize.height)
+  ##force(resize.width)
+  ##force(box.ratio)
+
+  ## if (!is.null(dim(x))) stop(paste(xName, " has dimension=", deparse(dim(x)),
+  ##                                  ". plot.likert.list requires a list without a dim attribute.", sep=""))
   for (nxi in names(x)) { ## convert vectors to single-row matrices
     xi <- x[[nxi]]
     if (is.numeric(xi) && is.null(dim(xi))) x[[nxi]] <- t(xi)
   }
   if (!is.listOfNamedMatrices(x)) {
-    if (is.null(names(x))) stop("Items in a list for plot.likert must be named.")
+    if (is.null(names(x)) || any(is.na(names(x)))) stop("Items in a list for plot.likert must be named.")
     if (!all(sapply(x, function(x) length(dim(x))) == 2))
       stop("All items in a list for plot.likert must have at most two dimensions.")
     if (!all(sapply(x, ncol) == ncol(x[[1]])))
@@ -417,6 +463,29 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
     ## if (any(sapply(x, function(xx) is.data.frame(xx) && !all(sapply(xx, is.numeric)))))
     ##   stop("A data.frame in a plot.likert.list argument must have only numeric columns.")
   }
+
+  names.x <- names(x)
+  dim.x <- dim(x)
+  dimnames.x <- dimnames(x)
+  x <- lapply(x, function(z)
+              if (is.data.frame(z)) data.matrix(z[, sapply(z, is.numeric), drop=FALSE]) else z
+              )
+  dim(x) <- dim.x
+  dimnames(x) <- dimnames.x
+  names(x) <- names.x
+
+  x.pl <- mapply(plot.likert, x,
+                 rightAxisLabels=rightAxisLabels,
+                 MoreArgs=list(
+                   positive.order=positive.order, horizontal=horizontal, ...,
+                   box.ratio=box.ratio,
+                   rightAxis=rightAxis,
+                   xscale.components=xscale.components,
+                   yscale.components=yscale.components),
+                 SIMPLIFY=FALSE, USE.NAMES=TRUE)  ## named list of likert plots
+##  x.pl.nonames <- x.pl ## if (strip.left) about to become unnamed list of likert plots
+##  names(x.pl.nonames) <- NULL ## names are removed
+
   if (class(resize.height)=="character") {
     if (resize.height=="rowSums" && !all(sapply(x, nrow)==1))
       stop("resize.height='rowSums' is not valid for panels with more than one row.")
@@ -436,26 +505,12 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
     warning(paste("Inconsistent layout=", deparse(layout),
                   "and length(resize.width)=", deparse(length(resize.width)),
                   "and length(resize.height)=", deparse(length(resize.height))))
-  x <- lapply(x, function(z)
-              if (is.data.frame(z)) data.matrix(z[, sapply(z, is.numeric), drop=FALSE]) else z
-              )
-  x.pl <- mapply(plot.likert, x,
-                 rightAxisLabels=rightAxisLabels,
-                 MoreArgs=list(
-                   positive.order=positive.order, horizontal=horizontal, ...,
-                   box.ratio=box.ratio,
-                   rightAxis=rightAxis,
-                   xscale.components=xscale.components,
-                   yscale.components=yscale.components),
-                 SIMPLIFY=FALSE, USE.NAMES=TRUE)  ## named list of likert plots
-  x.pl.nonames <- x.pl ## if (strip.left) about to become unnamed list of likert plots
-  names(x.pl.nonames) <- NULL ## names are removed
 
   result <-
     if (strip.left) {
-  ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+      ResizeEtc.likertPlot(do.call("c", x.pl),
                        x,
-                       x.pl.nonames,
+                       x.pl,
                        horizontal=horizontal,
                        condlevelsName=condlevelsName,
                        x.same=horizontal, y.same=!horizontal,
@@ -467,9 +522,9 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
                        resize.width=resize.width,
                        main=main)
     } else {
-  ResizeEtc.likertPlot(do.call("c", x.pl.nonames),
+  ResizeEtc.likertPlot(do.call("c", x.pl),
                        x,
-                       x.pl.nonames,
+                       x.pl,
                        horizontal=horizontal,
                        condlevelsName=condlevelsName,
                        x.same=horizontal, y.same=!horizontal,
@@ -481,6 +536,16 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
                        resize.width=resize.width,
                        main=main)
 }
+
+  if (length(dim(x)) == 2) {
+    result$index.cond <- lapply(dim(x), function(i) 1:i)
+    result$perm.cond <- 1:length(dim(x))
+    result$condlevels <- dimnames(x)
+    result$x.scales$at <- pretty(range(result$x.limits))
+    result$x.scales$labels <- abs(pretty(range(result$x.limits)))
+    result <- useOuterStrips(result)
+  }
+
   result
 }
 ## environment(plot.likert.list) <- environment(plot.likert)

@@ -33,9 +33,10 @@ as.likert.table <- function(x, ...) {
   as.likert.matrix(x, ...)
 }
 
-as.likert.matrix <- function(x, rowlabel=NULL, collabel=NULL,
+as.likert.matrix <- function(x,
                              ReferenceZero=NULL,
                              ...,
+                             rowlabel=NULL, collabel=NULL,
                              xlimEqualLeftRight=FALSE,
                              xTickLabelsPositive=TRUE,
                              padding=FALSE,
