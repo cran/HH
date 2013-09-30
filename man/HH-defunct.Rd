@@ -18,7 +18,6 @@
 \alias{plot.hov.bf}
 \alias{plot.matchMMC}
 \alias{seqplot.forecast}
-\alias{panel.likert}
 \alias{lm.case}
 
 \title{Defunct Functions in Package 'HH'}
@@ -45,7 +44,6 @@ plot.hov(...)                 ## hovPlot
 plot.hov.bf(...)              ## hovPlot.bf
 plot.matchMMC(...)            ## plotMatchMMC
 seqplot.forecast(...)         ## seqplotForecast
-panel.likert(...)             ## panel.barchart
 lm.case(...)                  ## case.lm
 }
 \arguments{

@@ -237,6 +237,7 @@ SFF8121.likert <-
 likert(Question ~ . | Subtable, SFF8121.df,
        layout=c(2,1),
        xlab="Percent",
+       ylab="",
        main="Student Feedback Forms, Spring 2010",
        strip=strip.custom(bg="gray97"),
        par.strip.text=list(cex=.6))
@@ -244,7 +245,7 @@ SFF8121.likert
 ## warnings -- wrong bg in pdf in Mac 15.2.2
 
 if (PrintPDF) {
-pdf("SFF8121.likert.pdf", width=9, height=7.5)
+pdf("SFF8121.pdf", width=9, height=7.5)
 print(SFF8121.likert)
 dev.off()
 }
@@ -330,7 +331,7 @@ likert( ~ ., data.frame(ProfDiv), horizontal=FALSE, positive.order=FALSE,
        auto.key=list(size=4, padding.text=1.5, title=names(dimnames(ProfDiv))[2], cex.title=.9),
        ylab="Per Cent",
        xlab=names(dimnames(ProfDiv))[1],
-       main=paste("Profit-and-Dividend Status of 348 Corportations",
+       main=paste("Profit-and-Dividend Status of 348 Corporations",
          "in the United States\nfor the period from 1929 to 1935."),
        sub="Dun's Review, April 1938"
       )
@@ -348,11 +349,10 @@ dev.off()
 ## Colors taken from NY Times figure using Snagit editor
 PCWPpalette <- c("#A8C2C0", "#C9E9E6", "#D0E39A", "#A3B37B")
 data(PoorChildren)
-rowCounts <- rowSums(PoorChildren)
-PoorChildren$Subtable <- factor(rownames(PoorChildren), levels=rownames(PoorChildren))
+rowCounts <- rowSums(PoorChildren[,1:4])
 
 PoorChildrenPlot <-
-likert( ~ . | Subtable, PoorChildren,
+likert( ~ . | PercentPoorInArea, PoorChildren,
        col=PCWPpalette, as.percent=TRUE,
        ylab="Percent of poor households in area",
        xlab="Percent of Children",
@@ -383,7 +383,7 @@ dev.off()
 
 
 ## Figure 13
-tmp4 <- colSums(PoorChildren)[c(2,1,3,4)]
+tmp4 <- colSums(PoorChildren[,c(2,1,3,4)])
 ByWP <- rbind(NWP=tmp4, '1+WP'=tmp4)
 ByWP[cbind(c(2,2,1,1), 1:4)] <- 0
 ByWP <- data.frame(ByWP,
@@ -398,7 +398,7 @@ ByWP
 ## gets entire graph on the positive side in the intended order.
 
 ## Figure 13, no box.width control because
-##    box.width=rep(rowSums(PCWP2[,1:4]), each=2)/8000000
+##    box.width=rep(rowSums(ByWP[,1:4]), each=2)/8000000
 ## is applied by barchart to each item in the stacked bar, not to the entire bar.
 ##
 PClikNWC <-
@@ -411,7 +411,7 @@ PClikNWC <-
          main="Poor Children, Working Parents",
          auto.key=list(
            space="bottom", columns=4, between=1,
-           text=names(PCWP2[c(4,3,1,2)]),
+           text=names(ByWP[c(4,3,1,2)]),
            rect=list(col=PCWPpalette[c(4,3,2,1)], border="white")))
 PClikNWC
 
@@ -460,7 +460,7 @@ dev.off()
 ## 7in x 4in
 data(AudiencePercent)
 AudiencePercentPlot <-
-likert( ~ . , data.frame(AudiencePercent),
+likert( ~ . , data.frame(AudiencePercent, check.names=FALSE),
        positive.order=TRUE,
        auto.key=list(between=1, between.columns=2),
        xlab=paste("Percentage of audience younger than 35",
@@ -469,14 +469,17 @@ likert( ~ . , data.frame(AudiencePercent),
        main="Brand A has the most even distribution of ages",
        scales=list(x=list(at=seq(-90,60,10),
                      labels=as.vector(rbind("", abs(seq(-80,60,20)))))),
-       col=sequential_hcl(11)[5:2])
+       col=likertColor(nc=5, colorFunction="sequential_hcl")[2:5])
+AudiencePercentPlot$x.scales$at <- seq(-90,60,10)   ## I don't know why these lines are needed
+AudiencePercentPlot$x.scales$labels <- as.vector(rbind("", abs(seq(-80,60,20))))
 AudiencePercentPlot
 
 if (PrintPDF) {
-pdf("AudiencePercentPlot.pdf", width=7, height=4)
+pdf("AudiencePercentPlot.pdf", width=7, height=3.7)
 print(AudiencePercentPlot)
 dev.off()
 }
+
 
 ## Grouped Bar Chart  ## we are not recommending this plot for this data
 ## Figure 15
@@ -492,7 +495,7 @@ tmp$Percent <- unlist(ProfChal2 / rowSums(ProfChal2))
 ## PctAEv.pdf ## 16in x 6in
 PctAEv <-
 barchart(Percent ~ Agreement | Employment, data=tmp,
-         col=rev(diverge_hcl(5)),
+         col=likertColor(5),
          horizontal=FALSE, layout=c(5,1), between=list(x=1), box.ratio=10,
          origin=0,
          par.strip.text=list(cex=.7, lines=2.5),  ## cex too large on quartz
@@ -511,7 +514,7 @@ dev.off()
 ## PctAEh.pdf ## 16in x 4in
 PctAEh <-
 barchart(Agreement ~ Percent | Employment, data=tmp,
-         col=rev(diverge_hcl(5)),
+         col=likertColor(5),
          horizontal=TRUE, layout=c(5,1), between=list(x=1), box.ratio=10,
          origin=0,
          par.strip.text=list(cex=.7, lines=2.5),  ## cex too large on quartz
@@ -535,7 +538,8 @@ likert( ~ . , data=ProfChal2, ## 8in x 3in  ## PC2CpctpoHM.pdf
        as.percent=TRUE,
        main="Is your job professionally challenging?",
        ReferenceZero=0,
-       col=rev(diverge_hcl(5)),  ## col= needed because ReferenceZero=0 sets all colors to positive
+       col=likertColor(5),  ## col= needed because ReferenceZero=0 sets all colors to positive
+       ylab="",
        box.ratio=20)
 PC2CpctpoHM
 

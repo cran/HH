@@ -5,7 +5,8 @@ mcalinfct <-
            mmm.data=model$model,
            formula.in=terms(model),
            linfct.Means=
-           multcomp:::meanslinfct(model, focus, mmm.data, formula.in,
+           ## multcomp:::meanslinfct(model, focus, mmm.data, formula.in,
+           multcomp.meanslinfct(model, focus, mmm.data, formula.in,
            contrasts.arg=model$contrasts),
            type="Tukey"
            ) {

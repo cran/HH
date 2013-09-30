@@ -1,9 +1,9 @@
 if.R(s={},
      r={
-as.multicomp <- function (x, ...) 
+as.multicomp <- function (x, ...)
   UseMethod("as.multicomp")
 
-as.glht <- function (x, ...) 
+as.glht <- function (x, ...)
   UseMethod("as.glht")
 
 as.multicomp.glht <-
@@ -27,17 +27,17 @@ as.multicomp.glht <-
            ...
            ) {
     focus.tmp <- focus ## force evaluation
-    
+
     dimnames(x$linfct)[[1]] <- gsub(" ", "", dimnames(x$linfct)[[1]]) ## remove blanks
     if (dimnames(x$linfct)[[2]][1] == "") dimnames(x$linfct)[[2]][1] <- "(Intercept)"
     if (!missing(vcov.)) x$vcov <- vcov.(x$model)
-    
+
     confint.x <-
       if (is.null(calpha))
         confint(x, level=level)  ##, ...)
       else
         confint(x, level=level, calpha=calpha)  ##, ...)
-    
+
     result <- list(table=cbind(
                      estimate=confint.x$confint[,"Estimate"], #
                      stderr=0, ## placeholder
@@ -77,15 +77,15 @@ as.multicomp.glht <-
       stop("Please specify lmat.rows with mmc on a design with more than one factor.")
 ##    result$height <- (means %*% abs(lmat.factor))[1,]
     result$height <- height
-    
-    result$lmat <- 
+
+    result$lmat <-
       if (lmat.scale.abs2 && !contrasts.none)
         sweep(lmat, 2, apply(abs(lmat.subscript), 2, sum)/2, "/")
       else
         lmat
     if (order.contrasts)
       result <- multicomp.order(result)
-    
+
     result$bounds <- switch(x$alternative,
                             "two.sided"="both",
                             "greater"="lower",
@@ -102,7 +102,7 @@ as.glht.multicomp <- function(x, ...) x$glht
 
 glht.mmc <- function(...)
   .Defunct("mmc", package="HH")
-mmc <- function (model, ...) 
+mmc <- function (model, ...)
   UseMethod("mmc")
 
 ## mmc.lm <- function (model,
@@ -187,7 +187,7 @@ mmc.default <-     ## this works for model inherits from "lm"
     contrasts.are.treatment <- sapply(mmm.data[, factors, drop=FALSE], is.contr.treatment)
     if (!all(contrasts.are.treatment))
       stop("mmc requires an aov in which ALL factors use treatment contrasts.")
-    
+
     result <- list(mca=NULL)
 
 ##  none.glht <- glht(model, linfct=mcp(focus.value="Means"))
@@ -196,7 +196,8 @@ mmc.default <-     ## this works for model inherits from "lm"
       {
         if (length(focus) > 1) stop("mmc requires no more than one focus factor.")
         focus.linfct <-
-          multcomp:::meanslinfct(model, focus, formula=terms(model),
+          ## multcomp:::meanslinfct(model, focus, formula=terms(model),
+          multcomp.meanslinfct(model, focus, formula.in=terms(model),
                                  contrasts.arg=model$contrasts)
         none.glht <- glht(model, linfct=focus.linfct,
                           alternative=alternative, ...)
@@ -208,15 +209,15 @@ mmc.default <-     ## this works for model inherits from "lm"
         none.glht <- glht(model, linfct=do.call("mcp", mcp.args),
                           alternative=alternative)
       }
-    
+
     means <-
       if (is.null(calpha)) {
         confint(none.glht, calpha=1.96)$confint[,"Estimate"] ## fake 1.96 ## , ...
       }
       else
         confint(none.glht, calpha=calpha)$confint[,"Estimate"] ## , ...
-    
-    
+
+
     if (is.null(linfct)) {
       linfct.focus <- mcalinfct(model, focus, linfct.Means=none.glht$linfct)
       method="Tukey"
@@ -246,7 +247,7 @@ mmc.default <-     ## this works for model inherits from "lm"
         means %*% abs(t(contrMat(table(mmm.data[[focus]]), "Tukey")))
       else
         means %*% abs(t(linfct.focus[[focus]])) ## fixme, this works for Dunnett
-    
+
     result$mca <- as.multicomp(mca.glht, focus=focus, ylabel=ylabel,
                                means=means,
                                height=height.mca,
@@ -256,7 +257,7 @@ mmc.default <-     ## this works for model inherits from "lm"
                                order.contrasts=order.contrasts,
                                calpha=calpha,
                                level=level, ...)
-    
+
     result$none <- as.multicomp(none.glht, focus=focus, ylabel=ylabel,
                                 means=means,
                                 height=means*2,
@@ -313,7 +314,7 @@ print.glht.mmc.multicomp <- function(...)
 ##   cat(round((1-x$mca$alpha)*100), "% family-wise confidence level\n", sep="")
 ##   tmp <- list(mca = x$mca$glht, none = x$none$glht)
 ##   if (is.null(tmp$none)) tmp$none <- x$none$table
-##   if (!is.null(x$lmat)) 
+##   if (!is.null(x$lmat))
 ##     tmp$lmat <- x$lmat$glht
 ##   print(tmp)
 ##   invisible(x)
@@ -381,4 +382,4 @@ plot.multicomp.adjusted <- function (x, ...) {
 
 ##            focus.columns=
 ##            match(focus, attr(terms(model), "term.labels")) ==
-##            attr(model$qr$qr, "assign"), 
+##            attr(model$qr$qr, "assign"),

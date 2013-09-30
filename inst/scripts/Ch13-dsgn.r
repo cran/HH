@@ -77,7 +77,7 @@ summary(cc176.aov,
 ## mmc plot of current
 if.R(s={
 old.par <- par(mar=c(5,4,4,8)+.1)
-multicomp.mmc(cc176.aov, focus="current") ## Sidak method 
+multicomp.mmc(cc176.aov, focus="current") ## Sidak method
 ## export.eps(hh("dsgn/figure/cc176-6.eps"))
 
 cc176.mmc <- multicomp.mmc(cc176.aov, focus="current",
@@ -203,7 +203,7 @@ if.R(r=tmp3,
 ## export.eps(hh("dsgn/figure/cc176-3.eps"))
 
 
-      
+
 ## What does a three-way interaction look like?
 ## Here is one of the (3! = 6) possible plots
 ## If there were a significant 3-way interaction, the patterns
@@ -470,7 +470,7 @@ if.R(r=   ## SIMILAR S-Plus/R CHANGES needed for split= elsewhere in this file
      summary(film.aov2,
              split=list("pressure %in% temprt"=
                list(t.low=c(1,4), t.med=c(2,5), t.high=c(3,6))))
-     
+
      )
 
 ### Sometimes we must look at the generated x matrix
@@ -952,7 +952,7 @@ contrasts(turkey$trt.vs.control) <- c(4,-1)
 turkey$additive <- factor(rep(c("control","A","B"), c(6,12,12)),
                           levels=c("control","A","B"))
 contrasts(turkey$additive) <- c(0,1,-1)
-  
+
 turkey$amount <- factor(rep(c(0,1,2,1,2), c(6,6,6,6,6)))
 contrasts(turkey$amount) <- c(0,1,-1)
 
@@ -1040,7 +1040,7 @@ print(position=c(0,.3, 1,1),
          strip=function(...)
          strip.default(..., style = 1,
                        strip.names = c(TRUE, TRUE)))
-  
+
 )
 }, s={
   print(position=c(0,.3, 1,1),
@@ -1175,7 +1175,7 @@ if.R(s=
      twoway(abc.crossed, trim=0) ## crossed
      ,r=
      {} ## no equivalent for means in R
-)     
+)
 y.ApB.aov <- aov(y ~ A+B, data=abc)
 anova(y.ApB.aov)
 model.tables(y.ApB.aov)
@@ -1237,7 +1237,7 @@ aov3$x
 anova(aov3)
 summary.lm(aov3)$coef
 
- 
+
 ## main effects
 A <- factor(A)
 contrasts(abc$A, how.many=3) <- contr.sum(levels(A), FALSE)
@@ -1264,9 +1264,9 @@ if (if.R(r=TRUE,
   }
 
 ## nesting
-cbind(model.matrix(~A, data=abc, contrasts=list(A=ct, B=ct)),
+cbind(model.matrix(~A, data=abc, contrasts=list(A=ct)),
       model.matrix(~-1+A:BwA, data=abc, contrasts=list(A=ct, BwA=ct)))
-      
+
 
 
 ## start over

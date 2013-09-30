@@ -7,6 +7,7 @@
            df.t=NULL,
            Use.obs.mean=TRUE,
            ...) {
+    if (se <= 0) stop("Standard deviation must be positive")
     main.calc <-
       if (is.null(df.t) || df.t==Inf)  ## normal
         ifelse(!(((missing(se) && missing(sd)) || se==1) &&
@@ -100,7 +101,7 @@ function(mean=0, se=sd/sqrt(n),
   y.ticks <- pretty(par()$usr[3:4]*se)
   if (se != 0) axis(2, at=y.ticks/se, labels=y.ticks, las=1)
   if (!(missing(se) && missing(sd) && missing(n) && mean==0)) {
-    mtext(side=4,
+    mtext(xpd=NA,side=4,
           text=ifelse(is.null(df.t) || df.t==Inf,
             if.R(r=expression(g( ~ bar(x) ~ "") == f(( ~ bar(x)-mu[~i])/sigma[~bar(x)])/sigma[~bar(x)]),
                  s="g(xbar) = f((xbar-mu_i)/se) / se"),
@@ -108,7 +109,7 @@ function(mean=0, se=sd/sqrt(n),
                  s="g(xbar) = f((xbar-mu_i)/se) / se")),
           line=second.axis.label.line, cex=par()$cex,
           col=ifelse(second.axis.label.line==3, 1, col))
-    mtext(side=2,
+    mtext(xpd=NA,side=2,
           text=ifelse(is.null(df.t) || df.t==Inf,
             "f(z)",
             "f(t)"),
@@ -172,21 +173,21 @@ function(mean=0, se=sd/sqrt(n),
     axis(1, at=critical.values, tick=FALSE, line=3,
          labels=round(z.critical.values, 3))
     if (!(missing(se) && missing(sd) && missing(n) && mean==0))
-      mtext(side=1, at=par()$usr[1]-left.margin, line=3, text=axis.name, cex=cex.small)
+      mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=3, text=axis.name, cex=cex.small)
     else
-      mtext(side=1, at=par()$usr[1]-left.margin, line=1, text=axis.name, cex=cex.small)
-    mtext(side=1, at=par()$usr[1]-left.margin, line=4, text=axis.name, cex=cex.small)
+      mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=1, text=axis.name, cex=cex.small)
+    mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=4, text=axis.name, cex=cex.small)
     if (shade != "none") {
-      mtext(side=1, at=par()$usr[2]+.9*left.margin, line=1,
+      mtext(xpd=NA,side=1, at=par()$usr[2]+.9*left.margin, line=1,
             text="shaded area", cex=par()$cex)
       pval <- format(round(shaded.area,4), digits=4, nsmall=4, scientific=FALSE)
       if (hypoth.or.conf=="Hypoth")
-        mtext(side=1, at=par()$usr[2]+1.45*left.margin, line=4, adj=1,
+        mtext(xpd=NA,side=1, at=par()$usr[2]+1.45*left.margin, line=4, adj=1,
               text=if.R(r=substitute(list(alpha * " = " * group("",list(p),"")), list(p=pval)),
                 s=paste("alpha =", pval)),
               cex=par()$cex, col=col.label)
       else {
-        mtext(side=1, at=par()$usr[2]+left.margin*(.08/.15), line=4,
+        mtext(xpd=NA,side=1, at=par()$usr[2]+left.margin*(.08/.15), line=4,
               text=if.R(r=substitute(list("Conf Level= " * group("",list(p),"")), list(p=pval)),
                 s=paste("Conf Level =", pval)),
               cex=par()$cex, col=col.conf.label)
@@ -195,18 +196,18 @@ function(mean=0, se=sd/sqrt(n),
     if (!(missing(se) && missing(sd) && missing(n) && mean==0)) {
       axis(1, at=critical.values, tick=FALSE, line=1,
          labels=round(critical.values, 3), col.axis=col.crit, cex.axis=cex.crit)
-      mtext(side=1, at=par()$usr[1]-left.margin, line=1,
+      mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=1,
             text=if.R(r=expression(bar(x)), s="xbar"), cex=cex.small)
-      mtext(side=1, at=par()$usr[1]-left.margin, line=2,
+      mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=2,
             text=if.R(r=expression(bar(x)), s="xbar"), cex=cex.small)
-      mtext(side=3, at=par()$usr[1]-left.margin, line=.5,
+      mtext(xpd=NA,side=3, at=par()$usr[1]-left.margin, line=.5,
             text=if (Use.obs.mean)
             if.R(r=expression(mu ~~ bar(x)), s="mu   mean")
             else if.R(r=expression(mu), s="mu"),
             cex=par()$cex)
     }
     else
-      mtext(side=3, at=par()$usr[1]-left.margin, line=.5,
+      mtext(xpd=NA,side=3, at=par()$usr[1]-left.margin, line=.5,
             text=if (Use.obs.mean)
             if.R(r=expression(mu ~~ bar(x)), s="mu   mean")
             else if.R(r=expression(mu), s="mu"),
@@ -216,13 +217,13 @@ function(mean=0, se=sd/sqrt(n),
   else { ## (axis.name=="z1" || axis.name=="t1")
     axis(1, at=critical.values, tick=FALSE, line=6,
          labels=round(z.critical.values, 3))
-    mtext(side=1, at=par()$usr[1]-left.margin, line=6,
+    mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=6,
           text=axis.name.expr, cex=cex.small)
-    mtext(side=1, at=par()$usr[1]-left.margin, line=7,
+    mtext(xpd=NA,side=1, at=par()$usr[1]-left.margin, line=7,
           text=axis.name.expr, cex=cex.small)
     if (shade != "none") {
       pval <- format(round(shaded.area,4), digits=4, nsmall=4, scientific=FALSE)
-      mtext(side=1, at=par()$usr[2]+1.45*left.margin, line=7, adj=1,
+      mtext(xpd=NA,side=1, at=par()$usr[2]+1.45*left.margin, line=7, adj=1,
             text=if.R(
               r=substitute(list(beta * " = " * group("",list(p),"")), list(p=pval)),
               s=paste("beta =", pval)),
@@ -253,29 +254,29 @@ norm.observed <-
          xpd=TRUE, col=col.label, length=.1)
   axis(side=1, at=xbar, labels=FALSE, col=col)
   axis(side=3, at=xbar, labels=FALSE, col=col)
-  mtext(side=3, text=round(xbar,3), at=xbar, line=.5,
+  mtext(xpd=NA,side=3, text=round(xbar,3), at=xbar, line=.5,
         cex=cex.large, col=col.label)
-  mtext(side=1, text=round(t.xbar,3), at=xbar,
+  mtext(xpd=NA,side=1, text=round(t.xbar,3), at=xbar,
         line=5, cex=par()$cex, col=col.label)
-  mtext(side=1, text=t.or.z, at=t.or.z.position,
+  mtext(xpd=NA,side=1, text=t.or.z, at=t.or.z.position,
         line=5, cex=cex.small)
   if (!is.null(xbar.negt))
-    mtext(side=1, text=round(-t.xbar,3), at=xbar.negt,
+    mtext(xpd=NA,side=1, text=round(-t.xbar,3), at=xbar.negt,
           line=5, cex=par()$cex, col=col.label)
   if (!is.null(p.val)) {
     pval <- format(round(p.val,4), digits=4, nsmall=4, scientific=FALSE)
-    mtext(side=1, at=par()$usr[2]+1.45*left.margin, line=5, adj=1,
+    mtext(xpd=NA,side=1, at=par()$usr[2]+1.45*left.margin, line=5, adj=1,
           text=if.R(r=substitute(list(p * " = " * group("",list(pv),"")), list(pv=pval)),
             s=paste("p =", pval)),
           cex=par()$cex, col=col.label)
   }
   if (!is.null(t.xbar.H1)) {
-    mtext(side=1, text=round(t.xbar.H1,3), at=xbar,
+    mtext(xpd=NA,side=1, text=round(t.xbar.H1,3), at=xbar,
           line=8, cex=par()$cex, col=col.label)
     t.or.z.expr <-
       if (t.or.z=="z") if.R(r=expression(z[1]), s="z1")
       else if.R(r=expression(t[1]), s="t1")
-    mtext(side=1, text=t.or.z.expr, at=t.or.z.position,
+    mtext(xpd=NA,side=1, text=t.or.z.expr, at=t.or.z.position,
           line=8, cex=cex.small)
   }
 
@@ -346,6 +347,7 @@ normal.and.t.dist<-
     dfunction.name <- if (is.null(deg.free) || deg.free==Inf) "dnorm" else "dt"
     normal <- is.na.or.blank(deg.freedom)
     standard <- is.na.or.blank(n) && (is.na.or.blank(std.dev) || std.dev==1) && mu.H0==0
+    if (!(is.na.or.blank(std.dev)) && std.dev <= 0) stop("Standard deviation must be positive")
     standard.normal <- standard && normal
 
     n.conf <- if (is.na.or.blank(n))       1 else n

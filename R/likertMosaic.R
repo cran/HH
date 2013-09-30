@@ -1,7 +1,9 @@
 likertMosaic <- function(x, ...)
   UseMethod("likertMosaic")
 
-likertMosaic.formula <- function(x, data, ReferenceZero=NULL, ..., between.y=c(1.2, .3)) {
+likertMosaic.formula <- function(x, data, ReferenceZero=NULL, spacing=NULL,
+                                 ..., between.y=c(1.2, .3)) {
+  spacing.in <- spacing
   varNamesUsed <- getVarNames(x, data)
   ## list(QuestionName, CondNames, LevelNames) ## Subset of data columns actually used
 
@@ -19,6 +21,8 @@ likertMosaic.formula <- function(x, data, ReferenceZero=NULL, ..., between.y=c(1
       spacing_highlighting()(n.likert.levels))
   } else
     spacing=spacing_highlighting
+
+  if (!is.null(spacing.in)) spacing <- spacing.in
 
   likertMosaic(Nums, ReferenceZero=ReferenceZero, ...,
                spacing=spacing,
@@ -82,7 +86,9 @@ likertMosaic.array <- function(x, ReferenceZero=NULL, col=NULL, main=NULL, ...,
                                varnames=FALSE,
                                zero_size=0,
                                gp=gpar(fill=col.extended, ## fill color for tiles
-                                 col=0)                   ## border color for tiles
+                                 col=0),                   ## border color for tiles
+                               colorFunction="diverge_hcl",
+                               colorFunctionOption="lighter"
                                ) {
 
   x.dimnames <- dimnames(x)
@@ -120,11 +126,14 @@ likertMosaic.array <- function(x, ReferenceZero=NULL, col=NULL, main=NULL, ...,
     dimnames(xmat.lik) <- c(x.dimnames[-ndim], Levels=list(xmat.lik.names.3))
   }
 
-  ## mosaic(xmat.lik, split_vertical=c(TRUE,FALSE))  ## the winner (for 2)
-  ## mosaic(xmat.lik, split_vertical=c(TRUE,FALSE,TRUE))  ## the winner (for 3)
+  ## vcd::mosaic(xmat.lik, split_vertical=c(TRUE,FALSE))  ## the winner (for 2)
+  ## vcd::mosaic(xmat.lik, split_vertical=c(TRUE,FALSE,TRUE))  ## the winner (for 3)
 
   if (is.null(col))
-    col <- likertColor(attr.xmat.lik$nlevels, ReferenceZero)
+    col <- likertColor(attr.xmat.lik$nlevels,
+                       ReferenceZero=ReferenceZero,
+                       colorFunction=colorFunction,
+                       colorFunctionOption=colorFunctionOption)
   col.extended=c(
     "transparent",
     col[attr.xmat.lik$color.seq],
@@ -132,21 +141,21 @@ likertMosaic.array <- function(x, ReferenceZero=NULL, col=NULL, main=NULL, ...,
   dim(col.extended) <- c(1, length(col.extended)) ## this line needed with vcd_1.2-13 and earlier
 
   result <-
-    mosaic(xmat.lik,
-           keep_aspect=keep_aspect,
-           spacing=spacing,
-           split_vertical=split_vertical,
-           rot_labels=rot_labels,
-           just_labels=just_labels,
-           labels=labels,
-           varnames=varnames,
-           margins=margins, ## clockwise from top
-           main=main,
-           zero_size=0,
-           gp=gp,
-           ...)
+    vcd::mosaic(xmat.lik,
+                keep_aspect=keep_aspect,
+                spacing=spacing,
+                split_vertical=split_vertical,
+                rot_labels=rot_labels,
+                just_labels=just_labels,
+                labels=labels,
+                varnames=varnames,
+                margins=margins, ## clockwise from top
+                main=main,
+                zero_size=0,
+                gp=gp,
+                ...)
 
-  lattice:::draw.key(x.legend, draw=TRUE, vp=viewport(x=.5, y=legend.y))
+  lattice::draw.key(x.legend, draw=TRUE, vp=viewport(x=.5, y=legend.y))
 
   invisible(result)
 }

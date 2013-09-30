@@ -165,6 +165,7 @@ orthog.complete,
 orthog.construct,
 panel.acf,
 panel.ancova,
+panel.barchart2,
 panel.bwplot.intermediate.hh,
 panel.cartesian,
 panel.dotplot.tb,
@@ -292,6 +293,7 @@ S3method(plot.likert, default)
 S3method(plot.likert, formula)
 S3method(plot.likert, ftable)
 S3method(plot.likert, list)
+S3method(plot.likert, likert) ## for "likert" objects constructed with the likert package
 ## S3method(plot.likert, numeric)
 S3method(plot.likert, structable)
 S3method(plot.likert, table)
@@ -343,3 +345,28 @@ S3method(xysplom, formula)
 ##   RColorBrewer,
 ##   latticeExtra
 ## )
+
+importFrom(reshape, melt, melt.data.frame, cast)
+
+importFrom(leaps, regsubsets)
+
+importFrom(vcd, mosaic, is.structable, spacing_highlighting)
+importFrom(colorspace, diverge_hcl, sequential_hcl)
+
+importFrom(multcomp, glht, contrMat, mcp)
+
+import(lattice, latticeExtra)
+
+
+## problems that I am working around with functions in file
+## R/workarounds.R
+## Unexported objects imported by ':::' calls:
+##   'grid:::make.xaxis.major' 'grid:::make.xaxis.ticks'
+##   'grid:::make.yaxis.major' 'grid:::make.yaxis.ticks'
+##   'lattice:::chooseFace' 'lattice:::extend.limits'
+##   'lattice:::hist.constructor' 'lattice:::lattice.getStatus'
+##   'lattice:::lattice.setStatus' 'lattice:::t.trellis'
+##   'multcomp:::meanslinfct'
+##   See the note in ?`:::` about the use of this operator.
+## See the information on DESCRIPTION files in the chapter 'Creating R
+## packages' of the 'Writing R Extensions' manual.

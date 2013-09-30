@@ -29,13 +29,13 @@ yscale.components.right.HH <- function(...) {
 ## environment(yscale.components.right.HH) <- environment(plot.likert)
 
 
-panel.likert <- function(...)
-  .Defunct("panel.barchart", package="HH")
-## panel.likert <- function(..., rightAxisLabels, rightAxis) {
-##   panel.barchart(...)
-##   if (rightAxis) panel.axis.right(side="right", at=1:length(rightAxisLabels),
-##                                   labels=rightAxisLabels, outside=TRUE)
-## }
+## panel.likert <- function(...)
+##   .Defunct("panel.barchart", package="HH")
+## ## panel.likert <- function(..., rightAxisLabels, rightAxis) {
+## ##   panel.barchart(...)
+## ##   if (rightAxis) panel.axis.right(side="right", at=1:length(rightAxisLabels),
+## ##                                   labels=rightAxisLabels, outside=TRUE)
+## ## }
 
 plot.likert.default <- function(x,
                                 positive.order=FALSE,
@@ -45,7 +45,11 @@ plot.likert.default <- function(x,
                                 reference.line.col="gray65",
                                 col.strip.background="gray97",
                                 col=likertColor(attr(x, "nlevels"),
-                                  ReferenceZero),
+                                  ReferenceZero=ReferenceZero,
+                                  colorFunction=colorFunction,
+                                  colorFunctionOption=colorFunctionOption),
+                                colorFunction="diverge_hcl",
+                                colorFunctionOption="lighter",
                                 as.percent=FALSE,
                                 par.settings.in=NULL,
                                 horizontal=TRUE,
@@ -83,8 +87,8 @@ plot.likert.default <- function(x,
       if (is.null(ylab.right))
         ylab.right <- "Row Count Totals"
     }
-    else
-      rightAxis <- FALSE
+    ## else
+    ##   rightAxis <- FALSE
   } else {
     x <- as.likert(x,
                    ReferenceZero=ReferenceZero)
@@ -143,7 +147,7 @@ plot.likert.default <- function(x,
   ## RColorBrewer diverging palettes: c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral")
   ## These are the middle colors from RCOlorBrewer:
   ## > for (i in c("RdBu", "BrBG", "PiYG", "PRGn", "PuOr", "RdGy", "RdYlBu", "RdYlGn", "Spectral"))
-  ## + print(c(i, brewer.pal(n=3, name=i)[2]))
+  ## + print(c(i, RColorBrewer::brewer.pal(n=3, name=i)[2]))
   ## [1] "RdBu"     "#F7F7F7"
   ## [1] "BrBG"     "#F5F5F5"
   ## [1] "PiYG"     "#F7F7F7"
@@ -289,7 +293,7 @@ plot.likert.default <- function(x,
     }
   }
 
-  result$axis <- HH:::axis.RightAdjustRight
+  result$axis <- axis.RightAdjustRight
   result
 }
 ## environment(plot.likert.default) <- environment(plot.likert)
@@ -501,10 +505,17 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
     resize.height <- resize.width
     resize.width <- tmp
   }
-  if (any(layout != c(length(resize.width), length(resize.height))))
-    warning(paste("Inconsistent layout=", deparse(layout),
-                  "and length(resize.width)=", deparse(length(resize.width)),
-                  "and length(resize.height)=", deparse(length(resize.height))))
+
+  if (length(resize.height) > 1 && all(resize.height==resize.height[1])) resize.height <- 1
+  if (length(resize.width)  > 1 && all( resize.width==resize.width[1] )) resize.width  <- 1
+
+  if (!(length(resize.width) == 1 && length(resize.height) == 1))
+    if (any(layout != c(length(resize.width), length(resize.height))))
+      warning(paste("Inconsistent layout=", deparse(layout),
+                    "and length(resize.width)=", deparse(length(resize.width)),
+                    "and length(resize.height)=", deparse(length(resize.height))))
+
+
 
   result <-
     if (strip.left) {
@@ -605,6 +616,25 @@ plot.likert.data.frame <- function(x, ..., xName=deparse(substitute(x))){
     x.num <- data.matrix(x[, sapply(x, is.numeric), drop=FALSE]) ## not redundant, data.matrix converts character columns to NA, and factor columns to integers
   plot.likert(x.num, xName=xName, ...)
 }
+
+## The HH plot method plot.likert.likert detects "likert" objects
+## created by the independent likert package and plots them correctly.
+## It is not recommended that the HH package and the likert package
+## both be loaded at the same time, as they have incompatible usage of
+## the exported function names "likert" and "plot.likert".
+plot.likert.likert <- function(x, ...) {
+  ## "likert" object from independent likert package
+  if (length(class(x)) == 1 && is.list(x) && !is.null(x$result))
+    {
+      if (is.null(x$results$Group))
+        likert(Item ~ .        , data=x$results, xlab="Percent", data.order=TRUE, ...)
+      else
+        likert(Item ~ . | Group, data=x$results, xlab="Percent", data.order=TRUE, ...)
+    }
+  else
+    NextMethod("plot.likert")
+}
+
 
 
 ## source("c:/HOME/rmh/HH-R.package/HH/R/likert.R")

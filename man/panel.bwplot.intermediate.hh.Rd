@@ -12,7 +12,8 @@
 panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
           transpose=!horizontal,
           pch, col,
-          at=if (horizontal) levels(as.factor(y)) else levels(as.factor(x)),  ## S-Plus only
+          at=if (horizontal) levels(as.factor(y)) else
+             levels(as.factor(x)),  ## S-Plus only
           ...)
 }
 %- maybe also 'usage' for other objects documented here.

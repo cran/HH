@@ -87,7 +87,7 @@ plot.multicomp.hh <-
            ends.upper <- !is.na(upper)
            heights <- cpp:(cpp - p + 1)
            plot(estimate, heights, ylab = "", ylim = c(0, cpp+1), yaxt = "n",
-                xlim = xrange, xlab = "", xaxt = "n", pch = 16, bty = 
+                xlim = xrange, xlab = "", xaxt = "n", pch = 16, bty =
                 "n", ...,
                 type="n")
            new.usr <- par()["usr"]
@@ -209,7 +209,7 @@ plotMatchMMC <- function(x, ...,
     invisible(par(old.xpd))
   },
        r={
-         if (adjusted) 
+         if (adjusted)
            plot.multicomp.adjusted(x,
                 xlim=par()$usr[1:2], xaxs="i", yaxt="n",
                 main=main, xlab="", cex.axis=cex.axis)
@@ -227,8 +227,12 @@ plotMatchMMC <- function(x, ...,
              axis(4, at=yval[signif], labels=names(signif)[signif],
                   col=col.signif, col.axis=col.signif,
                   las=1, tck=-.01, mgp=c(3,.5,0), cex.axis=cex.axis)
-           segments(x$table[signif, "lower"], yval[signif],
-                    x$table[signif, "upper"], yval[signif],
+           lower <- x$table[signif, "lower", drop=FALSE]
+           upper <- x$table[signif, "upper", drop=FALSE]
+           lower[lower==-Inf] <- par()$usr[1]
+           upper[upper==Inf] <- par()$usr[2]
+           segments(lower, yval[signif],
+                    upper, yval[signif],
                     col=col.signif)
          }
          if (!all(signif)) {

@@ -284,7 +284,7 @@ pdf("ProfDiv.pdf", width=8.8, height=4.5)
 }
 ProfDivPlot <-
   likertMosaic( ~ ., data.frame(ProfDiv),
-               main=paste("\n","Profit-and-Dividend Status of 348 Corportations",
+               main=paste("\n","Profit-and-Dividend Status of 348 Corporations",
                  "in the United States\nfor the period from 1929 to 1935."),
                sub="Dun's Review, April 1938",
                margins=c(3,2,2,4),
@@ -334,7 +334,7 @@ dev.off()
 
 
 ## Figure 13
-tmp4 <- colSums(PoorChildren)[c(2,1,3,4)]
+tmp4 <- colSums(PoorChildren[,c(2,1,3,4)])
 ByWP <- rbind(NWP=tmp4, '1+WP'=tmp4)
 ByWP[cbind(c(2,2,1,1), 1:4)] <- 0
 ByWP <- data.frame(ByWP,
@@ -399,7 +399,7 @@ AudiencePercentPlot <-
                sub=paste("Percentage of audience younger than 35",
                  "(left of zero) and older than 35 (right of zero)"),
                main="Brand A has the most even distribution of ages",
-               col=sequential_hcl(11)[5:2],
+               col=likertColor(nc=5, colorFunction="sequential_hcl")[2:5],
                margins=c(1,2,3,2),
                legend.y=.20)
 AudiencePercentPlot
@@ -423,7 +423,7 @@ likertMosaic(Question ~ . , data=ProfChal[EmpRows,], ## 8in x 3in  ## PC2CpctpoH
        as.percent=TRUE,
        main="Is your job professionally challenging?",
        ReferenceZero=0,
-       col=rev(diverge_hcl(5)),  ## col= needed because ReferenceZero=0 sets all colors to positive
+       col=likertColor(5),  ## col= needed because ReferenceZero=0 sets all colors to positive
        box.ratio=20)
 PC2CpctpoHM
 if (PrintPDF) {

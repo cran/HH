@@ -30,14 +30,14 @@ function(x, y, col = trellis.par.get("bar.fill")$col, border = 1, ...,
 }
 
 panel.barchart <-
-if.R(r=function(...){lattice:::panel.barchart(...)},
+if.R(r=function(...){lattice::panel.barchart(...)},
      s={
        function(..., vref=par("usr")[1]) {
          get("panel.barchart", where="trellis")(...)
          panel.abline(v=ref)
        }
      })
-       
+
 ## panel.barchart <-
 ## function(x, y, col = trellis.par.get("bar.fill")$col, border = 1, ...,
 ##          ref=par("usr")[1])

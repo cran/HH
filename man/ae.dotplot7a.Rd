@@ -28,7 +28,8 @@ The third panel can be suppressed by the \code{print} method.
   \method{AEdotplot}{formula}(xr, groups=NULL, data=NULL,
           sortbyRelativeRisk=TRUE,
           ...,
-          sub=list(deparse(this.call, width.cutoff=500), cex=.7))
+          sub=list(deparse(this.call[1:4],
+                                width.cutoff=500), cex=.7))
 
 }
 
@@ -141,8 +142,10 @@ AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata)
 AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata)
 
 \dontrun{
-%% AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata[c(AEdata$OrgSys %in% c("GI","Resp")),])
-AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata[c(AEdata$OrgSys \%in\% c("GI","Resp")),])
+%% AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT,
+%%           data = AEdata[c(AEdata$OrgSys %in% c("GI","Resp")),])
+AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT,
+          data = AEdata[c(AEdata$OrgSys \%in\% c("GI","Resp")),])
 
 ## test sortbyRelativeRisk=FALSE
 ABCD.12345 <- AEdata[1:12,]

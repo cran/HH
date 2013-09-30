@@ -5,6 +5,7 @@
 \alias{plot.likert.formula}
 \alias{plot.likert.default}
 \alias{plot.likert.array}
+\alias{plot.likert.likert}
 \alias{plot.likert.list}
 \alias{plot.likert.table}
 \alias{plot.likert.ftable}
@@ -41,12 +42,23 @@ likertplot(x, ...)
                                 par.settings.in=NULL, ## use par.settings=
                                 ...,
                                 as.percent = FALSE,
-                                transposeAxisLabels=TRUE, ## meaningful only when (!horizontal)
+                                transposeAxisLabels=TRUE, ## meaningful only when
+                                                          ## (!horizontal)
                                 ## titles
-                                ylab= if (horizontal) as.character(x[[2]])
+                                ylab= if (horizontal) {
+                                  if (length(x)==3)
+                                    deparse(x[[2]])
+                                  else
+                                    "Question"
+                                }
                                 else
                                 if (as.percent != FALSE) "Percent" else "Count",
-                                xlab= if (!horizontal) as.character(x[[2]])
+                                xlab= if (!horizontal) {
+                                  if (length(x)==3)
+                                    deparse(x[[2]])
+                                  else
+                                    "Question"
+                                }
                                 else
                                 if (as.percent != FALSE) "Percent" else "Count",
                                 main = x.sys.call,
@@ -62,6 +74,7 @@ likertplot(x, ...)
                                 ## row sequencing
                                 as.table=TRUE,
                                 positive.order=FALSE,
+                                data.order=FALSE,
                                 reverse=ifelse(horizontal, as.table, FALSE),
                                 ## resizePanels arguments
                                 h.resizePanels=sapply(result$y.used.at, length),
@@ -70,7 +83,11 @@ likertplot(x, ...)
                                 reference.line.col="gray65",
                                 key.border.white=TRUE,
                                 col=likertColor(Nums.attr$nlevels,
-                                  ReferenceZero=ReferenceZero)
+                                  ReferenceZero=ReferenceZero,
+                                  colorFunction=colorFunction,
+                                  colorFunctionOption=colorFunctionOption),
+                                colorFunction="diverge_hcl",
+                                colorFunctionOption="lighter"
                                 )
 \method{plot.likert}{default}(x,
             positive.order=FALSE,
@@ -80,7 +97,11 @@ likertplot(x, ...)
             reference.line.col="gray65",
             col.strip.background="gray97",
             col=likertColor(attr(x, "nlevels"),
-              ReferenceZero),
+              ReferenceZero=ReferenceZero,
+              colorFunction=colorFunction,
+              colorFunctionOption=colorFunctionOption),
+            colorFunction="diverge_hcl",
+            colorFunctionOption="lighter",
             as.percent=FALSE,
             par.settings.in=NULL,
             horizontal=TRUE,
@@ -99,27 +120,17 @@ likertplot(x, ...)
             reverse=FALSE)
 
 \method{plot.likert}{array}(x,
-                            condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]", sep=""),
+                            condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]",
+                                                 sep=""),
                             xName=deparse(substitute(x)),
                             main=paste("layers of", xName, "by", condlevelsName),
                             ...)
-%% \method{plot.likert}{array}(x,
-%%             condlevelsName=paste(names(dimnames(x))[-(1:2)], collapse="."),
-%%             xName=deparse(substitute(x)),
-%%             main=paste("layers of", xName, "by", condlevelsName),
-%%             layout=if (horizontal) c(1, length(dim(x))-2) else c(length(dim(x))-2, 1),
-%%             positive.order=FALSE,
-%%             strip=TRUE,
-%%             strip.left=TRUE,
-%%             strip.left.values=names(x.pl), ## constructed from dimnames(x)[-(1:2)]
-%%             strip.values=names(x.pl),
-%%             strip.left.par=list(cex=1, lines=1),
-%%             horizontal=TRUE,
-%%             ...,
-%%             resize.height=c("nrow","rowSums"),
-%%             resize.width=1)
 
-\method{plot.likert}{list}(x,  ## named list of matrices, 2D tables, 2D ftables, or 2D structables, or all-numeric data.frames
+\method{plot.likert}{likert}(x, ...)  ## See Details
+
+\method{plot.likert}{list}(x,  ## named list of matrices, 2D tables,
+                               ## 2D ftables, or 2D structables,
+                               ## or all-numeric data.frames
             condlevelsName="ListNames",
             xName=deparse(substitute(x)),
             main=paste("List items of", xName, "by", condlevelsName),
@@ -171,7 +182,8 @@ yscale.components.right.HH(...)
     See the Details section for restrictions on the form of data.frame,
     list, ftable, and structable arguments.
   }
-  \item{data}{For the formula method, a \code{data.frame}.}
+  \item{data}{For the formula method, a \code{data.frame}.
+  Do not use variable names \code{".value"} or \code{".variable"}.}
   \item{ReferenceZero}{Numeric scalar or \code{NULL}.  The position in
     the range \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
     reference line at 0 will be placed.  \code{attr(x, "nlevels")} is the
@@ -200,6 +212,12 @@ yscale.components.right.HH(...)
     the right at the top of a panel of horizontal bars or at the left of
     a panel of vertical bars.
     \code{positive.order} is frequently set to \code{TRUE} for lists.}
+  \item{data.order}{\code{formula} method only.  If
+    \code{positive.order} is \code{TRUE}, this \code{data.order}
+    variable is ignored.
+    If \code{FALSE}, the default value, and the rows are specified by a
+    factor, then they are ordered by their levels.  If \code{TRUE}, then
+    the rows are ordered by their order in the input \code{data.frame}.}
   \item{as.percent}{When \code{as.percent==TRUE} or
     \code{as.percent=="noRightAxis"}, then the values in each row are rescaled
     to row percents.
@@ -227,6 +245,7 @@ yscale.components.right.HH(...)
     set of colors; e.g., \code{col=sequential_hcl(11)[5:2]}.  See the last
     \code{AudiencePercent} example below for this usage.
   }
+  \item{colorFunction, colorFunctionOption}{See \code{\link{likertColor}}.}
   \item{reference.line.col}{Color for reference line at zero.}
   \item{col.strip.background}{Background color for the strip labels.}
   \item{key.border.white}{Logical. If \code{TRUE}, then place a white
@@ -385,10 +404,20 @@ yscale.components.right.HH(...)
   A list of data.frame with factors or characters will be plotted by
   automatically removing columns that are not numeric.
 
-  ftable and structable arguments \code{x} will be plotted as
+  \code{ftable} and \code{structable} arguments \code{x} will be plotted as
   \code{as.table(x)}.  This changes the display sequence.
   Therefore the user will probably want to use \code{aperm} on the
-  ftable or structable before using \code{plot.likert}.
+  \code{ftable} or \code{structable} before using \code{plot.likert}.
+
+  The \code{likert} method is designed for use with \code{"likert"}
+  objects created with the independent \pkg{likert} package.  It is not
+  recommended that the \pkg{HH} package and the \code{likert} package
+  both be loaded at the same time, as they have incompatible usage of
+  the exported function names \code{likert} and \code{plot.likert}.  If
+  the \pkg{likert} package is installed, it can be run without loading
+  by using the function calls \code{likert::likert()} and
+  \code{likert:::plot.likert()}.
+
 }
 
 \value{
@@ -568,7 +597,8 @@ likert(Responses, horizontal=FALSE,
 ## Initially we use the default Blue palette in the sequential_hcl function.
 likert(AudiencePercent,
        auto.key=list(between=1, between.columns=2),
-       xlab="Percentage of audience younger than 35 (left of zero) and older than 35 (right of zero)",
+       xlab=paste("Percentage of audience younger than 35 (left of zero)",
+                  "and older than 35 (right of zero)"),
        main="Target Audience",
        col=rev(sequential_hcl(4)),
        sub="This plot looks better in a 7in x 3.5in window.")
@@ -631,7 +661,8 @@ likert(as.listOfNamedMatrices(Pop),
             resize.height="rowSums",
             strip=FALSE,
             strip.left=FALSE,
-            main="Area and Height are proportional to 'Row Count Totals'.\nWidth is exactly 100\%.")
+            main=paste("Area and Height are proportional to 'Row Count Totals'.",
+                       "Width is exactly 100\%.", sep="\n"))
 
 
 ## Professional Challenges example.
@@ -712,7 +743,7 @@ LikertPercentCountColumns(Question ~ . | Subtable, ProfChal,
 
 
 ## Restore original name
-##levels(ProfChal$Subtable)[6] <- "Attitude\ntoward\nProfessional\nRecognition"
+## levels(ProfChal$Subtable)[6] <- "Attitude\ntoward\nProfessional\nRecognition"
 }
 
 ## The ProfChal data is done again with explicit use of ResizeEtc

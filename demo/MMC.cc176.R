@@ -59,8 +59,8 @@ if.R(s={
 }
 ,r={
   cc176.mmc <-
-    mmc(cc176.aov, linfct=mcp(current="Tukey"),
-        `covariate_average`=TRUE, `interaction_average`=TRUE)
+    mmc(cc176.aov, linfct=mcp(current="Tukey",
+        `covariate_average`=TRUE, `interaction_average`=TRUE))
   print(cc176.mmc)
   plot(cc176.mmc)
 })
@@ -82,7 +82,7 @@ if.R(
        par(old.par)
      })
 
-     
+
 
 ## MMC Figure 4, current with orthogonal contrasts and control of display
 cc176.orth <- cbind(  "g-f"=c( 1,-1, 0, 0),
@@ -107,9 +107,11 @@ if.R(s={
 }
 ,r={
   cc176.mmc <-
-    mmc(cc176.aov, linfct=mcp(current="Tukey"),
+    mmc(cc176.aov,
+        linfct=mcp(current="Tukey",
+          `covariate_average`=TRUE, `interaction_average`=TRUE),
         focus.lmat=cc176.orth,
-        `covariate_average`=TRUE, `interaction_average`=TRUE)
+        )
   print(cc176.mmc)
 
 

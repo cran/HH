@@ -14,12 +14,13 @@ mcalinfct(model, focus,
           formula.in=terms(model),
           linfct.Means=
 %%           meanslinfct.hh(model, focus, mmm.data, formula.in,
-          multcomp:::meanslinfct(model, focus, mmm.data, formula.in,
+          %% multcomp:::meanslinfct(model, focus, mmm.data, formula.in,
+          multcomp.meanslinfct(model, focus, mmm.data, formula.in,
                          contrasts.arg=model$contrasts),
           type="Tukey"
           )
 %% meanslinfct.hh(model, focus, mmm.data = model$model,
-%%                formula.in = terms(model), contrasts.arg = NULL) 
+%%                formula.in = terms(model), contrasts.arg = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

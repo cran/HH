@@ -27,16 +27,49 @@ likertColorBrewer <- function(nc, ReferenceZero=NULL,
 }
 
 
-likertColor <- function(nc, ReferenceZero=NULL, ...) {
+likertColor <- function(nc, ReferenceZero=NULL,
+                        colorFunction=c("diverge_hcl","sequential_hcl"),
+                        colorFunctionOption=c("lighter","flatter","default"),
+                        colorFunctionArgs=likertColorFunctionArgs[[colorFunctionOption, colorFunction]],
+                        ...) {
+  colorFunction <- match.arg(colorFunction)
+  colorFunctionOption <- match.arg(colorFunctionOption)
+  likertColorFunctionArgs <-
+    cbind(
+      diverge_hcl=list(
+        lighter=list(h=c(260, 0), c=80, l=c(60,90), power=.7),  ## our recommendation
+        flatter=list(h=c(260, 0), c=80, l=c(30,90), power=.6),  ## our second choice
+        default=list(h=c(260, 0), c=80, l=c(30,90), power=1.5)) ## colorspace default
+      ,
+      sequential_hcl=list(
+        lighter=list( h=260, c=c(80,1), l=c(60,90), power=.7),  ## our recommendation
+        flatter=list( h=260, c=c(80,1), l=c(30,90), power=.6),  ## our second choice
+        default=list( h=260, c=c(80,1), l=c(30,90), power=1.5)) ## colorspace default
+      )
+
   colorset <- ColorSet(nc, ReferenceZero)
   ncolors <- max(abs(colorset))*2 + (0 %in% colorset)
   oneN2 <- (1:max(abs(colorset)))
   which <- c(-rev(oneN2), 0[0 %in% colorset], oneN2) %in% colorset
-  if (nc == 1 && (is.null(ReferenceZero) || ReferenceZero==1))
-      diverge_hcl(3)[2]
+
+  colorspaceFunction <- getExportedValue("colorspace", colorFunction)
+   if (nc == 1 && (is.null(ReferenceZero) || ReferenceZero==1))
+      do.call(colorspaceFunction, c(n=3, colorFunctionArgs))[2]
   else
-    rev(diverge_hcl(ncolors))[which]
+    rev(do.call(colorspaceFunction, c(n=ncolors, colorFunctionArgs)))[which]
 }
+
+## Older version, selects the palette we now call "lighter".
+## likertColor <- function(nc, ReferenceZero=NULL, ...) {
+##   colorset <- ColorSet(nc, ReferenceZero)
+##   ncolors <- max(abs(colorset))*2 + (0 %in% colorset)
+##   oneN2 <- (1:max(abs(colorset)))
+##   which <- c(-rev(oneN2), 0[0 %in% colorset], oneN2) %in% colorset
+##   if (nc == 1 && (is.null(ReferenceZero) || ReferenceZero==1))
+##       diverge_hcl(3)[2]
+##   else
+##     rev(diverge_hcl(ncolors))[which]
+## }
 
 
 brewer.pal.likert <- function(n, name,  middle.color) {
@@ -45,17 +78,17 @@ brewer.pal.likert <- function(n, name,  middle.color) {
 
   palette <-
     if (n <= 2) {
-      bp <- brewer.pal(n=3, name=name)
+      bp <- RColorBrewer::brewer.pal(n=3, name=name)
       if (n==1) bp[2] else bp[-2]
     }
     else {
       if (n <= 11)
-        brewer.pal(n=n, name=name)
+        RColorBrewer::brewer.pal(n=n, name=name)
       else {
         if (is.odd(n))
-          colorRampPalette(brewer.pal(n=11, name=name))(n)
+          colorRampPalette(RColorBrewer::brewer.pal(n=11, name=name))(n)
         else
-          colorRampPalette(brewer.pal(n=10, name=name))(n)
+          colorRampPalette(RColorBrewer::brewer.pal(n=10, name=name))(n)
       }
     }
   if (is.odd(n) && !missing(middle.color)) {

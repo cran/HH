@@ -84,7 +84,8 @@ ae.dotplot.long <- if.R(r={
            A.name=levels(xr$RAND)[1],
            B.name=levels(xr$RAND)[2],
            col.AB=c("red","blue"), pch.AB=c(16,17),
-           main.title="Most Frequent On-Therapy Adverse Events Sorted by Relative Risk",
+           main.title = paste("Most Frequent On-Therapy Adverse Events",
+                              "Sorted by Relative Risk"),
            main.cex=1,
            cex.AB.points=NULL, cex.AB.y.scale=.6,
            position.left= c(0,   0, .70, 1.), ## ignored in R

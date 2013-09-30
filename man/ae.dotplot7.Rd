@@ -25,7 +25,8 @@ Support functions for the \code{\link{AEdotplot}}.
           B.name=paste(levels(xr$RAND)[2], " (n=", xr$SN[2], ")", sep=""),
           col.AB=c("red","blue"), pch.AB=c(16,17),
            main=if (sortbyRelativeRisk)
-              list("Most Frequent On-Therapy Adverse Events Sorted by Relative Risk", cex=1)
+              list("Most Frequent On-Therapy Adverse Events Sorted by Relative Risk",
+                   cex=1)
            else
               list("Most Frequent On-Therapy Adverse Events", cex=1),
           cex.AB.points=NULL, cex.AB.y.scale=.6, cex.x.scale=.6,
@@ -60,7 +61,8 @@ Support functions for the \code{\link{AEdotplot}}.
                    levels.order=
                       lapply(attr(AEstandard,"AEtable"),
                              function(AEsubtable) levels(AEsubtable$PREF)),
-                   main.second=list("Most Frequent On-Therapy Adverse Events Sorted to Match First Table",
+                   main.second=list(paste("Most Frequent On-Therapy Adverse Events",
+                                          "Sorted to Match First Table"),
                                     cex=1))
 
   \method{update}{AEdotplot}(object, ...)

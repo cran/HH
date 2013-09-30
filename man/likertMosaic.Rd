@@ -20,7 +20,8 @@ differential, rating scale data, and population pyramids,
 \usage{
 likertMosaic(x, ...)
 
-\method{likertMosaic}{formula}(x, data, ReferenceZero = NULL, ..., between.y = c(1.2, 0.3))
+\method{likertMosaic}{formula}(x, data, ReferenceZero = NULL, spacing=NULL,
+                   ..., between.y = c(1.2, 0.3))
 
 \method{likertMosaic}{array}(x, ReferenceZero = NULL, col = NULL, main = NULL,
                    ...,
@@ -43,7 +44,9 @@ likertMosaic(x, ...)
                    labels = c(TRUE, TRUE, FALSE, TRUE),
                    varnames = FALSE,
                    zero_size = 0,
-                   gp = gpar(fill = col.extended, col = 0))
+                   gp = gpar(fill = col.extended, col = 0),
+                   colorFunction="diverge_hcl",
+                   colorFunctionOption="lighter")
 
 \method{likertMosaic}{data.frame}(x, ...)
 
@@ -103,6 +106,7 @@ Colors for the bars.  With the default value \code{NULL}, the colors are
 chosen from the default \code{\link[colorspace]{diverge_hcl}} diverging
 palette.  Any color specification that R understands can be used here.
 }
+  \item{colorFunction, colorFunctionOption}{See \code{\link{likertColor}}.}
   \item{main}{
 \code{main} title for the plot.
   }
@@ -201,7 +205,8 @@ Track Member Survey," Amstat News. Arlington, VA: American Statistical
 Association.
 
 }
-\author{Richard M. Heiberger, with contributions from Naomi B. Robbins <naomi@nbr-graphs.com>.
+\author{Richard M. Heiberger,
+        with contributions from Naomi B. Robbins <naomi@nbr-graphs.com>.
 
 Maintainer: Richard M. Heiberger <rmh@temple.edu> }
 \note{
@@ -211,9 +216,11 @@ The functions described here are currently missing the following features:
 \item no zero reference line
 \item no right-axis labels for Row Count Totals
 \item no strip.left labels for grouping by Conditions
-\item In Figure 8 and 9 (\code{HH/demo/likertMosaic-paper.r}), no control of the thickness of the bars
+\item In Figure 8 and 9 (\code{HH/demo/likertMosaic-paper.r}),
+      no control of the thickness of the bars
 \item All bars are horizontal.
-\item No borders on the overall plot nor on the panels in plots with grouping by Conditions
+\item No borders on the overall plot nor on the panels in plots with
+      grouping by Conditions
 \item No control of code{between=list(x=number)}
 \item cex for labeling
 \item border on empty boxes
@@ -231,10 +238,16 @@ The functions described here are currently missing the following features:
 \dontrun{
   require(vcd)
   data(ProfChal)
-  likertMosaic(Question ~ . | Subtable, ProfChal, main="Is your job professionally challenging?")
-  likertMosaic(Question ~ . | Subtable, ProfChal, main="Is your job professionally challenging?", as.percent=TRUE)
-  likertMosaic(Question ~ . | Subtable, ProfChal, main="Is your job professionally challenging?", as.percent=TRUE, positive.order=TRUE)
-  likertMosaic(Question ~ . | Subtable, ProfChal, main="Is your job professionally challenging?", as.percent=TRUE, variable.width=TRUE)
+  likertMosaic(Question ~ . | Subtable, ProfChal,
+               main="Is your job professionally challenging?")
+  likertMosaic(Question ~ . | Subtable, ProfChal,
+               main="Is your job professionally challenging?", as.percent=TRUE)
+  likertMosaic(Question ~ . | Subtable, ProfChal,
+               main="Is your job professionally challenging?", as.percent=TRUE,
+               positive.order=TRUE)
+  likertMosaic(Question ~ . | Subtable, ProfChal,
+               main="Is your job professionally challenging?", as.percent=TRUE,
+               variable.width=TRUE)
 
   EmpRows <- ProfChal$Subtable == "Employment sector"
   ProfChal2 <- ProfChal[EmpRows, 1:5]
@@ -256,6 +269,7 @@ The functions described here are currently missing the following features:
 
   data(SFF8121)
   likertMosaic(aperm(SFF8121, c(3,1,2)))
+
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

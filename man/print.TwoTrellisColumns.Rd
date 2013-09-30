@@ -141,7 +141,8 @@ as.TwoTrellisColumns5(PCP, PCC,  ## 11in x 7in
                       px=list(
                         LL=c(.00,  .30),
                         LP=c(.30,  .70),
-                        ML=c(.60,  .61),  ## arbitrary, visually center the labels and legend
+                        ML=c(.60,  .61),  ## arbitrary,
+                                          ## visually center the labels and legend
                         RP=c(.71,  .91),
                         RL=c(.91, 1.00)))
 }
@@ -155,7 +156,8 @@ as.TwoTrellisColumns5(PCP, PCC,  ## 7in x 7in
                       px=list(
                         LL=c(.00,  .50),
                         LP=c(.50,  .70),
-                        ML=c(.50,  .51),  ## arbitrary, visually center the labels and legend
+                        ML=c(.50,  .51),  ## arbitrary,
+                                          ## visually center the labels and legend
                         RP=c(.71,  .87),
                         RL=c(.87, 1.00)))
 
@@ -202,7 +204,8 @@ countPlot   <- likert(Question ~ . | Subtable, ProfChal2,
                       par.strip.text=list(cex=.7),
                       main="Is your job professionally challenging?")
 ## countPlot
-levels(ProfChal$Subtable)[6] <- "Attitude\ntoward\nProfessional\nRecognition" ## Restore original label
+levels(ProfChal$Subtable)[6] <-
+      "Attitude\ntoward\nProfessional\nRecognition" ## Restore original label
 
 ## Size that works in default 7x7 window.  7x7 is not recommended for
 ## this example because most of the space is used for labeling and not
@@ -213,7 +216,8 @@ as.TwoTrellisColumns5(percentPlot, countPlot,  ## 7in x 7in
                       px=list(
                         LL=c(.00,  .50),
                         LP=c(.50,  .70),
-                        ML=c(.50,  .51),  ## arbitrary, visually center the labels and legend
+                        ML=c(.50,  .51),  ## arbitrary,
+                                          ## visually center the labels and legend
                         RP=c(.71,  .87),
                         RL=c(.87, 1.00)))
 }

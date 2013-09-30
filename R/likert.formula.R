@@ -12,11 +12,21 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="
                                 transposeAxisLabels=TRUE, ## meaningful only when (!horizontal)
 
                                 ## titles
-                                ylab= if (horizontal) as.character(x[[2]])
+                                ylab= if (horizontal) {
+                                  if (length(x)==3)
+                                    deparse(x[[2]])
+                                  else
+                                    "Question"
+                                }
                                 else
                                 if (as.percent != FALSE) "Percent" else "Count",
 
-                                xlab= if (!horizontal) as.character(x[[2]])
+                                xlab= if (!horizontal) {
+                                  if (length(x)==3)
+                                    deparse(x[[2]])
+                                  else
+                                    "Question"
+                                }
                                 else
                                 if (as.percent != FALSE) "Percent" else "Count",
 
@@ -36,6 +46,7 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="
                                 ## row sequencing
                                 as.table=TRUE,
                                 positive.order=FALSE,
+                                data.order=FALSE,
                                 reverse=ifelse(horizontal, as.table, FALSE),
 
                                 ## resizePanels arguments
@@ -46,11 +57,15 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="
                                 reference.line.col="gray65",
                                 key.border.white=TRUE,
                                 col=likertColor(Nums.attr$nlevels,
-                                  ReferenceZero=ReferenceZero)
+                                  ReferenceZero=ReferenceZero,
+                                  colorFunction=colorFunction,
+                                  colorFunctionOption=colorFunctionOption),
+                                colorFunction="diverge_hcl",
+                                colorFunctionOption="lighter"
                                 ) {
   ## force(rightAxis)
   rightAxisMissing <- missing(rightAxis)  ## needed by as.percent
-
+  if (positive.order) data.order <- FALSE  ## both TRUE is not meaningful.  positive.order wins.
 
 if (!missing(value)) {
   x.sys.call <- deparse(match.call()[1:4], width.cutoff = 500L)
@@ -79,8 +94,8 @@ if (!missing(value)) {
       if (missing(ylab.right))
         ylab.right <- "Row Count Totals"
     }
-    else
-      rightAxis <- FALSE
+    ## else
+    ##  rightAxis <- FALSE
   } else {
     Nums.lik <- as.likert(data.list$Nums, ReferenceZero=ReferenceZero)
   }
@@ -100,11 +115,17 @@ if (!missing(value)) {
   }
 
   Nums.attr <- attributes(Nums.lik)
-
+## recover()
   scales <- list(x=list(alternating=1), y=list(alternating=1))
   if (!missing(scales.in)) {
     scales.x <- scales$x
     scales.y <- scales$y
+    if (is.null(scales.in$x) && is.character(scales.in$y))
+      scales.in$y <- list(relation=scales.in$y)
+    if (is.null(scales.in$y) && is.character(scales.in$x))
+      scales.in$x <- list(relation=scales.in$x)
+    if (is.character(scales.in))
+      scales.in <- list(x=list(relation=scales.in$x), y=list(relation=scales.in$y))
     scales.x[names(scales.in$x)] <- scales.in$x
     scales.y[names(scales.in$y)] <- scales.in$y
     scales[names(scales.in)] <- scales.in
@@ -181,7 +202,7 @@ if (!missing(value)) {
 
   if (horizontal)
     FormulaString <- with(varNamesUsed,
-                        paste("`", QuestionName, "` ~ value",
+                        paste("`", QuestionName, "` ~ .value",
                               if (is.null(CondNames))
                               NULL
                               else
@@ -189,7 +210,7 @@ if (!missing(value)) {
                               sep=""))
   else
      FormulaString <- with(varNamesUsed,
-                        paste("value ~ `", QuestionName, "`",
+                        paste(".value ~ `", QuestionName, "`",
                               if (is.null(CondNames))
                               NULL
                               else
@@ -225,12 +246,19 @@ if (!missing(value)) {
 
   {
 
-    if (positive.order) {
-      if (reverse)
-        data2 <- data2[Nums.attr$positive.order, ]
-      else
-        data2 <- data2[rev(Nums.attr$positive.order), ]
-
+    if (positive.order || data.order) {
+      if (positive.order) {
+        if (reverse)
+          data2 <- data2[Nums.attr$positive.order, ]      ## 1 1 0 and 1 1 1
+        else
+          data2 <- data2[rev(Nums.attr$positive.order), ] ## 1 0 0 and 1 0 1
+      } else { ## data.order
+        do <- 1:nrow(data2)
+        if (reverse)
+          data2 <- data2[do, ]                            ## 0 1 1
+        else
+          data2 <- data2[rev(do), ]                       ## 0 0 1
+      }
       newQ <- factor(data2[[varNamesUsed$QuestionName]],
                      levels=unique(data2[[varNamesUsed$QuestionName]]))
 
@@ -244,19 +272,33 @@ if (!missing(value)) {
     }
 
 
-    if (!positive.order && reverse)
-      ## data2 <- data2[rev(seq(along=nrows(data2))), ]
-      data2[[varNamesUsed$QuestionName]] <-
+    if (!positive.order && reverse && !data.order)
+      data2[[varNamesUsed$QuestionName]] <-               ## 0 1 0
         factor(data2[[varNamesUsed$QuestionName]], levels=rev(levels(data2[[varNamesUsed$QuestionName]])))
 
-    ## if (!positive.order && !reverse)  ## default
-    ##   ## data2 <- data2
-  }
+    ## if (!positive.order && !reverse && !data.order)    ## default
+    ##   ## data2 <- data2                                ## 0 0 0
+
+
+    ##                 positive.order  reverse  data.order
+    ## previous        1               1        0
+    ##                 1               0        0
+    ##                 0               1        0
+    ##                 0               0        0
+
+    ## new             0               1        1
+    ##                 0               0        1
+
+    ## ==> 1 1 0       1               1        1
+    ## ==> 1 0 0       1               0        1
+   }
 
   ## data2.melt <- melt(data2[,-1],
   ##                    id.vars=unlist(varNamesUsed[1:2]))
-  data2.melt <- melt((data2[match(unique(names(data2)), names(data2))])[,-1],
-                     id.vars=unique(unlist(varNamesUsed[1:2])))
+  data2.melt <- reshape::melt((data2[match(unique(names(data2)), names(data2))])[,-1],
+                     id.vars=unique(unlist(varNamesUsed[1:2])),
+                     variable_name=".variable")
+  names(data2.melt)[ncol(data2.melt)] <- ".value"
 
   panel <- function(...) {
     if (horizontal)
@@ -269,7 +311,7 @@ if (!missing(value)) {
 
 
   result <-
-  barchart(as.formula(FormulaString), groups=data2.melt$variable,
+  barchart(as.formula(FormulaString), groups=data2.melt$.variable,
            data=data2.melt,
            as.table=as.table,
            xlab=xlab, ylab=ylab, ylab.right=ylab.right, main=main, horizontal=horizontal,
@@ -322,20 +364,15 @@ if (!missing(value)) {
     }
   }
 
-
-  if (horizontal &&
-      (result$y.scales$relation == "free") &&
-      (!is.null(result$layout) && result$layout[1] == 1) &&
-      is.list(result$y.used.at) &&
-      (!is.null(h.resizePanels))) {
+  if (length(h.resizePanels) > 0) {
+    if (is.character(h.resizePanels) && h.resizePanels=="rowSums")
+      h.resizePanels <- rowSums(data.list$Nums)
     result <- resizePanels(result, h=h.resizePanels)
   }
 
-  if (!horizontal &&
-      (result$x.scales$relation == "free") &&
-      (!is.null(result$layout) && result$layout[2] == 1) &&
-      is.list(result$x.used.at) &&
-      (!is.null(w.resizePanels))) {
+  if (length(w.resizePanels) > 0) {
+    if (is.character(w.resizePanels) && w.resizePanels=="rowSums")
+      w.resizePanels <- rowSums(data.list$Nums)
     result <- resizePanels(result, w=w.resizePanels)
   }
 
@@ -474,7 +511,7 @@ getLikertDataLong <- function(x, data, varNamesUsedLong) {
 
   varNamesUsed <- c(varNamesUsedLong[c("QuestionName","CondNames")],
                     Nums=levels(data[[varNamesUsedLong$LevelNames]]))
-  data2 <- cast(y, data=data[unlist(varNamesUsedLong)], value=varNamesUsedLong$Value)
+  data2 <- reshape::cast(y, data=data[unlist(varNamesUsedLong)], value=varNamesUsedLong$Value)
   list(data.list=getLikertData(data2, varNamesUsed), varNamesUsed=varNamesUsed, x=x)
 }
 

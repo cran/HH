@@ -854,14 +854,15 @@ structure(list(`Strongly disagree` = c(1, 2, 3, 4, 5, 9, 5, 6,
 
 
 PoorChildren <-
-structure(list(Extremely.poor.NWP = c(606352, 1001894, 998587,
-533108, 406372, 391888), Moderately.poor.NWP = c(354007, 641736,
-629566, 308569, 242874, 197773), `Moderately.poor.1+WP` = c(930909,
-1548697, 1417142, 637017, 457117, 348115), `Extremely.poor.1+WP` = c(337828,
-566705, 535242, 251701, 197478, 183158)), .Names = c("Extremely.poor.NWP",
-"Moderately.poor.NWP", "Moderately.poor.1+WP", "Extremely.poor.1+WP"
-), row.names = c("10 or less", "10 to 15", "15 to 20", "20 to 25",
-"25 to 30", "30 or more"), class = "data.frame")
+structure(list(`Extremely Poor NWP` = c(606352, 1001894, 998587,
+533108, 406372, 391888), `Moderately Poor NWP` = c(354007, 641736,
+629566, 308569, 242874, 197773), `Moderately Poor 1+WP` = c(930909,
+1548697, 1417142, 637017, 457117, 348115), `Extremely Poor 1+WP` = c(337828,
+566705, 535242, 251701, 197478, 183158), PercentPoorInArea = structure(1:6, .Label = c("10 or less",
+"10 to 15", "15 to 20", "20 to 25", "25 to 30", "30 or more"), class = "factor")), .Names = c("Extremely Poor NWP",
+"Moderately Poor NWP", "Moderately Poor 1+WP", "Extremely Poor 1+WP",
+"PercentPoorInArea"), row.names = c("10 or less", "10 to 15",
+"15 to 20", "20 to 25", "25 to 30", "30 or more"), class = "data.frame")
 
 ProfChal <-
 structure(list(`Strongly Disagree` = c(4, 0, 0, 2, 0, 2, 4, 0,
