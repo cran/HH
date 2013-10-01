@@ -370,7 +370,7 @@ print.two.rows(tmp.same[3:4])
 ##                file=hh("regb/figure/longley.resid.same.2yr.eps"))
 ## print.two.rows(tmp.same[1:2])
 ## dev.off()
-## 
+##
 ## trellis.device(postscript, horizontal=TRUE,
 ##                file=hh("regb/figure/longley.resid.same.2pa.eps"))
 ## print.two.rows(tmp.same[3:4])
@@ -420,11 +420,11 @@ vif( Employed ~                  GNP + Unemployed + Armed.Forces + Year,
 longley5.lm <- lm( Employed ~
                                        Unemployed + Armed.Forces + Year,
                   data=longley)
-                              
+
 summary(longley5.lm, corr=FALSE)
 anova(longley5.lm)
 vif( Employed ~                        Unemployed + Armed.Forces + Year,
-    data=longley) 
+    data=longley)
 
 
 ## longley6.s
@@ -453,7 +453,7 @@ par(old.par)
 }
      ,r={
        longley.subsets <-
-         regsubsets(Employed ~ GNP.deflator + GNP + Unemployed + Armed.Forces + Population + Year,
+         leaps::regsubsets(Employed ~ GNP.deflator + GNP + Unemployed + Armed.Forces + Population + Year,
                     data=longley, nbest=2)
        longley.subsets.Summary <- summaryHH(longley.subsets)
        longley.subsets.Summary
@@ -505,7 +505,7 @@ if.R(s={
   usair.cp
   tmp <- (usair.cp$cp <= 10)
   usair.cp[tmp,]
-  
+
   old.par <- par(mar=par()$mar+c(0,1,0,0))
   tmp <- (usair.cp$cp <= 10)
   plot(cp ~ p, data=usair.cp[tmp,], ylim=c(0,10), type="n", cex=1.3)
@@ -516,7 +516,7 @@ if.R(s={
   par(old.par)
 ## export.eps(hh("regb/figure/regb.f3.usair.eps"))
 },r={
-  usair.regsubset <- regsubsets(lnSO2~lnmfg+lnpopn+precip+raindays+temp+wind, data=usair, nbest=2)
+  usair.regsubset <- leaps::regsubsets(lnSO2~lnmfg+lnpopn+precip+raindays+temp+wind, data=usair, nbest=2)
   usair.subsets.Summary <- summaryHH(usair.regsubset)
   tmp <- (usair.subsets.Summary$cp <= 10)
   usair.subsets.Summary[tmp,]

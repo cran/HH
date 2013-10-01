@@ -128,7 +128,8 @@ See also
   \item{strip.input}{strip function.  Default depends on the value of
   \code{label.as.interaction.formula}.}
   \item{par.strip.text.input}{\code{par.strip.text} argument.}
-  \item{scales.additional}{additional arguments to \code{scales} argument.}
+  \item{scales.additional}{additional arguments to \code{scales}
+  argument of \code{\link{interaction.positioned}}.}
   \item{main.in}{Text of main title.}
 %  \item{xlab.in}{S-Plus: FALSE suppresses x labels in trellis.  R: no effect.}
   \item{xlab}{No effect.}
@@ -203,10 +204,10 @@ interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
                   alcgp=expression(Alcohol~
                                    bgroup("(",scriptstyle(frac(gm, day)),")")),
                   tobgp=expression(Tobacco~
-                                   bgroup("(",scriptstyle(frac(gm,
-day)),")"))),
-                  responselab.expression="Cancer\nRate",
-           main.in="Esophogeal Cancer Rate ~ Alcohol Consumption + Tobacco Consumption", main.cex=1.2)
+                                   bgroup("(",scriptstyle(frac(gm, day)),")"))),
+               responselab.expression="Cancer\nRate",
+           main.in="Esophogeal Cancer Rate ~ Alcohol Consumption + Tobacco Consumption",
+               main.cex=1.2)
 )
 
 par(old.cex)

@@ -73,7 +73,7 @@ barchart(chi ~ age | sex, data=chi1, origin=0,
 )
 ## export.eps(hh("twtb/figure/drunk.chi.eps"))
 
-chisq.test(data.matrix(drunk))
+chisq.test(data.matrix(drunk))  ## warning from cell [2,5] having expected value less than 5.
 
 
 
@@ -113,11 +113,11 @@ fisher.test(glasses)
 all.tables <- function(x) {
 
   xx <- x
-  
+
   result <- list()
   r.margin <- apply(x,1,sum)
   c.margin <- apply(x,2,sum)
-  
+
   for (x11 in 0:r.margin[1]) {
     xx[1,1] <- x11
     xx[1,2] <- r.margin[1] - xx[1,1]
@@ -134,7 +134,7 @@ glasses.all
 
 ## Format the glasses.all table in LaTeX as it will appear in the book.
 ## We did additional editing of the file after it was automatically constructed.
-library("Hmisc")  ## access latex() function 
+library("Hmisc")  ## access latex() function
 glasses.latex <-
   latex(do.call("cbind", glasses.all),
         cgroup=names(glasses.all),
@@ -256,10 +256,10 @@ tmp <-
 barplot(blyth.t.tmp.p,
         ##angle=135,
         col=55,
-        legend=dimnames(blyth.t)[[1]][2], 
-        names=as.character(dimnames(blyth.t.tmp)[[2]]), 
+        legend=dimnames(blyth.t)[[1]][2],
+        names=as.character(dimnames(blyth.t.tmp)[[2]]),
         ylab="proportion surviving",  ylim=c(0,1),
-        main="Blyth's example of Simpson's paradox") 
+        main="Blyth's example of Simpson's paradox")
 abline(v=sum(tmp[4:5])/2)
 mtext(side=1, line=2, at=sum(tmp[1:2])/2, "location A", adj=.5)
 mtext(side=1, line=2, at=sum(tmp[3:4])/2, "location B", adj=.5)
@@ -276,10 +276,10 @@ tmp <-
 barplot(blyth.t.tmp.o,
         ##angle=135,
         col=55,
-        legend=dimnames(blyth.t)[[1]][2], 
-        names=as.character(dimnames(blyth.t.tmp)[[2]]), 
+        legend=dimnames(blyth.t)[[1]][2],
+        names=as.character(dimnames(blyth.t.tmp)[[2]]),
         ylab="odds in favor of surviving", ylim=c(0,20),
-        main="Blyth's example of Simpson's paradox") 
+        main="Blyth's example of Simpson's paradox")
 abline(v=sum(tmp[4:5])/2)
 mtext(side=1, line=2, at=sum(tmp[1:2])/2, "location A", adj=.5)
 mtext(side=1, line=2, at=sum(tmp[3:4])/2, "location B", adj=.5)
@@ -296,10 +296,10 @@ tmp <-
 barplot(blyth.t.tmp.l,
         ##angle=135,
         col=55,
-        legend=dimnames(blyth.t)[[1]][2], 
-        names=as.character(dimnames(blyth.t.tmp)[[2]]), 
-        ylab="logit in favor of surviving", 
-        main="Blyth's example of Simpson's paradox") 
+        legend=dimnames(blyth.t)[[1]][2],
+        names=as.character(dimnames(blyth.t.tmp)[[2]]),
+        ylab="logit in favor of surviving",
+        main="Blyth's example of Simpson's paradox")
 abline(v=sum(tmp[4:5])/2)
 mtext(side=1, line=2, at=sum(tmp[1:2])/2, "location A", adj=.5)
 mtext(side=1, line=2, at=sum(tmp[3:4])/2, "location B", adj=.5)
@@ -325,25 +325,25 @@ plotOddsRatio(hypothermia)
 ## count
 barplot(t(hypothermia),
         ylim=c(0,160), ylab="count",
-        legend=dimnames(hypothermia)[[2]], 
+        legend=dimnames(hypothermia)[[2]],
         names=as.character(dimnames(hypothermia)[[1]]))
 
 ## proportion
 barplot(hypothermia[,1] / apply(hypothermia, 1, sum),
         ylim=c(0,.6), ylab="proportion favorable",
-        legend=dimnames(hypothermia)[[2]][1], 
+        legend=dimnames(hypothermia)[[2]][1],
         names=as.character(dimnames(hypothermia)[[1]]))
 
 ## odds
 barplot(hypothermia[,1] / hypothermia[,2],
         ylim=c(0,1.4), ylab="odds favorable",
-        legend=dimnames(hypothermia)[[2]][1], 
+        legend=dimnames(hypothermia)[[2]][1],
         names=as.character(dimnames(hypothermia)[[1]]))
 
 ## logit
 barplot(log(hypothermia[,1] / hypothermia[,2]),
         ylim=c(-.6,.3), ylab="logit favorable",
-        legend=dimnames(hypothermia)[[2]][1], 
+        legend=dimnames(hypothermia)[[2]][1],
         names=as.character(dimnames(hypothermia)[[1]]))
 
 
@@ -390,7 +390,7 @@ if.R(s=
      ,r=
      detach("package:Hmisc")
      )
-## 
+##
 
 
 ## counts
@@ -513,15 +513,14 @@ if.R(r={
 
 
 ## prepare to print the table with LaTeX
-library(abind)
-abind(salk2, E, along=2)
+abind::abind(salk2, E, along=2)
 
 tmp <-
-abind(salk2, round(E,2), "p(no.par)"=round(t(pp),3),
-      abind(round(t(chisq.table),3),
+abind::abind(salk2, round(E,2), "p(no.par)"=round(t(pp),3),
+      abind::abind(round(t(chisq.table),3),
             array(NA, dim=dim(t(chisq.table))),
             along=.1),
-      abind(round(t(mh.c),2), array(NA, dim=dim(t(mh.c))), along=.1),
+      abind::abind(round(t(mh.c),2), array(NA, dim=dim(t(mh.c))), along=.1),
       along=2)
 tmp
 

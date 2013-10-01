@@ -4,8 +4,11 @@
 ## multicomp main effect for Stove
 if.R(r={
   energy.glht <- glht(energy.aov.4, focus="Stove",
-                      linfct=mcp(Stove="Tukey"),
-                      `interaction_average`=TRUE, `covariate_average`=TRUE)
+                      linfct=mcp(Stove="Tukey",
+                      `interaction_average`=TRUE, `covariate_average`=TRUE))
+  ## warning from glht.matrix about not-estimable coefficient may be ignored,
+  ## tmp <- model.matrix(energy.aov.4)
+  ## cbind(rowSums(tmp[,14:25]), tmp[,2])  ## three-way interaction and covariate are equal
   Stove.means <- model.tables(energy.aov.4, type="means",
                               cterms="Stove")$tables$Stove
   height.mca <- Stove.means %*% abs(t(contrMat(Stove.means, "Tukey")))

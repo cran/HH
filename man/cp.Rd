@@ -12,7 +12,7 @@
 #ifndef S-Plus
   \code{stepwise}
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{stepwise}}
 #endif
   function in S-Plus.
@@ -23,7 +23,7 @@
 #ifndef S-Plus
   \code{\link[leaps]{regsubsets}}
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{regsubsets}
 #endif
   in R.  The example below works in
@@ -43,7 +43,7 @@ cp.calc(sw, data, y.name)
 #ifndef S-Plus
   \code{stepwise}
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{stepwise}}
 #endif
  function.}
@@ -60,13 +60,13 @@ attributes:
  \code{n} number of observations,
  \code{y.name} response variable,
  \code{full.i} row name of full model.  The columns are
-\item{p}{number of parameters in the model}       
-\item{cp}{Cp statistic}      
-\item{aic}{AIC statistic}     
-\item{rss}{Residual sum of squares}     
-\item{r2}{\eqn{R^2}}      
-\item{r2.adj}{Adjusted \eqn{R^2}}  
-\item{xvars}{X variables}   
+\item{p}{number of parameters in the model}
+\item{cp}{Cp statistic}
+\item{aic}{AIC statistic}
+\item{rss}{Residual sum of squares}
+\item{r2}{\eqn{R^2}}
+\item{r2.adj}{Adjusted \eqn{R^2}}
+\item{xvars}{X variables}
 \item{sw.names}{Model name produced by \code{stepwise}.}
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004).
@@ -109,7 +109,7 @@ if.R(s={
   usair.cp
   tmp <- (usair.cp$cp <= 10)
   usair.cp[tmp,]
-  
+
   old.par <- par(mar=par()$mar+c(0,1,0,0))
   tmp <- (usair.cp$cp <= 10)
   plot(cp ~ p, data=usair.cp[tmp,], ylim=c(0,10), type="n", cex=1.3)
@@ -120,7 +120,8 @@ if.R(s={
   par(old.par)
 ## export.eps(hh("regb/figure/regb.f3.usair.eps"))
 },r={
-  usair.regsubset <- regsubsets(lnSO2~lnmfg+lnpopn+precip+raindays+temp+wind, data=usair, nbest=2)
+  usair.regsubset <- leaps::regsubsets(lnSO2~lnmfg+lnpopn+precip+raindays+temp+wind,
+                                       data=usair, nbest=2)
   usair.subsets.Summary <- summaryHH(usair.regsubset)
   tmp <- (usair.subsets.Summary$cp <= 10)
   usair.subsets.Summary[tmp,]

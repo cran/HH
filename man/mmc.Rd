@@ -50,7 +50,7 @@ mmc(model, ...)  ## R
     alternative = c("two.sided", "less", "greater"),
     ...
     )
-	   
+
 multicomp.mmc(x,  ## S-Plus
               focus=dimnames(attr(x$terms,"factors"))[[2]][1],
               comparisons="mca",
@@ -86,7 +86,7 @@ multicomp.mmc(x,  ## S-Plus
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht}.
 #endif
  in R.}
@@ -102,7 +102,7 @@ example below to see what is happening.
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht}.
 #endif
 }
@@ -124,7 +124,7 @@ example below to see what is happening.
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht}
 #endif
  in R.  S-Plus \code{multicomp}
@@ -207,27 +207,27 @@ Hsu, J. and Peruggia, M. (1994).
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht}.
 #endif
-  MMC plots in S-Plus are constructed by 
+  MMC plots in S-Plus are constructed by
   \code{multicomp.mmc} based on the S-Plus
 %% R
 #ifndef S-Plus
   \code{multicomp}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{multicomp}}.
 #endif
   The MMC plot is the same in both systems.  The details of getting the
   plot differ.
-  
+
   Function \code{mmc} calls
 %% R
 #ifndef S-Plus
  \code{\link[multcomp]{glht}} and \code{\link[multcomp]{confint.glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht} and \code{confint.glht}.
 #endif
   With a large number of levels
@@ -236,7 +236,7 @@ Hsu, J. and Peruggia, M. (1994).
   always specify \code{calpha} to reduce the time to under a second for
   the same example.
 
-  
+
   \code{plot.mmc.multicomp} chooses sensible defaults for its many
 arguments.  They will often need manual adjustment.  The examples show
 several types of adjustments.  We have changed the centering and scaling
@@ -338,7 +338,7 @@ if.R(r={
 group.count <- table(weightloss$group)
 },s={})
 
-tmp.dunnett <- 
+tmp.dunnett <-
 if.R(r=
 glht(weightloss.aov,
      linfct=mcp(group=contrMat(group.count, base=4)),
@@ -387,10 +387,8 @@ anova(displayf.aov)
 ## MMC plot
 displayf.mmc <-
 if.R(r={
-        ## mmc(displayf.aov, linfct=mcp(panel="Tukey"), ## averaging not right
-        ##     `interaction_average`=TRUE)
-	displayf.mca <- glhtWithMCP.993(displayf.aov, linfct=mcp(panel="Tukey"))
-	mmc(displayf.aov, linfct=displayf.mca$linfct, focus="panel")
+        mmc(displayf.aov,
+            linfct=mcp(panel="Tukey", interaction_average=TRUE, covariate_average=TRUE))
 },
      s=multicomp.mmc(displayf.aov, "panel", plot=FALSE))
 
@@ -441,7 +439,7 @@ interaction2wt(yield ~ hibrido+nitrogeno, data=maiz)
  if.R(s={par(old.omd)},
       r={})
 
-maiz.aov <- aov(yield ~ nitrogeno*hibrido + Error(bloque/nitrogeno), data=maiz) 
+maiz.aov <- aov(yield ~ nitrogeno*hibrido + Error(bloque/nitrogeno), data=maiz)
 
 summary(maiz.aov)
 summary(maiz.aov,
@@ -486,11 +484,8 @@ if.R(s={
   plotMatchMMC(maiz2.mmc$mca)
   par(old.omd)
 },r={
-  ##   maiz2.mmc <- mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"), ## averaging not right
-  ##                    `interaction_average`=TRUE)
-  maiz2.mca <- glhtWithMCP.993(maiz2.aov, linfct=mcp(hibrido="Tukey"))
-  maiz2.mmc <- mmc(maiz2.aov, linfct=maiz2.mca$linfct,
-                   focus="hibrido")
+  maiz2.mmc <- mmc(maiz2.aov,
+                   linfct=mcp(hibrido="Tukey", interaction_average=TRUE))
   old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
   plot(maiz2.mmc)
   par(omd=c(.05,.85,0,.5), new=TRUE)

@@ -195,8 +195,16 @@ print.AEdotplot <- function(x, ...,
     }
     else {
       if (!is.list(x)) x <- list(x, cex=1)
+      if (!any(names(x) == "label")) {
+        empty <- which(names(x) == "")
+        if (length(empty) > 0) names(x)[empty[1]] <- "label"
+      }
       x.blank <- x
-      x.blank[[1]] <- " "
+      x.blank[["label"]] <- " "
+      if (length(grep("\n", x[["label"]])) > 0)
+        x.blank[["label"]] <-
+          paste(" ", rep("\n", length(gregexpr("\n", x[["label"]])[[1]])),
+                collapse="", sep="")
       x$just <- just
     }
     list(x, x.blank)
@@ -244,7 +252,8 @@ print.AEdotplot <- function(x, ...,
           position=pos2, more=TRUE)
 
   ##  lattice.setStatus() ## needed because all three panels are set to TRUE
-  lattice:::lattice.setStatus(print.more = FALSE)
+  ## lattice:::lattice.setStatus(print.more = FALSE)
+  lattice.lattice.setStatus(print.more = FALSE)
 
   invisible(x.in)
 }
@@ -277,7 +286,8 @@ printOld.AEdotplot <- function(x, ...,
            vp=viewport(x=main.x.center, y=.045))
 
   ##  lattice.setStatus() ## needed because all three panels are set to TRUE
-  lattice:::lattice.setStatus(print.more = FALSE)
+  ## lattice:::lattice.setStatus(print.more = FALSE)
+  lattice.lattice.setStatus(print.more = FALSE)
 
   invisible(x)
 }
@@ -400,7 +410,9 @@ AEmatchSortorder <-
            levels.order=lapply(attr(AEstandard,"AEtable"),
              function(AEsubtable)
              levels(AEsubtable$PREF)),
-           main.second=list("Most Frequent On-Therapy Adverse Events Sorted to Match First Table", cex=1)) {
+                    main.second=list(paste("Most Frequent On-Therapy Adverse Events",
+                                          "Sorted to Match First Table"),
+                                     cex=1)) {
     for (subgroup in 1:length(AEsecond.AEtable))
       AEsecond.AEtable[[subgroup]]$PREF <-
         ordered(AEsecond.AEtable[[subgroup]]$PREF,
@@ -437,7 +449,11 @@ update.AEdotplot <- function(object, ... ) {
 AEdotplot.formula <- function(xr, groups=NULL, data=NULL,
                               sortbyRelativeRisk=TRUE,
                               ...,
-                              sub=list(deparse(this.call, width.cutoff=500), cex=.7)) {
+                              ## sub=list(deparse(this.call[c(1,2,
+                              ##   match(c("groups","data"),
+                              ##         names(this.call)))],
+                              sub=list(deparse(this.call[1:4],
+                                width.cutoff=500), cex=.7)) {
   if (is.null(data))
     stop("'data=' must be specified.", call.=FALSE)
 
@@ -480,7 +496,10 @@ AEdotplot.formula <- function(xr, groups=NULL, data=NULL,
   newdata <- data[matched.names]
   names(newdata) <- names(formula.names)
 
-  this.call <- sys.call(1)
+##  this.call <- sys.call(1)
+  this.call <- match.call()
+  names(this.call)[2] <- ""
+  this.call[[1]] <- as.name("AEdotplot")  ## drop the ".formula"
 
   if (is.null(condition.name)) {             ## formula
     conditionName <- list(...)$conditionName ## argument

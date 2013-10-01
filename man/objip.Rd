@@ -7,7 +7,7 @@
   (items in the \code{search()} list) looking for a regular expression pattern.
 }
 \usage{
-objip(pattern, where = search(), frame=NULL)
+objip(pattern, where = search(), frame=NULL, all.names=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,6 +17,9 @@ objip(pattern, where = search(), frame=NULL)
   \item{where}{an object defining a database in the search list.}
   \item{frame}{In S-Plus, an integer giving the frame number.
     In R, \code{frame} is ignored.}
+  \item{all.names}{In R, a logical that is passed to the \code{ls} function.
+    If 'TRUE', all object names are returned.
+    If 'FALSE', names which begin with a '.' are omitted.}
 }
 \value{
 A list of 0 or more character vectors.  Each character vector has the
@@ -32,7 +35,7 @@ result.
 #ifndef S-Plus
   \code{\link[base]{ls}},
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{objects}}.
 #endif
 }
@@ -40,5 +43,9 @@ result.
 objip("qq")
 objip("^qq")
 objip("qq$")
+\dontrun{
+## R only
+objip("rowSums", all.names=TRUE)
+}
 }
 \keyword{utilities}

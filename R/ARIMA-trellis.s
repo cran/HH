@@ -455,8 +455,9 @@ else {
            dps <- deparse(model[[2]], width.cutoff=100, control=NULL)}
       }
       arima.text <- paste("arima(x, order=",
-                          deparse(model[[1]][[1]],
-                                  width.cutoff=100, control=NULL),
+                          dpm,
+                          ## deparse(model[[1]][[1]],
+                          ##         width.cutoff=100, control=NULL),
                           if (!is.null(dps)) paste(", seasonal=", dps),
                           ", ...)")
       tmp <-  try(eval(parse(text=arima.text)))

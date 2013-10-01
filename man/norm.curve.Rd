@@ -83,7 +83,8 @@ norm.setup(xlim=c(-2.5,2.5),
 
 norm.curve(mean=0, se=sd/sqrt(n),
           critical.values=mean + se*c(-1, 1)*z.975,
-          z=if(se==0) 0 else do.call("seq", as.list(c((par()$usr[1:2]-mean)/se, length=109))),
+          z=if(se==0) 0 else
+               do.call("seq", as.list(c((par()$usr[1:2]-mean)/se, length=109))),
           shade, col="blue",
           axis.name=ifelse(is.null(df.t) || df.t==Inf, "z", "t"),
           second.axis.label.line=3,

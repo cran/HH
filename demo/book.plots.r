@@ -12,12 +12,13 @@
 
 
 if (FALSE) {
-trellis.device(file=hh.old("tser/figure/tsamsta4.ps"), postscript, horizontal=TRUE)
-strip.background0()
-tsdiagplot(armas=ddco2.loopPQ, diags=ddco2.diagsPQ,
-	   lag.lim=c(-2,38),
-	   lag.x.at=seq(0,36,6),
-	   lag.x.labels=c(0,"",12,"",24,"",36),
-           main="", lwd=.5)
-dev.off()
+  ## trellis.device(file=hh.old("tser/figure/tsamsta4.ps"), postscript, horizontal=TRUE)
+  trellis.device(file="tsamsta4.ps", postscript, horizontal=TRUE) ## current getwd()
+  strip.background0()
+  tsdiagplot(armas=ddco2.loopPQ, diags=ddco2.diagsPQ,
+             lag.lim=c(-2,38),
+             lag.x.at=seq(0,36,6),
+             lag.x.labels=c(0,"",12,"",24,"",36),
+             main="", lwd=.5)
+  dev.off()
 }

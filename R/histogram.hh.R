@@ -2,8 +2,8 @@ panel.histogram.hh <-
   if.R(r={
     function (x, breaks, equal.widths = TRUE, type = "density",
               nint = round(log2(length(x)) + 1), alpha = plot.polygon$alpha,
-              col = plot.polygon$col, border = plot.polygon$border, 
-              lty = plot.polygon$lty, lwd = plot.polygon$lwd, ..., identifier = "histogram") 
+              col = plot.polygon$col, border = plot.polygon$border,
+              lty = plot.polygon$lty, lwd = plot.polygon$lwd, ..., identifier = "histogram")
       {
         horizontal <- list(...)$horizontal
         horizontal <- if(is.null(horizontal)) FALSE else horizontal
@@ -11,39 +11,40 @@ panel.histogram.hh <-
         xscale <- current.panel.limits()$xlim
         yscale <- current.panel.limits()$ylim  ## new
         if (!horizontal) ## default
-        panel.lines(x = xscale[1] + diff(xscale) * c(0.05, 0.95), 
-                    y = c(0, 0), col = border, lty = lty, lwd = lwd, alpha = alpha, 
+        panel.lines(x = xscale[1] + diff(xscale) * c(0.05, 0.95),
+                    y = c(0, 0), col = border, lty = lty, lwd = lwd, alpha = alpha,
                     identifier = paste(identifier, "baseline", sep = "."))
         else ## transposed
-        panel.lines(y = yscale[1] + diff(yscale) * c(0.05, 0.95), 
-                    x = c(0, 0), col = border, lty = lty, lwd = lwd, alpha = alpha, 
+        panel.lines(y = yscale[1] + diff(yscale) * c(0.05, 0.95),
+                    x = c(0, 0), col = border, lty = lty, lwd = lwd, alpha = alpha,
                     identifier = paste(identifier, "baseline", sep = "."))
         if (length(x) > 0) {
           if (is.null(breaks)) {
-            breaks <- if (is.factor(x)) 
+            breaks <- if (is.factor(x))
               `seq_len`(1 + nlevels(x)) - 0.5
-            else if (equal.widths) 
+            else if (equal.widths)
               do.breaks(range(x, finite = TRUE), nint)
             else quantile(x, 0:nint/nint, na.rm = TRUE)
           }
-          h <- lattice:::hist.constructor(x, breaks = breaks, ...)
-          y <- if (type == "count") 
+          ## h <- lattice:::hist.constructor(x, breaks = breaks, ...)
+          h <- lattice.hist.constructor(x, breaks = breaks, ...)
+          y <- if (type == "count")
             h$counts
-          else if (type == "percent") 
+          else if (type == "percent")
             100 * h$counts/length(x)
           else h$intensities
           breaks <- h$breaks
           nb <- length(breaks)
-          if (length(y) != nb - 1) 
+          if (length(y) != nb - 1)
             warning("problem with 'hist' computations")
           if (nb > 1) {
               if (!horizontal) ## default
-                panel.rect(x = breaks[-nb], y = 0, height = y, width = diff(breaks), 
-                           col = col, alpha = alpha, border = border, lty = lty, 
+                panel.rect(x = breaks[-nb], y = 0, height = y, width = diff(breaks),
+                           col = col, alpha = alpha, border = border, lty = lty,
                            lwd = lwd, just = c("left", "bottom"), identifier = identifier)
               else ## transposed
-                panel.rect(y = breaks[-nb], x = 0, height = diff(breaks), width = y, 
-                           col = col, alpha = alpha, border = border, lty = lty, 
+                panel.rect(y = breaks[-nb], x = 0, height = diff(breaks), width = y,
+                           col = col, alpha = alpha, border = border, lty = lty,
                            lwd = lwd, just = c("left", "bottom"), identifier = identifier)
           }
         }

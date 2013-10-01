@@ -29,7 +29,8 @@ ae.dotplot(ae, ...)
 ae.dotplot.long(xr,
                 A.name = levels(xr$RAND)[1], B.name = levels(xr$RAND)[2],
                 col.AB = c("red","blue"), pch.AB = c(16, 17),
-                main.title = "Most Frequent On-Therapy Adverse Events Sorted by Relative Risk",
+                main.title = paste("Most Frequent On-Therapy Adverse Events",
+                                   "Sorted by Relative Risk"),
                 main.cex = 1,
                 cex.AB.points = NULL, cex.AB.y.scale = 0.6,
                 position.left = c(0, 0, 0.7, 1), position.right = c(0.61, 0, 0.98, 1),
@@ -78,9 +79,10 @@ aeReshapeToLong(aewide)
   the log relative risk into the relative risk scale.\\
   }
 \item{aewide}{
-  \code{Event}:   adverse event symptom name (factor).\\
-  \code{N.A, N.B}:     number of patients in treatment groups A and B.\\
-  \code{AE.A, AE.B}:    number of patients in treatment groups A and B for whom the event Event was observed.\\
+  \code{Event}: adverse event symptom name (factor).\\
+  \code{N.A, N.B}: number of patients in treatment groups A and B.\\
+  \code{AE.A, AE.B}: number of patients in treatment groups A and B for
+                     whom the event Event was observed.\\
   \code{PCT.A, PCT.B}: \code{AE.A}/\code{N.A} and  \code{AE.B}/\code{N.B} as a percent.\\
   \code{Relative.Risk}: Relative risk defined as \code{PCT.B}
    divided by \code{PCT.A}.\\

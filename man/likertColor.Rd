@@ -10,8 +10,14 @@ Selection of colors for Likert plots.
 }
 \usage{
 ColorSet(nc, ReferenceZero=NULL)
-likertColor(nc, ReferenceZero=NULL, ...)
-likertColorBrewer(nc, ReferenceZero=NULL, BrewerPaletteName="RdBu", middle.color="gray90")
+likertColor(nc, ReferenceZero=NULL,
+                colorFunction=c("diverge_hcl","sequential_hcl"),
+                colorFunctionOption=c("lighter","flatter","default"),
+                colorFunctionArgs=
+                  likertColorFunctionArgs[[colorFunctionOption, colorFunction]],
+                ...)
+likertColorBrewer(nc, ReferenceZero=NULL,
+                  BrewerPaletteName="RdBu", middle.color="gray90")
 
 brewer.pal.likert(n, name, middle.color)
 }
@@ -37,6 +43,18 @@ brewer.pal.likert(n, name, middle.color)
     the graphical split would be in the middle of the second group with
     label \code{"Neutral"}.
   }
+  \item{colorFunction}{Function name from the \pkg{colorspace} package,
+    either \code{"diverge_hcl"} or \code{"sequential_hcl"}.}
+  \item{colorFunctionOption}{Name of a list item defined inside the
+    \code{likertColor}
+  function.  The item contains a list of parameters to the function
+  identified in the \code{colorFunction} argument.}
+  \item{colorFunctionArgs}{list of arguments to the \pkg{colorspace}
+    function.
+  The default selects the values by indexing into a list defined in the
+  \code{likertColor} function using the values of the two arguments
+  \code{colorFunction} and  \code{colorFunctionOption}}.  For
+  non-default usage, see the BlueOrange example in this help page.
   \item{\dots}{Other arguments are ignored.}
   \item{BrewerPaletteName, name}{\code{\link[RColorBrewer]{RColorBrewer}}
     palette names. We default to the diverging palette \code{RdBu}.
@@ -59,18 +77,28 @@ brewer.pal.likert(n, name, middle.color)
   Weakly", "Agree Strongly")}, corresponding to \code{nc=4,
   ReferenceZero=2}, it returns \code{-1 0  1  2}.
 
+  \code{likertColor} returns a subset of a palette constructed by
+  either \code{\link[colorspace]{diverge_hcl}} or
+  \code{\link[colorspace]{sequential_hcl}} in the
+  \pkg{colorspace} package.
+  The subset corresponds to the levels specified by \code{ColorSet}.
+
   \code{brewer.pal.likert} returns a
   \code{\link[RColorBrewer]{RColorBrewer}} palette.
 
-  \code{likertColor} returns a subset of a palette constructed by
+  \code{likertColorBrewer} returns a subset of a palette constructed by
   \code{brewer.pal.likert}.
   The subset corresponds to the levels specified by \code{ColorSet}.
 }
 \details{
 These are support functions for the \code{plot.likert} function.
 Please see \code{\link{plot.likert}} for details.
-\code{likertColor} uses the \code{\link[colorspace]{diverge_hcl}} default
-  diverging palette.  \code{likertColorBrewer} by default uses the \code{"RdBu"}
+
+\code{likertColor} uses by default the \code{\link[colorspace]{diverge_hcl}}
+diverging palette defined by the argument
+\code{colorFunctionOption="lighter"}.
+
+\code{likertColorBrewer} by default uses the \code{"RdBu"}
   diverging palette from \code{\link[RColorBrewer]{RColorBrewer}}.
 }
 \seealso{\code{\link{plot.likert}}}
@@ -83,8 +111,57 @@ likertColor(4)
 likertColor(4, 2.5) ## same as above
 likertColor(4, 2)   ## one negative level and two positive levels: default
 likertColor(5, 3)[-2] ## one negative level and two positive levels: stronger negative
+
+\dontrun{
+  ## Examples illustrating the six predefined likertColor palettes, and how
+  ## to define additional hcl color palettes for use with the likert functions.
+
+  data(ProfDiv)
+  ProfDiv.df <- data.frame(ProfDiv)
+
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE)
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE,
+         colorFunctionOption="default")
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE,
+         colorFunctionOption="flatter")
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE,
+         colorFunction="sequential_hcl")
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE,
+         colorFunction="sequential_hcl", colorFunctionOption="default")
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE,
+         colorFunction="sequential_hcl", colorFunctionOption="flatter")
+
+  likert(ProfDiv, horizontal=FALSE, positive.order=FALSE)
+  likert(ProfDiv, horizontal=FALSE, positive.order=FALSE,
+         colorFunctionOption="default")
+  likert(ProfDiv, horizontal=FALSE, positive.order=FALSE,
+         colorFunctionOption="flatter")
+  likert(ProfDiv, horizontal=FALSE, positive.order=FALSE,
+         colorFunction="sequential_hcl")
+  likert(ProfDiv, horizontal=FALSE, positive.order=FALSE,
+         colorFunction="sequential_hcl", colorFunctionOption="default")
+  likert(ProfDiv, horizontal=FALSE, positive.order=FALSE,
+         colorFunction="sequential_hcl", colorFunctionOption="flatter")
+
+  likertMosaic(ProfDiv.df)
+  likertMosaic(ProfDiv.df, colorFunctionOption="default")
+  likertMosaic(ProfDiv.df, colorFunctionOption="flatter")
+  likertMosaic(ProfDiv.df, colorFunction="sequential_hcl")
+  likertMosaic(ProfDiv.df, colorFunction="sequential_hcl",
+               colorFunctionOption="default")
+  likertMosaic(ProfDiv.df, colorFunction="sequential_hcl",
+               colorFunctionOption="flatter")
+
+  ## specify an hcl palette for use with the likert functions.
+  BlueOrange <- likertColor(nc=4, ReferenceZero=NULL,
+                            colorFunction="diverge_hcl",
+                            colorFunctionArgs=
+                              list(h=c(246, 40), c=96, l=c(65,90), power=1.5))
+  likert( ~ . , ProfDiv.df, horizontal=FALSE, positive.order=FALSE, col=BlueOrange)
 }
-\author{Richard M. Heiberger, with contributions from Naomi B. Robbins <naomi@nbr-graphs.com>.
+}
+\author{Richard M. Heiberger,
+        with contributions from Naomi B. Robbins <naomi@nbr-graphs.com>.
 
   Maintainer: Richard M. Heiberger <rmh@temple.edu>
 }

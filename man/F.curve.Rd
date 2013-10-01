@@ -20,7 +20,8 @@ F.setup(df1=1,
         ncp=0,
         log.p=FALSE,
         xlim.in=c(0, 5),
-        ylim.in=range(c(0, 1.1*df.intermediate(x=seq(.5,1.5,.01), df1=df1, df2=df2, ncp=ncp, log=log.p))),
+        ylim.in=range(c(0, 1.1*df.intermediate(x=seq(.5,1.5,.01),
+                       df1=df1, df2=df2, ncp=ncp, log=log.p))),
         main.in=main.calc,
         ...)
 
@@ -49,7 +50,8 @@ chisq.setup(df=1,
            ncp=0,
            log.p=FALSE,
            xlim.in=c(0, qchisq.intermediate(p=1-.01, df=df, ncp=ncp, log.p=log.p)),
-           ylim.in=range(c(0, 1.1*dchisq.intermediate(x=seq(max(0.5,df-2),df+2,.01), df=df, ncp=ncp, log=log.p))),
+           ylim.in=range(c(0, 1.1*dchisq.intermediate(x=seq(max(0.5,df-2),df+2,.01),
+                         df=df, ncp=ncp, log=log.p))),
            main.in=main.calc,
            ...)
 

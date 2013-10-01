@@ -130,6 +130,7 @@ likert(SFF8121, layout=c(2,1), between=list(x=1),
        scales=list(x=list(alternating=FALSE)),
        strip.left=FALSE,
        xlab="Percent",
+       ylab="",
        main="Student Feedback Forms, Spring 2010")
 
 
@@ -184,7 +185,7 @@ likert(ProfDiv, horizontal=FALSE, positive.order=FALSE,
        auto.key=list(reverse=TRUE, columns=1, space="right",
          size=4, padding.text=1.5),
        ylab="Year", xlab="Per Cent",
-       main=paste("Profit-and-Dividend Status of 348 Corportations",
+       main=paste("Profit-and-Dividend Status of 348 Corporations",
          "in the United States\nfor the period from 1929 to 1935."),
        sub="Dun's Review, April 1938",
        par.settings=list(layout.widths=list(right.padding=2.5)))
@@ -197,7 +198,7 @@ PCWPpalette <- c("#A8C2C0", "#C9E9E6", "#D0E39A", "#A3B37B")
 data(PoorChildren)
 
 ## Figure 12
-PoorChildren.list <- split(PoorChildren,
+PoorChildren.list <- split(PoorChildren[,1:4],
                            factor(rownames(PoorChildren), levels=rownames(PoorChildren)))
 PL3 <-
   likert(PoorChildren.list,
@@ -209,14 +210,14 @@ PL3 <-
          main="Poor Children, Working Parents",
          strip=FALSE,
          strip.left=FALSE,
-         rightAxisLabels=format(rowSums(PoorChildren), big.mark=","),
+         rightAxisLabels=format(rowSums(PoorChildren[,1:4]), big.mark=","),
          resize.height="rowSums",
          par.settings=list(axis.line=list(col="transparent")))
 PL3
 
 
 ## Figure 13
-tmp4 <- colSums(PoorChildren)[c(2,1,3,4)]
+tmp4 <- colSums(PoorChildren[,c(2,1,3,4)])
 ByWP <- rbind(NWP=tmp4, '1+WP'=tmp4)
 ByWP[cbind(c(2,2,1,1), 1:4)] <- 0
 GroupSums <- rowSums(ByWP)
@@ -260,7 +261,7 @@ likert(AudiencePercent,
        xlab=paste("Percentage of audience younger than 35",
          "(left of zero) and older than 35 (right of zero)"),
        main="Brand A has the most even distribution of ages",
-       col=sequential_hcl(11)[5:2],
+       col=likertColor(nc=5, colorFunction="sequential_hcl")[2:5],
        scales=list(x=list(at=seq(-90,60,10),
                      labels=as.vector(rbind("",seq(-80,60,20))))),
       sub="This plot looks better in a 7in x 3.5in window.")
@@ -278,7 +279,7 @@ tmp$Percent <- as.vector(ProfChal.list[[2]] / rowSums(ProfChal.list[[2]]))
 ## Figure 15a
 ## PctAEv.pdf ## 16in x 6in
 barchart(Percent ~ Agreement | Employment, data=tmp,
-         col=rev(diverge_hcl(5)),
+         col=likertColor(5),
          horizontal=FALSE, layout=c(5,1), between=list(x=1), box.ratio=10,
          origin=0,
          par.strip.text=list(cex=.7, lines=2.5),
@@ -288,7 +289,7 @@ barchart(Percent ~ Agreement | Employment, data=tmp,
 ## Figure 15b
 ## PctAEh.pdf ## 16in x 3in
 barchart(Agreement ~ Percent | Employment, data=tmp,
-         col=rev(diverge_hcl(5)),
+         col=likertColor(5),
          horizontal=TRUE, layout=c(5,1), between=list(x=1), box.ratio=10,
          origin=0,
          par.strip.text=list(cex=.7, lines=2.5),
@@ -302,7 +303,7 @@ barchart(Agreement ~ Percent | Employment, data=tmp,
 ## PC2CpctpoHM.pdf
 likert(ProfChal.list[[2]], as.percent=TRUE, ## 8in x 3in  ## PC2CpctpoHM.pdf
        main="Is your job professionally challenging?",
-       ReferenceZero=0, col=rev(diverge_hcl(5)), box.ratio=20)
+       ReferenceZero=0, col=likertColor(5), box.ratio=20)
 
 
 ## Figure 17

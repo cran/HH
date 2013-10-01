@@ -35,7 +35,8 @@ axis.RightAdjustRight(side = c("top", "bottom", "left", "right"),
                       labels = c("default", "yes", "no"),
                       ticks = c("default", "yes", "no"),
                       ...,
-                      prefix = lattice:::lattice.getStatus("current.prefix"))
+                      %% prefix = lattice:::lattice.getStatus("current.prefix"))
+                      prefix = lattice.lattice.getStatus("current.prefix"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
