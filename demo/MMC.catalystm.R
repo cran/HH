@@ -69,61 +69,6 @@ par(old.mar)
 
 
 ## illustrate the construction of the isomeans grid and the contrasts
-## source(hh.old("demo/MMC.mmc.explain.R"))  ## mmc.jcs.explain() and tpg.col()
-source(system.file("demo", "MMC.mmc.explain.R", package = "HH"))
-
-group <- levels(catalystm$catalyst)
-n <- c(4,4,4,4)
-ybar <- tapply(catalystm$concent, catalystm$catalyst, mean)
-ms.5 <- if.R(s=summary(catalystm1.aov)$"Mean Sq"[2]^.5,
-             r=summary(catalystm1.aov)[[1]]$"Mean Sq"[2]^.5)
-crit.point <- catalystm.mmc$mca$crit.point
-
-
-## With these four calls to mmc.jcgs.explain,
-## each of the stopping points is colored differently.
-
-## trellis.device.hh.bw()  ## recommendation, S-Plus only
-if.R(s={old.oma <- par(oma=c(-1,-3,-4,-8))
-        par.settings <- NULL},
-     r=par.settings <-
-       list(layout.widths=list(left.padding=15, axis.key.padding=0),
-            layout.heights=list(bottom.padding = 0))
-)
-
-## MMC Figure 2a, isomeans grid
-mmc.jcgs.explain(group, n, ybar, ms.5, crit.point,
-                 ylabel="concent", method="tukey",
-                 xlim=c(46,62), cex.lab=1.5, cex.tick=1.3,
-                 exit=1, col.in=c('black','black','black'),
-                 par.settings=par.settings)
-
-## move m-axis and project group means (A illustrated) to m-axis.
-mmc.jcgs.explain(group, n, ybar, ms.5, crit.point,
-                 ylabel="concent", method="tukey",
-                 xlim=c(46,62), cex.lab=1.5, cex.tick=1.3,
-                 exit=4, col.in=c('darkgray','black','black'),
-                 par.settings=par.settings)
-
-## MMC Figure 2b
-##     move m-axis and d-axis.
-##     project group means (A illustrated) to m-axis.
-##     project differences (A-D illustrated) to d-axis.
-mmc.jcgs.explain(group, n, ybar, ms.5, crit.point,
-                 ylabel="concent", method="tukey",
-                 xlim=c(46,62), cex.lab=1.6, cex.tick=1.3,
-                 exit=2, col.in=c('darkgray','black','black'),
-                 par.settings=par.settings)
-
-## confidence interval for A-B difference
-mmc.jcgs.explain(group, n, ybar, ms.5, crit.point,
-                 ylabel="concent", method="tukey",
-                 xlim=c(46,62), cex.lab=1.5, cex.tick=1.3,
-                 exit=3, col.in=c('darkgray','darkgray','black'),
-                 par.settings=par.settings)
-
-par(col='black') ## restore
-tpg.col('black') ## restore
-
-if.R(s=par(old.oma),
-     r={})
+##
+## This illustration is no longer in the demo.
+## It is now in the file "HH/scripts/Ch07-mccomp.r".

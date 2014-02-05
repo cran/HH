@@ -1,0 +1,78 @@
+Version 3.0-3
+-------------
+
+* 2014 February 5
+
+* correct typo in plot.likert.formula
+
+* document formula restriction in man/likert.Rd
+
+* document placing x-axis labels on the top axis for horizontal likert plots
+
+* make changes to allow y-axis labels on the right axis for vertical
+  likert plots and document it.
+
+* restore old par.settings at the completion of
+  panel.bwplot.intermediate.hh, remove S-Plus features.
+
+* new argument width.cutoff in print.mmc.multicomp
+
+* AElogrelrisk previously depended on the dataset being sorted
+  order(PREF, RAND), but it wasn't documented.  logrelrisk had the
+  same dependence and it was documented, but not enforced by the
+  function.  Now both AElogrelrisk and logrelrisk do the ordering.
+  The user no longer needs to worry about sort order.
+
+* revised three demo files for better appearance of the plots.
+
+* new function panel.bwplot.superpose
+
+Version 3.0-2
+-------------
+
+* 2014 January 6
+
+* add position() to factors in cc176 dataset
+
+* remove data files in text form and in S-Plus form
+
+* fix typos in plot.multicomp.Rd mmc.Rd
+
+Still needed
+-------------
+
+* Still needed: stop requiring dimnames in as.MatrixList.array (?).
+
+* MMC rewritten in lattice: mmcplot, mmcmatch, mmcboth.
+  Currently in separate mmcplot package
+
+* HH2writing: hhpdf, hhdev.off, hhcapture need to be moved to HH as no-ops.
+  Stangle.HH not needed in HH.
+  Currently in separate HH2writing package
+
+* new panel.bwplot.intermediate
+
+* verify all scripts from First Edition
+
+
+Version 3.0-1
+-------------
+
+* 2014 January 6
+
+* direct copy of the unreleased HH_2.3-43
+
+* The HH package is now at version 3.x-y to support the Second Edition
+  of the HH book, Statistical Analysis and Data Display.  All examples
+  from the CRAN HH_2.3-42, and scripts supporting the First Edition, continue
+  to work.  New features are added.  The package is now supported only for R.
+  Not all S-Plus specific contructions have been removed.
+
+* ladder: no longer uses panel.cartesian.R and grid.axis.hh.R
+
+* likert.formula: changes in rightAxis to rowSums are now correct in each panel.
+
+* Fix up lots of .Rd files where the lines were too long, but not
+  detected by R CMD check.
+
+* Switch IMPORTS from reshape package to reshape2 package.

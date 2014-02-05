@@ -18,7 +18,8 @@ orthog.construct(y, x, x.rows, normalize=FALSE)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{For \code{orthog.complete}, an n-row matrix of one or more
-    columns.  For \code{orthog.construct}, a set of contrasts for a factor.}
+    columns.\cr
+    For \code{orthog.construct}, a set of contrasts for a factor.}
   \item{y}{matrix of coefficients specifying the linear combinations
     estimated.  This will usually be the \code{lmat} from an S-Plus
     \code{"multicomp"} object or the \code{linfct} component from an
@@ -29,8 +30,8 @@ orthog.construct(y, x, x.rows, normalize=FALSE)
     in \code{abs2.rows} or \code{x.rows} to 1.  The optional value
     \code{normalize="abs2"} scales the rows
     in \code{abs2.rows} or \code{x.rows} to make the sum of all
-    positive value equal 1 and the sum of all negative values equal -1.
-    Together, the sum of the absolute values ofthe specified rows in
+    positive value equal 1 and the sum of all negative values equal \eqn{-1}.
+    Together, the sum of the absolute values of the specified rows in
     each column is 2.
   }
   \item{Int}{logical.  Default \code{TRUE} means make all columns
@@ -65,7 +66,7 @@ orthog.construct(y, x, x.rows, normalize=FALSE)
 
   By default the columns are scaled to have sum of squares equal 1.  If
   \code{normalize="abs2"}, they are scaled to make the sum of all
-  positive value equal 1 and the sum of all negative values equal -1.
+  positive value equal 1 and the sum of all negative values equal \eqn{-1}.
   Together, the sum of the absolute values of each column is 2.
 
   If the input is a set of columns from a contrast matrix for a design

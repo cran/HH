@@ -40,10 +40,16 @@ axis.RightAdjustRight(side = c("top", "bottom", "left", "right"),
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{side,at,labels,draw.labels,check.overlap,outside,ticks,
-    half,which.half,tck,rot,text.col,text.alpha,text.cex,text.font,
-    text.fontfamily,text.fontface,text.lineheight,line.col,
-    line.lty,line.lwd,line.alpha}{
+  \item{side, at, labels, draw.labels, check.overlap, outside, ticks,
+    half, which.half}{
+    See \code{\link[lattice]{panel.axis}} and
+    \code{\link[lattice]{axis.default}}
+    }
+  \item{tck, rot, text.col, text.alpha, text.cex, text.font, text.fontfamily}{
+    See \code{\link[lattice]{panel.axis}} and
+    \code{\link[lattice]{axis.default}}
+    }
+  \item{text.fontface, text.lineheight, line.col, line.lty, line.lwd, line.alpha}{
     See \code{\link[lattice]{panel.axis}} and
     \code{\link[lattice]{axis.default}}
     }

@@ -89,7 +89,7 @@ print(position=c(0, .76, .10, .86), more=TRUE,
 )
 
 ## main title
-print(position=c(0, .95, 1, 1), more=FALSE,
+print(position=c(0, .90, 1, 1), more=FALSE,
       xyplot(0 ~ 0, panel=function(...){},
              xlab=NULL, ylab=NULL,
              scales=list(draw=FALSE),

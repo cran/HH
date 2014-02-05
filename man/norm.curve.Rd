@@ -134,20 +134,7 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
   \item{critical.values}{Critical values in xbar-scale.
     A scalar value implies a one-sided test.  A vector of two values
     implies a two-sided test.}
-  \item{main}{Main title.  Default value is:
-    \code{
-      if (is.null(df.t))  ## normal
-        ifelse(!(missing(se) && missing(sd) && missing(n)),
-               paste("normal density:  se =", round(se,3)),
-               "Standard Normal Density N(0,1)")
-      else { ## t distribution
-        if (length(df.t) != 1) stop("df.t must have length 1")
-        ifelse(!(missing(se) && missing(sd) && missing(n)),
-               paste("t density:  se = ", round(se,3), ", df = ", df.t, sep=""),
-               paste("t density, df =", df.t))
-	     }
-	   }
-	 }
+  \item{main}{Main title.}
   \item{z}{z-values (standardized to N(0,1)) used as base of plot.}
   \item{shade}{
     Valid values for shade are "right", "left", "inside", "outside", "none".
@@ -213,14 +200,14 @@ norm.outline(dfunction, left, right, mu.H0, se, deg.free=NULL,
   on a black and white printer.}
 }
 
-\value{\item{beta.left, beta.middle, beta.right, crit.val, crit.val.H1,
-    crit.val.H1.left, crit.val.left, crit.val.left.z, crit.val.z,
-    obs.mean.H0.p.val, obs.mean.H0.side, obs.mean.H0.z, obs.mean.H1.z,
-    obs.mean.x.neg, obs.mean.x.pos, obs.mean.z.pos, standard,
-    standard.error, standard.normal}{An invisible list containing the
+\value{An invisible list containing the
     calculated values of probabilities and critical values in the data
     scale, the null hypothesis z- or t-scale, and the alternative
-    hypothesis z- or t-scale, as specified.  }
+    hypothesis z- or t-scale, as specified.  The components are:
+    \code{beta.left, beta.middle, beta.right, crit.val, crit.val.H1,}\cr
+    \code{crit.val.H1.left, crit.val.left, crit.val.left.z, crit.val.z, obs.mean.H0.p.val,}\cr
+    \code{obs.mean.H0.side, obs.mean.H0.z, obs.mean.H1.z, obs.mean.x.neg, obs.mean.x.pos,}\cr
+    \code{obs.mean.z.pos, standard, standard.error, standard.normal}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{

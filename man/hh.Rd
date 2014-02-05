@@ -13,7 +13,8 @@
   the \code{options()$HH.ROOT.DIR} directory.
   The pathnames for all the executable files in the online
   files accompanying Heiberger and Holland (2004) are given relative to
-  the \code{options()$HHfile.ROOT.DIR} directory.
+  the\cr
+  \code{options()$HHfile.ROOT.DIR} directory.
 }
 \usage{
 hh(file)     ## gives message about change in usage beginning with HH_2.3-17
@@ -26,7 +27,8 @@ hh.file.DOS(file, displayForCutAndPaste=TRUE)
   \item{file}{Character string giving the pathname of a file.
 
     For \code{hh}, the file is in the HH package and the pathname is
-relative to \code{options()$HH.ROOT.DIR}, the installed
+    relative to\cr
+    \code{options()$HH.ROOT.DIR}, the installed
 location of the HH package.  The option is set automatically when the HH package is loaded by
 \code{library} or \code{require}.  This function is normally used to
 access
@@ -80,8 +82,8 @@ is to display the pathname of the file so it can be opened for use in an editor.
 The online files must be independently downloaded from the book's web site
 \url{http://springeronline.com/0-387-40270-5}.
 The \code{HHfile.ROOT.DIR} option must be set by the user to correspond
-to the location where the files are stored.  The book recommends
-\code{options(HHfile.ROOT.DIR="c:/HOME/hh")} in Windows or
+to the location where the files are stored.  The book recommends\cr
+\code{options(HHfile.ROOT.DIR="c:/HOME/hh")} in Windows or\cr
 \code{options(HHfile.ROOT.DIR="/usr/users/hh")} in Unix.
 See Appendix B of Heiberger and Holland (2004) for further details.
 The \code{options(HHfile.ROOT.DIR="something"} statement
@@ -100,7 +102,7 @@ software or examples.  The \code{hh}, \code{hh.file}, and
   \samp{"\\\\"} separator convention.  When \code{displayForCutAndPaste}
   is \code{TRUE}, \code{hh.file.DOS} prints the full pathname with
 the \samp{"\\"} convention, so it can be picked up and pasted into an editor that
-uses the MS DOS convention for file paths. 
+uses the MS DOS convention for file paths.
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course

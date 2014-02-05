@@ -24,29 +24,29 @@ likertMosaic(x, ...)
                    ..., between.y = c(1.2, 0.3))
 
 \method{likertMosaic}{array}(x, ReferenceZero = NULL, col = NULL, main = NULL,
-                   ...,
-                   as.percent = FALSE, variable.width = NULL, positive.order = FALSE,
-                   Conditions = NULL,
-                   x.legend = list(text = list(dimnames(x)[[ndim]]),
-                                   columns = x.dim[ndim],
-                                   space = "bottom",
-                                   size = 2,
-                                   cex = 0.8,
-                                   between = 0.6,
-                                   rect= list(col = col, border = "white")),
-                   legend.y = 0.05,
-                   spacing = spacing_highlighting,
-                   split_vertical = c(TRUE, FALSE),
-                   margins = c(3, 2, 4, 22),
-                   keep_aspect = FALSE,
-                   rot_labels = c(0, 0, 90, 0),
-                   just_labels = c("center", "center", "center", "right"),
-                   labels = c(TRUE, TRUE, FALSE, TRUE),
-                   varnames = FALSE,
-                   zero_size = 0,
-                   gp = gpar(fill = col.extended, col = 0),
-                   colorFunction="diverge_hcl",
-                   colorFunctionOption="lighter")
+             ...,
+             as.percent = FALSE, variable.width = NULL, positive.order = FALSE,
+             Conditions = NULL,
+             x.legend = list(text = list(dimnames(x)[[ndim]]),
+                             columns = x.dim[ndim],
+                             space = "bottom",
+                             size = 2,
+                             cex = 0.8,
+                             between = 0.6,
+                             rect= list(col = col, border = "white")),
+             legend.y = 0.05,
+             spacing = spacing_highlighting,
+             split_vertical = c(TRUE, FALSE),
+             margins = c(3, 2, 4, 22),
+             keep_aspect = FALSE,
+             rot_labels = c(0, 0, 90, 0),
+             just_labels = c("center", "center", "center", "right"),
+             labels = c(TRUE, TRUE, FALSE, TRUE),
+             varnames = FALSE,
+             zero_size = 0,
+             gp = gpar(fill = col.extended, col = 0),
+             colorFunction="diverge_hcl",
+             colorFunctionOption="lighter")
 
 \method{likertMosaic}{data.frame}(x, ...)
 
@@ -73,7 +73,8 @@ likertMosaic(x, ...)
   }
   \item{data}{For the formula method, a \code{data.frame}.}
   \item{ReferenceZero}{Numeric scalar or \code{NULL}.  The position in
-    the range \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
+    the range\cr
+    \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
     reference line at 0 will be placed.  \code{attr(x, "nlevels")} is the
     number of columns of the original argument \code{x}, \emph{before} it
     has been coerced to a \code{"likert"} object.  The default
@@ -81,7 +82,7 @@ likertMosaic(x, ...)
     number of levels, and to half-way between the two middle levels if
     there are an even number of levels.  This argument is used when the
     number of positive levels and the number of negative levels are not
-    the same.  For example, with 4 levels
+    the same.  For example, with 4 levels\cr
     \code{c("Disagee", "Neutral", "Weak Agree", "Strong Agree")}, the
     argument would be specified \code{ReferenceZero=2} indicating that
     the graphical split would be in the middle of the second group with
@@ -121,7 +122,7 @@ conditions are the factors appearing after the \code{|} symbol.
 }
   \item{between.y}{
 vertical spacing between bars.  \code{between.y[1]} is used between levels
-  of conditioninf factors, and \code{between.y[2]} is used between bars within the
+  of conditioning factors, and \code{between.y[2]} is used between bars within the
   same level of the conditioning factor.
 }
   \item{x.legend}{
@@ -129,10 +130,13 @@ vertical spacing between bars.  \code{between.y[1]} is used between levels
  \code{lattice} package.
 }
   \item{legend.y}{
-%%     ~~Describe \code{legend.y} here~~
+Adjust vertical location of legend.
 }
   \item{spacing, split_vertical, margins, keep_aspect, rot_labels,
-    just_labels, labels, varnames, zero_size, gp}{
+    just_labels, labels}{
+    Please see \code{\link[vcd]{strucplot}} for details.
+  }
+  \item{varnames, zero_size, gp}{
     Please see \code{\link[vcd]{strucplot}} for details.
   }
 }
@@ -221,8 +225,8 @@ The functions described here are currently missing the following features:
 \item All bars are horizontal.
 \item No borders on the overall plot nor on the panels in plots with
       grouping by Conditions
-\item No control of code{between=list(x=number)}
-\item cex for labeling
+\item No control of \code{between=list(x=number)}
+\item \code{cex} for labeling
 \item border on empty boxes
 \item I am using a lattice legend, not a native strucplot legend
 }

@@ -65,8 +65,8 @@ strip.interaction2wt(which.given, which.panel, var.name,
   \item{factor.position}{\code{"position"} attribute of factor.}
   \item{simple}{logical.  If \code{TRUE}, then simple effects are to be displayed.}
   \item{simple.offset, simple.scale}{named list of offset and scale for the
-    response and trace factors.  See
-    \code{\link{interaction.positioned}} for their use.}
+    response and trace factors.\cr
+    See \code{\link{interaction.positioned}} for their use.}
   \item{simple.pch}{Named list containing plotting characters for each
     level of one or more of the factors.  It is used only when
     \code{simple==TRUE}.  If the list contains plotting characters for
@@ -95,7 +95,7 @@ effects are colored to match the x levels in their column.}
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-% \note{ ~~further notes~~ 
+% \note{ ~~further notes~~
 %  ~Make other sections like Warning with \section{Warning }{....} ~
 % }
 \seealso{\code{\link{interaction2wt}},

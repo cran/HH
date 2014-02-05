@@ -369,9 +369,21 @@ AElogrelrisk <- function(ae,
                          B.name=levels(ae$RAND)[2],
                          crit.value=1.96,
                          sortbyRelativeRisk=TRUE, ...) {
+
   if (any(ae$SN <= 0))
     stop("At least one AE has 0 patients at risk.", call.=FALSE)
   ae$PCT <- 100 * ae$SAE / ae$SN ## percent of patients
+
+  ## Calculation of relative risk assumes both A and B PREF are in the
+  ## same order.  Assignment of relative risk to the data.frame assumes
+  ## that A and B for each PREF are in consecutive positions.
+  ## This ordering enforces that assumption.
+  ae <- ae[with(ae, order(PREF, RAND)),]
+  AA <- ae$PREF[ae$RAND==A.name]
+  BB <- ae$PREF[ae$RAND==B.name]
+  if (length(AA) != length(BB) || !all(AA == BB))
+    stop("Data problem: at least one AE is missing an A treatment or a B treatment.", call.=FALSE)
+
   tmp <-  ## sample relative risk
     ae$PCT[ae$RAND==B.name] /
       ae$PCT[ae$RAND==A.name]

@@ -167,6 +167,8 @@ panel.acf,
 panel.ancova,
 panel.barchart2,
 panel.bwplot.intermediate.hh,
+panel.bwplot.superpose,
+panel.bwplot.groups,
 panel.cartesian,
 panel.dotplot.tb,
 panel.hov,
@@ -346,7 +348,7 @@ S3method(xysplom, formula)
 ##   latticeExtra
 ## )
 
-importFrom(reshape, melt, melt.data.frame, cast)
+importFrom(reshape2, melt, acast, dcast)
 
 importFrom(leaps, regsubsets)
 

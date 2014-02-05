@@ -42,7 +42,8 @@ regr1.plot(x, y,
     line (for example, \code{c(3,5)}) can be entered to illustrate
     the sense in which they are not "least squares".}
   \item{alt.function}{Any function of a single argument can be placed
-    here.  For example, \code{alt.function=function(x) {3 + 2*x + 3*x^2}}.
+    here.\cr
+    For example, \code{alt.function=function(x) {3 + 2*x + 3*x^2}}.\cr
     All coefficients must be specified.}
   \item{main, xlab, ylab}{arguments to \code{plot}.}
   \item{jitter.x}{logical.  If \code{TRUE}, the x is jittered before
@@ -62,7 +63,7 @@ regr1.plot(x, y,
   \item{pch}{Plotting character for the observed points.}
   \item{pch.yhat}{Plotting character for the fitted points.}
   \item{cex.yhat}{\code{cex} for the fitted points.}
-  \item{err}{Thedefault \code{-1} suppresses warnings about out of bound
+  \item{err}{The default \code{-1} suppresses warnings about out of bound
   points.}
 }
 \references{ Heiberger, Richard~M. and Holland, Burt (2004b).

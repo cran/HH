@@ -1,5 +1,7 @@
 ## This file follows MMC.WoodEnergy-aov.R
-
+if (!exists("energy.aov.4"))
+  stop('Please run demo("MMC.WoodEnergy-aov", package="HH") before running this demo.',
+       call.=FALSE)
 
 ## multicomp main effect for Stove
 if.R(r={

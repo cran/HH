@@ -1,16 +1,13 @@
 plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="",
 
                                 scales.in=NULL,   ## use scales=
-                                between.in=NULL,  ## use between=
+                                between=list(x=1 + (horizontal), y=.5 + 2*(!horizontal)),
                                 auto.key.in=NULL, ## use auto.key=
                                 panel.in=NULL,    ## use panel=
                                 horizontal=TRUE,
                                 par.settings.in=NULL, ## use par.settings=
                                 ...,
-
                                 as.percent = FALSE,
-                                transposeAxisLabels=TRUE, ## meaningful only when (!horizontal)
-
                                 ## titles
                                 ylab= if (horizontal) {
                                   if (length(x)==3)
@@ -36,6 +33,7 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="
                                 rightAxisLabels = rowSums(data.list$Nums),
                                 rightAxis = !missing(rightAxisLabels),
                                 ylab.right = if (rightAxis) "Row Count Totals" else NULL,
+                                xlab.top = NULL,
 
                                 ## scales
                                 xscale.components = xscale.components.top.HH,
@@ -102,16 +100,21 @@ if (!missing(value)) {
 
   par.settings <- par.settings.in
   if (rightAxis)  {
+    par.settings$clip$panel <- "off"
     if (horizontal) {
       par.settings$layout.widths$ylab.right <-
         max(6, par.settings$layout.widths$ylab.right, na.rm=TRUE)
+      par.settings$layout.widths$axis.key.padding <-
+        max(2, par.settings$layout.widths$axis.key.padding, na.rm=TRUE)
     }
     else { ## vertical
-      par.settings$layout.heights$xlab.top <- max(8, par.settings$layout.heights$xlab.top, na.rm=TRUE)
-      par.settings$layout.heights$main.key.padding <- 0
-      ## key.axis.padding=1
-      ## axis.top=1
-    }
+      ##par.settings$layout.heights$xlab.top <-
+      ##  max(8, par.settings$layout.heights$xlab.top, na.rm=TRUE)
+     par.settings$layout.heights$main.key.padding <- max(2, par.settings$layout.heights$main.key.padding, na.rm=TRUE)
+     par.settings$layout.heights$key.axis.padding <- max(1.5, par.settings$layout.heights$key.axis.padding, na.rm=TRUE)
+ ##    par.settings$layout.heights$axis.top <-
+ ##      max(2, par.settings$layout.heights$axis.top, na.rm=TRUE)
+     }
   }
 
   Nums.attr <- attributes(Nums.lik)
@@ -197,8 +200,8 @@ if (!missing(value)) {
   }
 
 
-  between <- list(x=1, y=.5)
-  if (!missing(between.in)) between[names(between.in)] <- between.in
+  ## between <- list(x=1, y=.5)
+  ## if (!missing(between.in)) between[names(between.in)] <- between.in
 
   if (horizontal)
     FormulaString <- with(varNamesUsed,
@@ -274,7 +277,8 @@ if (!missing(value)) {
 
     if (!positive.order && reverse && !data.order)
       data2[[varNamesUsed$QuestionName]] <-               ## 0 1 0
-        factor(data2[[varNamesUsed$QuestionName]], levels=rev(levels(data2[[varNamesUsed$QuestionName]])))
+        factor(data2[[varNamesUsed$QuestionName]],
+               levels=rev(levels(data2[[varNamesUsed$QuestionName]])))
 
     ## if (!positive.order && !reverse && !data.order)    ## default
     ##   ## data2 <- data2                                ## 0 0 0
@@ -295,27 +299,60 @@ if (!missing(value)) {
 
   ## data2.melt <- melt(data2[,-1],
   ##                    id.vars=unlist(varNamesUsed[1:2]))
-  data2.melt <- reshape::melt((data2[match(unique(names(data2)), names(data2))])[,-1],
-                     id.vars=unique(unlist(varNamesUsed[1:2])),
-                     variable_name=".variable")
-  names(data2.melt)[ncol(data2.melt)] <- ".value"
+  #### data2.melt <- reshape2::melt((data2[match(unique(names(data2)), names(data2))])[,-1],
+  ####                    id.vars=unique(unlist(varNamesUsed[1:2])),
+  ####                    variable_name=".variable")
+  if (rightAxis)
+    data2.melt <- reshape2::melt((data2[match(unique(names(data2)), names(data2))]),
+                                id.vars=c(unique(unlist(varNamesUsed[1:2])), "rightAxisLabels"),
+                                variable_name=".variable")
+  else
+    data2.melt <- reshape2::melt((data2[match(unique(names(data2)), names(data2))])[,-1],
+                                id.vars=unique(unlist(varNamesUsed[1:2])),
+                                variable_name=".variable")
+  names(data2.melt)[ncol(data2.melt)] <- ".value"  ## avoid name conflict with "value"
 
-  panel <- function(...) {
+  panel <- function(x, y, subscripts, ..., horizontal=horizontal,
+                    rightAxis=rightAxis, rightAxisLabels=rightAxisLabels) {
     if (horizontal)
       panel.abline(v=0, col=reference.line.col)
     else
       panel.abline(h=0, col=reference.line.col)
-    panel.barchart(...)
+    panel.barchart(x, y, subscripts=subscripts, ..., horizontal=horizontal)
+
+    if (rightAxis) {
+      if (horizontal) {
+        at.which <- match(levels(y), y)
+        labels <- (rightAxisLabels[subscripts])[at.which]
+        panel.axis("right",
+                   at=seq(along=levels(y)), labels=labels,
+                   outside=TRUE, half=FALSE)
+      } else {
+        at.which <- match(levels(x), x)
+        labels <- (rightAxisLabels[subscripts])[at.which]
+        panel.axis("top",
+                   at=seq(along=levels(x)), labels=paste(labels, "\n", sep=""),
+                   outside=TRUE, half=FALSE, rot=0)
+      }
+    }
+
   }
   if (!is.null(panel.in)) panel <- panel.in
 
 
+  ## if (!horizontal) {
+  ##   tmp <- xlab.top
+  ##   xlab.top <- ylab.right
+  ##   ylab.right <- tmp
+  ## }
   result <-
-  barchart(as.formula(FormulaString), groups=data2.melt$.variable,
+  barchart(as.formula(FormulaString), groups=data2.melt$variable,
            data=data2.melt,
            as.table=as.table,
-           xlab=xlab, ylab=ylab, ylab.right=ylab.right, main=main, horizontal=horizontal,
-           ## xlab.top is included in ...
+           xlab=xlab, ylab=ylab,
+           ylab.right=ylab.right,
+           xlab.top=xlab.top,
+           main=main, horizontal=horizontal,
            stack=TRUE,
            reference=TRUE,
            col=col[Nums.attr$color.seq],
@@ -327,42 +364,12 @@ if (!missing(value)) {
            par.settings=par.settings,
            ...,
            xscale.components=xscale.components,
-           yscale.components=yscale.components
+           yscale.components=yscale.components,
+           rightAxis=rightAxis,
+           rightAxisLabels=data2.melt$rightAxisLabels,
+           subscripts=TRUE
            )
 
-  if (rightAxis) {
-    if (horizontal) {
-      result$y.scales$alternating <- 3
-      if (is.list(result$y.limits))
-        for (i in seq(along=result$y.limits))
-          names(result$y.limits[[i]]) <- rightAxisLabels[result$y.limits[[i]]]
-      else
-        names(result$y.limits) <- rightAxisLabels[result$y.limits]
-      result$axis <- axis.RightAdjustRight
-      result$y.scales$tck <-
-        if (is.null(scales.in$y$tck))
-          c(0,1)
-        else
-          pmax(c(0,1), scales.in$y$tck)
-      ## result$y.scales$col.line <- 0
-    } else if (transposeAxisLabels) {
-      result$x.scales$alternating <- 3
-      if (is.list(result$x.limits))
-        for (i in seq(along=result$x.limits))
-          names(result$x.limits[[i]]) <- rightAxisLabels[result$x.limits[[i]]]
-      else
-        names(result$x.limits) <- rightAxisLabels[result$x.limits]
-      result <- update(result,
-                       xlab.top=ylab.right, ylab.right=NULL)
-      ## result$x.scales$rot <- c(90,90)
-      result$x.scales$tck <-
-        if (is.null(scales.in$x$tck))
-          c(0,1)
-        else
-          pmax(c(0,1), scales.in$x$tck)
-      ## result$x.scales$col.line <- 0
-    }
-  }
 
   if (length(h.resizePanels) > 0) {
     if (is.character(h.resizePanels) && h.resizePanels=="rowSums")
@@ -511,7 +518,7 @@ getLikertDataLong <- function(x, data, varNamesUsedLong) {
 
   varNamesUsed <- c(varNamesUsedLong[c("QuestionName","CondNames")],
                     Nums=levels(data[[varNamesUsedLong$LevelNames]]))
-  data2 <- reshape::cast(y, data=data[unlist(varNamesUsedLong)], value=varNamesUsedLong$Value)
+  data2 <- reshape2::dcast(y, data=data[unlist(varNamesUsedLong)], value=varNamesUsedLong$Value)
   list(data.list=getLikertData(data2, varNamesUsed), varNamesUsed=varNamesUsed, x=x)
 }
 

@@ -12,7 +12,7 @@ LikertPercentCountColumns <-
            positive.order=FALSE) {
 
     percentPlot <- likert(x, data,
-                          as.percent=TRUE, ...,
+                          as.percent="noRightAxis", ...,
                           positive.order=positive.order)
     ## percentPlot
 

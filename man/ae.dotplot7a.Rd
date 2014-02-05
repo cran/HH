@@ -50,7 +50,9 @@ The third panel can be suppressed by the \code{print} method.
     containing a condition variable used to
     split the \code{data.frame} into partitions.
     It may be used to partition the plot,
-    for example by organ system or by gender.}
+    for example by organ system or by gender.
+    The treatment factor must have exactly two levels.
+  Each AE name must appear exactly once for each level of the treatment.}
   \item{sortbyRelativeRisk}{logical.  If \code{TRUE}, then make the
     Adverse Events an ordered factor ordering by relative risk.
     If \code{FALSE}, then make the

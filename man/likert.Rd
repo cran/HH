@@ -34,61 +34,61 @@ likertplot(x, ...)
 \method{plot}{likert}(x, ...)
 %\method{plot.likert}{formula}(x, data, ..., xName=deparse(sys.call()), main)
 \method{plot.likert}{formula}(x, data, ReferenceZero=NULL, value, levelsName="",
-                                scales.in=NULL,   ## use scales=
-                                between.in=NULL,  ## use between=
-                                auto.key.in=NULL, ## use auto.key=
-                                panel.in=NULL,    ## use panel=
-                                horizontal=TRUE,
-                                par.settings.in=NULL, ## use par.settings=
-                                ...,
-                                as.percent = FALSE,
-                                transposeAxisLabels=TRUE, ## meaningful only when
-                                                          ## (!horizontal)
-                                ## titles
-                                ylab= if (horizontal) {
-                                  if (length(x)==3)
-                                    deparse(x[[2]])
-                                  else
-                                    "Question"
-                                }
-                                else
-                                if (as.percent != FALSE) "Percent" else "Count",
-                                xlab= if (!horizontal) {
-                                  if (length(x)==3)
-                                    deparse(x[[2]])
-                                  else
-                                    "Question"
-                                }
-                                else
-                                if (as.percent != FALSE) "Percent" else "Count",
-                                main = x.sys.call,
-                                ## right axis
-                                rightAxisLabels = rowSums(data.list$Nums),
-                                rightAxis = !missing(rightAxisLabels),
-                                ylab.right = if (rightAxis) "Row Count Totals" else NULL,
-                                ## scales
-                                xscale.components = xscale.components.top.HH,
-                                yscale.components = yscale.components.right.HH,
-                                xlimEqualLeftRight = FALSE,
-                                xTickLabelsPositive = TRUE,
-                                ## row sequencing
-                                as.table=TRUE,
-                                positive.order=FALSE,
-                                data.order=FALSE,
-                                reverse=ifelse(horizontal, as.table, FALSE),
-                                ## resizePanels arguments
-                                h.resizePanels=sapply(result$y.used.at, length),
-                                w.resizePanels=sapply(result$x.used.at, length),
-                                ## color options
-                                reference.line.col="gray65",
-                                key.border.white=TRUE,
-                                col=likertColor(Nums.attr$nlevels,
-                                  ReferenceZero=ReferenceZero,
-                                  colorFunction=colorFunction,
-                                  colorFunctionOption=colorFunctionOption),
-                                colorFunction="diverge_hcl",
-                                colorFunctionOption="lighter"
-                                )
+            scales.in=NULL,   ## use scales=
+            between=list(x=1 + (horizontal), y=.5 + 2*(!horizontal)),
+            auto.key.in=NULL, ## use auto.key=
+            panel.in=NULL,    ## use panel=
+            horizontal=TRUE,
+            par.settings.in=NULL, ## use par.settings=
+            ...,
+            as.percent = FALSE,
+            ## titles
+            ylab= if (horizontal) {
+              if (length(x)==3)
+                deparse(x[[2]])
+              else
+                "Question"
+            }
+            else
+            if (as.percent != FALSE) "Percent" else "Count",
+            xlab= if (!horizontal) {
+              if (length(x)==3)
+                deparse(x[[2]])
+              else
+                "Question"
+            }
+            else
+            if (as.percent != FALSE) "Percent" else "Count",
+            main = x.sys.call,
+            ## right axis
+            rightAxisLabels = rowSums(data.list$Nums),
+            rightAxis = !missing(rightAxisLabels),
+            ylab.right = if (rightAxis) "Row Count Totals" else NULL,
+            xlab.top = NULL,
+
+            ## scales
+            xscale.components = xscale.components.top.HH,
+            yscale.components = yscale.components.right.HH,
+            xlimEqualLeftRight = FALSE,
+            xTickLabelsPositive = TRUE,
+            ## row sequencing
+            as.table=TRUE,
+            positive.order=FALSE,
+            data.order=FALSE,
+            reverse=ifelse(horizontal, as.table, FALSE),
+            ## resizePanels arguments
+            h.resizePanels=sapply(result$y.used.at, length),
+            w.resizePanels=sapply(result$x.used.at, length),
+            ## color options
+            reference.line.col="gray65",
+            key.border.white=TRUE,
+            col=likertColor(Nums.attr$nlevels,
+              ReferenceZero=ReferenceZero,
+              colorFunction=colorFunction,
+              colorFunctionOption=colorFunctionOption),
+            colorFunction="diverge_hcl",
+            colorFunctionOption="lighter"
+            )
 \method{plot.likert}{default}(x,
             positive.order=FALSE,
             ylab=names(dimnames(x)[1]),
@@ -120,11 +120,11 @@ likertplot(x, ...)
             reverse=FALSE)
 
 \method{plot.likert}{array}(x,
-                            condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]",
-                                                 sep=""),
-                            xName=deparse(substitute(x)),
-                            main=paste("layers of", xName, "by", condlevelsName),
-                            ...)
+             condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]",
+                                  sep=""),
+             xName=deparse(substitute(x)),
+             main=paste("layers of", xName, "by", condlevelsName),
+             ...)
 
 \method{plot.likert}{likert}(x, ...)  ## See Details
 
@@ -174,18 +174,32 @@ yscale.components.right.HH(...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{For the formula method, a model formula.  Otherwise,
-    any numeric object stored as a vector, matrix, array,
-    data.frame, table, ftable,
-    structable (as defined in the \code{vcd} package), or as a list of
-    named two-dimensional objects.  This is the only required argument.
-    See the Details section for restrictions on the form of data.frame,
-    list, ftable, and structable arguments.
+
+  \item{x}{For the formula method, a model formula.  All terms in the
+    formula must be the names of columns in the data.frame argument
+    \code{data} or the special abbreviation \code{.} only on the right-hand-side.  Functions of the
+    names will not work.  The right-hand-side must be either \code{.} or
+    the sum of the names of numeric variables in \code{data}.
+    Non-syntactic names must be in quotes (single \verb{'} or double
+    \verb{"}), but not backticks \verb{`}.  The \code{.} on the
+    right-hand-side is expanded to the formula containing the sum of all
+    remaining (after the response and the conditioning variables)
+    numeric columns in \code{data}.  An empty left-hand-side is
+    interpreted as the \code{rownames(data)}.  See the examples
+    for all possible forms of formula recognized by the \code{likert} function.
+
+    Otherwise, any numeric object stored as a vector, matrix, array,
+    data.frame, table, ftable, structable (as defined in the \code{vcd}
+    package), or as a list of named two-dimensional objects.  This is
+    the only required argument.  See the Details section for
+    restrictions on the form of data.frame, list, ftable, and structable
+    arguments.
   }
   \item{data}{For the formula method, a \code{data.frame}.
   Do not use variable names \code{".value"} or \code{".variable"}.}
   \item{ReferenceZero}{Numeric scalar or \code{NULL}.  The position in
-    the range \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
+    the range\cr
+    \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
     reference line at 0 will be placed.  \code{attr(x, "nlevels")} is the
     number of columns of the original argument \code{x}, \emph{before} it
     has been coerced to a \code{"likert"} object.  The default
@@ -193,7 +207,7 @@ yscale.components.right.HH(...)
     number of levels, and to half-way between the two middle levels if
     there are an even number of levels.  This argument is used when the
     number of positive levels and the number of negative levels are not
-    the same.  For example, with 4 levels
+    the same.  For example, with 4 levels\cr
     \code{c("Disagree", "Neutral", "Weak Agree", "Strong Agree")}, the
     argument would be specified \code{ReferenceZero=2} indicating that
     the graphical split would be in the middle of the second group with
@@ -229,13 +243,15 @@ yscale.components.right.HH(...)
     \code{rightAxis} will be set to \code{FALSE}.
   }
   \item{as.table}{Standard \code{lattice} argument.  See \code{\link[lattice]{barchart}}.}
-  \item{par.settings.in, scales.in, between.in, auto.key.in,
+  \item{par.settings.in, scales.in, auto.key.in,
     panel.in}{These are placeholders
     for \code{lattice} arguments that lets the user
     specify some lattice \code{par.settings} and still retain the
-    ones that are prespecified in the \code{plot.likert.default}.}
-  \item{ylab, xlab, ylab.right, main}{Standard \code{lattice} graph
+    ones that are prespecified in the\cr
+    \code{plot.likert.default}.}
+  \item{ylab, xlab, ylab.right, xlab.top, main}{Standard \code{lattice} graph
     labels in \code{\link[lattice]{barchart}}.}
+  \item{between}{Standard \code{lattice} argument.}
   \item{col}{Vector of color names for the levels of the agreement factor.
     Although the colors can be specified as an arbitrary vector of color names, for example,
     \code{col=c('red','blue','#4AB3F2')}, usually specifying one of the diverging
@@ -282,7 +298,8 @@ yscale.components.right.HH(...)
     places the strip
     labels on the left of each panel as in the
     first professional challenges example.
-    The alternative \code{strip.left=FALSE} puts
+    The alternative\cr
+    \code{strip.left=FALSE} puts
     the strip labels on the top of each panel, the traditional
     lattice strip label position.}
   \item{condlevelsName, strip.left.values, strip.values,
@@ -290,7 +307,7 @@ yscale.components.right.HH(...)
     \code{\link{ResizeEtc}}.}
   \item{xName}{Name of the argument in its original environment.}
   \item{rightAxis}{logical.  Should right axis values be displayed?
-    Defaults to \code{FALSE} unless
+    Defaults to \code{FALSE} unless\cr
     \code{rightAxisLabels} are specified.}
   \item{rightAxisLabels}{Values to be displayed on the right axis.  The
     default values are the row totals.  These are sensible for
@@ -334,8 +351,8 @@ yscale.components.right.HH(...)
     and \code{rightAxisLabels}.  By default, when \code{rightAxis != FALSE} the \code{layout.widths}
     are set to \code{list(ylab.right=5, right.padding=0)}.  Otherwise,
     those arguments are left at their default values.  They may be
-    adjusted with an argument of the form
-    \code{par.settings.in=list(layout.widths=list(ylab.right=5, right.padding=0))}.
+    adjusted with an argument of the form \code{par.settings.in=}\cr
+    \code{list(layout.widths=list(ylab.right=5, right.padding=0))}.\cr
     Similarly, spacing for the top labels can be adjusted with an
     argument of the form
     \code{par.settings.in=list(layout.heights=list(key.axis.padding=6))}.
@@ -353,14 +370,9 @@ yscale.components.right.HH(...)
     and from left-to-write for vertical bars.
     \code{reverse}, \code{positive.order}, and \code{horizontal} are
     independent.
-    All eight combinations are possible. See the
+    All eight combinations are possible. See the\cr
     \code{Eight sequences and orientations} section
     in the example for all eight.
-  }
-  \item{transposeAxisLabels}{
-    Default is \code{TRUE}.  Setting \code{transposeAxisLabels=FALSE} is
-    meaningful only when \code{(!horizontal)}, and useful only when
-    the x labels and y labels don't look right.
   }
  }
 \details{
@@ -429,12 +441,11 @@ yscale.components.right.HH(...)
   The current version of the \code{likert} function uses the default diverging
   palette from \code{\link[colorspace]{diverge_hcl}} as the default.
   Previous versions used the \code{RColorBrewer} palette \code{"RdBu"} as the default
-  color palette.  The previous color palette is still available with an expicit
+  color palette.  The previous color palette is still available with an explicit
   call to \code{\link{likertColorBrewer}}, for example
 
-  \code{col=likertColorBrewer(nc, ReferenceZero=ReferenceZero,
-                              BrewerPaletteName="RdBu",
-                              middle.color="gray90")}
+  \code{col=likertColorBrewer(nc, ReferenceZero=ReferenceZero,}\cr
+  \code{                      BrewerPaletteName="RdBu", middle.color="gray90")}
 }
 
 \seealso{\code{\link[lattice]{barchart}}, \code{\link{ResizeEtc}},
@@ -452,7 +463,7 @@ yscale.components.right.HH(...)
 
 Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
 Other Rating Scales.  In JSM Proceedings, Section on Survey Research
-Methods. Alexandria, VA: American Statistical Association, 1058--1066.
+Methods. Alexandria, VA: American Statistical Association, 1058--1066.\cr
 \url{https://www.amstat.org/membersonly/proceedings/2011/papers/300784_64164.pdf}
 
 Luo, Amy and Tim Keyes (2005). "Second Set of Results in from the Career
@@ -484,7 +495,9 @@ Maintainer: Richard M. Heiberger <rmh@temple.edu> }
     \code{plot.likert(x)}\cr
     \code{plot.likert} is both a method of
     \code{plot} for \code{"likert"} objects, and a generic function in its own
-    right.  There are methods of \code{plot.likert} for \code{"matrix"},
+    right.  There are methods of \code{plot.likert} for
+    \code{"formula"},
+    \code{"matrix"},
     \code{"array"}, \code{"table"}, and several other classes of input objects.
 
     \item
@@ -744,6 +757,83 @@ LikertPercentCountColumns(Question ~ . | Subtable, ProfChal,
 
 ## Restore original name
 ## levels(ProfChal$Subtable)[6] <- "Attitude\ntoward\nProfessional\nRecognition"
+}
+
+\dontrun{
+## 4. All possible forms of formula for the likert formula method:
+data(ProfChal)
+row.names(ProfChal) <- abbreviate(ProfChal$Question, 8)
+
+likert( Question ~ . | Subtable,
+       data=ProfChal, scales=list(y=list(relation="free")), layout=c(1,6))
+
+likert( Question ~
+          "Strongly Disagree" + Disagree + "No Opinion" + Agree + "Strongly Agree" | Subtable,
+       data=ProfChal, scales=list(y=list(relation="free")), layout=c(1,6))
+
+likert( Question ~ . ,
+       data=ProfChal)
+
+likert( Question ~ "Strongly Disagree" + Disagree + "No Opinion" + Agree + "Strongly Agree",
+       data=ProfChal)
+
+likert( ~ . | Subtable,
+       data=ProfChal, scales=list(y=list(relation="free")), layout=c(1,6))
+
+likert( ~ "Strongly Disagree" + Disagree + "No Opinion" + Agree + "Strongly Agree" | Subtable,
+       data=ProfChal, scales=list(y=list(relation="free")), layout=c(1,6))
+
+likert( ~ . ,
+       data=ProfChal)
+
+likert( ~ "Strongly Disagree" + Disagree + "No Opinion" + Agree + "Strongly Agree",
+       data=ProfChal)
+
+}
+
+\dontrun{
+## 5. putting the x-axis tick labels on top for horizontal plots
+##    putting the y-axis tick lables on right for vertical plots
+##
+## This non-standard specification is a consequence of using the right
+## axis labels for different values than appear on the left axis labels
+## with horizontal plots, and using the top axis labels for different
+## values than appear on the bottom axis labels with vertical plots.
+
+## Percent plot calculated automatically from Count data
+
+tmph <-
+likert(Question ~ . , ProfChal[ProfChal$Subtable=="Employment sector",],
+       as.percent=TRUE,
+       main='Is your job professionally challenging?',
+       ylab=NULL,
+       sub="This plot looks better in a 9in x 4in window.")
+tmph$x.scales$labels
+names(tmph$x.scales$labels) <- tmph$x.scales$labels
+update(tmph, scales=list(x=list(alternating=2)), xlab=NULL, xlab.top="Percent")
+
+tmpv <-
+likert(Question ~ . , ProfChal[ProfChal$Subtable=="Employment sector",],
+       as.percent=TRUE,
+       main='Is your job professionally challenging?',
+       sub="likert plots with long Question names look better horizontally.
+With effort they can be made to look adequate vertically.",
+       horizontal=FALSE,
+       scales=list(y=list(alternating=2), x=list(rot=c(90, 0))),
+       ylab.right="Percent",
+       ylab=NULL,
+       xlab.top="Column Count Totals",
+       par.settings=list(
+         layout.heights=list(key.axis.padding=5),
+         layout.widths=list(key.right=1.5, right.padding=0))
+)
+tmpv$y.scales$labels
+names(tmpv$y.scales$labels) <- tmpv$y.scales$labels
+tmpv
+tmpv$x.limits <- abbreviate(tmpv$x.limits,8)
+tmpv$x.scales$rot=c(0, 0)
+tmpv
+
 }
 
 ## The ProfChal data is done again with explicit use of ResizeEtc
