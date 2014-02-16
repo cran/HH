@@ -89,8 +89,8 @@ strip.ladder(which.given,
   \code{y} and \code{x} are the arguments \code{dsy} and \code{dsx}.}
   \item{useOuter}{logical, defaults to \code{TRUE}. In R, this implies
     that \code{strip.number} is forced to \code{2} and that the
-    resulting \code{"trellis"} object will be sent through
-    \code{useOuterStrips(combineLimits(result))}.
+    resulting \code{"trellis"} object will be sent through\cr
+    \code{useOuterStrips(combineLimits(result))}.\cr
     This argument is ignored by S-Plus.}
   \item{strip.style}{\code{style} argument to \code{strip}.}
   \item{oma}{argument to \code{par} in S-Plus.}

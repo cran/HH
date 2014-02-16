@@ -88,10 +88,10 @@ method.
 \code{emptyLeftAxis,
 leftLabels.trellis,
 rightLabels.trellis,
-panelOnly.trellis,
-mainSubLegend.trellis,
+panelOnly.trellis,}\cr
+\code{mainSubLegend.trellis,
 emptyLeftStrip,
-emptyRightAxis} blanks out the various components of the trellis
+emptyRightAxis} are functions which blank out the various components of the trellis
 argument and retains their vertical spacing.
 }
 

@@ -26,7 +26,7 @@ No methods defined with class "positioned" in the signature.
 \code{is.positioned},
 \code{positioned},
 \code{print.positioned},
-\code{unique.positioned}.
+\code{unique.positioned}.\cr
 Although \code{interaction.positioned} should be a method, it isn't
 because \code{interaction} is not a generic and can't easily be made one
 since the name \code{interaction.plot} conflicts.

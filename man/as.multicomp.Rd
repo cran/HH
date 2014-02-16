@@ -16,7 +16,7 @@
   all internal functions that the user doesn't see.
 }
 \usage{
-\method{print}{mmc.multicomp}(x, ...)
+\method{print}{mmc.multicomp}(x, ..., width.cutoff=options()$width-5)
 
 \method{print}{multicomp}(x, ...)
 
@@ -87,7 +87,7 @@ as.glht(x, ...)
 #ifndef S-Plus
     \code{\link[multcomp]{confint.glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{confint.glht}.
 #endif
   }
@@ -96,7 +96,7 @@ as.glht(x, ...)
 #ifndef S-Plus
     \code{\link[multcomp]{modelparm}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{modelparm}.
 #endif
   }
@@ -105,10 +105,11 @@ as.glht(x, ...)
 #ifndef S-Plus
     \code{\link[multcomp]{confint.glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{confint.glht}.
 #endif
   }
+  \item{width.cutoff}{See \code{\link[base]{deparse}}.}
 }
 \details{
 The \code{mmc.multicomp} \code{print}
@@ -128,7 +129,7 @@ a single component.
 
 \code{as.multicomp.glht} changes an \code{"glht"} object to a
 \code{"multicomp"} object.  If the model component of the argument \code{"x"}
-is an \code{"aov"} object then the standard error is taken from the 
+is an \code{"aov"} object then the standard error is taken from the
 \code{anova(x$model)} table, otherwise from the \code{summary(x)}.
 With a large number of levels for the focus factor, the
 \code{summary(x)}
@@ -156,7 +157,7 @@ Heiberger, R.~M. and Holland, B. (2006).
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht}.
 #endif
   MMC plots in S-Plus are based on
@@ -164,7 +165,7 @@ Heiberger, R.~M. and Holland, B. (2006).
 #ifndef S-Plus
   \code{multicomp}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{multicomp}}.
 #endif
   The MMC plot is the same in both systems.  The details of gettting the
@@ -175,7 +176,7 @@ Heiberger, R.~M. and Holland, B. (2006).
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{multicomp}}.
 #endif
   }

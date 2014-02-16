@@ -65,16 +65,16 @@ Heiberger, Richard~M. and Holland, Burt (2004b).
 \keyword{design}
 \keyword{ts}
 \seealso{
-  \code{\link{ancova},
-    \link{ci.plot},
-    \link{interaction2wt},
-    \link{ladder},
-    \link{case.lm},
-    \link{norm.curve},
-    \link{hov},
-    \link{resid.squares},
-    \link{MMC},
-    \link{xysplom}}
+  \code{\link{ancova}},
+    \code{\link{ci.plot}},
+    \code{\link{interaction2wt}},
+    \code{\link{ladder}},
+    \code{\link{case.lm}},
+    \code{\link{norm.curve}},
+    \code{\link{hov}},
+    \code{\link{resid.squares}},
+    \code{\link{MMC}},
+    \code{\link{xysplom}}
 }
 \examples{
 ## interaction2wt()

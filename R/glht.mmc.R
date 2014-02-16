@@ -334,9 +334,15 @@ print.multicomp <- function (x, ...) {
 
 
 ## prints table and height components of each multicomp object in a mmc object
-print.mmc.multicomp <- function (x, ...) {
+print.mmc.multicomp <- function (x, ..., width.cutoff=options()$width-5) {
   cat(paste(x$mca$method, "contrasts\n"))
-  cat(paste("Fit:", deparse(x$mca$glht$model$call, width.cutoff=500), "\n"))
+  mmc.call <- deparse(x$mca$glht$model$call, width.cutoff=width.cutoff)
+  mmc.call[1] <- paste("Fit:", mmc.call[1], "\n")
+  if (length(mmc.call) > 1)
+    mmc.call[-1] <- paste("    ", mmc.call[-1], "\n")
+  cat(mmc.call)
+  ## cat(paste("Fit:", deparse(x$mca$glht$model$call,
+  ##                           width.cutoff=width.cutoff), "\n"))
   cat("Estimated Quantile =", x$mca$crit.point, "\n")
   cat(round((1-x$mca$alpha)*100), "% family-wise confidence level\n", sep="")
   cat("$mca\n")

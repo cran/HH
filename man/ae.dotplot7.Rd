@@ -73,28 +73,28 @@ Support functions for the \code{\link{AEdotplot}}.
     first 4 columns of \code{xr}.
   }
   \item{xr}{For the formula method documented in
-    \code{\link{AEdotplot}}, a formula of the form
+    \code{\link{AEdotplot}}, a formula of the form\cr
     \code{AE ~ nAE/nTRT | OrgSys}, where the condition variable is
     optional.
     For the formula method only, the variable names are not restricted.
 
     For the other methods, \code{xr} is a \code{data.frame} containing the Adverse
-  Event data in long format. It must have variables named\\
-  \code{RAND}:   treatment as randomized (factor with exactly two levels).\\
-  \code{PREF}:   adverse event symptom name (factor).\\
-  \code{SN}:     number of patients in treatment group.\\
+  Event data in long format. It must have variables named\cr
+  \code{RAND}:   treatment as randomized (factor with exactly two levels).\cr
+  \code{PREF}:   adverse event symptom name (factor).\cr
+  \code{SN}:     number of patients in treatment group.\cr
   \code{SAE}:    number of patients in each group for whom the event
   PREF was observed.
 
   If the \code{xr} object is a \code{AElogrelrisk} object, then it must
-  also have variables\\
-  \code{PCT}: \code{SAE}/\code{SN} as a percent.\\
+  also have variables\cr
+  \code{PCT}: \code{SAE}/\code{SN} as a percent.\cr
   \code{relrisk}: Relative risk defined as \code{PCT} for the B
-  treatment divided by \code{PCT} for the A treatment.\\
-  \code{logrelrisk}: natural logarithm of \code{relrisk}.\\
-  \code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.\\
+  treatment divided by \code{PCT} for the A treatment.\cr
+  \code{logrelrisk}: natural logarithm of \code{relrisk}.\cr
+  \code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.\cr
   \code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
-  \code{logrelrisk}.\\
+  \code{logrelrisk}.\cr
   \code{relriskCI.lower, relriskCI.upper}: back transform of the CI for
   the log relative risk into the relative risk scale.
   }
@@ -238,7 +238,7 @@ Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 ``Graphical Approaches to the Analysis of Safety Data from Clinical Trials''.
 \emph{Pharmaceutical Statistics},
 \bold{7}, 1, 20--35.
-% Published Online: 26 Feb 2007\\
+% Published Online: 26 Feb 2007\cr
 \url{http://www3.interscience.wiley.com/journal/114129388/abstract}
 % \url{http://www3.interscience.wiley.com/cgi-bin/abstract/114129388/ABSTRACT}.
 }

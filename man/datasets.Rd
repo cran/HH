@@ -9,6 +9,7 @@
 \alias{ProfChal}
 \alias{ProfDiv}
 \alias{SFF8121}
+\alias{abc}
 \alias{abrasion}
 \alias{acacia}
 \alias{aeanonym}

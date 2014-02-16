@@ -12,8 +12,7 @@
 panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
           transpose=!horizontal,
           pch, col,
-          at=if (horizontal) levels(as.factor(y)) else
-             levels(as.factor(x)),  ## S-Plus only
+          at,  ## formerly S-Plus only, now totally ignored
           ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -28,10 +27,7 @@ panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
     variable on the left side of the \code{"~"} in the formula and with
     the \code{horizontal} argument.}
 
-  \item{at}{S-Plus only.  \code{bwplot} in S-Plus gets \code{x} and
-    \code{y} as numeric.  \code{level} and \code{position} information
-    is not sent through, therefore we need to specify it here when
-    non-default positions are used.}
+  \item{at}{formerly S-Plus only, now totally ignored.}
   \item{\dots}{ Extra arguments, if any, for 'panel.bwplot'.  }
 }
 \references{ Heiberger, Richard M. and Holland, Burt (2004b).

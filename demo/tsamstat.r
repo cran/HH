@@ -29,23 +29,23 @@ if.R(r=data(co2), ## Use the builtin R data set
 ##HT New 1 1a 2
 ##HT	   main="Figure 1.  co2"
 ## export.eps(hh("tser/figure/tsamsta1.ps"))
-tsacfplots(co2,                   xlab=NULL, ylab=list("co2", cex=1.5),                   lag.max=36, cex=.5, main=""        )  ## uses default lwd=0 on color GraphSheet
+tsacfplots(co2,                   xlab=NULL, ylab=list("co2", cex=1.5),                   lag.max=36, cex=.75, main="", lwd=.5        )
 ## export.eps(hh("tser/figure/tsamsta1.color.ps"))
 
 ##HT main="Figure 1a (not in printed paper).  diff(co2,1)"
 ## export.eps(hh("tser/figure/tsamsta1a.ps"))
-tsacfplots(diff(co2,1),           xlab=NULL, ylab=list("diff(co2,1)", cex=1.5),           lag.max=36, cex=.5, main=""        )  ## uses default lwd=0 on color GraphSheet
+tsacfplots(diff(co2,1),           xlab=NULL, ylab=list("diff(co2,1)", cex=1.5),           lag.max=36, cex=.75, main="", lwd=.5        )
 ## export.eps(hh("tser/figure/tsamsta1a.color.ps"))
 
 ##HT main="Figure 2.  diff(diff(co2,1), 12)"
 ## export.eps(hh("tser/figure/tsamsta2.ps"))
-tsacfplots(diff(diff(co2,1), 12), xlab=NULL, ylab=list("diff(diff(co2,1), 12)", cex=1.5), lag.max=36, cex=.5, main=""        )  ## uses default lwd=0 on color GraphSheet
+tsacfplots(diff(diff(co2,1), 12), xlab=NULL, ylab=list("diff(diff(co2,1), 12)", cex=1.5), lag.max=36, cex=.75, main="", lwd=.5        )
 ## export.eps(hh("tser/figure/tsamsta2.color.ps"))
 
 
 ###HT lag.0=FALSE
 ##HT main="Figure 2alt (not in printed paper).  diff(diff(co2,1), 12)  with lag.0=FALSE"
-tsacfplots(diff(diff(co2,1), 12), xlab=NULL, ylab=list("diff(diff(co2,1), 12)", cex=1.5), lag.max=36, cex=.5, main="", lwd=1, lag.0=FALSE)
+tsacfplots(diff(diff(co2,1), 12), xlab=NULL, ylab=list("diff(diff(co2,1), 12)", cex=1.5), lag.max=36, cex=.75, main="", lwd=.5, lag.0=FALSE)
 
 
 ##HT table 0 not in paper
@@ -65,7 +65,7 @@ print(ddco2.loop)
 ##HT 3
 ##HT main="Figure 3"
 ddco2.diags <- diag.arma.loop(ddco2.loop, co2, lag.max=36)
-ddco2.diagplot <- 
+ddco2.diagplot <-
 tsdiagplot(armas=ddco2.loop, diags=ddco2.diags,
 	   lag.lim=c(-2,38),
 	   lag.x.at=seq(0,36,6),
@@ -95,7 +95,7 @@ ddco2.loopPQ <-
        arma.loop(co2, list(list(order=c(2,1,2)),
                            list(order=c(0,1,1), period=12)))
        ,r=
-       arma.loop(co2, 
+       arma.loop(co2,
                  order=c(2,1,2),
                  seasonal=list(order=c(0,1,1), period=12))
        )

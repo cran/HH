@@ -87,9 +87,9 @@ multicomp.mmc(x,  ## S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
 #ifdef S-Plus
-  \code{glht}.
+  \code{multicomp}.
 #endif
- in R.}
+}
 \item{focus.lmat}{R only.  Contrast matrix used in the user-specified
 comparisons of the focus factor.  This is the matrix the user
 constructs.  This matrix is multiplied by the \code{lmat} from the \code{none}
@@ -103,7 +103,7 @@ example below to see what is happening.
   \code{\link[multcomp]{glht}}.
 #endif
 #ifdef S-Plus
-  \code{glht}.
+  \code{multicomp}.
 #endif
 }
   \item{\dots}{other arguments.  \code{alternative} and

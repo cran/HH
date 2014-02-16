@@ -176,19 +176,28 @@ dev.off()
 }
 
 ## Figure 6
+## ProfChalPctPlot ## from above
+
+ProfChalCountPlot <- ## 8in x 9in  ## ProfChal.pdf
+  likert(Question ~ . | Subtable, ProfChal,
+         ylab=NULL,
+         rightAxis=TRUE,
+         main=list("Is your job professionally challenging?", x=unit(.65, "npc")),
+         strip.left=strip.custom(bg="gray85"),
+         strip=FALSE,
+         par.strip.text=list(cex=.6, lines=5),
+         positive.order=TRUE,
+         layout=c(1,6),
+         scales=list(y=list(relation="free"))  ## implies resizePanels
+         )
+ProfChalCountPlot
+##
 ProfChalPercentCount <- ## 11in x 9in  ## twocolumn.pdf
-LikertPercentCountColumns(Question ~ . | Subtable, ProfChal,
-                          layout=c(1,6), scales=list(y=list(relation="free")),
-                          ylab=NULL, between=list(y=0),
-                          strip.left=strip.custom(bg="gray97"), strip=FALSE,
-                          par.strip.text=list(cex=.6, lines=5),
-                          positive.order=TRUE,
-                          main="Is your job professionally challenging?",                                   px=list(
-                             LL=c(.00,  .40),
-                             LP=c(.36,  .70),
-                             ML=c(.50,  .51),  ## visually center the legend
-                             RP=c(.71,  .89),
-                             RL=c(.87, 1.00)))
+  as.TwoTrellisColumns5(update(ProfChalPctPlot,
+                               rightAxis=FALSE,
+                               sub="This plot needs an 11in x 9in plotting surface"),
+                        update(ProfChalCountPlot, sub=" "),
+                        pw=c(.28, .39, .01, .22, .10))
 ProfChalPercentCount
 
 if (PrintPDF) {

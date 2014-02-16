@@ -50,15 +50,15 @@ bwplot(y ~ gm, data=tmp, col=mycolors, panel=panel.bwplot.intermediate.hh,
 ## 2. boxplots coded by week.  One treatment.
 
 ## simulated data
-tmp <- data.frame(Y=rnorm(40, rep(c(20,25,15,22), 10), 5),
+tmp2 <- data.frame(Y=rnorm(40, rep(c(20,25,15,22), 10), 5),
                   week=ordered(rep(1:4, 10)))
-position(tmp$week) <- c(1, 2, 4, 8)
+position(tmp2$week) <- c(1, 2, 4, 8)
 
 bwplot(Y ~ week, horizontal=FALSE,
        scales=list(x=list(limits=c(0,9),
-                     at=position(tmp$week),
-                     labels=position(tmp$week))),
-       data=tmp, panel=panel.bwplot.intermediate.hh,
+                     at=position(tmp2$week),
+                     labels=position(tmp2$week))),
+       data=tmp2, panel=panel.bwplot.intermediate.hh,
        xlab="Week",
        main="Only one treatment")
 

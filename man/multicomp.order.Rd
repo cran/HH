@@ -39,14 +39,15 @@ multicomp.label.change(x, old="adj", new="new", how.many=2)
 }
 \value{
   The result is a \code{"multicomp"} object containing the same
-  contrasts as the argument.  \code{multicomp.order} sorts the contrasts
-  (and renames them consistently) according to the specifications.
+  contrasts as the argument.\cr
+  \code{multicomp.order} sorts the contrasts
+  (and renames them consistently) according to the specifications.\cr
   \code{multicomp.label.change}
   changes the contrast names according to the specifications.
-  
+
 When \code{sort.by=="height"}, sort the contrasts by the reverse order
 of the heights.  This provides a \code{"multicomp"} object that will be
-plotted by \code{plot.multicomp} in the same order used by
+plotted by \code{plot.multicomp} in the same order used by\cr
 \code{plot.mmc.multicomp}.  If there is not \code{"height"} component,
 the original \code{"multicomp"} object is returned.
 

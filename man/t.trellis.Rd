@@ -5,17 +5,18 @@
   Interchange the conditioning variables for an R trellis object.}
 \description{
   In S-Plus, change the \code{"trellis"} object to effectively, and
-  after-the-fact convert formulas from \code{(y ~ x | g)} to \code{(x ~
-  y | g)}.  This is needed in S-Plus because most S-Plus trellis
+  after-the-fact convert formulas\cr
+  from \code{(y ~ x | g)} to \code{(x ~ y | g)}.
+  This is needed in S-Plus because most S-Plus trellis
   functions do not permit factors on the right-hand side of the formula.
 
   In R lattice functions, factors are permitted on the right-hand side
   of the formula.  Therefore, to change the x and y axes within each
-  panel, change the formula from \code{(y ~ x | g)} to \code{(x ~ y |
-  g)}.  The HH \code{t.trellis} function in R calls
+  panel, change the formula\cr
+  from \code{(y ~ x | g)} to \code{(x ~ y | g)}.  The HH \code{t.trellis} function in R calls
   \code{lattice::t.trellis} to interchange the conditioning variables
   for an R trellis object.  See \code{\link[lattice]{update.trellis}}.
-  
+
 }
 \usage{
 \method{t}{trellis}(x)
@@ -29,8 +30,9 @@
   \code{"trellis"} object is a function.  No warning is generated when
   the panel component of the \code{"trellis"} object is a character
   string naming the function.  We interchange the \code{x} and \code{y}
-  values of the \code{c("x", "y", "xlab", "ylab", "xlim", "ylim",
-  "adj.xlim", "adj.ylim")} components of the \code{"trellis"} object,
+  values of the\cr
+  \code{c("x", "y", "xlab", "ylab", "xlim", "ylim", "adj.xlim", "adj.ylim")}
+  components of the \code{"trellis"} object,
   and are aware of special features of the panel functions listed in the
   S-Plus version of \code{t.trellis}.  The transpose will usually work
   correctly for other panel functions.

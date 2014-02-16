@@ -174,7 +174,7 @@ aeReshapeToLong(aewide)
  and combines their plots into a single display with a single set of
  left axis labels, a main title, and a key.  The value returned
  invisibly is a list of the full left trellis object and the right
- trellis obect with its left labels blanked out.  Printing the value
+ trellis object with its left labels blanked out.  Printing the value
  will not usually be interesting as the main title and key are not
  included.
  It is better to call \code{ae.dotplot} directly, perhaps with a change

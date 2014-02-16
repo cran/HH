@@ -78,8 +78,9 @@ z
   \item{panel.input}{panel function used by \code{xyplot} within each
     panel.  When \code{abline==FALSE}, the default panel function calls
     \code{panel.xyplot}.  When \code{abline==TRUE}, the default panel
-    function calls \code{panel.xyplot} and \code{panel.abline(lm(y~x,
-    na.action=na.exclude))}.  Note that we use
+    function calls \code{panel.xyplot} and\cr
+    \code{panel.abline(lm(y~x, na.action=na.exclude))}.\cr
+    Note that we use
     \code{na.action=na.exclude} inside \code{lm}.}
   \item{cartesian}{When \code{cartesian==TRUE}, the cartesian product
   of the left-hand side number of variables and the right-hand side
@@ -101,7 +102,7 @@ z
 }
 \value{
   When \code{plot=TRUE} (the normal setting),
-  the \code{"trellis"} object containing the graph.
+  the \code{"trellis"} object containing the graph.\cr
   When \code{plot=FALSE}, the restructured data that must be sent to the
   \code{xyplot} function.
 }

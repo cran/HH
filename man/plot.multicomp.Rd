@@ -14,11 +14,14 @@
   to an \code{"glht"} object and plots
   that with the appropriate \code{plot} method.
   In R, \code{plot.multicomp.adjusted} replaces the bounds
-  calculated by \code{multcomp:::confint.glht} with bounds that 
+  calculated by \code{multcomp:::confint.glht} with bounds based on
+  a common standard error for a set of anova tables that are
+     partitioned for the simple effects on an analysis conditioned on
+     the levels of one of the factors.
   In S-Plus,
   \code{plot.multicomp.hh} augments the standard \code{plot.multicomp} to
   give additional user arguments to control the appearance of the plot.
-  
+
   \code{plotMatchMMC} uses the \code{plot.multicomp.hh} code.
    \code{plotMatchMMC} must immediately follow a plot of an
   \code{mmc.multicomp} object and is applied to either the \code{$mca}
@@ -27,7 +30,7 @@
   plot.  \code{plotMatchMMC} matches the horizontal scaling of the
   \code{MMC} plot and displays the individual contrasts in the same
   order as the \code{MMC} plot.  See \code{\link{mmc}} for examples.
-  
+
 }
 \usage{
 \method{plot}{multicomp}(x, ...) ## R only
@@ -109,7 +112,7 @@ plotMatchMMC(x, ...,
      partitioned for the simple effects on an analysis conditioned on
      the levels of one of the factors.  See the
      \code{clover.commonstrMS.clov.mmc} example in file \code{hh("scripts/Ch12-tway.r")}.}
-     
+
 
  }
 \value{
@@ -139,7 +142,7 @@ Heiberger, R. M. and Holland, B. (2006).
   Multiple comparisons in R are based on \code{\link[multcomp]{glht}}.
   Multiple comparisons in S-Plus are based on \code{multicomp}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   Multiple comparisons in R are based on \code{glht}.
   Multiple comparisons in S-Plus are based on \code{\link[splus]{multicomp}}.
 #endif
@@ -151,7 +154,7 @@ Heiberger, R. M. and Holland, B. (2006).
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{multicomp}}.
 #endif
 }

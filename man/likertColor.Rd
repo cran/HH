@@ -29,7 +29,8 @@ brewer.pal.likert(n, name, middle.color)
     \code{\link[grDevices]{colorRampPalette}}.
   }
   \item{ReferenceZero}{Numeric scalar or \code{NULL}.  The position in
-    the range \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
+    the range\cr
+    \code{seq(0, attr(x, "nlevels")+.5, .5)} where the
     reference line at 0 will be placed.  \code{attr(x, "nlevels")} is the
     number of columns of the original argument \code{x}, \emph{before} it
     has been coerced to a \code{"likert"} object.  The default
@@ -37,14 +38,15 @@ brewer.pal.likert(n, name, middle.color)
     number of levels, and to half-way between the two middle levels if
     there are an even number of levels.  This argument is used when the
     number of positive levels and the number of negative levels are not
-    the same.  For example, with 4 levels
+    the same.  For example, with 4 levels\cr
     \code{c("Disagee", "Neutral", "Weak Agree", "Strong Agree")}, the
     argument would be specified \code{ReferenceZero=2} indicating that
     the graphical split would be in the middle of the second group with
     label \code{"Neutral"}.
   }
   \item{colorFunction}{Function name from the \pkg{colorspace} package,
-    either \code{"diverge_hcl"} or \code{"sequential_hcl"}.}
+    either \code{"diverge_hcl"} or\cr
+    \code{"sequential_hcl"}.}
   \item{colorFunctionOption}{Name of a list item defined inside the
     \code{likertColor}
   function.  The item contains a list of parameters to the function
@@ -69,9 +71,10 @@ brewer.pal.likert(n, name, middle.color)
 \value{
   \code{ColorSet} returns a vector of integers, one per each level,
   corresponding to the strength of the levels from Disagree to Agree.
-  For balanced levels, such as
+  For balanced levels, such as\cr
   \code{c("Disagree Strongly", "Disagree Weakly", "Agree
-  Weakly", "Agree Strongly")}, corresponding to \code{nc=4,
+    Weakly", "Agree Strongly")},\cr
+    corresponding to \code{nc=4,
   ReferenceZero=2.5}, it returns \code{-2 -1  1  2}.
   For unbalanced levels, such as \code{c("Disagree", "Neutral", "Agree
   Weakly", "Agree Strongly")}, corresponding to \code{nc=4,
@@ -95,7 +98,7 @@ These are support functions for the \code{plot.likert} function.
 Please see \code{\link{plot.likert}} for details.
 
 \code{likertColor} uses by default the \code{\link[colorspace]{diverge_hcl}}
-diverging palette defined by the argument
+diverging palette defined by the argument\cr
 \code{colorFunctionOption="lighter"}.
 
 \code{likertColorBrewer} by default uses the \code{"RdBu"}
