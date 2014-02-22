@@ -1,0 +1,57 @@
+## R >= 2.8.0 passes package metadata to citation().
+if(!exists("meta") || is.null(meta)) meta <- packageDescription("colorspace")
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+citEntry(entry = "Manual",
+         title = {"HH: Statistical Analysis and Data Display: Heiberger and Holland."},
+         author = {"Richard M. Heiberger"},
+         year = year,
+         note = note,
+         url="http://CRAN.R-project.org/package=HH",
+         header="To cite package 'HH' in publications use:",
+         textVersion  =
+         paste("Richard M. Heiberger", sprintf("(%s).", year),
+               "HH: Statistical Analysis and Data Display: Heiberger and Holland.",
+               paste(note, ".", sep=""),
+               "URL http://CRAN.R-project.org/package=HH")
+)
+
+
+citEntry(entry = "Book",
+         title = {"Statistical Analysis and Data Display:
+               An Intermediate Course with Examples in {S-Plus}, {R}, and {SAS}"},
+         author = {"Richard M. Heiberger and Burt Holland"},
+         year = {"2004"},
+         publisher = 	 {"Springer-Verlag, New York"},
+         edition = 	 {"First"},
+         header="To cite the HH book in publications use:",
+         url={"http://springeronline.com/0-387-40270-5"},
+         textVersion  =
+         paste("Richard M. Heiberger and Burt Holland (2004).",
+               "Statistical Analysis and Data Display: An Intermediate Course with Examples in S-Plus, R, and SAS.",
+               "Springer-Verlag, New York.",
+               "URL http://springeronline.com/0-387-40270-5")
+)
+
+
+
+citEntry(entry = "Article",
+         title        = "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
+         author       = personList(as.person("Richard M. Heiberger"),
+           as.person("Naomi B. Robbins")),
+         journal      = "Journal of Statistical Software",
+         year         = "2014",
+         volume       = "57",
+         number       = "5",
+         pages        = "1--32",
+         url          = "http://www.jstatsoft.org/v57/i05/",
+         header="To cite likert from HH in publications use:",
+
+         textVersion  =
+         paste("Richard M. Heiberger, Naomi B. Robbins (2014).",
+               "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications.",
+               "Journal of Statistical Software, 57(5), 1-32.",
+               "URL http://www.jstatsoft.org/v57/i05/.")
+)
+

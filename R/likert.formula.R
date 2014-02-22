@@ -152,7 +152,10 @@ if (!missing(value)) {
       lim <- scales.in$y$limits
   }
 
-  if (xlimEqualLeftRight || xTickLabelsPositive) {
+  if (((horizontal && is.null(scales$x$at) && is.null(scales$x$labels)) ||
+       (!horizontal && is.null(scales$y$at) && is.null(scales$y$labels)))
+      &&
+      (xlimEqualLeftRight || xTickLabelsPositive)) {
 
     if (is.null(lim)) {
       tmp <- Nums.lik

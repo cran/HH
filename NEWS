@@ -1,3 +1,15 @@
+Version 3.0-4
+-------------
+
+* 2014 March 10
+
+* in likert, arguments xlimEqualLeftRight xTickLabelsPositive are now ignored
+  when both at and labels are explicitly specified.
+
+* the likert paper has been published in the Journal of Statistical Software.  See
+  ?likert for the reference.
+
+
 Version 3.0-3
 -------------
 

@@ -1,6 +1,6 @@
-69329415e4db11a18490af937371dd93 *DESCRIPTION
+118054a15b4b8e015756b3fc310741c0 *DESCRIPTION
 0fd4774d078466026771337d25afffb0 *NAMESPACE
-fa14386f998e59647dcc223fc0f95166 *NEWS
+17f20b55a4007b91f430f5c622a9c79b *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 edb369ba982ec175d86c4f11368fbc38 *R/ARIMA-trellis.s
 6281e056176138255362a318e132d28b *R/F.curve.R
@@ -40,7 +40,7 @@ ea1723f60846ac726da449157e9564b1 *R/histogram.hh.R
 15890d183603ee284f3e4875aaab9679 *R/ladder.R
 c0d62f542f8f3f6641c507b01747f347 *R/likert.R
 95e78efef9b03abaf1481de82aee2da9 *R/likert.formula.DataFrame.r
-7a53909291e40a66e87f25066062340c *R/likert.formula.R
+e08df20b8d1692a46863f8cdab732ea4 *R/likert.formula.R
 ab56b652d424ee8338d04a9d5ad0d11c *R/likertColor.R
 82930360f8f59c5c65c8d5a49c194ef9 *R/likertMosaic.R
 fa4fef9d3d36a49834fabdb99f966bd8 *R/lm.case.R
@@ -275,6 +275,7 @@ ee1a1d0ba88a27caa159bff512d6abeb *demo/likertMosaic-paper.r
 c76d23daa532ddc528686294463b2ace *demo/nottem.r
 50cfbbb39e48559686f260dedc779ffb *demo/tsamstat.r
 2d97b3c1c74f2fbe2c575a506dec1f29 *demo/tsq.r
+0aa017b7eec9e708cfba90b836984512 *inst/CITATION
 b6cbaa20258c558bb443ee1ab8b3a5da *inst/scripts/Ch02-data.r
 fda376289fab7b040dd0a65768f527db *inst/scripts/Ch03-conc.r
 3ed8b2bfa3446f326b92098e977ec15d *inst/scripts/Ch04-grap.r
@@ -313,7 +314,7 @@ d7bfe02bb1b2a5fbd151fb373b398ca4 *man/ancova.Rd
 3c021995e2cd04fb4febe0d74e04cc20 *man/aov.sufficient.Rd
 1f7b30ac568cfe11025d7f2f3f6a9665 *man/arima.diag.hh.Rd
 a3affc271c6ef76c4d731a3c74570b7f *man/arma.loop.Rd
-8029e4c57881e813323d7854196156a7 *man/as.likert.Rd
+e595912186eaef0ab25dc24224e5e13d *man/as.likert.Rd
 4d206119bb2832ae7a1a17ab42abae5a *man/as.matrix.listOfMatrices.Rd
 703295e1c2301cf49f193674dd9c22ee *man/as.multicomp.Rd
 37472e86c0f55dccaac53a9137cb4935 *man/axis.i2wt.Rd
@@ -338,9 +339,9 @@ ec4707353fa475db074292da84932a03 *man/glht.mcp.993.Rd
 376cd27896e5a4d6370c0c39e4bcd6f0 *man/intxplot.Rd
 5efd72228076d0ce28c8744ca12ba6fe *man/ladder.Rd
 fd4f19fb9da677e1f98c9a2bff7df8df *man/legendGrob2wt.Rd
-85366f50de5e31336a8032ae5602097c *man/likert.Rd
+98bc17a135985fbda31683328eb3bb54 *man/likert.Rd
 b5cb130973ad9a3a5b3ccb584a94f5bf *man/likertColor.Rd
-c3c29f3e5b281a81a0283b7f2c40c28d *man/likertMosaic.Rd
+cc25df245faeab813964729198031277 *man/likertMosaic.Rd
 b58047d09f022308c98836c626bfcf0f *man/lm.case.Rd
 0bfeb9576e58e9413dd8cd5ef42f29ac *man/lm.regsubsets.Rd
 7558624640c357453cf53dcdc91720cd *man/lmatRows.Rd
