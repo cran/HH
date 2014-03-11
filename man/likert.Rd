@@ -181,7 +181,9 @@ yscale.components.right.HH(...)
     names will not work.  The right-hand-side must be either \code{.} or
     the sum of the names of numeric variables in \code{data}.
     Non-syntactic names must be in quotes (single \verb{'} or double
-    \verb{"}), but not backticks \verb{`}.  The \code{.} on the
+    \verb{"}),
+      %rebalance "
+      but not backticks \verb{`}.  The \code{.} on the
     right-hand-side is expanded to the formula containing the sum of all
     remaining (after the response and the conditioning variables)
     numeric columns in \code{data}.  An empty left-hand-side is
@@ -358,11 +360,15 @@ yscale.components.right.HH(...)
     \code{par.settings.in=list(layout.heights=list(key.axis.padding=6))}.
   }
   \item{xlimEqualLeftRight}{Logical. The default is \code{FALSE}.  If
-    \code{TRUE}, then the left and right x limits are set to negative
-    and positive of the larger of the absolute value of the original x limits.}
+    \code{TRUE} and \code{at} and \code{labels} are not explicitly specified,
+    then the left and right x limits are set to negative
+    and positive of the larger of the absolute value of the original x limits.
+    When \code{!horizontal}, this argument applies to the y coordinate.}
   \item{xTickLabelsPositive}{Logical. The default is \code{TRUE}.
-    If \code{TRUE}, then the tick labels on the negative side are
-    displayed as positive values.}
+    If \code{TRUE} and \code{at} and \code{labels} are not explicitly specified,
+    then the tick labels on the negative side are
+    displayed as positive values.  When \code{!horizontal}, this argument
+    applies to the y coordinate.}
   \item{reverse}{Logical. The default is \code{FALSE}.
     If \code{TRUE}, the rows of the input matrix are reversed.
     The default is to plot the rows from top-to-bottom
@@ -451,7 +457,12 @@ yscale.components.right.HH(...)
 \seealso{\code{\link[lattice]{barchart}}, \code{\link{ResizeEtc}},
          \code{\link{as.likert}}, \code{\link{as.matrix.listOfNamedMatrices}}}
 \references{
-  Richard Heiberger and Naomi Robbins (2011),
+  Richard M. Heiberger, Naomi B. Robbins (2014).,
+        "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
+        Journal of Statistical Software, 57(5), 1--32,
+        \url{http://www.jstatsoft.org/v57/i05/.}
+
+	Richard Heiberger and Naomi Robbins (2011),
   "Alternative to Charles Blow's Figure in \"Newt's War on Poor Children\"",
   Forbes OnLine, December 20, 2011.
  \url{http://www.forbes.com/sites/naomirobbins/2011/12/20/alternative-to-charles-blows-figure-in-newts-war-on-poor-children-2/}
