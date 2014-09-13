@@ -49,15 +49,15 @@ acfplot <- function(rdal, type="acf",
                                  lu + c(-1,1)*incr}
   rdal[[type]]$tmp <-
     ordered(paste("ar:",rdal[[type]]$ar," ma:",rdal[[type]]$ma, sep=""),
-            levels=outer(sort(unique(rdal[[type]]$ma)),
-                         sort(unique(rdal[[type]]$ar)),
+            levels=outer(unique(rdal[[type]]$ma),
+                         unique(rdal[[type]]$ar),
                          FUN=function(ma,ar) paste("ar:",ar," ma:",ma, sep="")))
   rdal[[type]]$subset <- (lag.0 | rdal[[type]]$lag != 0)
 
   xyplot(acf ~ lag | tmp, data=rdal[[type]], subset=subset,
          n.used=rdal$n.used,
-         layout=c(length(sort(unique(rdal[[type]]$ma))),
-                  length(sort(unique(rdal[[type]]$ar)))),
+         layout=c(length(unique(rdal[[type]]$ma)),
+                  length(unique(rdal[[type]]$ar))),
          panel=panel.acf,
          strip=function(...) strip.default(..., style = 1),
          as.table=TRUE,
@@ -72,13 +72,13 @@ residplot <- function(rdal,
                       ...) {
   rdal$std.resid$tmp <-
     ordered(paste("ar:",rdal$std.resid$ar," ma:",rdal$std.resid$ma, sep=""),
-            levels=outer(sort(unique(rdal$std.resid$ma)),
-                         sort(unique(rdal$std.resid$ar)),
+            levels=outer(unique(rdal$std.resid$ma),
+                         unique(rdal$std.resid$ar),
                          FUN=function(ma,ar) paste("ar:",ar," ma:",ma, sep="")))
 
   xyplot(resid ~ time | tmp, data=rdal$std.resid,
-         layout=c(length(sort(unique(rdal$std.resid$ma))),
-                  length(sort(unique(rdal$std.resid$ar)))),
+         layout=c(length(unique(rdal$std.resid$ma)),
+                  length(unique(rdal$std.resid$ar))),
          panel=panel.std.resid,
          strip=function(...) strip.default(..., style = 1),
          as.table=TRUE,
@@ -101,14 +101,14 @@ xlim.function <- function(lu) {incr <- .02*lu[2]
                                  lu + c(-1,1)*incr}
   rdal$gof$tmp <-
     ordered(paste("ar:",rdal$gof$ar," ma:",rdal$gof$ma, sep=""),
-            levels=outer(sort(unique(rdal$gof$ma)),
-                         sort(unique(rdal$gof$ar)),
+            levels=outer(unique(rdal$gof$ma),
+                         unique(rdal$gof$ar),
                          FUN=function(ma,ar) paste("ar:",ar," ma:",ma, sep="")))
   xyplot(p ~ lag | tmp, data=rdal$gof,
          pch=pch,
          ylim=range(if.R(r=-.05, s=0), .05, rdal$gof$p, na.rm=TRUE),
-         layout=c(length(sort(unique(rdal$gof$ma))),
-                  length(sort(unique(rdal$gof$ar)))),
+         layout=c(length(unique(rdal$gof$ma)),
+                  length(unique(rdal$gof$ar))),
          panel=panel.gof,
          strip=function(...) strip.default(..., style = 1),
          as.table=TRUE,

@@ -128,7 +128,7 @@ see both
   attribute.  The default print method is to print both the \code{anova}
   of the object and the \code{trellis} attribute.  }
 
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.
@@ -141,7 +141,9 @@ see both
 \seealso{
 \code{\link{ancova-class}}
 \code{\link[stats]{aov}}
-\code{\link[lattice]{xyplot}}
+\code{\link[lattice]{xyplot}}.
+See \code{\link{ancovaplot}} for a newer set of functions that keep the
+graph and the \code{aov} object separate.
 }
 \examples{
 data(hotdog)

@@ -85,6 +85,7 @@
 \alias{kangaroo}
 \alias{kidney}
 \alias{kyphosis}
+\alias{jury}
 \alias{lake}
 \alias{leukemia}
 \alias{lft.asat}
@@ -106,6 +107,7 @@
 \alias{oats}
 \alias{odoffna}
 \alias{operator}
+\alias{oral}
 \alias{ozone}
 \alias{paper}
 \alias{patient}
@@ -118,6 +120,7 @@
 \alias{pulmonary}
 \alias{pulse}
 \alias{R282}
+\alias{R282.y}
 \alias{radioact}
 \alias{rent}
 \alias{retard}
@@ -214,7 +217,7 @@ Naomi Robbins and I discuss the PoorChildren example in the Forbes online column
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \references{
-Heiberger, Richard~M. and Holland, Burt (2004b).
+Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

@@ -9,10 +9,11 @@
 \alias{mmc.default}
 \alias{[.mmc.multicomp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{MMC (mean--mean multiple comparisons) plots.}
+\title{MMC (Mean--mean Multiple Comparisons) plots.}
 \description{
   Constructs a \code{"mmc.multicomp"} object from the formula and
-  other arguments.  The object must be explicitly plotted.
+  other arguments.  The constructed object must be explicitly plotted
+  with the \code{\link{mmcplot}} function.
 }
 \usage{
 mmc(model, ...)  ## R
@@ -190,7 +191,7 @@ corresponding to the rows for the focus factor.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
@@ -285,15 +286,16 @@ if.R(s=catalystm.mca,
      r=confint(catalystm.mca))
 
 ## pairwise comparisons
-old.omd <- par(omd=c(0,.95,0,1))
 catalystm.mmc <-
 if.R(r=mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
      s=multicomp.mmc(catalystm1.aov, plot=FALSE))
 catalystm.mmc
-if.R(s=plot(catalystm.mmc, x.offset=1),
-     r=plot(catalystm.mmc, ry=c(50,58), x.offset=1.8))
-## tiebreaker
-plotMatchMMC(catalystm.mmc$mca, xlabel.print=FALSE)
+
+if.R(s={old.omd <- par(omd=c(0,.95,0,1))
+        plot(catalystm.mmc, x.offset=1)
+        plotMatchMMC(catalystm.mmc$mca, xlabel.print=FALSE)},
+     r=mmcplot(catalystm.mmc, style="both")
+     )
 
 ## user-specified contrasts
 catalystm.lmat <- cbind("AB-D" =c( 1, 1, 0,-2),
@@ -309,11 +311,10 @@ if.R(r=mmc(catalystm1.aov,
        focus.lmat=catalystm.lmat, plot=FALSE))
 catalystm.mmc
 
-if.R(s=plot(catalystm.mmc, x.offset=1),
-     r=plot(catalystm.mmc, ry=c(50,58), x.offset=1.8))
-## tiebreaker
-plotMatchMMC(catalystm.mmc$lmat, xlabel.print=FALSE, col.signif='blue')
-par(old.omd)
+if.R(s={plot(catalystm.mmc, x.offset=1)
+        plotMatchMMC(catalystm.mmc$lmat, xlabel.print=FALSE, col.signif='blue')
+        par(old.omd)},
+     r=mmcplot(catalystm.mmc, style="both", type="lmat"))
 
 
 ## Dunnett's test
@@ -338,33 +339,37 @@ if.R(r={
 group.count <- table(weightloss$group)
 },s={})
 
-tmp.dunnett <-
-if.R(r=
-glht(weightloss.aov,
-     linfct=mcp(group=contrMat(group.count, base=4)),
-     alternative="greater")
-,s=
-multicomp(weightloss.aov,
-          method="dunnett", comparisons="mcc",
-          bounds="lower", control=4,
-          valid.check=FALSE)
-)
-plot(tmp.dunnett)
+if.R(r={
+  tmp.dunnett <-
+    glht(weightloss.aov,
+         linfct=mcp(group=contrMat(group.count, base=4)),
+         alternative="greater")
+  mmcplot(tmp.dunnett)
+},s={
+  tmp.dunnett <-
+    multicomp(weightloss.aov,
+              method="dunnett", comparisons="mcc",
+              bounds="lower", control=4,
+              valid.check=FALSE)
+  plot(tmp.dunnett)
+})
 
-tmp.dunnett.mmc <-
-if.R(r=
-   mmc(weightloss.aov,
-       linfct=mcp(group=contrMat(group.count, base=4)),
-       alternative="greater")
-,s=
-   multicomp.mmc(weightloss.aov,
-                 method="dunnett", comparisons="mcc",
-                 bounds="lower", control=4,
-                 valid.check=FALSE, plot=FALSE)
-)
+if.R(r={
+  tmp.dunnett.mmc <-
+    mmc(weightloss.aov,
+        linfct=mcp(group=contrMat(group.count, base=4)),
+        alternative="greater")
+  mmcplot(tmp.dunnett.mmc)
+},s={
+  tmp.dunnett.mmc <-
+    multicomp.mmc(weightloss.aov,
+                  method="dunnett", comparisons="mcc",
+                  bounds="lower", control=4,
+                  valid.check=FALSE, plot=FALSE)
+  plot(tmp.dunnett.mmc)
+})
 
 tmp.dunnett.mmc
-plot(tmp.dunnett.mmc)
 
 
 
@@ -385,37 +390,36 @@ anova(displayf.aov)
 
 ## multiple comparisons
 ## MMC plot
-displayf.mmc <-
 if.R(r={
-        mmc(displayf.aov,
-            linfct=mcp(panel="Tukey", interaction_average=TRUE, covariate_average=TRUE))
+  displayf.mmc <-
+    mmc(displayf.aov,
+        linfct=mcp(panel="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE))
+  mmcplot(displayf.mmc)
 },
-     s=multicomp.mmc(displayf.aov, "panel", plot=FALSE))
-
-if.R(s=
+     s={
+       displayf.mmc <-
+         multicomp.mmc(displayf.aov, "panel", plot=FALSE)
        plot(displayf.mmc)
-    ,r=
-       plot(displayf.mmc, x.offset=1, ry=c(17,26))
-)
+     })
 
 
 panel.lmat <- cbind("3-12"=c(-1,-1,2),
                      "1-2"=c( 1,-1,0))
 dimnames(panel.lmat)[[1]] <- levels(display$panel)
 
-displayf.mmc <-
 if.R(r={
-        mmc(displayf.aov, linfct=mcp(panel="Tukey"),
-            `interaction_average`=TRUE, focus.lmat=panel.lmat)
-},
-     s=multicomp.mmc(displayf.aov, "panel",
-       focus.lmat=panel.lmat, plot=FALSE))
-
-if.R(s=
-       plot(displayf.mmc)
-    ,r=
-       plot(displayf.mmc, x.offset=1, ry=c(17,26))
-)
+  displayf.mmc <-
+    mmc(displayf.aov,
+        linfct=mcp(panel="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE),
+        focus.lmat=panel.lmat)
+  mmcplot(displayf.mmc, type="lmat")
+},s={
+  displayf.mmc <-
+    multicomp.mmc(displayf.aov, "panel",
+                  focus.lmat=panel.lmat, plot=FALSE)
+  plot(displayf.mmc)
+}
+     )
 
 
 
@@ -486,11 +490,7 @@ if.R(s={
 },r={
   maiz2.mmc <- mmc(maiz2.aov,
                    linfct=mcp(hibrido="Tukey", interaction_average=TRUE))
-  old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
-  plot(maiz2.mmc)
-  par(omd=c(.05,.85,0,.5), new=TRUE)
-  plotMatchMMC(maiz2.mmc$mca, cex.axis=.7)
-  par(old.omd)
+  mmcplot(maiz2.mmc, style="both")
 })
 
 
@@ -506,8 +506,8 @@ maiz2.mmc <-
   if.R(s=multicomp.mmc(maiz2.aov, focus="hibrido",
          focus.lmat=hibrido.lmat,
          plot=FALSE),
-       r=mmc(maiz2.aov, linfct=mcp(hibrido="Tukey"),
-             `interaction_average`=TRUE, focus.lmat=hibrido.lmat)
+       r=mmc(maiz2.aov, linfct=mcp(hibrido="Tukey",
+             `interaction_average`=TRUE), focus.lmat=hibrido.lmat)
        )
 
 if.R(s={
@@ -517,11 +517,7 @@ if.R(s={
   plotMatchMMC(maiz2.mmc$lmat, col.signif='blue')
   par(old.omd)
 },r={
-  old.omd <- par(omd=c(.05,.85,.35,1)) ## x1 x2 y1 y2
-  plot(maiz2.mmc)
-  par(omd=c(.05,.85,0,.45), new=TRUE)
-  plotMatchMMC(maiz2.mmc$lmat, cex.axis=.7, col.signif='blue')
-  par(old.omd)
+  mmcplot(maiz2.mmc, style="both", type="lmat")
 })
 }
 \keyword{hplot}

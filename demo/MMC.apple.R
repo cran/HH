@@ -8,10 +8,9 @@
 ## the covariable is taken into account.
 ##
 
-## Please see files hh/dsgntwo/code/apple3.s and
-## hh/dsgntwo/code/apple3.r for the discussion of the apple example in
-## HH.  This file contains only the minimum needed to reproduce the
-## example in the MMC paper:
+## Please see files scripts/hh2/dsgntwo.R for the discussion of the
+## apple example in HH (second edition).  This file contains only the
+## minimum needed to reproduce the example in the MMC paper:
 ##   Heiberger, Richard M. and Holland, Burt (2006). "Mean--mean
 ##   multiple comparison displays for families of linear contrasts."
 ##   Journal of Computational and Graphical Statistics, 15:937--955.
@@ -48,60 +47,29 @@ yield.block.pre <-
 apple <- cbind(apple, yield.block.pre=as.vector(yield.block.pre))
 apple.ancova.5 <- ancova(yield.block.pre ~ treat, x=pre.block, data=apple)
 anova(apple.ancova.5)
-if.R(s=attr(apple.ancova.5, "trellis")$ylim <-
-     attr(apple.ancova.4, "trellis")$ylim,
-     r=attr(apple.ancova.5, "trellis")$y.limits <-
-     attr(apple.ancova.4, "trellis")$y.limits)
+attr(apple.ancova.5, "trellis")$y.limits <-
+  attr(apple.ancova.4, "trellis")$y.limits
 
 
 ## apple.ancova.2 and apple.ancova.4 have the same Sums of Squares in
 ## the anova table and the same regression coefficients.
-summary.lm(apple.ancova.2, corr=FALSE)
-summary.lm(apple.ancova.4, corr=FALSE)
-summary.lm(apple.ancova.5, corr=FALSE)
+summary.lm(apple.ancova.2)
+summary.lm(apple.ancova.4)
+summary.lm(apple.ancova.5)
 summary(apple.ancova.2)
 summary(apple.ancova.4)
 summary(apple.ancova.5)
-## apple.ancova.2 has the correct residual df, hence Mean Squares and F tests.
-## apple.ancova.4 has the wrong   residual df, hence Mean Square and F tests.
-## apple.ancova.5 has the wrong   residual df, hence Mean Square and F tests,
+## apple.ancova.2 has the correct residual df, hence correct Mean Squares and F tests.
+## apple.ancova.4 has the wrong   residual df, hence wrong   Mean Square and F tests.
+## apple.ancova.5 has the wrong   residual df, hence wrong   Mean Square and F tests,
 ##                and the wrong   treat Sum of Squares.  It has the correct
 ##                regression coefficients.
- 
+
 ## MMC Figure 6
-if.R(s={
-  ## multicomp must be done with apple.ancova.2
+## glht must be done with apple.ancova.2
 
-  ## S+ 8.1.1 has a bug in multcomp.default
-  ## This example requires a patch or an update to S+
-  
-  apple.mmc <-
-    multicomp.mmc(apple.ancova.2, focus="treat",
-                  comparisons="mcc", method="dunnett", valid.check=FALSE,
-                  plot=FALSE)
-  apple.mmc
+apple.mmc <- mmc(apple.ancova.2,
+                 linfct = mcp(treat=contrMat(rep(4,6), base=6)))
+apple.mmc
 
-  old.mar <- par(mar=c(15,4,4,2)+.1)
-
-  plot(apple.mmc, col.iso=16, x.offset=10)
-
-  par(mar=c(-4,4,28,2)+.1, new=TRUE)
-  plotMatchMMC(apple.mmc$mca)
-
-  par(old.mar)
-  
-},r={
-  ## glht must be done with apple.ancova.2
-  
-  apple.mmc <- mmc(apple.ancova.2,
-                    ## linfct=mcp(treat="Dunnett", base=6), ## not yet
-                    linfct = mcp(treat=contrMat(rep(4,6), base=6)))
-  apple.mmc
-
-  old.omd <- par(omd=c(0,1,.3,1))
-  plot(apple.mmc, col.iso=16, x.offset=15, col.mca.signif="red")
-  par(omd=c(0,1,0,.4), new=TRUE)
-  plotMatchMMC(apple.mmc$mca)
-  par(old.omd)
-
-})
+mmcplot(apple.mmc, style="both")

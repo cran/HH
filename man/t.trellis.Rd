@@ -43,7 +43,7 @@ interchanged.
 In R, the argument \code{"trellis"} object is sent to \code{lattice::t.trellis}
 to interchange the conditioning variables.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

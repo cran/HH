@@ -104,7 +104,7 @@ software or examples.  The \code{hh}, \code{hh.file}, and
 the \samp{"\\"} convention, so it can be picked up and pasted into an editor that
 uses the MS DOS convention for file paths.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

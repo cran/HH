@@ -41,7 +41,7 @@ X.residuals(x, ...)
 \value{
 Data.frame of residuals, one column from each regression.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.
@@ -64,9 +64,14 @@ usair$lnSO2 <- log(usair$SO2)
 usair$lnmfg <- log(usair$mfgfirms)
 usair$lnpopn <- log(usair$popn)
 
+#ifndef S-Plus
+usair.lm <- lm(lnSO2 ~ temp + lnmfg + wind + precip, data=usair)
+#endif
+#ifdef S-Plus
 usair.lm <- lm(lnSO2 ~ temp + lnmfg + wind + precip, data=usair, x=TRUE)
+#endif
 
-X.residuals(usair.lm)  ## the lm object must be computed with x=TRUE
+X.residuals(usair.lm)
 
 X.residuals(lnSO2 ~ temp + lnmfg + wind + precip, data=usair)
 

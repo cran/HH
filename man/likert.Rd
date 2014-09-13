@@ -532,11 +532,6 @@ Maintainer: Richard M. Heiberger <rmh@temple.edu> }
 ## the still experimental functions built on the vcd:::mosaic as the
 ## underlying plotting technology
 
-require(grid)
-require(lattice)
-require(latticeExtra)
-require(HH)
-
 data(ProfChal)  ## ProfChal is a data.frame.
 ## See below for discussion of the dataset.
 
@@ -571,7 +566,8 @@ likert(Question ~
 
 \dontrun{
 ## formula notation with long data arrangement
-NZScienceTeachingLong <- melt(NZScienceTeaching, id.vars=c("Question", "Subtable"))
+NZScienceTeachingLong <- reshape2::melt(NZScienceTeaching,
+                                        id.vars=c("Question", "Subtable"))
 names(NZScienceTeachingLong)[3] <- "Agreement"
 head(NZScienceTeachingLong)
 

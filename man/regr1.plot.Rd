@@ -66,7 +66,7 @@ regr1.plot(x, y,
   \item{err}{The default \code{-1} suppresses warnings about out of bound
   points.}
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

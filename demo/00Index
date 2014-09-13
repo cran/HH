@@ -1,19 +1,21 @@
-MMC.README         citation for MMC (Mean--mean Multiple Comparisons plot)
-MMC.WoodEnergy-aov aov in both S-Plus and R.  Block factor, treatment factor, and covariate.
-MMC.WoodEnergy     MMC plots in both S-Plus and R.  Run demo("MMC.WoodEnergy-aov") first.
-MMC.WoodEnergy.s   MMC plots from article, only in S-Plus.
-MMC.apple          interaction of treatment factor and covariate
-MMC.catalystm      one factor with orthogonal contrasts.  Construction of MMC plot
-MMC.cc176          three factors and covariate
-MMC.pulmonary      one factor with orthogonal contrasts. sufficient statistics
-PoorChildren       Count of Poor Children, by Child's Poorness, Number of Working Parents, Concentration of Poor Households
-arima.sim.XYZ      HH Exercises 18.1 18.2 18.3
-book.plots   	   sample code for adjusting graphic parameters for book publishing
-likert-paper       R code for all examples in Likert paper to be submitted, using formula method
-likertMosaic-paper R code for all examples in Likert paper to be submitted, using mosaic style plots
-likert-paper-noFormula R code for all examples in Likert paper to be submitted, not using formula method
-nottem       	   HH Exercise 18.5.  Nottingham temperatures from MASS.  In R, one of the models didn't complete.
-tsamstat     	   All tables and graphs in the Heiberger and Teles article, and some additional ones, are here.
-tsq                HH Exercise 18.7
-bwplot.examples    Examples controlling spacing and colors of boxplots using the panel.bwplot.intermediate.hh and position functions in the HH package.
-ancova             This demo produces a composite graph illustrating four models with a factor and a covariate.
+MMC.README              citation for MMC (Mean--mean Multiple Comparisons plot)
+MMC.WoodEnergy-aov      aov in both S-Plus and R.  Block factor, treatment factor, and covariate.
+MMC.WoodEnergy          MMC plots in both S-Plus and R.  Run demo("MMC.WoodEnergy-aov") first.
+MMC.WoodEnergy.s        MMC plots from article, only in S-Plus.
+MMC.apple               interaction of treatment factor and covariate
+MMC.catalystm           one factor with orthogonal contrasts.  Construction of MMC plot
+MMC.cc176               three factors and covariate
+MMC.pulmonary           one factor with orthogonal contrasts. sufficient statistics
+PoorChildren            Count of Poor Children, by Child's Poorness, Number of Working Parents, Concentration of Poor Households
+arima.sim.XYZ           HH Exercises 18.1 18.2 18.3
+book.plots              sample code for adjusting graphic parameters for book publishing
+likert-paper            R code for all examples in Likert paper to be submitted, using formula method
+likertMosaic-paper      R code for all examples in Likert paper to be submitted, using mosaic style plots
+likert-paper-noFormula  R code for all examples in Likert paper to be submitted, not using formula method
+nottem                  HH Exercise 18.5.  Nottingham temperatures from MASS.  In R, one of the models didn't complete.
+tsamstat                All tables and graphs in the Heiberger and Teles article, and some additional ones, are here.
+tsq                     HH Exercise 18.7
+bwplot.examples         Examples controlling spacing and colors of boxplots using the panel.bwplot.intermediate.hh and position functions in the HH package.
+ancova                  This demo produces a composite graph illustrating four models with a factor and a covariate.
+betaWeightedAverage     Regression slope is weighted sum of single-point slopes.
+appleAncova             A composite graph for a blocked analysis of covariance illustrating six models with a response, covariate, treatment factor, and blocking factor.

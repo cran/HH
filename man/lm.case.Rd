@@ -134,7 +134,7 @@ in Chambers and Hastie", \emph{Statistical Models in S}.
 
 
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.
@@ -146,7 +146,7 @@ in Chambers and Hastie", \emph{Statistical Models in S}.
 #ifndef S-Plus
   \code{\link[stats]{lm.influence}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{lm.influence}}.
 #endif
 }

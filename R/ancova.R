@@ -82,7 +82,16 @@
   if (length(formula[[3]]) == 1) m$x <- NULL
   m$display.plot.command <- NULL
   m$main <- list(label=deparse(substitute(formula)))
-  if (!missing(main)) m$main[names(main)] <- main
+
+  if (!missing(main)) {
+    if (is.list(main)) {
+      label.location <- which(names(main) == "")
+      if (length(label.location)==1)
+        names(main)[label.location] <- "label"
+    }
+    if (is.atomic(main)) main <- list(label=main)
+    m$main[names(main)] <- main
+  }
   m$coef <- coef.aov
   if (missing(groups)) {
     m$groups <- data.in[[tl[classes]]]

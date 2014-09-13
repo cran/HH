@@ -29,13 +29,13 @@ as.likert(x, ...)
 \method{as.likert}{ftable}(x, ...)
 \method{as.likert}{table}(x, ...)
 \method{as.likert}{matrix}(x,
-                ReferenceZero=NULL,
-                ...,
-                rowlabel=NULL, collabel=NULL,
-                xlimEqualLeftRight=FALSE,
-                xTickLabelsPositive=TRUE,
-                padding=FALSE,
-                reverse.left=TRUE)
+          ReferenceZero=NULL,
+          ...,
+          rowlabel=NULL, collabel=NULL,
+          xlimEqualLeftRight=FALSE,
+          xTickLabelsPositive=TRUE,
+          padding=FALSE,
+          reverse.left=TRUE)
 \method{as.likert}{listOfNamedMatrices}(x, ...)
 \method{as.likert}{array}(x, ...)
 %% \method{as.likert}{numeric}(x, ...)
@@ -50,7 +50,7 @@ is.likertCapable(x, ...)
     two-dimensional table, two-dimensional ftable,
     two-dimensional structable (as defined in the \code{vcd} package),
     or list of named matrices.
-    For \code{is.likert} and \code{is.likertCapable}, any object.
+    For functions \code{is.likert} and \code{is.likertCapable}, any object.
     This is the only required argument.}
   \item{rowlabel, collabel}{\code{names(dimnames(x))}, where \code{x} is
     the argument to the \code{as.likert} functions.

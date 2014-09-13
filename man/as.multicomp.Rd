@@ -29,11 +29,11 @@
 as.multicomp(x, ...)
 
 \method{as.multicomp}{glht}(x,       ## glht object
-           focus,   ## currently required
+           focus=x$focus,
            ylabel=deparse(terms(x$model)[[2]]),
            means=model.tables(x$model, type="means",
                               cterm=focus)$tables[[focus]],
-           height,
+           height=rev(1:nrow(x$linfct)),
            lmat=t(x$linfct),
            lmat.rows=lmatRows(x, focus),
            lmat.scale.abs2=TRUE,
@@ -145,7 +145,7 @@ a second.}
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 }

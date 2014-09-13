@@ -308,11 +308,11 @@ if (!missing(value)) {
   if (rightAxis)
     data2.melt <- reshape2::melt((data2[match(unique(names(data2)), names(data2))]),
                                 id.vars=c(unique(unlist(varNamesUsed[1:2])), "rightAxisLabels"),
-                                variable_name=".variable")
+                                variable.name=".variable")
   else
     data2.melt <- reshape2::melt((data2[match(unique(names(data2)), names(data2))])[,-1],
                                 id.vars=unique(unlist(varNamesUsed[1:2])),
-                                variable_name=".variable")
+                                variable.name=".variable")
   names(data2.melt)[ncol(data2.melt)] <- ".value"  ## avoid name conflict with "value"
 
   panel <- function(x, y, subscripts, ..., horizontal=horizontal,
@@ -349,7 +349,7 @@ if (!missing(value)) {
   ##   ylab.right <- tmp
   ## }
   result <-
-  barchart(as.formula(FormulaString), groups=data2.melt$variable,
+  barchart(as.formula(FormulaString), groups=data2.melt$.variable,
            data=data2.melt,
            as.table=as.table,
            xlab=xlab, ylab=ylab,

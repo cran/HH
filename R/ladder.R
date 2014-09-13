@@ -119,22 +119,20 @@ function(x, y,
   list(data=result, x.power=names(lfx), y.power=names(lfy))
 }
 
-"ladder.f" <-
-function(x) {
+ladder.f <- function(x, name.prefix="") {
   ## construct a data.frame, one column per power
   if (any(x <= 0)) warning('Non-positive values in argument to ladder.f.  Consider using a start value as "ladder.f(x+(min(x)+.5))".')
   result <- data.frame(-1/x, -1/sqrt(x), log(x), sqrt(x), x, x^2)
-  names(result) <- c(-1, -.5, 0, .5, 1, 2)
+  names(result) <- paste(name.prefix, c(-1, -0.5, 0, 0.5, 1, 2), sep="")
   result
 }
 
-"ladder.fstar" <-
-function(x) {
+ladder.fstar <- function(x, name.prefix="") {
   ## construct a data.frame, one column per power.  Use the scaled Box--Cox formulas
   if (any(x <= 0)) warning('Non-positive values in argument to ladder.fstar.  Consider using a start value as "ladder.f(x+(min(x)+.5))".')
   result <- data.frame((1/x - 1)/(-1), (1/sqrt(x)-1)/(-.5),
                         log(x), (sqrt(x)-1)/.5, x-1, (x^2 - 1)/2)
-  names(result) <- c(-1, -.5, 0, .5, 1, 2)
+  names(result) <- paste(name.prefix, c(-1, -0.5, 0, 0.5, 1, 2), sep="")
   result
 }
 

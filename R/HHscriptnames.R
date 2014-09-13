@@ -1,0 +1,111 @@
+HHscriptnames <- function(chapternumbers, edition=2) {
+  if (edition != 1 && edition != 2) stop("edition must be either 1 or 2", call. = FALSE)
+  HH.chapternames <- list(
+    "1"=c(
+      "1"   ="Ch01-intr",
+      "2"   ="Ch02-data",
+      "3"   ="Ch03-conc",
+      "4"   ="Ch04-grap",
+      "5"   ="Ch05-iinf",
+      "6"   ="Ch06-oway",
+      "7"   ="Ch07-mcomp",
+      "8"   ="Ch08-rega",
+      "9"   ="Ch09-regb",
+      "10"  ="Ch10-regbb",
+      "11"  ="Ch11-regc",
+      "12"  ="Ch12-tway",
+      "13"  ="Ch13-dsgn",
+      "14"  ="Ch14-dsgntwo",
+      "15"  ="Ch15-twtb",
+      "16"  ="Ch16-npar",
+      "17"  ="Ch17-logi",
+      "18"  ="Ch18-tser"),
+    "2"=c(
+      "1"   ="intr",
+      "2"   ="data",
+      "3"   ="conc",
+      "4"   ="grap",
+      "5"   ="iinf",
+      "6"   ="oway",
+      "7"   ="mcomp",
+      "8"   ="rega",
+      "9"   ="regb",
+      "10"  ="regbb",
+      "11"  ="regc",
+      "12"  ="tway",
+      "13"  ="dsgn",
+      "14"  ="dsgntwo",
+      "15"  ="twtb",
+      "16"  ="npar",
+      "17"  ="logi",
+      "18"  ="tser",
+      "19"  ="likert",
+      "20"  ="medphss",
+      A     ="sftw",
+      B     ="Spls",
+      C     ="SASa",
+      D     ="dstr",
+      E     ="edit",
+      F     ="mthp",
+      G     ="grapb",
+      H     ="RApx",
+      I     ="RcmdrApx",
+      J     ="RExcelApx",
+      K     ="ShinyApx",
+      L     ="HHApx")
+      )
+
+  chapternumbers.char <- as.character(chapternumbers)
+  names(chapternumbers.char) <- chapternumbers.char
+  chapternames <- matrix(chapternumbers.char,
+                      length(chapternumbers), 1,
+                      dimnames=list(chapternumbers.char, "Absolute Pathname"))
+  validname <- (chapternumbers.char == chapternumbers.char) ## initialize to all TRUE
+  old.warn <- options(warn=-1)  ## suppress warning from as.numeric("abcd")
+  for (chapternumber in chapternumbers) {
+    if ((!is.na(as.numeric(chapternumber)) &&
+         (as.numeric(chapternumber) >= 1) &&
+         (as.numeric(chapternumber) <= length(HH.chapternames[[edition]]))) ||
+        chapternumber %in% names(HH.chapternames[[edition]]))
+      HHname <- HH.chapternames[[edition]][chapternumber]
+    else {
+      if (chapternumber %in% HH.chapternames[[edition]])
+        HHname <- chapternumber
+      else {
+        HHname <- "Warning: Not a valid chapter"
+        validname[as.character(chapternumber)] <- FALSE
+      }
+    }
+    chapternames[as.character(chapternumber), 1] <- HHname
+  }
+  options(old.warn)
+  pathnames <- chapternames
+  for (chapseq in seq(along=chapternames)[validname]) {
+    pathnames[chapseq] <- system.file(paste("scripts/hh", edition, "/",
+                                              pathnames[chapseq],
+                                              c(".r", ".R")[as.numeric(edition)], sep=""),
+                                        package="HH")
+  }
+  pathnames[pathnames == ""] <- "Warning: No script file for chapter"
+  pathnames
+}
+
+
+WindowsPath <- function(x) {
+  gsub("/", "\\\\", x)
+}
+
+if (FALSE) {
+HHscriptnames(c(2, "RExcelApx"))
+HHscriptnames(c("iinf","RApx"))
+HHscriptnames(c(1:5))
+HHscriptnames(c(1:30))
+WindowsPath(HHscriptnames(c(1:30)))
+cat(paste(WindowsPath(HHscriptnames(c(1:30))), "\n"))
+cat(WindowsPath(HHscriptnames("mcomp")), "\n")
+HHscriptnames(2)
+HHscriptnames("2")
+HHscriptnames("abcd")
+HHscriptnames("mcomp")
+HHscriptnames(42)
+}

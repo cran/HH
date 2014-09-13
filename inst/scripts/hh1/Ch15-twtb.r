@@ -82,13 +82,11 @@ chisq.test(data.matrix(drunk))  ## warning from cell [2,5] having expected value
 data(glasses)
 
 ## draw the iso-odds ratio plot with 50% CI and 95% CI,
-## invisibly return the 95% CI
-tmp <- plotOddsRatio(glasses)
+plotOddsRatio(glasses)
 ## export.eps(hh("twtb/figure/glasses.ci.eps"))
 
 ## display the 95% CI and supporting values
-print(tmp)
-rm(tmp)
+OddsRatio(glasses)
 
 
 ## calculate values in text

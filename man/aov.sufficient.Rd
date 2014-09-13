@@ -90,13 +90,7 @@ pulmonary.mmc <- mmc(pulmonary.aov,
                      linfct=mcp(smoker="Tukey"),
                      df=pulmonary.aov$df.residual,
                      vcov.=vcovSufficient)
-old.omd <- par(omd=c(.0,.95,0,1))
-plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05)
-
-## tiebreaker plot, with contrasts ordered to match MMC plot,
-## with all contrasts forced positive and with names also reversed,
-## and with matched x-scale.
-plotMatchMMC(pulmonary.mmc$mca)
+mmcplot(pulmonary.mmc, style="both")
 
 ## orthogonal contrasts
 pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
@@ -113,13 +107,7 @@ pulmonary.mmc <- mmc(pulmonary.aov,
                      vcov.=vcovSufficient,
                      focus.lmat=pulm.lmat)
 
-plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05)
-plotMatchMMC(pulmonary.mmc$lmat, col.signif='blue')
-
-## pairwise and orthogonal contrasts on the same plot
-plot(pulmonary.mmc, ry=c(2.5, 3.4), x.offset=.05,
-     print.mca=TRUE, print.lmat=TRUE)
-par(old.omd)
+mmcplot(pulmonary.mmc, style="both", type="lmat")
 }
 })
 }

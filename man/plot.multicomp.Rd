@@ -31,6 +31,7 @@
   \code{MMC} plot and displays the individual contrasts in the same
   order as the \code{MMC} plot.  See \code{\link{mmc}} for examples.
 
+  These functions are no longer recommended.  Use \code{\link{mmcplot}} instead.
 }
 \usage{
 \method{plot}{multicomp}(x, ...) ## R only
@@ -136,7 +137,7 @@ Heiberger, R. M. and Holland, B. (2006).
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
-  completely different libraries.
+  completely different packages.
 %% R
 #ifndef S-Plus
   Multiple comparisons in R are based on \code{\link[multcomp]{glht}}.
@@ -146,7 +147,7 @@ Heiberger, R. M. and Holland, B. (2006).
   Multiple comparisons in R are based on \code{glht}.
   Multiple comparisons in S-Plus are based on \code{\link[splus]{multicomp}}.
 #endif
-  The MMC plot in the HH library is the same in both systems.
+  The MMC plot in the HH package is the same in both systems.
   The details of getting the plot differ.
 }
 \seealso{\code{\link{mmc}} in both languages,

@@ -8,12 +8,11 @@ as.glht <- function (x, ...)
 
 as.multicomp.glht <-
   function(x,       ## glht object
-           focus,   ## currently required
+           focus=x$focus,
            ylabel=deparse(terms(x$model)[[2]]),
            means=model.tables(x$model, type="means", cterm=focus)$tables[[focus]],
-           height,
+           height=rev(1:nrow(x$linfct)),
            lmat=t(x$linfct),
-##           lmat.rows=-1,
            lmat.rows=lmatRows(x, focus),
            lmat.scale.abs2=TRUE,
            estimate.sign=1,
@@ -76,7 +75,7 @@ as.multicomp.glht <-
     if (length(means) != nrow(lmat.factor))
       stop("Please specify lmat.rows with mmc on a design with more than one factor.")
 ##    result$height <- (means %*% abs(lmat.factor))[1,]
-    result$height <- height
+    result$height <- if (is.matrix(height)) height[1,] else height
 
     result$lmat <-
       if (lmat.scale.abs2 && !contrasts.none)
@@ -126,7 +125,6 @@ mmc <- function (model, ...)
 ##            } else {
 ##              lmatContrast(t(none.glht$linfct), focus.lmat)
 ##              },
-## ##         lmat.rows=-1,
 ##            lmat.rows=lmatRows(model, focus),
 
 ##            lmat.scale.abs2=TRUE,
@@ -164,7 +162,6 @@ mmc.default <-     ## this works for model inherits from "lm"
            } else {
              lmatContrast(t(none.glht$linfct), focus.lmat)
              },
-##         lmat.rows=-1,
            lmat.rows=lmatRows(model, focus),
 
            lmat.scale.abs2=TRUE,
@@ -201,6 +198,7 @@ mmc.default <-     ## this works for model inherits from "lm"
                                  contrasts.arg=model$contrasts)
         none.glht <- glht(model, linfct=focus.linfct,
                           alternative=alternative, ...)
+        if (is.null(none.glht$focus)) none.glht$focus <- focus
       }
     else
       {
@@ -262,7 +260,9 @@ mmc.default <-     ## this works for model inherits from "lm"
                                 means=means,
                                 height=means*2,
                                 lmat=t(none.glht$linfct), lmat.rows=lmat.rows,
-                                contrasts.none=TRUE, estimate.sign=0,
+                                contrasts.none=TRUE,
+                                estimate.sign=0,  ## observed means, contrasts: no reversal!
+                                order.contrasts=order.contrasts,
                                 level=1-result$mca$alpha,
                                 calpha=result$mca$crit.point,
                                 method=result$mca$method, ...)
@@ -280,6 +280,7 @@ mmc.default <-     ## this works for model inherits from "lm"
       }
       lmat.glht <- glht(model, linfct=t(lmat),
                         alternative=alternative, ...)
+      if (is.null(lmat.glht$focus)) lmat.glht$focus <- focus
       if (missing(focus.lmat)) stop("'focus.lmat' is missing.")
       result$lmat <-
         as.multicomp(lmat.glht, focus=focus, ylabel=ylabel,
@@ -288,6 +289,8 @@ mmc.default <-     ## this works for model inherits from "lm"
                      abs(sweep(focus.lmat, 2,
                                apply(abs(focus.lmat), 2, sum)/2, "/"))[names(means),],
                      lmat=lmat, lmat.rows=lmat.rows,
+                     estimate.sign=estimate.sign,
+                     order.contrasts=order.contrasts,
                      level=1-result$mca$alpha,
                      calpha=result$mca$crit.point,
                      method=result$mca$method, ...)

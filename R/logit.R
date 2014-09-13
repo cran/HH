@@ -11,3 +11,14 @@ antilogit <- function(x) {
   result[!tmp] <- 1
   result
 }
+
+
+#### odds and antiodds
+
+odds <- function(p) p/(1-p)
+
+antiodds <- function(o) {
+  p <- o/(o+1)
+  p[is.nan(p)] <- 1
+  p
+}

@@ -7,7 +7,7 @@
 \description{
 The VIF for predictor \eqn{i} is \eqn{1/(1-R_i^2)}, where \eqn{R_i^2} is the
 \eqn{R^2} from a regression of predictor \eqn{i} against the remaining
-predictors.  
+predictors.
 }
 \usage{
 vif(xx, ...)
@@ -54,12 +54,12 @@ redundant.  Values of VIF exceeding 5 are considered evidence of
 collinearity: The information carried by a predictor having such a VIF
 is contained in a subset of the remaining predictors.  If, however,
 all of a model's regression coefficients differ significantly from 0
-(\eqn{p}-value \eqn{<} .05), a somewhat larger VIF may be tolerable.  
+(\eqn{p}-value \eqn{<} .05), a somewhat larger VIF may be tolerable.
 }
 \value{
 Vector of VIF values, one for each X-variable.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004).
+\references{ Heiberger, Richard M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

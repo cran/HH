@@ -43,7 +43,8 @@ interaction2wt.default <-
            par.strip.text.input=trellis.par.get()$add.text,  ##list(cex=.7)
            scales.additional,
            main.in=paste(responselab,
-             ": main effects and 2-way interactions", sep=""),
+             ": ", c("main", "simple")[1+simple],
+             " effects and 2-way interactions", sep=""),
            xlab="", ylab="",
            simple=FALSE,
            box.ratio=if (simple) .32 else 1,

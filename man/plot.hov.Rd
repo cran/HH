@@ -55,7 +55,7 @@ panel.hov(..., transpose = TRUE)
   the \eqn{F} statistic resulting from an ordinary one-way analysis of
   variance on the data points in the third panel.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

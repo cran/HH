@@ -45,9 +45,9 @@ ladder3(x, y,
         dsy=deparse(substitute(y)),
         ladder.function=ladder.f)
 
-ladder.f(x)
+ladder.f(x, name.prefix="")
 
-ladder.fstar(x)
+ladder.fstar(x, name.prefix="")
 
 strip.ladder(which.given,
              which.panel,
@@ -82,6 +82,9 @@ strip.ladder(which.given,
     \code{strip=FALSE}.}
   \item{ladder.function}{function to use to create data.frame of powers
     of input variable.}
+  \item{name.prefix}{Base name used for column names of powers.  The
+             default is empty (\code{""}).  An alternative must include
+             the power symbol \code{"^"}, for example, \code{"abc^"}.}
   \item{strip.number}{Number of strip labels in each panel of the display.
     0: no strip labels; 1: one strip label of the form \code{y^p ~ x^q};
     2: two strip labels of the form \code{ylab: y^p} and \code{xlab: x^q},

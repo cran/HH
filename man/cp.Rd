@@ -69,7 +69,7 @@ attributes:
 \item{xvars}{X variables}
 \item{sw.names}{Model name produced by \code{stepwise}.}
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004).
+\references{ Heiberger, Richard M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

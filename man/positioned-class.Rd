@@ -31,7 +31,7 @@ Although \code{interaction.positioned} should be a method, it isn't
 because \code{interaction} is not a generic and can't easily be made one
 since the name \code{interaction.plot} conflicts.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

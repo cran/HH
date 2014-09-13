@@ -3,7 +3,9 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{MMC (Mean--mean Multiple Comparisons) plot.}
 \description{
-  MMC (Mean--mean Multiple Comparisons) plot.
+  MMC (Mean--mean Multiple Comparisons) plot.  The \code{plot} method documented
+  here is no longer recommended for R; use \code{\link{mmcplot}} instead.
+  This method is still necessary for S-Plus.
 }
 \usage{
 \method{plot}{mmc.multicomp}(x,
@@ -92,13 +94,13 @@
       \item{\dots}{other arguments, currently ignored.}
 }
 \references{
-Heiberger, Richard~M. and Holland, Burt (2004b).
+Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
@@ -121,7 +123,7 @@ When there is overprinting of labels (a consequence of level means being
 close together), a tiebreaker plot may be needed.  See \code{?MMC} for
 an example.
 }
-\seealso{\code{\link{mmc}}, \code{\link{plotMatchMMC}}}
+\seealso{\code{\link{mmc}}, \code{\link{plotMatchMMC}}, \code{\link{mmcplot}}.}
 \examples{
 data(catalystm)
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
@@ -161,5 +163,11 @@ plot(catalystm.mmc, x.offset=2.1, ry.mmc=c(50,58),
 ## both pairwise contrasts and user-specified contrasts
 plot(catalystm.mmc, x.offset=2.1, ry.mmc=c(50,58), lty.iso=2,
      col.iso='darkgray', print.mca=TRUE)
+
+\dontrun{
+## newer mmcplot
+mmcplot(catalystm.mmc)
+mmcplot(catalystm.mmc, type="lmat")
+}
 }
 \keyword{hplot}

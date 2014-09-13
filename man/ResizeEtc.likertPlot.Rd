@@ -10,10 +10,10 @@ negative side of the axis.
 }
 \usage{
 \method{ResizeEtc}{likertPlot}(c.list,
-                     x,
-                     x.pl.nonames,
-                     horizontal,
-                     ...)
+          x,
+          x.pl.nonames,
+          horizontal,
+          ...)
 }
 \arguments{
   \item{c.list}{combination of two or more trellis objects

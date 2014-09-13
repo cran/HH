@@ -48,7 +48,7 @@ multicomp.label.change(x, old="adj", new="new", how.many=2)
 When \code{sort.by=="height"}, sort the contrasts by the reverse order
 of the heights.  This provides a \code{"multicomp"} object that will be
 plotted by \code{plot.multicomp} in the same order used by\cr
-\code{plot.mmc.multicomp}.  If there is not \code{"height"} component,
+\code{mmcplot} or the older \code{plot.mmc.multicomp}.  If there is not \code{"height"} component,
 the original \code{"multicomp"} object is returned.
 
 When \code{sort.by=="estimate"}, sort the contrasts by the reverse order
@@ -66,7 +66,7 @@ that order.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 }

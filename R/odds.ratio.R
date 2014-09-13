@@ -43,7 +43,7 @@ function(x, alpha=.05) {
 plot.odds.ratio <- function(...)
   .Defunct("plotOddsRatio", package="HH")
 
-"plotOddsRatio" <-
+"plotOddsRatio.base" <-
   function(x,
            ylab="prob(col1 | row1)",
            xlab="prob(col1 | row2)",
@@ -67,7 +67,7 @@ plot.odds.ratio <- function(...)
               type="l", lty=c(1,3,3), col=1,
               xlab=xlab,
               ylab=ylab)
-      abline(b=1, lty=2)
+      abline(a=0, b=1, lty=2)
       points(y=tmp$p1, x=tmp$p2, pch=13)
       if.R(r=old.xpd <- par(xpd=NA), s={})
       legend(x=legend.x, y=.6, lty=c(1,4,3,2), col=1,

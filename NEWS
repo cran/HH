@@ -1,3 +1,146 @@
+Version 3.1-4
+-------------
+
+* 2014 September 11
+
+* New function interval.glm for confidence and prediction intervals for glm objects.
+
+* add odds and antiodds functions
+
+* new useOuterStripsT2L1 function, based on latticeExtra::useOuterStrips
+
+* \tabular{}{} in ancovaplot.Rd
+
+* add between= argument to ancovaplot
+
+* change mmc.Rd and other mmc help files to use mmcplot in the
+  examples instead of the older HH:::plot.mmc.multicomp
+
+* HHscriptnames now takes an edition argument
+
+* Sent to CRAN
+
+
+Version 3.1-3
+-------------
+
+* 2014 July 18
+
+* move First Edition scripts from scripts/xxxx.R to scripts/hh1/xxxx.r
+  in parallel with scripts/hh2/xxxx.R for Second Edition scripts.
+
+* fix naming bug of reshape2::melt arguments in likert.formula
+
+* Limited release to colleague
+
+Version 3.1-2
+-------------
+
+* 2014 July 15
+
+* repair sequencing of ar:p,ma:q for two-digit p or q in tsdiagplot.
+
+* Limited release to colleague
+
+
+Version 3.1-1
+-------------
+
+* 2014 July 09
+
+* mmc.explain moved to an unexported function
+
+* Include mmcplot and related functions (lattice replacement
+  for plot.mmc.multicomp and plot.multicomp).
+
+* unrecommend plot.mmc.multicomp() and plot.multicomp() in favor of
+  mmcplot().  I am not deprecating them now.
+
+* new hov and OneWayVarPlot
+
+* new ancovaplot and related functions.
+
+* unrecommend ancova() in favor of aov() and ancovaplot().  I am not deprecating it now.
+
+* replace demo("ancova") based on the ancova() with newer version based on ancovaplot().
+
+* add new demo("appleAncova") with a response, covariate, treatment factor, and blocking factor.
+
+* merge matrixTrellis functions
+
+* merge regressionDiagnostics functions
+
+* merge dicreteUniform functions
+
+* copy HH second edition files to scripts/hh2
+
+* Limited release to colleague
+
+
+Version 3.1-0
+-------------
+
+* 2014 July 01
+
+* Start merging small packages written for the HH second edition
+  into the HH package
+
+* Include noop versions of hhpdf hhdev.off hhcapture hhcode
+  (needed for HH2 script files)
+
+* Modify mmc.default to include result$none$glht$focus and
+  result$lmat$glht$focus
+
+* freeze on 2014-07-03
+
+
+Version 3.0-5
+-------------
+
+* 2014 June 28
+
+* Adjust ylim in demo(ancova)
+
+* mmc (multicomp.reverse) warning() changed to cat().
+  This is informative and does not require user action.
+  It should appear at the place where the function is called.
+
+* data(R282.y) now used in HH2 instead of data(R282).  For the second
+  edition of HH, the dummy variables previously stored in R282 are now
+  generated in the code.
+
+* demo(betaWeightedAverage) added.
+
+* added  RcmdrPlugin.HH to Suggests:
+
+* corrected abline in plot.summaryHH.regsubsets
+
+* repair as.multicomp.glht to force height to be a vector.
+
+* repair mmc.default to allow estimate.sign to be honored by lmat,
+  and order.contrasts to be honored by lmat and none.
+
+* give as.multicomp.glht default values for focus and height arguments
+
+* ancova "main" argument handles label correctly now.
+
+* new argument "name.prefix" to functions ladder.f and ladder.fstar.
+
+* repair abind call in plotOddsRatio.base for R.
+  R requires the a= argument, S-Plus acted as if the default was a=0.
+
+* new plotOddsRatio function based on lattice.  New function returns a lattice object.
+  Old plotOddsRatio.base function returns OddsRatio(x, alpha[1]).
+
+* resave crime.rda with names(dimnames())
+
+* add jury.rda and oral.rda to data directory
+
+* new example to objip: {search(); objip()[2:3]}
+
+* freeze on 2014-07-01
+
+
 Version 3.0-4
 -------------
 
@@ -8,6 +151,8 @@ Version 3.0-4
 
 * the likert paper has been published in the Journal of Statistical Software.  See
   ?likert for the reference.
+
+* published on CRAN 2014-03-11
 
 
 Version 3.0-3
@@ -38,6 +183,9 @@ Version 3.0-3
 * revised three demo files for better appearance of the plots.
 
 * new function panel.bwplot.superpose
+
+* published on CRAN 16-Feb-2014
+
 
 Version 3.0-2
 -------------

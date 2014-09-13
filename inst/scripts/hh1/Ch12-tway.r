@@ -163,6 +163,7 @@ print(position=c(0, .95, 1, 1), more=FALSE,
 ##
 ## All three are collected together in this directory in file
 ## hh("scripts/Ch12-rhiz-bwplot-alternate.r")
+cat("See file Ch12-rhiz-bwplot-alternate.r\n")
 
 
 

@@ -3,11 +3,12 @@
 \alias{multicomp.mean}
 \alias{multicomp.mmc.mean}
 
-\title{ MMC  (mean--mean multiple comparisons) plots from the sufficient
+\title{ MMC (Mean--mean Multiple Comparisons) plots from the sufficient
 statistics for a one-way design.}
 \description{
   Constructs a \code{"mmc.multicomp"} object from the sufficient statistics
-   for a one-way design.  The object must be explicitly plotted.
+  for a one-way design.  The object must be explicitly plotted.
+  This is the S-Plus version.  See ?aovSufficient for R
 }
 \usage{
 
@@ -32,7 +33,7 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
                    method="tukey",
                    df=sum(n)-length(n),
                    sigmahat=(sum((n-1)*s^2)/df)^.5)
-  
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -75,7 +76,7 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
 #ifndef S-Plus
     \code{multicomp}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{\link[splus]{multicomp}}.
 #endif
     The equivalent is not in \code{glht}.}
@@ -95,7 +96,7 @@ multicomp.mmc.mean(group, n, ybar, s, ylabel, focus.name,  ## S-Plus
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 
@@ -112,16 +113,16 @@ Hsu, J. and Peruggia, M. (1994).
 #ifndef S-Plus
   \code{\link[multcomp]{glht}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{glht}.
 #endif
-  MMC plots in S-Plus are constructed by 
+  MMC plots in S-Plus are constructed by
   \code{multicomp.mmc} based on the S-Plus
 %% R
 #ifndef S-Plus
   \code{multicomp}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{multicomp}}.
 #endif
   The MMC plot is the same in both systems.  The details of getting the
@@ -160,7 +161,7 @@ plot(pulmonary.mca)
 
 
 pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
-                   "n-pnl"  =c( 3,-1,-1,-1, 0, 0), ## none vs light 
+                   "n-pnl"  =c( 3,-1,-1,-1, 0, 0), ## none vs light
                    "p-nl"   =c( 0, 2,-1,-1, 0, 0), ## {} arbitrary 2 df
                    "n-l"    =c( 0, 0, 1,-1, 0, 0), ## {} for 3 types of light
                    "m-h"    =c( 0, 0, 0, 0, 1,-1)) ## moderate vs heavy

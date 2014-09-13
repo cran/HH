@@ -38,7 +38,7 @@ hov.bf(x, group,  ## x is the response variable
 \value{
 \code{"htest"} object for the hov test.
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

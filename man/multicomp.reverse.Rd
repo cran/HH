@@ -6,6 +6,8 @@
   Force all comparisons in a \code{"multicomp"} object
   to have the same sign.  If the contrast \code{"A-B"} has a negative estimate,
   reverse it show the contrast \code{"B-A"} with a positive estimate.
+  If a contrast name does not include a minus sign \code{"-"} and the
+  contrast is reversed, then an informative message is printed.
 }
 \usage{
 multicomp.reverse(y, estimate.sign = 1, ...)
@@ -30,7 +32,7 @@ as the argument but with the sign of the contrasts changed as needed.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 
-Heiberger, R.~M. and Holland, B. (2006).
+Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
 \emph{Journal of Computational and Graphical Statistics}, 15:937--955.
 }

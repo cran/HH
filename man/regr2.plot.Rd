@@ -25,7 +25,7 @@ regr2.plot(x, y, z,
 #ifndef S-Plus
     \code{\link[graphics]{persp}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
     \code{\link[splus]{persp}}.
 #endif
   }
@@ -38,7 +38,7 @@ regr2.plot(x, y, z,
 #ifndef S-Plus
   \code{persp}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[splus]{persp}}.
 #endif
   }
@@ -47,13 +47,13 @@ regr2.plot(x, y, z,
 #ifndef S-Plus
     \code{\link[graphics]{persp}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{persp}.
 #endif
   }
   \item{\dots}{Other arguments to \code{persp}.}
 }
-\references{ Heiberger, Richard~M. and Holland, Burt (2004b).
+\references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

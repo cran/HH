@@ -182,6 +182,7 @@ plot.multicomp.hh <-
        )
 }
 
+
 plot.matchMMC <- function(...)
   .Defunct("plotMatchMMC", package="HH")
 

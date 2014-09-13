@@ -1,4 +1,4 @@
-`summaryHH` <- function (object, ...) 
+`summaryHH` <- function (object, ...)
   UseMethod("summaryHH")
 
 `summaryHH.regsubsets` <-
@@ -6,7 +6,7 @@
            names = abbreviate(dimnames(incidence)[[2]], minlength = abbrev),
            abbrev = 1, min.size = 1, max.size = dim(sumry$which)[2],
            statistic = c("bic", "cp", "adjr2", "rsq", "rss", "stderr"),
-           las = par("las"), 
+           las = par("las"),
            cex.subsets = 1, ..., main=statistic) {
 
     x <- summary(object, ...)
@@ -16,7 +16,7 @@
     table.regsubsets$stderr <- sqrt(table.regsubsets$rss /
                                     (object$nn-table.regsubsets$p))
     sumry <- list(summary=table.regsubsets, which=x$which, nn=object$nn)
-  
+
     incidence <- sumry$which
     incidence[] <- c(" ", "*")[1+sumry$which]
     if (dimnames(sumry$which)[[2]][1] == "(Intercept)")
@@ -24,7 +24,7 @@
     statistic <- match.arg(statistic)
     stat <- switch(statistic,
                    bic = sumry$summary$bic,
-                   cp = sumry$summary$cp, 
+                   cp = sumry$summary$cp,
                    adjr2 = sumry$summary$adjr2,
                    rsq = sumry$summary$rsq,
                    rss = sumry$summary$rss,
@@ -37,11 +37,11 @@
     abbrevs <- apply(incidence=="*", 1, function(x, names)
                      paste(names[x], sep="", collapse="-"),
                      names=names)
-    
+
     model.names <- apply(incidence=="*", 1, function(x, names)
                          paste(names[x], sep="", collapse="-"),
                          names=dimnames(incidence)[[2]])
-    
+
     .Summary <- cbind(model=abbrevs, sumry$summary)
     attr(.Summary, "abbrevs") <-
       data.frame(row.names=abbrevs, model=model.names, stringsAsFactors=FALSE)
@@ -60,22 +60,22 @@
     min.size <- min(stat)
     max.size <- max(stat)
     plot(x$p, stat,
-         type = "p", xlab = "Number of Parameters", 
+         type = "p", xlab = "Number of Parameters",
          ylab = paste("Statistic:", statistic), las=par("las"),
          ..., cex=cex, main=statistic, col=col, pch=pch,
-         xlim=range(x$p)+c(-.4,.4))
-    if (statistic == "cp") abline(a=1, b=1, col=col.abline)
-    
+         xlim=range(x$p)+c(-.4,1))
+    if (statistic == "cp") abline(a=0, b=1, col=col.abline)
+
     for (i in seq(along = stat)) {
-      adj <- if (x$p[i] == min.size) 
+      adj <- if (x$p[i] == min.size)
         0
-      else if (x$p[i] == max.size) 
+      else if (x$p[i] == max.size)
         1
       else 0.5
       text(x$p[i], stat[i], x$model[i],
            cex = cex.text, adj = adj, col=col.text)
     }
-    
+
     if (legend) {
       abbrevs <- row.names(attr(x, "abbrevs"))
       legend(locator(1),

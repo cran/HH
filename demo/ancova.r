@@ -1,97 +1,50 @@
-## demo/ancova.r
+data(hotdog, package="HH")
 
-library(HH)
-data(hotdog)
+CpT <- ancovaplot(Sodium ~ Calories + Type, data=hotdog)
+## CpT
+anova(aov(Sodium ~ Calories + Type, data=hotdog))
 
-script_HH <- function(scriptname) {
-  HH.index <- match("package:HH", search(), 0)
-  paste(searchpaths()[HH.index], "scripts", scriptname, sep="/")
-}
+CsT <- ancovaplot(Sodium ~ Calories * Type, data=hotdog)
+## CsT
+anova(aov(Sodium ~ Calories * Type, data=hotdog))
 
-cat("This example is based on the last graph produced by the script\n", script_HH("Ch10-regbb.r"), "\n")
+CgT <- ancovaplot(Sodium ~ Calories, groups=Type, data=hotdog)
+## CgT
+anova(aov(Sodium ~ Calories, data=hotdog))
 
+TxC <- ancovaplot(Sodium ~ Type, x=Calories, data=hotdog)
+## TxC
+anova(aov(Sodium ~ Type, data=hotdog))
 
-
-removeLegendAxes <-
-       function(x) {
-         x$ylab <- NULL
-         x$xlab <- NULL
-         x$legend <- NULL
-         x$x.scales$alternating <- 0
-         x$y.scales$alternating <- 0
-         x$x.scales$tck <- c(0,0)
-         x$y.scales$tck <- c(0,0)
-         x$par.strip.text$cex <- .7
-         x
-      }
-
-## regression
-## same line: common intercept and common slope
-     hC.aov <- ancova(Sodium ~ Calories, groups=Type, data=hotdog,
-                      par.strip.text=list(cex=1.2), ylim=c(140,700))
-
-## horizontal lines: zero slope and separate intercepts
-  hotdog.aov <- ancova(Sodium ~ Type, data=hotdog, x=Calories,
-                       par.strip.text=list(cex=1.2), ylim=c(140,700))
-
-## analysis of covariance
-## analysis with a concomitant explanatory variable
-## parallel lines: separate intercepts and common slope
-hCT.aov <- ancova(Sodium ~ Calories + Type, data=hotdog,
-                  par.strip.text=list(cex=1.2), ylim=c(140,700))
-
-## interaction: separate intercepts and slopes
-hCTi.aov <- ancova(Sodium ~ Calories * Type, data=hotdog,
-                   par.strip.text=list(cex=1.2), ylim=c(140,700))
-
+## pdf(width=9, height=7)
+removeAnnotation <-
+  function(x) {
+    update(x,
+           main=list(x$main, cex=1.1),
+           ylab=NULL,
+           xlab=NULL,
+           scales=list(alternating=0, tck=0),
+           par.strip.text=list(cex=.9, lines=1.1))
+  }
 
 ## 2 x 3, with empty spots
-print(position=c(.03, .31,  .53, .62), more=TRUE,
-      removeLegendAxes(attr(  hC.aov,     "trellis"))
-      )
-print(position=c(.50, .00, 1.00, .31), more=TRUE,
-      removeLegendAxes(attr(  hotdog.aov, "trellis"))
-      )
-print(position=c(.50, .31, 1.00, .62), more=TRUE,
-      removeLegendAxes(attr(  hCT.aov,    "trellis"))
-      )
-print(position=c(.50, .62, 1.00, .93), more=TRUE,
-      removeLegendAxes(attr(  hCTi.aov,   "trellis"))
-      )
+print(position=c(.03, .31,  .53, .62), removeAnnotation(CgT), more=TRUE )
+print(position=c(.50, .00, 1.00, .31), removeAnnotation(TxC), more=TRUE )
+print(position=c(.50, .31, 1.00, .62), removeAnnotation(CpT), more=TRUE )
+print(position=c(.50, .62, 1.00, .93), removeAnnotation(CsT), more=FALSE)
 
+## grid writes on the current page, even though lattice has been told more=FALSE
 ## column labeling
-print(position=c(.17, 0, .42, .10), more=TRUE,
-      xyplot(0 ~ .5, panel=function(...){}, xlab=expression("constant intercept" ~~ alpha),
-             ylab="", scales=list(draw=FALSE),
-             par.settings = list(axis.line = list(col = "transparent")))
-)
-print(position=c(5/8, 0, 7/8, .10), more=TRUE,
-      xyplot(0 ~ .5, panel=function(...){}, xlab=expression("variable intercept" ~~ alpha),
-             ylab="", scales=list(draw=FALSE),
-             par.settings = list(axis.line = list(col = "transparent")))
-)
+grid.text(x=c(.29, .75), y=.02,
+          c(expression("constant intercept" ~~ alpha),
+            expression("variable intercept" ~~ alpha)))
 
 ## row labeling
-print(position=c(0, .09, .10, .19), more=TRUE,
-      xyplot(0 ~ .5, panel=function(...){}, ylab=expression("zero slope" ~~ beta==0),
-             xlab="", scales=list(draw=FALSE),
-             par.settings = list(axis.line = list(col = "transparent")))
-)
-print(position=c(0, .41, .10, .51), more=TRUE,
-      xyplot(0 ~ .5, panel=function(...){}, ylab=expression("constant slope" ~~ beta),
-             xlab="", scales=list(draw=FALSE),
-             par.settings = list(axis.line = list(col = "transparent")))
-)
-print(position=c(0, .76, .10, .86), more=TRUE,
-      xyplot(0 ~ .5, panel=function(...){}, ylab=expression("variable slope" ~~ beta),
-             xlab="", scales=list(draw=FALSE),
-             par.settings = list(axis.line = list(col = "transparent")))
-)
+grid.text(x=.02, y=c(.15, .45, .75), rot=90,
+          c(expression("zero slope" ~~ beta==0),
+            expression("constant slope" ~~ beta),
+            expression("variable slope" ~~ beta)))
 
 ## main title
-print(position=c(0, .90, 1, 1), more=FALSE,
-      xyplot(0 ~ 0, panel=function(...){},
-             xlab=NULL, ylab=NULL,
-             scales=list(draw=FALSE),
-             main="Composite graph illustrating four models with a factor and a covariate",
-             par.settings = list(axis.line = list(col = "transparent"))))
+grid.text(x=.5, y=.98, gp=gpar(fontsize=15),
+          "Composite graph illustrating four models with a factor and a covariate")

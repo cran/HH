@@ -32,7 +32,7 @@ License: \tab GPL version 2 or newer\cr
 }
 %~~ An overview of how to use the package, including the most important functions ~~
 
-data display, scatterplot matrix, MMC mean--mean multiple comparison
+data display, scatterplot matrix, (MMC Mean--mean Multiple Comparison)
 plots, interaction plots, ANCOVA plots, regression diagnostics, time
 series, ARIMA models, boxplots
 
@@ -43,7 +43,7 @@ Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
 }
 \references{
-Heiberger, Richard~M. and Holland, Burt (2004b).
+Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.

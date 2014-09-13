@@ -59,6 +59,7 @@ residual.plots(lm.object, X=dft$x,
  ISBN 0-387-40270-5.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
+\seealso{\code{\link{residual.plots.lattice}}}
 \examples{
 if.R(s={
      longley <- data.frame(longley.x, Employed = longley.y)
@@ -79,6 +80,10 @@ print(tmp[[2]], position=c(0, 0.0, 1, 0.5), more=FALSE)
 print(tmp[[3]], position=c(0, 0.5, 1, 1.0), more=TRUE)
 print(tmp[[4]], position=c(0, 0.0, 1, 0.5), more=FALSE)
 
+## print as a single trellis object
+ABCD <- do.call(rbind, lapply(tmp, as.vector))
+dimnames(ABCD)[[1]] <- dimnames(tmp[[1]])[[1]]
+ABCD
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -46,6 +46,10 @@ objip("qq$")
 \dontrun{
 ## R only
 objip("rowSums", all.names=TRUE)
+
+## list all objects in the second and third attached packages
+search()
+objip()[2:3]
 }
 }
 \keyword{utilities}

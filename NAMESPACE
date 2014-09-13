@@ -4,6 +4,8 @@
 ##> matrix(ls(2, all=TRUE))
 ## hand investigated and then sorted
 
+## mmc.explain is an unexported function that is used in the Multiple
+## Comparisons chapter of HH to explain the MMC plot
 
 ## .__C__ancova
 ## .__T__$:base
@@ -71,8 +73,13 @@ ae.dotplot.long,
 aeReshapeToLong,
 aicsigplot,
 ancova,
+ancovaplot,
 anovaMean,
 antilogit,
+antiodds,
+aov.ancovaplot,  ## aov is not generic
+aovStatement,
+aovStatementAndAnova,
 aovSufficient,
 arima.diag.hh,
 arima.model,
@@ -98,10 +105,15 @@ chisq.observed,
 chisq.setup,
 ci.plot,
 col.hh,
+combineLimits.trellisvector,
 ## combineTwoTrellisColumns,
 cp.calc,
+cplx,
 dchisq.intermediate,
+ddiscunif,
 df.intermediate,
+diagplot5new,
+diagQQ,
 diag.arma.loop,
 diag.maybe.null,
 do.formula.trellis.xysplom,
@@ -114,13 +126,22 @@ grid.yaxis.hh,
 hh,
 hh.file,
 hh.file.DOS,
+hhpdf,
+hhdev.off,
+hhcapture,
+hhcode,
+## HHscriptname,
+HHscriptnames,
 hov,
 hov.bf,
 hovPlot,
 hovPlot.bf,
+hovBF,
+hovplotBF,
 if.R,
 interaction2wt,
 interaction.positioned,
+interval,
 intxplot,
 is.likert,
 is.likertCapable,
@@ -130,6 +151,7 @@ ladder,
 ladder.f,
 ladder.fstar,
 ladder3,
+latticeresids,
 legendGrob2wt,
 likert,
 likertplot,
@@ -139,12 +161,16 @@ likertMosaic,
 lm.regsubsets,
 lmatContrast,
 lmatRows,
+lmplot,
 logit,
 logrelrisk,
 make.xaxis.hh.labels,
 make.yaxis.hh.labels,
+matrix.trellis,
 mcalinfct,
 mmc,
+mmcplot,
+mmcPruneIsomeans,
 multicomp.label.change,
 multicomp.mean,
 multicomp.mmc,
@@ -160,11 +186,14 @@ npar.arma,
 npar.rarma,
 npar.sarma,
 objip,
+odds,
 OddsRatio,
+OneWayVarPlot,
 orthog.complete,
 orthog.construct,
 panel.acf,
 panel.ancova,
+panel.ancova.superpose,
 panel.barchart2,
 panel.bwplot.intermediate.hh,
 panel.bwplot.superpose,
@@ -174,9 +203,11 @@ panel.dotplot.tb,
 panel.hov,
 panel.intxplot,
 panel.likert,
+panel.residSquare,
 panel.xysplom,
 partial.corr,
 pchisq.intermediate,
+pdiscunif,
 perspBack.wall.x,
 perspBack.wall.y,
 perspFloor,
@@ -186,17 +217,24 @@ pf.intermediate,
 plot.likert,
 plotMatchMMC,
 plotOddsRatio,
+plotOddsRatio.base,
 position,
 "position<-",
 positioned,
 qchisq.intermediate,
+qdiscunif,
 qf.intermediate,
+rdiscunif,
 rearrange.diag.arma.loop,
+regrresidplot,
 regr1.plot,
 regr2.plot,
 resid.squares,
 residplot,
 residual.plots,
+residual.plots.lattice,
+residVSfitted,
+scaleLocation,
 seqplot,
 seqplotForecast,
 strip.background0,
@@ -205,12 +243,15 @@ sufficient,
 summaryHH,
 title.grob,
 title.trellis,
+transpose,
 tsacfplots,
 tsdiagplot,
 units.ts,
 unpositioned,
+useOuterStripsT2L1,
 vcovSufficient,
 vif,
+WindowsPath,
 xysplom,
 xscale.components.top.HH,
 yscale.components.right.HH
@@ -237,8 +278,15 @@ S3method(X.residuals, default)
 S3method(X.residuals, formula)
 S3method(X.residuals, lm)
 S3method(anova, ancova)
+S3method(anova, ancovaplot)
+S3method(ancovaplot, formula)
+S3method(aperm, trellis)
+## S3method(aov, ancovaplot)  ## aov is not generic
+S3method(aovStatement, ancovaplot)
+S3method(aovStatementAndAnova, ancovaplot)
 S3method(as.MatrixList, array)
 S3method(as.character, arima.model)
+S3method(as.matrix, trellis)
 S3method(as.data.frame, listOfNamedMatrices)
 S3method(as.glht, multicomp)
 S3method(as.likert, data.frame)
@@ -260,11 +308,15 @@ S3method(as.listOfNamedMatrices, array)
 S3method(as.listOfNamedMatrices, list)
 S3method(as.matrix, listOfNamedMatrices)
 S3method(as.multicomp, glht)
+S3method(as.vector, trellis)
 S3method(case, lm)
+S3method(cbind, trellis)
 S3method(ci.plot, lm)
+## S3method(combineLimits, trellisvector) ## not generic
 S3method(coef, ancova)
 S3method(mmc, default)
 S3method(mmc, glht)
+S3method(interval, glm)
 S3method(interaction2wt, default)
 S3method(interaction2wt, formula)
 S3method(is.na, positioned)
@@ -279,7 +331,14 @@ S3method(lmatRows, glht)
 S3method(lmatRows, lm)
 S3method(lmatRows, mmc.multicomp)
 S3method(lmatRows, multicomp)
+## S3method(matrix, trellis)  ## not generic
 S3method(model.frame, ancova)
+S3method(mmcplot, mmc)
+S3method(mmcplot, glht)
+S3method(mmcplot, mmc.multicomp)
+S3method(mmcplot, multicomp)
+S3method(mmcplot, default)
+S3method(model.tables, ancovaplot)
 S3method(multicomp.label.change, mmc.multicomp)
 S3method(multicomp.label.change, multicomp)
 S3method(plot, ancova)
@@ -306,6 +365,7 @@ S3method(print, arma.loop)
 S3method(print, arma.loop.list)
 S3method(print, cp.object)
 ## S3method(print, glht.mmc.multicomp)
+S3method(print, latticeresids)
 S3method(print, listOfNamedMatrices)
 S3method(print, mmc.multicomp)
 S3method(print, multicomp)
@@ -317,6 +377,7 @@ S3method(print, TwoTrellisColumns5)
 S3method(print, summaryHH.regsubsets)
 S3method(print, tsacfplots)
 S3method(print, tsdiagplot)
+S3method(rbind, trellis)
 S3method(rev, likert)
 S3method(seqplot, default)
 S3method(seqplot, rts)
@@ -326,6 +387,8 @@ S3method(summary, arma.loop)
 S3method(summary, arma.loop.list)
 S3method(summaryHH, regsubsets)
 S3method(t, trellis)
+S3method(transpose, default)
+S3method(transpose, trellis)
 S3method(unique, positioned)
 S3method(update, AEdotplot)
 S3method(vif, default)
@@ -348,6 +411,10 @@ S3method(xysplom, formula)
 ##   latticeExtra
 ## )
 
+## import(matrixTrellis)  ## is this needed?
+
+importFrom(stats, model.tables)
+
 importFrom(reshape2, melt, acast, dcast)
 
 importFrom(leaps, regsubsets)
@@ -357,7 +424,9 @@ importFrom(colorspace, diverge_hcl, sequential_hcl)
 
 importFrom(multcomp, glht, contrMat, mcp)
 
-import(lattice, latticeExtra)
+importFrom(Rcmdr, doItAndPrint)
+
+import(lattice, latticeExtra, grid)
 
 
 ## problems that I am working around with functions in file

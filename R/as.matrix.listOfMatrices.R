@@ -119,7 +119,7 @@ as.data.frame.listOfNamedMatrices <- function(x, ...) {
           call.=FALSE)
 ## recover()
 if (sys.nframe() > 10) { ## inside Rcmdr
-  doItAndPrint(paste("##", xName, "remains a 'listOfNamedMatrices'.
+  Rcmdr::doItAndPrint(paste("##", xName, "remains a 'listOfNamedMatrices'.
 It's items are not variables in a data.frame.
 You may ignore the messages:
 in the Rcmdr Messages Window:
