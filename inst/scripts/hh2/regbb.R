@@ -13,7 +13,7 @@ for (h in tapply(htwt$ht, factor(htwt$sex, exclude=NULL), c))
 
 
 ###################################################
-### code chunk number 2: regbb.tex:202-212
+### code chunk number 2: regbb.tex:202-216
 ###################################################
 hhpdf("htwt-splom.pdf", width=5.5, height=5.5)
 ## assign values to the missing observations
@@ -22,24 +22,28 @@ match(NA, htwt$sex)
 htwt[c(4, 27),]
 htwt[4,"ht"] <- round(1.65 * 39.37)  ## this student answered in meters
 htwt[27,"sex"] <- "m" ## based on class list
+htwt$sex=factor(htwt$sex, levels=c("m","f"), labels=c("male","female"))
 splom(~ htwt[,c("lbs","months","sex","ht")],
-      axis.text.cex=.7, xlab=NULL, pch=19)
+      groups=htwt$sex,
+      par.settings=list(superpose.symbol=list(pch=c(17,19))),
+      axis.text.cex=.7, xlab=NULL,
+      auto.key=list(space="right", border=TRUE))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 3: regbb.tex:224-230
+### code chunk number 3: regbb.tex:229-235
 ###################################################
 hhpdf("htwt-xy.pdf", width=5, height=4)
 xyplot(lbs ~ ht, data=htwt,
-       groups=factor(sex, levels=c("m","f"), labels=c("male","female")),
+       groups=sex,
        aspect=1, par.settings=list(superpose.symbol=list(pch=c(17,19))),
        auto.key=list(space="right", border=TRUE))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 4: regbb.tex:251-257
+### code chunk number 4: regbb.tex:256-262
 ###################################################
 hhcapture("htwt-aov.Rout", '
 ## one-way analysis of variance
@@ -50,7 +54,7 @@ model.tables(htwt.aov, type="means")
 
 
 ###################################################
-### code chunk number 5: regbb.tex:283-290
+### code chunk number 5: regbb.tex:288-295
 ###################################################
 hhcapture("htwt-lm.Rout", '
 ## dummy variable
@@ -62,7 +66,7 @@ anova(htwt.lm)
 
 
 ###################################################
-### code chunk number 6: regbb.tex:318-325
+### code chunk number 6: regbb.tex:323-330
 ###################################################
 hhcapture("htwtb-lm.Rout", '
 ## dummy variable
@@ -74,7 +78,7 @@ anova(htwtb.lm)
 
 
 ###################################################
-### code chunk number 7: regbb.tex:406-449
+### code chunk number 7: regbb.tex:411-454
 ###################################################
 W.simple <- cbind(Int=1, contr.treatment(4, contrasts=FALSE))
 W.simple
@@ -122,19 +126,18 @@ W.simple %*% A.poly
 
 
 ###################################################
-### code chunk number 8: regbb.tex:719-726
+### code chunk number 8: regbb.tex:724-730
 ###################################################
 hhpdf("fabricwear.pdf", width=7, height=3)
 data(fabricwear)
 bwplot(wear ~ speed, data=fabricwear,
        scales=list(cex=1.4), xlab=list(cex=1.4), ylab=list(cex=1.4),
-       par.settings=list(box.dot=list(
-          col=trellis.par.get()$superpose.symbol$col[1])))
+       panel=panel.bwplot.superpose, col="darkblue", groups=rep(1, 48))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 9: regbb.tex:739-744
+### code chunk number 9: regbb.tex:743-748
 ###################################################
 hhcapture("fabricwear1.Rout", '
 fabricwear.aov <- aov(wear ~ speed, data=fabricwear)
@@ -144,7 +147,7 @@ model.tables(fabricwear.aov, "mean")
 
 
 ###################################################
-### code chunk number 10: regbb.tex:785-797
+### code chunk number 10: regbb.tex:789-801
 ###################################################
 hhcapture("fabricwear2.Rout", '
 tmp.c <- zapsmall(contrasts(fabricwear$speed), 14)
@@ -161,7 +164,7 @@ sweep(tmp.c, 2, tmp.min, "/")
 
 
 ###################################################
-### code chunk number 11: regbb.tex:817-833
+### code chunk number 11: regbb.tex:821-837
 ###################################################
 hhpdf("orthpoly.pdf", width=9, height=4.4)
 tmp.tr <- data.frame(polynomial=as.vector(tmp.c),
@@ -169,7 +172,7 @@ tmp.tr <- data.frame(polynomial=as.vector(tmp.c),
                      power=rep(ordered(dimnames(tmp.c)[[2]],
                        levels=dimnames(tmp.c)[[2]]), c(6,6,6,6,6)))
 
-xyplot(polynomial ~ speed | power, data= tmp.tr, type="b",
+xyplot(polynomial ~ speed | power, data= tmp.tr, type="b", pch=19,
        layout=c(5,1), between=list(x=1, y=1),
        ylab="normalized orthogonal polynomials",
        panel=function(...) {
@@ -182,7 +185,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 12: regbb.tex:863-869
+### code chunk number 12: regbb.tex:867-873
 ###################################################
 hhcapture("fabricwear3.Rout", '
 summary(fabricwear.aov,
@@ -193,7 +196,7 @@ summary.lm(fabricwear.aov)
 
 
 ###################################################
-### code chunk number 13: regbb.tex:1100-1104
+### code chunk number 13: regbb.tex:1104-1108
 ###################################################
 hhpdf("hotdog1.pdf", height=3, width=5)
 data(hotdog)
@@ -202,7 +205,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 14: regbb.tex:1134-1146
+### code chunk number 14: regbb.tex:1138-1150
 ###################################################
 hhpdf("hotdog-f0.pdf", height=3.5, width=8)
 hotdog.key <- list(title="Type", border=TRUE, space="right",
@@ -219,7 +222,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 15: regbb.tex:1170-1176
+### code chunk number 15: regbb.tex:1174-1180
 ###################################################
 hhcapture("hotdog-anova1.Rout", '
 ## aovStatementAndAnova(TxC)
@@ -230,7 +233,7 @@ model.tables(TxC.aov, type="means")
 
 
 ###################################################
-### code chunk number 16: regbb.tex:1225-1232
+### code chunk number 16: regbb.tex:1229-1236
 ###################################################
 hhpdf("hotdog-f3.pdf", height=3.5, width=8)
 CgT <- ancovaplot(Sodium ~ Calories, groups=Type, data=hotdog,
@@ -242,7 +245,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 17: regbb.tex:1257-1262
+### code chunk number 17: regbb.tex:1261-1266
 ###################################################
 hhcapture("hotdog-ancova-f3.Rout", '
 ## aovStatementAndAnova(CgT, warn=FALSE)
@@ -252,7 +255,7 @@ anova(CgT.aov)
 
 
 ###################################################
-### code chunk number 18: regbb.tex:1278-1285
+### code chunk number 18: regbb.tex:1282-1289
 ###################################################
 hhpdf("hotdog-f1.pdf", height=3.5, width=8)
 CpT <- ancovaplot(Sodium ~ Calories + Type, data=hotdog,
@@ -264,7 +267,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 19: regbb.tex:1304-1309
+### code chunk number 19: regbb.tex:1308-1313
 ###################################################
 hhcapture("hotdog-ancova2.Rout", '
 ## aovStatementAndAnova(CpT)
@@ -274,7 +277,7 @@ anova(CpT.aov)
 
 
 ###################################################
-### code chunk number 20: regbb.tex:1346-1355
+### code chunk number 20: regbb.tex:1350-1359
 ###################################################
 hhpdf("hotdog-f4.pdf", height=3.5, width=8)
 hotdog$Sodium.Calories <-
@@ -288,7 +291,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 21: regbb.tex:1391-1396
+### code chunk number 21: regbb.tex:1395-1400
 ###################################################
 hhcapture("hotdog-ancovaf4.Rout", '
 ## aovStatementAndAnova(T.C)
@@ -298,7 +301,7 @@ anova(T.C.aov)
 
 
 ###################################################
-### code chunk number 22: regbb.tex:1419-1423
+### code chunk number 22: regbb.tex:1423-1427
 ###################################################
 hhcapture("hotdog-ancova2b.Rout", '
 CpT.mmc <- mmc(CpT.aov)
@@ -307,7 +310,7 @@ CpT.mmc
 
 
 ###################################################
-### code chunk number 23: regbb.tex:1440-1443
+### code chunk number 23: regbb.tex:1444-1447
 ###################################################
 hhpdf("hotdog3.pdf", height=6, width=7.5)
 mmcplot(CpT.mmc)
@@ -315,7 +318,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 24: regbb.tex:1478-1485
+### code chunk number 24: regbb.tex:1482-1489
 ###################################################
 hhpdf("hotdog-f2.pdf", height=3.5, width=8)
 CsT <- ancovaplot(Sodium ~ Calories * Type, data=hotdog,
@@ -327,7 +330,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 25: regbb.tex:1503-1508
+### code chunk number 25: regbb.tex:1507-1512
 ###################################################
 hhcapture("hotdog-ancova3.Rout", '
 ## aovStatementAndAnova(CsT)
@@ -337,7 +340,7 @@ anova(CsT.aov)
 
 
 ###################################################
-### code chunk number 26: regbb.tex:1550-1587
+### code chunk number 26: regbb.tex:1554-1591
 ###################################################
 hhpdf("ancova-composite.pdf", height=7, width=9)
 removeAnnotation <-
@@ -379,7 +382,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 27: regbb.tex:1642-1661
+### code chunk number 27: regbb.tex:1647-1666
 ###################################################
 hhcode("hotdog-ancova.r", '
 data(hotdog, package="HH")

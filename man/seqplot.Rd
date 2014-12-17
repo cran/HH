@@ -1,7 +1,7 @@
  \name{seqplot}
 \alias{seqplot}
 \alias{seqplot.default}
-\alias{seqplot.rts}
+%%\alias{seqplot.rts}
 \alias{seqplot.ts}
 %% \alias{seqplot.its}
 %% \alias{seqplot.cts}
@@ -19,15 +19,17 @@ seqplot(xts, ...)
         a=NULL, b=NULL, h=NULL, v=NULL,
         ylab=deparse(substitute(xts)),
         xlab=ifelse(is.null(units(xts)),"Time",units(xts)),
-        lwd=0, lty=c(1,3),
+        lwd=1, lty=c(1,3),
         type="b",
+        col=trellis.par.get("superpose.symbol")$col,
+        col.line="gray60",
         ...)
 
-\method{seqplot}{rts}(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
-        x.at=pretty(time(xts)[groups==min(groups)]),
-        x.labels,
-        ylab=deparse(substitute(xts)),
-        ...)
+%\method{seqplot}{rts}(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
+%        x.at=pretty(time(xts)[groups==min(groups)]),
+%        x.labels,
+%        ylab=deparse(substitute(xts)),
+%        ...)
 
 \method{seqplot}{ts}(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
         x.at=pretty(time(xts)[groups==min(groups)]),
@@ -60,8 +62,12 @@ seqplot(xts, ...)
   \item{groups}{Numeric vector used to choose the plotting characters
             over cycles.}
   \item{a, b, h, v}{Arguments to \code{panel.abline}.}
-  \item{ylab, xlab, lwd, lty, type}{ stndard trellis arguments.}
-  \item{x.at, x.labels}{shortcut for \code{scales=list(x=list(at=x.at, labels=x.labels))}}
+  \item{ylab, xlab, lwd, lty, type}{ standard trellis arguments.}
+  \item{x.at, x.labels}{shortcut for \code{scales=list(x=list(at=x.at,
+      labels=x.labels))}}
+  \item{col}{Color of dots in sequence plot.  The default is to make the
+  choose a number of colors to match the frequency of the time series \code{xts}.}
+  \item{col.line}{Color of connecting lines.  The default is \code{"gray60"}.}
   \item{\dots}{Additional arguments to \code{xyplot}.}
 }
 \author{Richard M. Heiberger (rmh@temple.edu)}

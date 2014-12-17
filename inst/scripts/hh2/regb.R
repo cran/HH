@@ -89,7 +89,7 @@ splom(~houseprice[c(1,2,5)] | cornerf,
       subpanel.scales=list(cex=.8), pscales=4,
       axis.text.cex=.7,
       panel.cex=1.2,
-      par.settings=list(superpose.symbol=list(pch=c(15,16))),
+      par.settings=list(superpose.symbol=list(pch=c(17,16))),
       xlab=NULL)
 hhdev.off()
 

@@ -16,35 +16,37 @@ drunk
 
 
 ###################################################
-### code chunk number 3: twtb.tex:115-122
+### code chunk number 3: twtb.tex:115-124
 ###################################################
-hhpdf("drunk-prop-fem.pdf", width=5.5, height=3)
 prop.female <- drunk["females",]/colSums(drunk)
 ages <- ordered(dimnames(drunk)$age, levels=dimnames(drunk)$age)
+hhpdf("drunk-prop-fem.pdf", width=5.5, height=3)
 barchart(prop.female ~ ages,
          horizontal=FALSE, origin=0,
-         ylab="", main="proportion female")
+         ylab="", main="proportion female",
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1])
 hhdev.off()
 
 
 ###################################################
-### code chunk number 4: twtb.tex:135-146
+### code chunk number 4: twtb.tex:137-148
 ###################################################
+BlyCol <- rainbow(12)[c(12,9)]
 hhpdf("drunk-mosaic.pdf", width=8, height=4)
 mosaic(t(drunk), direction=c("v","h"),
-       gp=gpar(fill=likertColor(2), col="transparent"),
+       gp=gpar(fill=BlyCol, col="transparent"),
        rot_labels=c(0,0,0,0),  ## zero is horizontal
        rot_varnames=c(0,0,0,0),
        offset_labels=c(0, -0.6, 0, 1),  ## top, right, bottom, left ## positive means outward
        offset_varnames=c(0, -0.6, 0, 2.4),
        margins=c(left=6.5),
-       keep_aspect_ratio=FALSE
-)
+       keep_aspect_ratio=FALSE)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 5: twtb.tex:166-174
+### code chunk number 5: twtb.tex:168-176
 ###################################################
 hhcapture("drunk2.Rout", '
 drunk.chisq <- chisq.test(drunk)
@@ -57,7 +59,7 @@ drunk.chisq$residuals^2 ## cell chi-square values
 
 
 ###################################################
-### code chunk number 6: twtb.tex:200-208
+### code chunk number 6: twtb.tex:202-212
 ###################################################
 hhpdf("drunk-chi.pdf", width=5.5, height=3)
 barchart(Freq ~ age | sex, as.data.frame(drunk.chisq$residuals),
@@ -65,12 +67,14 @@ barchart(Freq ~ age | sex, as.data.frame(drunk.chisq$residuals),
          scales=list(alternating=2), ##between=list(y=1),
          ylab=list("sex", rot=0),
          ylab.right=list("Chi values", rot=0), xlab="Age",
-         strip=FALSE, strip.left=TRUE)
+         strip=FALSE, strip.left=TRUE,
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1])
 hhdev.off()
 
 
 ###################################################
-### code chunk number 7: twtb.tex:302-311
+### code chunk number 7: twtb.tex:306-315
 ###################################################
 hhpdf("drunk-assoc.pdf", width=5.5, height=3.5)
 assoc(drunk, gp=gpar(fill=likertColor(2)[2], col=0),
@@ -84,7 +88,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 8: twtb.tex:436-440
+### code chunk number 8: twtb.tex:440-444
 ###################################################
 hhcapture("glasses.Rout", '
 data(glasses)
@@ -93,7 +97,7 @@ glasses
 
 
 ###################################################
-### code chunk number 9: twtb.tex:469-473
+### code chunk number 9: twtb.tex:473-477
 ###################################################
 hhcapture("glasses2.Rout", '
 fisher.test(glasses)
@@ -102,7 +106,7 @@ chisq.test(glasses, corr=FALSE)
 
 
 ###################################################
-### code chunk number 10: twtb.tex:497-522
+### code chunk number 10: twtb.tex:501-526
 ###################################################
 hhcapture("glasses-all.Rout", '
 ## construct all possible two-way tables with the same margins as the
@@ -132,17 +136,18 @@ aperm(glasses.all, c(3,2,1))
 
 
 ###################################################
-### code chunk number 11: twtb.tex:542-547
+### code chunk number 11: twtb.tex:546-552
 ###################################################
 hhpdf("glasses-exact.pdf", width=11, height=3)
 (mosaic(glasses.all, direction=c("v","v","h"),
+        gp=gpar(fill=BlyCol, col="transparent"),
         highlighting=3, highlighting_fill=likertColor(2),
         spacing=spacing_increase(rate=c(.2, 3, 3.5))))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 12: twtb.tex:567-597
+### code chunk number 12: twtb.tex:572-604
 ###################################################
 hhcapture("glasses-hypergeometric.Rout", '
 g.p <- apply(glasses.all, 1,
@@ -167,6 +172,8 @@ barchart(g.p2$prob ~ factor(0:6), horizontal=FALSE,
            "probability of table with specified [1,1] position"),
          scales=list(x=list(at=1+0:6, labels=paste(0:6,g.p2$which))),
          xlab.top=list(format(round(g.p[1,], digits=4)), cex=.8),
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1],
          key=list(
            text=list(c("observed","more extreme")),
            text=list(c("*","<")),
@@ -177,7 +184,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 13: twtb.tex:689-733
+### code chunk number 13: twtb.tex:697-741
 ###################################################
 hhcapture("blyth.Rout", '
 require(vcd)
@@ -226,22 +233,24 @@ blyth3xc <- dcast(location + treatment ~ survival,
 
 
 ###################################################
-### code chunk number 14: twtb.tex:767-777
+### code chunk number 14: twtb.tex:775-787
 ###################################################
+## BlyCol <- likertColor(8)[c(2,4)]
+BlyCol <- rainbow(12)[c(12,9)]
 hhpdf("bC3r.pdf", width=7, height=2.5)
 resizePanels(w=c(.31,.31,.38),
 barchart(Freq ~ treatment | location, groups=Survival, data=blyth3xdf,
          stack=TRUE,
          horizontal=FALSE, ylab="Count",
          ylab.right=list(c("survive","not"), rot=0),
-         col=likertColor(2)[2:1], border=likertColor(2)[2:1],
+         col=BlyCol[2:1], border=BlyCol[2:1],
          layout=c(3,1), between=list(x=c(0,2)))
              )
 hhdev.off()
 
 
 ###################################################
-### code chunk number 15: twtb.tex:780-790
+### code chunk number 15: twtb.tex:790-800
 ###################################################
 hhpdf("bP3r.pdf", width=7, height=2.5)
 resizePanels(w=c(.31,.31,.38),
@@ -249,21 +258,21 @@ barchart(Pct ~ treatment | location, groups=Survival, data=blyth3xdf,
          stack=TRUE,
          horizontal=FALSE, ylab="Percent",
          ylab.right=list(c("survive","not"), rot=0),
-         col=likertColor(2)[2:1], border=likertColor(2)[2:1],
+         col=BlyCol[2:1], border=BlyCol[2:1],
          layout=c(3,1), between=list(x=c(0,2)))
              )
 hhdev.off()
 
 
 ###################################################
-### code chunk number 16: twtb.tex:793-804
+### code chunk number 16: twtb.tex:803-814
 ###################################################
 hhpdf("bP3s.pdf", width=7, height=2.5)
 print(position=c(0, 0, .93, 1),
 resizePanels(w=c(.31,.31,.38),
 barchart(Pct ~ treatment | location, data=blyth3xdf,
          subset=(survival=="survive"),
-         origin=0, ylim=c(-7, 107), col=likertColor(2)[2], border="white",
+         origin=0, ylim=c(-7, 107), col=BlyCol[2], border=BlyCol[2],#"white",
          ylab="Percent Survive",
          layout=c(3,1), between=list(x=c(0,2)))
              )
@@ -272,7 +281,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 17: twtb.tex:807-820
+### code chunk number 17: twtb.tex:817-830
 ###################################################
 ## Figures mc2.pdf and mc1.pdf have the panel borders drawn by strucplot
 ## and the labeling by mosaic inside each panel.  They are positioned by LaTeX.
@@ -285,12 +294,12 @@ cotabplot(~ treatment + survival | location, data=blyth3xdf.1.8,
           panel_args=list(margins=c(4,1,2,6)),  ## need room for horizontal variable name
           keep_aspect_ratio=FALSE,
           spacing=spacing_highlighting(rate=6),
-          gp=gpar(fill=likertColor(2), col=0))
+          gp=gpar(fill=BlyCol, col=0))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 18: twtb.tex:822-833
+### code chunk number 18: twtb.tex:832-843
 ###################################################
 hhpdf("mc1.pdf", width=4.2, height=3)
 cotabplot(~ treatment + survival | location, data=blyth3xdf.9.12,
@@ -301,12 +310,12 @@ cotabplot(~ treatment + survival | location, data=blyth3xdf.9.12,
           panel_args=list(margins=c(4,1,2,6)),  ## need room for horizontal variable name
           keep_aspect_ratio=FALSE,
           spacing=spacing_highlighting(rate=6),
-          gp=gpar(fill=likertColor(2), col=0))
+          gp=gpar(fill=BlyCol, col=0))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 19: twtb.tex:836-858
+### code chunk number 19: twtb.tex:846-868
 ###################################################
 ## Figures mc3a.pdf and mc3b.pdf have the panel borders drawn by lattice
 ## and the labeling outside all panels.  The figures are manually superposed using LaTeX.
@@ -328,12 +337,12 @@ mosaic(~ treatment + survival | location, data=blyth3xdf,
        margins=c(left=6.5),
        keep_aspect_ratio=FALSE,
        spacing=spacing_highlighting(rate=3.5),
-       gp=gpar(fill=likertColor(2), col=0))
+       gp=gpar(fill=BlyCol, col=0))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 20: twtb.tex:860-872
+### code chunk number 20: twtb.tex:870-882
 ###################################################
 hhpdf("mc3b.pdf", width=8.5, height=2.5)
 print(position=c(0, 0, .93, 1),
@@ -350,7 +359,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 21: twtb.tex:875-903
+### code chunk number 21: twtb.tex:885-913
 ###################################################
 ## Figure mc3pdf.pdf is merged at the R level.
 ## The offsets, margins and such are carefully tailored to these pdf settings.
@@ -366,7 +375,7 @@ mosaic(~ treatment + survival | location, data=blyth3xdf,
        margins=c(top=3.45, right=6, bottom=2.935, left=5.5),
        keep_aspect_ratio=FALSE,
        spacing=spacing_highlighting(rate=3.5),
-       gp=gpar(fill=likertColor(2), col=0))
+       gp=gpar(fill=BlyCol, col=0))
 ##
 print(more=TRUE,
 resizePanels(w=c(.305, .26, .435),
@@ -383,43 +392,43 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 22: twtb.tex:906-912
+### code chunk number 22: twtb.tex:916-922
 ###################################################
 hhpdf("lC3r.pdf", width=7, height=2.5)
 likert(treatment ~ .| location, blyth3xc, horizontal=FALSE,
-       main=NULL,  xlab=NULL,
+       main=NULL,  xlab=NULL, col=BlyCol,
        layout=c(3,1), between=list(x=c(0,2)), w.resizePanels=c(.31,.31,.38),
        ylab.right=list(c("not","survive"), rot=0), auto.key=FALSE)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 23: twtb.tex:915-921
+### code chunk number 23: twtb.tex:925-931
 ###################################################
 hhpdf("lP3r.pdf", width=7, height=2.5)
 likert(treatment ~ .| location, blyth3xc, horizontal=FALSE, as.percent=TRUE,
-       main=NULL, xlab=NULL,
+       main=NULL, xlab=NULL, col=BlyCol,
        layout=c(3,1), between=list(x=c(0,2)), w.resizePanels=c(.31,.31,.38),
        ylab.right=list(c("not","survive"), rot=0), auto.key=FALSE)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 24: twtb.tex:1238-1240
+### code chunk number 24: twtb.tex:1253-1255
 ###################################################
 hhpdf("myfile.pdf", width=5.5, height=5.5)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 25: twtb.tex:1283-1285
+### code chunk number 25: twtb.tex:1298-1300
 ###################################################
 hhcapture("myfile.Rout", '
 ')
 
 
 ###################################################
-### code chunk number 26: twtb.tex:1309-1318
+### code chunk number 26: twtb.tex:1324-1333
 ###################################################
 hhcapture("hypothermia.Rout", '
 hypothermia <-
@@ -433,16 +442,16 @@ hypothermia
 
 
 ###################################################
-### code chunk number 27: twtb.tex:1332-1336
+### code chunk number 27: twtb.tex:1347-1351
 ###################################################
 hhpdf("hypothermiamosaic.pdf", width=4, height=3.5)
 mosaic(Outcome ~ Treatment, data=as.data.frame.table(hypothermia), direction=c("v","h"),
-       gp=gpar(fill=likertColor(2), col="white"), keep_aspect_ratio=FALSE)
+       gp=gpar(fill=BlyCol, col="white"), keep_aspect_ratio=FALSE)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 28: twtb.tex:1347-1357
+### code chunk number 28: twtb.tex:1362-1372
 ###################################################
 hhpdf("hypothermiacount.pdf", width=5, height=3)
 ## not included in book
@@ -457,7 +466,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 29: twtb.tex:1369-1379
+### code chunk number 29: twtb.tex:1384-1394
 ###################################################
 hhpdf("hypothermiaproportion.pdf", width=5, height=3)
 ## not included in book
@@ -472,21 +481,25 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 30: twtb.tex:1391-1400
+### code chunk number 30: twtb.tex:1406-1419
 ###################################################
 hhpdf("hypothermiaodds.pdf", width=3.5, height=2.5)
 barchart(hypothermia[2,] / hypothermia[1,] ~ dimnames(hypothermia)[[2]],
-          horizontal=FALSE, origin=0, ylab="odds favorable")
+          horizontal=FALSE, origin=0, ylab="odds favorable",
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1])
 hhdev.off()
 ##
 hhpdf("hypothermialogit.pdf", width=3.5, height=2.5)
 barchart(log(hypothermia[2,] / hypothermia[1,]) ~ dimnames(hypothermia)[[2]],
-          horizontal=FALSE, origin=0, ylab="logit favorable")
+          horizontal=FALSE, origin=0, ylab="logit favorable",
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1])
 hhdev.off()
 
 
 ###################################################
-### code chunk number 31: twtb.tex:1510-1513
+### code chunk number 31: twtb.tex:1529-1532
 ###################################################
 hhpdf("hypothermiaplotOddsRatio.pdf", width=7.5, height=5)
 plotOddsRatio(t(hypothermia))
@@ -494,20 +507,19 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 32: twtb.tex:1653-1661
+### code chunk number 32: twtb.tex:1672-1679
 ###################################################
-hhpdf("salkMosaic.pdf", width=12, height=3.5)
 data(salk)
-
+hhpdf("salkMosaic.pdf", width=12, height=3.5)
 (mosaic(Freq ~ vaccine + paralyze | age, data=salk, direction=c("v","v","h"),
         main="Observed number of observations in each age group",
-        gp=gpar(fill=likertColor(2)[2:1], col=0),
+        gp=gpar(fill=BlyCol[2:1], col=0),
         spacing=spacing_increase(rate=c(.4, 1.4, 3.5))))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 33: twtb.tex:1675-1684
+### code chunk number 33: twtb.tex:1693-1702
 ###################################################
 hhcapture("MHsalk.Rout", '
 ## Code for calculation of the Cochran--Mantel--Haenszel test of the polio example
@@ -521,7 +533,7 @@ mantelhaen.test(salk2, correct=FALSE)
 
 
 ###################################################
-### code chunk number 34: twtb.tex:1688-1768
+### code chunk number 34: twtb.tex:1706-1786
 ###################################################
 hhcapture("arithMHsalk.Rout", '
 ## Code for "Detail for calculation of the Cochran--Mantel--Haenszel test of the polio example."
@@ -606,13 +618,15 @@ sum(mh.c[,"O.E"])^2 / sum(mh.c[,"v"])
 
 
 ###################################################
-### code chunk number 35: twtb.tex:1894-1905
+### code chunk number 35: twtb.tex:1912-1925
 ###################################################
 hhpdf("salk-dev.pdf", width=7.5, height=4)
 ages <- ordered(dimnames(mh.c)[[1]], levels=dimnames(mh.c)[[1]])
-barchart(mh.c[,"dev"] ~ ages, origin=0, horizontal=FALSE, border="white",
+barchart(mh.c[,"dev"] ~ ages, origin=0, horizontal=FALSE,
          xlab="Age Group", xlab.top="Number of Observations",
          scales=list(cex=1), ylab="standardized table deviations",
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1],
          par.settings=list(clip=list(panel=FALSE)),
          panel=function(...) {
            panel.barchart(...)
@@ -622,7 +636,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 36: twtb.tex:1961-1970
+### code chunk number 36: twtb.tex:1981-1990
 ###################################################
 hhcapture("salkFisher.Rout", '
 data(salk)
@@ -636,7 +650,7 @@ sapply(lt, `[`, c("estimate","p.value"))
 
 
 ###################################################
-### code chunk number 37: twtb.tex:2180-2182
+### code chunk number 37: twtb.tex:2200-2202
 ###################################################
 hhcapture("myfile.Rout", '
 ')

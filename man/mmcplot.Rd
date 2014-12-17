@@ -58,10 +58,10 @@ A \code{trellis} object containing the graphs.
 See \code{\link{mmc}} for the references.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link{mmc}} for the discussion of the MMC
-\code{\link{mmcisomeans}}, \code{\link{mmcmatch}},
-\code{\link{mmcboth}}.  These are the internal functions that do the
-actual work.
+\seealso{\code{\link{mmc}} for the discussion of the MMC and for many examples.
+The functions \code{\link{mmcisomeans}}, \code{\link{mmcmatch}},
+\code{\link{mmcboth}} are the internal functions that do the
+actual work of plotting.
 }
 \examples{
 data(catalystm)

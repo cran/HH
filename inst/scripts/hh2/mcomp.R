@@ -229,7 +229,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 21: mcomp.tex:1241-1260
+### code chunk number 21: mcomp.tex:1241-1261
 ###################################################
 ## just the B-D contrast
 `lmat.B-D` <- catalystm.mmc$mca$lmat[,"B-D", drop=FALSE]
@@ -248,12 +248,13 @@ hhpdf("mmc1-a.pdf", width=7, height=7)
 HH:::mmc.explain(group, n, ybar, ms.5, crit.point,
                  ylabel="concent", factor.label="catalyst",
                  xlim=xlim.explain,
-                 exit=1)
+                 exit=1,
+                 col=c("gray30", "navyblue", "SlateBlue", "black", "royalblue", "red"))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 22: mcomp.tex:1306-1320
+### code chunk number 22: mcomp.tex:1307-1321
 ###################################################
 ## This figure showing steps 7 and 8 is not displayed in the book.
 HH:::mmc.explain(group, n, ybar, ms.5, crit.point,
@@ -272,7 +273,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 23: mcomp.tex:1369-1380
+### code chunk number 23: mcomp.tex:1370-1381
 ###################################################
 ## This figure showing step 11 (actually steps 1 through 9, and 11)
 ## is not displayed in the book.

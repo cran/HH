@@ -1,5 +1,7 @@
-HHscriptnames <- function(chapternumbers, edition=2) {
+HHscriptnames <- function(chapternumbers=NULL, edition=2) {
   if (edition != 1 && edition != 2) stop("edition must be either 1 or 2", call. = FALSE)
+  if (is.null(chapternumbers))
+    return(system.file(paste("scripts/hh", edition, "/", sep=""), package="HH"))
   HH.chapternames <- list(
     "1"=c(
       "1"   ="Ch01-intr",
@@ -19,7 +21,25 @@ HHscriptnames <- function(chapternumbers, edition=2) {
       "15"  ="Ch15-twtb",
       "16"  ="Ch16-npar",
       "17"  ="Ch17-logi",
-      "18"  ="Ch18-tser"),
+      "18"  ="Ch18-tser",
+      "intr"   ="Ch01-intr",
+      "data"   ="Ch02-data",
+      "conc"   ="Ch03-conc",
+      "grap"   ="Ch04-grap",
+      "iinf"   ="Ch05-iinf",
+      "oway"   ="Ch06-oway",
+      "mcomp"  ="Ch07-mcomp",
+      "rega"   ="Ch08-rega",
+      "regb"   ="Ch09-regb",
+      "regbb"  ="Ch10-regbb",
+      "regc"   ="Ch11-regc",
+      "tway"   ="Ch12-tway",
+      "dsgn"   ="Ch13-dsgn",
+      "dsgntwo"="Ch14-dsgntwo",
+      "twtb"   ="Ch15-twtb",
+      "npar"   ="Ch16-npar",
+      "logi"   ="Ch17-logi",
+      "tser"   ="Ch18-tser"),
     "2"=c(
       "1"   ="intr",
       "2"   ="data",
@@ -91,21 +111,40 @@ HHscriptnames <- function(chapternumbers, edition=2) {
 }
 
 
-WindowsPath <- function(x) {
-  gsub("/", "\\\\", x)
+WindowsPath <- function(x, display=TRUE) {
+  result <- gsub("/", "\\\\", x)
+  if (!display) return(result)
+  cat(paste(rownames(result), result, "\n"))
+  invisible(result)
 }
 
 if (FALSE) {
+HHscriptnames()
 HHscriptnames(c(2, "RExcelApx"))
 HHscriptnames(c("iinf","RApx"))
 HHscriptnames(c(1:5))
-HHscriptnames(c(1:30))
-WindowsPath(HHscriptnames(c(1:30)))
-cat(paste(WindowsPath(HHscriptnames(c(1:30))), "\n"))
-cat(WindowsPath(HHscriptnames("mcomp")), "\n")
+HHscriptnames(c(1:32))
+WindowsPath(HHscriptnames(c(1:32)))
+WindowsPath(HHscriptnames(c(6:8)))
 HHscriptnames(2)
 HHscriptnames("2")
 HHscriptnames("abcd")
 HHscriptnames("mcomp")
 HHscriptnames(42)
+}
+
+if (FALSE) { ## new
+system.file("scripts/hh2", package="HH") ## Macintosh
+## [1] "/Library/Frameworks/R.framework/Versions/3.1/Resources/library/HH/scripts/hh2"
+
+system.file("scripts/hh2", package="HH") ## Windows
+## [1] "C:/Program Files/R/R-devel/library/HH/scripts/hh2"
+WindowsPath(system.file("scripts/hh2", package="HH"))
+## C:\Program Files\R\R-devel\library\HH\scripts\hh2
+WindowsPath(system.file("scripts/hh2", package="HH"), display=FALSE)
+## [1] "C:\\Program Files\\R\\R-devel\\library\\HH\\scripts\\hh2"
+tmp <- WindowsPath(system.file("scripts/hh2", package="HH"))
+## C:\Program Files\R\R-devel\library\HH\scripts\hh2
+tmp
+## [1] "C:\\Program Files\\R\\R-devel\\library\\HH\\scripts\\hh2"
 }

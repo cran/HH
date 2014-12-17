@@ -123,6 +123,7 @@ try(transpose(t3.123)) ## layout is a matrix, but dim is not.
                        ## transpose works on dim.
 }
 
+\dontrun{
 t2 <- xyplot(y ~ x | b*c, data=tmp,
              panel=function(x, y, ...) panel.text(x, y, y),
              scales=list(alternating=FALSE))
@@ -151,7 +152,7 @@ tmp2$condlevels <- list(t2$condlevels[[1]],
                         c(paste("AAA", t2$condlevel[[2]], sep="."),
                           paste("BBB", t2$condlevel[[2]], sep=".")))
 tmp2
-
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

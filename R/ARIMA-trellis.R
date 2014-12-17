@@ -9,6 +9,10 @@
 ## July 2007 revision.  Works with R-2.5.1 and S-Plus 8.
 ##
 
+## November 2014 revision:
+## Change default arrangement for printing panels in plots.
+## Remove S-Plus support.
+## Redo with useOuterStrips
 
 ## x is an "arima" object in S-Plus and an "Arima" object in R
 npar.arma <- function(x, arima=FALSE) {
@@ -106,7 +110,7 @@ xlim.function <- function(lu) {incr <- .02*lu[2]
                          FUN=function(ma,ar) paste("ar:",ar," ma:",ma, sep="")))
   xyplot(p ~ lag | tmp, data=rdal$gof,
          pch=pch,
-         ylim=range(if.R(r=-.05, s=0), .05, rdal$gof$p, na.rm=TRUE),
+         ylim=range(-.05, .05, rdal$gof$p, na.rm=TRUE),
          layout=c(length(unique(rdal$gof$ma)),
                   length(unique(rdal$gof$ar))),
          panel=panel.gof,
@@ -119,21 +123,17 @@ xlim.function <- function(lu) {incr <- .02*lu[2]
 
 panel.acf <- function(..., n.used) {
 # based on acf.list piece of arima.diag.plot
-  panel.xyplot(..., type="h")
-  panel.abline(h=0)
+  panel.abline(h=0, col="gray50")
   if (length(n.used)==1) this.n <- n.used
   else {
     this.frame <- sys.parent()
     this.cell <-
-      ## if.R(s=get("cell", frame=this.frame)
-      ##      ,r=
            packet.number()
-##            )
-    ##this.arma <- get("panel.labels", frame=this.frame)[this.cell]
     this.n <- t(n.used)[this.cell]
   }
   c1 <- 2/sqrt(this.n)
-  panel.abline(h= c(-c1,c1), lty=2)
+  panel.abline(h= c(-c1,c1), lty=2, lwd=.75, col="gray50")
+  panel.xyplot(..., type="h")
 }
 
 
@@ -142,11 +142,8 @@ tsdiagplot <- function(x,
                        model=c(p.max, 0, q.max), ## S-Plus
                        order=c(p.max, 0, q.max), ## R
                        lag.max=36, gof.lag=lag.max,
-                       armas=if.R(
-                         s=arma.loop(x, model=model,
+                       armas=arma.loop(x, order=order,
                            series=deparse(substitute(x)), ...),
-                         r=arma.loop(x, order=order,
-                           series=deparse(substitute(x)), ...)),
                        diags=diag.arma.loop(armas, x,
                                             lag.max=lag.max,
                                             gof.lag=gof.lag),
@@ -187,15 +184,9 @@ tsdiagplot <- function(x,
                           lag.x.labels=lag.x.labels,
                           lag.0=lag.0,
                           main="PACF of standardized residuals")
-  if.R(r={
     y.range <- range(c(acf$y.limits, pacf$y.limits))
     acf$y.limits  <- y.range
     pacf$y.limits <- y.range
-  },s={
-    y.range <- range(c(acf$ylim, pacf$ylim))
-    acf$ylim  <- y.range
-    pacf$ylim <- y.range
-  })
 
   gof    <- gofplot(ts.diag, xlab=NULL, ylab=NULL,
                           lag.units=lag.units,
@@ -220,12 +211,17 @@ tsdiagplot <- function(x,
 }
 
 
-print.tsdiagplot <- function(x, ...) {
+print.tsdiagplot <- function(x, ..., portrait=FALSE) {
   pages <- list(...)$pages
-  if(is.null(pages) || pages==1)
-    print1.tsdiagplot(x)
-  else
-    print2.tsdiagplot(x)
+  if (!portrait) {
+    if(is.null(pages) || pages==1)
+      print1.tsdiagplot(x)
+    else
+      print2.tsdiagplot(x)
+  }
+  else {
+    print3.tsdiagplot(x)
+  }
   invisible(x)
 }
 
@@ -235,8 +231,10 @@ print1.tsdiagplot <- function(x) {
 ##  if (is.main.title)
 ##  oldpar.oma <- par(oma=c(0,0,3,0))
 
-if.R(r={xrg.left <- .44; xa.left <- .73; y.top.bottom <- .48; y.bottom.top <- .47},
-     s={xrg.left <- .40; xa.left <- .70; y.top.bottom <- .45; y.bottom.top <- .50})
+xrg.left <- .44
+xa.left <- .73
+y.top.bottom <- .48
+y.bottom.top <- .47
 
   print(x$resid, position=c( xrg.left, .00,          1.00,  y.bottom.top), more=TRUE)
   print(x$aic,   position=c( xa.left,  y.top.bottom, 1.00,  .95),          more=TRUE)
@@ -263,15 +261,10 @@ print2.tsdiagplot <- function(x) {
   else
     oldpar.oma <- par(oma=par()$oma)
 
-if.R(s={
-acf.bottom <- .45
-pacf.top <- .50
-aic.sigma2.top <- .60
-},r={
 acf.bottom <- .48
 pacf.top <- .47
 aic.sigma2.top <- .54
-})
+
 
   print(x$acf,   position=c( .00, acf.bottom,  .45,  .95), more=TRUE)
   print(x$pacf,  position=c( .00, .00,  .45,  pacf.top), more=TRUE)
@@ -314,6 +307,64 @@ aic.sigma2.top <- .54
 }
 
 
+print3.tsdiagplot <- function(x) {
+## bottom
+  print(x$resid, position=c( .00, .00, 1.00, .35), more=TRUE)
+## right middle
+  print(rearrangeAICplot(x$aic),
+                 position=c( .60, .35, 1.00, .65), more=TRUE)
+## left top
+  print(update(x$acf, lwd=2.5),   position=c( .00, .65,  .60, .95), more=TRUE)
+## left middle
+  print(update(x$pacf, lwd=2.5),  position=c( .00, .35,  .60, .65), more=TRUE)
+## right top
+  print(update(x$gof, cex=.7),   position=c( .60, .65, 1.00, .95), more=FALSE)
+## title
+  title.trellis(x$main.diag)
+
+  invisible(x)
+}
+
+rearrangeAICplot <- function(aic) {
+  newlegend <- aic$legend
+  aic$legend <- NULL
+  names(newlegend) <- "bottom"
+  newlegend$bottom$args$key$space <- "bottom"
+  newlegend$bottom$args$key$title <- "ma               ar"
+  newlegend$bottom$args$key$cex.title <- .8
+  newlegend$bottom$args$key$text$col    <- newlegend$bottom$args$key$lines$col
+  newlegend$bottom$args$key$text$cex    <- .8
+  newlegend$bottom$args$key$column <- length(newlegend$bottom$args$key$text[[1]])
+  newlegend$bottom$args$key$lines$lwd <- 2
+##recover()
+  update(aic,
+         layout=c(2,1),
+         between=list(x=1),
+         legend=newlegend,
+         xlab=c("ar\n","ma\n"),
+         lwd=2)
+}
+
+if (FALSE) {
+print3.tsdiagplot(elnino.diagplot)
+
+ddco2.diagplot <-
+tsdiagplot(armas=ddco2.loop, diags=ddco2.diags,
+	   lag.lim=c(-2,38),
+	   lag.x.at=seq(0,36,6),
+	   lag.x.labels=c(0,"",12,"",24,"",36),
+           main="", lwd=1)
+
+print3.tsdiagplot(ddco2.diagplot)
+
+pdf("test.pdf", height=14, width=9)
+print3.tsdiagplot(ddco2.diagplot)
+dev.off()
+
+}
+
+
+
 tsacfplots <- function(x,
                        ylab=deparse(substitute(x)),
                        x.name=ylab[[1]],
@@ -329,22 +380,35 @@ tsacfplots <- function(x,
 
   if (missing(lag.at))
     acf.plots <- acf.pacf.plot(x, series=x.name, lag.max=lag.max, lag.0=lag.0,
-                               main=NULL)
+                               main=NULL, ...)
   else
     acf.plots <- acf.pacf.plot(x, series=x.name, lag.max=lag.max, lag.0=lag.0,
                                main=NULL,
-                               lag.at=lag.at, lag.units=lag.units)
+                               lag.at=lag.at, lag.units=lag.units, ...)
 
   result <- list(xplot=xplot, acf.plots=acf.plots, main=main)
   class(result) <- "tsacfplots"
   result
 }
 
-print.tsacfplots <- function(x, ...) {
-  print(x$xplot,     position=c(.00, .00,  .70, 1.00), more=TRUE)
-  print(x$acf.plots, position=c(.65, .10, 1.00,  .90), more=FALSE)
-  title.trellis(x$main)
-
+print.tsacfplots <- function(x,
+                             ts.pos=c(.00, .00,  .70, 1.00),
+                             acf.pos=c(.65, .10, 1.00,  .90),
+                             ...,
+                             portrait=FALSE,
+                             ts.pos.portrait=c(0, .3, 1, 1),
+                             acf.pos.portrait=c(.1, 0, .9, .35)) {
+  if (!portrait) {
+    print(x$xplot,     position=ts.pos,  more=TRUE)
+    print(x$acf.plots, position=acf.pos, more=FALSE)
+    title.trellis(x$main)
+  }
+  else {
+    print(x$xplot,                   position=ts.pos.portrait,  more=TRUE)
+    print(update(x$acf.plots, layout=c(2,1), between=list(x=2), lwd=2),
+          position=acf.pos.portrait, more=FALSE)
+    title.trellis(x$main)
+  }
   invisible(x)
 }
 
@@ -357,6 +421,7 @@ acf.pacf.plot <- function(x,
                           lag.at=pretty(apacf$lag),
                           lag.labels=lag.at*lag.units,
                           lag.0=TRUE,
+                          strip=TRUE, strip.left=FALSE,
                           ...) {
   if (missing(lag.max) || is.null(lag.max))
     acf.x <- acf(x, plot=FALSE)
@@ -380,12 +445,12 @@ acf.pacf.plot <- function(x,
          n.used=acf.x$n.used,
          panel=panel.acf,
          as.table=TRUE,
-         strip=function(...) strip.default(..., style=1),
+         strip=strip, strip.left=strip.left,
          between=list(y=1),
          scales=list(alternating=FALSE, x=list(at=lag.at, labels=lag.labels)),
          ylab=ylab,
          main=main,
-         layout=c(1,2))
+         layout=c(1,2), ...)
 }
 
 
@@ -396,18 +461,14 @@ arma.loop <- function(x,
                       order, seasonal,   ## R
                       series=deparse(substitute(x)), ...)
 {
-  if.R(s={if( missing(model) || !missing(order) || !missing(seasonal) )
-          stop("Please use valid arguments for arima.mle.")},
-       r={if( !missing(model) || missing(order) )  ## missing(seasonal) is OK
-          stop("Please use valid arguments for arima.")})
-  if.R(s={},
-       r={model <-
+if( !missing(model) || missing(order) )  ## missing(seasonal) is OK
+          stop("Please use valid arguments for arima.")
+model <-
             if (missing(seasonal))
               list(list(order=order))
             else
               list(list(order=order), seasonal)
-        })
-  ## The ... is used to pass arguments to arima.mle in S-Plus or arima in R
+  ## The ... is used to pass arguments to arima in R
   if (!is.null(names(model))) model <- list(model)
   p.max <- model[[1]]$order[1]
   q.max <- model[[1]]$order[3]
@@ -417,29 +478,7 @@ arma.loop <- function(x,
   for (q in dz[[2]]) for (p in dz[[1]]) {
     model[[1]]$order[1] <- as.numeric(p)
     model[[1]]$order[3] <- as.numeric(q)
-    if.R(s={
-if (npar.sarma(model, arima=FALSE) == 0) {
-  if (npar.sarma(model, arima=TRUE) == 0) {
-    tmp <- list(sigma2=var(x), n.used=length(x), n.cond=0)
-    tmp$loglik <- (length(x)-1)*(tmp$sigma2+log(2*pi))
-    tmp$aic <- tmp$loglik
-    tmp$model <- model
-  }
-  else {
-    model.tmp <- model[sapply(model, npar.sarma, arima=TRUE) != 0]
-    dm <- paste(deparse(model.tmp), collapse="")
-    tmp.text <- paste("arima.filt(x, model=", dm, ")", sep="")
-    tmp <- eval(parse(text=tmp.text))
-  }
-  tmp$model <- model
-}
-else {
-  model.tmp <- model[sapply(model, npar.sarma, arima=TRUE) != 0]
-  dm <- paste(deparse(model.tmp), collapse="")
-  tmp.text <- paste("arima.mle(x, model=", dm, ", ...)", sep="")
-  tmp <- eval(parse(text=tmp.text))
-}
-    },r={
+
       dps <- NULL
       if (!is.list(model))
         dpm <- deparse(model, width.cutoff=100, control=NULL)
@@ -463,10 +502,8 @@ else {
       tmp <-  try(eval(parse(text=arima.text)))
       input.method <- list(...)$method
       tmp$method <- ifelse(is.null(input.method), "CSS-ML", input.method)
-    })
 
-    if.R(s=if (!is.null(names(tmp$model))) tmp$model <- list(tmp$model),
-         r={})
+
     tmp$series <- series
     z[[p, q]] <- tmp
   }
@@ -496,15 +533,10 @@ seqplotForecast <- function(xts, forecast, multiplier=1.96,
                             ...) ## x.at, xlim
 {
   ## on input, xts is observed data
-  if.R(s={
-    fm <- forecast$mean
-    fs <- forecast$std.err
-    xts@.Data <- c(xts@.Data, forecast$mean)
-  },r={
     fm <- forecast$pred
     fs <- forecast$se
     xts <- ts(c(xts, fm), time(xts)[1], frequency=frequency(xts))
-  })
+
   upperbound <- fm + multiplier * fs
   lowerbound <- fm - multiplier * fs
   if (missing(ylim))
@@ -582,8 +614,7 @@ summary.arma.loop <- function(object, ...) {
     aic[p,q]    <- object[[p,q]]$aic
 
     if (npar.sarma(model.object[[p,q]], arima=TRUE) == 0) next
-    mi.coef <- if.R(r=coef(object[[p,q]]),
-                    s=coefArimaHH(object[[p,q]]))
+    mi.coef <- coef(object[[p,q]])
     coef[[p,q]]  <- mi.coef
     rec.sd <- diag.maybe.null(object[[p,q]]$var.coef)^-.5
     t.coef[[p,q]] <- mi.coef * rec.sd
@@ -629,34 +660,8 @@ diag.arma.loop <- function(z, x=stop("The time series x is needed in S-Plus when
   dz <- dimnames(z)
   d <- array(vector("list", length(z)), dim=dim(z), dimnames=dz)
   for (q in dz[[2]]) for (p in dz[[1]]) {
-    if.R(s={
-##  browser()
-    if (npar.arma(z[[p,q]], arima=FALSE) == 0) {
-      tmp <- list()
-      tmp$series <- z[[p,q]]$series
-      ## x <- eval(parse(text=tmp$series))
-      zpqmodel <- arima.model(z[[p,q]])
-      for (i in zpqmodel) {
-        per <- i$period
-        if (is.null(per)) per <- 1
-        for (dd in seq(length=i$order[2]))
-          x <- diff(x,per)
-      }
-      tmp$acf.list <- acf(x, lag.max=lag.max, plot=FALSE)
-      tmp$pacf.list <- acf(x, lag.max=lag.max, plot=FALSE, type="partial")
-      tmp$std.resid <- (x-mean(x))/sqrt(var(x))
-      tmp$gof <- gof.calculation(tmp$acf.list, gof.lag=gof.lag,
-                                 n=length(x),n.parms=0)
-      d[[p,q]] <- tmp
-    }
-    else {d[[p, q]] <- arima.diag.hh(z[[p, q]], plot=FALSE, resid=TRUE,
-                            lag.max=lag.max, gof.lag=gof.lag,
-                                     x=x) ## x=x is the hh addition
-    if (is.null(d[[p, q]]$pacf.list))
-      d[[p, q]]$pacf.list <- acf(d[[p, q]]$resid, type="partial",
-                                 lag.max = lag.max, plot = FALSE)
-        }
-  },r={ ## based on stats:::tsdiag.Arima
+
+    ## based on stats:::tsdiag.Arima
     arima.diag <- NA ## placeholder to make R-2.6.0dev happy
     object <- z[[p,q]]
     tmp <- list()
@@ -672,11 +677,8 @@ diag.arma.loop <- function(z, x=stop("The time series x is needed in S-Plus when
                     type = "Ljung-Box"))[,c("statistic","parameter","p.value","parameter")]
     dimnames(gof)[[2]][c(2,4)] <- c("df","lag")
     tmp$gof <- data.frame(apply(gof, 2, unlist))
-    if.R(r=
          tmp$gof$lag <- tmp$gof$lag/object$arma[5] ## frequency
-         ,s={})
     d[[p,q]] <- tmp
-  })
   }
   mm <- arima.model(z[[length(z)]])
   mm[[1]]$order[c(1,3)] <- c("p","q")
@@ -694,14 +696,6 @@ diag.arma.loop <- function(z, x=stop("The time series x is needed in S-Plus when
   attr(result,"model") <- attr(x,"model")
   result
 }
-
-## trace("[.arma.loop", exit=browser)
-## trace("[.diag.arma.loop", exit=browser)
-## remove("[.arma.loop")
-## remove("[.diag.arma.loop")
-## ddco2.loop["1","1", drop=FALSE]
-## ddco2.diags["1","1", drop=FALSE]
-
 
 rearrange.diag.arma.loop <- function(z) {
   dz <- dimnames(z)
@@ -766,15 +760,13 @@ rearrange.diag.arma.loop <- function(z) {
     resid$ma    <- c(resid$ma, rep(q,length(z[[p,q]]$std.resid)))
   }
   lz <- length(z)
-  if.R(s={},
-       r={
-         tspar <- function(x) {
+        tspar <- function(x) {
            result <- tsp(x)
            result[2] <- 1/result[3]
            names(result) <-c("start", "deltat", "frequency")
            result
          }
-       })
+
   list(series=z[[lz]]$series, tspar=tspar(z[[lz]]$std.resid),
        model=attr(z,"model"),
        acf=acf, pacf=pacf, n.used=n.used, gof=gof, std.resid=resid)
@@ -808,7 +800,7 @@ seqplot <- function(xts, ...)
 UseMethod("seqplot")
 
 
-seqplot.rts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
+seqplot.ts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
                         x.at=pretty(time(xts)[groups==min(groups)]),
                         x.labels,
                         ylab=deparse(substitute(xts)),
@@ -816,7 +808,7 @@ seqplot.rts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
   groups <- rep(groups, length=length(xts))
   if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
     x.at <- pretty(time(xts))
-    pch.seq <- "."
+    pch.seq <- 16
   }
   if(missing(x.at) && (length(xts) <= frequency(xts)*5))
     x.at <- pretty(time(xts))
@@ -825,8 +817,7 @@ seqplot.rts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
     pch.seq <- substring(month.name, 1, 1)
   if(missing(pch.seq) && (frequency(xts) == 7 &&
                           !is.null(units(xts)) && units(xts) == "days")) {
-    if.R(r=day.name <- weekdays(seq(as.Date("2007-07-29"), by="day", length=7)),
-         s={})
+day.name <- weekdays(seq(as.Date("2007-07-29"), by="day", length=7))
     pch.seq <- substring(day.name, 1, 1)
   }
   if (missing(x.labels)) x.labels <- format(x.at)
@@ -836,7 +827,9 @@ seqplot.rts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
                   ...)
 }
 
-seqplot.ts <- seqplot.rts
+## seqplot.rts <- function(xts, ...)
+##   seqplot.ts(xts, ...)
+
 
 ## seqplot.its <- function(xts,
 ##                         pch.seq=letters,
@@ -896,8 +889,10 @@ seqplot.default <- function(xts,
                             a=NULL, b=NULL, h=NULL, v=NULL,
                             ylab=deparse(substitute(xts)),
                             xlab=ifelse(is.null(units(xts)),"Time",units(xts)),
-                            lwd=0, lty=c(1,3),
+                            lwd=1, lty=c(1,3),
                             type="b",
+                            col=trellis.par.get("superpose.symbol")$col,
+                            col.line="gray60",
                             ...) {
   xyplot(xts ~ as.numeric(time(xts)), groups=rep(groups, length=length(xts)),
          xlab=xlab,
@@ -906,13 +901,15 @@ seqplot.default <- function(xts,
          pch=rep(pch.seq, length=max(groups)),
          type=type,
          ab.params=list(a=a,b=b,v=v,h=h),
-         panel=function(x, y, subscripts, groups, pch, ab.params, ...,
+         col=col, col.line=col.line,
+         panel=function(x, y, subscripts, groups, pch, ab.params,
+                        col=col, col.line=col.line, ...,
                         type, x.pred, forecast, upperbound, lowerbound, lty.in) {
-           panel.xyplot(x, y, type=type, pch=" ", col=1, lty=lty.in[1], ...)
-           if (type!="l")
-             panel.superpose(x, y, subscripts, groups, pch=pch, ...)
            ab.params <- ab.params[!sapply(ab.params, is.null)]
-           if (length(ab.params)) do.call("panel.abline", ab.params)
+           if (length(ab.params)) do.call("panel.abline", c(ab.params, list(col="gray70")))
+           panel.xyplot(x, y, type="l", col=col.line, lty=lty.in[1], ...)
+           if (type!="l")
+             panel.superpose(x, y, subscripts, groups, pch=pch, col=col, ...)
            if (!missing(upperbound))
              panel.xyplot(x=x.pred, y=upperbound, type="l", lty=lty.in[2])
            if (!missing(lowerbound))
@@ -937,3 +934,5 @@ gof.calculation <- function(acf.list, gof.lag, n, n.parms) {
                 p.value = gof.p.value, lag = gof.lags)
   }
 }
+
+

@@ -24,8 +24,8 @@ interaction2wt(x, ...)
                x.relation = relation$x,
                y.relation = relation$y,
                digits = 3,
-               x.between=if (label.as.interaction.formula) 0 else 1,
-               y.between=if (label.as.interaction.formula) 0 else 1,
+               x.between=1,
+               y.between=1,
                between,
                cex = 0.75,
                rot=c(0,0),
@@ -47,9 +47,10 @@ interaction2wt(x, ...)
                label.as.interaction.formula=TRUE,
                ...,
                main.cex,
-               key.cex.title=trellis.par.get()$par.xlab.text$cex,
-               key.cex.text=trellis.par.get()$axis.text$cex,
-               factor.expressions=names.x
+               key.cex.title=.8,
+               key.cex.text=.7,
+               factor.expressions=names.x,
+               simple.pch=NULL
 )
 }
 %- maybe also 'usage' for other objects documented here.
@@ -145,6 +146,13 @@ See also
   the input formula.}
   \item{rot}{Rotation of x tick labels and y tick labels.  Only 0 and 90
   will look good.}
+  \item{simple.pch}{Named list containing plotting characters for each
+    level of one or more of the factors.  \code{simple.pch} is used only when
+    \code{simple==TRUE}.  If the argument \code{simple.pch} is missing,
+    then the integers for the levels of the factors are used.  The
+    characters are used for the median of the box plots in the diagonal
+    panels.  They match the trace factor of the interaction panel in the
+    same column of the display.  }
 }
 \value{
 \code{"trellis"} object containing the plot.

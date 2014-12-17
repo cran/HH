@@ -17,7 +17,7 @@ hhpdf(file, ...)
 
 hhdev.off(...)
 
-hhcapture(file, text)
+hhcapture(file, text, echo=TRUE, print.eval=TRUE)
 
 hhcode(file, text)
 }
@@ -34,16 +34,19 @@ hhcode(file, text)
   \item{\dots}{
     Ignored.
   }
+  \item{echo, print.eval}{
+    See \code{\link[base]{source}}.
+  }
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \details{
-  The files in \code{system.file("scripts/hh2", package="HH")}
+  The files in \code{\link{HHscriptnames}}\code{()}
   contain R code for all examples and figures in the book.
   The examples can all be directly executed by the user.
   The code examples all use these functions.
 
   The versions of these functions here are essentially placeholders.
-  Functions \code{hhpdf} and \code{hhdev.off} are \code{NULL}.
+  Functions \code{hhpdf} and \code{hhdev.off} are no-ops and return \code{NULL}.
   As a consequence, the code between them will execute and display on
   the default graphics device.
   Function \code{hhcapture} sources its text argument and prints the

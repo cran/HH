@@ -160,20 +160,20 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 11: rega.tex:1528-1581
+### code chunk number 11: rega.tex:1530-1583
 ###################################################
 hhpdf("diag1.pdf", height=6, width=4)
 pp <- ppoints(101)
 x <- qnorm(pp)
-xyplot(pp ~ x, main="Cumulative Distribution of N(0,1)")
+xyplot(pp ~ x, pch=19, main="Cumulative Distribution of N(0,1)")
 hhdev.off()
 
 hhpdf("diag2.pdf", height=6, width=7)
 n <- nrow(fat)
 f <- (1:n)/n
-diag2a <- xyplot(f ~ sort(predict(fat.lm)),
+diag2a <- xyplot(f ~ sort(predict(fat.lm)), pch=19,
                  main="empirical cdf of\nfitted values")
-diag2b <- xyplot(f ~ sort(resid(fat.lm)),
+diag2b <- xyplot(f ~ sort(resid(fat.lm)), pch=19,
                  main="empirical cdf of\nresiduals")
 ## export.eps(hh.file("rega/figure/diag2.eps"))
 update(c(diag2a, diag2b, layout=c(2,1)),
@@ -185,9 +185,9 @@ update(c(diag2a, diag2b, layout=c(2,1)),
 hhdev.off()
 
 hhpdf("diag3.pdf", height=6, width=7)
-diag3a <- xyplot(f ~ sort(predict(fat.lm) - mean(predict(fat.lm))),
+diag3a <- xyplot(f ~ sort(predict(fat.lm) - mean(predict(fat.lm))), pch=19,
                  main="empirical cdf of\ncentered fitted values")
-diag3b <- xyplot(f ~ sort(resid(fat.lm)),
+diag3b <- xyplot(f ~ sort(resid(fat.lm)), pch=19,
                  main="empirical cdf of\n residuals")
 ## export.eps(hh.file("rega/figure/diag3.eps"))
 tmp3 <- update(c(diag3a, diag3b, layout=c(2,1)),
@@ -202,9 +202,9 @@ tmp3c
 hhdev.off()
 
 hhpdf("diag4.pdf", height=6, width=7)
-diag4a <- xyplot(sort(predict(fat.lm) - mean(predict(fat.lm))) ~ f,
+diag4a <- xyplot(sort(predict(fat.lm) - mean(predict(fat.lm))) ~ f, pch=19,
                  main="transposed empirical cdf\nof centered fitted values")
-diag4b <- xyplot(sort(resid(fat.lm)) ~ f,
+diag4b <- xyplot(sort(resid(fat.lm)) ~ f, pch=19,
                  main="transposed empirical\ncdf of residuals")
 ## export.eps(hh.file("rega/figure/diag4.eps"))
 tmp4 <- update(c(diag4a, diag4b, layout=c(2,1)),
@@ -218,7 +218,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 12: rega.tex:1645-1689
+### code chunk number 12: rega.tex:1647-1692
 ###################################################
 hhpdf("regrFitRes.pdf", height=7, width=9)
 x <- rnorm(100)
@@ -235,6 +235,7 @@ diagplot5new(lm(y1 ~ x, data=rr), ylim=c(-3.2, 3.2)),
 diagplot5new(lm(y5 ~ x, data=rr), ylim=c(-3.2, 3.2)),
 diagplot5new(lm(y9 ~ x, data=rr), ylim=c(-3.2, 3.2))
 )
+## ThreeR2
 TM <- update(matrix.trellis(ThreeR2, byrow=TRUE, nrow=3, ncol=2), between=list(y=1))
 ## TM
 
@@ -251,7 +252,7 @@ print(position=c(0, 0, .4, 1), more=TRUE,
                expression(R^2==.5),
                expression(R^2==.9)), rot=0),
              ylim=c(-3.2, 3.2),
-        xyplot(y1 + y5 + y9 ~ x, data=rr, outer=TRUE,
+        xyplot(y1 + y5 + y9 ~ x, data=rr, outer=TRUE, pch=19,
                panel=function(...) {
                   panel.lmline(...)
                   panel.points(...)

@@ -15,24 +15,13 @@ function(x, y, subscripts,
          key.in=NULL ## list of key arguments for S-Plus
          ) {
   if (simple) {
-## browser()
-    pch.name <- character(0)
-    if(!missing(simple.pch)) {
-      pch.name <- names(simple.pch)[match(names(data.x), names(simple.pch), 0)]
-      if (length(pch.name) > 1) pch.name <- pch.name[1]
-    }
-    if (length(pch.name) == 0)
-    {
-      pch.name <- names(data.x)[[1]]
-      simple.pch <- list(seq(along=factor.levels[[pch.name]]))
-      names(simple.pch) <- pch.name
-    }
+    pch.name <- names(data.x)[3-current.row()]
+    other.name <- names(data.x)[current.row()]
     pch <- list(NULL, NULL)
-    names(pch) <- names(data.x)
-    other.name <- names(factor.levels)[names(factor.levels) != pch.name]
-    other.length <- length(factor.levels[[other.name]])
-    pch[[other.name]] <- rep(simple.pch[[pch.name]], other.length)
-    pch[[pch.name]] <- rep(simple.pch[[pch.name]], each=other.length)
+    names(pch) <- c(pch.name, other.name)
+    lengths <- sapply(factor.levels, length)
+    pch[[other.name]] <- rep(simple.pch[[pch.name]], lengths[other.name])
+    pch[[pch.name]] <- rep(simple.pch[[other.name]], each=lengths[pch.name])
   }
   ## if.R(r={
     tcL <- trellis.currentLayout()

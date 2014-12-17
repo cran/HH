@@ -23,10 +23,10 @@ as.rts(x, ...)
 
 \method{units}{ts}(x)
 
-title.trellis(main = NULL, sub = NULL, xlab = NULL, ylab = NULL, 
+title.trellis(main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
     line = NA, outer = FALSE, axes=NULL, ...)
 
-title.grob(main=NULL, y=.985, gp=gpar(cex=1.5))
+title.grob(main=NULL, y=.99, gp=gpar(cex=1.5))
 
 \method{as.character}{arima.model}(x, ...)
 

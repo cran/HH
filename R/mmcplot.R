@@ -89,7 +89,7 @@ mmcisomeans <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
          ylab.right=ylab.right,
          xlab=xlab,
          panel=function(..., ylabel, focus) {
-           panel.isomeans(means)
+           panel.isomeans(ybar=means, ...)
            panel.superpose(...)
            panel.axis("left", at=means, labels=names(means), outside=FALSE, half=FALSE)
            if (contrast.label)
@@ -168,10 +168,11 @@ mmcmatch <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
          ylab=ylab,
          ylab.right=ylab.right,
          xlab=xlab,
-         panel=function(...) {
-           lty.contr0=2
-           col.contr0='darkgray'
+         panel=function(...,
+           lty.contr0=2,
+           col.contr0='darkgray',
            lwd.contr0=1
+           ) {
            panel.abline(v=0, lty=lty.contr0, col=col.contr0, lwd=lwd.contr0)
            if (contrast.label)
              panel.axis("bottom", at=current.panel.limits()$xlim[2],
@@ -230,20 +231,21 @@ panel.confintMMC <- function(x, y, subscripts, ..., col, lty, lower, upper, cont
 }
 
 
-panel.isomeans <- function(ybar) {
+panel.isomeans <- function(ybar,
+                           lty.iso=7,
+                           col.iso='darkgray',
+                           lwd.iso=1,
+                           lty.contr0=2,
+                           col.contr0='darkgray',
+                           lwd.contr0=1,
+                           ...,
+                           col, lty ## capture potentially ambiguous name
+                           ) {
   ## the additional feature of the Hsu Peruggia plot is the
   ## iso-lines for each level of the factor
   ## names(ybar) <- seq(along=ybar)
   ## ybaro <- order(ybar)
   ## ybar <- ybar[ybaro]
-
-  lty.iso=7
-  col.iso='darkgray'
-  lwd.iso=1
-  lty.contr0=2
-  col.contr0='darkgray'
-  lwd.contr0=1
-
   ybar.min <- min(ybar)
   ybar.max <- max(ybar)
   panel.segments(ybar.min-ybar, (ybar.min+ybar)/2,

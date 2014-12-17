@@ -25,13 +25,29 @@ citEntry(entry = "Book",
          year = {"2004"},
          publisher = 	 {"Springer-Verlag, New York"},
          edition = 	 {"First"},
-         header="To cite the HH book in publications use:",
+         header="To cite the HH book (first edition) in publications use:",
          url={"http://springeronline.com/0-387-40270-5"},
          textVersion  =
          paste("Richard M. Heiberger and Burt Holland (2004).",
                "Statistical Analysis and Data Display: An Intermediate Course with Examples in S-Plus, R, and SAS.",
                "Springer-Verlag, New York.",
                "URL http://springeronline.com/0-387-40270-5")
+)
+
+citEntry(entry = "Book",
+         title = {"Statistical Analysis and Data Display:
+               An Intermediate Course with Examples in {R}"},
+         author = {"Richard M. Heiberger and Burt Holland"},
+         year = {"2015, anticipated"},
+         publisher = 	 {"Springer-Verlag, New York"},
+         edition = 	 {"Second"},
+         header="To cite the HH book (second edition) in publications use:",
+         url={"http://springeronline.com/978-1-4939-2121-8"},
+         textVersion  =
+         paste("Richard M. Heiberger and Burt Holland (2015, anticipated).",
+               "Statistical Analysis and Data Display: An Intermediate Course with Examples in R.",
+               "Springer-Verlag, New York.",
+               "URL http://springeronline.com/978-1-4939-2121-8")
 )
 
 

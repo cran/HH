@@ -518,15 +518,16 @@ apple5d.mmc
 
 
 ###################################################
-### code chunk number 32: dsgntwo.tex:2027-2030
+### code chunk number 32: dsgntwo.tex:2027-2031
 ###################################################
 hhpdf("appleMMC.pdf", height=6, width=6)
-mmcplot(apple5d.mmc, main="Dunnett comparisons against Control=6", style="both")
+mmcplot(apple5d.mmc, main="Dunnett comparisons against Control=6", style="both",
+        sub=list("\n             The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 33: dsgntwo.tex:2336-2353
+### code chunk number 33: dsgntwo.tex:2337-2354
 ###################################################
 hhpdf("testscorefsplom1.pdf", width=8, height=9)
 ## testscore.s
@@ -548,7 +549,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 34: dsgntwo.tex:2370-2386
+### code chunk number 34: dsgntwo.tex:2371-2387
 ###################################################
 hhpdf("testscorefsplom2.pdf", width=8, height=9)
 ## reorder the levels of the factors, and the order of the variables
@@ -569,7 +570,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 35: dsgntwo.tex:2428-2467
+### code chunk number 35: dsgntwo.tex:2429-2468
 ###################################################
   hhcapture("testscoreComp.Rout", '
 ## factors only
@@ -613,7 +614,7 @@ anova(testscore4.aov, testscore3s.aov)
 
 
 ###################################################
-### code chunk number 36: dsgntwo.tex:2526-2550
+### code chunk number 36: dsgntwo.tex:2527-2551
 ###################################################
 old.stars <- options(show.signif.stars=FALSE)
   hhcapture("testscore5.Rout", '
@@ -642,7 +643,7 @@ options(old.stars)
 
 
 ###################################################
-### code chunk number 37: dsgntwo.tex:2597-2628
+### code chunk number 37: dsgntwo.tex:2598-2629
 ###################################################
 testscore$final.adj <-
   testscore$final - as.vector(apply(proj(testscore7.aov, onedf=TRUE)[,2:3],1,sum))
@@ -678,7 +679,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 38: dsgntwo.tex:2665-2679
+### code chunk number 38: dsgntwo.tex:2666-2680
 ###################################################
 hhcapture("testscore7.Rout", '
 newdata <- cbind(initial=mean(testscore$initial),
@@ -697,7 +698,7 @@ apply(final.pred.table, 2, mean) ## each individual order
 
 
 ###################################################
-### code chunk number 39: dsgntwo.tex:2694-2701
+### code chunk number 39: dsgntwo.tex:2695-2702
 ###################################################
 hhpdf("adjusted2.pdf", width=7, height=3.5)
 yso.testscore.plot("final.adj", "Adjusted for Covariates", ylim=c(15,25), data=testscore)
@@ -709,21 +710,23 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 40: dsgntwo.tex:2780-2789
+### code chunk number 40: dsgntwo.tex:2781-2792
 ###################################################
-hhpdf("crash-bar.pdf", height=3, width=8)
 data(crash)
+hhpdf("crash-bar.pdf", height=3, width=8)
 barchart(crashrate ~ passengers | agerange, data=crash,
          reference=TRUE, origin=0, between=list(x=1),
          ## xlab.top="Age Range",
          xlab="Number of Passengers",
          main="Crash Rates by Driver Age and Passenger Presence per 10,000 Trips",
-         layout=c(3,1))
+         layout=c(3,1),
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1])
 hhdev.off()
 
 
 ###################################################
-### code chunk number 41: dsgntwo.tex:2799-2804
+### code chunk number 41: dsgntwo.tex:2802-2807
 ###################################################
 hhpdf("crash-interaction.pdf", height=5, width=8)
 interaction2wt(crashrate ~ agerange + passengers, data=crash,
@@ -733,7 +736,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 42: dsgntwo.tex:2830-2834
+### code chunk number 42: dsgntwo.tex:2833-2837
 ###################################################
   hhcapture("crash.aov.Rout", '
 crash.aov <- aov(crashrate ~ agerange + passengers, data=crash)
@@ -742,7 +745,7 @@ summary(crash.aov)
 
 
 ###################################################
-### code chunk number 43: dsgntwo.tex:2855-2892
+### code chunk number 43: dsgntwo.tex:2858-2895
 ###################################################
   hhcapture("crash.cv.Rout", '
 ## means polish of crash data
@@ -784,7 +787,7 @@ cv
 
 
 ###################################################
-### code chunk number 44: dsgntwo.tex:3070-3076
+### code chunk number 44: dsgntwo.tex:3073-3079
 ###################################################
   hhcapture("crash2.aov.Rout", '
 crash2.aov <- aov(crashrate ~ agerange + passengers +
@@ -795,7 +798,7 @@ coef(crash2.aov)
 
 
 ###################################################
-### code chunk number 45: dsgntwo.tex:3097-3108
+### code chunk number 45: dsgntwo.tex:3100-3111
 ###################################################
 hhpdf("crash-diag.pdf", height=5, width=8)
 ## diagnostic plot. UREDA page 200--204
@@ -811,7 +814,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 46: dsgntwo.tex:3141-3172
+### code chunk number 46: dsgntwo.tex:3144-3175
 ###################################################
 hhpdf("crash-original.pdf", height=5, width=9)
 interaction2wt(crashrate ~ agerange + passengers, data=crash,
@@ -847,7 +850,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 47: dsgntwo.tex:3206-3212
+### code chunk number 47: dsgntwo.tex:3209-3215
 ###################################################
 hhpdf("crash-interaction-rec.pdf", height=5, width=8)
 crash$crashrate.rec <- 10000/crash$crashrate
@@ -858,7 +861,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 48: dsgntwo.tex:3233-3245
+### code chunk number 48: dsgntwo.tex:3236-3248
 ###################################################
 ## The appearance of the -.5 and -1 transformations are similar.
 ## We choose the reciprocal (power = -1) because it is easy to
@@ -875,7 +878,7 @@ model.tables(crashi.aov, type="means")
 
 
 ###################################################
-### code chunk number 49: dsgntwo.tex:3297-3305
+### code chunk number 49: dsgntwo.tex:3300-3310
 ###################################################
 hhpdf("crash-bar-rec.pdf", height=3, width=8)
 barchart(10000/crashrate ~ passengers | agerange, data=crash,
@@ -883,12 +886,14 @@ barchart(10000/crashrate ~ passengers | agerange, data=crash,
          ## xlab.top="Age Range",
          xlab="Number of Passengers",
          main="Trips per Crash by Driver Age and Passenger Presence",
-         layout=c(3,1))
+         layout=c(3,1),
+         col=trellis.par.get()$superpose.symbol$col[1],
+         border=trellis.par.get()$superpose.symbol$col[1])
 hhdev.off()
 
 
 ###################################################
-### code chunk number 50: dsgntwo.tex:3350-3377
+### code chunk number 50: dsgntwo.tex:3355-3382
 ###################################################
 ## exploration of dummy variables
 crashin.aov <- aov(1/crashrate ~ agerange/passengers, data=crash)
@@ -920,7 +925,7 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 51: dsgntwo.tex:3619-3670
+### code chunk number 51: dsgntwo.tex:3624-3675
 ###################################################
 ## sink("yatesppl.ex.Rout")
 ## source("yatesppl.ex.R", echo=TRUE, max.deparse.length=1000)

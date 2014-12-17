@@ -1,7 +1,23 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/grap.tex'
 
 ###################################################
-### code chunk number 1: grap.tex:82-107
+### code chunk number 1: grap.tex:53-64
+###################################################
+data(njgolf)
+hhpdf("grap-pric-lot.pdf", width=7, height=4)
+col.lot <- trellis.par.get("superpose.symbol")$col[1:2]
+xyplot(sprice ~ lotsize, data=njgolf, groups=(lotsize==0), pch=c("+","0"), cex=c(2, 1.8),
+       ylab="Selling Price", xlab="Lot Size\n", col=col.lot[2:1],
+       main="Single Family Homes",
+       key=list(
+         border=TRUE, space="bottom", columns=2,
+         points=list(pch=c("0","+"), col=col.lot, cex=1.5),
+         text=list(c("Zero","Positive"), col=col.lot)))
+hhdev.off()
+
+
+###################################################
+### code chunk number 2: grap.tex:137-162
 ###################################################
 eco.corr <- data.frame(x=1:99,
                        g=factor(rep(1:3, c(33,33,33))),
@@ -12,7 +28,7 @@ cor(eco.corr$x, eco.corr$y)
 
 for (i in 1:3) print(cor(eco.corr$x[eco.corr$g==i], eco.corr$y[eco.corr$g==i]))
 
-xyplot(y ~ x, group=g, data=eco.corr, panel=panel.superpose)
+xyplot(y ~ x, group=g, data=eco.corr, panel=panel.superpose, pch=c(15,19,17))
 
 summary(lm(y ~ x, data=eco.corr), corr=FALSE)
 
@@ -31,49 +47,46 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 2: grap.tex:140-149
+### code chunk number 3: grap.tex:226-241
 ###################################################
-data(njgolf)
-hhpdf("grap-pric-lot.pdf", width=7, height=4)
-col.lot <- trellis.par.get("superpose.symbol")$col
-xyplot(sprice ~ lotsize, data=njgolf, groups=(lotsize==0), pch=19,
-       ylab="Selling Price", xlab="Lot Size\n", col=col.lot[2:1],
-       key=list(border=TRUE, space="bottom", columns=2,
-                text=list(c("Zero","Positive"),
-                          col=col.lot)))
-hhdev.off()
-
-
-###################################################
-### code chunk number 3: grap.tex:194-204
-###################################################
-hhpdf("grap-pric-bdk.pdf", width=7, height=3)
+hhpdf("grap-pric-bdk.pdf", width=7, height=3.35)
 tmp <-
 xyplot(sprice ~ beds + drarea + kitarea, data=njgolf, outer=TRUE,
        scales=list(x=list(relation="free"), y=list(alternating=2)),
-       layout=c(3,1), between=list(x=1), pch=19,
+       layout=c(3,1), between=list(x=1),
+       groups=(lotsize==0), pch=c("+","0"), cex=c(2, 1.8), col=col.lot[2:1],
        ylab=NULL, ylab.right="Selling Price",
-       xlab=NULL, xlab.top=list("Measures of Dwelling Size", cex=1.2))
+       xlab=NULL, xlab.top=list("Measures of Dwelling Size", cex=1.2),
+       key=list(title="Lot Size", cex.title=1,
+         border=TRUE, space="bottom", columns=2,
+         points=list(pch=c("0","+"), col=col.lot, cex=c(1.5, 1.8)),
+         text=list(c("Zero","Positive"), col=col.lot)))
 dimnames(tmp)[[1]] <- c("Beds","Dining Room Area","Kitchen Area")
 tmp
 hhdev.off()
 
 
 ###################################################
-### code chunk number 4: grap.tex:225-241
+### code chunk number 4: grap.tex:262-284
 ###################################################
-hhpdf("grap-pric-bdkc.pdf", width=7.5, height=5)
+hhpdf("grap-pric-bdkc.pdf", width=7.5, height=5.5)
 tmp <-
 combineLimits(useOuterStrips(
   update(transpose(
     xyplot(sprice ~ beds + drarea + kitarea |
            factor(lotsizef=="house", labels=c("condominium","house")),
-           data=njgolf, outer=TRUE, pch=19,
+           data=njgolf, outer=TRUE,
+           groups=(lotsize==0),
+           pch=c("+","0"), cex=c(2, 1.8), col=col.lot[2:1],
            ylab=NULL, ylab.right="Selling Price",
            xlab=NULL, xlab.top=list("Measures of Dwelling Size", cex=1.2),
-           layout=c(2,3))
-    ), between=list(x=1.5, y=1),
-         scales=list(x=list(relation="free"), y=list(alternating=2)))
+           layout=c(2,3),
+           key=list(title="Lot Size", cex.title=1,
+              border=TRUE, space="bottom", columns=2,
+              points=list(pch=c("0","+"), col=col.lot, cex=c(1.5, 1.8)),
+              text=list(c("Zero","Positive"), col=col.lot)))
+           ), between=list(x=1.5, y=1),
+           scales=list(x=list(relation="free"), y=list(alternating=2)))
 ))
 dimnames(tmp)[[1]] <- c("Beds","Dining Room Area","Kitchen Area")
 tmp
@@ -81,7 +94,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 5: grap.tex:308-332
+### code chunk number 5: grap.tex:351-374
 ###################################################
 hhpdf("grap-pbdkcl-color.pdf", width=7, height=7)
 tmp <- cbind(njgolf[,c("sprice","lotsize","beds","drarea","kitarea")],
@@ -89,28 +102,27 @@ tmp <- cbind(njgolf[,c("sprice","lotsize","beds","drarea","kitarea")],
                labels=c("condominium","house")))
 tmp.splom <-
 splom(~ tmp, axis.text.cex=.5, varname.cex=.8, xlab=NULL,
-      pch=16, group=tmp$cond.house, panel=panel.superpose,
+      group=tmp$cond.house, panel=panel.superpose,
+      pch=c("0","+"), cex=c(1.8, 2), col=col.lot[1:2],
       key=list(
         border=TRUE,
         text=list(c("Condominium","House")),
-        points=list(
-          col=trellis.par.get("superpose.symbol")$col[1:2],
-          pch=16),
+        points=list(pch=c("0","+"), col=col.lot, cex=c(1.5, 1.8)),
         space="bottom", columns=2))
 rrows <- c(1,1,1,1)
 ccols <- c(2,3,4,5)
-cols <- c("red","blue","blue","blue")
+cols <- c("gray60","black","black","black")
 ## when I isolate the contents of the layer() as a function, it doesn't work.
 tmp.splom + layer((function(...) {
   if (i %in% rrows && j %in% ccols)
      panel.abline(v=current.panel.limits()$xlim,
                   h=current.panel.limits()$ylim,
-                  col=cols[which(i == rrows & j == ccols)], lwd=6)})())
+                  col=cols[which(i == rrows & j == ccols)], lwd=8)})())
 hhdev.off()
 
 
 ###################################################
-### code chunk number 6: grap.tex:355-360
+### code chunk number 6: grap.tex:398-403
 ###################################################
 hhpdf("grap-pbdkc-l.pdf", width=9, height=5)
 splom(~ tmp[,1:5] | tmp[,6], par.strip.text=list(cex=1.5),
@@ -120,7 +132,15 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 7: grap.tex:474-485
+### code chunk number 7: grap.tex:487-490
+###################################################
+hhcode("array3way.r", '
+## This three-way array of scatterplots is constructed in file HHscriptnames("logi.R").
+')
+
+
+###################################################
+### code chunk number 8: grap.tex:573-584
 ###################################################
 hhpdf("grap-f1.pdf", width=5.5, height=5.5)
 data(tv)
@@ -136,7 +156,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 8: grap.tex:496-539
+### code chunk number 9: grap.tex:595-638
 ###################################################
 hhpdf("grap-f2.pdf", width=7, height=7)
 AA <-
@@ -184,7 +204,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 9: grap.tex:612-617
+### code chunk number 10: grap.tex:711-716
 ###################################################
 hhpdf("grap-f3.pdf", width=5.5, height=5.5)
 splom( ~ tv[,c(4,5,1,2,3)],
@@ -194,7 +214,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 10: grap.tex:700-703
+### code chunk number 11: grap.tex:799-802
 ###################################################
 hhpdf("grap-f11a.pdf", width=7.5, height=6.5)
 pairs(tv, pch=19, main="pairs with NW--SE diagonal and rectangular panels")
@@ -202,7 +222,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 11: grap.tex:731-769
+### code chunk number 12: grap.tex:830-868
 ###################################################
 hhpdf("grap-f12.pdf", width=9, height=5)
 f12b <- matrix(c("Var1",1,2,4,
@@ -245,7 +265,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 12: grap.tex:848-853
+### code chunk number 13: grap.tex:947-952
 ###################################################
 hhpdf("grap-f5.pdf", width=6.5, height=6.5)
 splom( ~ tv[, 1:3],
@@ -255,7 +275,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 13: grap.tex:889-894
+### code chunk number 14: grap.tex:988-993
 ###################################################
 hhpdf("grap-f6.pdf", width=6.5, height=6.5)
 splom( ~ cbind(tv[,1,drop=FALSE], log(tv[, 2:3])),
@@ -265,7 +285,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 14: grap.tex:970-1010
+### code chunk number 15: grap.tex:1069-1109
 ###################################################
 hhpdf("grap-f8.pdf", width=10.3, height=4.5)
 dy2 <- format(c(-1, -0.5, 0, 0.5, 1, 2))
@@ -310,7 +330,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 15: grap.tex:1108-1126
+### code chunk number 16: grap.tex:1207-1225
 ###################################################
 hhpdf("grap-f7.pdf", width=7, height=7)
 data(tv)
@@ -333,7 +353,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 16: grap.tex:1149-1158
+### code chunk number 17: grap.tex:1248-1257
 ###################################################
 hhpdf("grap-f9.pdf", width=7, height=4)
 x <- sort(tv[,"life.exp"])
@@ -347,7 +367,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 17: grap.tex:1205-1226
+### code chunk number 18: grap.tex:1304-1325
 ###################################################
 y <- ladder.fstar(tv$ppl.per.phys)
 g <- paste("ppp ^",names(y))
@@ -373,7 +393,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 18: grap.tex:1245-1257
+### code chunk number 19: grap.tex:1344-1356
 ###################################################
 scales <- c(2, 3, 3, 2, 2, 2)
 names(scales) <- names(y)

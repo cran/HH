@@ -10,7 +10,9 @@ function(lm.object,
          data=model.frame(lm.object),
          newfit,
          ylim,
-         pch=16,
+         pch=19,
+         lty=c(1,3,4,2),
+         lwd=2,
          main.cex=1,
          main=list(paste(100*conf.level,
            "% confidence and prediction intervals for ",
@@ -22,22 +24,6 @@ function(lm.object,
   missing.xlim <- missing(xlim)       ## R needs this
   missing.ylim <- missing(ylim)       ## R needs this
   missing.newdata <- missing(newdata) ## R needs this
-  ## if.R(s={
-  ##   ## Save a copy of the data.frame in frame=0 to put it where
-  ##   ## model.frame.lm needs to find it when the example data is
-  ##   ## run through Splus CMD check.
-  ##   my.data.name <- as.character(lm.object$call$data)
-  ##   if (length(my.data.name)==0)
-  ##     stop("Please provide an lm.object calculated with an explicit 'data=my.data.frame' argument.")
-  ##   undo.it <- (!is.na(match(my.data.name, objects(0))))
-  ##   if (undo.it) old.contents <- get(my.data.name, frame=0)
-  ##   my.data <- try(get(my.data.name))
-  ##   if (class(my.data)=="Error")
-  ##     my.data <- try(get(my.data.name, frame=sys.parent()))
-  ##   if (class(my.data)=="Error")
-  ##     stop("Please send me an email with a reproducible situation that got you here. (rmh@temple.edu)")
-  ##   assign(my.data.name, my.data, frame=0)
-  ## },r={})
   default.newdata <- data.frame(seq(xlim[1], xlim[2], length=51))
   names(default.newdata) <- x.name
   if (missing.xlim) xlim <- xlim + diff(xlim)*c(-.02,.02) ## needed
@@ -57,22 +43,7 @@ function(lm.object,
     newdata <- newdata[order(newdata[,x.name]), , drop=FALSE]
   }
   if (missing.xlim) xlim <- xlim + diff(xlim)*c(-.02,.02) ## repeat is needed
-  if (missing(newfit)) newfit <-
-    ## if.R(s={
-
-    ##   prediction <-
-    ##     predict(lm.object, newdata=newdata,
-    ##             se.fit=TRUE, ci.fit=TRUE, pi.fi=TRUE,
-    ##             level=conf.level)
-    ##   {
-    ##     ## restore frame=0
-    ##     if (undo.it) assign(my.data.name, old.contents, frame=0)
-    ##     else remove(my.data.name, frame=0)
-    ##   }
-    ##   prediction
-    ## }
-    ##      ,r=
-         {
+  if (missing(newfit)) {
            new.p <-
              predict(lm.object, newdata=newdata,
                      se.fit=TRUE, level=conf.level,
@@ -81,20 +52,20 @@ function(lm.object,
              predict(lm.object, newdata=newdata,
                      se.fit=TRUE, level=conf.level,
                      interval = "confidence")
-           tmp <- new.p
-           tmp$ci.fit <- new.c$fit[,c("lwr","upr"), drop=FALSE]
-           dimnames(tmp$ci.fit)[[2]] <- c("lower","upper")
-           attr(tmp$ci.fit,"conf.level") <- conf.level
-           tmp$pi.fit <- new.p$fit[,c("lwr","upr"), drop=FALSE]
-           dimnames(tmp$pi.fit)[[2]] <- c("lower","upper")
-           attr(tmp$pi.fit,"conf.level") <- conf.level
-           tmp$fit <- tmp$fit[,"fit", drop=FALSE]
-           tmp
+           newfit <- new.p
+           newfit$ci.fit <- new.c$fit[,c("lwr","upr"), drop=FALSE]
+           dimnames(newfit$ci.fit)[[2]] <- c("lower","upper")
+           attr(newfit$ci.fit,"conf.level") <- conf.level
+           newfit$pi.fit <- new.p$fit[,c("lwr","upr"), drop=FALSE]
+           dimnames(newfit$pi.fit)[[2]] <- c("lower","upper")
+           attr(newfit$pi.fit,"conf.level") <- conf.level
+           newfit$fit <- newfit$fit[,"fit", drop=FALSE]
          }
-##         )
   tpgsl <- trellis.par.get("superpose.line")
-  tpgsl <- Rows(tpgsl, 1:4)
+  tpgsl$lty <- lty
+  tpgsl$lwd <- lwd
   tpgsl$col[1] <- 0
+  tpgsl <- Rows(tpgsl, 1:4)
   if (missing.ylim) {
     ylim <- range(newfit$pi.fit, data[,y.name])
     ylim <- ylim + diff(ylim)*c(-.02,.02) ## needed
@@ -102,6 +73,7 @@ function(lm.object,
   xyplot(formula.lm, data=data, newdata=newdata, newfit=newfit,
          newdata.x=newdata.x,
          xlim=xlim, ylim=ylim, pch=pch,
+         par.settings=list(superpose.line=tpgsl),
          panel=function(..., newdata.x) {
            panel.ci.plot(...)
            if (length(newdata.x) > 0)

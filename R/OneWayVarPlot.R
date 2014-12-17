@@ -32,7 +32,7 @@ OneWayVarPlot <- function(x, data, ...,
   else {
     A <- bwplot(y.minus.center ~ group, data, ..., xlab=group.name, main=main,
                 panel=panel.hovnew, groups=group, ylab=paste("Centered", y.name))
-    B <- bwplot((y.center - centerFunction(y)) ~ rep("Centers of\nGroups", length(y.center)),
+    B <- bwplot((y.center - centerFunction(y.center)) ~ rep("Centers of\nGroups", length(y.center)),
                 panel=panel.hovnew, groups=rep(1, length(y.center)), col="black")
 
     C <- bwplot(y-centerFunction(y) ~ Ones, panel=panel.hovnew, groups=Ones, col="black")

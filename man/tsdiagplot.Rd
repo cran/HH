@@ -16,11 +16,8 @@ tsdiagplot(x,
            model=c(p.max, 0, q.max), ## S-Plus
            order=c(p.max, 0, q.max), ## R
            lag.max=36, gof.lag=lag.max,
-           armas=if.R(
-             s=arma.loop(x, model=model,
+           armas=arma.loop(x, order=order,
                series=deparse(substitute(x)), ...),
-             r=arma.loop(x, order=order,
-               series=deparse(substitute(x)), ...)),
            diags=diag.arma.loop(armas, x,
                                 lag.max=lag.max,
                                 gof.lag=gof.lag),
@@ -96,7 +93,7 @@ gofplot(rdal,
     The additional argument \code{seasonal} may also be used.}
   \item{lag.max}{Maximum lag for the acf and pacf plots.}
   \item{gof.lag}{Maximum lag for the gof plots.}
-  
+
   \item{armas}{An \code{arma.loop} object.}
   \item{diags}{An \code{diag.arma.loop} object.}
   \item{ts.diag, rdal}{A list constructed as a rearranged \code{diag.arma.loop} object.}
@@ -129,7 +126,7 @@ gofplot(rdal,
   The American Statistician, May 2002, Vol. 56, No. 2, pp. 131-138.
   Richard M. Heiberger, Temple University, and
   Paulo Teles, Faculdade de Economia do Porto.
-  
+
   Richard M. Heiberger and Burt Holland (2004), Statistical Analysis and Data
   Display, Springer, ISBN 0-387-40270-5
 

@@ -3,11 +3,11 @@ if.R(r={as.rts <- function(x, ...) as.ts(x, ...)},
 
 units.ts <- function(x) "months"
 
-title.grob <- function(main=NULL, y=.985, gp=gpar(cex=1.5)) {
-  grid.text(main, y=y, gp=gp)
+title.grob <- function(main=NULL, y=.99, gp=gpar(cex=1.5)) {
+  grid.text(main, y=y, gp=gp, just="top")
 }
 
-title.trellis <- function(main = NULL, sub = NULL, xlab = NULL, ylab = NULL, 
+title.trellis <- function(main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
     line = NA, outer = FALSE, axes=NULL, ...) {
   if.R(s=title(main),
        r=title.grob(main))
@@ -58,12 +58,12 @@ if.R(r=stats:::coef.Arima,
   for (i in seq(along=object$model)) {
     mi <- object$model[[i]]
     a.coef <- c(a.coef, mi$ar, mi$ma)
-  }    
+  }
   names(a.coef) <- .arima.info.names.not.ordered(.arima.S.to.C(object$model))
   a.coef
 }
      )
-  
+
 .arima.info.names.not.ordered <-
 function(model)
 {

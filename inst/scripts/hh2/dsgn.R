@@ -90,17 +90,17 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 5: dsgn.tex:251-313
+### code chunk number 5: dsgn.tex:251-308
 ###################################################
 hhpdf("cc176-5.pdf", height=14, width=14)
 ##
 cc176.5b <- ## identical lines
 useOuterStrips(
 xyplot(wt.d ~ wt.n | n.treats*current, data=cc176,
-       group=n.treats, pch=levels(cc176$n.treats),
+       group=n.treats, pch=19, ##pch=levels(cc176$n.treats),
        panel=function(x, y, ...) {
          panel.superpose(x, y, ...)
-         panel.abline(lm(cc176$wt.d ~ cc176$wt.n), lty=3)
+         panel.abline(lm(cc176$wt.d ~ cc176$wt.n), lty=1, lwd=2)
        },
        cex=1.4,
        par.strip.text=list(cex=1),
@@ -122,7 +122,7 @@ cc176.5a <- update(cc176.5b, ## horizontal lines by group
                    panel=
                    function(x, y, ...) {
                      panel.superpose(x, y, ...)
-                     panel.abline(a=mean(y), b=0, lty=3)
+                     panel.abline(a=mean(y), b=0, lty=1, lwd=2)
                    },
                    main="a. Separate horizontal lines: wt.d ~ n.c")
 ##
@@ -132,7 +132,7 @@ cc176.5cd <- update(cc176.5b, ## parallel lines by group
                    function(x, y, ...) {
                      panel.superpose(x, y, ...)
                      panel.abline(a=abline.args[panel.number()+1],
-                                  b=abline.args[1], lty=3)
+                                  b=abline.args[1], lty=1, lwd=2)
                    },
                    main="c,d. Parallel lines: wt.d ~ n.c + wt.n")
 ##
@@ -140,24 +140,19 @@ cc176.5e <- update(cc176.5b, ## separate lines
                    panel=
                    function(x, y, ...) {
                      panel.superpose(x, y, ...)
-                     panel.abline(lm(y ~ x), lty=3)
+                     panel.abline(lm(y ~ x), lty=1, lwd=2)
                    },
                    main="e. Separate lines: wt.d ~ wt.n * n.c")
 ##
-## cc176.5a
-## cc176.5b
-## cc176.5cd
-## cc176.5e
-##
-print(cc176.5a,  more=TRUE,  split=c(1,1,2,2))
-print(cc176.5b,  more=TRUE,  split=c(2,1,2,2))
-print(cc176.5cd, more=TRUE,  split=c(1,2,2,2))
-print(cc176.5e,  more=FALSE, split=c(2,2,2,2))
+print(cc176.5a,  more=TRUE,  position=c(.00, .52,  .48, 1.0)) ## split=c(1,1,2,2))
+print(cc176.5b,  more=TRUE,  position=c(.52, .52, 1.00, 1.0)) ## split=c(2,1,2,2))
+print(cc176.5cd, more=TRUE,  position=c(.00, .00,  .48,  .48)) ## split=c(1,2,2,2))
+print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,2))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 6: dsgn.tex:392-403
+### code chunk number 6: dsgn.tex:387-398
 ###################################################
 hhcapture("cc176-6.Rout", '
   cc176t <- cc176
@@ -173,7 +168,7 @@ hhcapture("cc176-6.Rout", '
 
 
 ###################################################
-### code chunk number 7: dsgn.tex:417-446
+### code chunk number 7: dsgn.tex:412-441
 ###################################################
   hhpdf("cc176-7.pdf", width=8)
   cc176.mmc <- mmc(cc176t.aov, focus="current")
@@ -207,7 +202,7 @@ hhcapture("cc176-6.Rout", '
 
 
 ###################################################
-### code chunk number 8: dsgn.tex:606-623
+### code chunk number 8: dsgn.tex:601-618
 ###################################################
   data(tires)
   ## simpler
@@ -229,7 +224,7 @@ hhcapture("cc176-6.Rout", '
 
 
 ###################################################
-### code chunk number 9: dsgn.tex:689-697
+### code chunk number 9: dsgn.tex:684-692
 ###################################################
   hhcapture("tires.Rout", '
   data(tires)
@@ -242,7 +237,7 @@ hhcapture("cc176-6.Rout", '
 
 
 ###################################################
-### code chunk number 10: dsgn.tex:713-729
+### code chunk number 10: dsgn.tex:708-724
 ###################################################
 old.stars <- options(show.signif.stars=FALSE)
   hhcapture("tires2.Rout", '
@@ -263,7 +258,7 @@ options(old.stars)
 
 
 ###################################################
-### code chunk number 11: dsgn.tex:747-759
+### code chunk number 11: dsgn.tex:742-754
 ###################################################
   hhpdf("tiresmmc.pdf", width=6, height=4)
   tiresmmc <- mmcplot(tires.mmc.brand, ylim=c(10.4, 14.4))
@@ -280,7 +275,7 @@ options(old.stars)
 
 
 ###################################################
-### code chunk number 12: dsgn.tex:875-881
+### code chunk number 12: dsgn.tex:870-876
 ###################################################
 data(filmcoat)
 ## display data in table dsgntwo.t.filmcoat
@@ -291,7 +286,7 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 13: dsgn.tex:904-915
+### code chunk number 13: dsgn.tex:899-910
 ###################################################
   hhpdf("filmcoat.pdf", width=3.5, height=2.8)
   useOuterStrips(
@@ -307,7 +302,7 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 14: dsgn.tex:938-944
+### code chunk number 14: dsgn.tex:933-939
 ###################################################
   hhcapture("filmcoat.ma.Rout", '
   reshape2::acast(filmcoat, temprt ~ pressure, mean,
@@ -318,7 +313,7 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 15: dsgn.tex:959-964
+### code chunk number 15: dsgn.tex:954-959
 ###################################################
 hhpdf("filmcoatIntr.pdf", width=7, height=6)
 interaction2wt(data=filmcoat, coat ~ temprt+pressure,
@@ -328,7 +323,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 16: dsgn.tex:978-1006
+### code chunk number 16: dsgn.tex:973-1002
 ###################################################
 hhpdf("mcout5.pdf", height=6, width=12)
 ResidMS <- function(x) summary(x)[[1]]["Residuals","Mean Sq"]
@@ -347,7 +342,8 @@ filmcoat.mmc.3pc <-
 ## filmcoat.mmc.3pc
 mmc3pb <- sapply(filmcoat.mmc.3pc, mmcplot, style="both", simplify=FALSE,
                  axis.right=2, xlim=c(-14, 14), ylim=c(33, 46),
-                 ylab.right=NULL, ylab=NULL)
+                 ylab.right=NULL, ylab=NULL,
+                 col.iso="gray40", col.contr0='gray40')
 ## mmc3pb
 mmc3pb[[1]]$condlevels[[1]][1] <- names(mmc3pb)[1]
 mmc3pb[[2]]$condlevels[[1]][1] <- names(mmc3pb)[2]
@@ -361,7 +357,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 17: dsgn.tex:1024-1049
+### code chunk number 17: dsgn.tex:1020-1046
 ###################################################
 hhpdf("mcout6.pdf", height=6, width=12)
 ## separate ANOVA for each temperature
@@ -377,7 +373,8 @@ filmcoat.mmc.3tc <-
 ## filmcoat.mmc.3tc
 mmc3tb <- sapply(filmcoat.mmc.3tc, mmcplot, style="both", simplify=FALSE,
                  axis.right=2, xlim=c(-14, 14), ylim=c(33, 46),
-                 ylab.right=NULL, ylab=NULL)
+                 ylab.right=NULL, ylab=NULL,
+                 col.iso="gray40", col.contr0='gray40')
 ## mmc3tb
 mmc3tb[[1]]$condlevels[[1]][1] <- names(mmc3tb)[1]
 mmc3tb[[2]]$condlevels[[1]][1] <- names(mmc3tb)[2]
@@ -391,7 +388,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 18: dsgn.tex:1160-1175
+### code chunk number 18: dsgn.tex:1157-1172
 ###################################################
 hhpdf("dsgnGunload.pdf")
 data(gunload)
@@ -411,7 +408,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 19: dsgn.tex:1383-1391
+### code chunk number 19: dsgn.tex:1380-1388
 ###################################################
   hhcapture("gunloada.Rout", '
 gunload.aov <-
@@ -424,7 +421,7 @@ model.tables(gunload.aov, type="means")
 
 
 ###################################################
-### code chunk number 20: dsgn.tex:1508-1526
+### code chunk number 20: dsgn.tex:1505-1523
 ###################################################
   hhcapture("turkeyFactors.Rout", '
 data(turkey)
@@ -447,7 +444,7 @@ turkey[c(1,7,13,19,25),]
 
 
 ###################################################
-### code chunk number 21: dsgn.tex:1539-1544
+### code chunk number 21: dsgn.tex:1536-1541
 ###################################################
   hhcapture("turkeyAov2.Rout", '
 turkey3.aov <- aov(wt.gain ~ trt.vs.control / (additive*amount),
@@ -457,7 +454,7 @@ summary(turkey3.aov)
 
 
 ###################################################
-### code chunk number 22: dsgn.tex:1560-1567
+### code chunk number 22: dsgn.tex:1557-1564
 ###################################################
   hhcapture("turkeyMeans.Rout", '
 print(na.print="",
@@ -469,12 +466,12 @@ tapply(turkey$wt.gain,
 
 
 ###################################################
-### code chunk number 23: dsgn.tex:1581-1596
+### code chunk number 23: dsgn.tex:1578-1592
 ###################################################
 hhpdf("turkeyF2V.pdf", height=4, width=4)
 additive.rev <- ordered(turkey$additive, rev(levels(turkey$additive)))
 useOuterStrips(
-bwplot( wt.gain ~ 1 | amount * additive.rev,
+bwplot( wt.gain ~ rep(1, 30) | amount * additive.rev,
        data=turkey,
        horizontal=FALSE, aspect=1,
        scales=list(x=list(draw=FALSE), y=list(alternating=2)),
@@ -482,20 +479,19 @@ bwplot( wt.gain ~ 1 | amount * additive.rev,
        ylab=list("additive", cex=1.4),
        ylab.right=list("wt.gain", cex=1.4),
        par.strip.text=list(cex=1.4),
-       par.settings=list(box.dot=list(
-          col=trellis.par.get()$superpose.symbol$col[1])))
+       groups=rep(1,30), panel=panel.bwplot.superpose, col="blue")
 )
 hhdev.off()
 
 
 ###################################################
-### code chunk number 24: dsgn.tex:1653-1654
+### code chunk number 24: dsgn.tex:1649-1650
 ###################################################
 data(abc)
 
 
 ###################################################
-### code chunk number 25: dsgn.tex:1701-1718
+### code chunk number 25: dsgn.tex:1697-1714
 ###################################################
   hhcapture("abcrearrange1.Rout", '
 data(abc)
@@ -517,7 +513,7 @@ abc.crossed
 
 
 ###################################################
-### code chunk number 26: dsgn.tex:1732-1747
+### code chunk number 26: dsgn.tex:1728-1743
 ###################################################
   hhcapture("abcrearrange2.Rout", '
 abc.nested <- ## nested
@@ -537,7 +533,7 @@ abc.double.indexed
 
 
 ###################################################
-### code chunk number 27: dsgn.tex:1767-1811
+### code chunk number 27: dsgn.tex:1763-1807
 ###################################################
   hhcode("modelsAB.R", '
 ## one-way
@@ -586,7 +582,7 @@ model.matrix(abc.AB.aov)
 
 
 ###################################################
-### code chunk number 28: dsgn.tex:1829-1839
+### code chunk number 28: dsgn.tex:1825-1835
 ###################################################
   hhcapture("contrasts-contr1.Rout", '
 model.matrix(~A, data=abc,
@@ -601,7 +597,7 @@ model.matrix(~A, data=abc,
 
 
 ###################################################
-### code chunk number 29: dsgn.tex:1879-1883
+### code chunk number 29: dsgn.tex:1875-1879
 ###################################################
   hhcapture("contrasts-AB.Rout", '
 model.matrix(~A*B, data=abc,
@@ -610,7 +606,7 @@ model.matrix(~A*B, data=abc,
 
 
 ###################################################
-### code chunk number 30: dsgn.tex:1923-1937
+### code chunk number 30: dsgn.tex:1919-1933
 ###################################################
   hhcapture("turkeyAov3.Rout", '
 match(dimnames(coef(summary.lm(turkey3.aov)))[[1]],
@@ -629,7 +625,7 @@ turkey3.x[c(1,7,13,19,25), c(1,2,4,8,12)]
 
 
 ###################################################
-### code chunk number 31: dsgn.tex:2137-2174
+### code chunk number 31: dsgn.tex:2133-2170
 ###################################################
   hhcapture("cloverT123sc.Rout", '
 data(rhiz.clover)
@@ -671,7 +667,7 @@ options(old.opt)
 
 
 ###################################################
-### code chunk number 32: dsgn.tex:2220-2237
+### code chunk number 32: dsgn.tex:2216-2233
 ###################################################
 hhpdf("cloverD.pdf", height=6, width=4)
 
@@ -693,7 +689,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 33: dsgn.tex:2254-2267
+### code chunk number 33: dsgn.tex:2250-2263
 ###################################################
   hhcapture("fatLst.Rout", '
 library(car)
@@ -711,7 +707,7 @@ var(fat$bodyfat) * (nrow(fat)-1) - sum(fat.lm$residuals^2)
 
 
 ###################################################
-### code chunk number 34: dsgn.tex:2420-2437
+### code chunk number 34: dsgn.tex:2416-2433
 ###################################################
 hhpdf("vulcanInteraction.pdf", height=6, width=6)
 data(vulcan)
@@ -733,7 +729,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 35: dsgn.tex:2450-2471
+### code chunk number 35: dsgn.tex:2446-2467
 ###################################################
 ## The two-factor 2-way interaction figure is not in the book.
 ## It is here for comparison with the simple effects figure.
@@ -759,7 +755,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 36: dsgn.tex:2514-2533
+### code chunk number 36: dsgn.tex:2510-2529
 ###################################################
   hhcode("tiresLatin.R", '
 ## R defaults to treatment contrasts for factors.
@@ -783,7 +779,7 @@ anova(tr1.lm)
 
 
 ###################################################
-### code chunk number 37: dsgn.tex:2643-2656
+### code chunk number 37: dsgn.tex:2638-2651
 ###################################################
   hhcode("turkeyAov3Match.R", '
                     summary.lm(turkey3.aov)
@@ -801,7 +797,7 @@ match(dimnames(coef(summary.lm(turkey3.aov)))[[1]],
 
 
 ###################################################
-### code chunk number 38: dsgn.tex:2718-2732
+### code chunk number 38: dsgn.tex:2713-2726
 ###################################################
 hhpdf("turkeyF2H.pdf", height=4, width=4)
 useOuterStrips(
@@ -813,8 +809,7 @@ bwplot( ~ wt.gain | amount * additive.rev,
        xlab.top=list("amount", cex=1.4),
        ylab=list("additive", cex=1.4),
        par.strip.text=list(cex=1.4),
-       par.settings=list(box.dot=list(
-          col=trellis.par.get()$superpose.symbol$col[1])))
+       groups=rep(1,30), panel=panel.bwplot.superpose, col="blue")
 )
 hhdev.off()
 

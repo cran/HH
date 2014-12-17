@@ -6,7 +6,7 @@ ancovaplot.formula <-
            formula=object,
            col=rep(tpg$col,
              length=length(levels(as.factor(groups)))),
-           pch=rep(c(15:20, 0:14),
+           pch=rep(c(15,19,17,18,16,20, 0:14),
              length=length(levels(as.factor(groups)))),
            slope, intercept,
            layout=c(length(levels(cc)), 1),
@@ -255,7 +255,7 @@ panel.ancova.superpose <-
 
     if (superpose.panel && panel.number() > length(intercept)) {
 
-      panel.superpose(x, y, subscripts-subscripts[1], gc,
+      panel.superpose(x, y, subscripts, gc,
                       col=col,
                       pch=pch, ...)
 

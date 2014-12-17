@@ -3,7 +3,7 @@ hhpdf <- function(file, ...) {invisible(NULL)}
 
 hhdev.off <- function(...) {invisible(NULL)}
 
-hhcapture <- function(file, text) {
+hhcapture <- function(file, text, echo=TRUE, print.eval=TRUE) {
   source(textConnection(text),
          echo=TRUE, print.eval=TRUE, keep.source=TRUE,
          max.deparse.length=500)

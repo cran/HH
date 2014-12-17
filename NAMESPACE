@@ -54,6 +54,17 @@
 ## strip.interaction2wt
 ## strip.xysplom
 ## yscale.components.right.HH.list.of.panels
+## Base
+## Curve
+## Area
+## Border
+## Vertical
+## AxisNormal
+## Main
+## Float
+## MainSimpler
+## ColorWithAlpha
+## NormalAndT.table
 export(
 AEdotplot,
 AElogrelrisk,
@@ -98,6 +109,7 @@ as.rts,
 ## as.TwoTrellisColumns,
 as.TwoTrellisColumns5,
 axis.i2wt,
+bivariateNormal,
 brewer.pal.likert,
 case,
 chisq.curve,
@@ -182,6 +194,10 @@ norm.observed,
 norm.outline,
 norm.setup,
 normal.and.t.dist,
+NormalAndTplot,
+NormalAndT.and.power,
+## NormalAndTplot.htest,
+NormalAndT.power,
 npar.arma,
 npar.rarma,
 npar.sarma,
@@ -341,6 +357,8 @@ S3method(mmcplot, default)
 S3method(model.tables, ancovaplot)
 S3method(multicomp.label.change, mmc.multicomp)
 S3method(multicomp.label.change, multicomp)
+S3method(NormalAndTplot, default)
+S3method(NormalAndTplot, htest)
 S3method(plot, ancova)
 S3method(plot, case)
 S3method(plot, mmc.multicomp)
@@ -370,6 +388,7 @@ S3method(print, listOfNamedMatrices)
 S3method(print, mmc.multicomp)
 S3method(print, multicomp)
 S3method(print, multicomp.hh)
+S3method(print, NormalAndT)
 S3method(print, positioned)
 S3method(print, pyramidLikert)
 ## S3method(print, TwoTrellisColumns)
@@ -380,7 +399,7 @@ S3method(print, tsdiagplot)
 S3method(rbind, trellis)
 S3method(rev, likert)
 S3method(seqplot, default)
-S3method(seqplot, rts)
+## S3method(seqplot, rts)
 S3method(seqplot, ts)
 S3method(summary, ancova)
 S3method(summary, arma.loop)
@@ -426,7 +445,7 @@ importFrom(multcomp, glht, contrMat, mcp)
 
 importFrom(Rcmdr, doItAndPrint)
 
-import(lattice, latticeExtra, grid)
+import(lattice, latticeExtra, grid, gridExtra)
 
 
 ## problems that I am working around with functions in file

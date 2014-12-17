@@ -90,18 +90,19 @@ summary(plasma.aov)
 
 
 ###################################################
-### code chunk number 9: tway.tex:891-897
+### code chunk number 9: tway.tex:891-898
 ###################################################
-hhpdf("plasmammc.pdf")
 plasma$time <-
    factor(plasma$time, levels=unique(plasma$time), ordered=FALSE)
 plasma.aov <- aov(plasma ~ id + time, data=plasma)
-mmcplot(mmc(plasma.aov, focus="time"), h=c(.6, .4), style="both")
+hhpdf("plasmammc.pdf", width=7, height=7)
+mmcplot(mmc(plasma.aov, focus="time"), h=c(.6, .4), style="both",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 10: tway.tex:1047-1059
+### code chunk number 10: tway.tex:1050-1062
 ###################################################
 hhpdf("workstation.pdf", height=3.5)
 data(workstation)
@@ -118,7 +119,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 11: tway.tex:1130-1136
+### code chunk number 11: tway.tex:1133-1139
 ###################################################
 hhcapture("workstation.Rout", '
 workstation.aov <- aov(devices ~ method / station,
@@ -129,7 +130,7 @@ model.tables(workstation.aov, "means", se=TRUE)
 
 
 ###################################################
-### code chunk number 12: tway.tex:1393-1407
+### code chunk number 12: tway.tex:1396-1410
 ###################################################
 hhcapture("StudentizedRange.Rout", '
 ## This output table is not included as a Table in the book.
@@ -148,7 +149,7 @@ sqrt(2*ms.res/8) * attr(confint(displayf.mmc$mca$glht)$confint, "calpha")  ## mi
 
 
 ###################################################
-### code chunk number 13: tway.tex:1499-1516
+### code chunk number 13: tway.tex:1502-1519
 ###################################################
 data(rhiz.alfalfa)
 alfalfa <- reshape2::melt(rhiz.alfalfa, id=c("comb","strain"))
@@ -170,7 +171,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 14: tway.tex:1525-1542
+### code chunk number 14: tway.tex:1528-1545
 ###################################################
 data(rhiz.clover)
 clover <- reshape2::melt(rhiz.clover, id=c("comb","strain"))
@@ -192,7 +193,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 15: tway.tex:1582-1624
+### code chunk number 15: tway.tex:1586-1628
 ###################################################
 useOuterStrips(combineLimits(
   bwplot(value ~ comb | strain * variable, data=clover,
@@ -239,7 +240,7 @@ useOuterStrips(combineLimits(
 
 
 ###################################################
-### code chunk number 16: tway.tex:1639-1649
+### code chunk number 16: tway.tex:1643-1653
 ###################################################
 hhcapture("rhiz-alf-aov.Rout", '
 ## unset position(rhiz.alfalfa$comb) for glht
@@ -254,7 +255,7 @@ alf.means
 
 
 ###################################################
-### code chunk number 17: tway.tex:1703-1728
+### code chunk number 17: tway.tex:1707-1732
 ###################################################
 hhpdf("alfmeans.pdf", height=3.5)
 old.fin <- par()$fin
@@ -284,18 +285,18 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 18: tway.tex:1745-1749
+### code chunk number 18: tway.tex:1749-1754
 ###################################################
-hhpdf("alfalfammc.pdf", height=8, width=8)
 alf.mmc <- mmc(rhiz.alfalfa.aov, focus="strain")
-mmcplot(alf.mmc, h=c(.45, .55), style="both")
+hhpdf("alfalfammc.pdf", height=8, width=8)
+mmcplot(alf.mmc, h=c(.45, .55), style="both",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 19: tway.tex:1798-1817
+### code chunk number 19: tway.tex:1803-1823
 ###################################################
-hhpdf("alfalfalmatmmc.pdf", height=8, width=8)
 alf.comp <- cbind("1,7,10-c"=c(-3, 0, 0, 1, 1, 1),
                   "1,10-7"  =c( 0, 0, 0, 1, 1,-2),
                   "1-10"    =c( 0, 0, 0, 1,-1, 0),
@@ -305,7 +306,9 @@ dimnames(alf.comp)[[1]] <- dimnames(alf.mmc$none$lmat)[[2]]
 alf.mmc <- mmc(rhiz.alfalfa.aov, focus="strain",
                          focus.lmat=alf.comp)
 alf.mmc
-alf.both <- mmcplot(alf.mmc, h=c(.45, .55), type="lmat", style="both")  ## include top panel in Figure
+hhpdf("alfalfalmatmmc.pdf", height=8, width=8)  ## include top panel in Figure
+alf.both <- mmcplot(alf.mmc, h=c(.45, .55), type="lmat", style="both",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 alf.both
 hhdev.off()
 hhpdf("alfalfalmatmmc2.pdf", height=8, width=8)
@@ -317,7 +320,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 20: tway.tex:1924-1945
+### code chunk number 20: tway.tex:1930-1951
 ###################################################
 hhpdf("clovint2wt.pdf", height=8, width=8)
 rcc <- rhiz.clover$comb ## save factor
@@ -343,7 +346,7 @@ rhiz.clover$comb <- rcc ## restore to factor
 
 
 ###################################################
-### code chunk number 21: tway.tex:1981-1987
+### code chunk number 21: tway.tex:1987-1993
 ###################################################
 hhcapture("rhiz-clov-aov.Rout", '
 rhiz.clover.aov <- aov(Npg ~ strain * comb, data=rhiz.clover)
@@ -354,7 +357,7 @@ model.tables(rhiz.clover.aov, type="means", se=TRUE)
 
 
 ###################################################
-### code chunk number 22: tway.tex:2040-2053
+### code chunk number 22: tway.tex:2046-2059
 ###################################################
 hhcapture("rhiz-clov-nest-aov.Rout", '
 rhiz.clover.nest.aov <-
@@ -372,7 +375,7 @@ summary(rhiz.clover.nest.aov,
 
 
 ###################################################
-### code chunk number 23: tway.tex:2077-2093
+### code chunk number 23: tway.tex:2083-2099
 ###################################################
 hhcapture("rhiz-clov-nest-aov-x.Rout", '
 ## Look at the contrasts, their generated dummy variables,
@@ -393,7 +396,7 @@ cnx[seq(1,60,5), c(4,6,8,10,12)]
 
 
 ###################################################
-### code chunk number 24: tway.tex:2115-2121
+### code chunk number 24: tway.tex:2121-2127
 ###################################################
 hhcapture("rhiz-clov-nest-aov-x2.Rout", '
 cnxb <- round(coef(summary.lm(rhiz.clover.nest.aov)), 3)
@@ -404,7 +407,7 @@ cnxb[c(1,2,  3,5,7,9,11, 4,6,8,10,12),]
 
 
 ###################################################
-### code chunk number 25: tway.tex:2139-2157
+### code chunk number 25: tway.tex:2145-2163
 ###################################################
 ## The next few code chunks are the setup for the three figures showing
 ## MMC plots of simple effects of the clover data.  All the clover simple
@@ -427,7 +430,7 @@ mmcplot(cs12.mmc,
 
 
 ###################################################
-### code chunk number 26: tway.tex:2160-2173
+### code chunk number 26: tway.tex:2166-2179
 ###################################################
 ## This code chunk gets the common mmc object to be used in the next three figures.
 ## It uses the calpha appropriate for 6 groups, either the clover or the clover+alfalfa,
@@ -445,7 +448,7 @@ csc.ylim <- cs.mmcplot$y.limits
 
 
 ###################################################
-### code chunk number 27: tway.tex:2177-2208
+### code chunk number 27: tway.tex:2183-2214
 ###################################################
 ## This code chunk constructs the lmat matrices for just the clover contrasts
 ## and for just the clover+alfalfa contrasts.
@@ -481,7 +484,7 @@ cloverorth.lmat
 
 
 ###################################################
-### code chunk number 28: tway.tex:2213-2229
+### code chunk number 28: tway.tex:2219-2237
 ###################################################
 ## clover with suppression of clover+alfalfa ticks
 ## mmcplot is not in the book.  mmcboth is in the book.
@@ -491,18 +494,20 @@ csc.mmc <- mmc(rhiz.clover.cs.aov, linfct=mcp(cs="Tukey"),
 
 mmcplot(mmcPruneIsomeans(csc.mmc, keep = c(1,2,5,10,11,12)),
         xlim=csc.xlim, ylim=csc.ylim,
-        type="lmat", main="clover comparisons --- combn(6,2) == 15")
+        type="lmat", main="clover comparisons --- combn(6,2) == 15",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 
 hhpdf("cloverstrclovmmc.pdf", height=9, width=16)
 mmcplot(mmcPruneIsomeans(csc.mmc, keep = c(1,2,5,10,11,12)),
         xlim=csc.xlim+c(-12, 3), ylim=csc.ylim, h=c(.6, .4),
         type="lmat", style="both",
-        main="clover comparisons --- combn(6,2) == 15")
+        main="clover comparisons --- combn(6,2) == 15",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 29: tway.tex:2256-2272
+### code chunk number 29: tway.tex:2264-2281
 ###################################################
 ## orthogonal contrasts for clover with suppression of clover+alfalfa ticks
 ## mmcplot is not in the book.  mmcboth is in the book.
@@ -518,15 +523,16 @@ hhpdf("cloverstrclovlmatmmc.pdf", height=9, width=16)
 mmcplot(mmcPruneIsomeans(csco.mmc, keep = c(1,2,5,10,11,12)),
         xlim=csc.xlim+c(-12, 3), ylim=csc.ylim, h=c(.6, .4),
         type="lmat", style="both",
-        main="clover orthogonal contrasts --- 6 groups --> 5 contrasts")
+        main="clover orthogonal contrasts --- 6 groups --> 5 contrasts",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 30: tway.tex:2299-2318
+### code chunk number 30: tway.tex:2308-2328
 ###################################################
 ## clover+alfalfa with suppression of clover ticks
-## mmcplot is not in the book.  mmcboth is in the book.
+## mmcplot with default style is not in the book.  mmcboth with style="both" is in the book.
 
 csca.mmc <- mmc(rhiz.clover.cs.aov, linfct=mcp(cs="Tukey"),
                 focus.lmat=cloveralf.lmat,
@@ -542,12 +548,13 @@ hhpdf("cloverstrclovalfmmc.pdf", height=9, width=16)
 mmcplot(mmcPruneIsomeans(csca.mmc, keep = c(3,4,6,7,8,9)),
         xlim=csc.xlim+c(-12, 3), ylim=csc.ylim, h=c(.6, .4),
         type="lmat", style="both",
-        main="clover+alfalfa comparisons --- combn(6,2) == 15")
+        main="clover+alfalfa comparisons --- combn(6,2) == 15",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 31: tway.tex:2441-2446
+### code chunk number 31: tway.tex:2451-2456
 ###################################################
 hhpdf("feed-i2wt.pdf", height=6, width=8)
 data(feed)
@@ -557,7 +564,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 32: tway.tex:2461-2465
+### code chunk number 32: tway.tex:2471-2475
 ###################################################
 hhcapture("feed2.Rout", '
 feed.int.aov <- aov(retained ~ temp * supp, data=feed)
@@ -566,7 +573,7 @@ anova(feed.int.aov)
 
 
 ###################################################
-### code chunk number 33: tway.tex:2490-2498
+### code chunk number 33: tway.tex:2500-2508
 ###################################################
 hhcapture("feed3.Rout", '
 feed.aov <- aov(retained ~ temp + supp, data=feed)
@@ -579,25 +586,27 @@ model.tables(feed.aov, type="means", se=TRUE)
 
 
 ###################################################
-### code chunk number 34: tway.tex:2548-2556
+### code chunk number 34: tway.tex:2558-2567
 ###################################################
-hhpdf("feedsuppMMC.pdf", height=6, width=8)
 data(feed)
 feed$temp <- factor(feed$temp, ordered=FALSE)
 feed$supp <- factor(feed$supp, ordered=FALSE)
 feed.aov <- aov(retained ~ temp + supp, data=feed)
-mmcplot(mmc(feed.aov, focus="supp"), h=c(.6, .4), style="both")
+hhpdf("feedsuppMMC.pdf", height=6, width=8)
+mmcplot(mmc(feed.aov, focus="supp"), h=c(.6, .4), style="both",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 mmcplot(mmc(feed.aov, focus="temp"), style="both") ## not in book
 
 
 ###################################################
-### code chunk number 35: tway.tex:2569-2574
+### code chunk number 35: tway.tex:2580-2586
 ###################################################
-hhpdf("feedsuppMMCorth.pdf", height=6, width=8)
 supp.poly <- contr.poly(5)
 row.names(supp.poly) <- levels(feed$supp)
-mmcplot(mmc(feed.aov, focus="supp", focus.lmat=supp.poly), type="lmat", h=c(.6, .4), style="both")
+hhpdf("feedsuppMMCorth.pdf", height=6, width=8)
+mmcplot(mmc(feed.aov, focus="supp", focus.lmat=supp.poly), type="lmat", h=c(.6, .4), style="both",
+        sub=list("\n         The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
 hhdev.off()
 
 

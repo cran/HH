@@ -7,7 +7,7 @@
   Coordinated time series and ACF and PCF plots.
 }
 \usage{
-tsacfplots(x,      
+tsacfplots(x,
            ylab=deparse(substitute(x)),
            x.name=ylab[[1]],
            main=paste("Series:", x.name),
@@ -26,6 +26,7 @@ acf.pacf.plot(x,
 	      lag.at=pretty(apacf$lag),
 	      lag.labels=lag.at*lag.units,
               lag.0=TRUE,
+              strip=TRUE, strip.left=FALSE,
 	      ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -38,8 +39,10 @@ acf.pacf.plot(x,
   \item{lag.max}{Maximum lag used in the acf and pacf plots.}
   \item{lag.units}{Units for time series, defaults to \code{frequency(x)}}
   \item{lag.0}{Logical.  If \code{TRUE}, then plot the correlation (identically 1)
-     at lag=0.
-  If \code{FALSE}, do not plot the correlation at lag=0.}
+    at lag=0.
+    If \code{FALSE}, do not plot the correlation at lag=0.}
+  \item{strip, strip.left}{Standard lattice arguments described in
+    \code{\link[lattice]{xyplot}}.}
   \item{\dots}{Additional arguments to \code{seqplot} for \code{tsacfplots}.
 Additional arguments to \code{strip.default} for \code{acf.pacf.plot}.}
 }

@@ -68,13 +68,12 @@ strip.interaction2wt(which.given, which.panel, var.name,
     response and trace factors.\cr
     See \code{\link{interaction.positioned}} for their use.}
   \item{simple.pch}{Named list containing plotting characters for each
-    level of one or more of the factors.  It is used only when
-    \code{simple==TRUE}.  If the list contains plotting characters for
-    both factors in the formula, the item associated with the first
-    factor in the formula is used.  If the \code{simple.pch} is missing,
-    then the integers for the levels of the first factor in the model
-    formula are used (For model formula \code{y ~ A*B}, the values are
-    \code{seq(along=levels(A))}).  }
+    level of one or more of the factors.  \code{simple.pch} is used only when
+    \code{simple==TRUE}.  If the argument \code{simple.pch} is missing,
+    then the integers for the levels of the factors are used.  The
+    characters are used for the median of the box plots in the diagonal
+    panels.  They match the trace factor of the interaction panel in the
+    same column of the display.  }
   \item{data.x}{\code{data.frame} containing factors from the input data.frame}
   \item{col.by.row}{logical.  If \code{TRUE} (the default), simple
 effects plots color the simple effects on the main diagonals in the same

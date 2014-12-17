@@ -19,7 +19,9 @@ ci.plot(lm.object, ...)
         data=model.frame(lm.object),
         newfit,
         ylim,
-        pch=16,
+        pch=19,
+        lty=c(1,3,4,2),
+        lwd=2,
         main.cex=1,
         main=list(paste(100*conf.level,
           "\% confidence and prediction intervals for ",
@@ -42,9 +44,10 @@ ci.plot(lm.object, ...)
   \item{newfit}{Constructed \code{data.frame} containing the
     predictions,confidence interval, and prediction interval
     for the \code{newdata}.}
-  \item{ylim}{\code{ylim} for plot.  Default is based on the 
+  \item{ylim}{\code{ylim} for plot.  Default is based on the
         constructed prediction interval.}
   \item{pch}{Plotting character for observed points.}
+  \item{lty, lwd}{Line types and line width for fit and intervals.}
   \item{main.cex}{Font size for main title.}
   \item{main}{Main title for plot}
   \item{\dots}{Additional arguments to be passed to panel function.}

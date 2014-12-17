@@ -372,7 +372,7 @@ if.R(r={
 tmp.dunnett.mmc
 
 
-
+\dontrun{
 ## two-way ANOVA
 ## display example
 
@@ -420,9 +420,9 @@ if.R(r={
   plot(displayf.mmc)
 }
      )
+}
 
-
-
+\dontrun{
 ## split plot design with tiebreaker plot
 ##
 ## This example is based on the query by Tomas Goicoa to R-news
@@ -519,6 +519,7 @@ if.R(s={
 },r={
   mmcplot(maiz2.mmc, style="both", type="lmat")
 })
+}
 }
 \keyword{hplot}
 \keyword{ htest }
