@@ -5,21 +5,28 @@ Base <- function(dfunction,
                  xlim,
                  ylim,
                  ylab=deparse(substitute(dfunction)),
-                 xlab="x", ...,
+                 xlab="x",
+                 main=NULL,
+                 sub=NULL,
+                 number.vars=1,
+                 key.axis.padding=4.5,
+                 ...,
                  par.settings=list(
                    clip=list(panel=FALSE),
-                   layout.heights=list(key.axis.padding=key.axis.padding)
-                 ),
-                 key.axis.padding) {
-  xyplot(ylim ~ xlim, type="n", ylab=ylab, xlab=xlab, ...,
+                   layout.heights=list(key.axis.padding=key.axis.padding,
+                                       axis.xlab.padding=2,
+                                       bottom.padding=ifelse(number.vars==1, 1, 2.5)),
+                   layout.widths=list(left.padding=7)
+                 )) {
+  xyplot(ylim ~ xlim, type="n", ylab=ylab, xlab=xlab, main=main, sub=sub, ...,
          par.settings=par.settings)
 }
 
 Curve <- function(dfunction, xlow, xhigh,
                   col=NA, border="black", lwd=1,
-                  base=FALSE, closed=TRUE, ..., mean=0, sd=1, df=Inf) {
+                  base=FALSE, closed=TRUE, ..., mean=0, stderr=1, df=Inf, ncp=0) {
   xx <- seq(xlow, xhigh, length=201)
-  yy <- dfunction(xx, mean=mean, sd=sd, df=df)
+  yy <- dfunction(xx, mean=mean, sd=stderr, df=df, ncp=ncp)
   if (closed) {
     if (base) {
       xx <- c(xx[1], xx, xx[length(xx)])
@@ -64,64 +71,6 @@ AxisNormal <- function(side="top", at, labels=TRUE, outside=TRUE, rot=0,
 }
 
 
-globalVariables(c('mu', 'bar', 'x', 'sigma', 'nu', 's'))
-Main <- function(mean0, mean1, xbar, sd, n, df) {
-
-  argnames <- alist(mu0=mu[0], mu1=mu[1], xbarsymbol=bar(x),
-                    sdsymbol=sigma, nn=n, dfdf=nu, sesymbol=sigma[bar(x)],
-                    sdsymbolt=s, sesymbolt=s[bar(x)])
-  argvals <- list(mean0=mean0, mean1=mean1, xbar=xbar,
-                  sd=sd, n=n, df=df, se=format(sd/sqrt(n), digits=2))
-  argsboth <- c(argnames, argvals)
-
-##  if (is.na(xbar) && is.infinite(df)) {
-    ms      <- substitute("Normal: " * mu0==mean0 * ", " ~                                               sdsymbol==sd                                  , argsboth)
-    mssn    <- substitute("Normal: " * mu0==mean0 * ", " ~                                               sesymbol==se  * ", " ~ nn==n                  , argsboth)
-    mms     <- substitute("Normal: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~                           sdsymbol==sd                                  , argsboth)
-    mmssn   <- substitute("Normal: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~                           sesymbol==se  * ", " ~ nn==n                  , argsboth)
-##  }
-
-##  if (!is.na(xbar) && is.infinite(df)) {
-    msx     <- substitute("Normal: " * mu0==mean0 * ", " ~                     xbarsymbol==xbar * ", " ~ sdsymbol==sd                                  , argsboth)
-    mssnx   <- substitute("Normal: " * mu0==mean0 * ", " ~                     xbarsymbol==xbar * ", " ~ sesymbol==se  * ", " ~ nn==n                  , argsboth)
-    mmsx    <- substitute("Normal: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~ xbarsymbol==xbar * ", " ~ sdsymbol==sd                                  , argsboth)
-    mmssnx  <- substitute("Normal: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~ xbarsymbol==xbar * ", " ~ sesymbol==se  * ", " ~ nn==n                  , argsboth)
-##  }
-
-##  if (is.na(xbar) && !is.infinite(df)) {
-    msd     <- substitute("t: " * mu0==mean0 * ", " ~                                               sdsymbolt==sd                * ", " ~ dfdf==df, argsboth)
-    mssnd   <- substitute("t: " * mu0==mean0 * ", " ~                                               sesymbolt==se * ", " ~ nn==n * ", " ~ dfdf==df, argsboth)
-    mmsd    <- substitute("t: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~                           sdsymbolt==sd                * ", " ~ dfdf==df, argsboth)
-    mmssnd  <- substitute("t: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~                           sesymbolt==se * ", " ~ nn==n * ", " ~ dfdf==df, argsboth)
-##  }
-
-##  if (!is.na(xbar) && !is.infinite(df)) {
-    msxd    <- substitute("t: " * mu0==mean0 * ", " ~                     xbarsymbol==xbar * ", " ~ sdsymbolt==sd                * ", " ~ dfdf==df, argsboth)
-    mssnxd  <- substitute("t: " * mu0==mean0 * ", " ~                     xbarsymbol==xbar * ", " ~ sesymbolt==se * ", " ~ nn==n * ", " ~ dfdf==df, argsboth)
-    mmsxd   <- substitute("t: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~ xbarsymbol==xbar * ", " ~ sdsymbolt==sd                * ", " ~ dfdf==df, argsboth)
-    mmssnxd <- substitute("t: " * mu0==mean0 * ", " ~ mu1==mean1 * ", " ~ xbarsymbol==xbar * ", " ~ sesymbolt==se * ", " ~ nn==n * ", " ~ dfdf==df, argsboth)
-##  }
-
-  mains <-
-    array(c(ms,   mssn,   mms,   mmssn,
-            msx,  mssnx,  mmsx,  mmssnx,
-            msd,  mssnd,  mmsd,  mmssnd,
-            msxd, mssnxd, mmsxd, mmssnxd),
-          dim=c(2, 2, 2, 2),
-          dimnames=list(
-            n=c("1","many"), mean1=c("0","01"),
-            xbar=c("na","xbar"), df=c("z","t")))
-
-  as.expression(mains[
-      2, ## 1 + (n > 1),
-      1 + !is.na(mean1),
-      1 + !is.na(xbar),
-      1 + !is.infinite(df)
-      ])
-
-}
-
-
 
 Float <- function(sided, type,
                   xbarc.left, xbarc.right, xbar,
@@ -131,7 +80,7 @@ Float <- function(sided, type,
                   mean0, mean1,
                   col.alpha, col.beta, col.power, col.pvalue, col.conf, cex.prob=.6,
                   prob.labels,
-                  xhalf.multiplier, digits) {
+                  xhalf.multiplier, yhalf.multiplier, digits) {
   labels <- if (prob.labels)
               as.expression(
                 c(substitute(symbol==value, c(alist(symbol=alpha),  list(value=round(alpha,  digits)))),
@@ -171,7 +120,7 @@ Float <- function(sided, type,
              cex.prob * diff(xlim)/9 * xhalf.multiplier
            else
              cex.prob * diff(xlim)/15 *xhalf.multiplier
-  yhalf <- cex.prob * diff(ylim)/30
+  yhalf <- cex.prob * diff(ylim)/30 *yhalf.multiplier
 
   subscripts <- c(alpha=(type=="hypothesis"),
                   beta=(type=="hypothesis") && (!is.na(mean1)),
@@ -197,19 +146,34 @@ Float <- function(sided, type,
 
 
 
-MainSimpler <- function(mean0, mean1, xbar, sd, n, df, distribution.name, digits) {
+globalVariables(c('mu', 'bar', 'x', 'sigma', 'nu', 's'))
 
-  argnames <- alist(mu0=mu[0], mu1=mu[1], xbarsymbol=bar(x),
-                    sdsymbol=sigma, nn=n, dfdf=nu, sesymbol=sigma[bar(x)],
-                    sdsymbolt=s, sesymbolt=s[bar(x)])
+MainSimpler <- function(mean0, mean1, xbar, stderr, n, df, distribution.name, digits, number.vars, type) {
+
+  argnames <- alist(mu0=mu[0], mu1=mu[1], ## xbarsymbol=bar(x),
+                    sesymbol=sigma[bar(x)],
+                    sesymbolt=s[bar(x)],
+                    sesymbolph=sigma[p[0]],
+                    sesymbolpc=s[hat(p)],
+                    nn=n, dfdf=nu)
+  if (number.vars==2)
+    argnames[c("sesymbol","sesymbolt")] <-
+      alist(sesymbol=sigma[bar(x)[1]-bar(x)[2]],
+            sesymbolt=s[bar(x)[1]-bar(x)[2]])
+
   argvals <- list(mean0=mean0, mean1=mean1, xbar=xbar,
-                  sd=sd, n=n, df=df, se=format(sd/sqrt(n), digits=digits))
+                  n=n, df=df, se=format(stderr, digits=digits))
   argsboth <- c(argnames, argvals)
 
-  if (distribution.name == "t")
-    main <- substitute("t: " * sesymbolt==se * ", " ~ nn==n * ", " ~ dfdf==df, argsboth)
-  else
-    main <- substitute("normal: " * sesymbol==se * ", " ~ nn==n, argsboth)
+  main <- switch(distribution.name,
+                 t=substitute("t: " * sesymbolt==se * ", " ~ nn==n * ", " ~ dfdf==df, argsboth),
+                 normal=,
+                 z=substitute("normal: " * sesymbol==se * ", " ~ nn==n, argsboth),
+                 binomial=if (type=="hypothesis")
+                            substitute("normal approximation to the binomial: " * sesymbolph==se * ", " ~ nn==n, argsboth)
+                          else
+                            substitute("normal approximation to the binomial: " * sesymbolpc==se * ", " ~ nn==n, argsboth)
+                 )
 
   as.expression(main)
 }

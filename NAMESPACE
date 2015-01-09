@@ -64,7 +64,7 @@
 ## Float
 ## MainSimpler
 ## ColorWithAlpha
-## NormalAndT.table
+## NTplotTable
 export(
 AEdotplot,
 AElogrelrisk,
@@ -194,10 +194,11 @@ norm.observed,
 norm.outline,
 norm.setup,
 normal.and.t.dist,
-NormalAndTplot,
-NormalAndT.and.power,
-## NormalAndTplot.htest,
-NormalAndT.power,
+NTplot,
+## NormalAndTplot,
+## NormalAndTAndPower,
+## NormalAndTPower,
+## normalApproxBinomial,
 npar.arma,
 npar.rarma,
 npar.sarma,
@@ -237,6 +238,7 @@ plotOddsRatio.base,
 position,
 "position<-",
 positioned,
+powerplot,
 qchisq.intermediate,
 qdiscunif,
 qf.intermediate,
@@ -253,6 +255,7 @@ residVSfitted,
 scaleLocation,
 seqplot,
 seqplotForecast,
+## shiny.NTplotplot,
 strip.background0,
 strip.ladder,
 sufficient,
@@ -359,6 +362,10 @@ S3method(multicomp.label.change, mmc.multicomp)
 S3method(multicomp.label.change, multicomp)
 S3method(NormalAndTplot, default)
 S3method(NormalAndTplot, htest)
+S3method(NTplot, default)
+S3method(NTplot, htest)
+S3method(NTplot, power.htest)
+S3method(NTplot, NormalAndTplot)
 S3method(plot, ancova)
 S3method(plot, case)
 S3method(plot, mmc.multicomp)
@@ -376,6 +383,7 @@ S3method(plot.likert, likert) ## for "likert" objects constructed with the liker
 ## S3method(plot.likert, numeric)
 S3method(plot.likert, structable)
 S3method(plot.likert, table)
+S3method(powerplot, NormalAndTplot)
 S3method(predict, ancova)
 S3method(print, MatrixList)
 S3method(print, ancova)
@@ -388,7 +396,7 @@ S3method(print, listOfNamedMatrices)
 S3method(print, mmc.multicomp)
 S3method(print, multicomp)
 S3method(print, multicomp.hh)
-S3method(print, NormalAndT)
+S3method(print, NormalAndTplot)
 S3method(print, positioned)
 S3method(print, pyramidLikert)
 ## S3method(print, TwoTrellisColumns)
@@ -401,6 +409,9 @@ S3method(rev, likert)
 S3method(seqplot, default)
 ## S3method(seqplot, rts)
 S3method(seqplot, ts)
+S3method(shiny.NormalAndTplot, default)
+S3method(shiny.NormalAndTplot, htest)
+S3method(shiny.NormalAndTplot, NormalAndTplot)
 S3method(summary, ancova)
 S3method(summary, arma.loop)
 S3method(summary, arma.loop.list)
@@ -447,6 +458,7 @@ importFrom(Rcmdr, doItAndPrint)
 
 import(lattice, latticeExtra, grid, gridExtra)
 
+import(shiny)
 
 ## problems that I am working around with functions in file
 ## R/workarounds.R

@@ -47,7 +47,7 @@ bv8 <- bivariateNormal(.7)  ## all views on one page
 bv8
 update(bv8[3], layout=c(1,1)) ## one panel
 \dontrun{
-  shiny::runApp(file.path(system.file(package="HH"), "bivariateNormal"))
+  shiny::runApp(file.path(system.file(package="HH"), "shiny/bivariateNormal"))
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

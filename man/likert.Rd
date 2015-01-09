@@ -65,6 +65,14 @@ likertplot(x, ...)
             rightAxis = !missing(rightAxisLabels),
             ylab.right = if (rightAxis) "Row Count Totals" else NULL,
             xlab.top = NULL,
+            right.text.cex =
+              if (horizontal) { ## lazy evaluation
+                if (!is.null(scales$y$cex)) scales$y$cex else .8
+              }
+              else
+                {
+                  if (!is.null(scales$x$cex)) scales$x$cex else .8
+                },
 
             ## scales
             xscale.components = xscale.components.top.HH,
@@ -253,6 +261,12 @@ yscale.components.right.HH(...)
     \code{plot.likert.default}.}
   \item{ylab, xlab, ylab.right, xlab.top, main}{Standard \code{lattice} graph
     labels in \code{\link[lattice]{barchart}}.}
+  \item{right.text.cex}{The right axis, as used here for the
+    "Row Count Totals", has non-standard controls.  It's \code{cex}
+    follows the \code{cex} of the left axis, unless this argument is
+    used to override that value.  When code{horizontal=FALSE}, then
+    the top axis defaults to follow the bottom
+    axis unless overridden by \code{right.text.cex}.}
   \item{between}{Standard \code{lattice} argument.}
   \item{col}{Vector of color names for the levels of the agreement factor.
     Although the colors can be specified as an arbitrary vector of color names, for example,

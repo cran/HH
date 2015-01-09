@@ -1,26 +1,37 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/conc.tex'
 
 ###################################################
-### code chunk number 1: conc.tex:138-152
+### code chunk number 1: conc.tex:139-164
 ###################################################
 BB <- matrix(c(2,4,4,5), 2, 2,
-             dimnames=list(First=c("R*","W*"), Second=c("*R","*W")))
+             dimnames=list(First=c("R.","W."), Second=c(".R",".W")))
 require(vcd)
-hhpdf("RW.pdf", height=4, width=4)
+hhpdf("RW.pdf", height=4.5, width=4.5)
 mosaic(BB,
        rot_labels=c(0,0,0,0),  ## zero is horizontal
        rot_varnames=c(0,0,0,0),
        gp=gpar(fill=c("red","#ff8888","#ff8888","white"), col="black"),
-       spacing=spacing_equal(sp=unit(0,"lines")))
-grid.text("A", x=.92, y=.36)
-grid.text(expression(bar(A)), x=.92, y=.70)
-grid.text("B", x=.63, y=.07)
-grid.text(expression(bar(B)), x=.25, y=.07)
+       spacing=spacing_highlighting(.5)
+       )
+grid.text("A",                   x=.92, y=.343)
+grid.text(expression(bar(A)),    x=.92, y=.727)
+grid.text("B",                   x=.62, y=.070)
+grid.text(expression(bar(B)),    x=.26, y=.070)
+grid.text(expression(scriptstyle(RR~""==""~bar(A)*intersect(bar(B)))), x=.255, y=.752)
+grid.text(expression(scriptstyle(RW~""==""~bar(A)*intersect(B))),      x=.624, y=.752)
+grid.text(expression(scriptstyle(WR~""==""~A*intersect(bar(B)))),      x=.295, y=.368)
+grid.text(expression(scriptstyle(WW~""==""~A*intersect(B))),           x=.662, y=.368)
+grid.text(expression(scriptstyle((4/10)(3/9)~""==""~2/15)),            x=.255, y=.702)
+grid.text(expression(scriptstyle((4/10)(6/9)~""==""~4/15)),            x=.624, y=.702)
+grid.text(expression(scriptstyle((6/10)(4/9)~""==""~4/15)),            x=.295, y=.318)
+grid.text(expression(scriptstyle((6/10)(5/9)~""==""~5/15)),            x=.662, y=.318)
 hhdev.off()
+## The x and y values in the grid.text statements probably will not align correctly on
+## any graphics device or size other than the one listed in the hhpdf statement.
 
 
 ###################################################
-### code chunk number 2: conc.tex:246-251
+### code chunk number 2: conc.tex:263-268
 ###################################################
 hhpdf("discuniv.pdf", width=3, height=2)
 discuniv <- data.frame(y=c(.25, .50, .25), x=factor(0:2))
@@ -30,7 +41,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 3: conc.tex:287-314
+### code chunk number 3: conc.tex:304-331
 ###################################################
 require(reshape2)
 pmf <- matrix(c(.10, .05, .20, .10, .30, .25), 2, 3,
@@ -62,7 +73,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 4: conc.tex:414-432
+### code chunk number 4: conc.tex:431-449
 ###################################################
 hhpdf("bimodal-shade.pdf", height=4, width=7)
 xx <- seq(-3, 6, .025)
@@ -85,7 +96,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 5: conc.tex:591-608
+### code chunk number 5: conc.tex:608-625
 ###################################################
 pp <- ppoints(101)
 
@@ -107,7 +118,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 6: conc.tex:661-670
+### code chunk number 6: conc.tex:678-687
 ###################################################
 hhcapture("tv-freq.Rout", '
 data(tv)
@@ -121,7 +132,7 @@ tmp
 
 
 ###################################################
-### code chunk number 7: conc.tex:712-716
+### code chunk number 7: conc.tex:729-733
 ###################################################
 hhpdf("tv-hist.pdf", height=3.5, width=7)
 histogram( ~ male.life.exp, data = tv,
@@ -130,7 +141,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 8: conc.tex:758-761
+### code chunk number 8: conc.tex:775-778
 ###################################################
 hhcapture("conc-stem-male.Rout", '
 stem(tv$male.life.exp)
@@ -138,7 +149,7 @@ stem(tv$male.life.exp)
 
 
 ###################################################
-### code chunk number 9: conc.tex:857-860
+### code chunk number 9: conc.tex:874-877
 ###################################################
 hhcapture("conc-quartiles-male.Rout", '
 quantile(tv$male.life.exp)
@@ -146,7 +157,7 @@ quantile(tv$male.life.exp)
 
 
 ###################################################
-### code chunk number 10: conc.tex:871-874
+### code chunk number 10: conc.tex:888-891
 ###################################################
 hhpdf("tv-bw.pdf", height=2.5, width=7)
 bwplot( ~ male.life.exp, data = tv)
@@ -154,7 +165,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 11: conc.tex:891-925
+### code chunk number 11: conc.tex:908-942
 ###################################################
 pp <- ppoints(100)
 pp <- c(0, pp[1:25], .25, pp[26:50], .50, pp[51:75], .75, pp[76:100])
@@ -193,7 +204,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 12: conc.tex:943-962
+### code chunk number 12: conc.tex:960-979
 ###################################################
 hhpdf("skew.pdf", height=3, width=7)
 sym <- rnorm(100)
@@ -217,7 +228,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 13: conc.tex:1035-1049
+### code chunk number 13: conc.tex:1052-1066
 ###################################################
 hhpdf("corr-eps.pdf", height=2.5, width=8)
 x <- rnorm(100)
@@ -236,7 +247,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 14: conc.tex:1092-1099
+### code chunk number 14: conc.tex:1109-1116
 ###################################################
 hhpdf("bivnorm8.pdf", height=8, width=8)
 bv8 <- bivariateNormal(.7)  ## all views on one page
@@ -248,41 +259,44 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 15: conc.tex:1278-1284
+### code chunk number 15: conc.tex:1302-1308
 ###################################################
-hhpdf("norm.pdf", height=4.5, width=7)
+hhpdf("norm.pdf", height=5.5, width=7)
 tmp.norm <-
-NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,  xlim=c(75, 125), sd=5,
-               digits=6, zaxis=TRUE, cex.z=0.6, cex.prob=.9)
-print(tmp.norm, tables=FALSE)
+NTplot(mean0=100, mean1=NA,  xbar=NA,  xlim=c(75, 125), sd=5,
+       digits=6, zaxis=TRUE, cex.z=0.6, cex.prob=.9)
+print(tmp.norm, cex.table=.8)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 16: conc.tex:1286-1289
+### code chunk number 16: conc.tex:1310-1316
 ###################################################
-hhcapture("norm.Rout", '
+## These lines show how to access the xbar and z values and their p-values
+## from within the R session.
+## hhcapture("norm.Rout", '
 attr(tmp.norm, "scales")
-')
+attr(tmp.norm, "prob")
+## ')
 
 
 ###################################################
-### code chunk number 17: conc.tex:1319-1353
+### code chunk number 17: conc.tex:1346-1381
 ###################################################
-hhpdf("tt.pdf", height=8, width=8)
-normal  <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                          xlim=c(75, 125), sd=5, digits=6, distribution="z",
-                          zaxis=TRUE, cex.z=0.6, cex.prob=.9,
-                          key.axis.padding=6)
-`t[30]` <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                          xlim=c(75, 125), sd=5, digits=6, distribution="t", df=30,
-                          zaxis=TRUE, cex.z=0.6, cex.prob=.9)
-`t[10]` <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                          xlim=c(75, 125), sd=5, digits=6, distribution="t", df=10,
-                          zaxis=TRUE, cex.z=0.6, cex.prob=.9)
-`t[2]`  <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                          xlim=c(75, 125), sd=5, digits=6, distribution="t", df=2,
-                          zaxis=TRUE, cex.z=0.6, cex.prob=.9)
+hhpdf("tt.pdf", height=9, width=8)
+normal  <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+                 xlim=c(75, 125), sd=5, digits=6, distribution.name="z",
+                 zaxis=TRUE, cex.z=0.6, cex.prob=.9, xhalf.multiplier=1.2,
+                 key.axis.padding=6)
+`t[30]` <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+                  xlim=c(75, 125), sd=5, digits=6, distribution.name="t", df=30,
+                  zaxis=TRUE, cex.z=0.6, cex.prob=.9, xhalf.multiplier=1.2)
+`t[10]` <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+                  xlim=c(75, 125), sd=5, digits=6, distribution.name="t", df=10,
+                  zaxis=TRUE, cex.z=0.6, cex.prob=.9, xhalf.multiplier=1.2)
+`t[2]`  <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+                  xlim=c(75, 125), sd=5, digits=6, distribution.name="t", df=2,
+                  zaxis=TRUE, cex.z=0.6, cex.prob=.9, xhalf.multiplier=1.2)
 
 scales <-
 cbind(
@@ -301,46 +315,77 @@ NTTT <-
     between=list(x=2, y=4), ylab="density",
     main=expression("normal and three t distributions, " ~ sigma[bar(x)]==5 ~ "," ~ n==1)) +
   layer(panel.abline(h=.08, col="gray60", lty=2, lwd=.5))
-print(NTTT, tables=FALSE)
+attr(NTTT, "scales") <- scales
+print(NTTT, digits=6, cex.table=.9)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 18: conc.tex:1355-1358
+### code chunk number 18: conc.tex:1471-1500
 ###################################################
-hhcapture("tt.Rout", '
-scales
-')
+hhpdf("normalSamplingDist.pdf", height=8, width=8)
+N1  <- reshape2::melt(data.frame(matrix(rnorm( 10, mean=100, sd=5), nrow= 1, ncol=10)), id=NULL)
+N4  <- reshape2::melt(data.frame(matrix(rnorm( 40, mean=100, sd=5), nrow= 4, ncol=10)), id=NULL)
+N16 <- reshape2::melt(data.frame(matrix(rnorm(160, mean=100, sd=5), nrow=16, ncol=10)), id=NULL)
+N64 <- reshape2::melt(data.frame(matrix(rnorm(640, mean=100, sd=5), nrow=64, ncol=10)), id=NULL)
+
+
+blue4Transparent <- HH:::ColorWithAlpha("blue4", 150)
+update(strip=FALSE, strip.left=TRUE, between=list(x=2, y=3), xlab=NULL,
+       scale=list(x=list(limits=c(84,116), alternating=1), y=list(at=1:10, labels=1:10)),
+       key=list(
+         text=list(expression(x, bar(x))),
+         points=list(pch=c(1, 17), col=c("DodgerBlue1", blue4Transparent), cex=c(1.2, 1.3)),
+         columns=2, space="bottom"),
+c("n=1"=dotplot(variable ~ value, data=N1,  pch=1, cex=1.2, col="DodgerBlue1") +
+    xyplot(variable ~ value, data=aggregate(value ~ variable, data=N1,  FUN=mean),
+           cex=1.3, pch=17, col=blue4Transparent),
+  "n=4"=dotplot(variable ~ value, data=N4,  pch=1, cex=1.2, col="DodgerBlue1") +
+    xyplot(variable ~ value, data=aggregate(value ~ variable, data=N4,  FUN=mean),
+           cex=1.3, pch=17, col=blue4Transparent),
+  "n=16"=dotplot(variable ~ value, data=N16, pch=1, cex=1.2, col="DodgerBlue1") +
+    xyplot(variable ~ value, data=aggregate(value ~ variable, data=N16, FUN=mean),
+           cex=1.3, pch=17, col=blue4Transparent),
+  "n=64"=dotplot(variable ~ value, data=N64, pch=1, cex=1.2, col="DodgerBlue1") +
+    xyplot(variable ~ value, data=aggregate(value ~ variable, data=N64, FUN=mean),
+           cex=1.3, pch=17, col=blue4Transparent),
+  layout=c(2, 2), x.same=TRUE, y.same=TRUE) +
+    layer(panel.abline(v=c(92,98,102,108), col="gray60")))
+hhdev.off()
 
 
 ###################################################
-### code chunk number 19: conc.tex:1433-1468
+### code chunk number 19: conc.tex:1528-1568
 ###################################################
-hhpdf("normalCLT.pdf", height=8, width=8)
-n1  <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                      xlim=c(85, 115), sd=5, n=1,  digits=6,
-                      zaxis=TRUE, cex.z=0.6, cex.prob=.9, ylim=c(0, .65),
-                      key.axis.padding=6)
-n4  <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                      xlim=c(85, 115), sd=5, n=4,  digits=6,
-                      zaxis=TRUE, cex.z=0.6, cex.prob=.9, ylim=c(0, .65))
-n16 <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                      xlim=c(85, 115), sd=5, n=16, digits=6,
-                      zaxis=list(at=seq(85, 115, 5), labels=seq(-12, 12, 4)),
-                      cex.z=0.6, cex.prob=.9, ylim=c(0, .65))
-n64 <- NormalAndTplot(mean0=100, mean1=NA,  xbar=NA,
-                      xlim=c(85, 115), sd=5, n=64, digits=6,
-                      zaxis=list(at=seq(85, 115, 5), labels=seq(-24, 24, 8)),
-                      cex.z=0.6, cex.prob=.9, ylim=c(0, .65))
+hhpdf("normalCLT.pdf", height=9, width=8)
+n1  <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+              xlim=c(85, 115), sd=5, n=1,  digits=6,
+              zaxis=TRUE, cex.z=0.6, cex.prob=.9, ylim=c(0, .65),
+              xhalf.multiplier=1.2, key.axis.padding=6)
+n4  <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+              xlim=c(85, 115), sd=5, n=4,  digits=6,
+              zaxis=TRUE, cex.z=0.6, cex.prob=.9, ylim=c(0, .65),
+              xhalf.multiplier=1.2)
+n16 <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+              xlim=c(85, 115), sd=5, n=16, digits=6,
+              zaxis=list(at=seq(85, 115, 5), labels=seq(-12, 12, 4)),
+              cex.z=0.6, cex.prob=.9, ylim=c(0, .65),
+              xhalf.multiplier=1.2)
+n64 <- NTplot(mean0=100, mean1=NA,  xbar=NA,
+              xlim=c(85, 115), sd=5, n=64, digits=6,
+              zaxis=list(at=seq(85, 115, 5), labels=seq(-24, 24, 8)),
+              cex.z=0.6, cex.prob=.9, ylim=c(0, .65),
+              xhalf.multiplier=1.2)
 
 scales <-
 cbind(
-"n=1"  = attr(n1 , "scales")[,2],
-"n=4"  = attr(n4 , "scales")[,2],
-"n=16" = attr(n16, "scales")[,2],
-"n=64" = attr(n64, "scales")[,2]
+"n==1"  = c(attr(n1 , "scales")[,2], attr(n1 , "table")["bar(x)", "sigma"]),
+"n==4"  = c(attr(n4 , "scales")[,2], attr(n4 , "table")["bar(x)", "sigma"]),
+"n==16" = c(attr(n16, "scales")[,2], attr(n16, "table")["bar(x)", "sigma"]),
+"n==64" = c(attr(n64, "scales")[,2], attr(n64, "table")["bar(x)", "sigma"])
 )
 rownames(scales)[1] <- c(colnames(attr(n1 , "scales"))[2])
+rownames(scales)[3] <- "sigma[bar(x)]"
 
 NNNN <-
   update(
@@ -348,185 +393,100 @@ NNNN <-
       layout=c(2,2), y.same=TRUE, x.same=FALSE),
     strip=FALSE, strip.left=TRUE, scales=list(y=list(alternating=1)),
     between=list(x=2, y=4), ylab="density",
-    main=expression("Normal with increasing sample size n, " ~ sigma[bar(x)]==5))
-print(NNNN, tables=FALSE)
+    main=expression("Normal with increasing sample size n, " ~ sigma[bar(x)]==5/sqrt(n)))
+attr(NNNN, "scales") <- scales
+print(NNNN, digits=6, cex.table=.9)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 20: conc.tex:1470-1473
+### code chunk number 20: conc.tex:1728-1738
 ###################################################
-hhcapture("normalCLT.Rout", '
-scales
-')
-
-
-###################################################
-### code chunk number 21: conc.tex:1633-1641
-###################################################
-hhpdf("normalconf.pdf", height=5, width=8)
-tmp <- NormalAndTplot(xbar=8.5, sd=2, df=24, n=25,
-                      xlim=c(7,10), ylim=c(0,0.96),
-                      alpha.right=0.025, alpha.left=0.025,
-                      distribution.name="t", type="confidence",
-                      z1axis=TRUE, zaxis=TRUE, cex.z=0.7, cex.prob=1)
-print(tmp, tables=FALSE)
+hhpdf("normalconf.pdf", height=6, width=8)
+tmp <-
+NTplot(xbar=8.5, sd=2, df=24, n=25,
+       xlim=c(7,10), ylim=c(0,0.96),
+       alpha.right=0.025, alpha.left=0.025,
+       digits=5,
+       distribution.name="t", type="confidence",
+       z1axis=TRUE, zaxis=TRUE, cex.z=0.7, cex.prob=1)
+print(tmp, cex.table=.8)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 22: conc.tex:1643-1646
+### code chunk number 21: conc.tex:2083-2091
 ###################################################
-hhcapture("normalconf.Rout", '
-attr(tmp, "scales")
-')
-
-
-###################################################
-### code chunk number 23: conc.tex:1986-1993
-###################################################
-hhpdf("bottlefill.pdf", height=5, width=8)
-tmp <- NormalAndTplot(mean0=32, xbar=31.94, sd=.3, n=100,
-                      xlim=c(31.88,32.12), ylim=c(0,13),
-                      alpha.right=0.005, alpha.left=0.005,
-                      zaxis=TRUE, cex.z=0.7)
-print(tmp, tables=FALSE)
+hhpdf("bottlefill.pdf", height=6, width=8)
+tmp <-
+NTplot(mean0=32, xbar=31.94, sd=.3, n=100,
+       xlim=c(31.88,32.12), ylim=c(0,13),
+       alpha.right=0.005, alpha.left=0.005,
+       zaxis=TRUE, cex.z=0.7)
+print(tmp, cex.table=.8)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 24: conc.tex:1995-2000
-###################################################
-old.width <- options(width=70)
-hhcapture("bottlefill.Rout", '
-attr(tmp, "scales")
-')
-options(old.width)
-
-
-###################################################
-### code chunk number 25: conc.tex:2059-2066
+### code chunk number 22: conc.tex:2157-2165
 ###################################################
 hhpdf("bottlefillonetail.pdf", height=5, width=8)
-tmp <- NormalAndTplot(mean0=32, xbar=31.94, sd=.3, n=100,
-                      xlim=c(31.88,32.12), ylim=c(0,13),
-                      alpha.right=0, alpha.left=0.01,
-                      zaxis=TRUE, cex.z=0.7)
-print(tmp, tables=FALSE)
+tmp <-
+NTplot(mean0=32, xbar=31.94, sd=.3, n=100,
+       xlim=c(31.88,32.12), ylim=c(0,13),
+       alpha.right=0, alpha.left=0.01,
+       zaxis=TRUE, cex.z=0.7)
+print(tmp, cex.table=.8)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 26: conc.tex:2068-2073
+### code chunk number 23: conc.tex:2277-2311
 ###################################################
-old.width <- options(width=70)
-hhcapture("bottlefillonetail.Rout", '
-attr(tmp, "scales")
-')
-options(old.width)
-
-
-###################################################
-### code chunk number 27: conc.tex:2178-2266
-###################################################
-tmp8     <- NormalAndTplot(mean0=8, mean1=8, sd=2, n=64,
-                           xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
-                           cex.z=0.7, prob.labels=FALSE,
-                           digits.axis=5, digits.float=3)
+tmp8     <- NTplot(mean0=8, mean1=8, sd=2, n=64,
+                   xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
+                   cex.z=0.7, prob.labels=FALSE,
+                   digits.axis=5, digits.float=3, digits.left=3,
+                   power=TRUE, beta=TRUE, col.power="#FF808B")
 ## tmp8
 
-tmp8411  <- NormalAndTplot(mean0=8, mean1=8.411, sd=2, n=64,
-                           xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
-                           cex.z=0.7, prob.labels=FALSE,
-                           digits.axis=5, digits.float=3)
+tmp8411  <- NTplot(mean0=8, mean1=8.411, sd=2, n=64,
+                   xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
+                   cex.z=0.7, prob.labels=FALSE,
+                   digits.axis=5, digits.float=3, digits.left=3,
+                   power=TRUE, beta=TRUE, col.power="#FF808B")
 ## tmp8411
 
-tmp87314 <- NormalAndTplot(mean0=8, mean1=8.7314, sd=2, n=64,
-                           xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
-                           cex.z=0.7, prob.labels=FALSE,
-                           digits.axis=5, digits.float=3)
+tmp87314 <- NTplot(mean0=8, mean1=8.7314, sd=2, n=64, xbar=NA,
+                   xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
+                   cex.z=0.7, prob.labels=FALSE,
+                   digits.axis=5, digits.float=3, digits.left=3,
+                   power=TRUE, beta=TRUE, col.power="#FF808B") ## darker than pink
 ## tmp87314
 
-## > rgb(t(col2rgb("pink")), maxColorValue=255)
-## [1] "#FFC0CB"
+hhpdf("powerbeta64.pdf", height=11, width=19) ## density, power, beta: in book
 
-ntp8     <- NormalAndT.power(tmp8,    digits.top.axis=5, digits.left=3,
-                             col.power="#FF4040", cex.top.axis=1.8,
-                             lwd.line=3, cex.left.axis=1.8)
-## ntp8
-ntp8411  <- NormalAndT.power(tmp8411, digits.top.axis=5, digits.left=3,
-                             col.power="#FF4040", cex.top.axis=1.8,
-                             lwd.line=3, cex.left.axis=1.8)
-## ntp8411
-ntp87314 <- NormalAndT.power(tmp87314,  digits.top.axis=5, digits.left=3,
-                             col.power="#FF4040", cex.top.axis=1.8,
-                             lwd.line=3, cex.left.axis=1.8)
-## ntp87314
-
-ntb8     <- NormalAndT.power(tmp8,     which="beta",
-                             digits.top.axis=5, digits.left=3,
-                             col.power="#FF4040", cex.top.axis=1.8,
-                             lwd.line=3, cex.left.axis=1.8)
-## ntb8
-ntb8411  <- NormalAndT.power(tmp8411,  which="beta",
-                             digits.top.axis=5, digits.left=3,
-                             col.power="#FF4040", cex.top.axis=1.8,
-                             lwd.line=3, cex.left.axis=1.8)
-## ntb8411
-ntb87314 <- NormalAndT.power(tmp87314, which="beta",
-                             digits.top.axis=5, digits.left=3,
-                             col.power="#FF4040", cex.top.axis=1.8,
-                             lwd.line=3, cex.left.axis=1.8)
-## ntb87314
-
-hhpdf("power64.pdf", height=7.5, width=17) ## density and power: not in book
 print(position=c(.034, 0, .334, .95), more=TRUE,
-      update(NormalAndT.and.power(tmp8,    pnt=ntp8,      display.ylab=FALSE),
-             ylab=NULL, main=NULL),
+      update(tmp8, ylab=NULL, main=NULL, strip.left=FALSE),
       tables=FALSE)
 print(position=c(.367, 0, .667, .95), more=TRUE,
-      update(NormalAndT.and.power(tmp8411, pnt=ntp8411,   display.ylab=FALSE),
-             ylab=NULL, main=NULL),
+      update(tmp8411, ylab=NULL, main=NULL, strip.left=FALSE),
       tables=FALSE)
 print(position=c(.700, 0, 1.000, .95), more=FALSE,
-      update(NormalAndT.and.power(tmp87314, pnt=ntp87314, display.ylab=FALSE),
-             ylab=NULL, main=NULL),
+      update(tmp87314, ylab=NULL, main=NULL, strip.left=FALSE),
       tables=FALSE)
-hhdev.off()
 
-
-hhpdf("powerbeta64.pdf", height=11, width=19) ## density, power, beta: in book
-combine3 <- function(tmp8, ntp8, ntb8) {
-  tmp <-
-    resizePanels(h=c(.6,.2,.2),
-                 update(c(normal=update(tmp8, main=NULL, ylab=NULL, xlab=NULL,
-                            scales=list(y=list(rot=0))),
-                          power=ntp8,
-                          beta=ntb8,
-                          layout=c(1, 3),
-                          y.same=FALSE, x.same=TRUE),
-                        strip=FALSE, strip.left=FALSE, between=list(y=4),
-                        as.table=TRUE))
-  class(tmp) <- "trellis"
-  tmp
-}
-AA <- combine3(tmp8, ntp8, ntb8)
-BB <- combine3(tmp8411, ntp8411, ntb8411)
-CC <- combine3(tmp87314, ntp87314, ntb87314)
-print(position=c(.034, 0,  .334, .95), more=TRUE,  AA)
-print(position=c(.367, 0,  .667, .95), more=TRUE,  BB)
-print(position=c(.700, 0, 1.000, .95), more=FALSE, CC)
 hhdev.off()
 
 
 ###################################################
-### code chunk number 28: conc.tex:2327-2368
+### code chunk number 24: conc.tex:2373-2414
 ###################################################
 oc.data <- data.frame(mu=seq(7.8, 9, .01))
 
 COMMON <-
 xyplot(pnorm(33.644 - 4*mu) ~ mu, data=oc.data,
-       main="Operating Characteristics Curve",
+       main="Operating Characteristic Curve",
        par.settings = list(clip=list(panel="off"),
                            layout.widths=list(axis.right=1.1),
                            layout.heights=list(axis.top=1.3)),

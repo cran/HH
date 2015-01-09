@@ -23,21 +23,22 @@
 ## pvalue
 ## power.left
 ## power.right
-## power
+## power.total
 
 
-NormalAndT.table <- function(
+NTplotTable <- function(
 distribution.name=distribution.name,
 type=             type,
 mean0=            mean0,
 mean1=            mean1,
 xbar=             xbar,
-sd=               sd,
+## sd=               sd,
 df=               df,
 n=                n,
 alpha.right=      alpha.right,
 alpha.left=       alpha.left,
 stderr=           stderr,
+sigma.p1=         sigma.p1,
 zc.right=         zc.right,
 xbarc.right=      xbarc.right,
 zc.left=          zc.left,
@@ -51,10 +52,12 @@ pvalue.right=     pvalue.right,
 pvalue=           pvalue,
 power.left=       power.left,
 power.right=      power.right,
-power=            power,
+power.total=      power.total,
 conf.left=        conf.left,
 conf.right=       conf.right,
-conf=             conf
+conf=             conf,
+mean0.alist=      mean0.alist,
+mean1.alist=      mean1.alist
 ) {
 
 normalTable <- as.table(
@@ -77,7 +80,8 @@ normalTable <- as.table(
 ## normalTable[ "xscale" , "xbarc.left"     ] <-
 ## normalTable[ "xscale" , "xbarc.right"    ] <-
 ## normalTable[ "xscale" , "Prob"           ] <-
-   normalTable[ "xscale" , "sigma"          ] <- sd
+##   normalTable[ "xscale" , "sigma"          ] <- sd
+   normalTable[ "xscale" , "sigma"          ] <- stderr*sqrt(n)
    normalTable[ "xscale" , "n"              ] <- n
    normalTable[ "xscale" , "df"             ] <- df
 
@@ -107,16 +111,16 @@ normalTable <- as.table(
    normalTable[ "zscale" , "n"              ] <- 1
    normalTable[ "zscale" , "df"             ] <- df
 
-   normalTable[ "z1scale" , "mean0"          ] <- (mean0 - mean1)/stderr
-   normalTable[ "z1scale" , "mean1"          ] <- (mean1 - mean1)/stderr
-   normalTable[ "z1scale" , "xbar"           ] <- (xbar - mean1)/stderr
-   normalTable[ "z1scale" , "xbar.otherside" ] <- (xbar.otherside - mean1)/stderr
-   normalTable[ "z1scale" , "xbar.left"      ] <- (xbar.left - mean1)/stderr
-   normalTable[ "z1scale" , "xbar.right"     ] <- (xbar.right - mean1)/stderr
-   normalTable[ "z1scale" , "xbarc.left"     ] <- (xbarc.left - mean1)/stderr
-   normalTable[ "z1scale" , "xbarc.right"    ] <- (xbarc.right - mean1)/stderr
+   normalTable[ "z1scale" , "mean0"          ] <- (mean0 - mean1)/sigma.p1
+   normalTable[ "z1scale" , "mean1"          ] <- (mean1 - mean1)/sigma.p1
+   normalTable[ "z1scale" , "xbar"           ] <- (xbar - mean1)/sigma.p1
+   normalTable[ "z1scale" , "xbar.otherside" ] <- (xbar.otherside - mean1)/sigma.p1
+   normalTable[ "z1scale" , "xbar.left"      ] <- (xbar.left - mean1)/sigma.p1
+   normalTable[ "z1scale" , "xbar.right"     ] <- (xbar.right - mean1)/sigma.p1
+   normalTable[ "z1scale" , "xbarc.left"     ] <- (xbarc.left - mean1)/sigma.p1
+   normalTable[ "z1scale" , "xbarc.right"    ] <- (xbarc.right - mean1)/sigma.p1
 ## normalTable[ "z1scale" , "Prob"           ] <-
-   normalTable[ "z1scale" , "sigma"          ] <- stderr
+   normalTable[ "z1scale" , "sigma"          ] <- sigma.p1
    normalTable[ "z1scale" , "n"              ] <- 1
    normalTable[ "z1scale" , "df"             ] <- df
 
@@ -185,7 +189,6 @@ normalTable <- as.table(
 ## normalTable[ "p" , "n"              ] <-
 ## normalTable[ "p" , "df"             ] <-
 
-normalTable
 
 ## > dimnames(normalTable)
 ## [[1]]
@@ -200,21 +203,27 @@ normalTable
 ## [10] "sigma"          "n"              "df"
 
 dimnames(normalTable) <- list(expression(x, bar(x), z, z[1], alpha, beta, power, p, "Confidence"),
-                              expression(mu[0], mu[1], bar(x), bar(x)["other"], bar(x)["left"], bar(x)["right"],
-                                         bar(x)[crit.L], bar(x)[crit.R], "Probability", sigma, n, df))
+                              c(as.expression(mean0.alist[[1]]), as.expression(mean1.alist[[1]]), ## mu[0], mu[1],
+                              expression(w["obs"], ##==bar(x)["obs"],
+                                         w["other"], ##==bar(x)["other"],
+                                         w["left"], ##==bar(x)["left"],
+                                         w["right"], ##==bar(x)["right"],
+                                         w[crit.L], ##==bar(x)[crit.L],
+                                         w[crit.R], ##==bar(x)[crit.R],
+                                         "Probability", sigma, n, df)))
 if (distribution.name=="t")
   dimnames(normalTable)[[1]][3:4] <- c(expression(t), expression(t[1]))
 
 column.sequence <- if (sided=="both")
-                     c("bar(x)[crit.L]", "Probability", "bar(x)[crit.R]",
-                       'bar(x)["left"]', 'bar(x)["right"]')
+                     c("w[crit.L]", "Probability", "w[crit.R]",
+                       'w["left"]', 'w["right"]')
                    else
                      "Probability"
 prob <- normalTable[c("p","alpha","power","beta","Confidence"),
                     column.sequence,
                     drop=FALSE]
-if (type == "confidence") {
-  dimnames(normalTable)[[2]][7:8] <- expression(mu[LCL], mu[UCL])
+if (type == "confidence") {a
+  dimnames(normalTable)[[2]][7:8] <- expression(w[LCL], w[UCL]) ##mu[LCL], mu[UCL])
 }
 ## recover()
 prob <- prob[!is.na(prob[,"Probability"]), , drop=FALSE]
@@ -222,11 +231,12 @@ if (ncol(prob) >= 3) dimnames(prob)[[2]][1:3] <- c("Left", "Combined", "Right")
 if (type == "hypothesis" && sided == "both") {
   if (!is.na(mean1)) prob["beta", c("Left","Right")] <- NA
   if ("p" %in% dimnames(prob)[[1]])
-    prob["p", c("Left","Right")] <- prob["p", c('bar(x)["left"]', 'bar(x)["right"]')]
+    prob["p", c("Left","Right")] <- prob["p", c('w["left"]', 'w["right"]')]
   prob <- prob[,1:3, drop=FALSE]
 }
 if (type == "confidence" && sided == "both") {
-  prob <- prob[,1:3, drop=FALSE]
+
+  prob <- prob["Confidence",1:3, drop=FALSE]
   dimnames(prob)[[2]][2] <- "Confidence"
   dimnames(prob)[[1]] <- "Probability"
 }
@@ -278,52 +288,4 @@ scales <- normalTable[c(2, 3, if(!is.na(mean1)) 4),
 ## }
 
 list(normalTable=normalTable, prob=prob, scales=scales)
-}
-
-
-if (FALSE) {
-  ttLR <- NormalAndTplot(mean0=2, mean1=4.32198, sd=3, n=20, xlim=c(-.1, 6.1), df=4, alpha.left=.05)
-  ttLR
-  print(ttLR, call=TRUE)
-  print(ttLR, tables=FALSE)
-  print(ttLR, tables=FALSE, prob=FALSE, scales=FALSE)
-  print(ttLR, prob=FALSE, scales=FALSE)
-  print(ttLR, plot=FALSE)
-  print(ttLR, plot=FALSE, call=TRUE)
-  print(ttLR, plot=FALSE, tables=TRUE)
-  print(ttLR, plot=FALSE, tables=FALSE)
-
-
-  ttR <- NormalAndTplot(mean0=2, mean1=4.32198, sd=3, n=20, xlim=c(-.1, 6.1), df=4)
-  print(ttR, tables=TRUE)
-  ttL <- NormalAndTplot(mean0=2, mean1=1.32198, sd=3, n=20, xlim=c(-.1, 6.1), df=4,, alpha.right=0, alpha.left=.05)
-  print(ttL, tables=TRUE)
-
-  ttLRx <- NormalAndTplot(mean0=2, mean1=4.32198, xbar=3, sd=3, n=20, xlim=c(-.1, 6.1), df=4, alpha.left=.05)
-  print(ttLRx, tables=TRUE)
-  ttRx <- NormalAndTplot(mean0=2, mean1=4.32198, xbar=3, sd=3, n=20, xlim=c(-.1, 6.1), df=4)
-  print(ttRx, tables=TRUE)
-  ttLx <- NormalAndTplot(mean0=2, mean1=1.32198, xbar=1.5, sd=3, n=20, xlim=c(-.1, 6.1), df=4,, alpha.right=0, alpha.left=.05)
-  print(ttLx, tables=TRUE)
-
-  ttLRm <- NormalAndTplot(mean0=2, xbar=3, sd=3, n=20, xlim=c(-.1, 6.1), df=4, alpha.left=.05)
-  print(ttLRm, tables=TRUE)
-  ttRm <- NormalAndTplot(mean0=2, xbar=3, sd=3, n=20, xlim=c(-.1, 6.1), df=4)
-  print(ttRm, tables=TRUE)
-  ttLm <- NormalAndTplot(mean0=2, xbar=1.5, sd=3, n=20, xlim=c(-.1, 6.1), df=4,, alpha.right=0, alpha.left=.05)
-  print(ttLm, tables=TRUE)
-
-  ttLR0 <- NormalAndTplot(mean0=2, sd=3, n=20, xlim=c(-.1, 6.1), df=4, alpha.left=.05)
-  print(ttLR0, tables=TRUE)
-  ttR0 <- NormalAndTplot(mean0=2, sd=3, n=20, xlim=c(-.1, 6.1), df=4)
-  print(ttR0, tables=TRUE)
-  ttL0 <- NormalAndTplot(mean0=2.5, sd=3, n=20, xlim=c(-.1, 6.1), df=4,, alpha.right=0, alpha.left=.05)
-  print(ttL0, tables=TRUE)
-
-  ttLRc <- NormalAndTplot(xbar=3, sd=3, n=20, xlim=c(-.1, 6.1), df=4, alpha.left=.05, type="confidence")
-  print(ttLRc, tables=TRUE)
-  ttRc <- NormalAndTplot(xbar=3, sd=3, n=20, xlim=c(-.1, 6.1), df=4, type="confidence")
-  print(ttRc, tables=TRUE)
-  ttLc <- NormalAndTplot(xbar=1.5, sd=3, n=20, xlim=c(-.1, 6.1), df=4, alpha.right=0, alpha.left=.05, type="confidence")
-  print(ttLc, tables=TRUE)
 }

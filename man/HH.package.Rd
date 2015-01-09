@@ -70,7 +70,7 @@ Heiberger, Richard M. and Holland, Burt (2004b).
     \code{\link{interaction2wt}},
     \code{\link{ladder}},
     \code{\link{case.lm}},
-    \code{\link{NormalAndTplot}},
+    \code{\link{NTplot}} for Normal and \eqn{t} plots,
     \code{\link{hov}},
     \code{\link{resid.squares}},
     \code{\link{MMC}},

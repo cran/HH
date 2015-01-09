@@ -34,6 +34,14 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="
                                 rightAxis = !missing(rightAxisLabels),
                                 ylab.right = if (rightAxis) "Row Count Totals" else NULL,
                                 xlab.top = NULL,
+                                right.text.cex =
+                                  if (horizontal) { ## lazy evaluation
+                                    if (!is.null(scales$y$cex)) scales$y$cex else .8
+                                  }
+                                  else
+                                    {
+                                      if (!is.null(scales$x$cex)) scales$x$cex else .8
+                                    },
 
                                 ## scales
                                 xscale.components = xscale.components.top.HH,
@@ -316,7 +324,9 @@ if (!missing(value)) {
   names(data2.melt)[ncol(data2.melt)] <- ".value"  ## avoid name conflict with "value"
 
   panel <- function(x, y, subscripts, ..., horizontal=horizontal,
-                    rightAxis=rightAxis, rightAxisLabels=rightAxisLabels) {
+                    rightAxis=rightAxis, rightAxisLabels=rightAxisLabels,
+                    reference.line.col=reference.line.col,
+                    right.text.cex=.8) {
     if (horizontal)
       panel.abline(v=0, col=reference.line.col)
     else
@@ -329,19 +339,20 @@ if (!missing(value)) {
         labels <- (rightAxisLabels[subscripts])[at.which]
         panel.axis("right",
                    at=seq(along=levels(y)), labels=labels,
-                   outside=TRUE, half=FALSE)
+                   outside=TRUE, half=FALSE,
+                   text.cex=right.text.cex)
       } else {
         at.which <- match(levels(x), x)
         labels <- (rightAxisLabels[subscripts])[at.which]
         panel.axis("top",
                    at=seq(along=levels(x)), labels=paste(labels, "\n", sep=""),
-                   outside=TRUE, half=FALSE, rot=0)
+                   outside=TRUE, half=FALSE, rot=0,
+                   text.cex=right.text.cex)
       }
     }
 
   }
   if (!is.null(panel.in)) panel <- panel.in
-
 
   ## if (!horizontal) {
   ##   tmp <- xlab.top
@@ -362,6 +373,7 @@ if (!missing(value)) {
            border=col[Nums.attr$color.seq],
            panel=panel,
            scales=scales,
+           right.text.cex=right.text.cex,
            between=between,
            auto.key=auto.key,
            par.settings=par.settings,

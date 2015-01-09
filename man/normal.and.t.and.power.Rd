@@ -1,42 +1,50 @@
-\name{NormalAndT.power}
-\alias{NormalAndT.power}
-\alias{NormalAndT.and.power}
+\name{NormalAndTPower}
+\alias{NormalAndTPower}
+\alias{powerplot}
+\alias{powerplot.NormalAndTplot}
+\alias{power curve}
+\alias{beta curve}
+\alias{operating characteristic curve}
+%\alias{NormalAndTAndPower}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Construct a power graph based on the NormalAndT plot.
+Construct a power graph based on the NTplot.
 }
 \description{
-Construct a power graph based on the NormalAndT plot.
+Construct a power graph based on the \code{NTplot}.  The exported function
+\code{powerplot} calls \code{NormalAndTPower} to construct a power curve or beta curve (operating
+characteristic curve) (or both) from its argument and catenates it to the original
+graph.  The unexported function \code{NormalAndTPower} does the
+construction.
 }
 \usage{
-NormalAndT.power(nt,
-                   which=c("power","beta"),
-                   digits=4,
-                   digits.top.axis=digits, digits.left=digits,
-                   col.power=attr(nt, "color")["col.power"],
-                   cex.top.axis=1, cex.left.axis=1,
-                   lwd.reference=4, lwd.line=2,
-                   main=which)
-NormalAndT.and.power(nt, which="power",
-                       pnt=NormalAndT.power(
-                         nt,
-                         digits.top.axis=digits.top.axis,
-                         digits.left=digits.left,
-                         which=which,
-                         cex.top.axis=cex.top.axis, cex.left.axis=cex.left.axis,
-                         lwd.reference=4, lwd.line=2),
-                       digits=4, digits.top.axis=digits, digits.left=digits,
-                       cex.top.axis=1, cex.left.axis=1,
-                       display.ylab=TRUE)
+powerplot(nt, ...)
+
+\method{powerplot}{NormalAndTplot}(nt, power=TRUE, beta=FALSE, ...)
+
+NormalAndTPower(nt,
+                which=c("power","beta"),
+                digits=4,
+                digits.top.axis=digits, digits.left=digits,
+                col.power=attr(nt, "color")["col.power"],
+                col.beta=attr(nt, "color")["col.beta"],
+                cex.top.axis=1, cex.left.axis=1,
+                lwd.reference=4, lwd.line=2,
+                main=which, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{nt}{
-A \code{"NormalAndT"} object from \code{\link{NormalAndTplot}}.
+  \item{nt}{For the generic \code{powerplot}, an object.
+For the \code{NormalAndTplot} method, a \code{"NormalAndTplot"} object from \code{\link{NTplot}}.
+}
+\item{power, beta}{Logical.  If \code{TRUE}, then display that graph,
+  else don't display it.  Used by \code{powerplot}.
 }
 \item{which}{Which graph is to be displayed? \code{"power"} for the
   power curve, or \code{"beta"} for the operating characteristic curve.
+  Used by \code{NormalAndTPower}.
 }
+\item{\dots}{Additional arguments passed on to methods.}
 \item{digits.top.axis, digits.left, digits, cex.top.axis, cex.left.axis}{
     \code{digits.top.axis} is the number of significant digits for the top
     axis.  \code{digits.left} is the number of significant digits for
@@ -47,10 +55,10 @@ A \code{"NormalAndT"} object from \code{\link{NormalAndTplot}}.
     for the top axis values.  \code{cex.left.axis} is the \code{cex} value for
     the observed power or beta on the left axis.
 }
-\item{col.power}{Color used for the crosshairs on the power or beta
-  panel.
-  The default value is the color used for the power region of the
-  \code{NormalAndT} panel.
+\item{col.power, col.beta}{Colors used for the crosshairs on the power and beta
+  panels.
+  The default values are the colors used for the power and beta regions of the
+  \code{NTplot} panel.
 }
 \item{lwd.reference, lwd.line}{\code{lwd} values for the power or beta
   panel.
@@ -58,20 +66,8 @@ A \code{"NormalAndT"} object from \code{\link{NormalAndTplot}}.
   \code{lwd.reference}
   is used for the crosshairs.
 }
-\item{pnt}{A \code{"trellis"} object produced by \code{NormalAndT.power}.
-}
-\item{display.ylab}{logical.  Should the \code{ylab} for the panels be displayed?
-}
 \item{main}{Main title for graph.
 }
-}
-\details{
-  \code{NormalAndT.power} constructs a power graph from
-  the \code{"NormalAndT"} object.
-  \code{NormalAndT.and.power} calls \code{NormalAndT.power} to
-  construct a power graph from the \code{"NormalAndT"} object, and then
-  catenates it with the \code{\link[latticeExtra]{c.trellis}} function to
-  the original \code{"NormalAndT"} object.
 }
 \value{
 \code{"trellis"} object.
@@ -79,17 +75,17 @@ A \code{"NormalAndT"} object from \code{\link{NormalAndTplot}}.
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \examples{
 
-nt <- NormalAndTplot(mean0=2, mean1=4, sd=3, n=20, xlim=c(-.1, 6.1))
-NormalAndT.and.power(nt)
+nt <- NTplot(mean0=2, mean1=4, sd=3, n=20, xlim=c(-.1, 6.1), xbar=3.5)
+powerplot(nt)
 
 \dontrun{
-tt <- NormalAndTplot(mean0=2, mean1=4, sd=3, n=20, xlim=c(-.1, 6.1), df=4, distribution.name="t")
-NormalAndT.and.power(tt)
+tt <- NTplot(mean0=2, mean1=4, sd=3, n=20, xlim=c(-.1, 6.1), xbar=3.5, df=4, distribution.name="t")
+powerplot(tt)
 
-ntc <- NormalAndTplot(xbar=2, sd=3, n=20, xlim=c(-.1, 4.1), type="confidence",
-                    alpha.left=.025, alpha.right=.025)
+ntc <- NTplot(xbar=2, sd=3, n=20, xlim=c(-.1, 4.1), type="confidence",
+              alpha.left=.025, alpha.right=.025)
 ntc
-try(NormalAndT.and.power(ntc))
+try(powerplot(ntc))
 }
 }
 \keyword{ hplot }
