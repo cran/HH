@@ -2,11 +2,11 @@
 \alias{normalApproxBinomial}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plots to illustrate Normal Normal Approximation to the
+Plots to illustrate Normal Approximation to the
 Binomial---hypothesis tests or confidence intervals.
 }
 \description{
-Plots to illustrate Normal Normal Approximation to the
+Plots to illustrate Normal Approximation to the
 Binomial---hypothesis tests or confidence intervals.
 }
 \usage{
@@ -69,7 +69,8 @@ This is a wrapper function for the plots in \code{\link{NTplot}}.
 NTplot(distribution.name="binomial", n=20, ylim=c(0,4.2), p1=.8)
 NTplot(distribution.name="binomial", n=20, type="confidence", ylim=c(0,4.2))
 \dontrun{
-NTplot(distribution.name="binomial", n=20, zaxis=TRUE, z1axis=TRUE, p1=.8678, ylim=c(0, 5.2))
+NTplot(distribution.name="binomial", n=20, zaxis=TRUE, z1axis=TRUE,
+       p1=.8678, ylim=c(0, 5.2))
 NTplot(p0=.4, p.hat=.65, p1=.7, distribution.name="binomial", n=15)
 NTplot(p.hat=.65, distribution.name="binomial", n=15, type="confidence")
 }

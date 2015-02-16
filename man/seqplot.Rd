@@ -18,7 +18,7 @@ seqplot(xts, ...)
         groups=as.numeric(cycle(xts)),
         a=NULL, b=NULL, h=NULL, v=NULL,
         ylab=deparse(substitute(xts)),
-        xlab=ifelse(is.null(units(xts)),"Time",units(xts)),
+        xlab="Time",
         lwd=1, lty=c(1,3),
         type="b",
         col=trellis.par.get("superpose.symbol")$col,

@@ -1,3 +1,45 @@
+Version 3.1-15
+-------------
+
+* 2015 February 12
+
+* prettier y-axes for NTplot(power=TRUE, beta=TRUE, ...)
+
+* change shiny n-slider for NTplot to new max=150
+
+* put main label for NTplot(shiny=TRUE) under program control
+
+* change pixel height of shiny plot from 800px to 600px in NTplot
+
+* rearrange shiny controls in NTplot
+
+* revise ?MMC to remove all references to S-Plus
+
+* improve error message in mmcplot when lmat is missing.
+
+* adjust behind-the-scenes parameters in NTplot methods
+
+* new function reorder.trellis
+
+* redesign rbind.trellis, cbind.trellis, transpose.trellis to cover more cases.
+
+* add new right.text.cex argument to panel.confintMMC
+
+* add runApp(system.file(package="HH", "shiny/PopulationPyramid"))
+
+* changes to panel.intxplot and panel.interaction2wt so they now honor the lattice argument type.
+
+* adjust CITATION, it no longer needs packageDescription
+
+* remove HH:::t.trellis and HH:::units.ts. These were needed for S-Plus compatibility only.
+
+* remove no-longer valid URL from \url{}.  keep it as text.
+
+* register as.numeric.positioned as S3 method
+
+* add and emphasize mmc(focus="A") example to ?mmc
+
+
 Version 3.1-14
 -------------
 
@@ -7,7 +49,7 @@ Version 3.1-14
 
 * check with today's R-devel
 
-* submit to CRAN
+* published on CRAN 2015-01-09
 
 
 
@@ -34,7 +76,8 @@ Version 3.1-12
 
 * rename the generic to NTplot from NormalAndT
 
-* add not-yet functioning NTplot method for power.prop.test and for normalApproxBinomial with two samples.
+* add not-yet functioning NTplot method for power.prop.test and for
+  normalApproxBinomial with two samples.
 
 * post on my website for use by invitation
 

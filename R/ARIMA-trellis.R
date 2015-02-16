@@ -12,7 +12,7 @@
 ## November 2014 revision:
 ## Change default arrangement for printing panels in plots.
 ## Remove S-Plus support.
-## Redo with useOuterStrips
+## Redo with latticeExtra::useOuterStrips
 
 ## x is an "arima" object in S-Plus and an "Arima" object in R
 npar.arma <- function(x, arima=FALSE) {
@@ -812,12 +812,10 @@ seqplot.ts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
   }
   if(missing(x.at) && (length(xts) <= frequency(xts)*5))
     x.at <- pretty(time(xts))
-  if(missing(pch.seq) && (frequency(xts) == 12 &&
-                          !is.null(units(xts)) && units(xts) == "months"))
+  if(missing(pch.seq) && (frequency(xts) == 12))
     pch.seq <- substring(month.name, 1, 1)
-  if(missing(pch.seq) && (frequency(xts) == 7 &&
-                          !is.null(units(xts)) && units(xts) == "days")) {
-day.name <- weekdays(seq(as.Date("2007-07-29"), by="day", length=7))
+  if(missing(pch.seq) && (frequency(xts) == 7)) {
+    day.name <- weekdays(seq(as.Date("2007-07-29"), by="day", length=7))  ## "Sunday":"Saturday"
     pch.seq <- substring(day.name, 1, 1)
   }
   if (missing(x.labels)) x.labels <- format(x.at)
@@ -827,59 +825,6 @@ day.name <- weekdays(seq(as.Date("2007-07-29"), by="day", length=7))
                   ...)
 }
 
-## seqplot.rts <- function(xts, ...)
-##   seqplot.ts(xts, ...)
-
-
-## seqplot.its <- function(xts,
-##                         pch.seq=letters,
-##                         groups=stop("must define groups for its"),
-##                         x.at=as.numeric(time(xts))[groups==min(groups)],
-##                         x.labels,
-##                         ylab=deparse(substitute(xts)),
-##                         ...) {
-##   groups <- rep(groups, length=length(xts))
-##   if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
-##     x.at <- as.numeric(time(xts))
-##     x.at <- seq(from=x.at[1], to=x.at[length(x.at)],
-##                 length=min(length(xts),
-##                            length(pretty(seq(length=length(xts))))))
-##     x.at <- round(x.at)
-##     pch.seq <- "."
-##   }
-##   if (missing(x.labels)) x.labels <- format(chron(x.at))
-##   seqplot.default(xts, pch.seq=pch.seq, groups=groups,
-##                   scales=list(x=list(at=x.at, labels=x.labels)),
-##                   ylab=ylab,
-##                   ...)
-## }
-
-
-## seqplot.cts <- function(xts, pch.seq=letters, groups=as.numeric(cycle(xts)),
-##                         x.at=as.numeric(time(xts))[groups==min(groups)],
-##                         x.labels,
-##                         ylab=deparse(substitute(xts)),
-##                         ...) {
-##   groups <- rep(groups, length=length(xts))
-##   if(missing(x.at) && length(unique(groups))==1 && missing(pch.seq)) {
-##     x.at <- as.numeric(time(xts))
-##     x.at <- seq(from=x.at[1], to=x.at[length(x.at)],
-##                length=min(length(xts), length(pretty(seq(length=length(xts))))))
-##     x.at <- round(x.at)
-##     pch.seq <- "."
-##   }
-##   if(missing(pch.seq) && (frequency(xts) == 12 &&
-##                           !is.null(units(xts)) && units(xts) == "months"))
-##     pch.seq <- substring(month.name, 1, 1)
-##   if(missing(pch.seq) && (frequency(xts) == 7 &&
-##                           !is.null(units(xts)) && units(xts) == "days"))
-##     pch.seq <- substring(day.name, 1, 1)
-##   if (missing(x.labels)) x.labels <- format(chron(x.at))
-##   seqplot.default(xts, pch.seq=pch.seq, groups=groups,
-##                   scales=list(x=list(at=x.at, labels=x.labels)),
-##                   ylab=ylab,
-##                   ...)
-## }
 
 
 
@@ -888,7 +833,7 @@ seqplot.default <- function(xts,
                             groups=as.numeric(cycle(xts)),
                             a=NULL, b=NULL, h=NULL, v=NULL,
                             ylab=deparse(substitute(xts)),
-                            xlab=ifelse(is.null(units(xts)),"Time",units(xts)),
+                            xlab="Time",
                             lwd=1, lty=c(1,3),
                             type="b",
                             col=trellis.par.get("superpose.symbol")$col,

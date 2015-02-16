@@ -10,7 +10,8 @@ Confidence interval panel for MMC tiebreaker plots, or confidence
 interval plot.
 }
 \usage{
-panel.confintMMC(x, y, subscripts, ..., col, lty, lower, upper, contrast.name)
+panel.confintMMC(x, y, subscripts, ..., col, lty, lower, upper,
+                 contrast.name, right.text.cex = 0.8)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,6 +40,7 @@ Vector of upper bounds for the intervals.
   \item{contrast.name}{
 Names of the contrasts.
 }
+  \item{right.text.cex}{The right axis has non-standard controls.}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{

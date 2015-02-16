@@ -11,11 +11,13 @@
   or Confidence Intervals, including normal approximation to the binomial.}
 \usage{
 NTplot(mean0, ...)
-\method{NTplot}{default}(mean0=0, ..., shiny=FALSE, distribution.name = c("normal","z","t","binomial"))
+\method{NTplot}{default}(mean0=0, ..., shiny=FALSE,
+        distribution.name = c("normal","z","t","binomial"))
 \method{NTplot}{htest}(mean0, ..., shiny=FALSE, NTmethod="htest")
 \method{NTplot}{power.htest}(mean0, ..., shiny=FALSE, xbar=NA, ## these input values are used
-           mean1, n, df, sd, distribution.name, sub, ## these input values ignored
-           alpha.left, alpha.right, number.vars) ## these input values ignored
+        mean1, n, df, sd, distribution.name, sub, ## these input values ignored
+        alpha.left, alpha.right, number.vars) ## these input values ignored
+        ## NTplot(NTplot(htest.object), n=20) ## allows override of arguments
 \method{NTplot}{NormalAndTplot}(mean0, ..., shiny=FALSE)
 }
 \arguments{

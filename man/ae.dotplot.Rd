@@ -63,36 +63,36 @@ aeReshapeToLong(aewide)
 
   For the other functions, just standard panel function arguments.
   }
-\item{xr}{
-  \code{RAND}:   treatment as randomized (factor).\\
-  \code{PREF}:   adverse event symptom name (factor).\\
-  \code{SN}:     number of patients in treatment group.\\
-  \code{SAE}:    number of patients  in each group for whom the event PREF was observed.\\
-  \code{PCT}: \code{SAE}/\code{SN} as a percent.\\
-  \code{relrisk}: Relative risk defined as \code{PCT} for the B
-  treatment divided by \code{PCT} for the A treatment.\\
-  \code{logrelrisk}: natural logarithm of \code{relrisk}.\\
-  \code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.\\
-  \code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
-  \code{logrelrisk}.  \\
-  \code{relriskCI.lower, relriskCI.upper}: back transform of the CI for
-  the log relative risk into the relative risk scale.\\
-  }
-\item{aewide}{
-  \code{Event}: adverse event symptom name (factor).\\
-  \code{N.A, N.B}: number of patients in treatment groups A and B.\\
-  \code{AE.A, AE.B}: number of patients in treatment groups A and B for
-                     whom the event Event was observed.\\
-  \code{PCT.A, PCT.B}: \code{AE.A}/\code{N.A} and  \code{AE.B}/\code{N.B} as a percent.\\
-  \code{Relative.Risk}: Relative risk defined as \code{PCT.B}
-   divided by \code{PCT.A}.\\
-  \code{logrelrisk}: natural logarithm of \code{relrisk}.\\
-  \code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.\\
-  \code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
-  \code{logrelrisk}.  \\
-  \code{relriskCI.lower, relriskCI.upper}: back transform of the CI for
-  the log relative risk into the relative risk scale.\\
-  }
+\item{xr}{\itemize{
+  \item\code{RAND}:   treatment as randomized (factor).
+  \item\code{PREF}:   adverse event symptom name (factor).
+  \item\code{SN}:     number of patients in treatment group.
+  \item\code{SAE}:    number of patients  in each group for whom the event PREF was observed.
+  \item\code{PCT}: \code{SAE}/\code{SN} as a percent.
+  \item\code{relrisk}: Relative risk defined as \code{PCT} for the B
+  treatment divided by \code{PCT} for the A treatment.
+  \item\code{logrelrisk}: natural logarithm of \code{relrisk}.
+  \item\code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.
+  \item\code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
+  \item\code{logrelrisk}.
+  \item\code{relriskCI.lower, relriskCI.upper}: back transform of the CI for
+  the log relative risk into the relative risk scale.
+  }}
+\item{aewide}{\itemize{
+  \item\code{Event}: adverse event symptom name (factor).
+  \item\code{N.A, N.B}: number of patients in treatment groups A and B.
+  \item\code{AE.A, AE.B}: number of patients in treatment groups A and B for
+                     whom the event Event was observed.
+  \item\code{PCT.A, PCT.B}: \code{AE.A}/\code{N.A} and  \code{AE.B}/\code{N.B} as a percent.
+  \item\code{Relative.Risk}: Relative risk defined as \code{PCT.B}
+   divided by \code{PCT.A}.
+  \item\code{logrelrisk}: natural logarithm of \code{relrisk}.
+  \item\code{ase.logrelrisk}: asymptotic standard error of \code{logrelrisk}.
+  \item\code{logrelriskCI.lower, logrelriskCI.upper}: confidence interval for
+  \item\code{logrelrisk}.
+  \item\code{relriskCI.lower, relriskCI.upper}: back transform of the CI for
+  the log relative risk into the relative risk scale.
+  }}
   \item{A.name, B.name}{Names of treatment groups (in \code{x$RAND}).}
   \item{col.AB, pch.AB, cex.AB.points}{color, plotting character and
     character expansion for the individual points on the left plot.}

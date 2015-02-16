@@ -10,10 +10,12 @@ Base <- function(dfunction,
                  sub=NULL,
                  number.vars=1,
                  key.axis.padding=4.5,
+                 axis.bottom=1,
                  ...,
                  par.settings=list(
                    clip=list(panel=FALSE),
                    layout.heights=list(key.axis.padding=key.axis.padding,
+                                       axis.bottom=axis.bottom,
                                        axis.xlab.padding=2,
                                        bottom.padding=ifelse(number.vars==1, 1, 2.5)),
                    layout.widths=list(left.padding=7)

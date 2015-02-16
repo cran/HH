@@ -20,7 +20,8 @@ construction.
 \usage{
 powerplot(nt, ...)
 
-\method{powerplot}{NormalAndTplot}(nt, power=TRUE, beta=FALSE, ...)
+\method{powerplot}{NormalAndTplot}(nt, power=TRUE, beta=FALSE, ...,
+                         hh=if (power && beta) c(6,2,2) else c(6,2))
 
 NormalAndTPower(nt,
                 which=c("power","beta"),
@@ -45,6 +46,7 @@ For the \code{NormalAndTplot} method, a \code{"NormalAndTplot"} object from \cod
   Used by \code{NormalAndTPower}.
 }
 \item{\dots}{Additional arguments passed on to methods.}
+\item{hh}{The \code{h} argument for \code{\link[latticeExtra]{resizePanels}}.}
 \item{digits.top.axis, digits.left, digits, cex.top.axis, cex.left.axis}{
     \code{digits.top.axis} is the number of significant digits for the top
     axis.  \code{digits.left} is the number of significant digits for

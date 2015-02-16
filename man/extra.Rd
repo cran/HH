@@ -2,7 +2,6 @@
 #ifndef S-Plus
 \alias{as.rts}
 #endif
-\alias{units.ts}
 \alias{title.trellis}
 \alias{title.grob}
 \alias{as.character.arima.model}
@@ -20,8 +19,6 @@ S-Plus and R.
 #ifndef S-Plus
 as.rts(x, ...)
 #endif
-
-\method{units}{ts}(x)
 
 title.trellis(main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
     line = NA, outer = FALSE, axes=NULL, ...)

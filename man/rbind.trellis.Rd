@@ -10,6 +10,8 @@ Extend matrix reshaping functions to trellis objects.
 }
 \description{
 Extend matrix reshaping functions to trellis objects.
+See the details section for comparisons with similar functions in the
+\pkg{lattice} package.
 }
 \usage{
 transpose(x)
@@ -45,7 +47,10 @@ trellis object constructed from arguments with new dim and layout.
 }
 \details{
   \code{transpose.trellis} tries to capture and modify all potentially relevant
-  trellis components.
+  trellis components.  \code{transpose.trellis} is more comprehensive
+  than the similar
+  \code{\link[lattice]{t.trellis}} which adjusts only the
+    \code{perm.cond} component.
 
   \code{aperm.trellis} does not attempt to check all potentially relevant
   trellis components.
@@ -55,11 +60,6 @@ trellis object constructed from arguments with new dim and layout.
   positions or strip positions for any non-standard arrangement, for example,
   for any trellis object that has already been
   through \code{latticeExtra::combineLimits}.
-
-  At this writing, the \code{rbind.trellis} and \code{cbind.trellis}
-  work only for one-dimensional trellis objects with the same dim
-  value.  They try to catch arguments that don't satisfy this restriction.
-  See the example for a workaround.
   }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \examples{
@@ -67,7 +67,6 @@ F <- xyplot((1:15) ~ (1:15) | rep(factor(letters[3:5]), each=5))
 G <- xyplot((1:18) ~ (1:18) | rep(factor(letters[3:5]), each=6))
 rbind(AAA=F, BBB=G)
 cbind(AAA=F, BBB=G)
-## transpose(rbind(F, G))
 
 tmp <- data.frame(y=1:24,
                   x=1:24,
@@ -88,7 +87,7 @@ useOuterStripsT2L1(t3u)
 t3.321 <- aperm(t3, c(3,2,1))
 update(t3.321, main="t3.321", layout=c(6,4), between=list(x=c(0,1))) ## 2*3,4
 
-try(transpose(t3))   ## requires a two-dimensional trellis object.
+try(transpose(t3))   ## requires a one- or two-dimensional trellis object.
 
 t3.123 <- aperm(t3, c(1,2,3)) ## identity operation
 t3.132 <- aperm(t3, c(1,3,2))
@@ -120,7 +119,6 @@ print(u3.321, split=c(2,3,2,3), more=FALSE)
 dev.off()
 
 try(transpose(t3.123)) ## layout is a matrix, but dim is not.
-                       ## transpose works on dim.
 }
 
 \dontrun{
@@ -144,14 +142,6 @@ rbind(AAA=t1a, BBB=t1b)
 
 cbind(t1a, t1b)
 cbind(AAA=t1a, BBB=t1b)
-
-## workaround for two-dimensional arguments
-tmp1 <- c(AAA=as.vector(t2), BBB=as.vector(t2))
-tmp2 <- matrix.trellis(tmp1, byrow=TRUE, nrow=8, ncol=3)
-tmp2$condlevels <- list(t2$condlevels[[1]],
-                        c(paste("AAA", t2$condlevel[[2]], sep="."),
-                          paste("BBB", t2$condlevel[[2]], sep=".")))
-tmp2
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -127,7 +127,7 @@ fluidPage(
   titlePanel(title=NULL, windowTitle="NormalAndT-12"),
 
   ## output
-  plotOutput("distPlot", width="100%", height="800px"),
+  plotOutput("distPlot", width="100%", height="575px"),
   textOutput("call"),
 
   ## empty space?
@@ -156,6 +156,7 @@ fluidPage(
   tags$head(tags$style(type="text/css", "#cex-top-axis     {width: 20px; height: 15px}")),
   tags$head(tags$style(type="text/css", "#cex-main         {width: 20px; height: 15px}")),
   tags$head(tags$style(type="text/css", "#key-axis-padding {width: 20px; height: 15px}")),
+  tags$head(tags$style(type="text/css", "#position-2       {width: 28px; height: 15px}")),
 
   h6(
   ## fluidRow with a slider input and other inputs
@@ -188,34 +189,30 @@ fluidPage(
                           sliderInput("alpha", NULL,  0, 1, c(alpha.left, 1-alpha.right), .005, width="200px")),
                       div(class="sliderInputOverride", "n",
                           sliderInput("n", NULL, 1,
-                                      100, ## if (NTmethod=="htest") 1.0001 else 100,
+                                      150, ## if (NTmethod=="htest") 1.0001 else 100,
                                       n,
                                       1, ## if (NTmethod=="htest") .00005 else 1,
                                       animate=list(interval=2000), width="150px"))
                       )
       ),
       tabPanel("Normal and t",
-               column(4,
-                      ## radioButtons("distribution.name", NULL,  c("normal","t"), "normal", inline=TRUE),
+               column(3,
                       div(class="sliderInputOverride", "mu[0]",
                           sliderInput("mu0", NULL, mean0-50*diff.xlim, mean0+50*diff.xlim, mean0, diff.xlim, width="150px")),
                       div(class="sliderInputOverride", "mu[a]",
-                          sliderInput("mu1", NULL, mean1-50*diff.xlim, mean1+50*diff.xlim, mean1, diff.xlim, animate=list(interval=2000), width="150px")),
-                      div(class="sliderInputOverride", paste("w=",x.xx, sep=""),
-                          sliderInput("xbar", NULL, xbar-50*diff.xlim, xbar+50*diff.xlim, xbar, diff.xlim, animate=list(interval=2000), width="150px"))
+                          sliderInput("mu1", NULL, mean1-50*diff.xlim, mean1+50*diff.xlim, mean1, diff.xlim, animate=list(interval=2000), width="150px"))
                      ),
                column(3,
+                      div(class="sliderInputOverride", paste("w=",x.xx, sep=""),
+                          sliderInput("xbar", NULL, xbar-50*diff.xlim, xbar+50*diff.xlim, xbar, diff.xlim, animate=list(interval=2000), width="150px")),
                       div(class="sliderInputOverride", "xlim", sliderInput("xlim", NULL, xlim.potential[1], xlim.potential[2], xlim.initial, 5*diff.xlim, width="150px"))
                       ),
-               column(4,
-                      ## div(class="sliderInputOverride", "s/sigma",
-                      ##     sliderInput("stddev", NULL, .1, 10, stderr, .1, animate=list(interval=2000), width="150px"))
-                      ## div(class="sliderInputOverride", "log(se[xbar], 10)", ##: log(sd/3)--log(sd*3)",
-                      ##     sliderInput("logstderr", NULL, -.5+logstderr, .5+logstderr, 0+logstderr, .1, animate=list(interval=2000), width="150px")), ## br(),
-                      ## paste(c("se[xbar]: lo","init","hi"), signif(10^(c(-.5+logstderr, logstderr, .5+logstderr)), digits=3), sep="=", collapse=" "), br(), br(),
+               column(3,
                       div(class="sliderInputOverride", "log(sd, 10)", ##: log(sd/3)--log(sd*3)",
                           sliderInput("logsd", NULL, -.5+logsd, .5+logsd, 0+logsd, .1, animate=list(interval=2000), width="150px")), ## br(),
-                      paste(c("sd: lo","init","hi"), signif(10^(c(-.5+logsd, logsd, .5+logsd)), digits=3), sep="=", collapse=" "), br(), br(),
+                      paste(c("sd: lo","init","hi"), signif(10^(c(-.5+logsd, logsd, .5+logsd)), digits=3), sep="=", collapse=" "), br(), br()
+                      ),
+               column(3,
                       div(class="sliderInputOverride", "df (0=normal)",
                           sliderInput("df", NULL, 0, 200, df, 1, animate=list(interval=2000), width="150px"))
                       )
@@ -225,7 +222,9 @@ fluidPage(
                       div(class="sliderInputOverride", "p[0]",
                           sliderInput("p0", NULL, 0, 1, .5, .01, width="150px")),
                       div(class="sliderInputOverride", "p[1]",
-                          sliderInput("p1", NULL, 0, 1, .8, .01, animate=list(interval=2000), width="150px")),
+                          sliderInput("p1", NULL, 0, 1, .8, .01, animate=list(interval=2000), width="150px"))
+                     ),
+               column(4,
                       div(class="sliderInputOverride", "p.hat",
                           sliderInput("p-hat", NULL, 0, 1, .75, .01, animate=list(interval=2000), width="150px"))
                      ),
@@ -236,21 +235,13 @@ fluidPage(
                ),
       tabPanel("Display Options",
                column(5,
-##                      radioButtons("power", NULL, c(Power="power", Beta="beta", No=FALSE), "power", inline=TRUE)
                       checkboxGroupInput("displays", NULL, c("Power", "Beta", "Table", "Call", "z axes"), c("Power","Table"), inline=TRUE)
                       ),
                column(4,
                       checkboxGroupInput("probs", NULL, c("Prob values on Graph"="Values","Labels"), c("Values","Labels"), inline=TRUE)
-                      ## radioButtons("float", NULL, c("Prob on Graph"=TRUE, No=FALSE), float, inline=TRUE),
-                      ## radioButtons("prob.labels", NULL, c("Prob Labels"=TRUE, No=FALSE), TRUE, inline=TRUE)
                       ),
-               ## column(3,
-               ##        radioButtons("table", NULL, c("Display Table"=TRUE, "No"=FALSE), TRUE, inline=TRUE),
-               ##        radioButtons("call", NULL, c("Display Call"=TRUE, No=FALSE), FALSE, inline=TRUE)
-               ##        ),
                column(3,
                       radioButtons("ntcolors", NULL, c("Original Colors"="original", Stoplight="stoplight"), ntcolors, inline=TRUE)## ,
-                      ## radioButtons("zaxes", NULL, c("Display Z Axes"=TRUE, No=FALSE), zaxis, inline=TRUE)
                       )),
       tabPanel("Fonts",
                column(2,
@@ -271,24 +262,16 @@ fluidPage(
                       div(class="numericOverride", "cex-table",
                           numericInput("cex-table",        NULL,  1.2, min=.1, step=.1)), br()
                       ),
-               column(3,
+               column(2,
                       div(class="numericOverride", "cex-main",
-                          numericInput("cex-main",         NULL,  1.6, min=.1, step=.1)), br(),
+                          numericInput("cex-main",         NULL,  1.6, min=.1, step=.1)), br()
+                      ),
+               column(3,
                       div(class="numericOverride", "key-axis-padding",
-                          numericInput("key-axis-padding", NULL,  7,   min=.1, step=.1)), br()
-                      ))##,
-      ##tabPanel("Constants",
-               ##column(6,
-                      ##textInput("sub", "Subtitle for graph", sub)
-                      ##),
-               ##column(6,
-                      ##numericInput("number.vars", "number.vars", number.vars)
-                      ##)##,
-               ##column(6,
-               ##       textInput("main", "Main title for graph", ExpressionOrText(main)), br(),
-               ##       textInput("xlab", "X label", ExpressionOrText(xlab))
-               ##       )
-               ##)
+                          numericInput("key-axis-padding", NULL,  7,   min=.1, step=.1)), br(),
+                      div(class="numericOverride", "position.2",
+                          numericInput("position-2",        NULL,  .17, min=.1, step=.1)), br()
+                      ))
     )
   )))
 ,
@@ -407,8 +390,7 @@ function(input, output) {
     xlim.lo.f <- input$xlim[1]
     xlim.hi.f <- input$xlim[2]
     xlab.f <- input$xlab
-    main.f <- main
-
+    type.f <- input$HypOrConf
 
     ## Normal Approximation to the Binomial
     if (input$Binomial=="Binom") {
@@ -417,9 +399,9 @@ function(input, output) {
       p.hat <- input$"p-hat"
       n.f <- input$n
       df.f <- Inf
-      sigma.p0 <- sqrt(p0*(1-p0)/n)
-      sigma.p1 <- sqrt(p1*(1-p1)/n)
-      s.p.hat <- sqrt(p.hat*(1-p.hat)/n)
+      sigma.p0 <- sqrt(p0*(1-p0)/n.f)
+      sigma.p1 <- sqrt(p1*(1-p1)/n.f)
+      s.p.hat <- sqrt(p.hat*(1-p.hat)/n.f)
       z.calc <- (p.hat-p0)/sigma.p0
       mean0.f <- if (input$HypOrConf=="hypothesis") p0 else NA
       mean1.f <- if ("Display mu[1]"  %in% input$mu1xbar) p1 else NA
@@ -452,12 +434,16 @@ function(input, output) {
       digits           =4,
       digits.axis      =input$"digits-axis",
       digits.float     =input$"digits-float",
-      HypOrConf        =input$HypOrConf,
+      HypOrConf        =type.f,
       zaxes            =zaxes.f,
       cex.z            =input$"cex-z",
       cex.prob         =input$"cex-prob",
       cex.top.axis     =input$"cex-top-axis",
-      main             =main.f,
+      main=list(
+        MainSimpler(mean0.f, mean1.f, xbar.f, stderr.f, n.f, df.f, distribution.name.f,
+                    digits=input$"digits-axis", number.vars=number.vars, type=type.f),
+        cex=input$"cex-main"
+      ),
       xlab             =xlab.f,
       prob.labels      =prob.labels.f,
       cex.main         =input$"cex-main",
@@ -477,7 +463,7 @@ function(input, output) {
   output$distPlot <- renderPlot({
      print(Result(), tablesOnPlot="Table" %in% input$displays, ## as.logical(input$table),
            cex.table=input$"cex-table",
-           scales=FALSE, prob=FALSE)
+           scales=FALSE, prob=FALSE, position.2=input$"position-2")
     })
 
   output$call <- renderText({

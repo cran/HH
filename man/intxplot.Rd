@@ -34,10 +34,9 @@ intxplot(x, data=sys.parent[1], groups.in,
 
 panel.intxplot(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
                offset.use=(!missing(groups) && !missing(se)),
-               offset.scale=2*max(as.numeric.positioned(groups)),
+               offset.scale=2*max(as.numeric(groups)),
                offset=
-               as.numeric.positioned(groups[match(levels(groups),
-                                            groups)]) / offset.scale,
+               as.numeric(groups[match(levels(groups), groups)]) / offset.scale,
                rug.use=offset.use)
 
 }

@@ -22,7 +22,7 @@ mmcplot.glht <- function(mmc, ...)
   mmcmatch(as.multicomp(mmc, ...), ..., xlim.match=FALSE)
 
 mmcplot.mmc.multicomp <- function(mmc, ...)
-  mmcplot.mmc(mmc, ...)
+  mmcplot.mmc(mmc, ..., mmc.object.name=deparse(substitute(mmc)))
 
 mmcplot.multicomp <- function(mmc, ...)
   mmcmatch(mmc, ..., xlim.match=FALSE)
@@ -45,7 +45,12 @@ mmcisomeans <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
                         xlab="contrast value",
                         contrast.label=TRUE) {
   mmc.type <- mmc[[type]]
-  if (is.null(mmc.type)) stop("invalid type", call.=FALSE)
+  if (is.null(mmc.type)) {
+    if (type %in% c("lmat", "linfct"))
+      stop("type='", type, "' not in ", list(...)$mmc.object.name, call.=FALSE)
+    else
+      stop("invalid type", call.=FALSE)
+  }
   tmp <- data.frame(mmc.type$table, height=mmc.type$height, height.2=mmc.type$height/2,
                     contrast.name=rownames(mmc.type$table), row=1:length(mmc.type$height),
                     signif=factor(
@@ -112,7 +117,13 @@ mmcmatch <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
                      xlim.match=(type != "none")) {
   mmc.type <- mmc[[type]]
   if (is.null(mmc.type)) mmc.type <- mmc
-  if (is.null(mmc.type)) stop("invalid type", call.=FALSE)
+  if (is.null(mmc.type)) {
+    if (type %in% c("lmat", "linfct"))
+      stop("type='", type, "' not in ", list(...)$mmc.object.name, call.=FALSE)
+    else
+      stop("invalid type", call.=FALSE)
+  }
+
   tmp <- data.frame(mmc.type$table, height=mmc.type$height, height.2=mmc.type$height/2,
                     contrast.name=rownames(mmc.type$table), row=1:length(mmc.type$height),
                     signif=factor(
@@ -215,7 +226,8 @@ mmcboth <- function(mmc, type="mca", h=c(.7, .3), xlim=NULL, ylim=NULL, ...,
 }
 
 
-panel.confintMMC <- function(x, y, subscripts, ..., col, lty, lower, upper, contrast.name) {
+panel.confintMMC <- function(x, y, subscripts, ..., col, lty, lower, upper,
+                             contrast.name, right.text.cex=.8) {
   if (is.infinite(lower[subscripts[1]]))
     left <- current.panel.limits()$xlim[1]
   else
@@ -227,7 +239,7 @@ panel.confintMMC <- function(x, y, subscripts, ..., col, lty, lower, upper, cont
   panel.segments(left, y, right, y, col=col, lty=lty)
   panel.points(x, y, pch=3, col=col)
   panel.axis("right", at=y, labels=contrast.name[subscripts],
-             text.col=col, line.col=col, outside=TRUE, half=FALSE)
+             text.col=col, line.col=col, outside=TRUE, half=FALSE, text.cex=right.text.cex)
 }
 
 

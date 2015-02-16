@@ -1,7 +1,4 @@
-if.R(r={as.rts <- function(x, ...) as.ts(x, ...)},
-     s={})
-
-units.ts <- function(x) "months"
+as.rts <- function(x, ...) as.ts(x, ...)  ## compatibility with S-Plus
 
 title.grob <- function(main=NULL, y=.99, gp=gpar(cex=1.5)) {
   grid.text(main, y=y, gp=gp, just="top")

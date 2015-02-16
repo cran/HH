@@ -99,3 +99,11 @@ combineLimits.trellisvector <-
     dimnames(result) <- dimnames(x)
     result
 }
+
+
+
+reorder.trellis <- function(x, X, ...) {
+  y <- as.vector(x)
+  y$panel.args <- y$panel.args[X]
+  y
+}

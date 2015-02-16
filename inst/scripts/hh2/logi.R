@@ -441,7 +441,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 22: logi.tex:1225-1232
+### code chunk number 22: logi.tex:1224-1231
 ###################################################
 old.width <- options(width=65)
 hhcapture("logit-j.Rout", '
@@ -453,7 +453,7 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 23: logi.tex:1258-1304
+### code chunk number 23: logi.tex:1257-1303
 ###################################################
 hhpdf("p8.pdf", width=8.5, height=6)
 logit.p.hat <- predict.glm(lymph3.glm, type="link")
@@ -504,7 +504,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 24: logi.tex:1355-1384
+### code chunk number 24: logi.tex:1354-1383
 ###################################################
 hhpdf("lymph-m.pdf", width=4, height=5.5)
 col8 <- brewer.pal(8, 'Dark2')
@@ -538,7 +538,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 25: logi.tex:1397-1447
+### code chunk number 25: logi.tex:1396-1446
 ###################################################
 EEg0 <-
 xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, subset=(X.ray==0), data=lhat.sort,
@@ -593,7 +593,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 26: logi.tex:1463-1477
+### code chunk number 26: logi.tex:1462-1476
 ###################################################
 hhpdf("lymph-mn.pdf", width=8, height=5.5)
 DEEga <-
@@ -612,7 +612,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 27: logi.tex:1513-1536
+### code chunk number 27: logi.tex:1512-1535
 ###################################################
 hhpdf("logi-c.pdf", width=6, height=5.5)
 ## ignore grade and stage, simplification for exposition
@@ -640,7 +640,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 28: logi.tex:1557-1567
+### code chunk number 28: logi.tex:1556-1566
 ###################################################
 hhpdf("logit-cg.pdf", width=6, height=5.5)
 apx12 <- seq(20,200,20)
@@ -655,7 +655,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 29: logi.tex:1611-1616
+### code chunk number 29: logi.tex:1610-1615
 ###################################################
 hhcapture("logit-f.Rout", '
 lymph1.glm <- glm(nodes ~ X.ray + acid.ph, data=lymph, family=binomial)
@@ -665,7 +665,7 @@ summary(lymph1.glm)$coef
 
 
 ###################################################
-### code chunk number 30: logi.tex:1631-1640
+### code chunk number 30: logi.tex:1630-1639
 ###################################################
 hhpdf("logit-d.pdf", width=6, height=5.5)
 tmpX <- lapply(c("0","1"), function(i) data.frame(acid.ph=29:198, X.ray=i))
@@ -679,7 +679,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 31: logi.tex:1654-1688
+### code chunk number 31: logi.tex:1653-1687
 ###################################################
 hhpdf("logit-e.pdf", width=5.5, height=5.5)
 logit.p.hat <- predict.glm(lymph1.glm, type="link")
@@ -718,7 +718,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 32: logi.tex:1717-1721
+### code chunk number 32: logi.tex:1716-1720
 ###################################################
 hhcapture("logit-k.Rout", '
 lymph1Xa.glm <- glm(nodes ~ X.ray * acid.ph, data=lymph, family=binomial)
@@ -727,7 +727,7 @@ anova(lymph1Xa.glm, test="Chisq")
 
 
 ###################################################
-### code chunk number 33: logi.tex:1735-1742
+### code chunk number 33: logi.tex:1734-1741
 ###################################################
 hhpdf("logit-f.pdf", width=6, height=5.5)
 tmpX2$nodes.hatXa <- predict.glm(lymph1Xa.glm, type="response", newdata=tmpX2)
@@ -739,7 +739,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 34: logi.tex:1770-1804
+### code chunk number 34: logi.tex:1769-1803
 ###################################################
 hhpdf("logit-g.pdf", width=5.5, height=5.5)
 logit.p.hat <- predict.glm(lymph1Xa.glm, type="link")
@@ -778,7 +778,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 35: logi.tex:1986-2004
+### code chunk number 35: logi.tex:1985-2003
 ###################################################
 hhpdf("logit-k.pdf", width=8, height=7)
 print(position=c(0,.49,1,1), more=TRUE,  ## top
@@ -801,7 +801,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 36: logi.tex:2307-2309
+### code chunk number 36: logi.tex:2306-2308
 ###################################################
 hhcapture("myfile.Rout", '
 ')

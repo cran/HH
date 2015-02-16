@@ -3,7 +3,8 @@ powerplot <- function (nt, ...) {
 }
 
 ## NTpbplot
-powerplot.NormalAndTplot <- function(nt, power=TRUE, beta=FALSE, ...) {
+powerplot.NormalAndTplot <- function(nt, power=TRUE, beta=FALSE, ...,
+                                     hh=if (power && beta) c(6,2,2) else c(6,2)) {
 
   if (length(nt$condlevels[[1]]) > 1) {
     warning("The input object ", substitute(nt), " has more than one panel.  Only the first panel is used.", call.=FALSE)
@@ -20,31 +21,34 @@ powerplot.NormalAndTplot <- function(nt, power=TRUE, beta=FALSE, ...) {
                      outside=TRUE, rot=0, line.col="transparent"),
           data=list(nt.xlab=nt.xlab))
 
-  if (power && beta) {
+  if (power && beta)
     cdpb <- c(density=nt, power=ntp, beta=ntb, layout=c(1,3), y.same=FALSE, x.same=TRUE)
-    hh <- c(6,2,2)
-  }
-  if ( power && !beta) {
+  if ( power && !beta)
     cdpb <- c(density=nt, power=ntp,           layout=c(1,2), y.same=FALSE, x.same=TRUE)
-    hh <- c(6,2)
-  }
-  if (!power &&  beta) {
+  if (!power &&  beta)
     cdpb <- c(density=nt,            beta=ntb, layout=c(1,2), y.same=FALSE, x.same=TRUE)
-    hh <- c(6,  2)
-  }
 
   result <-
   resizePanels(h=hh,
                update(cdpb,
                       as.table=TRUE,
                       between=list(y=c(
-                                     3+.5*attr(nt, "call.list")$zaxis +
-                                       .5*attr(nt, "call.list")$z1axis,
+                                     3+1.25*attr(nt, "call.list")$zaxis +
+                                       1.25*attr(nt, "call.list")$z1axis,
                                      2)),
                       strip=FALSE, strip.left=TRUE,
                       scales=list(y=list(rot=0), x=list(limits=nt$x.limits)),
                       ylab=NULL)
                )
+
+  result$y.scales$at <- list(FALSE,NULL,NULL)
+  result$y.scales$labels <- list(FALSE,NULL,NULL)
+  for (pp in seq(along=result$condlevels[[1]])[-1]) {
+    result$y.limits[[pp]] <- c(0,1)
+    result$y.scales$at[[pp]] <- ntp$y.scales$at
+    result$y.scales$labels[[pp]] <- ntp$y.scales$labels
+  }
+
 
   attributes(result)[c("table", "prob", "scales", "call" )] <-
     attributes(nt)[c("table", "prob", "scales", "call" )]
@@ -159,7 +163,7 @@ NormalAndTPower <- function(nt,
       list(mean1=format(nt.mean1, digits=digits.top.axis)))))
 
   xyplot(xlim=nt$x.limits, ylim=c(0,1), type="l", col="gray60", lwd=lwd.line,
-         scales=list(y=list(at=seq(0,1,.2))),
+         scales=list(y=list(at=seq(0,1,.25), labels=seq(0,1,.25))),
          nt.ypower ~ nt.x, main=main, xlab=as.expression(mean1.alist), ##  expression(mu[1]),
          ylab=ylab,
          par.settings=list(clip=list(panel=FALSE))) +

@@ -12,14 +12,15 @@ NormalAndTplot(mean0, ...)
              xbar=NA,
              df=Inf, n=1,
              sd=1,
-             xlim=c(-3, 3)*sd/sqrt(n), ylim, alpha.right=.05, alpha.left=0,
+             xlim=c(-3, 3)*sd/sqrt(n) + range(c(mean0, mean1, xbar), na.rm=TRUE),
+             ylim, alpha.right=.05, alpha.left=0,
              float=TRUE, ntcolors="original",
              digits=4, digits.axis=digits, digits.float=digits,
              distribution.name=c("normal","z","t","binomial"),
              type=c("hypothesis", "confidence"),
              zaxis=FALSE, z1axis=FALSE,
              cex.z=.5, cex.prob=.6, cex.top.axis=1,
-             main, xlab, ylab,
+             main=NA, xlab, ylab,
              prob.labels=(type=="hypothesis"),
              xhalf.multiplier=1,
              yhalf.multiplier=1,
@@ -64,7 +65,10 @@ Degrees of freedom for \eqn{t}-distribution.
 }
 \item{main, xlab, ylab, xlim, ylim, sub}{
   Standard \code{\link[lattice]{xyplot}} arguments.  Default values
-  are constructed if these arguments are missing.
+  are constructed if these arguments are missing. The input value
+  \code{main=NA}
+  forces a new constructed \code{main} instead of using the \code{main} coming in through the
+  \code{htest} methods.
 }
 \item{\dots}{
   Additional \code{\link[lattice]{xyplot}} arguments.

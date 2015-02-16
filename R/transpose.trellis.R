@@ -3,7 +3,7 @@ transpose <- function(x)
 
 transpose.trellis <- function(x) {
   if (length(dim(x)) != 2)
-    stop("transpose.trellis requires a two-dimensional trellis object.", call.=FALSE)
+    return(rbind(x))
   y <- x
   ## dim is based on condlevels.  therefore new.order comes first before condlevels and index.cond
   new.order <- as.vector(t(array(1:prod(dim(x)), dim(x))))
@@ -66,12 +66,12 @@ aperm.trellis <- function(a, perm, ...)  {
   y
 }
 
-cbind.trellis <- function(..., deparse.level=1,
-                          combineLimits=TRUE, useOuterStrips=TRUE) {
-  tmp <- rbind.trellis(..., deparse.level=deparse.level,
-                       combineLimits=FALSE, useOuterStrips=FALSE)
-  cdddots <- transpose(tmp)
-  if (useOuterStrips) cdddots <- useOuterStrips(cdddots)
-  if (combineLimits) cdddots <- combineLimits(cdddots)
-  cdddots
-}
+## cbind.trellis <- function(..., deparse.level=1,
+##                           combineLimits=TRUE, useOuterStrips=TRUE) {
+##   tmp <- rbind.trellis(..., deparse.level=deparse.level,
+##                        combineLimits=FALSE, useOuterStrips=FALSE)
+##   cdddots <- transpose(tmp)
+##   if (useOuterStrips) cdddots <- useOuterStrips(cdddots)
+##   if (combineLimits) cdddots <- combineLimits(cdddots)
+##   cdddots
+## }

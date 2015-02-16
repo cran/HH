@@ -67,7 +67,7 @@ interaction2wt.default <-
     x.list <- x
     for (i in names(x)) {
       x[[i]] <- as.factor(x[[i]])
-      x.list[[i]] <- as.numeric.positioned(x[[i]])
+      x.list[[i]] <- as.numeric(x[[i]])
     }
 
     factor.levels <- lapply(x, levels)

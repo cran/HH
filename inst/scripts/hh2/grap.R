@@ -111,7 +111,7 @@ splom(~ tmp, axis.text.cex=.5, varname.cex=.8, xlab=NULL,
         space="bottom", columns=2))
 rrows <- c(1,1,1,1)
 ccols <- c(2,3,4,5)
-cols <- c("gray60","black","black","black")
+cols <- c("gray40","black","black","black")
 ## when I isolate the contents of the layer() as a function, it doesn't work.
 tmp.splom + layer((function(...) {
   if (i %in% rrows && j %in% ccols)
@@ -122,17 +122,23 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 6: grap.tex:398-403
+### code chunk number 6: grap.tex:398-409
 ###################################################
 hhpdf("grap-pbdkc-l.pdf", width=9, height=5)
 splom(~ tmp[,1:5] | tmp[,6], par.strip.text=list(cex=1.5),
-      axis.text.cex=.5, varname.cex=.8, xlab=NULL, pch=19,
-      groups=tmp$cond.house)
+      axis.text.cex=.5, varname.cex=.8, xlab=NULL,
+      groups=tmp$cond.house,
+      pch=c("0","+"), cex=c(1.3, 1.5), col=col.lot[1:2],
+      key=list(
+        border=TRUE,
+        text=list(c("Condominium","House")),
+        points=list(pch=c("0","+"), col=col.lot, cex=c(1.2, 1.6)),
+        space="bottom", columns=2))
 hhdev.off()
 
 
 ###################################################
-### code chunk number 7: grap.tex:487-490
+### code chunk number 7: grap.tex:493-496
 ###################################################
 hhcode("array3way.r", '
 ## This three-way array of scatterplots is constructed in file HHscriptnames("logi.R").
@@ -140,7 +146,7 @@ hhcode("array3way.r", '
 
 
 ###################################################
-### code chunk number 8: grap.tex:573-584
+### code chunk number 8: grap.tex:579-590
 ###################################################
 hhpdf("grap-f1.pdf", width=5.5, height=5.5)
 data(tv)
@@ -156,9 +162,9 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 9: grap.tex:595-638
+### code chunk number 9: grap.tex:601-644
 ###################################################
-hhpdf("grap-f2.pdf", width=7, height=7)
+hhpdf("grap-f2.pdf", width=8, height=8)
 AA <-
   xyplot(male.life.exp ~ fem.life.exp, data=tv,
          xlim=c(48,85), ylim=c(48,85), aspect="iso",
@@ -174,7 +180,7 @@ BB <-
          main="b. simulated interactive") +
   layer(panel.abline(a=0, b=1)) +
   layer(panel.xyplot(x[2], y[2], cex=1.5, pch=19)) +
-  layer(panel.text(x[2], y[2], row.names(tv)[2], cex=.8, pos=2))
+  layer(panel.text(x[2]+3, y[2]+3, abbreviate(row.names(tv)[2]), cex=1, pos=2))
 
 CC <-
 xyplot(male.life.exp ~ fem.life.exp, data=tv,
@@ -195,8 +201,8 @@ EE <-
   layer(panel.abline(a=0, b=1)) +
   layer(panel.abline(lm(male.life.exp ~ fem.life.exp, data=tv)))
 
-print(position=c(0.0, 0.40, 0.5, 1.00), more=TRUE, AA)
-print(position=c(0.0, 0.00, 0.5, 0.40), more=TRUE, BB)
+print(position=c(0.0, 0.45, 0.55, 1.00), more=TRUE, AA)
+print(position=c(0.0, 0.00, 0.55, 0.45), more=TRUE, BB)
 print(position=c(0.5, 0.67, 1.0, 1.00), more=TRUE, CC)
 print(position=c(0.5, 0.35, 1.0, 0.68), more=TRUE, DD)
 print(position=c(0.5, 0.00, 1.0, 0.35), more=FALSE, EE)
@@ -204,7 +210,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 10: grap.tex:711-716
+### code chunk number 10: grap.tex:717-722
 ###################################################
 hhpdf("grap-f3.pdf", width=5.5, height=5.5)
 splom( ~ tv[,c(4,5,1,2,3)],
@@ -214,7 +220,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 11: grap.tex:799-802
+### code chunk number 11: grap.tex:805-808
 ###################################################
 hhpdf("grap-f11a.pdf", width=7.5, height=6.5)
 pairs(tv, pch=19, main="pairs with NW--SE diagonal and rectangular panels")
@@ -222,7 +228,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 12: grap.tex:830-868
+### code chunk number 12: grap.tex:836-874
 ###################################################
 hhpdf("grap-f12.pdf", width=9, height=5)
 f12b <- matrix(c("Var1",1,2,4,
@@ -265,7 +271,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 13: grap.tex:947-952
+### code chunk number 13: grap.tex:953-958
 ###################################################
 hhpdf("grap-f5.pdf", width=6.5, height=6.5)
 splom( ~ tv[, 1:3],
@@ -275,7 +281,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 14: grap.tex:988-993
+### code chunk number 14: grap.tex:994-999
 ###################################################
 hhpdf("grap-f6.pdf", width=6.5, height=6.5)
 splom( ~ cbind(tv[,1,drop=FALSE], log(tv[, 2:3])),
@@ -285,7 +291,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 15: grap.tex:1069-1109
+### code chunk number 15: grap.tex:1075-1115
 ###################################################
 hhpdf("grap-f8.pdf", width=10.3, height=4.5)
 dy2 <- format(c(-1, -0.5, 0, 0.5, 1, 2))
@@ -330,7 +336,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 16: grap.tex:1207-1225
+### code chunk number 16: grap.tex:1213-1231
 ###################################################
 hhpdf("grap-f7.pdf", width=7, height=7)
 data(tv)
@@ -353,7 +359,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 17: grap.tex:1248-1257
+### code chunk number 17: grap.tex:1254-1263
 ###################################################
 hhpdf("grap-f9.pdf", width=7, height=4)
 x <- sort(tv[,"life.exp"])
@@ -367,7 +373,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 18: grap.tex:1304-1325
+### code chunk number 18: grap.tex:1310-1331
 ###################################################
 y <- ladder.fstar(tv$ppl.per.phys)
 g <- paste("ppp ^",names(y))
@@ -393,7 +399,7 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 19: grap.tex:1344-1356
+### code chunk number 19: grap.tex:1350-1362
 ###################################################
 scales <- c(2, 3, 3, 2, 2, 2)
 names(scales) <- names(y)

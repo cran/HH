@@ -100,7 +100,7 @@ NTplot.power.htest <-
     if (shiny) {
       ## attr(result, "call.list")$stderr <-
       ##   attr(result, "call.list")$stderr * sqrt(attr(result, "call.list")$n)
-      shiny.NormalAndTplot(result)
+      shiny.NormalAndTplot(result, NTmethod="power.htest")
     }
     else
       result
@@ -113,7 +113,8 @@ NormalAndTplot.default <- function(mean0=0,
                                    xbar=NA,
                                    df=Inf, n=1,
                                    sd=1,
-                                   xlim=c(-3, 3)*sd/sqrt(n), ylim,
+                                   xlim=c(-3, 3)*sd/sqrt(n) + range(c(mean0, mean1, xbar), na.rm=TRUE),
+                                   ylim,
                                    alpha.right=.05, alpha.left=0,
                                    float=TRUE, ntcolors="original",
                                    digits=4, digits.axis=digits,
@@ -122,7 +123,7 @@ NormalAndTplot.default <- function(mean0=0,
                                    type=c("hypothesis", "confidence"),
                                    zaxis=FALSE, z1axis=FALSE,
                                    cex.z=.5, cex.prob=.6, cex.top.axis=1,
-                                   main, xlab, ylab,
+                                   main=NA, xlab, ylab,
                                    prob.labels=(type=="hypothesis"),
                                    xhalf.multiplier=1,
                                    yhalf.multiplier=1,
@@ -265,7 +266,7 @@ NormalAndTplot.default <- function(mean0=0,
               expression(w == bar(x)[1] - bar(x)[2])
 
   ##  main <- Main(mean0, mean1, xbar, sd, n, df)
-  if (missing(main))
+  if (missing(main) || is.na(main))
     main <- list(MainSimpler(mean0, mean1, xbar, stderr, n, df, distribution.name,
                              digits=digits.axis, number.vars=number.vars, type=type),
                  cex=cex.main)
@@ -274,6 +275,7 @@ NormalAndTplot.default <- function(mean0=0,
                 ylab=ylab,
                 xlab=xlab,
                 main=main, ...,
+                axis.bottom=1+.13*(zaxis+z1axis)*cex.z,
                 key.axis.padding=key.axis.padding,
                 number.vars=number.vars,
                 sub=sub)
@@ -536,7 +538,7 @@ NormalAndTplot.default <- function(mean0=0,
           panel.axis("bottom", outside=TRUE, tck=2+cex.z, at=z.at, labels=z.labels,
                      text.cex=cex.z, rot=0, line.col="transparent")
           panel.text(x=convertX(unit(-3,   "strwidth",  data="z"), unitTo="native", valueOnly=TRUE),
-                     y=convertY(unit(-2.5, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
+                     y=convertY(unit(-2-cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
                      if (distribution.name=="t") "t" else "z",
                      cex=cex.z)
         },
@@ -558,7 +560,7 @@ NormalAndTplot.default <- function(mean0=0,
             panel.axis("bottom", outside=TRUE, tck=3+2*cex.z, at=z1.at, labels=z1.labels,
                        text.cex=cex.z, rot=0, line.col="transparent")
             panel.text(x=convertX(unit(-3,   "strwidth",  data="z"), unitTo="native", valueOnly=TRUE),
-                       y=convertY(unit(-3.2, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
+                       y=convertY(unit(-2.75-2*cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
                        if (distribution.name=="t") expression(t[1]) else expression(z[1]), cex=cex.z)
           },
           data=list(z1.at=z1.at, z1.labels=z1.labels, distribution.name=distribution.name, cex.z=cex.z))
@@ -591,7 +593,7 @@ NormalAndTplot.default <- function(mean0=0,
           panel.axis("bottom", outside=TRUE, tck=2+cex.z, at=z.at, labels=z.labels,
                      text.cex=cex.z, rot=0, line.col="transparent")
           panel.text(x=convertX(unit(-3,   "strwidth",  data="z"), unitTo="native", valueOnly=TRUE),
-                     y=convertY(unit(-2.5, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
+                     y=convertY(unit(-2-cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
                      ifelse(distribution.name=="t", "t", "z"), cex=cex.z)
         },
         data=list(z.at=z.at, z.labels=z.labels, distribution.name=distribution.name, cex.z=cex.z))
@@ -732,7 +734,7 @@ NormalAndTplot.default <- function(mean0=0,
 
   class(result) <- c("NormalAndTplot", class(result))
 
-  if (power || beta)
+  if (type=="hypothesis" && (power || beta))
     result <- powerplot(result, power=power, beta=beta, ...)
 
   result
@@ -758,13 +760,14 @@ print.NormalAndTplot <- function(x, tablesOnPlot=TRUE, plot=TRUE,
   if (plot) {
 
     if (!tablesOnPlot) {
-      return(NextMethod(x, "print"))
+      return(NextMethod("print"))
     }
 
- ##   if (tablesOnPlot && !is.null(list(...)$position))
- ##     stop("position= argument is incompatible with tablesOnPlot=TRUE")
+    if (tablesOnPlot && !is.null(list(...)$position))
+      stop("position= argument is incompatible with tablesOnPlot=TRUE")
 
-    NextMethod(x, "print", position=c(0, position.2, 1, 1))
+    NextMethod("print", position=c(0, position.2, 1, 1))
+    ## lattice:::print.trellis(x, position=c(0, position.2, 1, 1))
 
     old.digits <- options(digits=digits)
 

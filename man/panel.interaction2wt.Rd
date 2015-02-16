@@ -16,6 +16,7 @@ panel.interaction2wt(x, y, subscripts,
                      factor.levels, factor.position,
                      fun = mean,
                      se,
+                     type="l",
                      ...,
                      box.ratio,
                      simple=FALSE,
@@ -52,6 +53,7 @@ strip.interaction2wt(which.given, which.panel, var.name,
     count.  If a numeric vector, it is evaluated in the environment of
     the sufficient statistics.
   },
+  \item{type}{See \code{\link[lattice]{panel.xyplot}}.},
   \item{box.ratio}{passed to \code{panel.bwplot.intermediate.hh}},
   \item{\dots}{extra arguments, primarily color,
     to be passed to \code{panel.bwplot.intermediate.hh}}

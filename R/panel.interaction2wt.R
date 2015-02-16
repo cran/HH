@@ -4,6 +4,7 @@ function(x, y, subscripts,
          factor.levels, factor.position,
          fun=mean,
          se,
+         type="l",
          ...,
          box.ratio,
          simple=FALSE,
@@ -14,6 +15,11 @@ function(x, y, subscripts,
          col.by.row=TRUE,
          key.in=NULL ## list of key arguments for S-Plus
          ) {
+
+  if ("o" %in% type || "b" %in% type)
+    type <- c(type, "p", "l")
+
+
   if (simple) {
     pch.name <- names(data.x)[3-current.row()]
     other.name <- names(data.x)[current.row()]
@@ -61,6 +67,12 @@ function(x, y, subscripts,
   tpg.col <- rep(tpg$col, length=length(trace.levels))
   tpg.lty <- rep(tpg$lty, length=length(trace.levels))
   tpg.lwd <- rep(tpg$lwd, length=length(trace.levels))
+  tpg <- trellis.par.get("superpose.symbol")
+  tpg.cex <- rep(tpg$cex, length=length(trace.levels))
+  tpg.pch <- rep(tpg$pch, length=length(trace.levels))
+  tpg.alpha <- rep(tpg$alpha, length=length(trace.levels))
+  tpg.fill <- rep(tpg$fill, length=length(trace.levels))
+  tpg.font <- rep(tpg$font, length=length(trace.levels))
 
   ## panels
   if (trace.name ==  x.name) {## main diagonal
@@ -96,7 +108,7 @@ function(x, y, subscripts,
                                         box.ratio=box.ratio,
                                         ...)
            ,s=
-           panel.bwplot.intermediate.hh(as.numeric.positioned(x.simple), y,
+           panel.bwplot.intermediate.hh(as.numeric(x.simple), y,
                                         horizontal=FALSE,
                                         col=tpg.col.simple[col.subscripts],
                                         pch=pch[[x.name]],
@@ -112,7 +124,7 @@ function(x, y, subscripts,
                                         box.ratio=box.ratio,
                                         ...)
            ,s=
-           panel.bwplot.intermediate.hh(as.numeric.positioned(x.factor), y,
+           panel.bwplot.intermediate.hh(as.numeric(x.factor), y,
                                         horizontal=FALSE,
                                         box.ratio=box.ratio,
                                         ...)
@@ -142,6 +154,7 @@ function(x, y, subscripts,
                        groups=suff.data$tt,
                        offset.use=FALSE,
                        rug.use=TRUE,
+                       type=type,
                        ...)
       else {
         if (is.logical(se))
@@ -157,14 +170,18 @@ function(x, y, subscripts,
                        offset=position(x.simple), ##simple.offset[[trace.name]],
                        rug.use=TRUE,
                        se=suff.data.se,
+                       type=type,
                        ...)
       }
     }
     else {
       tab <- tapply(y, list(x, trace.values[subscripts]), fun)
       if.R(r={}, s=panel.lines <- lines)
-      for (j in 1:ncol(tab))
+      for (j in 1:ncol(tab)) {
         panel.lines(x=x.position, y=tab[,j], col=tpg.col[j], lty=tpg.lty[j], lwd=tpg.lwd[j])
+        if ("p" %in% type)
+          panel.points(x=x.position, y=tab[,j], col=tpg.col[j], pch=tpg.pch[j], cex=tpg.cex[j])
+      }
     }
   }
 

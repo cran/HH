@@ -195,7 +195,8 @@ Brinton WC (1939),
   \code{NZScienceTeaching} is from
   New Zealand Ministry of Research Science and Technology(2006),
  ``Staying in Science."
-\url{http://www.morst.govt.nz/Documents/publications/researchreports/Staying-in-Science-summary.pdf}.
+This URL is no longer valid.
+ \code{http://www.morst.govt.nz/Documents/publications/researchreports/Staying-in-Science-summary.pdf}.
 
 \code{PoorChildren} is from
 ``Poor Children, Working Parents",

@@ -82,6 +82,13 @@ multicomp.mmc(x,  ## S-Plus
     \code{glht}.   Required for user-specified contrasts.}
   \item{lmat.rows}{rows in \code{lmat} for the \code{focus} factor.}
   \item{focus}{define the factor to compute contrasts of.
+In R this argument often can be used to simplify the call.
+The statement \code{mmc(my.aov, focus="factorA")} is interpreted as
+\code{mmc(my.aov, factorA="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE)}
+With \code{TRUE, TRUE}, \code{multcomp::glht} always gives the same result as the S-Plus
+\code{multcomp} function.  Without the \code{TRUE, TRUE},
+\code{multcomp::glht} gives a
+different answer when there are interactions or covariates in the model.
     See
 %% R
 #ifndef S-Plus
@@ -92,8 +99,13 @@ multicomp.mmc(x,  ## S-Plus
 #endif
 }
 \item{focus.lmat}{R only.  Contrast matrix used in the user-specified
-comparisons of the focus factor.  This is the matrix the user
-constructs.  This matrix is multiplied by the \code{lmat} from the \code{none}
+comparisons of the \code{focus} factor.  This is the matrix the user
+constructs.
+Row names must include all levels of the factor.
+Column names are the names the user assigns to the contrasts.
+Each column must sum to zero.  See \code{catalystm.lmat} in the Examples
+section for an example.
+Th \code{focus.lmat} matrix is multiplied by the \code{lmat} from the \code{none}
 component to create the \code{lmat} for the user-specified contrasts.
 Display the \code{hibrido.lmat} and \code{maiz2.lmat} in the maiz
 example below to see what is happening.
@@ -238,8 +250,14 @@ Hsu, J. and Peruggia, M. (1994).
   the same example.
 
 
-  \code{plot.mmc.multicomp} chooses sensible defaults for its many
-arguments.  They will often need manual adjustment.  The examples show
+There are two plotting functions for MMC plots.  \code{\link{mmcplot}}, the
+  newer \pkg{lattice}-based function, is recommended.   \code{mmcplot},
+chooses better default values for it arguments and is better coordinated
+  with the tiebreaker plot.
+
+The older
+  \code{\link{plot.mmc.multicomp}}, built on \pkg{base} graphics, chooses sensible defaults for its many
+arguments, but they still often need manual adjustment.  The examples show
 several types of adjustments.  We have changed the centering and scaling
 to avoid overprinting of label information.  By default the significant
 contrasts are shown in a more intense color than the nonsignificant
@@ -252,7 +270,7 @@ We have an option to reduce the color intensity of the isomeans grid.
   %% were interpretable.
 
 }
-\seealso{\code{\link{as.multicomp}}, \code{\link{plot.mmc.multicomp}}}
+\seealso{\code{\link{mmcplot}}, \code{\link{plot.mmc.multicomp}}, \code{\link{as.multicomp}}}
 
 \examples{
 ## Use mmc with R.
@@ -262,112 +280,80 @@ We have an option to reduce the color intensity of the isomeans grid.
 ## catalystm example
 data(catalystm)
 
-if.R(r=
-  bwplot(concent ~ catalyst, data=catalystm,
-         scales=list(cex=1.5),
-         ylab=list("concentration", cex=1.5),
-         xlab=list("catalyst",cex=1.5))
-,s=
-t(bwplot(catalyst ~ concent, data=catalystm,
-         scales=list(cex=1.5),
-         xlab=list("concentration", cex=1.5),
-         ylab=list("catalyst",cex=1.5)))
-)
+bwplot(concent ~ catalyst, data=catalystm,
+       scales=list(cex=1.5),
+       ylab=list("concentration", cex=1.5),
+       xlab=list("catalyst",cex=1.5))
 
 
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
 summary(catalystm1.aov)
 
 catalystm.mca <-
-if.R(r=glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
-     s=multicomp(catalystm1.aov, plot=FALSE))
-## plot(catalystm.mca)
-if.R(s=catalystm.mca,
-     r=confint(catalystm.mca))
+glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
+confint(catalystm.mca)
+plot(catalystm.mca)    ## multcomp plot
+mmcplot(catalystm.mca) ## HH plot
 
 ## pairwise comparisons
 catalystm.mmc <-
-if.R(r=mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")),
-     s=multicomp.mmc(catalystm1.aov, plot=FALSE))
+  mmc(catalystm1.aov, focus="catalyst")
 catalystm.mmc
 
-if.R(s={old.omd <- par(omd=c(0,.95,0,1))
-        plot(catalystm.mmc, x.offset=1)
-        plotMatchMMC(catalystm.mmc$mca, xlabel.print=FALSE)},
-     r=mmcplot(catalystm.mmc, style="both")
-     )
+\dontrun{
+## these three statements are identical for a one-way aov
+  mmc(catalystm1.aov)  ## simplest
+  mmc(catalystm1.aov, focus="catalyst") ## generalizes to higher-order designs
+  mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")) ## ghlt arguments
+}
 
-## user-specified contrasts
+mmcplot(catalystm.mmc, style="both")
+
+
+## User-Specified Contrasts
+## Row names must include all levels of the factor.
+## Column names are the names the user assigns to the contrasts.
+## Each column must sum to zero.
 catalystm.lmat <- cbind("AB-D" =c( 1, 1, 0,-2),
                         "A-B"  =c( 1,-1, 0, 0),
                         "ABD-C"=c( 1, 1,-3, 1))
 dimnames(catalystm.lmat)[[1]] <- levels(catalystm$catalyst)
+catalystm.lmat
 
 catalystm.mmc <-
-if.R(r=mmc(catalystm1.aov,
+mmc(catalystm1.aov,
        linfct = mcp(catalyst = "Tukey"),
-       focus.lmat=catalystm.lmat),
-     s=multicomp.mmc(catalystm1.aov,
-       focus.lmat=catalystm.lmat, plot=FALSE))
+       focus.lmat=catalystm.lmat)
 catalystm.mmc
 
-if.R(s={plot(catalystm.mmc, x.offset=1)
-        plotMatchMMC(catalystm.mmc$lmat, xlabel.print=FALSE, col.signif='blue')
-        par(old.omd)},
-     r=mmcplot(catalystm.mmc, style="both", type="lmat"))
+mmcplot(catalystm.mmc, style="both", type="lmat")
 
 
 ## Dunnett's test
 ## weightloss example
 data(weightloss)
-if.R(r=
 bwplot(loss ~ group, data=weightloss,
        scales=list(cex=1.5),
        ylab=list("Weight Loss", cex=1.5),
        xlab=list("group",cex=1.5))
-,s=
-t(bwplot(group ~ loss, data=weightloss,
-       scales=list(cex=1.5),
-       xlab=list("Weight Loss", cex=1.5),
-       ylab=list("group",cex=1.5)))
-)
 
 weightloss.aov <- aov(loss ~ group, data=weightloss)
 summary(weightloss.aov)
 
-if.R(r={
 group.count <- table(weightloss$group)
-},s={})
 
-if.R(r={
-  tmp.dunnett <-
-    glht(weightloss.aov,
-         linfct=mcp(group=contrMat(group.count, base=4)),
-         alternative="greater")
-  mmcplot(tmp.dunnett)
-},s={
-  tmp.dunnett <-
-    multicomp(weightloss.aov,
-              method="dunnett", comparisons="mcc",
-              bounds="lower", control=4,
-              valid.check=FALSE)
-  plot(tmp.dunnett)
-})
+tmp.dunnett <-
+  glht(weightloss.aov,
+       linfct=mcp(group=contrMat(group.count, base=4)),
+       alternative="greater")
+mmcplot(tmp.dunnett, main="contrasts in alphabetical order")
 
-if.R(r={
-  tmp.dunnett.mmc <-
-    mmc(weightloss.aov,
-        linfct=mcp(group=contrMat(group.count, base=4)),
-        alternative="greater")
-  mmcplot(tmp.dunnett.mmc)
-},s={
-  tmp.dunnett.mmc <-
-    multicomp.mmc(weightloss.aov,
-                  method="dunnett", comparisons="mcc",
-                  bounds="lower", control=4,
-                  valid.check=FALSE, plot=FALSE)
-  plot(tmp.dunnett.mmc)
-})
+tmp.dunnett.mmc <-
+  mmc(weightloss.aov,
+      linfct=mcp(group=contrMat(group.count, base=4)),
+      alternative="greater")
+mmcplot(tmp.dunnett.mmc,
+        main="contrasts ordered by average value of the means\nof the two levels in the contrasts")
 
 tmp.dunnett.mmc
 
@@ -378,48 +364,39 @@ tmp.dunnett.mmc
 
 data(display)
 
-if.R(r=
 interaction2wt(time ~ emergenc * panel.ordered, data=display)
-     ,s=
-interaction2wt(time ~ emergenc * panel.ordered, data=display,
-               xlim=c(.5,4.5), key.in=list(x=-1.8))
-)
 
 displayf.aov <- aov(time ~ emergenc * panel, data=display)
 anova(displayf.aov)
 
 ## multiple comparisons
 ## MMC plot
-if.R(r={
-  displayf.mmc <-
-    mmc(displayf.aov,
-        linfct=mcp(panel="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE))
-  mmcplot(displayf.mmc)
-},
-     s={
-       displayf.mmc <-
-         multicomp.mmc(displayf.aov, "panel", plot=FALSE)
-       plot(displayf.mmc)
-     })
+displayf.mmc <- mmc(displayf.aov, focus="panel")
+displayf.mmc
+
+## same thing using glht argument list
+displayf.mmc <-
+  mmc(displayf.aov,
+      linfct=mcp(panel="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE))
+
+mmcplot(displayf.mmc)
 
 
 panel.lmat <- cbind("3-12"=c(-1,-1,2),
-                     "1-2"=c( 1,-1,0))
+                    "1-2"=c( 1,-1,0))
 dimnames(panel.lmat)[[1]] <- levels(display$panel)
+panel.lmat
 
-if.R(r={
-  displayf.mmc <-
-    mmc(displayf.aov,
-        linfct=mcp(panel="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE),
-        focus.lmat=panel.lmat)
-  mmcplot(displayf.mmc, type="lmat")
-},s={
-  displayf.mmc <-
-    multicomp.mmc(displayf.aov, "panel",
-                  focus.lmat=panel.lmat, plot=FALSE)
-  plot(displayf.mmc)
-}
-     )
+displayf.mmc <-
+  mmc(displayf.aov, focus="panel", focus.lmat=panel.lmat)
+
+## same thing using glht argument list
+displayf.mmc <-
+  mmc(displayf.aov,
+      linfct=mcp(panel="Tukey", `interaction_average`=TRUE, `covariate_average`=TRUE),
+      focus.lmat=panel.lmat)
+
+mmcplot(displayf.mmc, type="lmat")
 }
 
 \dontrun{
@@ -434,14 +411,9 @@ if.R(r={
 
 data(maiz)
 
-if.R(s={old.omd <- par(omd=c(.1,1,.05,1))},
-     r={})
 interaction2wt(yield ~ hibrido+nitrogeno+bloque, data=maiz,
-               key.in=list(x=-5), ## ignored by R
                par.strip.text=list(cex=.7))
 interaction2wt(yield ~ hibrido+nitrogeno, data=maiz)
- if.R(s={par(old.omd)},
-      r={})
 
 maiz.aov <- aov(yield ~ nitrogeno*hibrido + Error(bloque/nitrogeno), data=maiz)
 
@@ -449,21 +421,12 @@ summary(maiz.aov)
 summary(maiz.aov,
         split=list(hibrido=list(P3732=1, Mol17=2, A632=3, LH74=4)))
 
-## multicomp(maiz.aov, focus="hibrido")         ## can't use 'aovlist' objects
-## glht(maiz.aov, linfct=mcp(hibrido="Tukey"))  ## can't use 'aovlist' objects
+try(glht(maiz.aov, linfct=mcp(hibrido="Tukey")))  ## can't use 'aovlist' objects in glht
 
-sapply(maiz[-1], contrasts)
-if.R(r={
-  ## R mmc requires treatment contrasts
-  contrasts(maiz$nitrogeno) <- "contr.treatment"
-  contrasts(maiz$bloque) <- "contr.treatment"
-  sapply(maiz[-1], contrasts)
-},
-     s={})
-
-## Both R glht() and S-Plus multicomp() require aov, not aovlist
+## R glht() requires aov, not aovlist
 maiz2.aov <- aov(terms(yield ~ bloque*nitrogeno + hibrido/nitrogeno,
-                       keep.order=TRUE), data=maiz)
+                       keep.order=TRUE),
+                 data=maiz)
 summary(maiz2.aov)
 
 ## There are many ties in the group means.
@@ -480,18 +443,9 @@ summary(maiz2.aov)
 ##    the clusters.
 
 ## pairwise contrasts with tiebreakers.
-if.R(s={
-  maiz2.mmc <- multicomp.mmc(maiz2.aov, focus="hibrido", plot=FALSE)
-  old.omd <- par(omd=c(.05,.85,0,1))
-  plot(maiz2.mmc, ry=c(145,170), x.offset=4)
-  par(omd=c(.05,.85,0,1))
-  plotMatchMMC(maiz2.mmc$mca)
-  par(old.omd)
-},r={
-  maiz2.mmc <- mmc(maiz2.aov,
-                   linfct=mcp(hibrido="Tukey", interaction_average=TRUE))
-  mmcplot(maiz2.mmc, style="both")
-})
+maiz2.mmc <- mmc(maiz2.aov,
+                 linfct=mcp(hibrido="Tukey", interaction_average=TRUE))
+mmcplot(maiz2.mmc, style="both")  ## MMC and Tiebreaker
 
 
 ## orthogonal contrasts
@@ -502,23 +456,17 @@ hibrido.lmat <- cbind("PPL-MA" =c(2, 2,-3,-3, 2),
                       "M-A"    =c(0, 0, 1,-1, 0))
 dimnames(hibrido.lmat)[[1]] <- levels(maiz$hibrido)
 hibrido.lmat
-maiz2.mmc <-
-  if.R(s=multicomp.mmc(maiz2.aov, focus="hibrido",
-         focus.lmat=hibrido.lmat,
-         plot=FALSE),
-       r=mmc(maiz2.aov, linfct=mcp(hibrido="Tukey",
-             `interaction_average`=TRUE), focus.lmat=hibrido.lmat)
-       )
 
-if.R(s={
-  old.omd <- par(omd=c(.05,.85,0,1))
-  plot(maiz2.mmc, ry=c(145,170), x.offset=4)
-  par(omd=c(.05,.85,0,1))
-  plotMatchMMC(maiz2.mmc$lmat, col.signif='blue')
-  par(old.omd)
-},r={
+maiz2.mmc <-
+  mmc(maiz2.aov, focu="hibrido", focus.lmat=hibrido.lmat)
+maiz2.mmc
+
+## same thing using glht argument list
+maiz2.mmc <-
+  mmc(maiz2.aov, linfct=mcp(hibrido="Tukey",
+      `interaction_average`=TRUE), focus.lmat=hibrido.lmat)
+
   mmcplot(maiz2.mmc, style="both", type="lmat")
-})
 }
 }
 \keyword{hplot}
