@@ -106,8 +106,8 @@ shiny.NormalAndTplot.NormalAndTplot <- function(x=NULL, ..., NT=attr(x, "call.li
 
   mu1display <- (!(is.null(mean1)||is.na(mean1)))
   xbardisplay <- (!(is.null(xbar)||is.na(xbar)))
-  mean1 <- if (mu1display) mean1 else mean0+2*sd  ## arbitrary value
-  xbar <- if (xbardisplay) xbar else mean0+1.8*sd ## arbitrary value
+  mean1 <- if (mu1display) mean1 else mean0+2*stderr  ## arbitrary value
+  xbar <- if (xbardisplay) xbar else mean0+1.8*stderr ## arbitrary value
 
   ExpressionOrText <- function(x) {
     if (is.character(x)) return(x)
@@ -119,12 +119,41 @@ shiny.NormalAndTplot.NormalAndTplot <- function(x=NULL, ..., NT=attr(x, "call.li
     xdp
   }
 
-  shinyApp(
+numericInput10 <-  ## this is from shiny '0.10.2.1'
+function (inputId, label, value, min = NA, max = NA, step = NA)
+{
+    inputTag <- tags$input(id = inputId, type = "number", value = formatNoSci(value))
+    if (!is.na(min))
+        inputTag$attribs$min = min
+    if (!is.na(max))
+        inputTag$attribs$max = max
+    if (!is.na(step))
+        inputTag$attribs$step = step
+    tagList(label %AND% tags$label(label, `for` = inputId), inputTag)
+}
+formatNoSci <-  ## this is from shiny '0.10.2.1'
+function (x)
+{
+    if (is.null(x))
+        return(NULL)
+    format(x, scientific = FALSE, digits = 15)
+}
+`%AND%` <-  ## this is from shiny '0.10.2.1'
+function (x, y)
+{
+    if (!is.null(x) && !is.na(x))
+        if (!is.null(y) && !is.na(y))
+            return(y)
+    return(NULL)
+}
+
+
+  shiny::shinyApp(
     ui =
-fluidPage(
+  shiny::fluidPage(
 
   ## Application title
-  titlePanel(title=NULL, windowTitle="NormalAndT-12"),
+  shiny::titlePanel(title=NULL, windowTitle="NormalAndT-12"),
 
   ## output
   plotOutput("distPlot", width="100%", height="575px"),
@@ -147,23 +176,23 @@ fluidPage(
   tags$head(tags$style(type="text/css", ".numericOverride {display: inline-block}",
                        "input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none;  margin: 0;}")),
 
-  tags$head(tags$style(type="text/css", "#ylim-hi          {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#digits-axis      {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#digits-float     {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#cex-table        {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#cex-z            {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#cex-prob         {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#cex-top-axis     {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#cex-main         {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#key-axis-padding {width: 20px; height: 15px}")),
-  tags$head(tags$style(type="text/css", "#position-2       {width: 28px; height: 15px}")),
+  tags$head(tags$style(type="text/css", "#ylim-hi          {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#digits-axis      {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#digits-float     {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-table        {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-z            {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-prob         {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-top-axis     {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-main         {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#key-axis-padding {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#position-2       {width: 38px; height: 25px}")),
 
   h6(
   ## fluidRow with a slider input and other inputs
-  fluidRow(
+  shiny::fluidRow(
     tabsetPanel(
       tabPanel("General",
-               column(6,
+               shiny::column(6,
                       radioButtons("Binomial", NULL, c("Normal and t"="NorT", "Normal Approximation to the Binomial"="Binom"), if (distribution.name == "binomial") "Binom" else "NorT", inline=TRUE),
                       radioButtons("HypOrConf", NULL, c("Hypothesis"="hypothesis", "Confidence"="confidence"), type, inline=TRUE),
                       radioButtons("NDF", NULL, c("Ignore df slider"="idfs", "Ignore n slider"="ins", "Honor both df and n sliders"="hon2"),
@@ -173,9 +202,9 @@ fluidPage(
                                           power.htest="idfs",
                                           binomial="idfs"), inline=TRUE)
                       ),
-               column(3,
+               shiny::column(3,
                       div(class="numericOverride", "ylim-hi",
-                          numericInput("ylim-hi",      NULL, if (distribution.name == "binomial") 5 else ylim[2], min=.01, step=.1)),
+                          numericInput10("ylim-hi",      NULL, if (distribution.name == "binomial") 5 else ylim[2], min=.01, step=.1)),
                       checkboxGroupInput("mu1xbar", NULL, c("Display mu[1]", "Display xbar"),
                                          c("Display mu[1]","Display xbar")[c(mu1display, xbardisplay)],
                                          inline = TRUE)
@@ -184,93 +213,94 @@ fluidPage(
                       ## ## div(class="radioInputOverride", NULL,
                       ## radioButtons("xbardisplay", NULL, c("display xbar"=TRUE, No=FALSE), xbardisplay, inline=TRUE) ##)
                       ),
-               column(3,
+               shiny::column(3,
                       div(class="sliderInputOverride", "alpha/conf: left, center, right",
-                          sliderInput("alpha", NULL,  0, 1, c(alpha.left, 1-alpha.right), .005, width="200px")),
+                          sliderInput("alpha", NULL,  0, 1, c(alpha.left, 1-alpha.right), .005, width="200px", sep="")),
                       div(class="sliderInputOverride", "n",
                           sliderInput("n", NULL, 1,
                                       150, ## if (NTmethod=="htest") 1.0001 else 100,
                                       n,
                                       1, ## if (NTmethod=="htest") .00005 else 1,
-                                      animate=list(interval=2000), width="150px"))
+                                      animate=list(interval=2000), width="150px", sep=""))
                       )
       ),
       tabPanel("Normal and t",
-               column(3,
+               shiny::column(3,
                       div(class="sliderInputOverride", "mu[0]",
-                          sliderInput("mu0", NULL, mean0-50*diff.xlim, mean0+50*diff.xlim, mean0, diff.xlim, width="150px")),
+                          sliderInput("mu0", NULL, mean0-50*diff.xlim, mean0+50*diff.xlim, mean0, diff.xlim, width="150px", sep="")),
                       div(class="sliderInputOverride", "mu[a]",
-                          sliderInput("mu1", NULL, mean1-50*diff.xlim, mean1+50*diff.xlim, mean1, diff.xlim, animate=list(interval=2000), width="150px"))
+                          sliderInput("mu1", NULL, mean1-50*diff.xlim, mean1+50*diff.xlim, mean1, diff.xlim, animate=list(interval=2000), width="150px", sep=""))
                      ),
-               column(3,
+               shiny::column(3,
                       div(class="sliderInputOverride", paste("w=",x.xx, sep=""),
-                          sliderInput("xbar", NULL, xbar-50*diff.xlim, xbar+50*diff.xlim, xbar, diff.xlim, animate=list(interval=2000), width="150px")),
-                      div(class="sliderInputOverride", "xlim", sliderInput("xlim", NULL, xlim.potential[1], xlim.potential[2], xlim.initial, 5*diff.xlim, width="150px"))
+                          sliderInput("xbar", NULL, xbar-50*diff.xlim, xbar+50*diff.xlim, xbar, diff.xlim, animate=list(interval=2000), width="150px", sep="")),
+                      div(class="sliderInputOverride", "xlim", sliderInput("xlim", NULL, xlim.potential[1], xlim.potential[2], xlim.initial, 5*diff.xlim, width="150px", sep=""))
                       ),
-               column(3,
+               shiny::column(3,
                       div(class="sliderInputOverride", "log(sd, 10)", ##: log(sd/3)--log(sd*3)",
-                          sliderInput("logsd", NULL, -.5+logsd, .5+logsd, 0+logsd, .1, animate=list(interval=2000), width="150px")), ## br(),
+                          sliderInput("logsd", NULL, -.5+logsd, .5+logsd, 0+logsd, .1, animate=list(interval=2000), width="150px", sep="")),  br(),
                       paste(c("sd: lo","init","hi"), signif(10^(c(-.5+logsd, logsd, .5+logsd)), digits=3), sep="=", collapse=" "), br(), br()
                       ),
-               column(3,
+               shiny::column(3,
                       div(class="sliderInputOverride", "df (0=normal)",
-                          sliderInput("df", NULL, 0, 200, df, 1, animate=list(interval=2000), width="150px"))
+                          sliderInput("df", NULL, 0, 200, df, 1, animate=list(interval=2000), width="150px", sep=""))
                       )
                ),
       tabPanel("Normal approximation to the Binomial",
-               column(4,
+               shiny::column(4,
                       div(class="sliderInputOverride", "p[0]",
-                          sliderInput("p0", NULL, 0, 1, .5, .01, width="150px")),
+                          sliderInput("p0", NULL, 0, 1, .5, .01, width="150px", sep="")),
                       div(class="sliderInputOverride", "p[1]",
-                          sliderInput("p1", NULL, 0, 1, .8, .01, animate=list(interval=2000), width="150px"))
+                          sliderInput("p1", NULL, 0, 1, .8, .01, animate=list(interval=2000), width="150px", sep=""))
                      ),
-               column(4,
+               shiny::column(4,
                       div(class="sliderInputOverride", "p.hat",
-                          sliderInput("p-hat", NULL, 0, 1, .75, .01, animate=list(interval=2000), width="150px"))
+                          sliderInput("p-hat", NULL, 0, 1, .75, .01, animate=list(interval=2000), width="150px", sep=""))
                      ),
-               column(4,
+               shiny::column(4,
                       div(class="sliderInputOverride", "xlimBinomial",
-                          sliderInput("xlimBinomial", NULL, 0, 1, c(0,1), .1, width="150px"))
+                          sliderInput("xlimBinomial", NULL, 0, 1, c(0,1), .1, width="150px", sep=""))
                       )
                ),
       tabPanel("Display Options",
-               column(5,
-                      checkboxGroupInput("displays", NULL, c("Power", "Beta", "Table", "Call", "z axes"), c("Power","Table"), inline=TRUE)
+               shiny::column(5,
+                      checkboxGroupInput("displays", NULL, c("Power", "Beta", "Table", "Call", "z axes"),
+                                         c("Power"[NT$power], "Beta"[NT$beta], "Table"), inline=TRUE)
                       ),
-               column(4,
+               shiny::column(4,
                       checkboxGroupInput("probs", NULL, c("Prob values on Graph"="Values","Labels"), c("Values","Labels"), inline=TRUE)
                       ),
-               column(3,
+               shiny::column(3,
                       radioButtons("ntcolors", NULL, c("Original Colors"="original", Stoplight="stoplight"), ntcolors, inline=TRUE)## ,
                       )),
       tabPanel("Fonts",
-               column(2,
+               shiny::column(2,
                       div(class="numericOverride", "digits-axis",
-                          numericInput("digits-axis",      NULL,  digits,   min=1,  step=1)),  br(),
+                          numericInput10("digits-axis",      NULL,  digits,   min=1,  step=1)),  br(),
                       div(class="numericOverride", "digits-float",
-                          numericInput("digits-float",     NULL,  digits,   min=1,  step=1)),  br()
+                          numericInput10("digits-float",     NULL,  digits,   min=1,  step=1)),  br()
                       ),
-               column(2,
+               shiny::column(2,
                       div(class="numericOverride", "cex-top-axis",
-                          numericInput("cex-top-axis",     NULL,  1,   min=.1, step=.1)), br(),
+                          numericInput10("cex-top-axis",     NULL,  1,   min=.1, step=.1)), br(),
                       div(class="numericOverride", "cex-prob",
-                          numericInput("cex-prob",         NULL,  cex.prob,   min=.1, step=.1)), br()
+                          numericInput10("cex-prob",         NULL,  cex.prob,   min=.1, step=.1)), br()
                       ),
-               column(2,
+               shiny::column(2,
                       div(class="numericOverride", "cex-z",
-                          numericInput("cex-z",            NULL, cex.z,   min=.1, step=.1)), br(),
+                          numericInput10("cex-z",            NULL, cex.z,   min=.1, step=.1)), br(),
                       div(class="numericOverride", "cex-table",
-                          numericInput("cex-table",        NULL,  1.2, min=.1, step=.1)), br()
+                          numericInput10("cex-table",        NULL,  1.2, min=.1, step=.1)), br()
                       ),
-               column(2,
+               shiny::column(2,
                       div(class="numericOverride", "cex-main",
-                          numericInput("cex-main",         NULL,  1.6, min=.1, step=.1)), br()
+                          numericInput10("cex-main",         NULL,  1.6, min=.1, step=.1)), br()
                       ),
-               column(3,
+               shiny::column(3,
                       div(class="numericOverride", "key-axis-padding",
-                          numericInput("key-axis-padding", NULL,  7,   min=.1, step=.1)), br(),
+                          numericInput10("key-axis-padding", NULL,  7,   min=.1, step=.1)), br(),
                       div(class="numericOverride", "position.2",
-                          numericInput("position-2",        NULL,  .17, min=.1, step=.1)), br()
+                          numericInput10("position-2",        NULL,  .17, min=.1, step=.1)), br()
                       ))
     )
   )))

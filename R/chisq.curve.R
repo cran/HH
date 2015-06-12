@@ -4,7 +4,7 @@
            log.p=FALSE,
            xlim.in=c(0, qchisq.intermediate(p=1-.01, df=df, ncp=ncp, log.p=log.p)),
            ylim.in=range(c(0, 1.1*dchisq.intermediate(x=seq(max(0.5,df-2),df+2,.01), df=df, ncp=ncp, log=log.p))),
-           main.in=main.calc,
+           main.in=main.calc, ylab.in="Chisq density",
            ...) {
     main.calc <- parse(text=
                          paste("Chisq~density: ~~ nu==", df,
@@ -17,7 +17,7 @@
          yaxt="n", type="n",
          las=1,
          xlab="",
-         ylab="Chisq density",
+         ylab=ylab.in,
          main=main.in,
          ...)
     abline(h=0, v=0)

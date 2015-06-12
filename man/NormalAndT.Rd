@@ -4,7 +4,6 @@
 \alias{NTplot.htest}
 \alias{NTplot.power.htest}
 \alias{NTplot.NormalAndTplot}
-\alias{shiny}
 \title{Specify plots to illustrate Normal and t Hypothesis Tests or
   Confidence Intervals, including normal approximation to the binomial.}
 \description{Specify plots to illustrate Normal and t Hypothesis Tests
@@ -56,7 +55,7 @@ NTplot(mean0, ...)
   }
   }
 \details{
-Thea graphs produced by this single function cover most of the first semester
+The graphs produced by this single function cover most of the first semester
 introductory Statistics course.
 All options of the \code{t.test}, \code{power.t.test}, and \code{z.test}
 are accepted and displayed.
@@ -121,6 +120,8 @@ does it for you.
   This version incorporates some ideas suggested by Moritz Heene.
 }
 \keyword{ hplot }
+\keyword{shiny}
+
 \examples{
 x1 <- rnorm(12)
 x2 <- rnorm(12, mean=.5)

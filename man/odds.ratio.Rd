@@ -19,6 +19,8 @@ plotOddsRatio(x,
               xlab="prob(col1 | row2)",
               alpha=c(.50, .05),
               col=trellis.par.get("superpose.line")$col,
+              lwd=trellis.par.get("superpose.line")$lwd,
+              lwd.reference=1,
               ...)
 
 plotOddsRatio.base(x,
@@ -36,8 +38,9 @@ plotOddsRatio.base(x,
     [0,1] and draws confidence lines at each value.}  \item{xlab,
     ylab}{x- and y-labels for the plot  Sensible defaults are
     generated.}
-  \item{col}{Colors to be used in the graph.}
-  \item{\dots}{other arguments, currently ignored. }
+  \item{col, lwd}{Colors and linewidths to be used in the graph.}
+  \item{lwd.reference}{linewidth for reference line.}
+  \item{\dots}{other arguments, currently ignored.}
   \item{legend.x}{x position of left-hand side of legend.}
   \item{oma}{outer margin \code{par()$oma}, needed to make room for legend. }
 }

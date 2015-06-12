@@ -19,6 +19,7 @@ shinyServer(function(input, output) {
       xyplot(y() ~ dataset()$x, aspect="iso",
              xlim=maxabs, ylim=maxabs, scales=list(at=c(-2,0,2)),
              xlab="x", ylab=list("y", rot=0),
-             main=as.expression(substitute(rho == r, c(alist(rho=rho), list(r=input$rho)))))
+             main=as.expression(substitute(rho == r, c(alist(rho=rho), list(r=input$rho)))),
+             pch=19, cex=1.3, col="blue")
     })
 })

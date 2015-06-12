@@ -118,15 +118,15 @@ as.data.frame.listOfNamedMatrices <- function(x, ...) {
   warning(paste("##", xName, "is a 'listOfNamedMatrices' and will not be converted to a data.frame."),
           call.=FALSE)
 ## recover()
-if (sys.nframe() > 10) { ## inside Rcmdr
-  Rcmdr::doItAndPrint(paste("##", xName, "remains a 'listOfNamedMatrices'.
-It's items are not variables in a data.frame.
-You may ignore the messages:
-in the Rcmdr Messages Window:
-  ERROR: the dataset", xName, "is no longer available.
-in the R Console:
-  Error in get(dataSet, envir = .GlobalEnv) : invalid first argument."))
-}
+## ## if (sys.nframe() > 10) { ## inside Rcmdr
+## ##   Rcmdr::doItAndPrint(paste("##", xName, "remains a 'listOfNamedMatrices'.
+## ## It's items are not variables in a data.frame.
+## ## You may ignore the messages:
+## ## in the Rcmdr Messages Window:
+## ##   ERROR: the dataset", xName, "is no longer available.
+## ## in the R Console:
+## ##   Error in get(dataSet, envir = .GlobalEnv) : invalid first argument."))
+## ## }
 ## options(old.warn)
   x
 }

@@ -44,14 +44,14 @@ shinyUI(fluidPage(
                column(3,
                       ## radioButtons("distribution.name", NULL,  c("normal","t"), "normal", inline=TRUE),
                       div(class="sliderInputOverride", "mu[0]",
-                          sliderInput("mu0", NULL, -10, 10, 0, .1, width="150px")),
+                          sliderInput("mu0", NULL, -10, 10, 0, .1, width="150px", sep="")),
                       div(class="sliderInputOverride", "mu[1]",
-                          sliderInput("mu1", NULL, -10, 10, 2.5, .1, animate=list(interval=2000), width="150px")),
+                          sliderInput("mu1", NULL, -10, 10, 2.5, .1, animate=list(interval=2000), width="150px", sep="")),
                       div(class="sliderInputOverride", "xbar",
-                          sliderInput("xbar", NULL, -10, 10, 2.1, .1, animate=list(interval=2000), width="150px"))
+                          sliderInput("xbar", NULL, -10, 10, 2.1, .1, animate=list(interval=2000), width="150px", sep=""))
                       ),
                column(3,
-                      div(class="sliderInputOverride", "xlim", sliderInput("xlim", NULL, -15, 15, c(-3, 5), .5, width="150px")),
+                      div(class="sliderInputOverride", "xlim", sliderInput("xlim", NULL, -15, 15, c(-3, 5), .5, width="150px", sep="")),
                       div(class="numericOverride", "ylim-hi",
                           numericInput("ylim-hi",      NULL, .4, min=.01, step=.1)),
                       ## div(class="radioInputOverride", NULL,
@@ -61,15 +61,15 @@ shinyUI(fluidPage(
                       ),
                column(3,
                       div(class="sliderInputOverride", "alpha/conf: left, center, right",
-                          sliderInput("alpha", NULL,  0, 1, c(0, .95), .005, width="200px")),
+                          sliderInput("alpha", NULL,  0, 1, c(0, .95), .005, width="200px", sep="")),
                       div(class="sliderInputOverride", "s/sigma",
-                          sliderInput("stddev", NULL, .1, 10, 1, .1, animate=list(interval=2000), width="150px"))
+                          sliderInput("stddev", NULL, .1, 10, 1, .1, animate=list(interval=2000), width="150px", sep=""))
                       ),
                column(3,
                       div(class="sliderInputOverride", "df (0=normal)",
-                          sliderInput("df", NULL, 0, 40, 0, 1, animate=list(interval=2000), width="150px")),
+                          sliderInput("df", NULL, 0, 40, 0, 1, animate=list(interval=2000), width="150px", sep="")),
                       div(class="sliderInputOverride", "n",
-                          sliderInput("n", NULL, 1, 100, 1, 1, animate=list(interval=2000), width="150px"))
+                          sliderInput("n", NULL, 1, 100, 1, 1, animate=list(interval=2000), width="150px", sep=""))
                       ## sliderInput("alpha.right", "alpha[right]", 0, .50, .05, .005),
                       ## sliderInput("alpha.left", "alpha[left]",  0, .50, .0, .005)
                       ## numericInput("ylim.lo", "ylim.lo",  0),

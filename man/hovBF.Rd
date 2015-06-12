@@ -9,8 +9,9 @@ Homogeneity of Variance:  Brown--Forsyth method
 Homogeneity of Variance:  Brown--Forsyth method
 }
 \usage{
-hovBF(x, data = sys.parent(), ...)
-hovplotBF(x, data, ..., main = "Brown-Forsyth Homogeneity of Variance", plotmath = TRUE)
+hovBF(x, data = sys.parent(), ..., na.rm = TRUE)
+hovplotBF(x, data, ..., na.rm = TRUE,
+          main = "Brown-Forsyth Homogeneity of Variance", plotmath = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,6 +24,8 @@ Model formula with one response variable and one factor.
   \item{\dots}{
 Other arguments. \code{hovplotBF} sends them on to the panel function. \code{hovBF} ignores them.
 }
+\item{na.rm}{A logical value indicating whether 'NA' values should be
+          stripped before the computation proceeds. See \code{\link[stats]{median}}.}
   \item{main}{
 \code{main} title for the plot.
 }

@@ -221,7 +221,8 @@ panel.ancova.superpose <-
            groups.cc.incompatible,
            plot.resids=FALSE,
            print.resids=FALSE,
-           mean.x.line=FALSE) {
+           mean.x.line=FALSE,
+           col.mean.x.line="gray80") {
 
     gc <- groups
 
@@ -248,7 +249,7 @@ panel.ancova.superpose <-
         if (print.resids)
           cat(panel.number(), y-(intercept[panel.number()] + slope[panel.number()]*x), "\n")
         if (is.numeric(mean.x.line))
-          panel.abline(v=mean.x.line, lty=2, col="gray80")
+          panel.abline(v=mean.x.line, lty=2, col=col.mean.x.line)
       }
     }
 

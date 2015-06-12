@@ -242,29 +242,29 @@ aeReshapeToLong <- function(aewide) {
   aelong[as.vector(outer(c(0,n), 1:n, "+")), ]
 }
 
-if (FALSE)  ## aeReshapeToLongR uses reshape and works only in R.
-  if.R(r=
-       aeReshapeToLongR <- function(aewide) {
-         aewide$PREF<- ordered(aewide$Event, rev(aewide$Event))
-         aelong$Event <- NULL
-         if (! "PCT.A" %in% names(aewide))
-           aewide$PCT.A <- aewide$AE.A / aewide$N.A
-         if (! "PCT.B" %in% names(aewide))
-           aewide$PCT.B <- aewide$AE.B / aewide$N.B
-         aelong <- reshape(aewide, v.names=c("SN","SAE","PCT"),
-                           varying=list(
-                             c("N.A", "N.B"),
-                             c("AE.A", "AE.B"),
-                             c("PCT.A", "PCT.B")),
-                           idvar="PREF",
-                           timevar="RAND",
-                           times=factor(c("A","B")),
-                           direction="long")
-         n <- nrow(aewide)
-         aelong[as.vector(outer(c(0,n), 1:n, "+")), ]
-       }
-       ,s={})
-
+## if (FALSE)  ## aeReshapeToLongR uses reshape and works only in R.
+##   if.R(r=
+##        aeReshapeToLongR <- function(aewide) {
+##          aewide$PREF<- ordered(aewide$Event, rev(aewide$Event))
+##          aelong$Event <- NULL
+##          if (! "PCT.A" %in% names(aewide))
+##            aewide$PCT.A <- aewide$AE.A / aewide$N.A
+##          if (! "PCT.B" %in% names(aewide))
+##            aewide$PCT.B <- aewide$AE.B / aewide$N.B
+##          aelong <- reshape(aewide, v.names=c("SN","SAE","PCT"),
+##                            varying=list(
+##                              c("N.A", "N.B"),
+##                              c("AE.A", "AE.B"),
+##                              c("PCT.A", "PCT.B")),
+##                            idvar="PREF",
+##                            timevar="RAND",
+##                            times=factor(c("A","B")),
+##                            direction="long")
+##          n <- nrow(aewide)
+##          aelong[as.vector(outer(c(0,n), 1:n, "+")), ]
+##        }
+##        ,s={})
+##
 
 ae.dotplot <- function(ae, ...) {
   if (!("PREF" %in% names(ae)))

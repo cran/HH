@@ -158,7 +158,7 @@ interaction2wt.default <-
            between,
            scales=scales.input,
            xaxs="e",
-           prepanel=function(x,y) list(xlim=range(x)+c(-1,1)*.1*range(x)),
+           prepanel=function(x,y) list(xlim=range(factor.position)+c(-.5,.5)), ##range(x)+c(-1,1)*.1*range(x)),
            panel=panel.input,
            strip=strip.input,
            par.strip.text=par.strip.text.input,
@@ -210,6 +210,8 @@ interaction2wt.default <-
                         lines=Rows(
                           trellis.par.get("superpose.line"),
                           seq(length(factor.levels[[trace.id]]))))
+        pssl.lwd <- list(...)$par.settings$superpose.line$lwd
+        if (!is.null(pssl.lwd)) keylist$lines$lwd[] <- pssl.lwd
         keys[[trace.id]] <- draw.key(keylist, draw=FALSE)
 
         if (simple) {

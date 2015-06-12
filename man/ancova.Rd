@@ -30,12 +30,13 @@ ancova(formula, data.in = NULL, ...,
        superpose.level.name = "superpose",
        ignore.groups = FALSE, ignore.groups.name = "ignore.groups",
        blocks, blocks.pch = letters[seq(levels(blocks))],
-       layout, between, main)
+       layout, between, main,
+       pch=trellis.par.get()$superpose.symbol$pch)
 
 panel.ancova(x, y, subscripts, groups,
  transpose = FALSE, ...,
  coef, contrasts, classes,
- ignore.groups, blocks, blocks.pch, blocks.cex)
+ ignore.groups, blocks, blocks.pch, blocks.cex, pch)
 
 ## The following are ancova methods for generic functions.
 \method{anova}{ancova}(object, ...)
@@ -84,6 +85,7 @@ command that draws the graph.  This is strictly for debugging the
   groups together with a common regression line is displayed.}
   \item{ignore.groups.name}{Name used in strip label for
     \code{ignore.groups} panel.}
+  \item{pch}{Plotting character for groups.}
   \item{blocks}{Additional factor used to label points in the panels.}
   \item{blocks.pch}{Alternate set of labels used when a \code{blocks}
     factor is specified.}

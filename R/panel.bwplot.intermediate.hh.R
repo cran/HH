@@ -17,8 +17,10 @@ function (x, y,
                   box.umbrella=trellis.par.get("box.umbrella"),
                   plot.symbol=trellis.par.get("plot.symbol"))
   old.box.par <- box.par
+  on.exit(trellis.par.set(old.box.par))
   tpg <- trellis.par.get("superpose.line")
   tpg.col <- rep(tpg$col, length=length(fac.levels))
+  if (!missing(pch)) pch <- rep(pch, length=length(fac.levels))
   if (!missing(col)) tpg.col <- rep(col, length=length(fac.levels))
 
   for (i in seq(along=fac.levels)) {
@@ -42,5 +44,4 @@ function (x, y,
       panel.bwplot(ii, yx, horizontal=horizontal, ...)
     }
   }
-  trellis.par.set(old.box.par)
 }

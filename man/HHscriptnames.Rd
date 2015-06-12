@@ -15,7 +15,7 @@ WindowsPath(x, display=TRUE)
 \arguments{
   \item{chapternumbers}{A number or letter name for a chapter in the HH
     book.  For the Second edition, the valid values are from the set
-    \code{c(1:20, LETTERS[1:12])}.
+    \code{c(1:18, LETTERS[1:15])}.
     For the First edition, the valid values are from the set
     \code{c(1:18)}.
     The argument may be a vector of one or more items.
@@ -49,7 +49,7 @@ function also prints at the console the pathnames with a single
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in R}, Second Edition.
  Springer Texts in Statistics. Springer.
- ISBN x-xxx-xxxxx-x.
+ ISBN 978-1-4939-2121-8.
   Heiberger, Richard M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}, First Edition.
@@ -69,7 +69,7 @@ function also prints at the console the pathnames with a single
   HHscriptnames("H")
   HHscriptnames("RApx")
 
-  HHscriptnames(c(1:20, LETTERS[1:12]))
+  HHscriptnames(c(1:18, LETTERS[1:15]))
 
   ## with Windows pathname separators
   WindowsPath(HHscriptnames())

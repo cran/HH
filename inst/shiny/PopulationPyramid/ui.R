@@ -13,7 +13,7 @@ shinyUI(pageWithSidebar(
     # Animation with custom interval (in ms) to control speed, plus looping
     sliderInput("year", "Year:",
                 min=1900, max=1970, value=1900,
-                format="####",
+                sep="",
                 animate=animationOptions(interval=1000, loop=TRUE))
     ),
 

@@ -10,7 +10,8 @@
 }
 \description{
 Support software for \emph{Statistical Analysis and Data
-        Display} (Springer, ISBN 0-387-40270-5).  This contemporary
+        Display} (First Edition, Springer, ISBN 0-387-40270-5, 2004) and
+        (Second Edition, Springer, ISBN 978-1-4939-2121-8, anticipated 2015).  This contemporary
         presentation of statistical methods features extensive use of
         graphical displays for exploring data and for displaying the
         analysis. The authors demonstrate how to analyze data---showing
@@ -43,9 +44,14 @@ Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
 }
 \references{
-Heiberger, Richard M. and Holland, Burt (2004b).
+  Heiberger, Richard M. and Holland, Burt (anticipated 2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
+  with Examples in R}, Second Edition.
+ Springer Texts in Statistics. Springer.
+ ISBN 978-1-4939-2121-8.
+  Heiberger, Richard M. and Holland, Burt (2004).
+\emph{Statistical Analysis and Data Display: An Intermediate Course
+  with Examples in S-Plus, R, and SAS}, First Edition.
  Springer Texts in Statistics. Springer.
  ISBN 0-387-40270-5.
 }
@@ -64,28 +70,33 @@ Heiberger, Richard M. and Holland, Burt (2004b).
 \keyword{htest}
 \keyword{design}
 \keyword{ts}
+\keyword{shiny}
 \seealso{
   \code{\link{ancovaplot}},
-    \code{\link{ci.plot}},
-    \code{\link{interaction2wt}},
-    \code{\link{ladder}},
-    \code{\link{case.lm}},
-    \code{\link{NTplot}} for Normal and \eqn{t} plots,
-    \code{\link{hov}},
-    \code{\link{resid.squares}},
-    \code{\link{MMC}},
-    %% \code{\link{xysplom}},
-    \code{\link{AEdotplot}}
-    \code{\link{likert}}
+  \code{\link{ci.plot}},
+  \code{\link{interaction2wt}},
+  \code{\link{ladder}},
+  \code{\link{case.lm}},
+  \code{\link{NTplot}} for Normal and \eqn{t} plots,
+  \code{\link{hov}},
+  \code{\link{resid.squares}},
+  \code{\link{MMC}},
+  %% \code{\link{xysplom}},
+  \code{\link{AEdotplot}},
+  \code{\link{likert}},
+  \code{\link{tsacfplots}},
+  \code{\link{tsdiagplot}}
+
+  \code{demo(package="HH")}
 }
+
 \examples{
-## interaction2wt()
-## multicomp.mmc()  ## S-Plus
-## mmc()       ## R
-## ancova()
-## xysplom()
-## plot.case()
-## bwplot() ## with position
-## tsacfplots()     ## at this writing, only S-Plus
-## tsdiagplot()     ## at this writing, only S-Plus
+## In addition to the examples for each function,
+## there are four interactive shiny apps in the HH package:
+\dontrun{
+NTplot(mean0=0, mean1=1, shiny=TRUE)
+shiny::runApp(file.path(system.file(package="HH"), "shiny/bivariateNormal"))
+shiny::runApp(system.file("shiny/bivariateNormalScatterplot", package="HH"))
+shiny::runApp(system.file("shiny/PopulationPyramid", package="HH"))
+}
 }

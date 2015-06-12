@@ -82,8 +82,8 @@ diagQQ <- function(lm.object, ...) {
          ylab="Residuals",
          ylab.right="",
          pch=19,
-         panel=function(...) {
-           panel.qqmath( ...)
+         panel=function(..., col=col) {
+           panel.qqmath( ..., col=col)
            panel.qqmathline(..., lty=3, col="gray50")
          },
          ...

@@ -1,4 +1,4 @@
-hovplotBF <- function(x, data, ...,
+hovplotBF <- function(x, data, ..., na.rm=TRUE,
                       main="Brown-Forsyth Homogeneity of Variance",
                       plotmath=TRUE) {
   lPF <- latticeParseFormula(x, data=data)
@@ -7,7 +7,7 @@ hovplotBF <- function(x, data, ...,
   y.name <- lPF$left.name
   group.name <- lPF$right.name
 
-  y.median <- tapply(y, group, median)
+  y.median <- tapply(y, group, median, na.rm=na.rm)
   y.minus.median <- y - y.median[group]
 
   ## panel.hovnew ignores user-specified groups
@@ -42,14 +42,14 @@ hovplotBF <- function(x, data, ...,
 
 
 
-hovBF <- function(x, data=sys.parent(), ...) {
+hovBF <- function(x, data=sys.parent(), ..., na.rm=TRUE) {
   lPF <- latticeParseFormula(x, data=data)
   y <- lPF$left
   group <- lPF$right
   y.name <- lPF$left.name
   group.name <- lPF$right.name
 
-  y.median <- tapply(y, group, median)
+  y.median <- tapply(y, group, median, na.rm=na.rm)
   y.minus.median <- y - y.median[group]
 
   hov.test <- summary(aov(abs(y.minus.median) ~ group))[[1]]

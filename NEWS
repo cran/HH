@@ -1,5 +1,62 @@
+Version 3.1-19
+--------------
+
+* 2015 Jun 10
+
+* rename functions to showBin and showHex, instead of as.bin and as.hex
+
+* sent to CRAN
+
+
+Version 3.1-18
+--------------
+
+* 2015 Jun 05
+
+* demo(book.plots) removed.
+
+* add optional ylab argument to F.setup and chisq.setup.
+
+* minor fixes to make all book examples work smoothly
+
+* repair pch in ancova() function
+
+
+Version 3.1-17
+--------------
+
+* 2015 May 25
+
+* simplify help("interaction2wt") to pure R by removing S-Plus options.
+
+* Add new as.hex and as.bin and related functions.  These build on mpfr.
+
+* NTplot didn't always work when mean1=NA.  Now repaired.
+
+* posted development version to my website because it is ok with R-3.1.2 but not with R-3.2.0 or later.
+
+
+Version 3.1-16
+--------------
+
+* 2015 March 23
+
+* Add noop versions of hhpng and hhlatex
+  (needed for HH2 script files)
+
+* panel.bwplot.intermediate.hh: make pch a vector if it isn't,
+  on.exit() instead of manual recovery of trellis.par parameters.
+
+* adjust residual.plots.lattice scaling.
+
+* hovBF and hovplotBF: add argument na.rm=TRUE
+
+* post on my website for use by invitation
+
+
+
 Version 3.1-15
--------------
+--------------
 
 * 2015 February 12
 
@@ -39,9 +96,11 @@ Version 3.1-15
 
 * add and emphasize mmc(focus="A") example to ?mmc
 
+* Published on CRAN 2015 February 16
+
 
 Version 3.1-14
--------------
+--------------
 
 * 2015 January 8
 
@@ -54,7 +113,7 @@ Version 3.1-14
 
 
 Version 3.1-13
--------------
+--------------
 
 * 2015 January 7
 
@@ -68,7 +127,7 @@ Version 3.1-13
 
 
 Version 3.1-12
--------------
+--------------
 
 * 2015 January 4
 
@@ -83,7 +142,7 @@ Version 3.1-12
 
 
 Version 3.1-11
--------------
+--------------
 
 * 2014 December 29
 
@@ -95,7 +154,7 @@ Version 3.1-11
 
 
 Version 3.1-10
--------------
+--------------
 
 * 2014 December 23
 

@@ -95,11 +95,16 @@ aovSufficient,
 arima.diag.hh,
 arima.model,
 arma.loop,
+## as.bin,
 as.MatrixList,
 as.glht,
+## as.hex,
 as.likert,
 as.likertDataFrame,
 as.listOfNamedMatrices,
+## as.mpfr.bin,
+## as.mpfr.binshift,
+## as.mpfr.hex,
 as.multicomp,
 as.position,
 as.positioned,
@@ -137,7 +142,9 @@ grid.yaxis.hh,
 hh,
 hh.file,
 hh.file.DOS,
+hhlatex,
 hhpdf,
+hhpng,
 hhdev.off,
 hhcapture,
 hhcode,
@@ -171,6 +178,7 @@ likertColorBrewer,
 likertMosaic,
 lm.regsubsets,
 lmatContrast,
+lmatPairwise,
 lmatRows,
 lmplot,
 logit,
@@ -255,6 +263,9 @@ scaleLocation,
 seqplot,
 seqplotForecast,
 ## shiny.NTplotplot,
+showBin,
+showHex,
+showHexInternal,
 strip.background0,
 strip.ladder,
 sufficient,
@@ -323,8 +334,16 @@ S3method(as.listOfNamedMatrices, matrix)
 S3method(as.listOfNamedMatrices, MatrixList)
 S3method(as.listOfNamedMatrices, array)
 S3method(as.listOfNamedMatrices, list)
+## S3method(as.matrix, hex)
+## S3method(as.matrix, bin)
 S3method(as.matrix, listOfNamedMatrices)
+## S3method(as.mpfr, bin)
+## S3method(as.mpfr, binshift)
+## S3method(as.mpfr, hex)
 S3method(as.multicomp, glht)
+## S3method(as.numeric, bin)
+## S3method(as.numeric, binshift)
+## S3method(as.numeric, hex)
 S3method(as.numeric, positioned)
 S3method(as.vector, trellis)
 S3method(case, lm)
@@ -345,6 +364,10 @@ S3method(likertMosaic, default)
 S3method(likertMosaic, formula)
 S3method(likertMosaic, list)
 S3method(likertMosaic, matrix)
+S3method(lmatPairwise, matrix)
+S3method(lmatPairwise, glht)
+S3method(lmatPairwise, mmc.multicomp)
+S3method(lmatPairwise, mmc)
 S3method(lmatRows, glht)
 S3method(lmatRows, lm)
 S3method(lmatRows, mmc.multicomp)
@@ -390,6 +413,8 @@ S3method(print, arma.loop)
 S3method(print, arma.loop.list)
 S3method(print, cp.object)
 ## S3method(print, glht.mmc.multicomp)
+## S3method(print, bin)
+## S3method(print, hex)
 S3method(print, latticeresids)
 S3method(print, listOfNamedMatrices)
 S3method(print, mmc.multicomp)
@@ -453,11 +478,17 @@ importFrom(colorspace, diverge_hcl, sequential_hcl)
 
 importFrom(multcomp, glht, contrMat, mcp)
 
-importFrom(Rcmdr, doItAndPrint)
+## importFrom(Rcmdr, doItAndPrint)
 
 import(lattice, latticeExtra, grid, gridExtra)
 
 import(shiny)
+
+importFrom(Hmisc, latex)
+
+importFrom(abind, abind)
+
+importFrom(Rmpfr, mpfr)
 
 ## problems that I am working around with functions in file
 ## R/workarounds.R

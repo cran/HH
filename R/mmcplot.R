@@ -1,7 +1,8 @@
 mmcplot <- function (mmc, ...)
-UseMethod("mmcplot")
+  UseMethod("mmcplot")
 
-mmcplot.mmc <- function(mmc, ...,
+
+mmcplot.mmc <- function(mmc, col=col, lwd=lwd, lty=lty, ...,
                         style=c("isomeans", "confint", "both"),
                         type=c("mca", "lmat", "linfct", "none")) {
   style <- match.arg(style)
@@ -10,22 +11,22 @@ mmcplot.mmc <- function(mmc, ...,
     type <- "lmat"
   if (type %in% c("mca", "lmat"))
     switch(style,
-           isomeans=mmcisomeans(mmc, type=type, ...),
-           confint=mmcmatch(mmc, type=type, ...),
-           both=mmcboth(mmc, type=type, ...))
+           isomeans=mmcisomeans(mmc, col=col, lwd=lwd, lty=lty, type=type, ...),
+           confint=mmcmatch(mmc, col=col, lwd=lwd, lty=lty, type=type, ...),
+           both=mmcboth(mmc, col=col, lwd=lwd, lty=lty, type=type, ...))
   else
     ## mmcglht(mmc[[type]], ...)
-    mmcmatch(mmc, type=type, ...)
+    mmcmatch(mmc, type=type, col=col, lwd=lwd, lty=lty, ...)
 }
 
-mmcplot.glht <- function(mmc, ...)
-  mmcmatch(as.multicomp(mmc, ...), ..., xlim.match=FALSE)
+mmcplot.glht <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), focus=stop("Please specify 'focus='.", call.=FALSE ), ...)
+  mmcmatch(as.multicomp.glht(mmc, focus=focus, ...), col=col, lwd=lwd, lty=lty, ..., xlim.match=FALSE)
 
-mmcplot.mmc.multicomp <- function(mmc, ...)
-  mmcplot.mmc(mmc, ..., mmc.object.name=deparse(substitute(mmc)))
+mmcplot.mmc.multicomp <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
+  mmcplot.mmc(mmc, col=col, lwd=lwd, lty=lty, ..., mmc.object.name=deparse(substitute(mmc)))
 
-mmcplot.multicomp <- function(mmc, ...)
-  mmcmatch(mmc, ..., xlim.match=FALSE)
+mmcplot.multicomp <- function(mmc, col=col, lwd=lwd, lty=lty, ...)
+  mmcmatch(mmc, col=col, lwd=lwd, lty=lty, ..., xlim.match=FALSE)
 
 ## mmcplot.multicomp.hh <- function(mmc, ...)
 ##   mmcmatch(mmc, ..., xlim.match=FALSE)
@@ -35,7 +36,7 @@ mmcplot.default <- function(mmc, ...)
 
 
 
-mmcisomeans <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
+mmcisomeans <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, ylim=NULL, ...,
                         axis.right=2.2,
                         ylab=paste(
                           mmc$none$ylabel, "means",
@@ -85,7 +86,7 @@ mmcisomeans <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
          upper=tmp$upper,
          contrast.name=tmp$contrast.name,
          par.settings=list(clip=list(panel=FALSE), layout.widths=list(axis.right=axis.right)),
-         col=c("black","red"), lty=c(2,1),
+         col=col, lwd=lwd, lty=lty,
          scales=list(y=list(at=means, tck=c(TRUE, FALSE))),
          xlim=xlim,
          ylim=ylim,
@@ -108,7 +109,7 @@ mmcisomeans <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
 }
 
 
-mmcmatch <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
+mmcmatch <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, ylim=NULL, ...,
                      axis.right=2.2,
                      ylab=NULL,
                      ylab.right=NULL,
@@ -170,7 +171,7 @@ mmcmatch <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
          upper=tmp$upper,
          contrast.name=tmp$contrast.name,
          par.settings=list(clip=list(panel=FALSE), layout.widths=list(axis.right=axis.right)),
-         col=c("black","red"), lty=c(2,1),
+         col=col, lwd=lwd, lty=lty,
          ## scales=list(y=list(alternating=0, at=NULL)),
          scales=list(y=list(alternating=ifelse(xlim.match, 1, 0),
                        at=1:length(tmp$height.2), label=rev(signif(tmp$height.2, 4)))),
@@ -202,10 +203,10 @@ mmcmatch <- function(mmc, type="mca", xlim=NULL, ylim=NULL, ...,
 }
 
 
-mmcboth <- function(mmc, type="mca", h=c(.7, .3), xlim=NULL, ylim=NULL, ...,
+mmcboth <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", h=c(.7, .3), xlim=NULL, ylim=NULL, ...,
                     ylab.right=NULL, MMCname="MMC", Tiebreakername="Tiebreaker") {
-  aa <- mmcisomeans(mmc=mmc, type=type, xlim=xlim, ylim=ylim, ..., contrast.label=TRUE)
-  bb <- mmcmatch(mmc=mmc, type=type, xlim=xlim, ylim=ylim, ..., contrast.label=TRUE, xlim.match=TRUE)
+  aa <- mmcisomeans(mmc=mmc, col=col, lwd=lwd, lty=lty, type=type, xlim=xlim, ylim=ylim, ..., contrast.label=TRUE)
+  bb <- mmcmatch(mmc=mmc, col=col, lwd=lwd, lty=lty, type=type, xlim=xlim, ylim=ylim, ..., contrast.label=TRUE, xlim.match=TRUE)
   cc0 <- c(MMC=aa, Tiebreaker=bb, layout=c(1,2))
   if (!missing(MMCname)) cc0$condlevels[[1]][1] <- MMCname
   if (!missing(Tiebreakername)) cc0$condlevels[[1]][2] <- Tiebreakername
@@ -226,7 +227,7 @@ mmcboth <- function(mmc, type="mca", h=c(.7, .3), xlim=NULL, ylim=NULL, ...,
 }
 
 
-panel.confintMMC <- function(x, y, subscripts, ..., col, lty, lower, upper,
+panel.confintMMC <- function(x, y, subscripts, ..., col, lwd, lty, lower, upper,
                              contrast.name, right.text.cex=.8) {
   if (is.infinite(lower[subscripts[1]]))
     left <- current.panel.limits()$xlim[1]
@@ -236,7 +237,7 @@ panel.confintMMC <- function(x, y, subscripts, ..., col, lty, lower, upper,
     right <- current.panel.limits()$xlim[2]
   else
     right <- upper[subscripts]
-  panel.segments(left, y, right, y, col=col, lty=lty)
+  panel.segments(left, y, right, y, col=col, lwd=lwd, lty=lty)
   panel.points(x, y, pch=3, col=col)
   panel.axis("right", at=y, labels=contrast.name[subscripts],
              text.col=col, line.col=col, outside=TRUE, half=FALSE, text.cex=right.text.cex)
@@ -251,7 +252,7 @@ panel.isomeans <- function(ybar,
                            col.contr0='darkgray',
                            lwd.contr0=1,
                            ...,
-                           col, lty ## capture potentially ambiguous name
+                           col, lwd, lty ## capture potentially ambiguous name
                            ) {
   ## the additional feature of the Hsu Peruggia plot is the
   ## iso-lines for each level of the factor

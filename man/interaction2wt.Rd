@@ -157,7 +157,14 @@ See also
 \value{
 \code{"trellis"} object containing the plot.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
+\references{
+Heiberger, Richard M. and Holland, Burt (anticipated 2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course
+  with Examples in R}, Second Edition.
+ Springer Texts in Statistics. Springer.
+ ISBN 978-1-4939-2121-8.
+
+Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
  Springer Texts in Statistics. Springer.
@@ -167,65 +174,47 @@ See also
 \seealso{\code{\link{panel.interaction2wt}}}
 \examples{
 data(vulcan)
-if.R(s={old.omd=par(omd=c(.1,1,.03,1))}, r={})
-if.R(r=
-     interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
-                    par.strip.text=list(cex=.8))
-     ,s=
-     interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
-                    par.strip.text=list(cex=.8),
-                    key.in=list(x=-3.5))
-)
+interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
+               par.strip.text=list(cex=.7))
+interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
 interaction2wt(wear ~ filler + raw, data=vulcan,
                simple=TRUE)
 interaction2wt(wear ~ filler + raw, data=vulcan,
                simple=TRUE, simple.scale=c(filler=.15, raw=.2),
                xlim=c(.3, 5.6))
-if.R(s={par(old.omd)}, r={})
 
-if.R(r={
-  ToothGrowth <- ToothGrowth  ## local copy
-  ToothGrowth$dose <- positioned(ToothGrowth$dose) ## modify local copy
-print(
-  anova(aov(len ~ supp*dose, data=ToothGrowth))
-)
-print(
-  interaction2wt(len ~ supp + dose, data=ToothGrowth)
-)
+ToothGrowth$dose <- positioned(ToothGrowth$dose) ## modify local copy
+anova(aov(len ~ supp*dose, data=ToothGrowth))
+interaction2wt(len ~ supp + dose, data=ToothGrowth)
 
-esoph=esoph
-esoph$rate=with(esoph, ncases/ncontrols)
+
+esoph$rate=with(esoph, ncases/ncontrols) ## modify local copy
 
 position(esoph$alcgp) <- 2:5
 position(esoph$tobgp) <- 2:5
 
-print(
 interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
-               par.strip.text=list(cex=.8))
-)
+                 par.strip.text=list(cex=.8))
 
-old.cex <- trellis.par.set(par.xlab.text=list(cex=.8))
-print(
 interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
                par.strip.text=list(cex=.8),
                factor.expressions=c(
-                  agegp=expression(Age~~(years)),
-                  alcgp=expression(Alcohol~
-                                   bgroup("(",scriptstyle(frac(gm, day)),")")),
-                  tobgp=expression(Tobacco~
-                                   bgroup("(",scriptstyle(frac(gm, day)),")"))),
+                 agegp=expression(Age~~(years)),
+                 alcgp=expression(Alcohol~
+                   bgroup("(",scriptstyle(frac(gm, day)),")")),
+                 tobgp=expression(Tobacco~
+                   bgroup("(",scriptstyle(frac(gm, day)),")"))),
+               par.settings=list(
+                 par.xlab.text=list(cex=.8),
+                 par.ylab.text=list(cex=.8)),
                responselab.expression="Cancer\nRate",
-           main.in="Esophogeal Cancer Rate ~ Alcohol Consumption + Tobacco Consumption",
-               main.cex=1.2)
-)
-
-par(old.cex)
+               main=list(
+"Esophogeal Cancer Rate ~ Alcohol Consumption + Tobacco Consumption",
+                 cex=1.2))
 
 esoph.aov <- aov(rate ~ agegp + alcgp + tobgp, data=esoph)
-print(
 anova(esoph.aov)
-)
-}, s={})
+
 }
 \keyword{ hplot }% at least one, from doc/KEYWORDS
 \keyword{ design }% __ONLY ONE__ keyword per line

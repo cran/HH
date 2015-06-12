@@ -59,21 +59,27 @@ HHscriptnames <- function(chapternumbers=NULL, edition=2) {
       "16"  ="npar",
       "17"  ="logi",
       "18"  ="tser",
-      "19"  ="likert",
-      "20"  ="medphss",
-      A     ="sftw",
-      B     ="Spls",
-      C     ="SASa",
-      D     ="dstr",
-      E     ="edit",
-      F     ="mthp",
-      G     ="grapb",
-      H     ="RApx",
-      I     ="RcmdrApx",
-      J     ="RExcelApx",
-      K     ="ShinyApx",
-      L     ="HHApx")
-      )
+     ## "19"  ="likert",
+     ## "20"  ="medphss",
+      A = "RApx",
+      B = "HHApx",
+      C = "RcmdrApx",
+      D = "RExcelApx",
+      E = "ShinyApx",
+      F = "Rpack",
+      G = "PrcnApx",
+      H = "otherApx",
+      I = "mthp",
+      J = "dstr",
+      K = "edit",
+      L = "typg",
+      M = "emcs",
+      N = "latexApx",
+      O = "MSword")
+    ##  = "grapb"
+     )
+
+
 
   chapternumbers.char <- as.character(chapternumbers)
   names(chapternumbers.char) <- chapternumbers.char

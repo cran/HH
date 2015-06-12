@@ -22,7 +22,7 @@ F.setup(df1=1,
         xlim.in=c(0, 5),
         ylim.in=range(c(0, 1.1*df.intermediate(x=seq(.5,1.5,.01),
                        df1=df1, df2=df2, ncp=ncp, log=log.p))),
-        main.in=main.calc,
+        main.in=main.calc, ylab.in="F density",
         ...)
 
 F.curve(df1=1,
@@ -52,7 +52,7 @@ chisq.setup(df=1,
            xlim.in=c(0, qchisq.intermediate(p=1-.01, df=df, ncp=ncp, log.p=log.p)),
            ylim.in=range(c(0, 1.1*dchisq.intermediate(x=seq(max(0.5,df-2),df+2,.01),
                          df=df, ncp=ncp, log=log.p))),
-           main.in=main.calc,
+           main.in=main.calc, ylab.in="Chisq density",
            ...)
 
 chisq.curve(df=1,
@@ -91,7 +91,7 @@ they are the \code{c(left.alpha, right.alpha)}.}
     A scalar value implies a one-sided test on the right side.
     A vector of two values
     implies a two-sided test.}
-  \item{main.in}{Main title.}
+  \item{main.in, ylab.in}{Main title, default ylab.}
   \item{shade}{
     Valid values for shade are "right", "left", "inside", "outside", "none".
     Default is "right" for one-sided critical.values and "outside"

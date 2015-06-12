@@ -2,7 +2,7 @@ residual.plots.lattice <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
                            par.strip.text=list(cex=.8),
                            scales.cex=.6,
                            na.action=na.pass,
-                           y.relation="free",
+                           y.relation="same",
                            ...) {
   lm.formula <- as.formula(lm.object)
   lm.data <- try(eval(lm.object$call$data), silent=TRUE)
@@ -116,7 +116,7 @@ latticeresids <- function(x, data,
                           y.relation,
                           ...) {
   LP <- xyplot(x, data, main=main,
-               layout=c(length(levels(data$ynames)), 1),
+               layout=c(length(levels(data$xname)), 1),
                panel=function(x, y, ...) {
                  panel.xyplot(x, y, ...)
                  panel.abline(lm(y ~ x))
@@ -142,6 +142,7 @@ print.latticeresids <- function(x, ...,
   yname <- strsplit(x[[1]]$main, " ~ ")[[1]][1]
   names(x) <- c(yname, "Residuals", "Partial Residuals | X", "Partial Residuals | X")
   A321 <- do.call(rbind, x[c(3,2,1)])
+  A321 <- combineLimits(update(A321, scales=list(relation="free")))
   A4   <- do.call(rbind, x[4])
   print(position=position$A321, more=TRUE, update(A321, main=NULL))
   print(position=position$A4, more=FALSE,

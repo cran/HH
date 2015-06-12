@@ -12,3 +12,10 @@ hhcapture <- function(file, text, echo=TRUE, print.eval=TRUE) {
 hhcode <- function(file, text) {
   cat(text)
 }
+
+hhpng <- function(file, ...) {invisible(NULL)}
+
+hhlatex <- function(file="", ...) {
+  file.tex <- Hmisc::latex(file="", ...)
+  invisible(NULL)
+}

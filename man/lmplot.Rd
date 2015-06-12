@@ -5,17 +5,26 @@
 Four types of residual plots for linear models.
 }
 \description{
-Four types of residual plots for linear models.  Three are redesigns of
-plots that \code{stats:::plot.lm} presents.  One is based on an S-Plus
+Four types of residual plots for linear models.  The first three are redesigns of
+plots that \code{stats:::plot.lm} presents.
+The first two show the positive residuals in \code{col[2]} and the
+negative residuals
+in color \code{col[1]}.  The third and fourth use color \code{col[1]}.
+The fourth is based on an S-Plus
 panel that \R\ doesn't provide.
 }
 \usage{
-lmplot(lm.object, ...)
+lmplot(lm.object, ...,
+       col=trellis.par.get("superpose.symbol")$col[1:2])
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{lm.object}{
 Linear model object.  See \code{\link{lm}} for details.
+}
+\item{col}{Vector of color names.  Only the first two are used.
+  If not specified, then
+  \code{trellis.par.get("superpose.symbol")$col[1:2]} is used.
 }
   \item{\dots}{
 Other arguments, currently ignored.

@@ -78,7 +78,8 @@ NormalAndTplot.htest <- function(mean0, type="hypothesis", xlim=NULL, mean1=NA, 
                         "One Sample t-test"=1,
                         "Paired t-test"=2,
                         "Two Sample t-test"=2,
-                        "Welch Two Sample t-test"=2)
+                        " Two Sample t-test"=2,
+                         "Welch Two Sample t-test"=2)
 
   NormalAndTplot(mean0=mean0, xbar=xbar, mean1=mean1, sd=stderr*sqrt(n), df=df, n=n,
                  alpha.left=alpha.left, alpha.right=alpha.right,

@@ -103,7 +103,6 @@
 \alias{njgolf}
 \alias{normtemp}
 \alias{notch}
-\alias{nottem}
 \alias{oats}
 \alias{odoffna}
 \alias{operator}

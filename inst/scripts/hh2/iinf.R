@@ -1,9 +1,25 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/iinf.tex'
 
 ###################################################
-### code chunk number 1: iinf.tex:118-143
+### code chunk number 1: iinf.tex:9-10
 ###################################################
-hhpdf("Hyz6.pdf", height=8.5, width=7)
+library(HH)
+
+
+###################################################
+### code chunk number 2: iinf.tex:13-18
+###################################################
+## the standard lattice color 2 is difficult for people with color deficient vision
+data(col3x2)
+## These colors look like a 3x2 color array when run through
+## the vischeck simulator to see how they look for the three most
+## common color vision deficiencies: Protanope, Deuteranope, Tritanope.
+
+
+###################################################
+### code chunk number 3: iinf.tex:167-192
+###################################################
+## hhpdf("Hyz6.pdf", height=8.5, width=7)
 
 NTfun <- function(...)
    NTplot(..., main=NULL, xlab=NULL, ylab=NULL, prob.labels=FALSE,
@@ -27,13 +43,13 @@ print(Ncl,  tablesOnPlot=FALSE, position=c(.45, .630, 1.0, 1.000), more=TRUE)
 print(Ncr,  tablesOnPlot=FALSE, position=c(.45, .315, 1.0,  .685), more=TRUE)
 print(Nclr, tablesOnPlot=FALSE, position=c(.45, .000, 1.0,  .370), more=FALSE)
 
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 2: iinf.tex:369-394
+### code chunk number 4: iinf.tex:427-452
 ###################################################
-hhpdf("Hyp6.pdf", height=8.5, width=7)
+## hhpdf("Hyp6.pdf", height=8.5, width=7)
 
 NTfun <- function(...)
    NTplot(..., main=NULL, xlab=NULL, ylab=NULL, prob.labels=FALSE,
@@ -57,32 +73,92 @@ print(Npcl,  tablesOnPlot=FALSE, position=c(.45, .630, 1.0, 1.000), more=TRUE)
 print(Npcr,  tablesOnPlot=FALSE, position=c(.45, .315, 1.0,  .685), more=TRUE)
 print(Npclr, tablesOnPlot=FALSE, position=c(.45, .000, 1.0,  .370), more=FALSE)
 
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 3: iinf.tex:497-501
+### code chunk number 5: iinf.tex:568-572
 ###################################################
 data(vocab)
-hhcapture("vocab-stem.Rout", '
+## hhcapture("vocab-stem.Rout", '
 stem(vocab$score, scale=2)
-')
+## ')
 
 
 ###################################################
-### code chunk number 4: iinf.tex:515-522
+### code chunk number 6: iinf.tex:586-593
 ###################################################
-hhcapture("vocab-t.Rout", '
+## hhcapture("vocab-t.Rout", '
 vocab.t <- t.test(vocab$score, mu=10)
 vocab.t
-')
-hhpdf("vocab.pdf", height=6, width=7)
+## ')
+## hhpdf("vocab.pdf", height=6, width=7)
 NTplot(vocab.t, type="confidence", cex.prob=1)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 5: iinf.tex:924-996
+### code chunk number 7: iinf.tex:656-677
+###################################################
+## hhpdf("chisqCI.pdf", height=4, width=7)
+s2 <- 15
+df <- 12
+qch <- qchisq(c(.025, .975), df=12)
+old.omd <- par(omd=c(.05,.88, .10,1))
+chisq.setup(df=12, ylab="Density")
+chisq.curve(df=12, col='blue', alpha=c(.025, .025), axis.name=expression(chi^2))
+(df*s2)/rev(qch)
+qs <- c(.1, .5, 1, 2, 3)
+axis(1, at=qch, labels=round(12/qch, 2), line=3.5, lwd=0, lwd.ticks=0)
+axis(1, at=-5, line=3.5, labels=expression(nu ~ "/" ~ chi^2), xpd=TRUE, lwd=0, lwd.ticks=0)
+axis(1, at=qch, labels=round(s2*12/qch, 2), line=5, lwd=0, lwd.ticks=0)
+axis(1, at=-5, line=5, labels=expression(s^2 ~ nu ~ "/" ~ chi^2), xpd=TRUE, lwd=0, lwd.ticks=0)
+## axis(1, at=12/qs, labels=qs, line=5, lwd=0, lwd.ticks=0)
+## axis(1, at=-5, line=5, labels=expression(nu ~ "/" ~ chi^2), xpd=TRUE, lwd=0, lwd.ticks=0)
+## chisq.observed(15, df=12, axis.name=expression(chi^2)) ## not part of this example
+axis(3, at=13, line=-.5, labels=expression(s^2==15), xpd=TRUE, lwd=0, lwd.ticks=0)
+par(old.omd)
+rev(s2*12/qch)
+sqrt(rev((s2*12/qch)))
+## hhdev.off()
+
+
+###################################################
+### code chunk number 8: iinf.tex:911-940
+###################################################
+## hhcapture("ttest2.Rout", '
+data(cereals)
+table(cereals[,c("mfr","type")])
+C.KG <- cereals$type=="C" & cereals$mfr %in% c("K","G")
+cerealsC <- cereals[C.KG, c("mfr", "carbo") ]
+cerealsC$mfr <- factor(cerealsC$mfr)
+bwplot(carbo ~ mfr, data=cerealsC) +
+dotplot(carbo ~ mfr, data=cerealsC)
+t.t <- t.test(carbo ~ mfr, data=cerealsC, var.equal=TRUE)
+t.t
+## ')
+## hhcapture("ttest2B.Rout", '
+mm <- tapply(cerealsC$carbo, cerealsC$mfr, mean)
+vv <- tapply(cerealsC$carbo, cerealsC$mfr, var)
+ll <- tapply(cerealsC$carbo, cerealsC$mfr, length)
+s2p <- ((ll-1) %*% vv) / sum(ll-1)
+tt <- -diff(mm) / (sqrt(s2p) * sqrt(sum(1/ll)))
+tt
+## ')
+## hhpdf("ttest2.pdf", height=6, width=12)
+## NTplot(t.t, zaxis=TRUE) ## This is sufficient.
+## The rest of the arguments adjust fonts and placement
+## and prevent overprinting of tick labels.
+NT <- NTplot(t.t, zaxis=TRUE, cex.z=1, xlim=c(-2.7, 2.5),
+             cex.top.axis=1.1, digits=3,
+             cex.main=1.5, cex.prob=1.2, key.axis.padding=5,
+             xhalf.multiplier=.35, yhalf.multiplier=1.2)
+print(update(NT, scales=list(cex=1.1)), cex.table=1.2)
+## hhdev.off()
+
+
+###################################################
+### code chunk number 9: iinf.tex:1108-1188
 ###################################################
 data(teachers)
 teachers$"English-Greek" <- teachers$English - teachers$Greek
@@ -92,15 +168,21 @@ teachers$smaller <- factor(sign(teachers$"English-Greek"),
                            "Greek\nsmaller error count"))
 teachers[c(1,2,32),]
 
-teachers.melt <- melt(cbind(teachers, sentence=1:32),
-                      id.vars=c("sentence","English-Greek", "smaller"),
-                      variable.name="language",
-                      value.name="errors")
+teachers.melt <- reshape2:::melt(cbind(teachers, sentence=1:32),
+                                 id.vars=c("sentence","English-Greek", "smaller"),
+                                 variable.name="language",
+                                 value.name="errors")
 teachers.melt[c(1,2,32,33,63,64),]
 
-hhpdf("teachers-dot.pdf", height=6.9, width=9)
+## hhpdf("teachers-dot.pdf", height=6.9, width=9)
+trellis.par.set(  ## must be inside device
+   superpose.symbol=
+       list(cex=rep(1.8, 7),
+            col=c(likertColor(2,colorFunctionOption ="default"),3:7)),
+   plot.symbol=list(cex=rep(1.1, 7)))
+
 tpg <- trellis.par.get("superpose.symbol")
-tpg$pch[1:3] <- c(19,15,17)
+tpg$pch[1:3] <- c(69,71,17) ## E G triangle
 
 AAAA <-
 resizePanels(h=table(teachers$smaller),
@@ -143,38 +225,40 @@ resizePanels(h=table(teachers$smaller),
 
 AAAABBBBCCCC <-
 resizePanels(h=table(teachers$smaller), w=c(30, 25, 25),
+combineLimits(
 update(cbind(errors=AAAA, "English-Greek"=BBBB, "sqrt(17 +\nEnglish-Greek)"=CCCC),
        xlab=NULL, ylab=list("sentence", cex=1.2),
        par.strip.text=list(cex=1.1, lines=1.2),
        scales=list(
-         y=list(relation="free"),
-         x=list(limits=list(c(9, 42), c(-20, 20), c(0,6))))))
-## AAAABBBBCCCC + layer(panel.abline(v=c(0,0,sqrt(17))[current.column()], col="gray60"))
+         relation="free",
+         x=list(limits=list(c(9, 42), c(-20, 20), c(0,6))))
+       )))
 
-xlab.top <- c(AAAABBBBCCCC$condlevels[[1]][1:2], expression(sqrt("English-Greek + 17")))
+xlab.top <- c(AAAABBBBCCCC$condlevels[[1]][1:2], expression(sqrt("English-Greek + 17")~" "))
 AAAABBBBCCCC$condlevels[[1]] <- c(" "," "," ")
 AAAABBBBCCCC + layer(panel.abline(v=c(0,0,sqrt(17))[current.column()], col="gray60"))
 grid.text(xlab.top, x=c(.25, .475, .695), y=.92)
-hhdev.off()
+
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 6: iinf.tex:1043-1051
+### code chunk number 10: iinf.tex:1235-1243
 ###################################################
-hhcapture("teachersLeft.Rout", '
+## hhcapture("teachersLeft.Rout", '
 stem(teachers$"English-Greek")
 t.test(teachers$"English-Greek")
-')
-hhcapture("teachersRight.Rout", '
+## ')
+## hhcapture("teachersRight.Rout", '
 stem(sqrt(teachers$"English-Greek" + 17), scale=.5)
 t.test(sqrt(teachers$"English-Greek" + 17), mu=sqrt(17))
-')
+## ')
 
 
 ###################################################
-### code chunk number 7: iinf.tex:1159-1184
+### code chunk number 11: iinf.tex:1351-1376
 ###################################################
-hhpdf("normalOneTailFig.pdf", height=7.2, width=9)
+## hhpdf("normalOneTailFig.pdf", height=7.2, width=9)
 mean0 <- 1
 delta <- 2
 mean1 <- mean0 + delta
@@ -198,13 +282,13 @@ print(tmp +
                panel.segments(3, -.122, 2.323, -.122, col="#FF808B",   lwd=6) ## z1 scale
               }, under=TRUE),
       cex.table=1.2, digits=5)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 8: iinf.tex:1256-1269
+### code chunk number 12: iinf.tex:1454-1467
 ###################################################
-hhcapture("sampleSizeA.Rout", '
+## hhcapture("sampleSizeA.Rout", '
 ## one sided
 alpha <- .05
 power <- .80
@@ -216,27 +300,27 @@ sd <- 2
 sd^2*(qnorm(1-alpha) + qnorm(1-beta))^2 / delta^2
 ## [1] 24.73
 ## n is slightly smaller with the normal assumption.
-')
+## ')
 
 
 ###################################################
-### code chunk number 9: iinf.tex:1285-1294
+### code chunk number 13: iinf.tex:1483-1492
 ###################################################
-hhcapture("sampleSizeB.Rout", '
+## hhcapture("sampleSizeB.Rout", '
 ## solve using power.t.test
 PTT <-
 power.t.test(delta=delta, sd=sd, sig.level=alpha, power=power,
              type="one.sample", alternative="one.sided")
 PTT
 NTplot(PTT, zaxis=TRUE)  ## static plot
-## NTplot(PTT, zaxis=TRUE), shiny=TRUE)  ## dynamic plot
-')
+## NTplot(PTT, zaxis=TRUE, shiny=TRUE)  ## dynamic plot
+## ')
 
 
 ###################################################
-### code chunk number 10: iinf.tex:1310-1336
+### code chunk number 14: iinf.tex:1508-1534
 ###################################################
-hhcapture("sampleSizeC.Rout", '
+## hhcapture("sampleSizeC.Rout", '
 ## solve manually with t distribution.  Use ncp for alternative.
 n0 <- 30 ## pick an n0 for starting value
 t.critical <- qt(1-alpha, df=n0-1)
@@ -261,11 +345,11 @@ pt(t.critical, df=nn-1, ncp=delta/(sd/sqrt(nn)), lower=FALSE)
 ##     23     24     25     26     27     28     29     30
 ## 0.7540 0.7695 0.7842 0.7981 0.8112 0.8235 0.8352 0.8461
 ## conclude n between 26 and 27
-')
+## ')
 
 
 ###################################################
-### code chunk number 11: iinf.tex:1394-1420
+### code chunk number 15: iinf.tex:1592-1618
 ###################################################
 tmp26 <- NTplot(NTplot(PTT), main=NA,
                 key.axis.padding=6, cex.main=1.5,
@@ -285,31 +369,69 @@ tmp30 <- NTplot(NTplot(PTT), n=30, df=29, main=NA,
                 zaxis=TRUE, cex.z=1)
 ## tmp30
 
-hhpdf("sampleSizeFig26.pdf", height=8, width=6) ## density, power, beta by sample size
+## hhpdf("sampleSizeFig26.pdf", height=8, width=6) ## density, power, beta by sample size
 print(update(tmp26, ylab=NULL), cex.table=1.2)
-hhdev.off()
+## hhdev.off()
 
-hhpdf("sampleSizeFig30.pdf", height=8, width=6) ## density, power, beta by sample size
+## hhpdf("sampleSizeFig30.pdf", height=8, width=6) ## density, power, beta by sample size
 print(update(tmp30, ylab=NULL), cex.table=1.2)
-hhdev.off()
+## hhdev.off()
 
 
 
 ###################################################
-### code chunk number 12: iinf.tex:1586-1592
+### code chunk number 16: iinf.tex:1784-1790
 ###################################################
-hhcapture("fairDice.Rout", '
+## hhcapture("fairDice.Rout", '
 dice <- sample(rep(1:6, c(3,7,5,8,1,6)))
 dice
 table(dice)
 chisq.test(table(dice))
-')
+## ')
 
 
 ###################################################
-### code chunk number 13: iinf.tex:1645-1665
+### code chunk number 17: iinf.tex:1801-1808
 ###################################################
-hhcapture("ex.chisq.Rout", '
+## hhpdf("fairDice.pdf", height=4, width=7)
+old.omd <- par(omd=c(.05, .88, .05, 1))
+chisq.setup(df=5, ylab="Density")
+chisq.curve(df=5, col='blue', axis.name=expression(chi^2))
+chisq.observed(6.8, df=5, axis.name=expression(chi^2))
+par(old.omd)
+## hhdev.off()
+
+
+###################################################
+### code chunk number 18: iinf.tex:1858-1879
+###################################################
+## hhpdf("family.pdf", height=3, width=7)
+Observed <- c(13, 18, 20, 18, 6, 5)
+names(Observed) <- 0:5
+## binomial proportion p=.4 is specified
+Expected <- dbinom(0:5, size=5, p=.4)*80
+names(Expected) <- 0:5
+update(
+c(
+Observed = xyplot(Observed ~ 0:5,
+                  horizontal=FALSE, origin=0, col="#727EB5",
+                  panel=panel.barchart, ylim=c(-1, 28)),
+"Binomial p=.4" = xyplot(Expected ~ 0:5,
+                  horizontal=FALSE, origin=0, col="#727EB5",
+                  panel=panel.barchart, ylim=c(-1, 28))
+),
+between=list(x=1), scales=list(alternating=FALSE), ylab=NULL)
+## hhdev.off()
+
+var(rep(0:5, times=Observed))
+
+var(rep(0:5, times=Expected))
+
+
+###################################################
+### code chunk number 19: iinf.tex:1897-1917
+###################################################
+## hhcapture("ex.chisq.Rout", '
 Observed <- c(13, 18, 20, 18, 6, 5)
 names(Observed) <- 0:5
 ## binomial proportion p=.4 is specified
@@ -328,13 +450,13 @@ WrongDF
 c(WrongDF$statistic, WrongDF$parameter)
 ## correct df and p-value
 pchisq(WrongDF$statistic, df=WrongDF$parameter - 1, lower=FALSE)
-')
+## ')
 
 
 ###################################################
-### code chunk number 14: iinf.tex:1816-1836
+### code chunk number 20: iinf.tex:2071-2092
 ###################################################
-hhpdf("iinf-f-qqnorm.pdf", height=7.2, width=9)
+## hhpdf("iinf-f-qqnorm.pdf", height=7.2, width=9)
 
 qqnorm.dat <- data.frame(
    normal=rnorm(100,0,1),
@@ -352,23 +474,24 @@ head(qqnorm.dat)
 xyplot(normal + uniform + `negatively skewed` + `positively skewed` +
       `thin-tailed` + `heavy-tailed` ~ quantiles, data=qqnorm.dat, outer=TRUE,
       ylab="Observed values", xlab="Quantiles of Standard Normal",
+      col=likertColor(2)[2],
       scales=list(y=list(relation="free")), between=list(x=1, y=1), layout=c(2,3))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 15: iinf.tex:1847-1851
+### code chunk number 21: iinf.tex:2103-2107
 ###################################################
-hhpdf("iinf-f-dist.pdf", height=7.2, width=9)
-tmp <- lapply(qqnorm.dat, histogram, nint=15)
+## hhpdf("iinf-f-dist.pdf", height=7.2, width=9)
+tmp <- lapply(qqnorm.dat, histogram, nint=15, col=likertColor(2)[2])
 update(do.call(latticeExtra:::c.trellis, c(tmp[-3], list(layout=c(2,3)))), xlab="Observed Values")
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 16: iinf.tex:1869-1890
+### code chunk number 22: iinf.tex:2125-2146
 ###################################################
-hhpdf("iinf-f1.pdf", height=4, width=7)
+## hhpdf("iinf-f1.pdf", height=4, width=7)
 points <- ppoints(100)
 qqt.data <- data.frame(
   ppoints=points,
@@ -388,13 +511,13 @@ xyplot(q3+q5+q7+qn ~ qn, data=qqt.data, type="l", aspect="iso", ylab="distributi
        auto.key=list(space="right", border=TRUE,
                      text=c("t, 3 df", "t, 5 df", "t, 7 df", "normal"),
                      lines=TRUE, points=FALSE))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 17: iinf.tex:1911-1923
+### code chunk number 23: iinf.tex:2167-2179
 ###################################################
-hhpdf("iinf-f2.pdf", height=4, width=7)
+## hhpdf("iinf-f2.pdf", height=4, width=7)
 qqt.melt <- cbind(reshape2::melt(qqt.data[,2:5], value.name="quantile",
                                  variable.name="distribution"),
                   reshape2::melt(qqt.data[,9:6], value.name="density"))
@@ -405,23 +528,23 @@ xyplot(density ~ quantile, group=distribution, data=qqt.melt, type="l",
        par.settings=list(superpose.line=list(lty=c(5,4,2,1))),
        auto.key=list(space="right", border=TRUE, lines=TRUE, points=FALSE)) +
           layer(panel.abline(a=0, b=0, col="gray60"))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 18: iinf.tex:1986-1993
+### code chunk number 24: iinf.tex:2242-2249
 ###################################################
-hhcapture("iinf-f3.Rout", '
+## hhcapture("iinf-f3.Rout", '
 rt5 <- rt(300, df=5)
 rnn <- rnorm(300)
 
 ks.test(rt5, function(x)pt(x, df=2))
 ks.test(rnn, function(x)pt(x, df=2))
-')
+## ')
 
 
 ###################################################
-### code chunk number 19: iinf.tex:2007-2034
+### code chunk number 25: iinf.tex:2263-2292
 ###################################################
 plotks1 <- function(x, pfunction, ..., xlim=range(x), ylim.dev=c(-.10, .10)) {
   sx <- sort(x)
@@ -433,51 +556,51 @@ plotks1 <- function(x, pfunction, ..., xlim=range(x), ylim.dev=c(-.10, .10)) {
                       xlim=xlim, ylim=list(ylim.dev, c(-.05, 1.05)),
                c(deviations=
                    xyplot(empcdf-pfunction(sx) ~ sx, type="h",
-                          col=trellis.par.get("superpose.line")$col[1], ...),
+                          col=likertColor(2)[2], ...),
                  "cumulative distribution with deviations"=
                    xref + layer(panel.segments(sx, pfunction(sx), sx, empcdf,
-                                               col=trellis.par.get("superpose.line")$col[1]),
+                                               col=likertColor(2)[2]),
                            data=list(sx=sx, pfunction=pfunction, empcdf=empcdf)),
                  layout=c(1,2), x.same=TRUE, y.same=FALSE)))
 }
 
 KSt5 <- plotks1(rt5, function(x) pt(x, df=2), xlim=range(rt5, rnn),
-                xlab="random selection from t with 5 df", main="compare to t with 2 df")
+                xlab="random selection from t with 5 df",
+                main="compare 't with 5 df' to 't with 2 df'")
 KSnn <- plotks1(rnn, function(x) pt(x, df=2), xlim=range(rt5, rnn),
-                xlab="random selection from normal", main="compare to t with 2 df")
+                xlab="random selection from normal",
+                main="compare 'normal' to 't with 2 df'")
 
-hhpdf("iinf-f3.pdf", height=6, width=7)
+## hhpdf("iinf-f3.pdf", height=6, width=7)
 print(KSt5, position=c(0,0,.5,1), more=TRUE)
 print(KSnn, position=c(.5,0,1,1), more=FALSE)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 20: iinf.tex:2062-2065
+### code chunk number 26: iinf.tex:2321-2324
 ###################################################
-hhcapture("iinf-f32.Rout", '
+## hhcapture("iinf-f32.Rout", '
 ks.test(rt5, rnn)
-')
+## ')
 
 
 ###################################################
-### code chunk number 21: iinf.tex:2078-2094
+### code chunk number 27: iinf.tex:2337-2351
 ###################################################
 plotks2 <- function(x, y, ..., xlim=range(x,y), ylim.dev=c(-.10, .10)) {
   sx <- sort(x)
   sy <- sort(y)
-  xset <- seq(xlim[1], xlim[2], length=101)
-  xref <- xyplot(pfunction(xset) ~ xset, type="l", col="black", xlim=xlim, ylim=c(-.05, 1.05))
   empcdfx <- (1:length(sx))/length(sx)
   empcdfy <- (1:length(sy))/length(sy)
 
-  xyplot(empcdfx ~ sx, xlim=xlim, ylim=c(-.05, 1.05), type="l", col="red", ...) +
-     xyplot(empcdfy ~ sy, xlim=xlim, ylim=c(-.05, 1.05), type="l", col="blue", ...)
+  xyplot(empcdfx ~ sx, xlim=xlim, ylim=c(-.05, 1.05), type="l", col=likertColor(2)[1], ...) +
+     xyplot(empcdfy ~ sy, xlim=xlim, ylim=c(-.05, 1.05), type="l", col=likertColor(2)[2], ...)
 }
 
-hhpdf("iinf-f32.pdf", height=3, width=7)
+## hhpdf("iinf-f32.pdf", height=3, width=7)
 plotks2(rt5, rnn, xlab="random selections from t with 5 df (red) and normal (blue)",
         ylab="empirical CDF", main="Two-Sample Kolmogorov-Smirnov Test")
-hhdev.off()
+## hhdev.off()
 
 

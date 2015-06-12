@@ -1,8 +1,14 @@
-lmplot <- function(lm.object, ...) {
-  A <- residVSfitted(lm.object, pch=c(25,24),
-                     fill=trellis.par.get("superpose.symbol")$col[1:2])
-  B <- scaleLocation(lm.object, pch=c(25,24),
-                     fill=trellis.par.get("superpose.symbol")$col[1:2])
+lmplot <- function(lm.object, ...,
+                   col=trellis.par.get("superpose.symbol")$col[1:2]) {
+  if (!missing(col)) {
+    old.col <- trellis.par.get("superpose.symbol")$col
+    col <- rep(col, length=7)
+    trellis.par.set(superpose.symbol=list(col=col))
+    on.exit(trellis.par.set(superpose.symbol=list(col=old.col)))
+  }
+
+  A <- residVSfitted(lm.object, pch=c(25,24), fill=col[1:2])
+  B <- scaleLocation(lm.object, pch=c(25,24), fill=col[1:2])
   BA <- c("Scale-Location"=B,
           "Residuals vs Fitted"=
           update(A, scales=list(y=list(at=-100, alternating=3))),
@@ -29,7 +35,7 @@ lmplot <- function(lm.object, ...) {
         split=c(1,1,2,1), more=TRUE)
 
 
-  C <- diagQQ(lm.object)
+  C <- diagQQ(lm.object, col=col[1])
 
   Cu <-
   update(c("Normal Q-Q"=C), xlab.top=NULL, strip=TRUE,
@@ -40,7 +46,7 @@ lmplot <- function(lm.object, ...) {
         more=TRUE)
 
 
-  D <- diagplot5new(lm.object)
+  D <- diagplot5new(lm.object, col=col[1])
   Du <-
   update(D, xlab.top=NULL,
          strip=strip.custom(factor.levels=c(

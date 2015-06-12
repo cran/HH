@@ -1,18 +1,34 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/rega.tex'
 
 ###################################################
-### code chunk number 1: rega.tex:111-115
+### code chunk number 1: rega.tex:9-10
 ###################################################
-hhpdf("f1.pdf", height=7, width=7)
+library(HH)
+
+
+###################################################
+### code chunk number 2: rega.tex:13-18
+###################################################
+## the standard lattice color 2 is difficult for people with color deficient vision
+data(col3x2)
+## These colors look like a 3x2 color array when run through
+## the vischeck simulator to see how they look for the three most
+## common color vision deficiencies: Protanope, Deuteranope, Tritanope.
+
+
+###################################################
+### code chunk number 3: rega.tex:123-127
+###################################################
+## hhpdf("f1.pdf", height=7, width=7)
 data(fat)
-splom( ~ fat, main="Fat data", pch=19, xlab=NULL)
-hhdev.off()
+splom( ~ fat, main="Fat data", pch=19, xlab=NULL, col=likertColor(2)[2])
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 2: rega.tex:182-215
+### code chunk number 4: rega.tex:194-227
 ###################################################
-hhpdf("resid2x2.pdf", height=5, width=7)
+## hhpdf("resid2x2.pdf", height=5, width=7, col=likertColor(2)[2])
 A <- regrresidplot(fat$abdomin, fat$bodyfat, fit.line=FALSE,
                    xlim=c(70,185), ylim=c(0,50))
 
@@ -44,23 +60,23 @@ update(c(C, E, A, B, D, layout=c(3,2)),
          "too shallow:\ny = 20 + .1x"),
        ylab.right=list(c("squared\nresiduals","residuals"), rot=0))
 ALL
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 3: rega.tex:330-335
+### code chunk number 5: rega.tex:345-350
 ###################################################
-hhcapture("bodyfatlm.Rout", '
+## hhcapture("bodyfatlm.Rout", '
 fat.lm <- lm(bodyfat ~ abdomin, data=fat)
 anova(fat.lm)
-summary(fat.lm, corr=FALSE)
-')
+summary(fat.lm)
+## ')
 
 
 ###################################################
-### code chunk number 4: rega.tex:609-622
+### code chunk number 6: rega.tex:624-637
 ###################################################
-hhpdf("f5.pdf", height=5, width=8)
+## hhpdf("f5.pdf", height=5, width=8, col=likertColor(2)[2])
 B <- regrresidplot(fat$abdomin, fat$bodyfat,
                    ylim=c(0,50), resid.plot="line")
 
@@ -72,24 +88,24 @@ update(c(F, B, layout=c(2,1)), between=list(x=1),
        xlab="abdomin", ylab="bodyfat",
        scales=list(alternating=FALSE),
        xlab.top=c("Variance about\nmean of y", "Variance about\nleast-squares line"))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 5: rega.tex:717-723
+### code chunk number 7: rega.tex:732-738
 ###################################################
-hhpdf("betaWeightedAverage.pdf", height=5, width=7)
-demo(betaWeightedAverage, ask=FALSE, package="HH")
-hhdev.off()
-hhcapture("betaWeightedAverage.Rout", '
+## hhpdf("betaWeightedAverage.pdf", height=5, width=7)
+demo("betaWeightedAverage", ask=FALSE)
+## hhdev.off()
+## hhcapture("betaWeightedAverage.Rout", '
 bWA
-')
+## ')
 
 
 ###################################################
-### code chunk number 6: rega.tex:795-821
+### code chunk number 8: rega.tex:811-837
 ###################################################
-hhcapture("meansquare.Rout", '
+## hhcapture("meansquare.Rout", '
 h <- hat(model.matrix(fat.lm))
 pred <- predict(fat.lm, se.fit=TRUE)
 res <- resid(fat.lm)
@@ -114,22 +130,22 @@ all.equal(rowSums(fat.predvalues[,c("mu.hat", "e")]),
 (SSqRes <- sum(res^2))
 (SSqTot <- sum((fat$bodyfat - mean(fat$bodyfat))^2))
 all.equal(SSqReg + SSqRes, SSqTot)
-')
+## ')
 
 
 ###################################################
-### code chunk number 7: rega.tex:874-880
+### code chunk number 9: rega.tex:890-896
 ###################################################
-hhcapture("fatpredvalue.Rout", '
+## hhcapture("fatpredvalue.Rout", '
 cbind(fat.predvalues[, 1],
       ybar=18.4,
       round(coef(fat.lm)[2]*(fat.predvalues[,2]-mean(fat.predvalues[,2])), 3),
       round(fat.predvalues[, 5], 3))
-')
+## ')
 
 
 ###################################################
-### code chunk number 8: rega.tex:1110-1120
+### code chunk number 10: rega.tex:1126-1136
 ###################################################
 old.data <- data.frame(y=rnorm(50), x1=rnorm(50), x2=rnorm(50), x3=rnorm(50))
 example.lm <- lm(y ~ x1 + x2 + x3, data=old.data)
@@ -144,37 +160,38 @@ predict(example.lm,
 
 
 ###################################################
-### code chunk number 9: rega.tex:1301-1304
+### code chunk number 11: rega.tex:1317-1320
 ###################################################
-hhpdf("fat-ci.pdf", height=6, width=7)
+## hhpdf("fat-ci.pdf", height=6, width=7)
 ci.plot(fat.lm, xlab=list(cex=1.4), ylab=list(cex=1.4), main.cex=1.4, aspect=1)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 10: rega.tex:1359-1362
+### code chunk number 12: rega.tex:1388-1391
 ###################################################
-hhpdf("f6.pdf", height=7, width=9)
+## hhpdf("f6.pdf", height=7, width=9, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 lmplot(fat.lm)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 11: rega.tex:1530-1583
+### code chunk number 13: rega.tex:1560-1614
 ###################################################
-hhpdf("diag1.pdf", height=6, width=4)
+## hhpdf("diag1.pdf", height=6, width=4)
+colB <- likertColor(2)[2]
 pp <- ppoints(101)
 x <- qnorm(pp)
-xyplot(pp ~ x, pch=19, main="Cumulative Distribution of N(0,1)")
-hhdev.off()
+xyplot(pp ~ x, pch=19, main="Cumulative Distribution of N(0,1)", col=colB)
+## hhdev.off()
 
-hhpdf("diag2.pdf", height=6, width=7)
+## hhpdf("diag2.pdf", height=6, width=7)
 n <- nrow(fat)
 f <- (1:n)/n
 diag2a <- xyplot(f ~ sort(predict(fat.lm)), pch=19,
-                 main="empirical cdf of\nfitted values")
+                 main="empirical cdf of\nfitted values", col=colB)
 diag2b <- xyplot(f ~ sort(resid(fat.lm)), pch=19,
-                 main="empirical cdf of\nresiduals")
+                 main="empirical cdf of\nresiduals", col=colB)
 ## export.eps(hh.file("rega/figure/diag2.eps"))
 update(c(diag2a, diag2b, layout=c(2,1)),
        xlab=c(diag2a$xlab, diag2b$xlab),
@@ -182,13 +199,13 @@ update(c(diag2a, diag2b, layout=c(2,1)),
        main=NULL,
        scales=list(x=list(alternating=FALSE)),
        between=list(x=1))
-hhdev.off()
+## hhdev.off()
 
-hhpdf("diag3.pdf", height=6, width=7)
+## hhpdf("diag3.pdf", height=6, width=7)
 diag3a <- xyplot(f ~ sort(predict(fat.lm) - mean(predict(fat.lm))), pch=19,
-                 main="empirical cdf of\ncentered fitted values")
+                 main="empirical cdf of\ncentered fitted values", col=colB)
 diag3b <- xyplot(f ~ sort(resid(fat.lm)), pch=19,
-                 main="empirical cdf of\n residuals")
+                 main="empirical cdf of\n residuals", col=colB)
 ## export.eps(hh.file("rega/figure/diag3.eps"))
 tmp3 <- update(c(diag3a, diag3b, layout=c(2,1)),
                xlab=c(diag3a$xlab, diag3b$xlab),
@@ -199,13 +216,13 @@ tmp3 <- update(c(diag3a, diag3b, layout=c(2,1)),
 tmp3c <-
 combineLimits(as.matrix(row=TRUE, tmp3), margin.x=1)
 tmp3c
-hhdev.off()
+## hhdev.off()
 
-hhpdf("diag4.pdf", height=6, width=7)
+## hhpdf("diag4.pdf", height=6, width=7)
 diag4a <- xyplot(sort(predict(fat.lm) - mean(predict(fat.lm))) ~ f, pch=19,
-                 main="transposed empirical cdf\nof centered fitted values")
+                 main="transposed empirical cdf\nof centered fitted values", col=colB)
 diag4b <- xyplot(sort(resid(fat.lm)) ~ f, pch=19,
-                 main="transposed empirical\ncdf of residuals")
+                 main="transposed empirical\ncdf of residuals", col=colB)
 ## export.eps(hh.file("rega/figure/diag4.eps"))
 tmp4 <- update(c(diag4a, diag4b, layout=c(2,1)),
                xlab.top=c(diag4a$main, diag4b$main),
@@ -214,13 +231,13 @@ tmp4 <- update(c(diag4a, diag4b, layout=c(2,1)),
                scales=list(x=list(alternating=FALSE)),
                between=list(x=1))
 combineLimits(as.matrix(row=TRUE, tmp4))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 12: rega.tex:1647-1692
+### code chunk number 14: rega.tex:1679-1724
 ###################################################
-hhpdf("regrFitRes.pdf", height=7, width=9)
+## hhpdf("regrFitRes.pdf", height=7, width=9, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 x <- rnorm(100)
 e <- rnorm(100)
 
@@ -264,6 +281,6 @@ print(position=c(0, 0, .4, 1), more=TRUE,
 print(position=c(.39, 0, 1, 1), more=FALSE,
 update(TMn, ylim=c(-3.2, 3.2))
 )
-hhdev.off()
+## hhdev.off()
 
 

@@ -15,12 +15,13 @@ MMC (Mean--mean Multiple Comparisons) plots in lattice
 }
 \usage{
 mmcplot(mmc, ...)
-\method{mmcplot}{mmc}(mmc, ...,
+\method{mmcplot}{mmc}(mmc, col=col, lwd=lwd, lty=lty, ...,
                   style=c("isomeans", "confint", "both"),
                   type=c("mca", "lmat", "linfct", "none"))
-\method{mmcplot}{glht}(mmc, ...)
-\method{mmcplot}{mmc.multicomp}(mmc, ...)
-\method{mmcplot}{multicomp}(mmc, ...)
+\method{mmcplot}{glht}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
+                  focus=stop("Please specify 'focus='.", call.=FALSE ), ...)
+\method{mmcplot}{mmc.multicomp}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
+\method{mmcplot}{multicomp}(mmc, col=col, lwd=lwd, lty=lty, ...)
 \method{mmcplot}{default}(mmc, ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -28,7 +29,12 @@ mmcplot(mmc, ...)
   \item{mmc}{
 \code{mmc} object or other object as indicated by method.
 }
-  \item{\dots}{
+  \item{col,lwd, lty}{Standard
+        \code{\link[lattice]{xyplot}} arguments applied to the line segments
+        representing the contrasts.
+}
+\item{focus}{Name of the factor for which the \code{glht} object was constructed.}
+\item{\dots}{
 Other arguments to be passed on to the functions called by the methods.
 }
   \item{style}{

@@ -5,7 +5,7 @@
            log.p=FALSE,
            xlim.in=c(0, 5),
            ylim.in=range(c(0, 1.1*df.intermediate(x=seq(.5,1.5,.01), df1=df1, df2=df2, ncp=ncp, log=log.p))),
-           main.in=main.calc,
+           main.in=main.calc, ylab.in="F density",
            ...) {
     main.calc <- parse(text=
                          paste("F~density: ~~ nu[1]==", df1,
@@ -18,7 +18,7 @@
          yaxt="n", type="n",
          las=1,
          xlab="",
-         ylab="F density",
+         ylab=ylab.in,
          main=main.in,
          ...)
     abline(h=0, v=0)

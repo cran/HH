@@ -1,9 +1,15 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/logi.tex'
 
 ###################################################
-### code chunk number 1: logi.tex:53-75
+### code chunk number 1: logi.tex:12-13
 ###################################################
-hhpdf("logit-plot.pdf", width=8.5, height=5.5)
+library(HH)
+
+
+###################################################
+### code chunk number 2: logi.tex:56-80
+###################################################
+## hhpdf("logit-plot.pdf", width=8.5, height=5.5)
 p <- seq(0,1,length=51)
 y <- logit(p)
 
@@ -11,6 +17,7 @@ print(position=c(0, .1, .4, .9),
       panel.width=list(2, "in"), panel.height=list(4, "in"),
       more=TRUE,
       xyplot(y ~ p, type="l", main=list("y = logit(p)", cex=1.5),
+             col="darkblue",
              xlab=list(cex=1.3), ylab=list(cex=1.3, rot=0),
              scales=list(cex=1.3, x=list(at=c(0, .25, .5, .75, 1),
                                     labels=c("0.0","","0.5","","1.0"))))
@@ -20,34 +27,35 @@ print(position=c(.4, .2, 1, .75),
       panel.width=list(4, "in"), panel.height=list(2, "in"),
       more=FALSE,
       xyplot(p ~ y, type="l", main=list("p = antilogit(y)", cex=1.5),
+             col="darkblue",
              xlab=list(cex=1.3), ylab=list(cex=1.3, rot=0),
              scales=list(cex=1.3, y=list(at=c(0, .25, .5, .75, 1),
                                     labels=c("0.0","","0.5","","1.0"))))
       )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 2: logi.tex:190-204
+### code chunk number 3: logi.tex:195-209
 ###################################################
 data(spacshu)
 Jitter.factor <- .08
-hhpdf("spaceshuttle-a.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-a.pdf", width=6.5, height=3)
 xyplot(jitter(damage, factor=Jitter.factor*8) ~ tempF,
        ylab="damage",
        data=spacshu,
        scales=list(y=list(at=c(0,1))),
-       cex=.5, pch=16,
+       cex=.75, pch=16, col="darkblue",
        main="a. observed",
        panel=function(...) {
          panel.xyplot(...)
          panel.abline(h=0:1, lty=2)
        })
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 3: logi.tex:207-227
+### code chunk number 4: logi.tex:212-232
 ###################################################
 temp.range.left <- seq(50,80,5)
 temp.range.right <- seq(55,85,5)
@@ -55,12 +63,12 @@ temp.range.both <- seq(50,85,5)
 damage.freq <- table(cut(spacshu$tempF, temp.range.both), spacshu$damage)
 damage.prop <- damage.freq[,"1"] / (damage.freq[,"0"]+damage.freq[,"1"])
 
-hhpdf("spaceshuttle-b.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-b.pdf", width=6.5, height=3)
 xyplot(jitter(damage, factor=Jitter.factor*8) ~ tempF,
        ylab="damage",
        data=spacshu,
        scales=list(y=list(at=c(0,1))),
-       cex=.5, pch=16,
+       cex=.75, pch=16, col="darkblue",
        main="b. observed and sectioned proportions",
        panel=function(...) {
          panel.xyplot(...)
@@ -68,33 +76,33 @@ xyplot(jitter(damage, factor=Jitter.factor*8) ~ tempF,
                         temp.range.right, damage.prop)
          panel.abline(h=0:1, lty=2)
        })
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 4: logi.tex:240-255
+### code chunk number 5: logi.tex:246-261
 ###################################################
-hhpdf("spaceshuttle-c.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-c.pdf", width=6.5, height=3)
 xyplot(jitter(damage, factor=Jitter.factor*8) ~ tempF,
        ylab="damage",
        data=spacshu,
        scales=list(y=list(at=c(0,1))),
-       cex=.5, pch=16,
+       cex=.75, pch=16, col="darkblue",
        main="c. observed and sectioned proportions\nappropriate temperature scale",
-       xlim=c(30, 85), ylim=c(-.1, 1.5),
+       xlim=c(30, 85),
        panel=function(...) {
          panel.xyplot(...)
          panel.segments(temp.range.left, damage.prop,
                         temp.range.right, damage.prop)
          panel.abline(h=0:1, lty=2)
        })
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 5: logi.tex:258-270
+### code chunk number 6: logi.tex:264-276
 ###################################################
-hhcapture("spaceshuttle-glm.Rout", '
+## hhcapture("spaceshuttle-glm.Rout", '
 spacshu.bin.glm <- glm(damage ~ tempF, data=spacshu, family=binomial)
 spacshu.bin.glm
 anova(spacshu.bin.glm, test="Chi")
@@ -105,97 +113,97 @@ coef(summary(spacshu.bin.glm))
 spacshu.pred <-
   interval(spacshu.bin.glm, newdata=data.frame(tempF=30:85),
            type="response")
-')
+## ')
 
 
 ###################################################
-### code chunk number 6: logi.tex:273-295
+### code chunk number 7: logi.tex:279-301
 ###################################################
-hhpdf("spaceshuttle-d.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-d.pdf", width=6.5, height=3)
 xyplot(jitter(damage, factor=Jitter.factor*4) ~ tempF, data=spacshu,
        ylab="proportion damaged",
        main="d. glm logit fit with pi, estimating p(damage in one ring)",
-       xlim=c(30, 85), ylim=c(-.1, 1.5),
+       xlim=c(30, 85),
        scales=list(y=list(at=c(0,1))),
-       cex=.5, pch=16,
+       cex=.75, pch=16, col="darkblue",
        panel=function(...) {
 	 panel.xyplot(...)
 	 panel.lines(x=30:85, y=spacshu.pred[,"fit"],
                      lty=1,
-                     col=trellis.par.get("superpose.line")$col[1])
+                     col="darkblue")
 	 panel.lines(x=30:85, y=spacshu.pred[,"pi.low"],
                      lty=4,
-                     col=trellis.par.get("superpose.line")$col[4])
+                     col="mediumblue")
 	 panel.lines(x=30:85, y=spacshu.pred[,"pi.hi"],
                      lty=4,
-                     col=trellis.par.get("superpose.line")$col[4])
+                     col="mediumblue")
          panel.abline(h=0:1, lty=2)
        }
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 7: logi.tex:299-326
+### code chunk number 8: logi.tex:305-332
 ###################################################
 spacshu6 <- data.matrix(spacshu)
 dimnames(spacshu6) <- NULL
 dim(spacshu6) <- c(6,23,2)
 spacshu6 <- data.frame(damage=apply(spacshu6[,,2],2,sum), tempF=spacshu6[1,,1])
 
-hhpdf("spaceshuttle-e.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-e.pdf", width=6.5, height=3)
 xyplot(jitter(damage, factor=Jitter.factor*3) ~ tempF, data=spacshu6,
        ylab="number of damaged rings",
        main="e. glm logit fit with pi, estimating number of damaged rings",
        xlim=c(30,85), ylim=c(-1,8),
        scales=list(y=list(at=c(0,6))),
-       cex=.5, pch=4,
+       cex=.75, pch=4, col="darkblue",
        panel=function(...) {
 	 panel.xyplot(...)
 	 panel.lines(x=30:85, y=6*spacshu.pred[,"fit"],
                      lty=1,
-                     col=trellis.par.get("superpose.line")$col[1])
+                     col="darkblue")
 	 panel.lines(x=30:85, y=6*spacshu.pred[,"pi.low"],
                      lty=4,
-                     col=trellis.par.get("superpose.line")$col[4])
+                     col="mediumblue")
 	 panel.lines(x=30:85, y=6*spacshu.pred[,"pi.hi"],
                      lty=4,
-                     col=trellis.par.get("superpose.line")$col[4])
+                     col="mediumblue")
          panel.abline(h=c(0,6), lty=2)
        }
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 8: logi.tex:401-413
+### code chunk number 9: logi.tex:407-419
 ###################################################
-hhpdf("spaceshuttle-f.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-f.pdf", width=6.5, height=3)
 xyplot(jitter(damage, factor=Jitter.factor*8) ~ tempF,
        ylab="damage",
        data=spacshu[spacshu[,"damage"]==1,],
        scales=list(y=list(at=c(0,1))),
-       cex=.5, pch=16,
+       cex=.75, pch=16, col="darkblue",
        main="f. observed damaged O-rings",
        panel=function(...) {
          panel.xyplot(...)
          panel.abline(h=0:1, lty=2)
        })
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 9: logi.tex:486-491
+### code chunk number 10: logi.tex:492-497
 ###################################################
-hhcapture("three-scales.Rout", '
+## hhcapture("three-scales.Rout", '
 p.hat <- predict(spacshu.bin.glm, type="response")
 odds.hat <- p.hat/(1-p.hat)
 logit.p.hat <- log(odds.hat)
-')
+## ')
 
 
 ###################################################
-### code chunk number 10: logi.tex:517-538
+### code chunk number 11: logi.tex:523-544
 ###################################################
 ## transformations
 p <- spacshu.pred[,"fit"]
@@ -216,29 +224,29 @@ tmp.both <- rbind(tmp2,tmp)
 ## This splom is not in the book.  The top three panels in the left row are in the next figure.
 splom(~tmp.both[,1:4], type=c("p","l"), groups=tmp.both$which,
       distribute.type=TRUE,
-      pch=19, panel.cex=1.4,
+      pch=19, panel.cex=1.4, col="darkblue",
       cex=.9, pscales=3, xlab=NULL)
 
 
 ###################################################
-### code chunk number 11: logi.tex:542-552
+### code chunk number 12: logi.tex:548-558
 ###################################################
-hhpdf("spaceshuttle-logit-xysplom.pdf", width=4.5, height=6)
+## hhpdf("spaceshuttle-logit-xysplom.pdf", width=4.5, height=6)
 xyplot(p + odds + logit.p ~ tempF, data=tmp.both,
-       type=c("p","l"), groups=rep(tmp.both$which,3), pch=19,
+       type=c("p","l"), groups=rep(tmp.both$which,3), pch=19, col="darkblue",
        distribute.type=TRUE,
        layout=c(1, 3),
        ylim=list(c(0, 1), c(0, 5), c(-4, 2)),
        par.strip.text=list(cex=1.4),
        scales=list(cex=1, y=list(relation="free", tick.number=4), alternating=FALSE),
        between=list(y=1.5), xlab="Temperature Fahrenheit", ylab="")
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 12: logi.tex:594-604
+### code chunk number 13: logi.tex:600-610
 ###################################################
-hhcapture("spaceshuttle-pred-link.Rout", '
+## hhcapture("spaceshuttle-pred-link.Rout", '
 ## prediction on link scale, in this case (-Inf, Inf)
 ## leading to Figure spaceshuttle-g.pdf Panel g
 spacshu.pred.link <-
@@ -247,58 +255,60 @@ spacshu.pred.link <-
 
 cbind(tempF=30:85, round(spacshu.pred.link, digits=2))[c(1:3,54:56),]
 cbind(tempF=30:85, round(spacshu.pred, digits=2))[c(1:3,54:56),]
-')
+## ')
 
 
 ###################################################
-### code chunk number 13: logi.tex:621-645
+### code chunk number 14: logi.tex:627-651
 ###################################################
-hhpdf("spaceshuttle-g.pdf", width=6.5, height=3)
+## hhpdf("spaceshuttle-g.pdf", width=6.5, height=3)
 ## approximate logit(1) with 4.1, and logit(0) with -4.1
 jld <- jitter(ifelse(spacshu$damage==1, 4.1, -4.1),8) ## pull infinity in
 
 xyplot(jld ~ tempF, data=spacshu,
        ylab="logit(proportion) damaged",
        main="g. glm logit fit with logit(pi), estimating logit(p(damage in one ring))",
-       xlim=c(30,85), ylim=c(-8,4),
-       cex=.5, pch=16,
+       xlim=c(30,85), ylim=c(-18, 12),
+       cex=.75, pch=16, col="darkblue",
        panel=function(...) {
 	 panel.xyplot(...)
 	 panel.lines(x=30:85, y=spacshu.pred.link[,"fit"],
                      lty=1,
-                     col=trellis.par.get("superpose.line")$col[1])
+                     col="darkblue")
 	 panel.lines(x=30:85, y=spacshu.pred.link[,"pi.low"],
                      lty=4,
-                     col=trellis.par.get("superpose.line")$col[4])
+                     col="mediumblue")
 	 panel.lines(x=30:85, y=spacshu.pred.link[,"pi.hi"],
                      lty=4,
-                     col=trellis.par.get("superpose.line")$col[4])
+                     col="mediumblue")
        }
 
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 14: logi.tex:871-882
+### code chunk number 15: logi.tex:878-891
 ###################################################
 data(budworm)
-hhpdf("budworm-data.pdf", width=7, height=4.5)
+col.bud <- likertColor(2, colorFunctionOption = "default")
+
+## hhpdf("budworm-data.pdf", width=7, height=4.5)
 xyplot(numdead ~ ldose, data=budworm, groups=sex,
-       pch=c("F","M"), cex=1.5, col=likertColor(2), type="b", lty=2,
+       pch=c("F","M"), cex=1.5, col=col.bud, type="b", lty=2,
        xlab="log dose",
        ylab="number dead",
        ylab.right="proportion dead",
        par.settings=list(clip=list(panel=FALSE), layout.widths=list(axis.right=1.4))) +
   layer(panel.axis("right", at=seq(0,20,5), labels=format(seq(0,20,5)/20, 2), outside=TRUE)) +
   layer(panel.abline(h=c(0, 20), lty=3, col="grey60"))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 15: logi.tex:901-918
+### code chunk number 16: logi.tex:910-927
 ###################################################
-hhcapture("budworm-glm.Rout", '
+## hhcapture("budworm-glm.Rout", '
 SF <- cbind(numdead=budworm$numdead,
             numalive = 20 - budworm$numdead)
 
@@ -314,13 +324,13 @@ budworm.lg0 <- glm(SF ~ sex + ldose - 1,
                    data=budworm,
                    family = binomial)
 anova(budworm.lg0, test="Chisq")
-')
+## ')
 
 
 ###################################################
-### code chunk number 16: logi.tex:935-958
+### code chunk number 17: logi.tex:944-967
 ###################################################
-hhpdf("budworm-predict.pdf", width=7, height=4.5)
+## hhpdf("budworm-predict.pdf", width=7, height=4.5)
 
 ldose=seq(-1, 6, 0.1)
 data.predict <- data.frame(ldose=c(ldose, ldose),
@@ -329,96 +339,97 @@ data.predict$p.hat <- predict(budworm.lg0, data.predict, type = "response")
 
 Ap <- xyplot(p.hat ~ ldose, groups=sex,
              data=data.predict, type="l",
-             xlab="log dose", ylab="probability of death", col=likertColor(2),
+             xlab="log dose", ylab="probability of death", col=col.bud,
              scales=list(rot=0, y=list(at=0:4/4)))
 
 budworm$p.hat <- predict.glm(budworm.lg0, type="response")
 budworm$p <- budworm$numdead / 20
 Bp <- xyplot(p ~ ldose, groups=sex, type="b", lty=2,
-             data=budworm, pch=c("F","M"), cex=1.5, col=likertColor(2))
+             data=budworm, pch=c("F","M"), cex=1.5, col=col.bud)
 
 update(Ap + Bp,
        main=list("observed points and\nfitted logistic regression", cex=1)) +
        layer(panel.abline(h=c(0, 1), lty=3, col="grey60"))
 
 
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 17: logi.tex:984-991
+### code chunk number 18: logi.tex:993-1000
 ###################################################
-hhcapture("logit-LD.Rout", '
+## hhcapture("logit-LD.Rout", '
 ## LD25 LD50 LD75
 xp.M <- MASS::dose.p(budworm.lg0, cf = c(2,3), p = 1:3/4)
 xp.M
 xp.F <- MASS::dose.p(budworm.lg0, cf = c(1,3), p = 1:3/4)
 xp.F
-')
+## ')
 
 
 ###################################################
-### code chunk number 18: logi.tex:1003-1013
+### code chunk number 19: logi.tex:1012-1022
 ###################################################
-hhpdf("budworm-LD.pdf", width=7, height=4.5)
+## hhpdf("budworm-LD.pdf", width=7, height=4.5)
 update(Ap + Bp +
   layer(panel.abline(h=1:3/4, col="gray60", lty=3)) +
   layer(panel.segments(xp.M, 0,   xp.M, .15, col="gray60", lty=3)) +
   layer(panel.segments(xp.F, .83, xp.F, 1, col="gray60", lty=3)) +
-  layer(panel.segments(xp.M, c(.15, .37, .62), xp.M, 1, col=likertColor(2)[2], lty=2)) +
-  layer(panel.segments(xp.F, 0, xp.F, c(.37, .62, .83), col=likertColor(2)[1], lty=2)),
+  layer(panel.segments(xp.M, c(.15, .37, .62), xp.M, 1, col=col.bud[2], lty=2)) +
+  layer(panel.segments(xp.F, 0, xp.F, c(.37, .62, .83), col=col.bud[1], lty=2)),
   main=list("observed points and\nfitted logistic regression", cex=1)) +
   layer(panel.abline(h=c(0, 1), lty=3, col="grey60"))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 19: logi.tex:1030-1046
+### code chunk number 20: logi.tex:1039-1055
 ###################################################
-hhpdf("budworm-AB.pdf", width=3, height=5.5)
+## hhpdf("budworm-AB.pdf", width=3, height=5.5)
 A <- xyplot(p.hat + odds(p.hat) + logit(p.hat) ~ ldose, groups=sex,
             data=data.predict, type="l",
-            xlab="log dose", ylab=NULL, col=likertColor(2),
+            xlab="log dose", ylab=NULL, col=col.bud,
             scales=list(relation="free", rot=0),
             layout=c(1,3))
 
 B <- xyplot(p + odds(p) + logit(p) ~ ldose, groups=sex,
-            data=budworm, pch=c("F","M"), cex=1.5, col=likertColor(2),
+            data=budworm, pch=c("F","M"), cex=1.5, col=col.bud,
             scales=list(relation="free"),
             layout=c(1,3))
 
 update(combineLimits.trellisvector(A + B),
        scales=list(y=list(relation="free")),
        between=list(y=1))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 20: logi.tex:1049-1064
+### code chunk number 21: logi.tex:1058-1073
 ###################################################
-hhpdf("budworm-ABprime.pdf", width=3, height=5.5)
+## hhpdf("budworm-ABprime.pdf", width=3, height=5.5)
 budworm$oddsp  <-  odds(budworm$p)
 budworm$logitp <- logit(budworm$p)
 budworm$oddsp[6]  <- A$y.limits[[2]][2]
 budworm$logitp[6:7] <- A$y.limits[[3]][2:1]
 
 Bprime <- xyplot(p + oddsp + logitp ~ ldose, groups=sex,
-            data=budworm, pch=c("F","M"), cex=1.5, col=likertColor(2),
+            data=budworm, pch=c("F","M"), cex=1.5, col=col.bud,
             scales=list(relation="free"),
             layout=c(1,3))
 
 update(combineLimits.trellisvector(A + Bprime),
        scales=list(y=list(relation="free")),
        between=list(y=1))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 21: logi.tex:1167-1189
+### code chunk number 22: logi.tex:1176-1199
 ###################################################
-hhpdf("logi-f-logit-a.pdf", width=10, height=6)
+## hhpdf("logi-f-logit-a.pdf", width=10, height=6)
 data(lymph)
-col2 <- likertColor(2)[2:1]
+col2 <- likertColor(2, colorFunctionOption = "default")[2:1]
+
 useOuterStripsT2L1(
 xyplot(age ~ acid.ph | grade * stage * X.ray, data=lymph,
        group=nodes, pch=levels(lymph$nodes), col=col2, cex=2.2,
@@ -429,7 +440,7 @@ xyplot(age ~ acid.ph | grade * stage * X.ray, data=lymph,
        between=list(x=c(.5, 1, .5), y=1),
        scales=list(cex=1, alternating=FALSE),
        xlab=list(cex=1.4), ylab=list(cex=1.4),
-       par.strip.text=list(cex=1.25),
+       par.strip.text=list(cex=1.6),
        key=list(space="right",
          text=list(levels(lymph$nodes), cex=1.5, adj=1, col=col2),
          columns=2,
@@ -437,25 +448,25 @@ xyplot(age ~ acid.ph | grade * stage * X.ray, data=lymph,
          title="nodes", cex.title=1.25,
          cex=1))
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 22: logi.tex:1224-1231
+### code chunk number 23: logi.tex:1234-1241
 ###################################################
 old.width <- options(width=65)
-hhcapture("logit-j.Rout", '
+## hhcapture("logit-j.Rout", '
 lymph3.glm <- glm(nodes ~ X.ray + stage + grade + acid.ph,
                   data=lymph, family=binomial)
 anova(lymph3.glm, test="Chisq")
-')
+## ')
 options(old.width)
 
 
 ###################################################
-### code chunk number 23: logi.tex:1257-1303
+### code chunk number 24: logi.tex:1267-1316
 ###################################################
-hhpdf("p8.pdf", width=8.5, height=6)
+## hhpdf("p8.pdf", width=8.5, height=6)
 logit.p.hat <- predict.glm(lymph3.glm, type="link")
 p.hat <- predict.glm(lymph3.glm, type="response")
 odds.hat <- p.hat/(1-p.hat)
@@ -489,24 +500,27 @@ ul35 <- unique(lymph[, 3:5])
 ul35 <- ul35[with(ul35, order(X.ray, stage, grade)),]
 ul35$Xsg <- with(ul35, interaction(X.ray, stage, grade))
 ul35$Xsg <- factor(ul35$Xsg, levels=unique(ul35$Xsg))
+old.warn <- options(warn=-1)  ## "row names were found from a short variable and have been discarded"
 tmp <- lapply(1:8, function(i) cbind(acid.ph=29:198, ul35[i,]))
+options(old.warn)
 tmp2 <- do.call("rbind", tmp)
 tmp2$nodes.hat <- predict.glm(lymph3.glm, type="response", newdata=tmp2)
 
 p8e <- xyplot(nodes.hat ~ acid.ph |  grade + stage + X.ray, data=tmp2,
               layout=c(4,2),
-              type="l")
+              type="l", col="black")
 ## p8e
 
-useOuterStripsT2L1(p8d + p8e +
-                   layer(panel.abline(h=c(0,1), lty=2, col="gray60")))
-hhdev.off()
+Na <- layer(panel.abline(h=c(0,1), lty=2, col="gray30"))
+
+useOuterStripsT2L1(p8d + p8e + Na)
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 24: logi.tex:1354-1383
+### code chunk number 25: logi.tex:1367-1396
 ###################################################
-hhpdf("lymph-m.pdf", width=4, height=5.5)
+## hhpdf("lymph-m.pdf", width=4, height=5.5)
 col8 <- brewer.pal(8, 'Dark2')
 
 ## values plotting symbol based on stage and full fitted lines
@@ -530,15 +544,15 @@ combineLimits(as.matrix(update(
   strip=FALSE, between=list(y=1))))
 DDgcll <-
 xyplot(nodes.hat + odds(nodes.hat) + logit(nodes.hat) ~ acid.ph, data=tmp2,
-       group=Xsg, type="l", col=col8,
+       group=Xsg, type="l", col=col8, lwd=2,
        layout=c(1, 3), scales=list(relation="free", rot=0))
 DDGcla <- DDgcl + DDgcll
 DDGcla
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 25: logi.tex:1396-1446
+### code chunk number 26: logi.tex:1409-1459
 ###################################################
 EEg0 <-
 xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, subset=(X.ray==0), data=lhat.sort,
@@ -555,7 +569,7 @@ xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, subset=(X.ray==0), data=lhat.so
          rev=TRUE))
 EEg0l <-
 xyplot(nodes.hat + odds(nodes.hat) + logit(nodes.hat) ~ acid.ph, subset=(X.ray==0), data=tmp2,
-       group=Xsg, type="l", col=col8,
+       group=Xsg, type="l", col=col8, lwd=2,
        layout=c(1, 3), scales=list(relation="free", rot=0))
 EEg0a <- EEg0 + EEg0l
 EEg0a
@@ -575,12 +589,12 @@ xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, subset=(X.ray==1), data=lhat.so
          rev=TRUE))
 EEg1l <-
 xyplot(nodes.hat + odds(nodes.hat) + logit(nodes.hat) ~ acid.ph, subset=(X.ray==1), data=tmp2,
-       group=Xsg, type="l", col=col8,
+       group=Xsg, type="l", col=col8, lwd=2,
        layout=c(1, 3), scales=list(relation="free", rot=0))
 EEg1a <- EEg1 + EEg1l
 EEg1a
 
-hhpdf("lymph-n.pdf", width=6, height=5.5)
+## hhpdf("lymph-n.pdf", width=6, height=5.5)
 EEga <-
 update(cbind(EEg0, EEg1),
        strip=FALSE, strip.left=FALSE,
@@ -589,22 +603,22 @@ update(cbind(EEg0, EEg1),
          y=list(relation="free")),
        xlab.top=c("X-ray: 0", "X-ray: 1"))
 combineLimits(EEga) + cbind(EEg0l, EEg1l)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 26: logi.tex:1462-1476
+### code chunk number 27: logi.tex:1475-1489
 ###################################################
-hhpdf("lymph-mn.pdf", width=8, height=5.5)
+## hhpdf("lymph-mn.pdf", width=8, height=5.5)
 DEEga <-
-update(cbind(as.vector(DDgcl), EEg0, EEg1),
+update(cbind(update(DDgcl, scales=list(at=NULL)), EEg0, EEg1),
        strip=FALSE, strip.left=FALSE,
        between=list(x=c(2, .5), y=1),
        scales=list(x=list(at=pretty(lhat.sort$acid.ph), relation="same", alternating=1),
          y=list(relation="free")),
        xlab.top=c("X-ray: both   ", "   X-ray: 0", "X-ray: 1"))
 combineLimits(DEEga) + cbind(as.vector(DDgcll), EEg0l, EEg1l)
-hhdev.off()
+## hhdev.off()
 
 ## notice that latticeExtra:::`+.trellis` is is not commutative with HH:::`cbind.trellis`
 ## cbind(EEg0a, EEg1a)        ## doesn't work
@@ -612,9 +626,9 @@ hhdev.off()
 
 
 ###################################################
-### code chunk number 27: logi.tex:1512-1535
+### code chunk number 28: logi.tex:1525-1547
 ###################################################
-hhpdf("logi-c.pdf", width=6, height=5.5)
+## hhpdf("logi-c.pdf", width=6, height=5.5)
 ## ignore grade and stage, simplification for exposition
 N0 <-
 xyplot(nodes.j ~ acid.ph | X.ray, data=lymph,
@@ -634,15 +648,14 @@ xyplot(nodes.j ~ acid.ph | X.ray, data=lymph,
          title="nodes", cex.title=1.25,
          cex=1))
 
-Na <- layer(panel.abline(h=c(0,1), lty=2, col="gray60"))
 N0 + Na
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 28: logi.tex:1556-1566
+### code chunk number 29: logi.tex:1568-1578
 ###################################################
-hhpdf("logit-cg.pdf", width=6, height=5.5)
+## hhpdf("logit-cg.pdf", width=6, height=5.5)
 apx12 <- seq(20,200,20)
 
 nodes.freq <- table(cut(lymph$acid.ph, apx12), lymph$X.ray, lymph$nodes)
@@ -651,37 +664,38 @@ nodes.prop <- nodes.freq[,,"1"] / (nodes.freq[,,"0"]+nodes.freq[,,"1"])
 Ns <- layer(panel.segments(apx12[-10], nodes.prop[,panel.number()],
                            apx12[-01], nodes.prop[,panel.number()]))
 N0 + Na + Ns
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 29: logi.tex:1610-1615
+### code chunk number 30: logi.tex:1622-1627
 ###################################################
-hhcapture("logit-f.Rout", '
+## hhcapture("logit-f.Rout", '
 lymph1.glm <- glm(nodes ~ X.ray + acid.ph, data=lymph, family=binomial)
 anova(lymph1.glm, test="Chisq")
 summary(lymph1.glm)$coef
-')
+## ')
 
 
 ###################################################
-### code chunk number 30: logi.tex:1630-1639
+### code chunk number 31: logi.tex:1642-1652
 ###################################################
-hhpdf("logit-d.pdf", width=6, height=5.5)
+col.xray <- brewer.pal(12, 'Paired')[c(10,12)] ## col8[6:7] ## "black" ## col8[1:2]
+## hhpdf("logit-d.pdf", width=6, height=5.5)
 tmpX <- lapply(c("0","1"), function(i) data.frame(acid.ph=29:198, X.ray=i))
 tmpX2 <- do.call("rbind", tmpX)
 tmpX2$nodes.hat <- predict.glm(lymph1.glm, type="response", newdata=tmpX2)
 Np <- xyplot(nodes.hat ~ acid.ph | X.ray, data=tmpX2,
              groups=X.ray,
-             type="l", layout=c(1,2), col=col8[c(1,8)])
+             type="l", layout=c(1,2), col=col.xray)
 N0 + Na + Np
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 31: logi.tex:1653-1687
+### code chunk number 32: logi.tex:1666-1700
 ###################################################
-hhpdf("logit-e.pdf", width=5.5, height=5.5)
+## hhpdf("logit-e.pdf", width=5.5, height=5.5)
 logit.p.hat <- predict.glm(lymph1.glm, type="link")
 p.hat <- predict.glm(lymph1.glm, type="response")
 odds.hat <- p.hat/(1-p.hat)
@@ -694,10 +708,10 @@ xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, data=lhat2.srt,
        group=X.ray, type="p",
        layout=c(1, 3), scales=list(relation="free", rot=0),
        ## above is necessary, below makes it prettier
-       pch=c("0","1"), cex=1.2, col=col8[c(1,8)],
+       pch=c("0","1"), cex=1.2, col=col.xray,
        key=list(space="right",
          border=1, columns=2,
-         points=list(pch=c("0","1"), col=col8[c(1,8)], cex=1.2),
+         points=list(pch=c("0","1"), col=col.xray, cex=1.2),
          title="X.ray", cex.title=1, lines.title=1.2,
          cex=1,
          rev=TRUE))
@@ -709,39 +723,39 @@ combineLimits(as.matrix(update(
 
 DD2gcll <-
 xyplot(nodes.hat + odds(nodes.hat) + logit(nodes.hat) ~ acid.ph, data=tmpX2,
-       group=X.ray, type="l", col=col8[c(1,8)],
+       group=X.ray, type="l", col=col.xray,
        layout=c(1, 3), scales=list(relation="free", rot=0))
 DD2Gcla <- DD2gcl + DD2gcll
 ## DD2Gcla
 update(DD2Gcla, ylim=list(c(0,1), c(0, 10), c(-2, 8)))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 32: logi.tex:1716-1720
+### code chunk number 33: logi.tex:1729-1733
 ###################################################
-hhcapture("logit-k.Rout", '
+## hhcapture("logit-k.Rout", '
 lymph1Xa.glm <- glm(nodes ~ X.ray * acid.ph, data=lymph, family=binomial)
 anova(lymph1Xa.glm, test="Chisq")
-')
+## ')
 
 
 ###################################################
-### code chunk number 33: logi.tex:1734-1741
+### code chunk number 34: logi.tex:1747-1754
 ###################################################
-hhpdf("logit-f.pdf", width=6, height=5.5)
+## hhpdf("logit-f.pdf", width=6, height=5.5)
 tmpX2$nodes.hatXa <- predict.glm(lymph1Xa.glm, type="response", newdata=tmpX2)
 NpXa <- xyplot(nodes.hatXa ~ acid.ph | X.ray, data=tmpX2,
              groups=X.ray,
-             type="l", layout=c(1,2), col=col8[c(1,8)])
+             type="l", layout=c(1,2), col=col.xray)
 N0 + Na + NpXa
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 34: logi.tex:1769-1803
+### code chunk number 35: logi.tex:1782-1816
 ###################################################
-hhpdf("logit-g.pdf", width=5.5, height=5.5)
+## hhpdf("logit-g.pdf", width=5.5, height=5.5)
 logit.p.hat <- predict.glm(lymph1Xa.glm, type="link")
 p.hat <- predict.glm(lymph1Xa.glm, type="response")
 odds.hat <- p.hat/(1-p.hat)
@@ -754,10 +768,10 @@ xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, data=lhat2Xa.srt,
        group=X.ray, type="p",
        layout=c(1, 3), scales=list(relation="free", rot=0),
        ## above is necessary, below makes it prettier
-       pch=c("0","1"), cex=1.2, col=col8[c(1,8)],
+       pch=c("0","1"), cex=1.2, col=col.xray,
        key=list(space="right",
          border=1, columns=2,
-         points=list(pch=c("0","1"), col=col8[c(1,8)], cex=1.2),
+         points=list(pch=c("0","1"), col=col.xray, cex=1.2),
          title="X.ray", cex.title=1, lines.title=1.2,
          cex=1,
          rev=TRUE))
@@ -769,41 +783,38 @@ combineLimits(as.matrix(update(
 
 DD2gXacll <-
 xyplot(nodes.hatXa + odds(nodes.hatXa) + logit(nodes.hatXa) ~ acid.ph, data=tmpX2,
-       group=X.ray, type="l", col=col8[c(1,8)],
+       group=X.ray, type="l", col=col.xray,
        layout=c(1, 3), scales=list(relation="free", rot=0))
 DD2GXacla <- DD2gXacl + DD2gXacll
 ## DD2GXacla
 update(DD2GXacla, ylim=list(c(0,1), c(0, 10), c(-2, 8)))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 35: logi.tex:1985-2003
+### code chunk number 36: logi.tex:1998-2020
 ###################################################
-hhpdf("logit-k.pdf", width=8, height=7)
-print(position=c(0,.49,1,1), more=TRUE,  ## top
+## hhpdf("logit-k.pdf", width=8, height=7)
+
+tmp <-
 update(DEEga[2:3, 3], layout=c(2,1),
        ylab=list(DEEga$ylab[[1]][3], rot=0),
        xlab.top=DEEga$xlab.top[2:3],
        scales=list(y=list(limits=c(-3, 4), at=-3:4, relation="same")),
-       main="Common Scaling: Easy to Compare Panels") +
+       main="Common Scaling: Easy to Compare Panels",
+       par.settings=list(layout.heights=NULL, layout.widths=NULL))
+
+print(position=c(0,.49,1,1), more=TRUE,  ## top
+tmp +
    cbind(as.vector(DDgcll), EEg0l, EEg1l)
 )
+
 print(position=c(0,0,1,.47), more=FALSE, ## bottom
-update(DEEga[2:3, 3], layout=c(2,1),
-       ylab=list(DEEga$ylab[[1]][3], rot=0),
-       xlab.top=DEEga$xlab.top[2:3],
-       scales=list(y=list(at=-3:4), relation="free"),
+update(tmp,
+       scales=list(y=list(relation="free")),
        main="Separate Scaling: Difficult to Compare Panels") +
    cbind(as.vector(DDgcll), EEg0l, EEg1l)
 )
-hhdev.off()
-
-
-###################################################
-### code chunk number 36: logi.tex:2306-2308
-###################################################
-hhcapture("myfile.Rout", '
-')
+## hhdev.off()
 
 

@@ -1,7 +1,23 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/dsgntwo.tex'
 
 ###################################################
-### code chunk number 1: dsgntwo.tex:215-251
+### code chunk number 1: dsgntwo.tex:9-10
+###################################################
+library(HH)
+
+
+###################################################
+### code chunk number 2: dsgntwo.tex:13-18
+###################################################
+## the standard lattice color 2 is difficult for people with color deficient vision
+data(col3x2)
+## These colors look like a 3x2 color array when run through
+## the vischeck simulator to see how they look for the three most
+## common color vision deficiencies: Protanope, Deuteranope, Tritanope.
+
+
+###################################################
+### code chunk number 3: dsgntwo.tex:230-266
 ###################################################
 data(yatesppl)
 
@@ -21,86 +37,86 @@ tmpsppl$value <- interaction(tmpsppl$variety,
 tmp <-
 reshape2::acast(tmpsppl, subplots ~ plots ~ blocks)
 
-hhcapture("yatesppl-layout.Rout", echo=FALSE, '
+## hhcapture("yatesppl-layout.Rout", echo=FALSE, '
 ## blocks 1 2 3 4 5 6
 tmp
-')
+## ')
 
 tmp2 <- as.character(tmp)
 dim(tmp2) <- dim(tmp)
 dimnames(tmp2) <- dimnames(tmp)
 
-hhcapture("yatesppl-layout.123.Rout", echo=FALSE, '
+## hhcapture("yatesppl-layout.123.Rout", echo=FALSE, '
 ## blocks 1 2 3
 print(tmp2[,,1:3], quote=FALSE)
-')
+## ')
 
-hhcapture("yatesppl-layout.456.Rout", echo=FALSE, '
+## hhcapture("yatesppl-layout.456.Rout", echo=FALSE, '
 ## blocks 4 5 6
 print(tmp2[,,4:6], quote=FALSE)
-')
+## ')
 
 
 ###################################################
-### code chunk number 2: dsgntwo.tex:277-285
+### code chunk number 4: dsgntwo.tex:292-300
 ###################################################
-hhpdf("yatesppl.pdf", height=7, width=7)
+## hhpdf("yatesppl.pdf", height=7, width=7, col=col3x2) ## col is not an argument for grDevices:::pdf
 position(tmpsppl$variety) <- (1:3) + c(.5, .6, .7)
 tmpsppl$nit.lev <- factor(tmpsppl$nitlev)
 levels(tmpsppl$nit.lev)[1] <- "0.0"
 interaction2wt(y ~ variety + nit.lev, data=tmpsppl,
                par.strip.text=list(cex=1.4),
                main.cex=1.6)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 3: dsgntwo.tex:358-364
+### code chunk number 5: dsgntwo.tex:373-379
 ###################################################
-hhcapture("yatesppl-1.Rout", '
+## hhcapture("yatesppl-1.Rout", '
 yatesppl.aov <-
    aov(y ~ variety*nitrogen + Error(blocks/plots/subplots),
        data=yatesppl)
 summary(yatesppl.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 4: dsgntwo.tex:378-385
+### code chunk number 6: dsgntwo.tex:393-400
 ###################################################
-hhcapture("yatesppl-3.Rout", '
+## hhcapture("yatesppl-3.Rout", '
 yatesppl.wrong.aov <-
   aov(terms(y ~ (blocks*variety) + (nitrogen*variety),
             keep.order=TRUE),
       data=yatesppl)
 summary(yatesppl.wrong.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 5: dsgntwo.tex:404-408
+### code chunk number 7: dsgntwo.tex:423-427
 ###################################################
-hhcapture("yatesppl-2.Rout", '
+## hhcapture("yatesppl-2.Rout", '
 model.tables(yatesppl.aov, type="means")
 model.tables(yatesppl.aov, type="effects", se=TRUE)
-')
+## ')
 
 
 ###################################################
-### code chunk number 6: dsgntwo.tex:456-462
+### code chunk number 8: dsgntwo.tex:480-486
 ###################################################
-hhcapture("yatesppl-alt.Rout", '
+## hhcapture("yatesppl-alt.Rout", '
 yatesppl2.anova <-
   aov(y ~ variety*nitrogen + Error(blocks/variety/nitrogen),
       data=yatesppl)
 summary(yatesppl2.anova)
-')
+## ')
 
 
 ###################################################
-### code chunk number 7: dsgntwo.tex:533-547
+### code chunk number 9: dsgntwo.tex:557-571
 ###################################################
-hhcapture("yatesppl-st6.Rout", '
+## hhcapture("yatesppl-st6.Rout", '
 ## polynomial contrasts in nitrogen
 contrasts(yatesppl$nitrogen)
 contrasts(yatesppl$nitrogen) <- contr.poly(4)
@@ -113,46 +129,46 @@ yatespplp.aov <-
 summary(yatespplp.aov,
         split=list(nitrogen=list(linear=1, quad=2, cub=3)),
         expand.split=FALSE)
-')
+## ')
 
 
 ###################################################
-### code chunk number 8: dsgntwo.tex:570-578
+### code chunk number 10: dsgntwo.tex:596-604
 ###################################################
-hhcapture("yatesppl-mmc.Rout", '
+## hhcapture("yatesppl-mmc.Rout", '
 yatesppl.mmc <- mmc(yatesppl.wrong.aov, focus="nitrogen")
 nitrogen.lmat <- contr.poly(4)
 rownames(nitrogen.lmat) <- levels(yatesppl$nitrogen)
 yatesppl.mmc <- mmc(yatesppl.wrong.aov, focus="nitrogen",
                     focus.lmat=nitrogen.lmat)
 yatesppl.mmc
-')
+## ')
 
 
 ###################################################
-### code chunk number 9: dsgntwo.tex:595-603
+### code chunk number 11: dsgntwo.tex:623-631
 ###################################################
-hhpdf("yatesppl-mmc.pdf", width=9, height=4.5)
+## hhpdf("yatesppl-mmc.pdf", width=9, height=4.5)
 yatesmmcpair <- mmcplot(yatesppl.mmc)
 yatesmmcpoly <- mmcplot(yatesppl.mmc, type="lmat")
 update(c("Pairwise Contrasts"=yatesmmcpair,
          "Polynomial Contrasts"=yatesmmcpoly,
          layout=c(2,1)),
        between=list(x=3), scales=list(x=list(alternating=FALSE)))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 10: dsgntwo.tex:730-734
+### code chunk number 12: dsgntwo.tex:759-763
 ###################################################
 hhcode("Design_2.8-2.R", '
 data(Design_2.8_2)
 Design_2.8_2
-')
+## ')
 
 
 ###################################################
-### code chunk number 11: dsgntwo.tex:822-838
+### code chunk number 13: dsgntwo.tex:856-872
 ###################################################
 hhcode("2.8-2.R", '
 R282 <- t(sapply(strsplit(Design_2.8_2$trt,""),
@@ -169,49 +185,49 @@ model.matrix(R282.aov)
 R282E.aov <- aov(R282.y ~ Error(blocks) + (a+b+c+d+e+f+g+h)^2,
                  data=R282)
 summary(R282E.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 12: dsgntwo.tex:893-897
+### code chunk number 14: dsgntwo.tex:927-931
 ###################################################
-hhpdf("circuit.pdf")
+## hhpdf("circuit.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
 data(circuit)
 interaction2wt(yield ~ A*B*C, data=circuit, main.cex=1.6, box.width=.3)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 13: dsgntwo.tex:911-918
+### code chunk number 15: dsgntwo.tex:945-952
 ###################################################
-  hhcapture("circuit.Rout", '
+##   hhcapture("circuit.Rout", '
 circuit.aov <- aov( yield ~ A + B + C + A:B, data=circuit)
 summary(circuit.aov)
 model.tables(circuit.aov, type="means")
 tapply(circuit[,"yield"], circuit[,"D"], mean)
 tapply(circuit[,"yield"], circuit[,c("A","C")], mean)
-')
+## ')
 
 
 ###################################################
-### code chunk number 14: dsgntwo.tex:1081-1091
+### code chunk number 16: dsgntwo.tex:1120-1130
 ###################################################
-hhpdf("cc135-fig.pdf", width=7, height=2.5)
+## hhpdf("cc135-fig.pdf", width=7, height=2.5)
 data(cc135)
 LLL <- xyplot(yield ~ period | cow, data=cc135,
               type="l", lty=3, col="gray50")
 TTT <- xyplot(yield ~ period | cow, data=cc135,
-              group=treat, pch=levels(cc135$treat), cex=2)
+              group=treat, pch=levels(cc135$treat), cex=2.5, col=col3x2)
 update(LLL+TTT,
        layout=c(6,1), between=list(x=c(1)), scales=list(alternating=FALSE),
        strip=strip.custom(strip.names=c(TRUE,TRUE)), ylim=c(-15, 145))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 15: dsgntwo.tex:1166-1180
+### code chunk number 17: dsgntwo.tex:1205-1219
 ###################################################
-  hhcapture("cc135.Rout", '
+##   hhcapture("cc135.Rout", '
 data(cc135)
 a1c <-  aov(terms(yield ~ cow + square:period + treat + res.treat,
                   keep.order=TRUE), data=cc135)
@@ -224,11 +240,11 @@ a1cr <- aov(terms(yield ~ cow + square:period + res.treat + treat,
 summary(a1cr)
 model.tables(a1cr, type="means")
 apply(summary(a1cr)[[1]][,1:2], 2, sum)
-')
+## ')
 
 
 ###################################################
-### code chunk number 16: dsgntwo.tex:1182-1192
+### code chunk number 18: dsgntwo.tex:1221-1231
 ###################################################
   hhcode("cc135.R", '
 data(cc135)
@@ -239,13 +255,13 @@ summary(a1c)
 a1cr <- aov(terms(yield ~ cow + square:period + res.treat + treat,
                   keep.order=TRUE), data=cc135)
 summary(a1cr)
-')
+## ')
 
 
 ###################################################
-### code chunk number 17: dsgntwo.tex:1258-1292
+### code chunk number 19: dsgntwo.tex:1299-1333
 ###################################################
-hhpdf("cc135fbwplot.pdf", width=8, height=5)
+## hhpdf("cc135fbwplot.pdf", width=8, height=5, col=col3x2) ## col is not an argument for grDevices:::pdf
 ## construct the yield adjusted for the blocking factors and res.treat
 cc135.block.res.aov <- aov(terms(yield ~ square/(cow + period) + res.treat,
                                  keep.order=TRUE), data=cc135)
@@ -278,11 +294,11 @@ print(position = c(.47,0,1,1), more = FALSE,  # right
              scales=list(x=list(cex=.7), y=list(cex=1.4)), ylab=list(cex=1.4),
              main="residual treatment means\n adjusted for blocks and treatments",
              panel=panel.bwplot.superpose, groups=res.treat))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 18: dsgntwo.tex:1395-1435
+### code chunk number 20: dsgntwo.tex:1436-1474
 ###################################################
 ## Set up the individual ancova models.
 ## The graphs will be displayed in the next Scode section.
@@ -294,13 +310,12 @@ apple$yield.block <- apple$yield - proj(lm(yield ~ block, data=apple))[,'block']
 apple$pre.block   <- apple$pre   - proj(lm(  pre ~ block, data=apple))[,'block']
 
 `y.b~p.b*t`<-  ancovaplot(yield.block ~ pre.block*treat, data=apple,
-                          groups=block, pch=letters[1:4], cex=1.4,
-                          col=trellis.par.get()$superpose.symbol$col,
-                          col.line=trellis.par.get()$superpose.symbol$col,
+                          groups=block, pch=letters[1:4], cex=1.6,
+                          col=col3x2,
                           col.by.groups=FALSE)
 ## `y.b~p.b*t`
 
-`y.b~p.b+t` <-  ancovaplot(yield.block ~ pre.block + treat, data=apple)
+`y.b~p.b+t` <-  ancovaplot(yield.block ~ pre.block + treat, data=apple, col=col3x2)
 ## `y.b~p.b+t`
 
 apple.aov.4 <- aov(yield.block ~ pre.block + treat, data=apple)
@@ -308,80 +323,98 @@ apple.aov.4 <- aov(yield.block ~ pre.block + treat, data=apple)
 apple$yield.block.pre <-
   apple$yield.block - predict.lm(apple.aov.4, type="terms", terms="pre.block")
 
-`y.b~t` <-  ancovaplot(yield.block ~ treat, x=pre.block, data=apple)
+`y.b~t` <-  ancovaplot(yield.block ~ treat, x=pre.block, data=apple, col=col3x2)
 ## `y.b~t`
 
-`y.b.p~t` <-  ancovaplot(yield.block.pre ~ treat, x=pre.block, data=apple)
+`y.b.p~t` <-  ancovaplot(yield.block.pre ~ treat, x=pre.block, data=apple, col=col3x2)
 ## `y.b.p~t`
 
-`y.b~p.b` <-  ancovaplot(yield.block ~ pre.block, groups=treat, data=apple)
+`y.b~p.b` <-  ancovaplot(yield.block ~ pre.block, groups=treat, data=apple, col=col3x2)
 ## `y.b~p.b`
 
 `y~b+p*t` <-  ancovaplot(yield ~ pre * treat, data=apple,
-                         groups=block, pch=letters[1:4], cex=1.4,
-                         col=trellis.par.get()$superpose.symbol$col,
-                         col.line=trellis.par.get()$superpose.symbol$col,
+                         groups=block, pch=letters[1:4], cex=1.6,
+                         col=col3x2,
                          condition=apple$treat,
                          col.by.groups=FALSE)
 ## `y~b+p*t`
 
 
 ###################################################
-### code chunk number 19: dsgntwo.tex:1441-1480
+### code chunk number 21: dsgntwo.tex:1480-1538
 ###################################################
-hhpdf("appleAncovaPlots.pdf", width=9, height=11)
-apple7 <-  do.call(c, list("y.b.p ~ t"  =`y.b.p~t`,
-                           "y.b ~ p.b+t"=`y.b~p.b+t`,
-                           "y.b ~ t"    =`y.b~t`,
-                           "y.b ~ p.b"  =`y.b~p.b`,
-                           "y.b ~ p.b*t"=`y.b~p.b*t`,
-                           "y ~ b+p*t"  =`y~b+p*t`,
-                           layout=c(7, 6)))
-apple7 <- update(apple7, scales=list(y=list(rot=0)))
 
-apple7mt <- matrix.trellis(apple7, nrow=6, ncol=7, byrow=TRUE)
-apple7mt$condlevels[[2]] <- c("y.b.p ~ t","y.b ~ p.b+t","y.b ~ t","y.b ~ p.b","y.b ~ p.b*t","y ~ b+p*t")
-apple7mt$condlevels[[1]][7] <- "Superpose"
-apple7uc <- useOuterStrips(combineLimits(apple7mt))
-apple7ucr <- apple7uc
+## convert each vector of panels into a row matrix
+FF <- transpose(useOuterStrips(as.matrix(`y.b.p~t`  )))
+EE <- transpose(useOuterStrips(as.matrix(`y.b~p.b+t`)))
+DD <- transpose(useOuterStrips(as.matrix(`y.b~t`    )))
+CC <- transpose(useOuterStrips(as.matrix(`y.b~p.b`  )))
+BB <- transpose(useOuterStrips(as.matrix(`y.b~p.b*t`)))
+AA <- transpose(useOuterStrips(as.matrix(`y~b+p*t`  )))
+AA.strip <- AA$strip ## save top strip with one line after useOuterStrips
 
-tmp <- apple7ucr$y.limits
-dim(tmp) <- c(7,6)
-tmp.range <- sapply(1:6, function(i) range(unlist(tmp[,i])))
-for (i in 1:35) apple7ucr$y.limits[[i]] <- range(tmp.range[,-6])
-for (i in 36:42) apple7ucr$y.limits[[i]] <- tmp.range[,6]
-apple7ucr <- update(apple7ucr,
-                    xlab="pre (adjusted as indicated)",
-                    ylab="yield (adjusted as indicated)",
-                    scales=list(
-                      y=list(at=rep(list(c(200,250,300,350),
-                               NULL,NULL,NULL,NULL,NULL,NULL), 6)),
-                      x=list(alternating=1)),
-                    xlab.top="Treatment")
-apple7ucrs <-
-  resizePanels(update(apple7ucr,
-                      between=list(
-                        x=c(.2,.2,.2,.2,.2,1),
-                        y=c(.5,.2,.2,.2,1))),
-               h=c(rep(diff(apple7ucr$y.limits[[1]]), 5),
-                   diff(apple7ucr$y.limits[[36]])))
-apple7ucrs$condlevels[[2]] <- paste(6:1, apple7ucrs$condlevels[[2]], sep=": ")
-apple7ucrs
-hhdev.off()
+## with these row names
+dimnames(FF)[[2]] <- "y.b.p~t"
+dimnames(EE)[[2]] <- "y.b~p.b+t"
+dimnames(DD)[[2]] <- "y.b~t"
+dimnames(CC)[[2]] <- "y.b~p.b"
+dimnames(BB)[[2]] <- "y.b~p.b*t"
+dimnames(AA)[[2]] <- "y~b+p*t"
+
+## align panel heights and axes
+AA <- update(AA, ylim=c(161.1, 402.9), xlim=c(5.15, 11.23), scales=list(y=list(at=c(200,250,300,350)), x=list(at=c(5,7,9,11), alternating=0, tck=0     )), par.strip.text=list(lines=.7), between=list(x=c(.5,.5,.5,.5,.5,1.2), y=1), strip=TRUE , ylab=" ", xlab=NULL, xlab.top="Treatment", cex=2.2)
+BB <- update(BB, ylim=c(214.4, 343.1), xlim=c(5.15, 11.23), scales=list(y=list(at=c(200,250,300,350)), x=list(at=c(5,7,9,11), alternating=0, tck=0     )), par.strip.text=list(lines=.7), between=list(x=c(.5,.5,.5,.5,.5,1.2), y=1), strip=FALSE, ylab=" ", xlab=NULL, cex=2.2)
+CC <- update(CC, ylim=c(214.4, 343.1), xlim=c(5.15, 11.23), scales=list(y=list(at=c(200,250,300,350)), x=list(at=c(5,7,9,11), alternating=0, tck=0     )), par.strip.text=list(lines=.7), between=list(x=c(.5,.5,.5,.5,.5,1.2), y=1), strip=FALSE, ylab="yield (adjusted as indicated", xlab=NULL, cex=1.3)
+DD <- update(DD, ylim=c(214.4, 343.1), xlim=c(5.15, 11.23), scales=list(y=list(at=c(200,250,300,350)), x=list(at=c(5,7,9,11), alternating=0, tck=0     )), par.strip.text=list(lines=.7), between=list(x=c(.5,.5,.5,.5,.5,1.2), y=1), strip=FALSE, ylab=" ", xlab=NULL, cex=1.3)
+EE <- update(EE, ylim=c(214.4, 343.1), xlim=c(5.15, 11.23), scales=list(y=list(at=c(200,250,300,350)), x=list(at=c(5,7,9,11), alternating=0, tck=0     )), par.strip.text=list(lines=.7), between=list(x=c(.5,.5,.5,.5,.5,1.2), y=1), strip=FALSE, ylab=" ", xlab=NULL, cex=1.3)
+FF <- update(FF, ylim=c(214.4, 343.1), xlim=c(5.15, 11.23), scales=list(y=list(at=c(200,250,300,350)), x=list(at=c(5,7,9,11), alternating=1, tck=c(1,0))), par.strip.text=list(lines=.7), between=list(x=c(.5,.5,.5,.5,.5,1.2), y=1), strip=FALSE, ylab=" ", xlab="pre (adjusted as indicated)", cex=1.3)
+AA$strip <- AA.strip  ## restore top strip with one line after useOuterStrips
+environment(AA$strip) <- environment(AA$strip.left)
+
+## These numbers make the figure look right.  I don't totally understand them.
+## The 1.879 makes the inches between tickmarks 250 and 300 be constant over all six rows.
+## > diff(c(161.1, 402.9))
+## [1] 241.8
+## > diff(c(214.4, 343.1))
+## [1] 128.7
+## > 241.8/128.7
+## [1] 1.879
+
+aa <- 2.0
+bb <- 1
+cc <- .3
+dd <- 1.879
+ee <- 3.0
+
+bottom <- cumsum(c(0, aa+bb-3.5*cc, rep(bb+1.9*cc, 3), bb-3.0*cc))
+top    <- cumsum(c(aa+bb, rep(bb, 4), dd+ee-3.0*cc))
+bottom <- bottom/top[6]
+top    <- top/top[6]
+
+## print each row separately
+## hhpdf("appleAncovaPlots.pdf", width=8.2, height=10)
+print(AA, position=c(0, bottom[6], 1, top[6]), panel.height=list(1.879*5, "lines"), more=TRUE )
+print(BB, position=c(0, bottom[5], 1, top[5]), panel.height=list(1.000*5, "lines"), more=TRUE )
+print(CC, position=c(0, bottom[4], 1, top[4]), panel.height=list(1.000*5, "lines"), more=TRUE )
+print(DD, position=c(0, bottom[3], 1, top[3]), panel.height=list(1.000*5, "lines"), more=TRUE )
+print(EE, position=c(0, bottom[2], 1, top[2]), panel.height=list(1.000*5, "lines"), more=TRUE )
+print(FF, position=c(0, bottom[1], 1, top[1]), panel.height=list(1.000*5, "lines"), more=FALSE)
+## hhdev.off()
+
 
 
 ###################################################
-### code chunk number 20: dsgntwo.tex:1538-1541
+### code chunk number 22: dsgntwo.tex:1641-1644
 ###################################################
-   hhcapture("appleAncovaTable1.Rout", echo=FALSE, '
+##    hhcapture("appleAncovaTable1.Rout", echo=FALSE, '
   anova(aov(yield ~ block + pre * treat, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 21: dsgntwo.tex:1592-1611
+### code chunk number 23: dsgntwo.tex:1695-1714
 ###################################################
-hhpdf("apple-y-p.pdf", height=4, width=6)
+## hhpdf("apple-y-p.pdf", height=4, width=6, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 y.b <- bwplot(yield + yield.block ~ block, data=apple, outer=TRUE,
        par.settings=list(box.dot=list(
           col=trellis.par.get()$superpose.symbol$col[1])))
@@ -399,14 +432,14 @@ pybos <- update(pybos,
                 strip=FALSE, strip.left=FALSE,
                 between=list(x=1, y=1))
 pybos
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 22: dsgntwo.tex:1660-1670
+### code chunk number 24: dsgntwo.tex:1763-1773
 ###################################################
   anova(aov(yield.block ~ pre.block * treat, data=apple))
-   hhcapture("appleAncovaTable2.Rout", '
+##    hhcapture("appleAncovaTable2.Rout", '
 apple$yield.block <-
   apple$yield - proj(lm(yield ~ block, data=apple))[,"block"]
 apple$pre.block   <-
@@ -414,13 +447,13 @@ apple$pre.block   <-
 ## wrong interaction sum of squares
 anova(aov(yield.block ~ block + pre.block * treat,
       data = apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 23: dsgntwo.tex:1693-1702
+### code chunk number 25: dsgntwo.tex:1796-1805
 ###################################################
-   hhcapture("appleAncovaTable2qr.Rout", '
+##    hhcapture("appleAncovaTable2qr.Rout", '
 applebpst.aov <- aov(yield ~ block + pre * treat, data=apple,
                      x=TRUE)
 appleQ <- qr.Q(qr(applebpst.aov$x))
@@ -428,108 +461,112 @@ appleQ <- qr.Q(qr(applebpst.aov$x))
 ## correct anova for `y.b~p.b*t`
 anova(aov(yield.block ~ pre.block + treat +
                         `(pre.block:treat).block`, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 24: dsgntwo.tex:1735-1738
+### code chunk number 26: dsgntwo.tex:1838-1841
 ###################################################
-   hhcapture("appleAncovaTable3.Rout", echo=FALSE, '
+##    hhcapture("appleAncovaTable3.Rout", echo=FALSE, '
   anova(aov(yield.block ~ pre.block, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 25: dsgntwo.tex:1760-1763
+### code chunk number 27: dsgntwo.tex:1863-1866
 ###################################################
-   hhcapture("appleAncovaTable4.Rout", echo=FALSE, '
+##    hhcapture("appleAncovaTable4.Rout", echo=FALSE, '
   anova(aov(yield.block ~ treat, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 26: dsgntwo.tex:1807-1810
+### code chunk number 28: dsgntwo.tex:1910-1913
 ###################################################
-   hhcapture("appleAncovaTable5.Rout", echo=FALSE, '
+##    hhcapture("appleAncovaTable5.Rout", echo=FALSE, '
   anova(aov(yield.block ~ pre.block + treat, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 27: dsgntwo.tex:1827-1830
+### code chunk number 29: dsgntwo.tex:1930-1933
 ###################################################
-   hhcapture("appleAncovaTable5b.Rout", '
+##    hhcapture("appleAncovaTable5b.Rout", '
 anova(aov(yield ~ block + pre + treat, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 28: dsgntwo.tex:1847-1850
+### code chunk number 30: dsgntwo.tex:1950-1953
 ###################################################
-   hhcapture("appleAncovaTable5c.Rout", '
+##    hhcapture("appleAncovaTable5c.Rout", '
 anova(aov(yield.block ~ block + pre.block + treat, data=apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 29: dsgntwo.tex:1922-1938
+### code chunk number 31: dsgntwo.tex:2026-2046
 ###################################################
-hhpdf("appleshift5.pdf", height=3, width=10)
+## hhpdf("appleshift5.pdf", height=3, width=10)
 update(`y.b~p.b+t`[1:6],
-       xlim=apple7ucr$x.limits[[1]],
-       ylim=apple7ucr$y.limits[[1]],
+       cex=2,
+       xlim=BB$x.limits,
+       ylim=BB$y.limits,
        panel=panel.ancova.superpose,
        plot.resids=TRUE, print.resids=TRUE,
-       mean.x.line=mean(unlist(sapply(`y.b~p.b+t`$panel.args, `[[`, "x"))))
-hhdev.off()
-hhpdf("appleshift6.pdf", height=3, width=10)
+       mean.x.line=mean(unlist(sapply(`y.b~p.b+t`$panel.args, `[[`, "x"))),
+       col.mean.x.line="gray40")
+## hhdev.off()
+## hhpdf("appleshift6.pdf", height=3, width=10)
 update(`y.b.p~t`[1:6],
-       xlim=apple7ucr$x.limits[[1]],
-       ylim=apple7ucr$y.limits[[1]],
+       cex=2,
+       xlim=BB$x.limits,
+       ylim=BB$y.limits,
        panel=panel.ancova.superpose,
        plot.resids=TRUE, print.resids=TRUE,
-       mean.x.line=mean(unlist(sapply(`y.b.p~t`$panel.args, `[[`, "x"))))
-hhdev.off()
+       mean.x.line=mean(unlist(sapply(`y.b.p~t`$panel.args, `[[`, "x"))),
+       col.mean.x.line="gray40")
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 30: dsgntwo.tex:1954-1961
+### code chunk number 32: dsgntwo.tex:2062-2069
 ###################################################
   anova(aov(yield.block.pre ~ treat, data=apple))
-   hhcapture("appleAncovaTable6.Rout", '
+##    hhcapture("appleAncovaTable6.Rout", '
 apple.aov.4 <-  aov(yield.block ~ pre.block + treat, data=apple)
 apple$yield.block.pre <- apple$yield.block -
         predict.lm(apple.aov.4, type="terms", terms="pre.block")
 anova(aov(yield.block.pre ~ treat, data = apple))
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 31: dsgntwo.tex:2000-2008
+### code chunk number 33: dsgntwo.tex:2108-2116
 ###################################################
-   hhcapture("apple2.2mc.Rout", '
+##    hhcapture("apple2.2mc.Rout", '
 apple5.aov <- aov(yield ~ block + pre + treat, data=apple)
 anova(apple5.aov)
 apple5d.mmc <- mmc(apple5.aov,
     linfct=mcp(treat=contrMat(table(apple$treat),
                               type="Dunnett", base=6)))
 apple5d.mmc
- ')
+##  ')
 
 
 ###################################################
-### code chunk number 32: dsgntwo.tex:2027-2031
+### code chunk number 34: dsgntwo.tex:2135-2139
 ###################################################
-hhpdf("appleMMC.pdf", height=6, width=6)
+## hhpdf("appleMMC.pdf", height=6, width=6)
 mmcplot(apple5d.mmc, main="Dunnett comparisons against Control=6", style="both",
-        sub=list("\n             The MMC panel shows informative overprinting.  Please see caption.", cex=.75))
-hhdev.off()
+        sub=list("\n             The MMC panel shows informative overprinting.  Please see Tiebreaker panel and caption.", cex=.75))
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 33: dsgntwo.tex:2337-2354
+### code chunk number 35: dsgntwo.tex:2445-2463
 ###################################################
-hhpdf("testscorefsplom1.pdf", width=8, height=9)
+## hhpdf("testscorefsplom1.pdf", width=8, height=9)
 ## testscore.s
 ## testscore data:
 ## P. O. Johnson and F. Tsao, 1945
@@ -541,17 +578,18 @@ levels(testscore$standing)[2] <- "avg"
 levels(testscore$order)[2] <- "med"
 
 splom( ~ testscore, pch=16,
-      main="Original ordering of factor values", axis.text.cex=.6, xlab=NULL)
+      main="Original ordering of factor values", axis.text.cex=.6, xlab=NULL,
+      col=likertColor(2)[2])
 ## restore longer level names
 levels(testscore$standing)[2] <- "average"
 levels(testscore$order)[2] <- "medium"
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 34: dsgntwo.tex:2371-2387
+### code chunk number 36: dsgntwo.tex:2480-2497
 ###################################################
-hhpdf("testscorefsplom2.pdf", width=8, height=9)
+## hhpdf("testscorefsplom2.pdf", width=8, height=9)
 ## reorder the levels of the factors, and the order of the variables
 ## to improve the simplicity of the graph.
 testscore$standing  <- ordered(testscore$standing,
@@ -562,17 +600,18 @@ testscore$order     <- ordered(testscore$order,
 levels(testscore$standing)[2] <- "avg"
 levels(testscore$order)[2] <- "med"
 splom( ~ testscore[,c(1,6,7,4,5,3,2)], pch=16,
-      main="Revised ordering of factor values", axis.text.cex=.6, xlab=NULL)
+      main="Revised ordering of factor values", axis.text.cex=.6, xlab=NULL,
+      col=likertColor(2)[2])
 ## restore longer level names
 levels(testscore$standing)[2] <- "average"
 levels(testscore$order)[2] <- "medium"
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 35: dsgntwo.tex:2429-2468
+### code chunk number 37: dsgntwo.tex:2539-2578
 ###################################################
-  hhcapture("testscoreComp.Rout", '
+##   hhcapture("testscoreComp.Rout", '
 ## factors only
 testscore1.aov <- aov(final ~ (sex + grade + standing + order)^2,
                       data=testscore)
@@ -610,14 +649,14 @@ anova(testscore1.aov, testscore3s.aov)
 
 ## continuous vs both
 anova(testscore4.aov, testscore3s.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 36: dsgntwo.tex:2527-2551
+### code chunk number 38: dsgntwo.tex:2640-2664
 ###################################################
 old.stars <- options(show.signif.stars=FALSE)
-  hhcapture("testscore5.Rout", '
+##   hhcapture("testscore5.Rout", '
 ## after looking at all of above
 ## Total Sum of Squares
 var(testscore$final) * (length(testscore$final)-1)
@@ -638,12 +677,12 @@ testscore7.aov <- aov(final ~ initial + mental.age +
                       standing + order + sex,
                       data=testscore)
 summary(testscore7.aov)
-')
+## ')
 options(old.stars)
 
 
 ###################################################
-### code chunk number 37: dsgntwo.tex:2598-2629
+### code chunk number 39: dsgntwo.tex:2711-2742
 ###################################################
 testscore$final.adj <-
   testscore$final - as.vector(apply(proj(testscore7.aov, onedf=TRUE)[,2:3],1,sum))
@@ -664,24 +703,24 @@ yso.testscore.plot <- function(yname, main="Main Title Goes Here", ...) {
          ...)
 }
 
-hhpdf("initial.pdf", width=7, height=3.4)
+## hhpdf("initial.pdf", width=7, height=3.4, col=col3x2) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("initial", "Initial Score", ylim=c(5,35), data=testscore)
-hhdev.off()
+## hhdev.off()
 
-hhpdf("observed.pdf", width=7, height=3.4)
+## hhpdf("observed.pdf", width=7, height=3.4, col=col3x2) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final", "Observed Data", ylim=c(5,35), data=testscore)
-hhdev.off()
+## hhdev.off()
 
-hhpdf("adjusted1.pdf", width=7, height=3.4)
+## hhpdf("adjusted1.pdf", width=7, height=3.4, col=col3x2) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final.adj", "Adjusted for Covariates", ylim=c(5,35), data=testscore)
-hhdev.off()
+## hhdev.off()
 
 
 
 ###################################################
-### code chunk number 38: dsgntwo.tex:2666-2680
+### code chunk number 40: dsgntwo.tex:2779-2793
 ###################################################
-hhcapture("testscore7.Rout", '
+## hhcapture("testscore7.Rout", '
 newdata <- cbind(initial=mean(testscore$initial),
                  mental.age=mean(testscore$mental.age),
                  testscore[c(1:9,28:36),
@@ -694,26 +733,26 @@ final.pred.table
 ## now summarize this over each factor to get predicted values
 apply(final.pred.table, 1, mean) ## each scholastic standing
 apply(final.pred.table, 2, mean) ## each individual order
-')
+## ')
 
 
 ###################################################
-### code chunk number 39: dsgntwo.tex:2695-2702
+### code chunk number 41: dsgntwo.tex:2808-2815
 ###################################################
-hhpdf("adjusted2.pdf", width=7, height=3.5)
+## hhpdf("adjusted2.pdf", width=7, height=3.5, col=col3x2) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final.adj", "Adjusted for Covariates", ylim=c(15,25), data=testscore)
-hhdev.off()
+## hhdev.off()
 
-hhpdf("prediction.pdf", width=7, height=3.5)
+## hhpdf("prediction.pdf", width=7, height=3.5, col=col3x2) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final.pred", "Final Predictions", ylim=c(15,25), data=newdata)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 40: dsgntwo.tex:2781-2792
+### code chunk number 42: dsgntwo.tex:2894-2905
 ###################################################
 data(crash)
-hhpdf("crash-bar.pdf", height=3, width=8)
+## hhpdf("crash-bar.pdf", height=3, width=8, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 barchart(crashrate ~ passengers | agerange, data=crash,
          reference=TRUE, origin=0, between=list(x=1),
          ## xlab.top="Age Range",
@@ -722,32 +761,32 @@ barchart(crashrate ~ passengers | agerange, data=crash,
          layout=c(3,1),
          col=trellis.par.get()$superpose.symbol$col[1],
          border=trellis.par.get()$superpose.symbol$col[1])
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 41: dsgntwo.tex:2802-2807
+### code chunk number 43: dsgntwo.tex:2915-2920
 ###################################################
-hhpdf("crash-interaction.pdf", height=5, width=8)
+## hhpdf("crash-interaction.pdf", height=5, width=8, col=col3x2) ## col is not an argument for grDevices:::pdf
 interaction2wt(crashrate ~ agerange + passengers, data=crash,
                main="Crash Rates by Driver Age and Passenger Presence per 10,000 Trips",
                strip=FALSE)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 42: dsgntwo.tex:2833-2837
+### code chunk number 44: dsgntwo.tex:2946-2950
 ###################################################
-  hhcapture("crash.aov.Rout", '
+##   hhcapture("crash.aov.Rout", '
 crash.aov <- aov(crashrate ~ agerange + passengers, data=crash)
 summary(crash.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 43: dsgntwo.tex:2858-2895
+### code chunk number 45: dsgntwo.tex:2971-3008
 ###################################################
-  hhcapture("crash.cv.Rout", '
+##   hhcapture("crash.cv.Rout", '
 ## means polish of crash data
 tapply(crash$crashrate, crash[1:2], c)
 
@@ -783,24 +822,24 @@ cv <- outer(mte$tables$agerange,
             mte$tables$passengers) / mtm$tables$"Grand mean"[1]
 dimnames(cv) <- list(levels(crash$agerange), levels(crash$passengers))
 cv
-')
+## ')
 
 
 ###################################################
-### code chunk number 44: dsgntwo.tex:3073-3079
+### code chunk number 46: dsgntwo.tex:3194-3200
 ###################################################
-  hhcapture("crash2.aov.Rout", '
+##   hhcapture("crash2.aov.Rout", '
 crash2.aov <- aov(crashrate ~ agerange + passengers +
                   as.vector(cv), data=crash)
 summary(crash2.aov)
 coef(crash2.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 45: dsgntwo.tex:3100-3111
+### code chunk number 47: dsgntwo.tex:3221-3232
 ###################################################
-hhpdf("crash-diag.pdf", height=5, width=8)
+## hhpdf("crash-diag.pdf", height=5, width=8)
 ## diagnostic plot. UREDA page 200--204
 ## crash-diag.eps.gz
 crashr.lm <- lm(resid(crash.aov) ~ as.vector(cv))
@@ -810,58 +849,58 @@ plot(resid(crash.aov) ~ as.vector(cv), pch=16,
      main=paste("resid(crash.aov) ~ as.vector(cv)\nslope =",
        round(coef(crashr.lm)[2],4)))
 abline(crashr.lm)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 46: dsgntwo.tex:3144-3175
+### code chunk number 48: dsgntwo.tex:3265-3296
 ###################################################
-hhpdf("crash-original.pdf", height=5, width=9)
+## hhpdf("crash-original.pdf", height=5, width=9, col=col3x2, lwd=4)
 interaction2wt(crashrate ~ agerange + passengers, data=crash,
                main="                  a. original scale,  k = 1",
                strip=FALSE)
-hhdev.off()
+## hhdev.off()
 
 ## The regression coefficient of the cv term is 1.551647, from
 ## crashr.lm.  The recommended power for a transformation
 ## is 1-1.551647 = -0.551647
 ## We illustrate power = 0 -.5 -1
 
-hhpdf("crash-log.pdf", height=5, width=9)
+## hhpdf("crash-log.pdf", height=5, width=9, col=col3x2, lwd=4)
 interaction2wt(log(crashrate) ~ agerange + passengers,
                data=crash,
                main="                 b. log scale,  k = 0",
                strip=FALSE)
-hhdev.off()
+## hhdev.off()
 
-hhpdf("crash-neg-rec-sqrt.pdf", height=5, width=9)
+## hhpdf("crash-neg-rec-sqrt.pdf", height=5, width=9, col=col3x2, lwd=4)
 interaction2wt( I(-1/sqrt(crashrate)) ~ agerange + passengers,
                data=crash,
                main="             c. negative reciprocal square root scale,  k = -.5",
                strip=FALSE)
-hhdev.off()
+## hhdev.off()
 
-hhpdf("crash-neg-rec.pdf", height=5, width=9)
+## hhpdf("crash-neg-rec.pdf", height=5, width=9, col=col3x2, lwd=4)
 interaction2wt( I(-1/(crashrate)) ~ agerange + passengers,
                data=crash,
                main="             d. negative reciprocal scale,  k = -1",
                strip=FALSE)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 47: dsgntwo.tex:3209-3215
+### code chunk number 49: dsgntwo.tex:3330-3336
 ###################################################
-hhpdf("crash-interaction-rec.pdf", height=5, width=8)
+## hhpdf("crash-interaction-rec.pdf", height=5, width=8, col=col3x2)
 crash$crashrate.rec <- 10000/crash$crashrate
 interaction2wt(crashrate.rec ~ agerange + passengers, data=crash,
                main="Trips per Crash by Driver Age and Passenger Presence",
                strip=FALSE)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 48: dsgntwo.tex:3236-3248
+### code chunk number 50: dsgntwo.tex:3357-3369
 ###################################################
 ## The appearance of the -.5 and -1 transformations are similar.
 ## We choose the reciprocal (power = -1) because it is easy to
@@ -869,18 +908,18 @@ hhdev.off()
 ## negative in the anova table and table of means.  I left the
 ## negative in the graph so it would go in the same order as
 ## the other graphs.
-  hhcapture("crashi.aov.Rout", '
+##   hhcapture("crashi.aov.Rout", '
 crashi.aov <-
    aov(10000/crashrate ~ agerange + passengers, data=crash)
 summary(crashi.aov)
-')
+## ')
 model.tables(crashi.aov, type="means")
 
 
 ###################################################
-### code chunk number 49: dsgntwo.tex:3300-3310
+### code chunk number 51: dsgntwo.tex:3421-3431
 ###################################################
-hhpdf("crash-bar-rec.pdf", height=3, width=8)
+## hhpdf("crash-bar-rec.pdf", height=3, width=8, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 barchart(10000/crashrate ~ passengers | agerange, data=crash,
          reference=TRUE, origin=0, between=list(x=1),
          ## xlab.top="Age Range",
@@ -889,11 +928,11 @@ barchart(10000/crashrate ~ passengers | agerange, data=crash,
          layout=c(3,1),
          col=trellis.par.get()$superpose.symbol$col[1],
          border=trellis.par.get()$superpose.symbol$col[1])
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 50: dsgntwo.tex:3355-3382
+### code chunk number 52: dsgntwo.tex:3476-3503
 ###################################################
 ## exploration of dummy variables
 crashin.aov <- aov(1/crashrate ~ agerange/passengers, data=crash)
@@ -909,7 +948,7 @@ summary(crashin.aov,
 ## anova table show it.
 ## Selection of just the linear contrasts.
 old.width <- options(width=66)
-  hhcapture("crashinlin.aov.Rout", '
+##   hhcapture("crashinlin.aov.Rout", '
 pass <- as.numeric(crash$passengers)
 crashinlin.aov <- aov(10000/crashrate ~ agerange/pass,
                       data=crash)
@@ -920,12 +959,12 @@ print(coef(summary.lm(crashinlin.aov))[4:6,], digits=4)
 print(digits=3,
 summary(crashinlin.aov,
     split=list("agerange:pass"=list(teens=1:2, adults=3))))
-')
+## ')
 options(old.width)
 
 
 ###################################################
-### code chunk number 51: dsgntwo.tex:3624-3675
+### code chunk number 53: dsgntwo.tex:3748-3799
 ###################################################
 ## sink("yatesppl.ex.Rout")
 ## source("yatesppl.ex.R", echo=TRUE, max.deparse.length=1000)
@@ -977,6 +1016,6 @@ options(old.width)
                              data=yatesppl)
        summary(yatesppl.anova)
 ###
-')
+## ')
 
 

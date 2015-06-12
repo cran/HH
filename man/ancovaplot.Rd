@@ -48,7 +48,8 @@ panel.ancova.superpose(x, y, subscripts, groups,
                        groups.cc.incompatible,
                        plot.resids=FALSE,
                        print.resids=FALSE,
-                       mean.x.line=FALSE)
+                       mean.x.line=FALSE,
+                       col.mean.x.line="gray80")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -112,8 +113,8 @@ logical. See the discussion in argument \code{col}.
   logical which is set to \code{TRUE} when the \code{groups} argument is
   explicitly set by the user.
 }
-\item{plot.resids, print.resids, mean.x.line}{
-  logical, logical, logical or numeric.
+\item{plot.resids, print.resids, mean.x.line, col.mean.x.line}{
+  logical, logical, logical or numeric, color name.
   When \code{plot.resids==TRUE} then vertical line segments
   connecting the data points and the fitted line are drawn.
   The other two arguments are interpreted only when
@@ -122,6 +123,7 @@ logical. See the discussion in argument \code{col}.
   printed on the console.  When \code{is.numeric(mean.x.line)} then a vertical
   reference line is drawn at the specified value, which will normally be
   specified by the user as the mean of the full set of x values.
+  The reference line will have color specified by \code{col.mean.x.line}.
 }
 }
 \details{

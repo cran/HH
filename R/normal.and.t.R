@@ -266,7 +266,7 @@ NormalAndTplot.default <- function(mean0=0,
               expression(w == bar(x)[1] - bar(x)[2])
 
   ##  main <- Main(mean0, mean1, xbar, sd, n, df)
-  if (missing(main) || is.na(main))
+  if (missing(main) || is.null(main) || is.na(main))
     main <- list(MainSimpler(mean0, mean1, xbar, stderr, n, df, distribution.name,
                              digits=digits.axis, number.vars=number.vars, type=type),
                  cex=cex.main)
@@ -292,19 +292,21 @@ NormalAndTplot.default <- function(mean0=0,
   if (is.infinite(xbarc.left) || is.na(xbarc.left)) xbarc.left <- Setup.xlim[1]
 ## recover()
   Border0 <- Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border, mean=mean0, stderr=stderr, df=df)
-  Border1 <- switch(distribution.name,
-                    t=Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border,
-                      mean=mean0,  ## mean0 is correct, ncp makes the adjustment
-                      stderr=stderr, df=df, ncp=ncp),
-                    normal=,
-                    z=Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border, mean=mean1, stderr=stderr, df=df, ncp=ncp),
-                    binomial=Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border, mean=mean1, stderr=sigma.p1, df=df, ncp=ncp)
-                    )
+  if (!is.na(mean1))
+    Border1 <- switch(distribution.name,
+                      t=Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border,
+                        mean=mean0,  ## mean0 is correct, ncp makes the adjustment
+                        stderr=stderr, df=df, ncp=ncp),
+                      normal=,
+                      z=Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border, mean=mean1, stderr=stderr, df=df, ncp=ncp),
+                      binomial=Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border, mean=mean1, stderr=sigma.p1, df=df, ncp=ncp)
+                      )
   Area0.left   <- Area(dfunction, Setup.xlim[1], xbarc.left, base=TRUE, col=col.alpha, mean=mean0, stderr=stderr, df=df)
   Area0.middle <- Area(dfunction, xbarc.left, xbarc.right, base=TRUE, col=col.notalpha, mean=mean0, stderr=stderr, df=df)
   Area0.right  <- Area(dfunction, xbarc.right, Setup.xlim[2], base=TRUE, col=col.alpha, mean=mean0, stderr=stderr, df=df)
   Middle0 <- Vertical(mean0, col=col.notalpha, lwd=4)
 
+if (!is.na(mean1)) {
   ## Area1.left   <- Area(dfunction, Setup.xlim[1], xbarc.left, base=TRUE, col=col.power, mean=mean1, stderr=stderr, df=df, ncp=ncp)
   ## Area1.middle <- Area(dfunction, xbarc.left, xbarc.right, base=TRUE, col=col.beta, mean=mean1, stderr=stderr, df=df, ncp=ncp)
   ## Area1.right  <- Area(dfunction, xbarc.right, Setup.xlim[2], base=TRUE, col=col.power, mean=mean1, stderr=stderr, df=df, ncp=ncp)
@@ -326,7 +328,7 @@ NormalAndTplot.default <- function(mean0=0,
            Area1.right  <- Area(dfunction, xbarc.right, Setup.xlim[2], base=TRUE, col=col.power, mean=mean1, stderr=sigma.p1, df=df, ncp=ncp)
          })
   Middle1 <- Vertical(mean1, col=col.power, lwd=2)
-
+}
 
   if (!is.na(xbar)) {
     if (sided == "left") {
@@ -505,7 +507,7 @@ NormalAndTplot.default <- function(mean0=0,
         else
           result <- result + Area0.right + Area1.right
       }
-      result <- result + Middle1 + Border0
+      if (!is.na(mean1)) result <- result + Middle1 + Border0
     }
     else
       result <- result + Area0.left + Area0.right + Border0
@@ -514,7 +516,7 @@ NormalAndTplot.default <- function(mean0=0,
     if (!is.na(mean1)) result <- result + Border1
     if (!is.na(xbar)) {
       result <- result + Borderxbar.left + Borderxbar.right + Axis.xbar + Vertical.xbar + Areaxbar.left + Areaxbar.right
-      result <- result + Middle1
+      if (!is.na(mean1)) result <- result + Middle1
     }
     result <- result + Zeroline
     if (!is.na(xbar) && sided == "both") result <- result + Axis.xbar.otherside + Vertical.xbar.otherside

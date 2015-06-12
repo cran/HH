@@ -105,7 +105,7 @@ Row names must include all levels of the factor.
 Column names are the names the user assigns to the contrasts.
 Each column must sum to zero.  See \code{catalystm.lmat} in the Examples
 section for an example.
-Th \code{focus.lmat} matrix is multiplied by the \code{lmat} from the \code{none}
+The \code{focus.lmat} matrix is multiplied by the \code{lmat} from the \code{none}
 component to create the \code{lmat} for the user-specified contrasts.
 Display the \code{hibrido.lmat} and \code{maiz2.lmat} in the maiz
 example below to see what is happening.
@@ -292,8 +292,8 @@ summary(catalystm1.aov)
 catalystm.mca <-
 glht(catalystm1.aov, linfct = mcp(catalyst = "Tukey"))
 confint(catalystm.mca)
-plot(catalystm.mca)    ## multcomp plot
-mmcplot(catalystm.mca) ## HH plot
+plot(catalystm.mca)                      ## multcomp plot
+mmcplot(catalystm.mca, focus="catalyst") ## HH plot
 
 ## pairwise comparisons
 catalystm.mmc <-
@@ -304,7 +304,7 @@ catalystm.mmc
 ## these three statements are identical for a one-way aov
   mmc(catalystm1.aov)  ## simplest
   mmc(catalystm1.aov, focus="catalyst") ## generalizes to higher-order designs
-  mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")) ## ghlt arguments
+  mmc(catalystm1.aov, linfct = mcp(catalyst = "Tukey")) ## glht arguments
 }
 
 mmcplot(catalystm.mmc, style="both")
@@ -346,7 +346,7 @@ tmp.dunnett <-
   glht(weightloss.aov,
        linfct=mcp(group=contrMat(group.count, base=4)),
        alternative="greater")
-mmcplot(tmp.dunnett, main="contrasts in alphabetical order")
+mmcplot(tmp.dunnett, main="contrasts in alphabetical order", focus="group")
 
 tmp.dunnett.mmc <-
   mmc(weightloss.aov,
@@ -458,7 +458,7 @@ dimnames(hibrido.lmat)[[1]] <- levels(maiz$hibrido)
 hibrido.lmat
 
 maiz2.mmc <-
-  mmc(maiz2.aov, focu="hibrido", focus.lmat=hibrido.lmat)
+  mmc(maiz2.aov, focus="hibrido", focus.lmat=hibrido.lmat)
 maiz2.mmc
 
 ## same thing using glht argument list

@@ -1,9 +1,25 @@
 ### R code from vignette source '~/WindowsC/HOME/rmh/hh.e2/hh2/dsgn.tex'
 
 ###################################################
-### code chunk number 1: dsgn.tex:74-100
+### code chunk number 1: dsgn.tex:17-18
 ###################################################
-hhpdf("cc176-1.pdf")
+library(HH)
+
+
+###################################################
+### code chunk number 2: dsgn.tex:21-26
+###################################################
+## the standard lattice color 2 is difficult for people with color deficient vision
+data(col3x2)
+## These colors look like a 3x2 color array when run through
+## the vischeck simulator to see how they look for the three most
+## common color vision deficiencies: Protanope, Deuteranope, Tritanope.
+
+
+###################################################
+### code chunk number 3: dsgn.tex:86-112
+###################################################
+## hhpdf("cc176-1.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
 data(cc176)
 ## the positions need to be moved into the data object
 useOuterStrips(
@@ -13,7 +29,7 @@ xyplot(wt.d ~ wt.n | n.treats*current, data=cc176,
          panel.superpose(x, y, ...)
          panel.abline(lm(cc176$wt.d ~ cc176$wt.n), lty=3)
        },
-       cex=1.4, pch=levels(cc176$minutes),
+       cex=1.6, pch=levels(cc176$minutes),
        par.strip.text=list(cex=1),
        strip=function(...) strip.default(strip.names=c(TRUE, TRUE), ...),
        scales=list(
@@ -28,13 +44,13 @@ xyplot(wt.d ~ wt.n | n.treats*current, data=cc176,
        sub=list("Plotting symbol is duration of the treatment in minutes", cex=.8)
        )
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 2: dsgn.tex:142-163
+### code chunk number 4: dsgn.tex:154-175
 ###################################################
-hhcapture("cc176-1.Rout", '
+## hhcapture("cc176-1.Rout", '
 ## y=wt.d with x=wt.n as covariate
 ## (get essentially the same ANOVA as the approximate (y-bx)^2
 ## ANOVA table in Cochran and Cox)
@@ -54,23 +70,43 @@ cc176.means <- tapply(cc176$y.adj,
                       cc176[,c("current","n.treats")], mean)
 cc176.means
 apply(cc176.means, 1, mean)
-')
+## ')
 
 
 ###################################################
-### code chunk number 3: dsgn.tex:181-186
+### code chunk number 5: dsgn.tex:193-198
 ###################################################
-hhpdf("cc176-2.pdf")
+## hhpdf("cc176-2.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
 interaction2wt(y.adj ~ current + n.treats, data=cc176,
                main.cex=1.6,
                scales=list(x=list(cex=.7), y=list(cex=.9, alternating=FALSE)))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 4: dsgn.tex:203-220
+### code chunk number 6: dsgn.tex:233-248
 ###################################################
-hhpdf("cc176-4.pdf")
+tmp <-
+sapply(split(cc176$y.adj, cc176$current),
+       function(x)
+         c(min=min(x),
+           "m-sd"=mean(x)-sd(x),
+           mean=mean(x),
+           "m+sd"=mean(x)+sd(x),
+           max=max(x)))
+
+t(tmp)[4:1,]
+## hhpdf("cc176-microplot.pdf", height=1.7, width=3, col=col3x2) ## col is not an argument for grDevices:::pdf
+bwplot(unpositioned(current) ~ y.adj, data=cc176,
+       panel=panel.bwplot.intermediate.hh,
+       xlab=NULL)
+## hhdev.off()
+
+
+###################################################
+### code chunk number 7: dsgn.tex:294-311
+###################################################
+## hhpdf("cc176-4.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
 useOuterStrips(
 xyplot(y.adj ~ as.position(minutes) | n.treats + current, data=cc176,
        panel=panel.bwplot.superpose, groups=minutes,
@@ -86,13 +122,13 @@ xyplot(y.adj ~ as.position(minutes) | n.treats + current, data=cc176,
        xlab.top=list("n.treats, number of treatments", cex=1.2),
        between=list(x=1, y=1))
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 5: dsgn.tex:251-308
+### code chunk number 8: dsgn.tex:346-403
 ###################################################
-hhpdf("cc176-5.pdf", height=14, width=14)
+## hhpdf("cc176-5.pdf", height=14, width=14, col=col3x2) ## col is not an argument for grDevices:::pdf
 ##
 cc176.5b <- ## identical lines
 useOuterStrips(
@@ -148,13 +184,13 @@ print(cc176.5a,  more=TRUE,  position=c(.00, .52,  .48, 1.0)) ## split=c(1,1,2,2
 print(cc176.5b,  more=TRUE,  position=c(.52, .52, 1.00, 1.0)) ## split=c(2,1,2,2))
 print(cc176.5cd, more=TRUE,  position=c(.00, .00,  .48,  .48)) ## split=c(1,2,2,2))
 print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,2))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 6: dsgn.tex:387-398
+### code chunk number 9: dsgn.tex:482-493
 ###################################################
-hhcapture("cc176-6.Rout", '
+## hhcapture("cc176-6.Rout", '
   cc176t <- cc176
   for (i in names(cc176t))
     if (is.factor(cc176t[[i]]))
@@ -164,24 +200,24 @@ hhcapture("cc176-6.Rout", '
   cc176t.aov <- aov(wt.d ~ rep + wt.n + n.treats + wt.n*current,
                     data=cc176t)
   summary(cc176t.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 7: dsgn.tex:412-441
+### code chunk number 10: dsgn.tex:507-536
 ###################################################
-  hhpdf("cc176-7.pdf", width=8)
+##   hhpdf("cc176-7.pdf", width=8)
   cc176.mmc <- mmc(cc176t.aov, focus="current")
   print(cc176.mmc)
   mmcplot(cc176.mmc, xlim=c(-21, 18), style="both")
-  hhdev.off()
+##   hhdev.off()
   ##
-  hhpdf("cc176-7mmc.pdf", height=5, width=9)
+##   hhpdf("cc176-7mmc.pdf", height=5, width=9)
   cc176mmc <- mmcplot(cc176.mmc, xlim=c(-21, 18), axis.right=2.2)
   cc176mmc
-  hhdev.off()
+##   hhdev.off()
   ##
-  hhpdf("cc176-7contr.pdf")
+##   hhpdf("cc176-7contr.pdf")
   current.lmat <- cbind("cc-gf"=c(-1,-1, 1, 1),
                         "25-60"=c( 0, 0,-1, 1),
                         "g-f"  =c( 1,-1, 0, 0))
@@ -189,20 +225,20 @@ hhcapture("cc176-6.Rout", '
   cc176.mmc <- mmc(cc176t.aov, focus="current", focus.lmat=current.lmat)
   print(cc176.mmc)
   mmcplot(cc176.mmc, xlim=c(-21, 18), type="lmat", style="both")
-  hhdev.off()
+##   hhdev.off()
   ##
-  hhpdf("cc176-7mmccontr.pdf", height=5, width=9)
+##   hhpdf("cc176-7mmccontr.pdf", height=5, width=9)
   cc176mmccontr <- mmcplot(cc176.mmc, xlim=c(-21, 18), type="lmat", axis.right=2.2)
   cc176mmccontr
-  hhdev.off()
-  hhpdf("cc176-7mmcandcontr.pdf", height=8.5, width=8)
+##   hhdev.off()
+##   hhpdf("cc176-7mmcandcontr.pdf", height=8.5, width=8)
   update(between=list(y=1), scales=list(alternating=1),
     c("Orthogonal Contrasts"=cc176mmccontr, MMC=cc176mmc, layout=c(1,2)))
-  hhdev.off()
+##   hhdev.off()
 
 
 ###################################################
-### code chunk number 8: dsgn.tex:601-618
+### code chunk number 11: dsgn.tex:697-714
 ###################################################
   data(tires)
   ## simpler
@@ -210,7 +246,7 @@ hhcapture("cc176-6.Rout", '
          between=list(x=1), layout=c(3,1))
 
   ## control of colors
-  hhpdf("tiresbw.pdf", width=6, height=2.5)
+##   hhpdf("tiresbw.pdf", width=6, height=2.5, col=col3x2) ## col is not an argument for grDevices:::pdf
   tpgcol <- trellis.par.get()$superpose.symbol$col
   tmp <-
     c(car=bwplot(wear ~ car, data=tires,
@@ -220,27 +256,27 @@ hhcapture("cc176-6.Rout", '
       tires=bwplot(wear ~ brand, data=tires,
                    panel=panel.bwplot.superpose, groups=brand, col=tpgcol[3]))
    update(tmp, between=list(x=1), layout=c(3,1), par.strip.text=list(cex=1.2))
-  hhdev.off()
+##   hhdev.off()
 
 
 ###################################################
-### code chunk number 9: dsgn.tex:684-692
+### code chunk number 12: dsgn.tex:780-788
 ###################################################
-  hhcapture("tires.Rout", '
+##   hhcapture("tires.Rout", '
   data(tires)
   tires.aov <- aov(wear ~ car + position + brand, data=tires)
   summary(tires.aov)
   tapply(tires$wear, tires$car, "mean")
   tapply(tires$wear, tires$position, "mean")
   tapply(tires$wear, tires$brand, "mean")
-')
+## ')
 
 
 ###################################################
-### code chunk number 10: dsgn.tex:708-724
+### code chunk number 13: dsgn.tex:804-820
 ###################################################
 old.stars <- options(show.signif.stars=FALSE)
-  hhcapture("tires2.Rout", '
+##   hhcapture("tires2.Rout", '
   tires.mmc.brand <- mmc(tires.aov, linfct=mcp(brand="Tukey"))
   ## print(tires.mmc.brand)
   brand.lmat <- cbind("1-43" =c( 2, 0,-1,-1),
@@ -253,29 +289,29 @@ old.stars <- options(show.signif.stars=FALSE)
   contrasts(tires$brand) <- brand.lmat
   tires.aov <- aov(wear ~ car + position + brand, data=tires)
   summary(tires.aov, split=list(brand=list("1-43"=1, rest=2:3)))
-')
+## ')
 options(old.stars)
 
 
 ###################################################
-### code chunk number 11: dsgn.tex:742-754
+### code chunk number 14: dsgn.tex:838-850
 ###################################################
-  hhpdf("tiresmmc.pdf", width=6, height=4)
+##   hhpdf("tiresmmc.pdf", width=6, height=4)
   tiresmmc <- mmcplot(tires.mmc.brand, ylim=c(10.4, 14.4))
   tiresmmc
-  hhdev.off()
-  hhpdf("tiresmmccontr.pdf", width=6, height=4)
+##   hhdev.off()
+##   hhpdf("tiresmmccontr.pdf", width=6, height=4)
   tiresmmccontr <- mmcplot(tires.mmc.brand, type="lmat", ylim=c(10.4, 14.4))
   tiresmmccontr
-  hhdev.off()
-  hhpdf("tiresmmcandcontr.pdf", width=8.5, height=8)
+##   hhdev.off()
+##   hhpdf("tiresmmcandcontr.pdf", width=8.5, height=8)
   update(between=list(y=1), scales=list(alternating=1),
     c("Orthogonal Contrasts"=tiresmmccontr, MMC=tiresmmc, layout=c(1,2)))
-  hhdev.off()
+##   hhdev.off()
 
 
 ###################################################
-### code chunk number 12: dsgn.tex:870-876
+### code chunk number 15: dsgn.tex:966-972
 ###################################################
 data(filmcoat)
 ## display data in table dsgntwo.t.filmcoat
@@ -286,9 +322,9 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 13: dsgn.tex:899-910
+### code chunk number 16: dsgn.tex:995-1006
 ###################################################
-  hhpdf("filmcoat.pdf", width=3.5, height=2.8)
+##   hhpdf("filmcoat.pdf", width=3.5, height=2.8, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
   useOuterStrips(
     bwplot(coat ~ 1 | pressure*temprt, data=filmcoat, horizontal=FALSE,
            xlab=NULL, xlab.top="Pressure",
@@ -298,34 +334,34 @@ print(quote=FALSE,
            par.settings=list(box.dot=list(
               col=trellis.par.get()$superpose.symbol$col[1])))
   )
-  hhdev.off()
+##   hhdev.off()
 
 
 ###################################################
-### code chunk number 14: dsgn.tex:933-939
+### code chunk number 17: dsgn.tex:1031-1037
 ###################################################
-  hhcapture("filmcoat.ma.Rout", '
+##   hhcapture("filmcoat.ma.Rout", '
   reshape2::acast(filmcoat, temprt ~ pressure, mean,
                   value.var="coat", margins=TRUE)
   film.aov1 <- aov(coat ~ temprt*pressure, data=filmcoat)
   summary(film.aov1)
-')
+## ')
 
 
 ###################################################
-### code chunk number 15: dsgn.tex:954-959
+### code chunk number 18: dsgn.tex:1052-1057
 ###################################################
-hhpdf("filmcoatIntr.pdf", width=7, height=6)
+## hhpdf("filmcoatIntr.pdf", width=7, height=6, col=col3x2) ## col is not an argument for grDevices:::pdf
 interaction2wt(data=filmcoat, coat ~ temprt+pressure,
                simple=TRUE, simple.scale=list(temprt=.3, pressure=.3),
                xlim=c(.5, 3.5), between=list(x=.5, y=.5))
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 16: dsgn.tex:973-1002
+### code chunk number 19: dsgn.tex:1078-1107
 ###################################################
-hhpdf("mcout5.pdf", height=6, width=12)
+## hhpdf("mcout5.pdf", height=6, width=12)
 ResidMS <- function(x) summary(x)[[1]]["Residuals","Mean Sq"]
 ResidMSAvg <- ResidMS(film.aov1)
 crit.val <- qtukey(.95, 3, 18, 3)/sqrt(2)
@@ -353,13 +389,13 @@ print(mmc3pb[[1]], position=c(0/3-.00,0,0/3-.00+.26,1), more=TRUE)
 print(mmc3pb[[2]], position=c(1/3-.02,0,1/3-.02+.26,1), more=TRUE)
 print(mmc3pb[[3]], position=c(2/3-.04,0,2/3-.04+.26,1), more=FALSE)
 options(old.digits)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 17: dsgn.tex:1020-1046
+### code chunk number 20: dsgn.tex:1125-1151
 ###################################################
-hhpdf("mcout6.pdf", height=6, width=12)
+## hhpdf("mcout6.pdf", height=6, width=12)
 ## separate ANOVA for each temperature
 filmcoat.aov.3t <- sapply(levels(filmcoat$temprt),
                           function(i) aov(coat ~ pressure,
@@ -384,13 +420,13 @@ print(mmc3tb[[1]], position=c(0/3-.00,0,0/3-.00+.26,1), more=TRUE)
 print(mmc3tb[[2]], position=c(1/3-.02,0,1/3-.02+.26,1), more=TRUE)
 print(mmc3tb[[3]], position=c(2/3-.04,0,2/3-.04+.26,1), more=FALSE)
 options(old.digits)
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 18: dsgn.tex:1157-1172
+### code chunk number 21: dsgn.tex:1294-1309
 ###################################################
-hhpdf("dsgnGunload.pdf")
+## hhpdf("dsgnGunload.pdf", col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 data(gunload)
 useOuterStrips(
 bwplot(rounds  ~ team | method*group, data=gunload,
@@ -404,26 +440,26 @@ bwplot(rounds  ~ team | method*group, data=gunload,
           col=trellis.par.get()$superpose.symbol$col[1]))
        )
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 19: dsgn.tex:1380-1388
+### code chunk number 22: dsgn.tex:1521-1529
 ###################################################
-  hhcapture("gunloada.Rout", '
+##   hhcapture("gunloada.Rout", '
 gunload.aov <-
    aov(rounds ~ method*group + Error((team %in% group)/method),
        data=gunload)
 ## The R warning is ok.  There are no treatment terms inside the Error stratum.
 summary(gunload.aov)
 model.tables(gunload.aov, type="means")
-')
+## ')
 
 
 ###################################################
-### code chunk number 20: dsgn.tex:1505-1523
+### code chunk number 23: dsgn.tex:1647-1665
 ###################################################
-  hhcapture("turkeyFactors.Rout", '
+##   hhcapture("turkeyFactors.Rout", '
 data(turkey)
 
 turkey[c(1,7,13,19,25),]
@@ -440,35 +476,35 @@ turkey$amount <- factor(rep(c(0,1,2,1,2), c(6,6,6,6,6)))
 contrasts(turkey$amount) <- c(0,1,-1)
 
 turkey[c(1,7,13,19,25),]
-')
+## ')
 
 
 ###################################################
-### code chunk number 21: dsgn.tex:1536-1541
+### code chunk number 24: dsgn.tex:1678-1683
 ###################################################
-  hhcapture("turkeyAov2.Rout", '
+##   hhcapture("turkeyAov2.Rout", '
 turkey3.aov <- aov(wt.gain ~ trt.vs.control / (additive*amount),
                    data=turkey, x=TRUE)
 summary(turkey3.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 22: dsgn.tex:1557-1564
+### code chunk number 25: dsgn.tex:1699-1706
 ###################################################
-  hhcapture("turkeyMeans.Rout", '
+##   hhcapture("turkeyMeans.Rout", '
 print(na.print="",
 tapply(turkey$wt.gain,
        turkey[,c("additive","amount")],
        mean)
 )
-')
+## ')
 
 
 ###################################################
-### code chunk number 23: dsgn.tex:1578-1592
+### code chunk number 26: dsgn.tex:1720-1734
 ###################################################
-hhpdf("turkeyF2V.pdf", height=4, width=4)
+## hhpdf("turkeyF2V.pdf", height=4, width=4, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 additive.rev <- ordered(turkey$additive, rev(levels(turkey$additive)))
 useOuterStrips(
 bwplot( wt.gain ~ rep(1, 30) | amount * additive.rev,
@@ -479,21 +515,21 @@ bwplot( wt.gain ~ rep(1, 30) | amount * additive.rev,
        ylab=list("additive", cex=1.4),
        ylab.right=list("wt.gain", cex=1.4),
        par.strip.text=list(cex=1.4),
-       groups=rep(1,30), panel=panel.bwplot.superpose, col="blue")
+       groups=rep(1,30), panel=panel.bwplot.superpose)
 )
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 24: dsgn.tex:1649-1650
+### code chunk number 27: dsgn.tex:1792-1793
 ###################################################
 data(abc)
 
 
 ###################################################
-### code chunk number 25: dsgn.tex:1697-1714
+### code chunk number 28: dsgn.tex:1840-1857
 ###################################################
-  hhcapture("abcrearrange1.Rout", '
+##   hhcapture("abcrearrange1.Rout", '
 data(abc)
 
 abc
@@ -509,13 +545,13 @@ with(abc,
             dimnames=list(A=unique(A), B=unique(B)))
      )
 abc.crossed
-')
+## ')
 
 
 ###################################################
-### code chunk number 26: dsgn.tex:1728-1743
+### code chunk number 29: dsgn.tex:1871-1886
 ###################################################
-  hhcapture("abcrearrange2.Rout", '
+##   hhcapture("abcrearrange2.Rout", '
 abc.nested <- ## nested
 with(abc,
      matrix(c(y[1:4],    rep(NA,8),
@@ -529,11 +565,11 @@ print(abc.nested, na.print="")
 abc.double.indexed <- ## doubly-indexed
   abc[,"y",drop=FALSE]
 abc.double.indexed
-')
+## ')
 
 
 ###################################################
-### code chunk number 27: dsgn.tex:1763-1807
+### code chunk number 30: dsgn.tex:1906-1950
 ###################################################
   hhcode("modelsAB.R", '
 ## one-way
@@ -578,37 +614,48 @@ anova(abc.AB.aov)
 coef(abc.AB.aov)
 contrasts(abc$AB)
 model.matrix(abc.AB.aov)
-')
+## ')
 
 
 ###################################################
-### code chunk number 28: dsgn.tex:1825-1835
+### code chunk number 31: dsgn.tex:1968-1978
 ###################################################
-  hhcapture("contrasts-contr1.Rout", '
+##   hhcapture("contrasts-contr1.Rout", '
 model.matrix(~A, data=abc,
    contrasts=
       list(A=contr.treatment))
-')
-  hhcapture("contrasts-contr2.Rout", '
+## ')
+##   hhcapture("contrasts-contr2.Rout", '
 model.matrix(~A, data=abc,
    contrasts=
       list(A=contr.sum))
-')
+## ')
 
 
 ###################################################
-### code chunk number 29: dsgn.tex:1875-1879
+### code chunk number 32: dsgn.tex:2018-2033
 ###################################################
-  hhcapture("contrasts-AB.Rout", '
-model.matrix(~A*B, data=abc,
+##   hhcapture("contrasts-AB.Rout", '
+old.width <- options(width=70)
+mm <- model.matrix(~A*B, data=abc,
              contrasts=list(A=contr.sum, B=contr.sum))
-')
+mm[,]
+
+print(AA <- mm["r.z", c("A1","A2")])
+print(BBB <- mm["r.z", c("B1","B2","B3")])
+
+outer(AA, BBB)
+as.vector(outer(AA, BBB))
+mm["r.z", c("A1:B1","A2:B1","A1:B2","A2:B2","A1:B3","A2:B3")]
+
+options(old.width)
+## ')
 
 
 ###################################################
-### code chunk number 30: dsgn.tex:1919-1933
+### code chunk number 33: dsgn.tex:2074-2088
 ###################################################
-  hhcapture("turkeyAov3.Rout", '
+##   hhcapture("turkeyAov3.Rout", '
 match(dimnames(coef(summary.lm(turkey3.aov)))[[1]],
       dimnames(turkey3.aov$x)[[2]])
 turkey[c(1,7,13,19,25),]
@@ -621,13 +668,13 @@ dimnames(turkey3.coef)[[1]] <- term.names
 dimnames(turkey3.x)[[2]][c(1,2,4,8,12)] <- term.names
 zapsmall(turkey3.coef)
 turkey3.x[c(1,7,13,19,25), c(1,2,4,8,12)]
-')
+## ')
 
 
 ###################################################
-### code chunk number 31: dsgn.tex:2133-2170
+### code chunk number 34: dsgn.tex:2288-2325
 ###################################################
-  hhcapture("cloverT123sc.Rout", '
+##   hhcapture("cloverT123sc.Rout", '
 data(rhiz.clover)
 ## drop two observation to illustrate Type II and III sums of squares
 ## I am dropping the non-outlier observations in 3D0k5
@@ -647,8 +694,8 @@ anova(cloverDsc.aov)[,c(2,1,4,5)]
 car::Anova(cloverDsc.aov, type=2)
 
 car::Anova(cloverDsc.aov, type=3)
-')
-  hhcapture("cloverT123cs.Rout", '
+## ')
+##   hhcapture("cloverT123cs.Rout", '
 cloverDcs.aov <-
   aov(Npg ~ comb * strain,
       data=cloverD,
@@ -663,35 +710,35 @@ car::Anova(cloverDcs.aov, type=2)
 car::Anova(cloverDcs.aov, type=3)
 
 options(old.opt)
-')
+## ')
 
 
 ###################################################
-### code chunk number 32: dsgn.tex:2216-2233
+### code chunk number 35: dsgn.tex:2371-2388
 ###################################################
-hhpdf("cloverD.pdf", height=6, width=4)
+## hhpdf("cloverD.pdf", height=6, width=4)
 
 print(position = c(0, .50, 1, 1.00), more = TRUE,  # top
 dotplot(Npg ~ strain | comb, data=rhiz.clover,
         main=list("clover: Nitrogen per Gram --- full data", cex=.8),
-        layout=c(2,1),
+        layout=c(2,1), col=likertColor(2)[2],
         scales=list(cex=.75, x=list(rot=90)))
 )
 
 print(position = c(0,  0, 1, .50), more = FALSE,  # bottom
 dotplot(Npg ~ strain | comb, data=cloverD,
         main=list("clover: Nitrogen per Gram --- Observations 7,9,10 dropped", cex=.8),
-        layout=c(2,1),
+        layout=c(2,1), col=likertColor(2)[2],
         scales=list(cex=.75, x=list(rot=90)))
 )
 
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 33: dsgn.tex:2250-2263
+### code chunk number 36: dsgn.tex:2405-2418
 ###################################################
-  hhcapture("fatLst.Rout", '
+##   hhcapture("fatLst.Rout", '
 library(car)
 data(fat)
 fat.lm <- lm(bodyfat ~ abdomin + biceps, data=fat)
@@ -703,13 +750,13 @@ anova(fat.lm)
 car::Anova(fat.lm, type="III")
 ## model sum of squares
 var(fat$bodyfat) * (nrow(fat)-1) - sum(fat.lm$residuals^2)
-')
+## ')
 
 
 ###################################################
-### code chunk number 34: dsgn.tex:2416-2433
+### code chunk number 37: dsgn.tex:2571-2588
 ###################################################
-hhpdf("vulcanInteraction.pdf", height=6, width=6)
+## hhpdf("vulcanInteraction.pdf", height=6, width=6, col=col3x2) ## col is not an argument for grDevices:::pd)
 data(vulcan)
 levels(vulcan$raw)
 vulcan$raw <- ordered(vulcan$raw, levels=c(4, 1, 2, 3))
@@ -725,24 +772,24 @@ interaction2wt(wear ~ filler+raw+pretreat, data=vulcan,
                par.strip.text=list(cex=.6),
                xlim=c(.3, 5.6))
 
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 35: dsgn.tex:2446-2467
+### code chunk number 38: dsgn.tex:2601-2622
 ###################################################
 ## The two-factor 2-way interaction figure is not in the book.
 ## It is here for comparison with the simple effects figure.
-hhpdf("vulcan2factor.pdf", height=6, width=6)
+## hhpdf("vulcan2factor.pdf", height=6, width=6, col=col3x2) ## col is not an argument for grDevices:::pdf
 interaction2wt(wear ~ filler+raw, data=vulcan,
                main.cex=1.6,
                par.strip.text=list(cex=.8),
                simple.scale=list(filler=.18, raw=.15),
                box.ratio=.05,
                xlim=c(.3, 5.6))
-hhdev.off()
+## hhdev.off()
 
-hhpdf("vulcanSimple.pdf", height=6, width=6)
+## hhpdf("vulcanSimple.pdf", height=6, width=6, col=col3x2) ## col is not an argument for grDevices:::pdf
 
 interaction2wt(wear ~ filler+raw, data=vulcan, simple=TRUE,
                main.cex=1.6,
@@ -751,11 +798,11 @@ interaction2wt(wear ~ filler+raw, data=vulcan, simple=TRUE,
                box.ratio=.05,
                xlim=c(.3, 5.6))
 
-hhdev.off()
+## hhdev.off()
 
 
 ###################################################
-### code chunk number 36: dsgn.tex:2510-2529
+### code chunk number 39: dsgn.tex:2665-2684
 ###################################################
   hhcode("tiresLatin.R", '
 ## R defaults to treatment contrasts for factors.
@@ -775,11 +822,11 @@ t(tires.aov$x[,8:10])
 t(tires.rc.aov$x[,8:16])
 tr1.lm <- lm(tires.aov$x[,8] ~ tires.rc.aov$x[,8:16])
 anova(tr1.lm)
-')
+## ')
 
 
 ###################################################
-### code chunk number 37: dsgn.tex:2638-2651
+### code chunk number 40: dsgn.tex:2793-2806
 ###################################################
   hhcode("turkeyAov3Match.R", '
                     summary.lm(turkey3.aov)
@@ -793,13 +840,13 @@ anova(tr1.lm)
 
 match(dimnames(coef(summary.lm(turkey3.aov)))[[1]],
       dimnames(turkey3.aov$x)[[2]])
-')
+## ')
 
 
 ###################################################
-### code chunk number 38: dsgn.tex:2713-2726
+### code chunk number 41: dsgn.tex:2868-2881
 ###################################################
-hhpdf("turkeyF2H.pdf", height=4, width=4)
+## hhpdf("turkeyF2H.pdf", height=4, width=4, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 useOuterStrips(
 bwplot( ~ wt.gain | amount * additive.rev,
        data=turkey,
@@ -809,8 +856,8 @@ bwplot( ~ wt.gain | amount * additive.rev,
        xlab.top=list("amount", cex=1.4),
        ylab=list("additive", cex=1.4),
        par.strip.text=list(cex=1.4),
-       groups=rep(1,30), panel=panel.bwplot.superpose, col="blue")
+       groups=rep(1,30), panel=panel.bwplot.superpose)
 )
-hhdev.off()
+## hhdev.off()
 
 

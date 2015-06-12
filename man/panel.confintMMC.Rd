@@ -10,7 +10,7 @@ Confidence interval panel for MMC tiebreaker plots, or confidence
 interval plot.
 }
 \usage{
-panel.confintMMC(x, y, subscripts, ..., col, lty, lower, upper,
+panel.confintMMC(x, y, subscripts, ..., col, lwd, lty, lower, upper,
                  contrast.name, right.text.cex = 0.8)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -28,7 +28,7 @@ Index into the \code{contrast.names}.
   \item{\dots}{
 Additional arguments are ignored.
 }
-  \item{col, lty}{
+  \item{col, lty, lwd}{
 Standard \pkg{lattice} arguments.
 }
   \item{lower}{

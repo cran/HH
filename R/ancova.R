@@ -5,7 +5,8 @@
                      superpose.level.name="superpose",
                      ignore.groups=FALSE, ignore.groups.name="ignore.groups",
                      blocks, blocks.pch=letters[seq(levels(blocks))],
-                     layout, between, main) {
+                     layout, between, main,
+                     pch=trellis.par.get()$superpose.symbol$pch) {
   ## on.exit(browser())
   if (missing(data.in)) stop("Please explicitly name a data.frame.")
   a.aov <- aov(formula, data=data.in)
@@ -105,6 +106,7 @@
   a.labels <- dimnames(m$contrasts)[[1]]
 
   tpgs <- trellis.par.get("superpose.symbol")
+  tpgs$pch[] <- pch
   tpgl <- trellis.par.get("superpose.line")
 
   m$key <- list(text=list(a.labels),   ## treatment key
@@ -218,7 +220,7 @@ function(object, ...)
 "panel.ancova" <-
 function(x, y, subscripts, groups, transpose=FALSE, ...,
                          coef, contrasts, classes, ignore.groups,
-                         blocks, blocks.pch, blocks.cex) {
+                         blocks, blocks.pch, blocks.cex, pch) {
 ##  contrasts <- contrasts[-nrow(contrasts), -ncol(contrasts)]
   n.contr <- ncol(contrasts)
   if (length(classes)==1)
@@ -244,6 +246,7 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
   }
 
   tpgs <- trellis.par.get("superpose.symbol")
+  tpgs$pch[] <- pch
   tpgl <- trellis.par.get("superpose.line")
 
   ## browser()
@@ -256,7 +259,7 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
   if (cell == length(a)+1) {
 
     if (missing(blocks))
-      panel.superpose(x, y, subscripts=subscripts, groups=groups, ...)
+      panel.superpose(x, y, subscripts=subscripts, groups=groups, ..., pch=pch)
     else
       panel.superpose(x, y, subscripts=subscripts, groups=rep(blocks,2),
                         pch=blocks.pch, cex=blocks.cex, ...)
@@ -272,7 +275,7 @@ function(x, y, subscripts, groups, transpose=FALSE, ...,
   else
     if (cell == length(a)+2) {
       if (missing(blocks))
-        panel.superpose(x, y, subscripts=subscripts, groups=groups, ...)
+        panel.superpose(x, y, subscripts=subscripts, groups=groups, ..., pch=pch)
       else
         panel.superpose(x, y, subscripts=subscripts, groups=rep(blocks,3),
                         pch=blocks.pch, cex=blocks.cex, ...)

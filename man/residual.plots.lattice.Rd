@@ -21,7 +21,7 @@ residual.plots.lattice(lm.object, X=dft$x, layout=c(dim(X)[2],1),
                        par.strip.text=list(cex=.8),
                        scales.cex=.6,
                        na.action=na.pass,
-                       y.relation="free",
+                       y.relation="same",
                        ...)
 }
 %- maybe also 'usage' for other objects documented here.
