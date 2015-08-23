@@ -771,6 +771,15 @@ print.NormalAndTplot <- function(x, tablesOnPlot=TRUE, plot=TRUE,
     NextMethod("print", position=c(0, position.2, 1, 1))
     ## lattice:::print.trellis(x, position=c(0, position.2, 1, 1))
 
+## new
+    NTplotTheme <- ttheme_default(
+      core   =list(fg_params=list(parse=FALSE, cex = cex.table, hjust=1, x=0.9 ), bg_params = list(fill="grey98", lwd=1.5, col="white")),
+##    core   =list(fg_params=list(parse=FALSE, cex = cex.table, hjust=0.1, x=.2), bg_params = list(fill="grey98", lwd=1.5, col="white")),
+      colhead=list(fg_params=list(parse=TRUE,  cex = cex.table, fontface="bold"), bg_params = list(fill="grey95", lwd=1.5, col="white")),
+      rowhead=list(fg_params=list(parse=TRUE,  cex = cex.table, fontface="bold"), bg_params = list(fill="grey95", lwd=1.5, col="white"))
+    )
+## new end
+
     old.digits <- options(digits=digits)
 
     pushViewport(viewport(x = 0, y = 0,
@@ -780,34 +789,48 @@ print.NormalAndTplot <- function(x, tablesOnPlot=TRUE, plot=TRUE,
 
     axs <- attr(x, "scales")
     axsf <- axs
-    axsf[ 1,] <- format(zapsmall(axs[ 1,,drop=FALSE], digits=digits),
-                        digits=digits)
-    axsf[-1,] <- format(zapsmall(axs[-1,,drop=FALSE], digits=digits),
-                        digits=digits)
+    ## axsf[ 1,] <- format(zapsmall(axs[ 1,,drop=FALSE], digits=digits),
+    ##                     digits=digits)
+    ## axsf[-1,] <- format(zapsmall(axs[-1,,drop=FALSE], digits=digits),
+    #                      digits=digits)
+    axsf <- format(zapsmall(axs, digits=digits),
+                   digits=digits)
+## ## old
+##     gridExtra::grid.table(axsf,
+##                           parse=TRUE,
+##                           core.just="right", row.just="center", col.just="center",
+##                           gpar.corefill = gpar(fill = "grey98", col = "white"),
+##                           gpar.rowfill = gpar(fill = "grey95", col = "white"),
+##                           gpar.colfill = gpar(fill = "grey95", col = "white"),
+##                           gpar.rowtext = gpar(cex = cex.table, fontface = "bold"),
+##                           gpar.coltext = gpar(cex = cex.table, fontface = "bold"),
+##                           gpar.coretext = gpar(cex = cex.table))
+## ## old end
+## new
     gridExtra::grid.table(axsf,
-                          parse=TRUE,
-                          core.just="right", row.just="center", col.just="center",
-                          gpar.corefill = gpar(fill = "grey98", col = "white"),
-                          gpar.rowfill = gpar(fill = "grey95", col = "white"),
-                          gpar.colfill = gpar(fill = "grey95", col = "white"),
-                          gpar.rowtext = gpar(cex = cex.table, fontface = "bold"),
-                          gpar.coltext = gpar(cex = cex.table, fontface = "bold"),
-                          gpar.coretext = gpar(cex = cex.table))
+                          theme=NTplotTheme)
+## new end
     popViewport()
 
     pushViewport(viewport(x = .55, y = 0,
                           width = .4,
                           height = .2,
                           just = c("left", "bottom")))
+## ## old
+##     gridExtra::grid.table(format(round(attr(x, "prob"), digits=digits), nsmall=4),
+##                           parse=TRUE,
+##                           core.just="right", row.just="center", col.just="center",
+##                           gpar.corefill = gpar(fill = "grey98", col = "white"),
+##                           gpar.rowfill = gpar(fill = "grey95", col = "white"),
+##                           gpar.colfill = gpar(fill = "grey95", col = "white"),
+##                           gpar.rowtext = gpar(cex = cex.table, fontface = "bold"),
+##                           gpar.coltext = gpar(cex = cex.table, fontface = "bold"),
+##                           gpar.coretext = gpar(cex = cex.table))
+## ## old end
+## new
     gridExtra::grid.table(format(round(attr(x, "prob"), digits=digits), nsmall=4),
-                          parse=TRUE,
-                          core.just="right", row.just="center", col.just="center",
-                          gpar.corefill = gpar(fill = "grey98", col = "white"),
-                          gpar.rowfill = gpar(fill = "grey95", col = "white"),
-                          gpar.colfill = gpar(fill = "grey95", col = "white"),
-                          gpar.rowtext = gpar(cex = cex.table, fontface = "bold"),
-                          gpar.coltext = gpar(cex = cex.table, fontface = "bold"),
-                          gpar.coretext = gpar(cex = cex.table))
+                          theme=NTplotTheme)
+## new end
     popViewport()
 
     options(old.digits)

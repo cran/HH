@@ -106,7 +106,9 @@
   a.labels <- dimnames(m$contrasts)[[1]]
 
   tpgs <- trellis.par.get("superpose.symbol")
+
   tpgs$pch[] <- pch
+  if (is.null(m$pch)) m$pch <- pch
   tpgl <- trellis.par.get("superpose.line")
 
   m$key <- list(text=list(a.labels),   ## treatment key

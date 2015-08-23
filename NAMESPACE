@@ -134,6 +134,9 @@ diag.arma.loop,
 diag.maybe.null,
 do.formula.trellis.xysplom,
 export.eps,
+formatBin,
+formatDec,
+formatHex,
 glhtWithMCP.993,
 gof.calculation,
 gofplot,
@@ -260,12 +263,14 @@ residual.plots,
 residual.plots.lattice,
 residVSfitted,
 scaleLocation,
+scanBin,
+scanHex,
 seqplot,
 seqplotForecast,
 ## shiny.NTplotplot,
-showBin,
-showHex,
-showHexInternal,
+## showBin,
+## showDec,
+## showHex,
 strip.background0,
 strip.ladder,
 sufficient,
@@ -467,7 +472,15 @@ S3method(xysplom, formula)
 
 ## import(matrixTrellis)  ## is this needed?
 
-importFrom(stats, model.tables, reorder)
+importFrom("stats", "Box.test", "acf", "aggregate", "anova", "aov",
+             "as.formula", "as.ts", "coef", "confint", "contr.treatment",
+             "contrasts", "cor", "cycle", "dchisq", "df", "dnorm", "dt",
+             "family", "fitted", "formula", "frequency", "hat", "lm",
+             "lm.influence", "lsfit", "median", "model.frame",
+             "model.matrix", "model.tables", "na.exclude", "na.pass", "pacf", "pchisq",
+             "pf", "pnorm", "ppoints", "predict", "pt", "qchisq", "qf",
+             "qnorm", "qt", "quantile", "reorder", "resid", "residuals", "sd",
+             "summary.lm", "terms", "time", "ts", "tsp", "update", "var")
 
 importFrom(reshape2, melt, acast, dcast)
 
@@ -480,7 +493,7 @@ importFrom(multcomp, glht, contrMat, mcp)
 
 ## importFrom(Rcmdr, doItAndPrint)
 
-import(lattice, latticeExtra, grid, gridExtra)
+import(lattice, latticeExtra, grid, gridExtra, graphics)
 
 import(shiny)
 
@@ -490,7 +503,9 @@ importFrom(abind, abind)
 
 importFrom(Rmpfr, mpfr)
 
-## problems that I am working around with functions in file
+importFrom("grDevices", "col2rgb", "colorRampPalette", "dev.copy2eps",
+             "heat.colors", "rgb", "trans3d")
+
 ## R/workarounds.R
 ## Unexported objects imported by ':::' calls:
 ##   'grid:::make.xaxis.major' 'grid:::make.xaxis.ticks'

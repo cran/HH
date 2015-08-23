@@ -19,7 +19,7 @@ install.packages(c("rscproxy","rcom"),
                  lib=.Library)
 library(rcom)
 comRegisterRegistry()
-## ')
+')
 
 
 ###################################################

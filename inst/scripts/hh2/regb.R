@@ -11,6 +11,7 @@ library(HH)
 ###################################################
 ## rgl graphics doesn't automate.  It needs manual intervention for screen shots.
 data(fat)
+if (interactive()) {
 ## car::scatter3d(bodyfat~abdomin+biceps, data=fat, fit="linear",
 ##                residuals="squares",
 ##                bg="white", axis.scales=TRUE, grid=TRUE, ellipsoid=FALSE)
@@ -44,7 +45,7 @@ rgl::par3d(userMatrix=structure(c(0.983415901660919, 0.0405623130500317, 0.17677
 0.219941437244415, 0.958505392074585, 0, 0, 0, 0, 1), .Dim = c(4L,
 4L)))
 ## Take a screen shot with Preview, save as fat3d-center.pdf
-
+}
 
 ###################################################
 ### code chunk number 3: regb.tex:190-195
@@ -256,6 +257,7 @@ vif(longley.lm)
 ###################################################
 ### code chunk number 18: regb.tex:1509-1527
 ###################################################
+if (interactive()) {
 ## rgl graphics doesn't automate.  It needs manual intervention for screen shots.
 longley2.lm <- lm(Employed ~ Year + GNP, data=longley)
 longley2.resid <- resid(longley2.lm)
@@ -274,7 +276,7 @@ rgl::par3d(windowRect=c(20,  100, 500, 2000))
 rgl::par3d(zoom=.3)
 ## screen capture as longley-collinear.pdf
 ## rgl.snapshot("tmp.png") ## not good enough
-
+}
 
 ###################################################
 ### code chunk number 19: regb.tex:1693-1701

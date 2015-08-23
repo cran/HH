@@ -1,66 +1,83 @@
 \name{showHex}
 \alias{showHex}
 \alias{showBin}
+\alias{showDec}
 \alias{showHexInternal}
-\alias{HextoBin}
-\alias{BintoHex}
-\alias{Bintohex}
+%\alias{HextoBin}
+%\alias{BintoHex}
+%\alias{Bintohex}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Show numbers in binary and hex format
+Show numbers in binary and hex and decimal format
 }
 \description{
-Show numbers in binary and hex format.
+  Show numbers in binary and hex and decimal format.
+  showHex is a very early version of formatHex, which will eventually be
+  in Rmpfr.
+  Use the HH version of formatHex until the Rmpfr version is released.
 }
 \usage{
+## not exported
 showHex(x, ...)
-## hexdigits is the number of hex digits after the precision point
-
-showBin(x, ..., shift=FALSE, LeftPad="_", RightPad="_")
-## bindigits is number of binary digits after the precision point
 
 ## not exported
-showHexInternal(x,
-                bindigits=if (is(x, "mpfr"))
-                   min(Rmpfr::.getPrec(x))
-                else
-                   Rmpfr::mpfr_default_prec(),
-                hexdigits=1 + ((bindigits-1) \%/\% 4),
-                ...)
+showBin(x, ..., shift=FALSE, LeftPad="_", RightPad="_")
+
+## not exported
+showDec(x, ..., digits, nsmall)
+
+## not exported
+showHexInternal(x, precBits=min(Rmpfr::getPrec(x)), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{
-x
+Any numeric or mpfr object.
 }
-  \item{bindigits}{
-    Number of binary digits after the binary point.
+  \item{precBits}{
+    Number of bits of precision.
+The default value is the number returned by \code{mpfr::.getPrec}
+    Double precision numbers have 53
+    bits.  For more detail, see \code{\link[Rmpfr]{mpfr}}.
   }
-  \item{hexdigits}{
-    Number of hexadecimal digits after the hexadeximal point.
-}
 \item{shift}{
   Logical.  When \code{FALSE} (the default) the binary representation is
-  displayed in scientific notation (3 is displayed as
+  displayed in scientific notation (mpfr(3, 5) is displayed as
   \code{+0b1.1000p+1}).  When \code{TRUE}, the binary representation is in
-  regulat format shifted to align binary points (3 is displayed
-  \code{+0b11.000}.
+  regular format shifted to align binary points (mpfr(3, 5) is displayed
+  \code{+0b11.000}).
 }
-  \item{\dots}{
-The specifications bindigits and hexdigits are the only optional
-arguments that will be used.
+\item{\dots}{Additional arguments.
+  \code{showHexInternal}, \code{showHex}, \code{showBin}: \code{precBits}
+  is the only \code{...} argument acted on.
+Other \code{...} arguments are ignored.
+
+\code{showDec}: \code{precBits} is acted on.  Any argument accepted by
+\code{\link[base]{format}} (except \code{digits} and \code{nsmall}) is
+acted on.
+Other \code{...} arguments are ignored.
 }
   \item{LeftPad, RightPad}{
 Characters that will be used for left- and right-padding of the
 formatted string when \code{shift=TRUE}.
 }
+\item{digits, nsmall}{These arguments are intercepted by \code{showDec}
+  and ignored.
+  \code{showDec} generates its own values for these arguments from
+  \code{precBits}
+  and forwards those values to \code{format}.
+  }
 }
 \details{
 For the hexadecimal representation, the function
 \code{\link[base]{sprintf}} is used directly.  For the binary
 representation, the hexadecimal value is calculated and then edited by
 substitution of the binary representation of the hex characters coded in
-the \code{HextoBin} vector.
+the \code{HextoBin} vector.  For binary with \code{shift=TRUE}, the
+result of the  \code{shift=FALSE} version is edited to align binary
+points.  For the decimal representation, the hexadecimal value is
+calculated with the
+specified precision and then sent to the \code{format} function.
 }
 \value{
 A character matrix containing the formatted represention of the
@@ -71,9 +88,7 @@ Arithmetic cannot be done on the result.
   R FAQ 7.31:  Why doesn't R think these numbers are equal?
   \code{system.file("../../doc/FAQ")}
 }
-\author{
-rmh
-}
+\author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{
 \code{\link[Rmpfr]{mpfr}}, \code{\link[base]{sprintf}}
 }
@@ -82,19 +97,20 @@ FourBits <- Rmpfr::mpfr(matrix(0:31, 8, 4), precBits=4) ## 4 significant bits
 dimnames(FourBits) <- list(0:7, c(0,8,16,24))
 FourBits
 
-showHex(FourBits)
-showBin(FourBits)
-showBin(FourBits, shift=TRUE)
+HH:::showHex(FourBits)
+HH:::showBin(FourBits)
+HH:::showBin(FourBits, shift=TRUE)
+HH:::showDec(FourBits)
 
-showBin(FourBits, bindigits=3) ## 3 digits after the binary point
-showBin(FourBits, bindigits=3, shift=TRUE)
 
-showHex(FourBits, bindigits=6)
-showHex(FourBits, hexdigits=2)
-
-showBin(FourBits, bindigits=6)
-showBin(FourBits, shift=TRUE, bindigits=6)
-showBin(FourBits, hexdigits=2)
+TenFrac <- matrix((1:10)/10, dimnames=list(1:10, expression(1/x)))
+TenFrac9 <- Rmpfr::mpfr(TenFrac, precBits=9) ## 9 significant bits
+TenFrac9
+HH:::showHex(TenFrac9)
+HH:::showBin(TenFrac9)
+HH:::showBin(TenFrac9, shift=TRUE)
+HH:::showDec(TenFrac9)
+HH:::showDec(TenFrac9, precBits=10)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

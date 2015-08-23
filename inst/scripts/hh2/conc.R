@@ -312,7 +312,7 @@ diff(pnorm(q=c(5.5, 6.5), mean=15*.4, sd=sqrt(15*.4*(1-.4))))
 
 
 ###################################################
-### code chunk number 19: conc.tex:1351-1375
+### code chunk number 19: conc.tex:1354-1378
 ###################################################
 ## hhpdf("normalPhi.pdf", height=6.5, width=6.5)
 AA <- HH:::dstrplotContinuous("norm", args=list(m=0, s=1), X=1.645, par.settings=list(clip=list(panel=FALSE))) +
@@ -341,7 +341,7 @@ update(BBAA, ylab=NULL, xlim=c(-2.58, 2.58),
 
 
 ###################################################
-### code chunk number 20: conc.tex:1378-1383
+### code chunk number 20: conc.tex:1381-1386
 ###################################################
 ## hhcapture("normalPhi.Rout", '
   dnorm(1.645, m=0, s=1)
@@ -351,7 +351,7 @@ update(BBAA, ylab=NULL, xlim=c(-2.58, 2.58),
 
 
 ###################################################
-### code chunk number 21: conc.tex:1443-1449
+### code chunk number 21: conc.tex:1446-1452
 ###################################################
 ## hhpdf("norm.pdf", height=5.5, width=7)
 tmp.norm <-
@@ -362,7 +362,7 @@ print(tmp.norm, cex.table=.8)
 
 
 ###################################################
-### code chunk number 22: conc.tex:1451-1457
+### code chunk number 22: conc.tex:1454-1460
 ###################################################
 ## These lines show how to access the xbar and z values and their p-values
 ## from within the R session.
@@ -373,7 +373,7 @@ attr(tmp.norm, "prob")
 
 
 ###################################################
-### code chunk number 23: conc.tex:1487-1522
+### code chunk number 23: conc.tex:1490-1525
 ###################################################
 ## hhpdf("tt.pdf", height=9, width=8)
 normal  <- NTplot(mean0=100, mean1=NA,  xbar=NA,
@@ -413,7 +413,7 @@ print(NTTT, digits=6, cex.table=.9)
 
 
 ###################################################
-### code chunk number 24: conc.tex:1613-1642
+### code chunk number 24: conc.tex:1616-1645
 ###################################################
 ## hhpdf("normalSamplingDist.pdf", height=8, width=8)
 N1  <- reshape2::melt(data.frame(matrix(rnorm( 10, mean=100, sd=5), nrow= 1, ncol=10)), id=NULL)
@@ -447,7 +447,7 @@ c("n=1"=dotplot(variable ~ value, data=N1,  pch=1, cex=1.2, col="DodgerBlue1") +
 
 
 ###################################################
-### code chunk number 25: conc.tex:1670-1710
+### code chunk number 25: conc.tex:1673-1713
 ###################################################
 ## hhpdf("normalCLT.pdf", height=9, width=8)
 n1  <- NTplot(mean0=100, mean1=NA,  xbar=NA,
@@ -492,7 +492,7 @@ print(NNNN, digits=6, cex.table=.9)
 
 
 ###################################################
-### code chunk number 26: conc.tex:1851-1861
+### code chunk number 26: conc.tex:1854-1864
 ###################################################
 ## hhpdf("normalconf.pdf", height=6, width=8)
 tmp <-
@@ -507,7 +507,7 @@ print(tmp, cex.table=.8)
 
 
 ###################################################
-### code chunk number 27: conc.tex:2036-2046
+### code chunk number 27: conc.tex:2044-2054
 ###################################################
 ## hhpdf("NormConf.pdf", height=6, width=8)
 tmp <-
@@ -522,7 +522,7 @@ print(tmp, cex.table=.8)
 
 
 ###################################################
-### code chunk number 28: conc.tex:2080-2090
+### code chunk number 28: conc.tex:2088-2098
 ###################################################
 ## hhpdf("NormConfRight.pdf", height=6, width=8)
 tmp <-
@@ -537,7 +537,7 @@ print(tmp, cex.table=.8)
 
 
 ###################################################
-### code chunk number 29: conc.tex:2228-2266
+### code chunk number 29: conc.tex:2236-2274
 ###################################################
 tmp32  <- NTplot(mean0=8, mean1=8.411, sd=2, n=32,
                  xlim=c(7.5, 8.9), ylim=c(0, 2.2), cex.top.axis=1.8, cex.prob=1.5,
@@ -580,7 +580,7 @@ print(position=c(.690, 0, 1.000, .95), more=FALSE,
 
 
 ###################################################
-### code chunk number 30: conc.tex:2489-2497
+### code chunk number 30: conc.tex:2497-2505
 ###################################################
 ## hhpdf("bottlefill.pdf", height=5, width=8)
 tmp <-
@@ -593,7 +593,7 @@ print(tmp, cex.table=.8)
 
 
 ###################################################
-### code chunk number 31: conc.tex:2568-2576
+### code chunk number 31: conc.tex:2576-2584
 ###################################################
 ## hhpdf("bottlefillonetail.pdf", height=5, width=8)
 tmp <-
@@ -606,7 +606,7 @@ print(tmp, cex.table=.8)
 
 
 ###################################################
-### code chunk number 32: conc.tex:2690-2727
+### code chunk number 32: conc.tex:2698-2735
 ###################################################
 tmp8     <- NTplot(mean0=8, mean1=8, sd=2, n=64,
                    xlim=c(7.3, 9.5), cex.top.axis=1.8, cex.prob=1.5,
@@ -648,7 +648,7 @@ print(position=c(.690, 0, 1.000, .95), more=FALSE,
 
 
 ###################################################
-### code chunk number 33: conc.tex:2879-2899
+### code chunk number 33: conc.tex:2887-2907
 ###################################################
 tmpn <- NTplot(mean0=8, mean1=9.4, sd=2, n=12, cex.main=1.4,
                    xlim=c(7, 10.5), ylim=c(0, .7), cex.top.axis=1.5, cex.prob=1.5,
@@ -673,7 +673,7 @@ print(position=c(.515, 0, 1.000, .95), more=FALSE,
 
 
 ###################################################
-### code chunk number 34: conc.tex:2919-2925
+### code chunk number 34: conc.tex:2927-2933
 ###################################################
 hhcode("power.t.test.R", '
 PowerT <- power.t.test(n=12, sd=2, delta=1.4,

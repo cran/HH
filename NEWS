@@ -1,3 +1,31 @@
+Version 3.1-21
+--------------
+
+* 2015 Aug 23
+
+* add to DESCRIPTION and NAMESPACE for stats, grDevices
+
+
+
+Version 3.1-20
+--------------
+
+* 2015 Aug 18
+
+* revise print.NTplot to match revised grid.table in gridExtra_2.0-0
+
+* redesign showBin and showHex to use Rmpfr::getPrec() for precision, add showDec
+
+* add wrapper functions formatDec formatHex formatBin to use Rmpfr::format*
+  functions if they exist and to use HH::show* functions otherwise.
+
+* add line to DESCRIPTION: Depends: graphics
+
+* add line to NAMESPACE: import(graphics)
+
+* repair pch bug in ancova
+
+
 Version 3.1-19
 --------------
 
@@ -5,7 +33,7 @@ Version 3.1-19
 
 * rename functions to showBin and showHex, instead of as.bin and as.hex
 
-* sent to CRAN
+* on CRAN 2015 Jun 12
 
 
 Version 3.1-18
