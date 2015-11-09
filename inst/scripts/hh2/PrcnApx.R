@@ -62,18 +62,18 @@ data.frame("decimal-2"=nums,
 old.width=options(width=80)
 ## hhcapture("as.bin.Rout", '
 library(Rmpfr)
-FourBits <- mpfr(matrix(0:31, 8, 4), precBits=4)
-dimnames(FourBits) <- list(0:7, c(0,8,16,24))
+FourBits <- mpfr(matrix(0:39, 8, 5), precBits=4)
+dimnames(FourBits) <- list(0:7, c(0,8,16,24,32))
 FourBits
-formatHex(FourBits, hex=1)
-formatBin(FourBits, bindigits=3)
-formatBin(FourBits, bindigits=3, scientific=FALSE)
+formatHex(FourBits)
+formatBin(FourBits)
+formatBin(FourBits, scientific=FALSE)
 ## ')
 options(old.width)
 
 
 ###################################################
-### code chunk number 8: PrcnApx.tex:372-381
+### code chunk number 8: PrcnApx.tex:374-383
 ###################################################
 ## hhcapture("fpnums369.Rout", '
 nums369 <- c(.3, .6, .3+.6, 9)
@@ -87,7 +87,7 @@ nums369df
 
 
 ###################################################
-### code chunk number 9: PrcnApx.tex:412-415
+### code chunk number 9: PrcnApx.tex:414-417
 ###################################################
 ## hhcapture("sqrt2II.Rout", '
 sprintf("%+13.13a", c(2, sqrt(2)^2))
@@ -95,7 +95,7 @@ sprintf("%+13.13a", c(2, sqrt(2)^2))
 
 
 ###################################################
-### code chunk number 10: PrcnApx.tex:436-440
+### code chunk number 10: PrcnApx.tex:438-442
 ###################################################
 ## hhcapture("machEps.Rout", '
 c(100, 1e-10)
@@ -104,7 +104,7 @@ zapsmall(c(100, 1e-10))
 
 
 ###################################################
-### code chunk number 11: PrcnApx.tex:467-505
+### code chunk number 11: PrcnApx.tex:469-507
 ###################################################
 x <- 100
 sprintf("%+13.13a", x)
@@ -147,7 +147,7 @@ x^2
 
 
 ###################################################
-### code chunk number 12: PrcnApx.tex:587-638
+### code chunk number 12: PrcnApx.tex:589-640
 ###################################################
 ## hhcapture("twopass.Rout", '
 vartwo <- function(x) {
@@ -203,7 +203,7 @@ vartwoC(x+10^17)
 
 
 ###################################################
-### code chunk number 13: PrcnApx.tex:678-706
+### code chunk number 13: PrcnApx.tex:680-708
 ###################################################
 
 ## hhcapture("binvar53.Rout", '
@@ -231,12 +231,12 @@ hhcode("binvar53A.Rout", '
  1 +0x1.c6bf5263400080p+49 +0x1.1c37937e080008p+53
  2 +0x1.c6bf5263400100p+49 +0x1.1c37937e080010p+53
  3 +0x1.c6bf5263400180p+49 +0x1.1c37937e080018p+53
-## ')
+')
 
 
 
 ###################################################
-### code chunk number 14: PrcnApx.tex:744-789
+### code chunk number 14: PrcnApx.tex:746-791
 ###################################################
 
 ## hhcapture("binvar5A.Rout", '
@@ -247,9 +247,9 @@ yy5
 
 vartwo(yy5[,"5"])
 
-formatBin(yy5, 4)
+formatBin(yy5)
 
-formatBin(yy5, 4, scientific=FALSE)
+formatBin(yy5, scientific=FALSE)
 ## ')
 
 ## hhcapture("binvar5B.Rout", '
@@ -260,9 +260,9 @@ yy6
 
 vartwo(yy6[,"5"])
 
-formatBin(yy6, 5)
+formatBin(yy6)
 
-formatBin(yy6, 5, scientific=FALSE)
+formatBin(yy6, scientific=FALSE)
 ## ')
 
 ## hhcapture("binvar5C.Rout", '
@@ -286,7 +286,7 @@ vartwo(yy6[,3])
 
 
 ###################################################
-### code chunk number 15: PrcnApx.tex:876-895
+### code chunk number 15: PrcnApx.tex:878-897
 ###################################################
 ## hhcapture("binvar54.Rout", '
 vartwo(xx54[,"15"])
@@ -310,7 +310,7 @@ sum((xx54)[c(1,3,2),"16"]) ## just right
 
 
 ###################################################
-### code chunk number 16: PrcnApx.tex:936-951
+### code chunk number 16: PrcnApx.tex:938-953
 ###################################################
 ## hhcapture("ModA.Rout", '
 x <- 3; y <- 4
@@ -330,7 +330,7 @@ Mod(x + y*1i)
 
 
 ###################################################
-### code chunk number 17: PrcnApx.tex:973-988
+### code chunk number 17: PrcnApx.tex:975-990
 ###################################################
 ## hhcapture("ModB.Rout", '
 MyMod <- function(x, y) {
@@ -350,7 +350,7 @@ MyMod(x, y)
 
 
 ###################################################
-### code chunk number 18: PrcnApx.tex:1022-1048
+### code chunk number 18: PrcnApx.tex:1024-1050
 ###################################################
 ## hhcapture("onepassScalar.Rout", '
 varoneScalar <- function(x) {

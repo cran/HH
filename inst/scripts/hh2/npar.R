@@ -177,7 +177,7 @@ wilcox.test(har1$Pre, har1$Post, alternative="greater",
 ###################################################
 ### code chunk number 11: npar.tex:671-678
 ###################################################
-## hhpdf("balance.pdf", width=5.5, height=3, col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("balance.pdf", width=5.5, height=3, col=likertColor(2)) ## col is not an argument for grDevices:::pdf
 data(balance)
 bwplot(sway ~ age, data=balance,
        panel=panel.bwplot.superpose, groups=age,
@@ -200,7 +200,7 @@ sum(rank(balance$sway)[10:17])
 ### code chunk number 13: npar.tex:741-745
 ###################################################
 ## hhpdf("balancedots.pdf", width=5.5, height=3, lwd=4) ## lwd is not an argument of grDevices::pdf
-dotplot(rank(sway) ~ age, group=age, data=balance, col=col3x2,
+dotplot(rank(sway) ~ age, group=age, data=balance, col=likertColor(2),
        par.settings=list(superpose.symbol=list(pch=19)))
 ## hhdev.off()
 
@@ -261,10 +261,12 @@ dotplot(pulse ~ task, data=pulse,
 
 
 ###################################################
-### code chunk number 17: npar.tex:898-901
+### code chunk number 17: npar.tex:898-903
 ###################################################
+old.width <- options(width=70)
 ## hhcapture("pulse.Rout", '
 kruskal.test(pulse ~ task, data=pulse)
 ## ')
+options(old.width)
 
 

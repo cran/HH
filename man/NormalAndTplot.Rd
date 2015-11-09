@@ -249,6 +249,22 @@ NTplot(xy.t, type="confidence")
 }
 
 \dontrun{
+printbook.colors <- c(  ## based on "original" colors
+  col.alpha             = "blue",
+  col.notalpha          = "lightcyan",  ## this value is nonstandard
+  col.beta              = "red",
+  col.power             = "pink",
+  col.pvalue            = "green",
+  col.pvaluetranslucent = HH:::ColorWithAlpha("springgreen"),  ## this value is nonstandard
+  col.critical          = "gray50",
+  col.border            = HH:::ColorWithAlpha("black"),
+  col.text              = "black",
+  col.conf              = "lightgreen"
+)
+NTplot(ntcolors=printbook.colors) ## different colors
+}
+
+\dontrun{
 ## mean1 and xbar
   NTplot(mean0=0, mean1=2,  xbar=1.8,  xlim=c(-3, 5))
   NTplot(mean0=0, mean1=-2, xbar=-1.8, xlim=c(-5, 3),

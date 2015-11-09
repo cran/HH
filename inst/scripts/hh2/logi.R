@@ -647,13 +647,13 @@ xyplot(nodes.j ~ acid.ph | X.ray, data=lymph,
          border=1,
          title="nodes", cex.title=1.25,
          cex=1))
-
-N0 + Na
+N0.Na <- N0 + Na
+print(N0.Na, panel.width=list(3.5,"in"))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 29: logi.tex:1568-1578
+### code chunk number 29: logi.tex:1568-1579
 ###################################################
 ## hhpdf("logit-cg.pdf", width=6, height=5.5)
 apx12 <- seq(20,200,20)
@@ -663,12 +663,13 @@ nodes.prop <- nodes.freq[,,"1"] / (nodes.freq[,,"0"]+nodes.freq[,,"1"])
 
 Ns <- layer(panel.segments(apx12[-10], nodes.prop[,panel.number()],
                            apx12[-01], nodes.prop[,panel.number()]))
-N0 + Na + Ns
+N0.Na.Ns <- N0 + Na + Ns
+print(N0.Na.Ns, panel.width=list(3.5,"in"))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 30: logi.tex:1622-1627
+### code chunk number 30: logi.tex:1623-1628
 ###################################################
 ## hhcapture("logit-f.Rout", '
 lymph1.glm <- glm(nodes ~ X.ray + acid.ph, data=lymph, family=binomial)
@@ -678,7 +679,7 @@ summary(lymph1.glm)$coef
 
 
 ###################################################
-### code chunk number 31: logi.tex:1642-1652
+### code chunk number 31: logi.tex:1643-1654
 ###################################################
 col.xray <- brewer.pal(12, 'Paired')[c(10,12)] ## col8[6:7] ## "black" ## col8[1:2]
 ## hhpdf("logit-d.pdf", width=6, height=5.5)
@@ -688,14 +689,15 @@ tmpX2$nodes.hat <- predict.glm(lymph1.glm, type="response", newdata=tmpX2)
 Np <- xyplot(nodes.hat ~ acid.ph | X.ray, data=tmpX2,
              groups=X.ray,
              type="l", layout=c(1,2), col=col.xray)
-N0 + Na + Np
+N0.Na.Np <- N0 + Na + Np
+print(N0.Na.Np, panel.width=list(3.5,"in"))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 32: logi.tex:1666-1700
+### code chunk number 32: logi.tex:1668-1703
 ###################################################
-## hhpdf("logit-e.pdf", width=5.5, height=5.5)
+## hhpdf("logit-e.pdf", width=6, height=7)
 logit.p.hat <- predict.glm(lymph1.glm, type="link")
 p.hat <- predict.glm(lymph1.glm, type="response")
 odds.hat <- p.hat/(1-p.hat)
@@ -706,19 +708,19 @@ lhat2.srt <- lhat2[order(lhat2$X.ray, lhat2$acid.ph),]
 DD2g <-
 xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, data=lhat2.srt,
        group=X.ray, type="p",
-       layout=c(1, 3), scales=list(relation="free", rot=0),
+       layout=c(1, 3), scales=list(relation="free", rot=0, cex=1),
        ## above is necessary, below makes it prettier
-       pch=c("0","1"), cex=1.2, col=col.xray,
+       pch=c("0","1"), cex=2, col=col.xray,
        key=list(space="right",
          border=1, columns=2,
-         points=list(pch=c("0","1"), col=col.xray, cex=1.2),
-         title="X.ray", cex.title=1, lines.title=1.2,
-         cex=1,
+         points=list(pch=c("0","1"), col=col.xray, cex=1.5),
+         title="X.ray", cex.title=1.2, lines.title=1.4,
+         cex=1.4,
          rev=TRUE))
 DD2gcl <-
 combineLimits(as.matrix(update(
-  DD2g,
-  ylab=list(c("p.hat", "odds.hat", "logit.p.hat"), rot=0),
+  DD2g, xlab=list(cex=1.2),
+  ylab=list(c("p.hat", "odds.hat", "logit.p.hat"), rot=0, cex=1.2),
   strip=FALSE, between=list(y=1))))
 
 DD2gcll <-
@@ -727,12 +729,13 @@ xyplot(nodes.hat + odds(nodes.hat) + logit(nodes.hat) ~ acid.ph, data=tmpX2,
        layout=c(1, 3), scales=list(relation="free", rot=0))
 DD2Gcla <- DD2gcl + DD2gcll
 ## DD2Gcla
-update(DD2Gcla, ylim=list(c(0,1), c(0, 10), c(-2, 8)))
+DD2Gcla.update <- update(DD2Gcla, ylim=list(c(0,1), c(0, 10), c(-2, 8)), layout=c(1,3))
+print(DD2Gcla.update, panel.width=list(3.5,"in"))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 33: logi.tex:1729-1733
+### code chunk number 33: logi.tex:1732-1736
 ###################################################
 ## hhcapture("logit-k.Rout", '
 lymph1Xa.glm <- glm(nodes ~ X.ray * acid.ph, data=lymph, family=binomial)
@@ -741,21 +744,22 @@ anova(lymph1Xa.glm, test="Chisq")
 
 
 ###################################################
-### code chunk number 34: logi.tex:1747-1754
+### code chunk number 34: logi.tex:1750-1758
 ###################################################
 ## hhpdf("logit-f.pdf", width=6, height=5.5)
 tmpX2$nodes.hatXa <- predict.glm(lymph1Xa.glm, type="response", newdata=tmpX2)
 NpXa <- xyplot(nodes.hatXa ~ acid.ph | X.ray, data=tmpX2,
              groups=X.ray,
              type="l", layout=c(1,2), col=col.xray)
-N0 + Na + NpXa
+N0.Na.NpXa <- N0 + Na + NpXa
+print(N0.Na.NpXa, panel.width=list(3.5,"in"))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 35: logi.tex:1782-1816
+### code chunk number 35: logi.tex:1786-1821
 ###################################################
-## hhpdf("logit-g.pdf", width=5.5, height=5.5)
+## hhpdf("logit-g.pdf", width=6, height=7)
 logit.p.hat <- predict.glm(lymph1Xa.glm, type="link")
 p.hat <- predict.glm(lymph1Xa.glm, type="response")
 odds.hat <- p.hat/(1-p.hat)
@@ -766,19 +770,19 @@ lhat2Xa.srt <- lhat2Xa[order(lhat2Xa$X.ray, lhat2Xa$acid.ph),]
 DD2gXa <-
 xyplot(p.hat + odds.hat + logit.p.hat ~ acid.ph, data=lhat2Xa.srt,
        group=X.ray, type="p",
-       layout=c(1, 3), scales=list(relation="free", rot=0),
+       layout=c(1, 3), scales=list(relation="free", rot=0, cex=1),
        ## above is necessary, below makes it prettier
-       pch=c("0","1"), cex=1.2, col=col.xray,
+       pch=c("0","1"), cex=2, col=col.xray,
        key=list(space="right",
          border=1, columns=2,
-         points=list(pch=c("0","1"), col=col.xray, cex=1.2),
-         title="X.ray", cex.title=1, lines.title=1.2,
-         cex=1,
+         points=list(pch=c("0","1"), col=col.xray, cex=1.5),
+         title="X.ray", cex.title=1, lines.title=1.4,
+         cex=1.4,
          rev=TRUE))
 DD2gXacl <-
 combineLimits(as.matrix(update(
   DD2gXa,
-  ylab=list(c("p.hat", "odds.hat", "logit.p.hat"), rot=0),
+  ylab=list(c("p.hat", "odds.hat", "logit.p.hat"), rot=0, cex=1.2),
   strip=FALSE, between=list(y=1))))
 
 DD2gXacll <-
@@ -787,12 +791,13 @@ xyplot(nodes.hatXa + odds(nodes.hatXa) + logit(nodes.hatXa) ~ acid.ph, data=tmpX
        layout=c(1, 3), scales=list(relation="free", rot=0))
 DD2GXacla <- DD2gXacl + DD2gXacll
 ## DD2GXacla
-update(DD2GXacla, ylim=list(c(0,1), c(0, 10), c(-2, 8)))
+DD2GXacla.update <- update(DD2GXacla, ylim=list(c(0,1), c(0, 10), c(-2, 8)))
+print(DD2GXacla.update, panel.width=list(3.5,"in"))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 36: logi.tex:1998-2020
+### code chunk number 36: logi.tex:2003-2025
 ###################################################
 ## hhpdf("logit-k.pdf", width=8, height=7)
 

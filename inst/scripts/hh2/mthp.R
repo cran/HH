@@ -364,7 +364,7 @@ xyplot(sin(theta) ~ cos(theta), type="l", lty=3, lwd=2, col="gray30") ## unit ci
 
 
 ###################################################
-### code chunk number 17: mthp.tex:1456-1465
+### code chunk number 17: mthp.tex:1460-1469
 ###################################################
 ## hhcapture("svd1.Rout", '
 M <- matrix(c(1,3,6,4,2,3,8,6,4,5,3,2), 4, 3)
@@ -378,7 +378,7 @@ M.svd$u %*% diag(M.svd$d) %*% t(M.svd$v)
 
 
 ###################################################
-### code chunk number 18: mthp.tex:1489-1494
+### code chunk number 18: mthp.tex:1493-1498
 ###################################################
 ## hhcapture("svd2.Rout", '
 eigen(tcrossprod(M))
@@ -388,7 +388,7 @@ M.svd$d^2
 
 
 ###################################################
-### code chunk number 19: mthp.tex:1523-1533
+### code chunk number 19: mthp.tex:1527-1537
 ###################################################
 ## hhcapture("ginv.Rout", '
 M <- matrix(c(1,3,6,4,2,3,8,6,4,5,3,2), 4, 3)

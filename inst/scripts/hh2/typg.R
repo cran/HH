@@ -7,7 +7,22 @@ library(HH)
 
 
 ###################################################
-### code chunk number 2: typg.tex:407-429
+### code chunk number 2: typg.tex:377-387
+###################################################
+data(tv)
+## hhpng("tv1.png", height=3, width=3, unit="in", res=72)
+xyplot(life.exp ~ ppl.per.tv, data=tv, pch=19)
+## hhdev.off()
+## hhpdf("tv1.pdf", height=3, width=3)
+xyplot(life.exp ~ ppl.per.tv, data=tv, pch=19)
+## hhdev.off()
+## hhpdf("tv2.pdf", height=3, width=4)
+xyplot(life.exp ~ ppl.per.tv, data=tv, pch=19)
+## hhdev.off()
+
+
+###################################################
+### code chunk number 3: typg.tex:565-587
 ###################################################
 ## hhcapture("dump.Rout", '
 tmp <- data.frame(aa=1:3, bb=factor(4:6), cc=letters[7:9],
@@ -34,9 +49,9 @@ sapply(tmp, class)
 
 
 ###################################################
-### code chunk number 3: typg.tex:488-502
+### code chunk number 4: typg.tex:646-660
 ###################################################
-hhcode("extract.r", '
+## hhcode("extract.r", '
 mydata <- data.frame(x=1:6, y=c(1,4,2,3,6,2))
 
 my.lm <- lm( y ~ x , data=mydata)
@@ -53,7 +68,7 @@ predict(my.lm) ## predict() method on lm argument
 
 
 ###################################################
-### code chunk number 4: typg.tex:580-586
+### code chunk number 5: typg.tex:738-744
 ###################################################
 tmp <- data.frame(y=rnorm(10), x=1:10)
 tmp.lm <- lm(y ~ x, data=tmp)

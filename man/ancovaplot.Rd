@@ -94,8 +94,9 @@ override each independently.
 Standard \pkg{lattice} arguments.
 }
   \item{col.line, lty}{
-Standard \pkg{lattice} arguments.  They follow the value of the
-treatment factor in the \code{formula}.
+Standard \pkg{lattice} arguments.  By default, they follow the value of the
+treatment factor in the \code{formula}. \code{col.line} is recycled to
+the number of panels in the plot.
 }
   \item{y, subscripts}{
 See \code{\link{panel.xyplot}}.

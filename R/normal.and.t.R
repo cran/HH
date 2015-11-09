@@ -208,6 +208,8 @@ NormalAndTplot.default <- function(mean0=0,
   blue127 <- ColorWithAlpha("blue")
   black127 <- ColorWithAlpha("black")
 
+  if (length(ntcolors)==1) {
+
   if (ntcolors == "original") {
     col.alpha             <- "blue"
     col.notalpha          <- "lightblue"
@@ -232,6 +234,18 @@ NormalAndTplot.default <- function(mean0=0,
     col.text              <- "black"
     col.conf              <- "lightgreen"
   }
+} else {
+
+  ntcolors.names <- c("col.alpha", "col.notalpha", "col.beta", "col.power",
+                      "col.pvalue", "col.pvaluetranslucent", "col.critical", "col.border",
+                      "col.text", "col.conf")
+  if (!all(match(ntcolors.names, names(ntcolors), nomatch=FALSE)))
+    stop("The 'ntcolors' argument must be a named character vector with names: \n",
+         paste(ntcolors.names, collapse=", "), call.=FALSE)
+
+  for (i in names(ntcolors)) assign(i, ntcolors[i])
+}
+
 
   if (type == "confidence") {
     col.alpha <- "white"

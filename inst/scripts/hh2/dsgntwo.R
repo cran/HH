@@ -82,7 +82,16 @@ summary(yatesppl.aov)
 
 
 ###################################################
-### code chunk number 6: dsgntwo.tex:393-400
+### code chunk number 6: dsgntwo.tex:393-397
+###################################################
+## hhcapture("yatesppl-2.Rout", '
+model.tables(yatesppl.aov, type="means")
+model.tables(yatesppl.aov, type="effects", se=TRUE)
+## ')
+
+
+###################################################
+### code chunk number 7: dsgntwo.tex:412-419
 ###################################################
 ## hhcapture("yatesppl-3.Rout", '
 yatesppl.wrong.aov <-
@@ -94,16 +103,7 @@ summary(yatesppl.wrong.aov)
 
 
 ###################################################
-### code chunk number 7: dsgntwo.tex:423-427
-###################################################
-## hhcapture("yatesppl-2.Rout", '
-model.tables(yatesppl.aov, type="means")
-model.tables(yatesppl.aov, type="effects", se=TRUE)
-## ')
-
-
-###################################################
-### code chunk number 8: dsgntwo.tex:480-486
+### code chunk number 8: dsgntwo.tex:481-487
 ###################################################
 ## hhcapture("yatesppl-alt.Rout", '
 yatesppl2.anova <-
@@ -114,7 +114,7 @@ summary(yatesppl2.anova)
 
 
 ###################################################
-### code chunk number 9: dsgntwo.tex:557-571
+### code chunk number 9: dsgntwo.tex:558-572
 ###################################################
 ## hhcapture("yatesppl-st6.Rout", '
 ## polynomial contrasts in nitrogen
@@ -133,7 +133,7 @@ summary(yatespplp.aov,
 
 
 ###################################################
-### code chunk number 10: dsgntwo.tex:596-604
+### code chunk number 10: dsgntwo.tex:597-605
 ###################################################
 ## hhcapture("yatesppl-mmc.Rout", '
 yatesppl.mmc <- mmc(yatesppl.wrong.aov, focus="nitrogen")
@@ -146,7 +146,7 @@ yatesppl.mmc
 
 
 ###################################################
-### code chunk number 11: dsgntwo.tex:623-631
+### code chunk number 11: dsgntwo.tex:624-632
 ###################################################
 ## hhpdf("yatesppl-mmc.pdf", width=9, height=4.5)
 yatesmmcpair <- mmcplot(yatesppl.mmc)
@@ -159,18 +159,18 @@ update(c("Pairwise Contrasts"=yatesmmcpair,
 
 
 ###################################################
-### code chunk number 12: dsgntwo.tex:759-763
+### code chunk number 12: dsgntwo.tex:760-764
 ###################################################
-hhcode("Design_2.8-2.R", '
+## hhcode("Design_2.8-2.R", '
 data(Design_2.8_2)
 Design_2.8_2
 ## ')
 
 
 ###################################################
-### code chunk number 13: dsgntwo.tex:856-872
+### code chunk number 13: dsgntwo.tex:857-873
 ###################################################
-hhcode("2.8-2.R", '
+## hhcode("2.8-2.R", '
 R282 <- t(sapply(strsplit(Design_2.8_2$trt,""),
                 function(trtcomb)
                    as.numeric(letters[1:8] %in% trtcomb)))
@@ -189,16 +189,16 @@ summary(R282E.aov)
 
 
 ###################################################
-### code chunk number 14: dsgntwo.tex:927-931
+### code chunk number 14: dsgntwo.tex:928-932
 ###################################################
-## hhpdf("circuit.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("circuit.pdf", col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 data(circuit)
 interaction2wt(yield ~ A*B*C, data=circuit, main.cex=1.6, box.width=.3)
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 15: dsgntwo.tex:945-952
+### code chunk number 15: dsgntwo.tex:946-953
 ###################################################
 ##   hhcapture("circuit.Rout", '
 circuit.aov <- aov( yield ~ A + B + C + A:B, data=circuit)
@@ -210,7 +210,7 @@ tapply(circuit[,"yield"], circuit[,c("A","C")], mean)
 
 
 ###################################################
-### code chunk number 16: dsgntwo.tex:1120-1130
+### code chunk number 16: dsgntwo.tex:1121-1131
 ###################################################
 ## hhpdf("cc135-fig.pdf", width=7, height=2.5)
 data(cc135)
@@ -225,7 +225,7 @@ update(LLL+TTT,
 
 
 ###################################################
-### code chunk number 17: dsgntwo.tex:1205-1219
+### code chunk number 17: dsgntwo.tex:1206-1220
 ###################################################
 ##   hhcapture("cc135.Rout", '
 data(cc135)
@@ -244,9 +244,9 @@ apply(summary(a1cr)[[1]][,1:2], 2, sum)
 
 
 ###################################################
-### code chunk number 18: dsgntwo.tex:1221-1231
+### code chunk number 18: dsgntwo.tex:1222-1232
 ###################################################
-  hhcode("cc135.R", '
+##  hhcode("cc135.R", '
 data(cc135)
 a1c <-  aov(terms(yield ~ cow + square:period + treat + res.treat,
                   keep.order=TRUE), data=cc135)
@@ -259,7 +259,7 @@ summary(a1cr)
 
 
 ###################################################
-### code chunk number 19: dsgntwo.tex:1299-1333
+### code chunk number 19: dsgntwo.tex:1300-1334
 ###################################################
 ## hhpdf("cc135fbwplot.pdf", width=8, height=5, col=col3x2) ## col is not an argument for grDevices:::pdf
 ## construct the yield adjusted for the blocking factors and res.treat
@@ -687,15 +687,15 @@ options(old.stars)
 testscore$final.adj <-
   testscore$final - as.vector(apply(proj(testscore7.aov, onedf=TRUE)[,2:3],1,sum))
 
-yso.testscore.plot <- function(yname, main="Main Title Goes Here", ...) {
+yso.testscore.plot <- function(yname, main="Main Title Goes Here", cex=1.2, ...) {
   jj <- jitter(as.numeric(testscore$standing), amount=.1)
   formula <- as.formula(paste(yname, "~ jj | order"))
   xyplot(formula,
          groups=sex,
-         main=main,
+         main=main, cex=cex,
          xlab="standing", xlab.top="order",
          auto.key=list(border=TRUE, reverse=TRUE, space="right", title="sex"),
-         par.settings=list(superpose.symbol=list(pch=c(19,17),
+         par.settings=list(superpose.symbol=list(pch=c(19,17), cex=cex,
                              col=trellis.par.get()$superpose.symbol$col[2:1])),
          scales=list(x=list(at=1:3, labels=levels(testscore$standing),
                             alternating=1)),
@@ -707,11 +707,11 @@ yso.testscore.plot <- function(yname, main="Main Title Goes Here", ...) {
 yso.testscore.plot("initial", "Initial Score", ylim=c(5,35), data=testscore)
 ## hhdev.off()
 
-## hhpdf("observed.pdf", width=7, height=3.4, col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("observed.pdf", width=7, height=3.4, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final", "Observed Data", ylim=c(5,35), data=testscore)
 ## hhdev.off()
 
-## hhpdf("adjusted1.pdf", width=7, height=3.4, col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("adjusted1.pdf", width=7, height=3.4, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final.adj", "Adjusted for Covariates", ylim=c(5,35), data=testscore)
 ## hhdev.off()
 
@@ -739,17 +739,17 @@ apply(final.pred.table, 2, mean) ## each individual order
 ###################################################
 ### code chunk number 41: dsgntwo.tex:2808-2815
 ###################################################
-## hhpdf("adjusted2.pdf", width=7, height=3.5, col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("adjusted2.pdf", width=7, height=3.5, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final.adj", "Adjusted for Covariates", ylim=c(15,25), data=testscore)
 ## hhdev.off()
 
-## hhpdf("prediction.pdf", width=7, height=3.5, col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("prediction.pdf", width=7, height=3.5, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("final.pred", "Final Predictions", ylim=c(15,25), data=newdata)
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 42: dsgntwo.tex:2894-2905
+### code chunk number 42: dsgntwo.tex:2900-2911
 ###################################################
 data(crash)
 ## hhpdf("crash-bar.pdf", height=3, width=8, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
@@ -765,7 +765,7 @@ barchart(crashrate ~ passengers | agerange, data=crash,
 
 
 ###################################################
-### code chunk number 43: dsgntwo.tex:2915-2920
+### code chunk number 43: dsgntwo.tex:2921-2926
 ###################################################
 ## hhpdf("crash-interaction.pdf", height=5, width=8, col=col3x2) ## col is not an argument for grDevices:::pdf
 interaction2wt(crashrate ~ agerange + passengers, data=crash,
@@ -775,7 +775,7 @@ interaction2wt(crashrate ~ agerange + passengers, data=crash,
 
 
 ###################################################
-### code chunk number 44: dsgntwo.tex:2946-2950
+### code chunk number 44: dsgntwo.tex:2952-2956
 ###################################################
 ##   hhcapture("crash.aov.Rout", '
 crash.aov <- aov(crashrate ~ agerange + passengers, data=crash)
@@ -784,7 +784,7 @@ summary(crash.aov)
 
 
 ###################################################
-### code chunk number 45: dsgntwo.tex:2971-3008
+### code chunk number 45: dsgntwo.tex:2977-3014
 ###################################################
 ##   hhcapture("crash.cv.Rout", '
 ## means polish of crash data
@@ -826,7 +826,7 @@ cv
 
 
 ###################################################
-### code chunk number 46: dsgntwo.tex:3194-3200
+### code chunk number 46: dsgntwo.tex:3200-3206
 ###################################################
 ##   hhcapture("crash2.aov.Rout", '
 crash2.aov <- aov(crashrate ~ agerange + passengers +
@@ -837,7 +837,7 @@ coef(crash2.aov)
 
 
 ###################################################
-### code chunk number 47: dsgntwo.tex:3221-3232
+### code chunk number 47: dsgntwo.tex:3227-3238
 ###################################################
 ## hhpdf("crash-diag.pdf", height=5, width=8)
 ## diagnostic plot. UREDA page 200--204
@@ -853,12 +853,16 @@ abline(crashr.lm)
 
 
 ###################################################
-### code chunk number 48: dsgntwo.tex:3265-3296
+### code chunk number 48: dsgntwo.tex:3271-3318
 ###################################################
-## hhpdf("crash-original.pdf", height=5, width=9, col=col3x2, lwd=4)
+## hhpdf("crash-original.pdf", height=5, width=9, col=col3x2, lwd=2)
+crash.a <-
 interaction2wt(crashrate ~ agerange + passengers, data=crash,
                main="                  a. original scale,  k = 1",
                strip=FALSE)
+crash.a$lattice.options$axis.options$right$labels2 <- "" ## remove right tick labels
+crash.a$lattice.options$axis.options$right$labels3 <- c("","") ## remove right axis labels
+crash.a
 ## hhdev.off()
 
 ## The regression coefficient of the cv term is 1.551647, from
@@ -866,41 +870,53 @@ interaction2wt(crashrate ~ agerange + passengers, data=crash,
 ## is 1-1.551647 = -0.551647
 ## We illustrate power = 0 -.5 -1
 
-## hhpdf("crash-log.pdf", height=5, width=9, col=col3x2, lwd=4)
+## hhpdf("crash-log.pdf", height=5, width=9, col=col3x2, lwd=2)
+crash.b <-
 interaction2wt(log(crashrate) ~ agerange + passengers,
                data=crash,
                main="                 b. log scale,  k = 0",
                strip=FALSE)
+crash.b$lattice.options$axis.options$right$labels2 <- "" ## remove right tick labels
+crash.b$lattice.options$axis.options$right$labels3 <- c("","") ## remove right axis labels
+crash.b
 ## hhdev.off()
 
-## hhpdf("crash-neg-rec-sqrt.pdf", height=5, width=9, col=col3x2, lwd=4)
+## hhpdf("crash-neg-rec-sqrt.pdf", height=5, width=9, col=col3x2, lwd=2)
+crash.c <-
 interaction2wt( I(-1/sqrt(crashrate)) ~ agerange + passengers,
                data=crash,
                main="             c. negative reciprocal square root scale,  k = -.5",
                strip=FALSE)
+crash.c$lattice.options$axis.options$right$labels2 <- "" ## remove right tick labels
+crash.c$lattice.options$axis.options$right$labels3 <- c("","") ## remove right axis labels
+crash.c
 ## hhdev.off()
 
-## hhpdf("crash-neg-rec.pdf", height=5, width=9, col=col3x2, lwd=4)
+## hhpdf("crash-neg-rec.pdf", height=5, width=9, col=col3x2, lwd=2)
+crash.d <-
 interaction2wt( I(-1/(crashrate)) ~ agerange + passengers,
                data=crash,
                main="             d. negative reciprocal scale,  k = -1",
                strip=FALSE)
+crash.d$lattice.options$axis.options$right$labels2 <- "" ## remove right tick labels
+crash.d$lattice.options$axis.options$right$labels3 <- c("","") ## remove right axis labels
+crash.d
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 49: dsgntwo.tex:3330-3336
+### code chunk number 49: dsgntwo.tex:3352-3358
 ###################################################
 ## hhpdf("crash-interaction-rec.pdf", height=5, width=8, col=col3x2)
 crash$crashrate.rec <- 10000/crash$crashrate
 interaction2wt(crashrate.rec ~ agerange + passengers, data=crash,
                main="Trips per Crash by Driver Age and Passenger Presence",
-               strip=FALSE)
+               strip=FALSE, ylim=c(31000, 0))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 50: dsgntwo.tex:3357-3369
+### code chunk number 50: dsgntwo.tex:3376-3388
 ###################################################
 ## The appearance of the -.5 and -1 transformations are similar.
 ## We choose the reciprocal (power = -1) because it is easy to
@@ -917,7 +933,7 @@ model.tables(crashi.aov, type="means")
 
 
 ###################################################
-### code chunk number 51: dsgntwo.tex:3421-3431
+### code chunk number 51: dsgntwo.tex:3440-3450
 ###################################################
 ## hhpdf("crash-bar-rec.pdf", height=3, width=8, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 barchart(10000/crashrate ~ passengers | agerange, data=crash,
@@ -932,7 +948,7 @@ barchart(10000/crashrate ~ passengers | agerange, data=crash,
 
 
 ###################################################
-### code chunk number 52: dsgntwo.tex:3476-3503
+### code chunk number 52: dsgntwo.tex:3495-3522
 ###################################################
 ## exploration of dummy variables
 crashin.aov <- aov(1/crashrate ~ agerange/passengers, data=crash)
@@ -964,12 +980,12 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 53: dsgntwo.tex:3748-3799
+### code chunk number 53: dsgntwo.tex:3767-3818
 ###################################################
 ## sink("yatesppl.ex.Rout")
 ## source("yatesppl.ex.R", echo=TRUE, max.deparse.length=1000)
 ## sink()
-  hhcode("yatesppl.ex.R", '
+##  hhcode("yatesppl.ex.R", '
 ### a. The whole plot column space is defined by the
 ###       plots %in% blocks
 ### dummy variables generated by the

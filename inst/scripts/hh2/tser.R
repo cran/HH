@@ -7,7 +7,7 @@ library(HH)
 
 
 ###################################################
-### code chunk number 2: tser.tex:114-124
+### code chunk number 2: tser.tex:118-128
 ###################################################
 ## hhcapture("tseralign1.Rout", '
 x <- ts(sample(10), start=1978)
@@ -22,7 +22,7 @@ ts.intersect(x,y)
 
 
 ###################################################
-### code chunk number 3: tser.tex:386-411
+### code chunk number 3: tser.tex:390-415
 ###################################################
 ## hhcapture("my.pacf.Rout", '
 ## This function illustrates the definition of the pacf.
@@ -52,7 +52,7 @@ acf(ozone.subset, type="partial", plot=FALSE)$acf[2]
 
 
 ###################################################
-### code chunk number 4: tser.tex:794-800
+### code chunk number 4: tser.tex:800-806
 ###################################################
 data(elnino)
 ## hhpdf("elnino1.pdf", height=8, width=7)
@@ -63,7 +63,7 @@ tsacfplots(elnino, main="", cex=1.3, ylab="elnino --- Southern Oscillation", lwd
 
 
 ###################################################
-### code chunk number 5: tser.tex:813-818
+### code chunk number 5: tser.tex:819-824
 ###################################################
 ## hhpdf("elnino2.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -73,7 +73,7 @@ tsacfplots(diff(elnino), main="", cex=1.3, lwd=1)
 
 
 ###################################################
-### code chunk number 6: tser.tex:853-865
+### code chunk number 6: tser.tex:859-871
 ###################################################
 ## hhcapture("elnino3.Rout", '
 elnino.loop <- arma.loop(elnino, order=c(2,1,2))
@@ -90,7 +90,7 @@ tsdiagplot(armas=elnino.loop, diags=elnino.diags,
 
 
 ###################################################
-### code chunk number 7: tser.tex:1093-1098
+### code chunk number 7: tser.tex:1099-1104
 ###################################################
 ## hhpdf("tsamsta1.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -100,7 +100,7 @@ tsacfplots(co2,                   xlab=NULL, ylab=list("co2", cex=1.5),         
 
 
 ###################################################
-### code chunk number 8: tser.tex:1113-1117
+### code chunk number 8: tser.tex:1119-1123
 ###################################################
 ## hhpdf("co2_10year.pdf", height=4, width=7)
 seqplot(ts(co2[1:120], start=c(1959,1), frequency=12),
@@ -109,7 +109,7 @@ seqplot(ts(co2[1:120], start=c(1959,1), frequency=12),
 
 
 ###################################################
-### code chunk number 9: tser.tex:1142-1147
+### code chunk number 9: tser.tex:1148-1153
 ###################################################
 ## hhpdf("tsamsta1a.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -119,7 +119,7 @@ tsacfplots(diff(co2,1),           xlab=NULL, ylab=list("diff(co2,1)", cex=1.5), 
 
 
 ###################################################
-### code chunk number 10: tser.tex:1168-1173
+### code chunk number 10: tser.tex:1174-1179
 ###################################################
 ## hhpdf("tsamsta2.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -129,7 +129,7 @@ tsacfplots(diff(diff(co2,1), 12), xlab=NULL, ylab=list("diff(diff(co2,1), 12)", 
 
 
 ###################################################
-### code chunk number 11: tser.tex:1185-1190
+### code chunk number 11: tser.tex:1191-1196
 ###################################################
 ## not included in printed book
 ##HT main="Figure 2alt (not in printed paper).  diff(diff(co2,1), 12)  with lag.0=FALSE"
@@ -139,7 +139,7 @@ tsacfplots(diff(diff(co2,1), 12), xlab=NULL, ylab=list("diff(diff(co2,1), 12)", 
 
 
 ###################################################
-### code chunk number 12: tser.tex:1229-1244
+### code chunk number 12: tser.tex:1235-1250
 ###################################################
 ddco2.loop <- arma.loop(co2,
                         order=c(2,1,2),
@@ -159,7 +159,7 @@ tsdiagplot(armas=ddco2.loop, diags=ddco2.diags,
 
 
 ###################################################
-### code chunk number 13: tser.tex:1304-1313
+### code chunk number 13: tser.tex:1310-1319
 ###################################################
 old.width <- options(width=70)
 ## hhcapture("tsamsta4.Rout", '
@@ -173,7 +173,7 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 14: tser.tex:1326-1336
+### code chunk number 14: tser.tex:1332-1342
 ###################################################
 ddco2.diagsPQ <- diag.arma.loop(ddco2.loopPQ, co2, lag.max=36)
 ## hhpdf("tsamsta4.pdf", height=13, width=9)
@@ -188,7 +188,7 @@ tsdiagplot(armas=ddco2.loopPQ, diags=ddco2.diagsPQ,
 
 
 ###################################################
-### code chunk number 15: tser.tex:1421-1428
+### code chunk number 15: tser.tex:1427-1434
 ###################################################
 ## hhcapture("tsamsta011011.Rout", '
 co2.arima <- ddco2.loopPQ[["0","1"]]
@@ -200,7 +200,7 @@ vcov(co2.arima)
 
 
 ###################################################
-### code chunk number 16: tser.tex:1441-1448
+### code chunk number 16: tser.tex:1447-1454
 ###################################################
 ## hhcapture("tsamsta111011.Rout", '
 co2.arima11 <- ddco2.loopPQ[["1","1"]]
@@ -212,7 +212,7 @@ vcov(co2.arima11)
 
 
 ###################################################
-### code chunk number 17: tser.tex:1470-1484
+### code chunk number 17: tser.tex:1476-1490
 ###################################################
 ## hhpdf("tsamsta5.pdf", height=3, width=7)
 co2.forecast <- predict(co2.arima11, n.ahead=12)
@@ -231,7 +231,7 @@ seqplotForecast(co2.last.year, co2.forecast,
 
 
 ###################################################
-### code chunk number 18: tser.tex:1598-1623
+### code chunk number 18: tser.tex:1605-1630
 ###################################################
 ## Mystery time series X
 data(tser.mystery.X)
@@ -261,7 +261,7 @@ X.loop[["1","1"]]
 
 
 ###################################################
-### code chunk number 19: tser.tex:1688-1713
+### code chunk number 19: tser.tex:1695-1720
 ###################################################
 ## Mystery time series Y
 data(tser.mystery.Y)
@@ -291,7 +291,7 @@ Y.loop[["1","1"]]
 
 
 ###################################################
-### code chunk number 20: tser.tex:1781-1806
+### code chunk number 20: tser.tex:1788-1813
 ###################################################
 ## Mystery time series Z
 data(tser.mystery.Z)
@@ -321,7 +321,7 @@ Z.loop[["1","1"]]
 
 
 ###################################################
-### code chunk number 21: tser.tex:1927-1933
+### code chunk number 21: tser.tex:1938-1944
 ###################################################
 data(product)
 ## hhpdf("prodfig1.pdf", height=8, width=7)
@@ -332,7 +332,7 @@ tsacfplots(product, main="", lwd=1)
 
 
 ###################################################
-### code chunk number 22: tser.tex:1947-1952
+### code chunk number 22: tser.tex:1958-1963
 ###################################################
 ## hhpdf("prodfig2.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -342,17 +342,17 @@ tsacfplots(diff(product), main="", lwd=1)
 
 
 ###################################################
-### code chunk number 23: tser.tex:1974-1979
+### code chunk number 23: tser.tex:1985-1990
 ###################################################
 ## hhcapture("product.Rout", '
 product.loop <- arma.loop(product, order=c(2,1,2))
 product.diags <- diag.arma.loop(product.loop, x=product, lag.max=60)
-product.diags
+product.loop
 ## ')
 
 
 ###################################################
-### code chunk number 24: tser.tex:1991-1999
+### code chunk number 24: tser.tex:2002-2010
 ###################################################
 ## hhpdf("prodfig4.pdf", height=13, width=9)
 print(portrait=TRUE,
@@ -365,7 +365,7 @@ tsdiagplot(armas=product.loop, diags=product.diags,
 
 
 ###################################################
-### code chunk number 25: tser.tex:2045-2053
+### code chunk number 25: tser.tex:2056-2064
 ###################################################
 ## hhpdf("nottema.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -378,7 +378,7 @@ tsacfplots(diff(nottem), lwd=1, cex=1.3)  ## not displayed in book
 
 
 ###################################################
-### code chunk number 26: tser.tex:2063-2071
+### code chunk number 26: tser.tex:2074-2082
 ###################################################
 ## hhpdf("nottemb.pdf", height=8, width=7)
 print(portrait=TRUE,
@@ -391,7 +391,7 @@ tsacfplots(diff(diff(nottem), 12), lwd=1, cex=1.3)  ## not displayed in book
 
 
 ###################################################
-### code chunk number 27: tser.tex:2084-2094
+### code chunk number 27: tser.tex:2095-2105
 ###################################################
 old.width <- options(width=70)
 ## hhcapture("nottem-3x3.Rout", '
@@ -406,7 +406,7 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 28: tser.tex:2106-2111
+### code chunk number 28: tser.tex:2117-2122
 ###################################################
 ## hhpdf("nottemc.pdf", height=13, width=9)
 print(portrait=TRUE,
@@ -416,7 +416,7 @@ tsdiagplot(armas=nottem.loop, ts.diag=nottem.diag, lwd=1)
 
 
 ###################################################
-### code chunk number 29: tser.tex:2122-2125
+### code chunk number 29: tser.tex:2133-2136
 ###################################################
 ## hhcapture("nottem-100x210.Rout", '
 nottem.loop[["1","0"]]
@@ -424,7 +424,7 @@ nottem.loop[["1","0"]]
 
 
 ###################################################
-### code chunk number 30: tser.tex:2181-2187
+### code chunk number 30: tser.tex:2192-2198
 ###################################################
 data(tsq)
 ## hhpdf("tsq1.pdf", height=8, width=7)
@@ -435,7 +435,7 @@ tsacfplots(tsq, main="tsq 1", lwd=1)
 
 
 ###################################################
-### code chunk number 31: tser.tex:2209-2213
+### code chunk number 31: tser.tex:2220-2224
 ###################################################
 ## hhcapture("tsq.Rout", '
 tsq.loop <- arma.loop(tsq, order=c(2,0,2))
@@ -444,7 +444,7 @@ tsq.loop
 
 
 ###################################################
-### code chunk number 32: tser.tex:2238-2245
+### code chunk number 32: tser.tex:2249-2256
 ###################################################
 ## hhpdf("tsq2.pdf", height=13, width=9)
 tsq.diag <-
@@ -456,7 +456,7 @@ tsdiagplot(armas=tsq.loop, ts.diag=tsq.diag, lwd=1)
 
 
 ###################################################
-### code chunk number 33: tser.tex:2284-2293
+### code chunk number 33: tser.tex:2295-2304
 ###################################################
 data(ozone)
 seqplot(ozone, "Missing values prevent calculation of acf and pacf.", cex=1.3) ## not in book
@@ -470,7 +470,7 @@ tsacfplots(ozone.subset, cex=1.3, lwd=1)
 
 
 ###################################################
-### code chunk number 34: tser.tex:2326-2343
+### code chunk number 34: tser.tex:2337-2354
 ###################################################
 acf.1  <- c(.8, .61, .47,  .40, .31,  .21, .18, .11, .06, .01)
 pacf.1 <- c(.8, .08, .00, -.11, .00, -.12, .07, .05, .01, .02)
@@ -492,7 +492,7 @@ xyplot(acf ~ lag | type, data=tmp,
 
 
 ###################################################
-### code chunk number 35: tser.tex:2377-2395
+### code chunk number 35: tser.tex:2388-2406
 ###################################################
 z22  <- c( .93, .92,.90,.90, .87,.86,.85, .84,.82,.80)
 Dz22 <- c(-.57,-.10,.12,.06,-.12,.09,.05,-.01,.02,.03)
@@ -515,7 +515,7 @@ xyplot(acf ~ lag | type, data=tmp,
 
 
 ###################################################
-### code chunk number 36: tser.tex:2425-2455
+### code chunk number 36: tser.tex:2436-2466
 ###################################################
 z24    <- c(.99,.94,.87,.81,.75,.65, .55, .53,.43,.40)
 Dz24   <- c(.43,.28,.51,.80,.65,.44, .31, .77,.30,.20)
@@ -550,7 +550,7 @@ xyplot(acf ~ lag | type, data=tmp,
 
 
 ###################################################
-### code chunk number 37: tser.tex:2521-2527
+### code chunk number 37: tser.tex:2533-2539
 ###################################################
 data(employM16)
 ## hhpdf("employM16.pdf", height=8, width=7)

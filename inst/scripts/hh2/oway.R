@@ -57,7 +57,7 @@ mmcplot(catalystm.mmc, style="both")
 
 
 ###################################################
-### code chunk number 7: oway.tex:720-725
+### code chunk number 7: oway.tex:723-728
 ###################################################
 ## hhcapture("batch.Rout", '
 data(batch)
@@ -67,7 +67,7 @@ anova(batch1.aov)
 
 
 ###################################################
-### code chunk number 8: oway.tex:742-747
+### code chunk number 8: oway.tex:745-750
 ###################################################
 old.par <- options(width=72, digits=6)
 ## hhcapture("batchhov.Rout", '
@@ -77,7 +77,7 @@ options(old.par)
 
 
 ###################################################
-### code chunk number 9: oway.tex:762-765
+### code chunk number 9: oway.tex:765-768
 ###################################################
 ## hhpdf("batchhov.pdf", width=7, height=4, col=col3x2) ## col is not an argument for grDevices:::pdf
 hovplotBF(Calcium ~ Batch, data=batch)
@@ -85,7 +85,7 @@ hovplotBF(Calcium ~ Batch, data=batch)
 
 
 ###################################################
-### code chunk number 10: oway.tex:782-785
+### code chunk number 10: oway.tex:785-788
 ###################################################
 ## hhpdf("batchoway.pdf", width=5, height=4, col=col3x2) ## col is not an argument for grDevices:::pdf
 OneWayVarPlot(Calcium ~ Batch, data = batch)
@@ -93,7 +93,7 @@ OneWayVarPlot(Calcium ~ Batch, data = batch)
 
 
 ###################################################
-### code chunk number 11: oway.tex:910-915
+### code chunk number 11: oway.tex:913-918
 ###################################################
 ## hhpdf("turkey-f1.pdf", width=6, height=4, col=col3x2) ## col is not an argument for grDevices:::pdf)
 data(turkey)
@@ -103,7 +103,7 @@ bwplot(wt.gain ~ diet, data=turkey, groups=diet,
 
 
 ###################################################
-### code chunk number 12: oway.tex:926-931
+### code chunk number 12: oway.tex:929-934
 ###################################################
 ## hhcapture("turkey-aov1.Rout", '
 turkey.aov <- aov(wt.gain ~ diet, data=turkey)
@@ -113,7 +113,7 @@ model.tables(turkey.aov, type="means", se=TRUE)
 
 
 ###################################################
-### code chunk number 13: oway.tex:969-980
+### code chunk number 13: oway.tex:972-983
 ###################################################
 ## hhcapture("turkey-contrasts.Rout", '
 contrasts(turkey$diet)
@@ -129,7 +129,7 @@ tapply(turkey$wt.gain, turkey$diet, mean) %*%
 
 
 ###################################################
-### code chunk number 14: oway.tex:998-1010
+### code chunk number 14: oway.tex:1001-1013
 ###################################################
 ## hhcapture("turkey-anova-contrasts.Rout", '
 turkey2.aov <- aov(wt.gain ~ diet, data=turkey)
@@ -146,7 +146,7 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 15: oway.tex:1414-1418
+### code chunk number 15: oway.tex:1417-1421
 ###################################################
 ## hhpdf("catalystm-hov.pdf", width=7, height=4, col=col3x2) ## col is not an argument for grDevices:::pdf
 hovBF(concent ~ catalyst, data=catalystm)
@@ -155,7 +155,7 @@ hovplotBF(concent ~ catalyst, data=catalystm)
 
 
 ###################################################
-### code chunk number 16: oway.tex:1718-1728
+### code chunk number 16: oway.tex:1721-1731
 ###################################################
 ## hhcapture("SumsSquareIdentities.Rout", '
 data(catalystm)
@@ -170,7 +170,7 @@ apply(Proj, 2, function(x) sum(x^2))
 
 
 ###################################################
-### code chunk number 17: oway.tex:1754-1763
+### code chunk number 17: oway.tex:1757-1766
 ###################################################
 ## hhcapture("ANOVAbyRegression.Rout", '
 contrasts(catalystm$catalyst)
@@ -184,7 +184,7 @@ anova(catalystm.lm)
 
 
 ###################################################
-### code chunk number 18: oway.tex:1781-1793
+### code chunk number 18: oway.tex:1784-1796
 ###################################################
 ## hhcapture("oopplot.Rout", '
 tmp <- data.frame(AA=c(5,6,8,7,8),
@@ -201,7 +201,7 @@ plot(tmp$CC)
 
 
 ###################################################
-### code chunk number 19: oway.tex:1795-1802
+### code chunk number 19: oway.tex:1798-1805
 ###################################################
 ## hhpdf("oopplot.pdf", width=9, height=3.25)
 old.par <- par(mfrow=c(1,3), cex=1.25, mar=c(4,2,1,5))
@@ -213,7 +213,7 @@ par(old.par)
 
 
 ###################################################
-### code chunk number 20: oway.tex:1826-1833
+### code chunk number 20: oway.tex:1831-1838
 ###################################################
 ## hhcapture("oopaov.Rout", '
 class(catalystm.aov)
@@ -225,7 +225,7 @@ par(old.par)
 
 
 ###################################################
-### code chunk number 21: oway.tex:1835-1840
+### code chunk number 21: oway.tex:1840-1845
 ###################################################
 ## hhpdf("oopaov.pdf", width=12, height=4)
 old.par <- par(mfrow=c(1,4), cex=1.25)

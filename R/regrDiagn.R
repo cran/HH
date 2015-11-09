@@ -13,6 +13,7 @@ diagplot5new <- function(linearmodel, ..., pch=19) {
          between=list(x=1),
          strip=FALSE,
          pch=pch,
+         layout=c(2,1),
          ...,
          xlab="(1:n) / n",
          ## ylab=deparse(linearmodel$call[[2]][[2]]), ## y variable name

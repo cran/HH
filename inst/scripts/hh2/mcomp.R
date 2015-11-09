@@ -40,7 +40,7 @@ summary(weightloss.aov)
 
 
 ###################################################
-### code chunk number 5: mcomp.tex:288-296
+### code chunk number 5: mcomp.tex:289-297
 ###################################################
 ## hhcapture("weightloss-b.Rout", '
 weightloss.dunnett <-
@@ -53,7 +53,7 @@ confint(weightloss.dunnett)
 
 
 ###################################################
-### code chunk number 6: mcomp.tex:311-314
+### code chunk number 6: mcomp.tex:312-315
 ###################################################
 ## hhpdf("weightloss-dunnett.pdf", width=7, height=2.75)
 mmcplot(weightloss.dunnett, focus="group")
@@ -61,7 +61,7 @@ mmcplot(weightloss.dunnett, focus="group")
 
 
 ###################################################
-### code chunk number 7: mcomp.tex:329-337
+### code chunk number 7: mcomp.tex:330-338
 ###################################################
 ## hhcapture("weightloss-dunnet-mmc.Rout", '
 weightloss.mmc <-
@@ -74,7 +74,7 @@ weightloss.mmc
 
 
 ###################################################
-### code chunk number 8: mcomp.tex:351-354
+### code chunk number 8: mcomp.tex:352-355
 ###################################################
 ## hhpdf("weightloss-dunnet-mmc.pdf", width=7, height=7)
 mmcplot(weightloss.mmc, h=c(.80, .20), style="both")
@@ -82,7 +82,7 @@ mmcplot(weightloss.mmc, h=c(.80, .20), style="both")
 
 
 ###################################################
-### code chunk number 9: mcomp.tex:493-508
+### code chunk number 9: mcomp.tex:494-509
 ###################################################
 ## hhcapture("turkey-contrasts2a.Rout", '
 data(turkey)
@@ -102,7 +102,7 @@ turkey.mmc$lmat
 
 
 ###################################################
-### code chunk number 10: mcomp.tex:542-545
+### code chunk number 10: mcomp.tex:543-546
 ###################################################
 ## hhpdf("turkey-scheffelmat.pdf", width=6.5, height=2.5)
 mmcplot(turkey.mmc, type="lmat", style="confint", axis.right=2.3)
@@ -110,19 +110,7 @@ mmcplot(turkey.mmc, type="lmat", style="confint", axis.right=2.3)
 
 
 ###################################################
-### code chunk number 11: mcomp.tex:687-694
-###################################################
-## hhcapture("turkey-contrasts2.Rout", '
-data(turkey)
-turkey.aov <- aov(wt.gain ~ diet, data=turkey)
-scheffe.quantile <- sqrt(4*qf(.95, 4, 25))
-turkey.mmc <- mmc(turkey.aov, calpha=scheffe.quantile)
-turkey.mmc
-## ')
-
-
-###################################################
-### code chunk number 12: mcomp.tex:709-712
+### code chunk number 11: mcomp.tex:710-713
 ###################################################
 ## hhpdf("turkey-scheffe.pdf", width=7.5, height=7.5)
 mmcplot(turkey.mmc, style="both")
@@ -130,7 +118,7 @@ mmcplot(turkey.mmc, style="both")
 
 
 ###################################################
-### code chunk number 13: mcomp.tex:759-772
+### code chunk number 12: mcomp.tex:760-773
 ###################################################
 ## hhpdf("turkey-lmat.pdf", width=8, height=7.5)
 turkey.lmat <-
@@ -148,7 +136,7 @@ turkey.mmc
 
 
 ###################################################
-### code chunk number 14: mcomp.tex:880-887
+### code chunk number 13: mcomp.tex:881-888
 ###################################################
 data(catalystm)
 catalystm1.aov <- aov(concent ~ catalyst, data=catalystm)
@@ -160,7 +148,7 @@ confint(catalystm.glht)
 
 
 ###################################################
-### code chunk number 15: mcomp.tex:898-901
+### code chunk number 14: mcomp.tex:899-902
 ###################################################
 ## hhpdf("catalystm-glht.pdf", width=7, height=3)
 mmcplot(catalystm.glht, order.contrasts=FALSE, estimate.sign=0, focus="catalyst")
@@ -168,7 +156,7 @@ mmcplot(catalystm.glht, order.contrasts=FALSE, estimate.sign=0, focus="catalyst"
 
 
 ###################################################
-### code chunk number 16: mcomp.tex:951-956
+### code chunk number 15: mcomp.tex:952-957
 ###################################################
 ## hhpdf("catalystm-tukey-lines.pdf", width=7, height=3)
 plot(cld(catalystm.glht))
@@ -178,7 +166,7 @@ segments(c(.5, 2.5), c(62.1, 63.7), c(3.5, 4.5), c(62.1, 63.7), xpd=NA, lty=3, l
 
 
 ###################################################
-### code chunk number 17: mcomp.tex:1048-1061
+### code chunk number 16: mcomp.tex:1050-1063
 ###################################################
 ## hhcapture("inconsistent.Rout", '
 group <- factor(LETTERS[1:4])
@@ -196,7 +184,7 @@ confint(inconsistent.glht, calpha=crit.point)
 
 
 ###################################################
-### code chunk number 18: mcomp.tex:1080-1085
+### code chunk number 17: mcomp.tex:1082-1087
 ###################################################
 ## hhpdf("inconsistent.pdf", width=7, height=3)
 plot(cld(inconsistent.glht))
@@ -206,7 +194,7 @@ segments(c(.5, .5), c(3.43, 3.61), c(4.5, 4.5), c(3.43, 3.61), xpd=NA, lty=3, lw
 
 
 ###################################################
-### code chunk number 19: mcomp.tex:1099-1102
+### code chunk number 18: mcomp.tex:1101-1104
 ###################################################
 ## hhpdf("inconsistent-glht.pdf", width=7, height=3)
 mmcplot(inconsistent.glht, focus="group")
@@ -214,7 +202,7 @@ mmcplot(inconsistent.glht, focus="group")
 
 
 ###################################################
-### code chunk number 20: mcomp.tex:1121-1129
+### code chunk number 19: mcomp.tex:1123-1131
 ###################################################
 ## hhpdf("inconsistent-none.pdf", width=7, height=2.5)
 inconsistent.mmc <- mmc(inconsistent.aov,
@@ -227,7 +215,7 @@ mmcplot(inconsistent.mmc$none$glht, focus="group")
 
 
 ###################################################
-### code chunk number 21: mcomp.tex:1146-1149
+### code chunk number 20: mcomp.tex:1148-1151
 ###################################################
 ## hhpdf("inconsistent-mmc.pdf", width=7, height=5)
 mmcplot(inconsistent.mmc)
@@ -235,7 +223,7 @@ mmcplot(inconsistent.mmc)
 
 
 ###################################################
-### code chunk number 22: mcomp.tex:1197-1202
+### code chunk number 21: mcomp.tex:1199-1204
 ###################################################
 ## hhpdf("catalystm-mmc-mca.pdf", width=6, height=4)
 catalystm.mmc <-
@@ -245,7 +233,7 @@ mmcplot(catalystm.mmc)
 
 
 ###################################################
-### code chunk number 23: mcomp.tex:1254-1274
+### code chunk number 22: mcomp.tex:1256-1276
 ###################################################
 ## just the B-D contrast
 `lmat.B-D` <- catalystm.mmc$mca$lmat[,"B-D", drop=FALSE]
@@ -270,7 +258,7 @@ HH:::mmc.explain(group, n, ybar, ms.5, crit.point,
 
 
 ###################################################
-### code chunk number 24: mcomp.tex:1320-1334
+### code chunk number 23: mcomp.tex:1322-1336
 ###################################################
 ## This figure showing steps 7 and 8 is not displayed in the book.
 HH:::mmc.explain(group, n, ybar, ms.5, crit.point,
@@ -289,7 +277,7 @@ HH:::mmc.explain(group, n, ybar, ms.5, crit.point,
 
 
 ###################################################
-### code chunk number 25: mcomp.tex:1383-1394
+### code chunk number 24: mcomp.tex:1385-1396
 ###################################################
 ## This figure showing step 11 (actually steps 1 through 9, and 11)
 ## is not displayed in the book.
@@ -305,7 +293,7 @@ mmcplot(catalystmBD.mmc, type="lmat")
 
 
 ###################################################
-### code chunk number 26: mcomp.tex:1693-1710
+### code chunk number 25: mcomp.tex:1695-1712
 ###################################################
 ## hhcapture("pairwiseContrasts.Rout", '
 ## aov contrast matrix for catalyst factor.  The columns are
@@ -327,7 +315,7 @@ catalyst.pairwise
 
 
 ###################################################
-### code chunk number 27: mcomp.tex:1743-1755
+### code chunk number 26: mcomp.tex:1745-1757
 ###################################################
 ## hhcapture("catalystm-mmc.orth-matrix.Rout", '
 ## An orthogonal set of ($4-1$) contrasts for the catalyst factor.
@@ -344,7 +332,7 @@ resid(lm(catalystm.lmat ~ catalyst.pairwise))
 
 
 ###################################################
-### code chunk number 28: mcomp.tex:1789-1796
+### code chunk number 27: mcomp.tex:1791-1798
 ###################################################
 ## hhcapture("mmc-complete.Rout", '
 catalystm.mmc <-
@@ -356,7 +344,7 @@ catalystm.mmc
 
 
 ###################################################
-### code chunk number 29: mcomp.tex:1810-1813
+### code chunk number 28: mcomp.tex:1812-1815
 ###################################################
 ## hhpdf("catalystm-mmc-lmat.pdf", width=6, height=6)
 mmcplot(catalystm.mmc, type="lmat", style="both")
@@ -364,7 +352,7 @@ mmcplot(catalystm.mmc, type="lmat", style="both")
 
 
 ###################################################
-### code chunk number 30: mcomp.tex:1863-1871
+### code chunk number 29: mcomp.tex:1865-1873
 ###################################################
 ## hhcapture("pulmonary.Rout", '
 data(pulmonary)
@@ -377,7 +365,7 @@ summary(pulmonary.aov)
 
 
 ###################################################
-### code chunk number 31: mcomp.tex:1940-1955
+### code chunk number 30: mcomp.tex:1942-1957
 ###################################################
 pulm.lmat <- cbind("npnl-mh"=c( 1, 1, 1, 1,-2,-2), ## not.much vs lots
                    "n-pnl"  =c( 3,-1,-1,-1, 0, 0), ## none vs light
@@ -397,7 +385,7 @@ mmcplot(pulmonary.mmc, style="both")
 
 
 ###################################################
-### code chunk number 32: mcomp.tex:1970-1973
+### code chunk number 31: mcomp.tex:1972-1975
 ###################################################
 ## hhpdf("pulmonary-mmc-lmat.pdf", width=8, height=10)
 mmcplot(pulmonary.mmc, type="lmat", style="both")

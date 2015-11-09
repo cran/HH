@@ -11,7 +11,6 @@ library(HH)
 ###################################################
 ## rgl graphics doesn't automate.  It needs manual intervention for screen shots.
 data(fat)
-if (interactive()) {
 ## car::scatter3d(bodyfat~abdomin+biceps, data=fat, fit="linear",
 ##                residuals="squares",
 ##                bg="white", axis.scales=TRUE, grid=TRUE, ellipsoid=FALSE)
@@ -45,7 +44,7 @@ rgl::par3d(userMatrix=structure(c(0.983415901660919, 0.0405623130500317, 0.17677
 0.219941437244415, 0.958505392074585, 0, 0, 0, 0, 1), .Dim = c(4L,
 4L)))
 ## Take a screen shot with Preview, save as fat3d-center.pdf
-}
+
 
 ###################################################
 ### code chunk number 3: regb.tex:190-195
@@ -257,7 +256,6 @@ vif(longley.lm)
 ###################################################
 ### code chunk number 18: regb.tex:1509-1527
 ###################################################
-if (interactive()) {
 ## rgl graphics doesn't automate.  It needs manual intervention for screen shots.
 longley2.lm <- lm(Employed ~ Year + GNP, data=longley)
 longley2.resid <- resid(longley2.lm)
@@ -276,7 +274,7 @@ rgl::par3d(windowRect=c(20,  100, 500, 2000))
 rgl::par3d(zoom=.3)
 ## screen capture as longley-collinear.pdf
 ## rgl.snapshot("tmp.png") ## not good enough
-}
+
 
 ###################################################
 ### code chunk number 19: regb.tex:1693-1701
@@ -353,16 +351,18 @@ summary(longley.lm.7)
 
 
 ###################################################
-### code chunk number 25: regb.tex:2114-2118
+### code chunk number 25: regb.tex:2114-2120
 ###################################################
 ## hhpdf("longley-resid.pdf", height=9, width=14)
-residual.plots.lattice(longley.lm, par.strip.text=list(cex=1.1),
-                       pch=19, col=likertColor(2)[2], cex=1.2)
+print(A4.left=.0125, panel.width=list(5,"cm"),
+      residual.plots.lattice(longley.lm, par.strip.text=list(cex=1.1),
+                             pch=19, col=likertColor(2)[2], cex=1.2)
+)
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 26: regb.tex:2365-2377
+### code chunk number 26: regb.tex:2367-2379
 ###################################################
 ## hhpdf("regb-fa-usair.pdf", height=7.5, width=7)
 data(usair)
@@ -379,7 +379,7 @@ splom( ~ usair,
 
 
 ###################################################
-### code chunk number 27: regb.tex:2388-2398
+### code chunk number 27: regb.tex:2390-2400
 ###################################################
 ## hhpdf("regb-fb-usair.pdf", height=7.5, width=7)
 usair$lnSO2 <- log(usair$SO2)
@@ -394,7 +394,7 @@ splom( ~ usair[, c(8,2,9,10,5,6,7)],
 
 
 ###################################################
-### code chunk number 28: regb.tex:2438-2446
+### code chunk number 28: regb.tex:2440-2448
 ###################################################
 ## hhcapture("usair2.Rout", '
 usair.regsubset <- leaps::regsubsets(
@@ -407,7 +407,7 @@ usair.subsets.Summary[tmp,]
 
 
 ###################################################
-### code chunk number 29: regb.tex:2461-2464
+### code chunk number 29: regb.tex:2463-2466
 ###################################################
 ## hhpdf("usair3.pdf", height=5.5, width=7)
 plot(usair.subsets.Summary[tmp,], statistic='cp')
@@ -415,7 +415,7 @@ plot(usair.subsets.Summary[tmp,], statistic='cp')
 
 
 ###################################################
-### code chunk number 30: regb.tex:2478-2484
+### code chunk number 30: regb.tex:2480-2486
 ###################################################
 ## hhcapture("usair5.Rout", '
 usair.lm7 <- lm.regsubsets(usair.regsubset, 7)

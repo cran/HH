@@ -84,7 +84,7 @@ interaction2wt(y.adj ~ current + n.treats, data=cc176,
 
 
 ###################################################
-### code chunk number 6: dsgn.tex:233-248
+### code chunk number 6: dsgn.tex:233-252
 ###################################################
 tmp <-
 sapply(split(cc176$y.adj, cc176$current),
@@ -97,14 +97,18 @@ sapply(split(cc176$y.adj, cc176$current),
 
 t(tmp)[4:1,]
 ## hhpdf("cc176-microplot.pdf", height=1.7, width=3, col=col3x2) ## col is not an argument for grDevices:::pdf
+cc176.bwplot <-
 bwplot(unpositioned(current) ~ y.adj, data=cc176,
        panel=panel.bwplot.intermediate.hh,
        xlab=NULL)
+cc176.bwplot$par.settings$axis.line$col <- 0 ## $
+update(cc176.bwplot, par.settings=list(clip=list(panel=FALSE)), scales=list(x=list(cex=.7))) +
+   layer(panel.axis("bottom", line.col="black", text.col=0, outside=TRUE))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 7: dsgn.tex:294-311
+### code chunk number 7: dsgn.tex:304-321
 ###################################################
 ## hhpdf("cc176-4.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
 useOuterStrips(
@@ -126,7 +130,7 @@ xyplot(y.adj ~ as.position(minutes) | n.treats + current, data=cc176,
 
 
 ###################################################
-### code chunk number 8: dsgn.tex:346-403
+### code chunk number 8: dsgn.tex:356-413
 ###################################################
 ## hhpdf("cc176-5.pdf", height=14, width=14, col=col3x2) ## col is not an argument for grDevices:::pdf
 ##
@@ -188,7 +192,7 @@ print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,
 
 
 ###################################################
-### code chunk number 9: dsgn.tex:482-493
+### code chunk number 9: dsgn.tex:492-503
 ###################################################
 ## hhcapture("cc176-6.Rout", '
   cc176t <- cc176
@@ -204,7 +208,7 @@ print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,
 
 
 ###################################################
-### code chunk number 10: dsgn.tex:507-536
+### code chunk number 10: dsgn.tex:517-546
 ###################################################
 ##   hhpdf("cc176-7.pdf", width=8)
   cc176.mmc <- mmc(cc176t.aov, focus="current")
@@ -238,7 +242,7 @@ print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,
 
 
 ###################################################
-### code chunk number 11: dsgn.tex:697-714
+### code chunk number 11: dsgn.tex:709-726
 ###################################################
   data(tires)
   ## simpler
@@ -260,7 +264,7 @@ print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,
 
 
 ###################################################
-### code chunk number 12: dsgn.tex:780-788
+### code chunk number 12: dsgn.tex:792-800
 ###################################################
 ##   hhcapture("tires.Rout", '
   data(tires)
@@ -273,7 +277,7 @@ print(cc176.5e,  more=FALSE, position=c(.52, .00, 1.00,  .48)) ## split=c(2,2,2,
 
 
 ###################################################
-### code chunk number 13: dsgn.tex:804-820
+### code chunk number 13: dsgn.tex:816-832
 ###################################################
 old.stars <- options(show.signif.stars=FALSE)
 ##   hhcapture("tires2.Rout", '
@@ -294,7 +298,7 @@ options(old.stars)
 
 
 ###################################################
-### code chunk number 14: dsgn.tex:838-850
+### code chunk number 14: dsgn.tex:850-862
 ###################################################
 ##   hhpdf("tiresmmc.pdf", width=6, height=4)
   tiresmmc <- mmcplot(tires.mmc.brand, ylim=c(10.4, 14.4))
@@ -311,7 +315,7 @@ options(old.stars)
 
 
 ###################################################
-### code chunk number 15: dsgn.tex:966-972
+### code chunk number 15: dsgn.tex:981-987
 ###################################################
 data(filmcoat)
 ## display data in table dsgntwo.t.filmcoat
@@ -322,7 +326,7 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 16: dsgn.tex:995-1006
+### code chunk number 16: dsgn.tex:1010-1021
 ###################################################
 ##   hhpdf("filmcoat.pdf", width=3.5, height=2.8, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
   useOuterStrips(
@@ -338,7 +342,7 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 17: dsgn.tex:1031-1037
+### code chunk number 17: dsgn.tex:1046-1052
 ###################################################
 ##   hhcapture("filmcoat.ma.Rout", '
   reshape2::acast(filmcoat, temprt ~ pressure, mean,
@@ -349,7 +353,7 @@ print(quote=FALSE,
 
 
 ###################################################
-### code chunk number 18: dsgn.tex:1052-1057
+### code chunk number 18: dsgn.tex:1067-1072
 ###################################################
 ## hhpdf("filmcoatIntr.pdf", width=7, height=6, col=col3x2) ## col is not an argument for grDevices:::pdf
 interaction2wt(data=filmcoat, coat ~ temprt+pressure,
@@ -359,7 +363,7 @@ interaction2wt(data=filmcoat, coat ~ temprt+pressure,
 
 
 ###################################################
-### code chunk number 19: dsgn.tex:1078-1107
+### code chunk number 19: dsgn.tex:1093-1122
 ###################################################
 ## hhpdf("mcout5.pdf", height=6, width=12)
 ResidMS <- function(x) summary(x)[[1]]["Residuals","Mean Sq"]
@@ -393,7 +397,7 @@ options(old.digits)
 
 
 ###################################################
-### code chunk number 20: dsgn.tex:1125-1151
+### code chunk number 20: dsgn.tex:1140-1166
 ###################################################
 ## hhpdf("mcout6.pdf", height=6, width=12)
 ## separate ANOVA for each temperature
@@ -424,7 +428,7 @@ options(old.digits)
 
 
 ###################################################
-### code chunk number 21: dsgn.tex:1294-1309
+### code chunk number 21: dsgn.tex:1310-1325
 ###################################################
 ## hhpdf("dsgnGunload.pdf", col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 data(gunload)
@@ -444,7 +448,7 @@ bwplot(rounds  ~ team | method*group, data=gunload,
 
 
 ###################################################
-### code chunk number 22: dsgn.tex:1521-1529
+### code chunk number 22: dsgn.tex:1537-1545
 ###################################################
 ##   hhcapture("gunloada.Rout", '
 gunload.aov <-
@@ -457,7 +461,7 @@ model.tables(gunload.aov, type="means")
 
 
 ###################################################
-### code chunk number 23: dsgn.tex:1647-1665
+### code chunk number 23: dsgn.tex:1663-1681
 ###################################################
 ##   hhcapture("turkeyFactors.Rout", '
 data(turkey)
@@ -480,7 +484,7 @@ turkey[c(1,7,13,19,25),]
 
 
 ###################################################
-### code chunk number 24: dsgn.tex:1678-1683
+### code chunk number 24: dsgn.tex:1694-1699
 ###################################################
 ##   hhcapture("turkeyAov2.Rout", '
 turkey3.aov <- aov(wt.gain ~ trt.vs.control / (additive*amount),
@@ -490,7 +494,7 @@ summary(turkey3.aov)
 
 
 ###################################################
-### code chunk number 25: dsgn.tex:1699-1706
+### code chunk number 25: dsgn.tex:1715-1722
 ###################################################
 ##   hhcapture("turkeyMeans.Rout", '
 print(na.print="",
@@ -502,7 +506,7 @@ tapply(turkey$wt.gain,
 
 
 ###################################################
-### code chunk number 26: dsgn.tex:1720-1734
+### code chunk number 26: dsgn.tex:1736-1750
 ###################################################
 ## hhpdf("turkeyF2V.pdf", height=4, width=4, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 additive.rev <- ordered(turkey$additive, rev(levels(turkey$additive)))
@@ -521,13 +525,13 @@ bwplot( wt.gain ~ rep(1, 30) | amount * additive.rev,
 
 
 ###################################################
-### code chunk number 27: dsgn.tex:1792-1793
+### code chunk number 27: dsgn.tex:1808-1809
 ###################################################
 data(abc)
 
 
 ###################################################
-### code chunk number 28: dsgn.tex:1840-1857
+### code chunk number 28: dsgn.tex:1856-1873
 ###################################################
 ##   hhcapture("abcrearrange1.Rout", '
 data(abc)
@@ -549,7 +553,7 @@ abc.crossed
 
 
 ###################################################
-### code chunk number 29: dsgn.tex:1871-1886
+### code chunk number 29: dsgn.tex:1887-1902
 ###################################################
 ##   hhcapture("abcrearrange2.Rout", '
 abc.nested <- ## nested
@@ -569,9 +573,9 @@ abc.double.indexed
 
 
 ###################################################
-### code chunk number 30: dsgn.tex:1906-1950
+### code chunk number 30: dsgn.tex:1922-1966
 ###################################################
-  hhcode("modelsAB.R", '
+##  hhcode("modelsAB.R", '
 ## one-way
 abc.A.aov <- aov(y ~ A, data=abc)
 anova(abc.A.aov)
@@ -618,7 +622,7 @@ model.matrix(abc.AB.aov)
 
 
 ###################################################
-### code chunk number 31: dsgn.tex:1968-1978
+### code chunk number 31: dsgn.tex:1984-1994
 ###################################################
 ##   hhcapture("contrasts-contr1.Rout", '
 model.matrix(~A, data=abc,
@@ -633,7 +637,7 @@ model.matrix(~A, data=abc,
 
 
 ###################################################
-### code chunk number 32: dsgn.tex:2018-2033
+### code chunk number 32: dsgn.tex:2034-2049
 ###################################################
 ##   hhcapture("contrasts-AB.Rout", '
 old.width <- options(width=70)
@@ -653,7 +657,7 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 33: dsgn.tex:2074-2088
+### code chunk number 33: dsgn.tex:2090-2104
 ###################################################
 ##   hhcapture("turkeyAov3.Rout", '
 match(dimnames(coef(summary.lm(turkey3.aov)))[[1]],
@@ -672,7 +676,7 @@ turkey3.x[c(1,7,13,19,25), c(1,2,4,8,12)]
 
 
 ###################################################
-### code chunk number 34: dsgn.tex:2288-2325
+### code chunk number 34: dsgn.tex:2304-2341
 ###################################################
 ##   hhcapture("cloverT123sc.Rout", '
 data(rhiz.clover)
@@ -714,7 +718,7 @@ options(old.opt)
 
 
 ###################################################
-### code chunk number 35: dsgn.tex:2371-2388
+### code chunk number 35: dsgn.tex:2387-2404
 ###################################################
 ## hhpdf("cloverD.pdf", height=6, width=4)
 
@@ -736,10 +740,10 @@ dotplot(Npg ~ strain | comb, data=cloverD,
 
 
 ###################################################
-### code chunk number 36: dsgn.tex:2405-2418
+### code chunk number 36: dsgn.tex:2421-2434
 ###################################################
 ##   hhcapture("fatLst.Rout", '
-library(car)
+
 data(fat)
 fat.lm <- lm(bodyfat ~ abdomin + biceps, data=fat)
 ## regression coefficients
@@ -754,7 +758,7 @@ var(fat$bodyfat) * (nrow(fat)-1) - sum(fat.lm$residuals^2)
 
 
 ###################################################
-### code chunk number 37: dsgn.tex:2571-2588
+### code chunk number 37: dsgn.tex:2587-2604
 ###################################################
 ## hhpdf("vulcanInteraction.pdf", height=6, width=6, col=col3x2) ## col is not an argument for grDevices:::pd)
 data(vulcan)
@@ -776,7 +780,7 @@ interaction2wt(wear ~ filler+raw+pretreat, data=vulcan,
 
 
 ###################################################
-### code chunk number 38: dsgn.tex:2601-2622
+### code chunk number 38: dsgn.tex:2617-2638
 ###################################################
 ## The two-factor 2-way interaction figure is not in the book.
 ## It is here for comparison with the simple effects figure.
@@ -802,9 +806,9 @@ interaction2wt(wear ~ filler+raw, data=vulcan, simple=TRUE,
 
 
 ###################################################
-### code chunk number 39: dsgn.tex:2665-2684
+### code chunk number 39: dsgn.tex:2681-2700
 ###################################################
-  hhcode("tiresLatin.R", '
+##  hhcode("tiresLatin.R", '
 ## R defaults to treatment contrasts for factors.
 ## We need an orthogonal set of factors for this exercise.
 ##
@@ -826,9 +830,9 @@ anova(tr1.lm)
 
 
 ###################################################
-### code chunk number 40: dsgn.tex:2793-2806
+### code chunk number 40: dsgn.tex:2809-2822
 ###################################################
-  hhcode("turkeyAov3Match.R", '
+##  hhcode("turkeyAov3Match.R", '
                     summary.lm(turkey3.aov)
                coef(summary.lm(turkey3.aov))
       dimnames(coef(summary.lm(turkey3.aov)))
@@ -844,7 +848,7 @@ match(dimnames(coef(summary.lm(turkey3.aov)))[[1]],
 
 
 ###################################################
-### code chunk number 41: dsgn.tex:2868-2881
+### code chunk number 41: dsgn.tex:2884-2897
 ###################################################
 ## hhpdf("turkeyF2H.pdf", height=4, width=4, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 useOuterStrips(

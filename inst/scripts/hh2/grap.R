@@ -21,7 +21,7 @@ data(col3x2)
 ###################################################
 data(njgolf)
 ## hhpdf("grap-pric-lot.pdf", width=7, height=4)
-col.lot <- col3x2[1:2]
+col.lot <- likertColor(2)[1:2]
 xyplot(sprice ~ lotsize, data=njgolf, groups=(lotsize==0), pch=c("+","0"), cex=c(2, 1.8),
        ylab="Selling Price", xlab="Lot Size\n", col=col.lot[2:1],
        main="Single Family Homes",
@@ -33,7 +33,7 @@ xyplot(sprice ~ lotsize, data=njgolf, groups=(lotsize==0), pch=c("+","0"), cex=c
 
 
 ###################################################
-### code chunk number 4: grap.tex:150-175
+### code chunk number 4: grap.tex:150-178
 ###################################################
 eco.corr <- data.frame(x=1:99,
                        g=factor(rep(1:3, c(33,33,33))),
@@ -50,11 +50,14 @@ summary(lm(y ~ x, data=eco.corr))
 
 summary(lm(y ~ g + x, data=eco.corr))
 ## hhpdf("grap-ecop%03d.pdf", width=7, height=4.3, onefile=FALSE)
-## Top two panels of the cbind are printed on page 4.  Use only top two panels in book.
-## The colors and lines are scrambled on the bottom 6 panels.
+## Top two panels of the cbind are printed on page 4 (grap-ecop004.pdf).
+## Use only top two panels in book.
+## The colors and lines are scrambled on the bottom 6 panels (grap-ecop00x.pdf for x=1,2,3).
 A <- ancovaplot(y ~ x + g, data=eco.corr, col=col3x2)
-B <- ancovaplot(y ~ x, groups=g, data=eco.corr, col=col3x2)
-update(cbind(superpose=A, ignore.groups=B),
+B <- ancovaplot(y ~ x, groups=g, data=eco.corr, col=col3x2, col.line="black")
+dimnames(B)[[1]][4] <- "Ignore Groups"
+
+update(cbind(Superpose=A, "Ignore Groups"=B),
              strip.left=FALSE, between=list(x=1),
              scales=list(alternating=FALSE),
              layout=c(2,1),
@@ -63,7 +66,7 @@ update(cbind(superpose=A, ignore.groups=B),
 
 
 ###################################################
-### code chunk number 5: grap.tex:239-254
+### code chunk number 5: grap.tex:242-257
 ###################################################
 ## hhpdf("grap-pric-bdk.pdf", width=7, height=3.35)
 tmp <-
@@ -83,7 +86,7 @@ tmp
 
 
 ###################################################
-### code chunk number 6: grap.tex:275-297
+### code chunk number 6: grap.tex:278-300
 ###################################################
 ## hhpdf("grap-pric-bdkc.pdf", width=7.5, height=5.5)
 tmp <-
@@ -110,7 +113,7 @@ tmp
 
 
 ###################################################
-### code chunk number 7: grap.tex:364-387
+### code chunk number 7: grap.tex:367-390
 ###################################################
 ## hhpdf("grap-pbdkcl-color.pdf", width=7, height=7)
 tmp <- cbind(njgolf[,c("sprice","lotsize","beds","drarea","kitarea")],
@@ -138,7 +141,7 @@ tmp.splom + layer((function(...) {
 
 
 ###################################################
-### code chunk number 8: grap.tex:411-422
+### code chunk number 8: grap.tex:414-425
 ###################################################
 ## hhpdf("grap-pbdkc-l.pdf", width=9, height=5)
 splom(~ tmp[,1:5] | tmp[,6], par.strip.text=list(cex=1.5),
@@ -154,15 +157,15 @@ splom(~ tmp[,1:5] | tmp[,6], par.strip.text=list(cex=1.5),
 
 
 ###################################################
-### code chunk number 9: grap.tex:507-510
+### code chunk number 9: grap.tex:510-513
 ###################################################
-hhcode("array3way.r", '
+## hhcode("array3way.r", '
 ## This three-way array of scatterplots is constructed in file HHscriptnames("logi.R").
 ## ')
 
 
 ###################################################
-### code chunk number 10: grap.tex:593-604
+### code chunk number 10: grap.tex:597-608
 ###################################################
 ## hhpdf("grap-f1.pdf", width=5.5, height=5.5)
 data(tv)
@@ -178,7 +181,7 @@ xyplot(male.life.exp ~ fem.life.exp, data=tv,
 
 
 ###################################################
-### code chunk number 11: grap.tex:615-658
+### code chunk number 11: grap.tex:619-662
 ###################################################
 ## hhpdf("grap-f2.pdf", width=8, height=8)
 AA <-
@@ -226,7 +229,7 @@ print(position=c(0.5, 0.00, 1.0, 0.35), more=FALSE, EE)
 
 
 ###################################################
-### code chunk number 12: grap.tex:731-736
+### code chunk number 12: grap.tex:735-740
 ###################################################
 ## hhpdf("grap-f3.pdf", width=5.5, height=5.5)
 splom( ~ tv[,c(4,5,1,2,3)],
@@ -236,15 +239,16 @@ splom( ~ tv[,c(4,5,1,2,3)],
 
 
 ###################################################
-### code chunk number 13: grap.tex:819-822
+### code chunk number 13: grap.tex:823-827
 ###################################################
-## hhpdf("grap-f11a.pdf", width=7.5, height=6.5)
-pairs(tv, pch=19, main="pairs with NW--SE diagonal and rectangular panels")
+## hhpdf("grap-f11a.pdf", width=9.9, height=8.58)
+pairs(tv, pch=19, main="pairs with NW--SE diagonal and rectangular panels",
+      cex.main=1.6)
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 14: grap.tex:850-888
+### code chunk number 14: grap.tex:855-893
 ###################################################
 ## hhpdf("grap-f12.pdf", width=9, height=5)
 f12b <- matrix(c("Var1",1,2,4,
@@ -287,7 +291,7 @@ par(old.par)
 
 
 ###################################################
-### code chunk number 15: grap.tex:967-972
+### code chunk number 15: grap.tex:972-977
 ###################################################
 ## hhpdf("grap-f5.pdf", width=6.5, height=6.5)
 splom( ~ tv[, 1:3],
@@ -297,7 +301,7 @@ splom( ~ tv[, 1:3],
 
 
 ###################################################
-### code chunk number 16: grap.tex:1008-1013
+### code chunk number 16: grap.tex:1013-1018
 ###################################################
 ## hhpdf("grap-f6.pdf", width=6.5, height=6.5)
 splom( ~ cbind(tv[,1,drop=FALSE], log(tv[, 2:3])),
@@ -307,67 +311,69 @@ splom( ~ cbind(tv[,1,drop=FALSE], log(tv[, 2:3])),
 
 
 ###################################################
-### code chunk number 17: grap.tex:1089-1156
+### code chunk number 17: grap.tex:1094-1163
 ###################################################
-## hhpdf("grap-f8.pdf", width=14, height=4.5, lwd=4) ## lwd is not an argument for grDevices:::pdf
+## hhpdf("grap-f8.pdf", width=11, height=4.15, lwd=4) ## lwd is not an argument for grDevices:::pdf
 
-x <- seq(0, 2, length=101)
+x <- seq(0, 2.5, length=126)
 xy <- cbind(x=x, ladder.f(x+.001))
 
 xyA <- xy
-outOfBoundsA <- ((xyA[,-1] > 4.2) | (xyA[,-1] < -2.2))
+outOfBoundsA <- ((xyA[,-1] > 6.40) | (xyA[,-1] < -2.25))
 xyA[,-1][outOfBoundsA] <- NA
 AA <-
 xyplot(`-1` +  `-0.5` + `0` + `0.5` + `1` + `2` ~ x, data=xyA, col=col3x2,
-       xlim=c(0,2), ylim=c(-2.2,4.2), type="l",
-       main=list("a. Simple Powers\nwith Negative Reciprocals\n(monotonic, wrong order)", cex=1.2),
-       ylab=list(expression(over(x^p, scriptstyle(sign(p)))), rot=0, cex=1.5),
-       scales=list(x=list(at=seq(0, 2, .5))),
+       xlim=c(0, 2.5), ylim=c(-2.2, 6.4), type="l",
+       main=list("       a. Simple Powers\n       with Negative Reciprocals\n       (monotonic, wrong order)", cex=1.2),
+       ## ylab=list(expression(over(x^p, scriptstyle(sign(p)))), rot=0, cex=1.5),
+       ylab=list(expression(T[p]^symbol(' ')), rot=0, cex=1.5),
+       scales=list(x=list(at=seq(0, 2.5, .5))),
        par.settings=list(clip=list(panel=FALSE))) +
-         layer(panel.axis("right", at=xyA[101, -1], labels=names(xy)[-1],
-                          outside=TRUE, text.col=col3x2,
-                          line.col="transparent", tck=.5)) +
-           layer(panel.axis("right", at=-1.5, labels="p", outside=TRUE))
+         layer(panel.axis("right", at=xyA[126, -1], labels=names(xyA)[-1],
+                          outside=TRUE, text.col=col3x2, text.cex=1.2,
+                          line.col=col3x2, tck=.5)) +
+           layer(panel.axis("right", at=-1.5, labels="p", outside=TRUE, line.col="transparent", tck=1.5))
 
 xyB <- xy
 xyB[,2:3] <- -xyB[,2:3]
-outOfBoundsB <- ((xyB[,-1] > 4.2) | (xyB[,-1] < -2.2))
+outOfBoundsB <- ((xyB[,-1] > 6.40) | (xyB[,-1] < -2.25))
 xyB[,-1][outOfBoundsB] <- NA
 BB <-
 xyplot(`-1` +  `-0.5` + `0` + `0.5` + `1` + `2` ~ x, data=xyB, col=col3x2,
-       xlim=c(0,2), ylim=c(-2.2,4.2), type="l",
-       main=list("b. Simple Powers\nwith Positive Reciprocals\n(not monotonic, wrong order)", cex=1.2),
-       ylab=list(expression(x^p), rot=0, cex=1.5),
-       scales=list(x=list(at=seq(0, 2, .5))),
+       xlim=c(0, 2.5), ylim=c(-2.2, 6.4), type="l",
+       main=list("         b. Simple Powers\n         with Positive Reciprocals\n         (not monotonic, wrong order)", cex=1.2),
+       ## ylab=list(expression(x^p), rot=0, cex=1.5),
+       ylab=list(expression(W[p]^symbol(' ')), rot=0, cex=1.5),
+       scales=list(x=list(at=seq(0, 2.5, .5))),
        par.settings=list(clip=list(panel=FALSE))) +
-         layer(panel.axis("right", at=xyB[101, -1], labels=names(xyB)[-1],
-                          outside=TRUE, text.col=col3x2,
-                          line.col="transparent", tck=.5)) +
-           layer(panel.axis("right", at=-1.5, labels="p", outside=TRUE))
+         layer(panel.axis("right", at=xyB[126, -1], labels=names(xyB)[-1],
+                          outside=TRUE, text.col=col3x2,  text.cex=1.2,
+                          line.col=col3x2, tck=.5)) +
+           layer(panel.axis("right", at=-1.5, labels="p", outside=TRUE, line.col="transparent", tck=1.5))
 
 
 xyC <- cbind(x=x, ladder.fstar(x+.001))
-outOfBoundsC <- ((xyC[,-1] > 4.2) | (xyC[,-1] < -2.2))
+outOfBoundsC <- ((xyC[,-1] > 6.40) | (xyC[,-1] < -2.25))
 xyC[,-1][outOfBoundsC] <- NA
 CC <-
 xyplot(`-1` +  `-0.5` + `0` + `0.5` + `1` + `2` ~ x, data=xyC, col=col3x2,
-       xlim=c(0,2), ylim=c(-2.2,4.2), type="l",
-       main=list("c. Scaled Powers\n(monotonic\nand right order)", cex=1.2),
-       ylab=list(expression(over(x^p - 1, scriptstyle(p))), rot=0, cex=1.5),
-       scales=list(x=list(at=seq(0, 2, .5))),
+       xlim=c(0, 2.5), ylim=c(-2.2, 6.4), type="l",
+       main=list("       c. Scaled Powers\n\n       (monotonic, right order)", cex=1.2),
+       ## ylab=list(expression(over(x^p - 1, scriptstyle(p))), rot=0, cex=1.5),
+       ylab=list(expression(T[p]^symbol('*')), rot=0, cex=1.5),
+       scales=list(x=list(at=seq(0, 2.5, .5))),
        par.settings=list(clip=list(panel=FALSE))) +
-         layer(panel.axis("right", at=xyC[101, -1], labels=names(xyC)[-1],
-                          outside=TRUE, text.col=col3x2,
-                          line.col="transparent", tck=.5)) +
-           layer(panel.axis("right", at=-1.5, labels="p", outside=TRUE))
+         layer(panel.axis("right", at=xyC[126, -1], labels=names(xyC)[-1],
+                          outside=TRUE, text.col=col3x2,  text.cex=1.2,
+                          line.col=col3x2, tck=.5)) +
+           layer(panel.axis("right", at=-1.5, labels="p", outside=TRUE, line.col="transparent", tck=1.5))
 
-print(AA, panel.width=list(.55, "npc"), split=c(1,1,3,1), more=TRUE)
-print(BB, panel.width=list(.55, "npc"), split=c(2,1,3,1), more=TRUE)
-print(CC, panel.width=list(.55, "npc"), split=c(3,1,3,1), more=FALSE)
+print(AA, panel.width=list(.6, "npc"), split=c(1,1,3,1), more=TRUE)
+print(BB, panel.width=list(.6, "npc"), split=c(2,1,3,1), more=TRUE)
+print(CC, panel.width=list(.6, "npc"), split=c(3,1,3,1), more=FALSE)
 
 
 ## hhdev.off()
-
 ## I am showing this in the script file.  This is not in the book.
 ## The interesting feature is the use of factor.levels in the strip.custom().
 update(c(AA,BB,CC,layout=c(3,1)),
@@ -379,7 +385,7 @@ update(c(AA,BB,CC,layout=c(3,1)),
 
 
 ###################################################
-### code chunk number 18: grap.tex:1254-1300
+### code chunk number 18: grap.tex:1263-1309
 ###################################################
 ## hhpdf("grap-f7.pdf", width=7, height=7)
 data(tv)
@@ -430,7 +436,7 @@ update(tmp3, par.strip.text=list(cex=1.3, lines=.7))
 
 
 ###################################################
-### code chunk number 19: grap.tex:1325-1336
+### code chunk number 19: grap.tex:1334-1345
 ###################################################
 ## hhpdf("grap-f9.pdf", width=7, height=4)
 x <- sort(tv[,"life.exp"])
@@ -446,7 +452,7 @@ xyplot(form, data=cbind(x=x, y), outer=TRUE, layout=c(3,2),
 
 
 ###################################################
-### code chunk number 20: grap.tex:1386-1414
+### code chunk number 20: grap.tex:1395-1423
 ###################################################
 y <- ladder.fstar(tv$ppl.per.phys)
 g <- paste("ppp ^",names(y))
@@ -462,7 +468,7 @@ bwplot(unlist(y) ~ unlist(gg) | g, groups=g, col=col3x2,
 update(tmpbw, scales=list(at=NULL, labels=NULL),
        strip=strip.custom(factor.levels=
            parse(text=paste("ppp^", names(y), sep=""))),
-           par.strip.text=list(cex=1.5),
+           par.strip.text=list(cex=1.5, lines=1.5),
            par.settings=list(plot.symbol=list(pch=19)))
 ## hhdev.off()
 ##
@@ -474,12 +480,12 @@ stripplot(unlist(y) ~ unlist(gg) | g, groups=g, col=col3x2,
 update(tmpsp, scales=list(at=NULL, labels=NULL),
        strip=strip.custom(factor.levels=
            parse(text=paste("ppp^", names(y), sep=""))),
-           par.strip.text=list(cex=1.5))
+           par.strip.text=list(cex=1.5, lines=1.5))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 21: grap.tex:1435-1447
+### code chunk number 21: grap.tex:1444-1456
 ###################################################
 scales <- c(2, 3, 3, 2, 2, 2)
 names(scales) <- names(y)
@@ -489,14 +495,14 @@ for (i in names(y)) {
   i.Rout <- paste("grap-f10-", i, ".Rout", sep="")
 ##  i.stem <- paste("stem(-y$`", i, "`, scale=", scales[i],")", sep="")
   i.stem <- paste("stem(-`", i, "`, scale=", scales[i],")", sep="")
-##   hhcapture(i.Rout, i.stem)
+  hhcapture(i.Rout, i.stem)
 }
 ## I manually took these six files and edited them.
 ## The edited file is included as part c of the figure.
 
 
 ###################################################
-### code chunk number 22: grap.tex:1503-1535
+### code chunk number 22: grap.tex:1514-1546
 ###################################################
 ## hhpng("ColorComparison.png", height=70, width=1060) ## pixels
 
@@ -533,7 +539,7 @@ popViewport()
 
 
 ###################################################
-### code chunk number 23: grap.tex:1941-1969
+### code chunk number 23: grap.tex:1953-1981
 ###################################################
 bwdata <- data.frame(Y=(rt(80, df=5)*5 + rep(c(20,25,15,22, 22,28,16,14), 10)),
                      week=ordered(rep(c(1:4, 1:4), each=10)),
@@ -566,7 +572,7 @@ bwplot(Y ~ week.treatment, data=bwdata,
 
 
 ###################################################
-### code chunk number 24: grap.tex:2106-2140
+### code chunk number 24: grap.tex:2118-2152
 ###################################################
 tmp <- data.frame(x=1:6, y1=1:6, a=letters[c(1:3,1:3)], b=letters[c(4,4,4,5,5,5)],
                   y2=2:7, y3=3:8)

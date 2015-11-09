@@ -1,3 +1,47 @@
+Version 3.1-23
+--------------
+
+* 2015 Nov 08
+
+* lmplot gains the ylim argument
+
+* print.latticeresids now has position, panel.width, and which arguments
+
+* plot.case tightened up.  The resulting trellis object now has class
+  "trellis.case" in addition to "trellis".  Noteworthy cases are now
+  automatically displayed with their own print method on the Console
+  as well as on the graph.
+
+* remove defunct inst/shiny/NormalAndTplot/.
+  It's function is now handled by NTplot(shiny=TRUE)
+
+* copy scripts/hh2/*.R from the manuscript after correcting page proofs
+
+* on CRAN 2015-xx-xx
+
+
+
+Version 3.1-22
+--------------
+
+* 2015 Oct 21
+
+* extend ntcolors argument to vector of colornames in NTplot
+
+* ancovaplot argument col.line is recycled to the number of panels
+  in the plot
+
+* update HH2 scripts to match changes made while reading page proofs
+  of HH2
+
+* repair HH version formatBin to get padding digits right and formatDec
+  to honor nsmall
+
+* give lmplot a main= argument, and force layout=c(2,1) on diagplot5new
+
+* distributed to class 8121.f15 on 2015-10-21
+
+
 Version 3.1-21
 --------------
 
@@ -5,6 +49,7 @@ Version 3.1-21
 
 * add to DESCRIPTION and NAMESPACE for stats, grDevices
 
+* on CRAN 2015-08-23
 
 
 Version 3.1-20
@@ -14,9 +59,11 @@ Version 3.1-20
 
 * revise print.NTplot to match revised grid.table in gridExtra_2.0-0
 
-* redesign showBin and showHex to use Rmpfr::getPrec() for precision, add showDec
+* redesign showBin and showHex to use Rmpfr::getPrec() for precision,
+  add showDec
 
-* add wrapper functions formatDec formatHex formatBin to use Rmpfr::format*
+* add wrapper functions formatDec formatHex formatBin to use
+  Rmpfr::format*
   functions if they exist and to use HH::show* functions otherwise.
 
 * add line to DESCRIPTION: Depends: graphics
@@ -61,7 +108,8 @@ Version 3.1-17
 
 * NTplot didn't always work when mean1=NA.  Now repaired.
 
-* posted development version to my website because it is ok with R-3.1.2 but not with R-3.2.0 or later.
+* posted development version to my website because it is ok with
+  R-3.1.2 but not with R-3.2.0 or later.
 
 
 Version 3.1-16
@@ -145,9 +193,11 @@ Version 3.1-13
 
 * 2015 January 7
 
-* change many radioButtons to checkboxGroupInput in NTplot(shiny=TRUE, ...)
+* change many radioButtons to checkboxGroupInput in
+  NTplot(shiny=TRUE, ...)
 
-* NTplot(power=TRUE, beta=TRUE, ...) ## improved syntax for power and beta curves
+* NTplot(power=TRUE, beta=TRUE, ...) ## improved syntax for
+  power and beta curves
 
 * more items in demo(NTplot)
 
@@ -234,7 +284,8 @@ Version 3.1-6
 
 * put Confidence Intervals into normal.and.t
 
-* shiny apps for normal.and.t and for bivariateNormal Density and bivariateNormalScatterplot
+* shiny apps for normal.and.t and for bivariateNormal Density
+  and bivariateNormalScatterplot
 
 * Add normal.and.t as a lattice-based replacement for normal.and.t.dist
 
@@ -280,7 +331,8 @@ Version 3.1-5
 
 * 2014 September 12
 
-* added grid to imports and made other changes needed by R-3.2.0 development version.
+* added grid to imports and made other changes needed by R-3.2.0
+  development version.
 
 * On CRAN 2014 September 13
 
@@ -290,7 +342,8 @@ Version 3.1-4
 
 * 2014 September 11
 
-* New function interval.glm for confidence and prediction intervals for glm objects.
+* New function interval.glm for confidence and prediction intervals
+  for glm objects.
 
 * add odds and antiodds functions
 

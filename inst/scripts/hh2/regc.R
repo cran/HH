@@ -68,7 +68,7 @@ anova(rent.lm4ln)
 ## hhpdf("rent4lnres.pdf", width=7, height=5)
 tmp <-
 xyplot(resid(rent.lm4ln) ~ rnt.till + cow.dens | lime, groups=lime, data=rent,
-       scales=list(alternating=FALSE), pch=19, xlab=NULL, col=col3x2)
+       scales=list(alternating=FALSE), pch=19, xlab=NULL, col=likertColor(2))
 tmp2 <- update(transpose(tmp),
                scales=list(x=list(relation="free",
                           limits=list(c(7,85), c(0,58)))),
@@ -102,7 +102,7 @@ summary.lm(rent.lm12m)
 ### code chunk number 10: regc.tex:301-305
 ###################################################
 ## hhpdf("rent-lm12m.pdf", width=7, height=3.75)
-ancovaplot(alf.till ~ lime * cow.dens, data=rent, col=col3x2,
+ancovaplot(alf.till ~ lime * cow.dens, data=rent, col=likertColor(2),
            scales=list(alternating=FALSE), between=list(x=c(0,1)))
 ## hhdev.off()
 
@@ -111,32 +111,32 @@ ancovaplot(alf.till ~ lime * cow.dens, data=rent, col=col3x2,
 ### code chunk number 11: regc.tex:334-337
 ###################################################
 ## hhpdf("rent-plot-lm12m.pdf", height=7, width=9)
-lmplot(rent.lm12m, col=col3x2)
+lmplot(rent.lm12m, col=likertColor(2))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 12: regc.tex:351-358
+### code chunk number 12: regc.tex:352-359
 ###################################################
-## hhpdf("rent-diag-lm12m.pdf", width=13, height=9)
+## hhcapture("rent-diag-lm12m.Rout", '
 rent.case12m <- case(rent.lm12m)
 rent.case12m.trellis <-
    plot(rent.case12m, rent.lm12m, par.strip.text=list(cex=1.2),
         layout=c(3,3), main.cex=1.6, col=likertColor(2)[2], lwd=4)
+rent.case12m.trellis ## display both graph and list of noteworthy cases
+## ')
+
+
+###################################################
+### code chunk number 13: regc.tex:376-379
+###################################################
+## hhpdf("rent-diag-lm12m.pdf", width=13, height=9)
 rent.case12m.trellis
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 13: regc.tex:377-380
-###################################################
-## hhcapture("rent-diag-lm12m.Rout", '
-.lm.case.large ## needed to resolve overstriking in the graph
-## ')
-
-
-###################################################
-### code chunk number 14: regc.tex:404-419
+### code chunk number 14: regc.tex:407-422
 ###################################################
 ## hhpdf("rent-text-lm12m.pdf", width=8, height=4)
 xyplot(alf.till ~ cow.dens | lime, data=rent, RowNames=row.names(rent),
@@ -156,7 +156,7 @@ xyplot(alf.till ~ cow.dens | lime, data=rent, RowNames=row.names(rent),
 
 
 ###################################################
-### code chunk number 15: regc.tex:441-446
+### code chunk number 15: regc.tex:444-449
 ###################################################
 ## hhcapture("rent-lm12ms.Rout", '
 rent.lm12ms.aov <- aov(alf.till ~ lime * cow.dens,
@@ -166,10 +166,10 @@ anova(rent.lm12ms.aov)
 
 
 ###################################################
-### code chunk number 16: regc.tex:462-468
+### code chunk number 16: regc.tex:465-471
 ###################################################
 ## hhpdf("rent-lm12ms.pdf", width=7, height=3.75)
-ancovaplot(alf.till ~ lime * cow.dens, col=col3x2,
+ancovaplot(alf.till ~ lime * cow.dens, col=likertColor(2),
            data=rent[-c(19, 33, 60, 49),],
            ylim=range(rent$alf.till, .35, 2.1),
            scales=list(alternating=FALSE), between=list(x=c(0,1)))
@@ -177,7 +177,7 @@ ancovaplot(alf.till ~ lime * cow.dens, col=col3x2,
 
 
 ###################################################
-### code chunk number 17: regc.tex:565-583
+### code chunk number 17: regc.tex:568-586
 ###################################################
 ## hhpdf("rent-residn.pdf", width=7, height=4.5)
 ## normal plot with straight line, identified outliers, ylim control
@@ -200,7 +200,7 @@ shapiro.test(resid(rent.lm12m))
 
 
 ###################################################
-### code chunk number 18: regc.tex:603-640
+### code chunk number 18: regc.tex:606-643
 ###################################################
 y.normal <- data.frame(y=rnorm(67*6), group=rep(paste("Normal:", 1:6), each=67))
 
@@ -242,16 +242,18 @@ qqmath(~ y | variable, data=y.nonnormal,
 
 
 ###################################################
-### code chunk number 19: regc.tex:695-699
+### code chunk number 19: regc.tex:698-704
 ###################################################
 ## hhpdf("rent-resid-plots.pdf", width=6, height=8)
+print(A4.left=.019, panel.width=list(4,"cm"),
 residual.plots.lattice(rent.lm12m, X=model.matrix(rent.lm12m)[,-1],
                        pch=19, col=likertColor(2)[2])
+)
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 20: regc.tex:862-865
+### code chunk number 20: regc.tex:867-870
 ###################################################
 ## hhpdf("rent-diag-lm12m%03d.pdf", width=7, height=4, onefile=FALSE)
 update(rent.case12m.trellis, layout=c(1,1), main=NULL, scales=list(x=list(tck=c(0,1)))) ## all 9, one per file
@@ -259,7 +261,7 @@ update(rent.case12m.trellis, layout=c(1,1), main=NULL, scales=list(x=list(tck=c(
 
 
 ###################################################
-### code chunk number 21: regc.tex:1207-1210
+### code chunk number 21: regc.tex:1213-1216
 ###################################################
 ## hhcapture("dfbetas.Rout", '
 stats:::dfbetas.lm
@@ -267,7 +269,7 @@ stats:::dfbetas.lm
 
 
 ###################################################
-### code chunk number 22: regc.tex:1242-1245
+### code chunk number 22: regc.tex:1248-1251
 ###################################################
 ## hhpdf("rent-diag-lm12mNarrow%03d.pdf", width=4.5, height=4, onefile=FALSE)
 update(rent.case12m.trellis, layout=c(1,1), main=NULL, scales=list(x=list(tck=c(0,1)))) ## all 9, one per file
@@ -275,7 +277,7 @@ update(rent.case12m.trellis, layout=c(1,1), main=NULL, scales=list(x=list(tck=c(
 
 
 ###################################################
-### code chunk number 23: regc.tex:1284-1288
+### code chunk number 23: regc.tex:1290-1294
 ###################################################
 ## hhpdf("plot-lm-rent.pdf", width=7, height=7, lwd=2) ## lwd is not an argument to grDevices::pdf
 par(mfrow=c(2,2))
@@ -284,7 +286,7 @@ plot(rent.lm12m, pch=16, col=likertColor(2)[2])
 
 
 ###################################################
-### code chunk number 24: regc.tex:1303-1306
+### code chunk number 24: regc.tex:1309-1312
 ###################################################
 ## hhpdf("plot-lm-rent-Cook.pdf", width=5, height=5, lwd=2) ## lwd is not an argument to grDevices::pdf
 plot(rent.lm12m, 5, add.smooth=FALSE, col=likertColor(2)[2], pch=16)

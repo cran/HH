@@ -135,18 +135,28 @@ latticeresids <- function(x, data,
 }
 
 
-print.latticeresids <- function(x, ...,
-                                position=list(
-                                  A321=c(0,     0.27, 1, 1   ),  ## these values work for pdf(height=9)
-                                  A4  =c(0.005, 0,    1, 0.30))) {
+print.latticeresids <-
+  function(x, ...,
+           A321.left=0, A321.bottom=0.27,
+           A4.left=0, A4.top=0.30,
+           position=list(
+             A321=c(A321.left,     A321.bottom, 1, 1     ),
+             A4  =c(A4.left,       0,           1, A4.top)),
+           panel.width=NULL,
+           which=1:4) {
   yname <- strsplit(x[[1]]$main, " ~ ")[[1]][1]
   names(x) <- c(yname, "Residuals", "Partial Residuals | X", "Partial Residuals | X")
-  A321 <- do.call(rbind, x[c(3,2,1)])
-  A321 <- combineLimits(update(A321, scales=list(relation="free")))
-  A4   <- do.call(rbind, x[4])
-  print(position=position$A321, more=TRUE, update(A321, main=NULL))
-  print(position=position$A4, more=FALSE,
-        update(A4, main=NULL, scales=list(tck=c(1,0))))
+  A321 <- do.call(rbind, x[(3:1)[3:1 %in% which]])
+  A321.present <- !is.null(dim(A321))
+  if (A321.present)
+    A321 <- combineLimits(update(A321, scales=list(relation="free")))
+  A4   <- do.call(rbind, x[4[4 %in% which]]) ## this call puts the left strip label in place
+  A4.present <- !is.null(dim(A4))
+  if (A321.present)
+    print(position=position$A321, more=A4.present, update(A321, main=NULL), panel.width=panel.width, ...)
+  if (A4.present)
+    print(position=position$A4, more=FALSE,
+          update(A4, main=NULL, scales=list(tck=c(1,0))), panel.width=panel.width, ...)
 
   invisible(x)
 }

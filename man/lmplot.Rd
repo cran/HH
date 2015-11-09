@@ -14,8 +14,9 @@ The fourth is based on an S-Plus
 panel that \R\ doesn't provide.
 }
 \usage{
-lmplot(lm.object, ...,
-       col=trellis.par.get("superpose.symbol")$col[1:2])
+lmplot(lm.object, ..., main=NULL,
+       col=trellis.par.get("superpose.symbol")$col[1:2],
+       ylim=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,7 +27,15 @@ Linear model object.  See \code{\link{lm}} for details.
   If not specified, then
   \code{trellis.par.get("superpose.symbol")$col[1:2]} is used.
 }
-  \item{\dots}{
+\item{main}{standard \code{main} title for plots.}
+\item{ylim}{standard \pkg{lattice} argument.
+It is used as specified for the \code{residVSfitted}, \code{diagQQ}, and
+\code{diagplot5new} plots.  For the \code{scaleLocation} plot, the
+\code{ylim} is modified to \code{c(0, max(abs(ylim)))}.  The main reason
+for using the \code{ylim} argument is to allow visual comparison of
+the residuals for two different models on the same scale.
+}
+\item{\dots}{
 Other arguments, currently ignored.
 }
 }
@@ -42,7 +51,9 @@ contains the result of \code{\link{residVSfitted}} and
 and the third \code{\link{diagplot5new}}.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-
+\seealso{\code{\link{residVSfitted}}, \code{\link{scaleLocation}},
+  \code{\link{diagQQ}}, \code{\link{diagplot5new}}.
+}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{

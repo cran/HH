@@ -64,9 +64,10 @@ ALL
 
 
 ###################################################
-### code chunk number 5: rega.tex:345-350
+### code chunk number 5: rega.tex:345-351
 ###################################################
 ## hhcapture("bodyfatlm.Rout", '
+data(fat)
 fat.lm <- lm(bodyfat ~ abdomin, data=fat)
 anova(fat.lm)
 summary(fat.lm)
@@ -74,7 +75,7 @@ summary(fat.lm)
 
 
 ###################################################
-### code chunk number 6: rega.tex:624-637
+### code chunk number 6: rega.tex:625-638
 ###################################################
 ## hhpdf("f5.pdf", height=5, width=8, col=likertColor(2)[2])
 B <- regrresidplot(fat$abdomin, fat$bodyfat,
@@ -92,7 +93,7 @@ update(c(F, B, layout=c(2,1)), between=list(x=1),
 
 
 ###################################################
-### code chunk number 7: rega.tex:732-738
+### code chunk number 7: rega.tex:733-739
 ###################################################
 ## hhpdf("betaWeightedAverage.pdf", height=5, width=7)
 demo("betaWeightedAverage", ask=FALSE)
@@ -103,7 +104,7 @@ bWA
 
 
 ###################################################
-### code chunk number 8: rega.tex:811-837
+### code chunk number 8: rega.tex:812-838
 ###################################################
 ## hhcapture("meansquare.Rout", '
 h <- hat(model.matrix(fat.lm))
@@ -134,7 +135,7 @@ all.equal(SSqReg + SSqRes, SSqTot)
 
 
 ###################################################
-### code chunk number 9: rega.tex:890-896
+### code chunk number 9: rega.tex:891-897
 ###################################################
 ## hhcapture("fatpredvalue.Rout", '
 cbind(fat.predvalues[, 1],
@@ -145,22 +146,25 @@ cbind(fat.predvalues[, 1],
 
 
 ###################################################
-### code chunk number 10: rega.tex:1126-1136
+### code chunk number 10: rega.tex:1127-1140
 ###################################################
-old.data <- data.frame(y=rnorm(50), x1=rnorm(50), x2=rnorm(50), x3=rnorm(50))
+## hhcapture("example.pred.Rout", '
+old.data <-
+    data.frame(y=rnorm(50), x1=rnorm(50), x2=rnorm(50), x3=rnorm(50))
 example.lm <- lm(y ~ x1 + x2 + x3, data=old.data)
-predict(example.lm,
-        newdata=data.frame(x1=3, x2=2, x3=45),
-        se.fit=TRUE,
+(example.coef <- coef(example.lm))
+(new.data <- data.frame(x1=3, x2=2, x3=45))
+predict(example.lm, newdata=new.data, se.fit=TRUE,
         interval="confidence")
-predict(example.lm,
-        newdata=data.frame(x1=3, x2=2, x3=45),
-        se.fit=TRUE,
+predict(example.lm, newdata=new.data, se.fit=TRUE,
         interval="prediction")
+c(1, data.matrix(new.data)) %*% example.coef
+## ')
+## save(old.data, file="old.data.rda")
 
 
 ###################################################
-### code chunk number 11: rega.tex:1317-1320
+### code chunk number 11: rega.tex:1322-1325
 ###################################################
 ## hhpdf("fat-ci.pdf", height=6, width=7)
 ci.plot(fat.lm, xlab=list(cex=1.4), ylab=list(cex=1.4), main.cex=1.4, aspect=1)
@@ -168,7 +172,7 @@ ci.plot(fat.lm, xlab=list(cex=1.4), ylab=list(cex=1.4), main.cex=1.4, aspect=1)
 
 
 ###################################################
-### code chunk number 12: rega.tex:1388-1391
+### code chunk number 12: rega.tex:1393-1396
 ###################################################
 ## hhpdf("f6.pdf", height=7, width=9, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 lmplot(fat.lm)
@@ -176,42 +180,47 @@ lmplot(fat.lm)
 
 
 ###################################################
-### code chunk number 13: rega.tex:1560-1614
+### code chunk number 13: rega.tex:1565-1625
 ###################################################
 ## hhpdf("diag1.pdf", height=6, width=4)
 colB <- likertColor(2)[2]
 pp <- ppoints(101)
 x <- qnorm(pp)
-xyplot(pp ~ x, pch=19, main="Cumulative Distribution of N(0,1)", col=colB)
+xyplot(pp ~ x, pch=19, xlab.top=list("Cumulative Distribution of N(0,1)\n", cex=1.3), col=colB,
+       xlab=list(cex=1.3), ylab=list(cex=1.3), ylab.right=list(cex=1.3),
+       scales=list(x=list(alternating=FALSE, tck=c(1,0))))
 ## hhdev.off()
 
 ## hhpdf("diag2.pdf", height=6, width=7)
 n <- nrow(fat)
 f <- (1:n)/n
 diag2a <- xyplot(f ~ sort(predict(fat.lm)), pch=19,
-                 main="empirical cdf of\nfitted values", col=colB)
+                 main="empirical cdf of\nfitted values\n", col=colB)
 diag2b <- xyplot(f ~ sort(resid(fat.lm)), pch=19,
-                 main="empirical cdf of\nresiduals", col=colB)
+                 main="empirical cdf of\nresiduals\n", col=colB)
 ## export.eps(hh.file("rega/figure/diag2.eps"))
 update(c(diag2a, diag2b, layout=c(2,1)),
-       xlab=c(diag2a$xlab, diag2b$xlab),
-       xlab.top=c(diag2a$main, diag2b$main),
+       xlab=list(c(diag2a$xlab, diag2b$xlab), cex=1.3),
+       xlab.top=list(c(diag2a$main, diag2b$main), cex=1.3),
+       ylab=list(cex=1.3), ylab.right=list(cex=1.3),
        main=NULL,
-       scales=list(x=list(alternating=FALSE)),
+       scales=list(x=list(alternating=FALSE, tck=c(1,0))),
        between=list(x=1))
 ## hhdev.off()
 
+mean.bodyfat <- mean(fat$bodyfat)
 ## hhpdf("diag3.pdf", height=6, width=7)
-diag3a <- xyplot(f ~ sort(predict(fat.lm) - mean(predict(fat.lm))), pch=19,
-                 main="empirical cdf of\ncentered fitted values", col=colB)
+diag3a <- xyplot(f ~ sort(predict(fat.lm) - mean.bodyfat), pch=19,
+                 main="empirical cdf of\ncentered fitted values\n", col=colB)
 diag3b <- xyplot(f ~ sort(resid(fat.lm)), pch=19,
-                 main="empirical cdf of\n residuals", col=colB)
+                 main="empirical cdf of\n residuals\n", col=colB)
 ## export.eps(hh.file("rega/figure/diag3.eps"))
 tmp3 <- update(c(diag3a, diag3b, layout=c(2,1)),
-               xlab=c(diag3a$xlab, diag3b$xlab),
-               xlab.top=c(diag3a$main, diag3b$main),
+               xlab=list(c(paste0(diag3a$xlab, "       "), diag3b$xlab), cex=1.3),
+               xlab.top=list(c(diag3a$main, diag3b$main), cex=1.3),
+               ylab=list(cex=1.3), ylab.right=list(cex=1.3),
                main=NULL,
-               scales=list(x=list(alternating=FALSE)),
+               scales=list(x=list(alternating=FALSE, tck=c(1,0))),
                between=list(x=1))
 tmp3c <-
 combineLimits(as.matrix(row=TRUE, tmp3), margin.x=1)
@@ -219,23 +228,24 @@ tmp3c
 ## hhdev.off()
 
 ## hhpdf("diag4.pdf", height=6, width=7)
-diag4a <- xyplot(sort(predict(fat.lm) - mean(predict(fat.lm))) ~ f, pch=19,
-                 main="transposed empirical cdf\nof centered fitted values", col=colB)
+diag4a <- xyplot(sort(predict(fat.lm) - mean.bodyfat) ~ f, pch=19,
+                 main="transposed empirical cdf of\ncentered fitted values", col=colB)
 diag4b <- xyplot(sort(resid(fat.lm)) ~ f, pch=19,
-                 main="transposed empirical\ncdf of residuals", col=colB)
+                 main="transposed empirical cdf of\nresiduals", col=colB)
 ## export.eps(hh.file("rega/figure/diag4.eps"))
 tmp4 <- update(c(diag4a, diag4b, layout=c(2,1)),
-               xlab.top=c(diag4a$main, diag4b$main),
+               xlab.top=list(c(diag4a$main, diag4b$main), cex=1.3),
+               xlab=list(cex=1.3), ylab=list(cex=1.3),
                main=NULL,
-               ylab.right=diag4b$ylab,
-               scales=list(x=list(alternating=FALSE)),
+               ylab.right=list(diag4b$ylab, cex=1.3),
+               scales=list(x=list(alternating=FALSE, tck=c(1,0)), y=list(rot=0)),
                between=list(x=1))
 combineLimits(as.matrix(row=TRUE, tmp4))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 14: rega.tex:1679-1724
+### code chunk number 14: rega.tex:1690-1735
 ###################################################
 ## hhpdf("regrFitRes.pdf", height=7, width=9, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 x <- rnorm(100)

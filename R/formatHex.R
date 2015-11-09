@@ -66,9 +66,10 @@ formatHex <- function(x, ...) {
   result
 }
 
-formatBin <- function(x, scientific=TRUE, left.pad = "_", right.pad = left.pad, ...) {  ## scientific   rmh
+formatBin <- function(x, precBits=min(getPrec(x)), scientific=TRUE, ## precBits    mm
+                      left.pad = "_", right.pad = left.pad, ...) {  ## scientific  rmh
   ## bindigits is number of binary digits after the precision point
-  H <- formatHexInternal(x, ...)
+  H <- formatHexInternal(x, precBits=precBits, ...)
   bindigits <- attr(H, "bindigits")
   hexdigits <- attr(H, "hexdigits")
   S <- substring(H, 1, 1)
@@ -93,8 +94,10 @@ formatBin <- function(x, scientific=TRUE, left.pad = "_", right.pad = left.pad, 
     right.pads <- substring(right.pads, 0, 0:60)
 
     powers <- as.numeric(C)
-    Left <- -powers + max(powers)
-    Right <- powers - min(powers)
+    Left <- -powers + max(powers, 2-precBits) ## rmh
+    Right <- powers - min(powers, precBits-1) ## rmh
+    ## Left <- -powers + max(powers)
+    ## Right <- powers - min(powers)
     if (max(abs(powers)) > length(left.pads))
       warning("Shifted binary out of bounds.", call.=FALSE)
     D <- cbind(S, "0b", left.pads[Left+1], A, hrsBb, right.pads[Right+1])
@@ -141,28 +144,55 @@ formatBin <- function(x, scientific=TRUE, left.pad = "_", right.pad = left.pad, 
 ##   result
 ## }
 
-formatDec <- function(x, displaydigits=decdigits, digits, nsmall, ...) {
-  H <- formatHexInternal(x, ...)
-  precBits <- attr(H, "bindigits") + 1
-  decdigits <- ceiling(log(2^precBits, 10)) + 1
-  Hx <- scan(text=H, quiet=TRUE)
+## formatDec <- function(x, displaydigits=decdigits, digits, nsmall, ...) {
+##   H <- formatHexInternal(x, ...)
+##   precBits <- attr(H, "bindigits") + 1
+##   decdigits <- ceiling(log(2^precBits, 10)) + 1
+##   Hx <- scan(text=H, quiet=TRUE)
 
-  Hx.range <- range(abs(Hx[Hx != 0])) ## excluding hard zero
-  digits <- max(decdigits, displaydigits)
-  nsmall <- -floor(log(Hx.range[1], 10))
-  if (nsmall <= 0) nsmall <- max(nsmall + digits, 0) ## effective only with scientific=FALSE
+##   Hx.range <- range(abs(Hx[Hx != 0])) ## excluding hard zero
+##   digits <- max(decdigits, displaydigits)
+##   nsmall <- -floor(log(Hx.range[1], 10))
+##   if (nsmall <= 0) nsmall <- max(nsmall + digits, 0) ## effective only with scientific=FALSE
 
-  result <-
-    if (!is.null(list(...)$scientific) && list(...)$scientific) {
-      sprintf.format <- paste("%+", 1, ".", as.character(digits), "e", sep="")
-      sprintf(sprintf.format, Hx)
-    }
-    else
-      format(Hx, digits=digits, nsmall=nsmall, ...)
-  dim(result) <- dim(x)
-  dimnames(result) <- dimnames(x)
-  class(result) <- class(H)
-  result
+##   result <-
+##     if (!is.null(list(...)$scientific) && list(...)$scientific) {
+##       sprintf.format <- paste("%+", 1, ".", as.character(digits), "e", sep="")
+##       sprintf(sprintf.format, Hx)
+##     }
+##     else
+##       format(Hx, digits=digits, nsmall=nsmall, ...)
+##   dim(result) <- dim(x)
+##   dimnames(result) <- dimnames(x)
+##   class(result) <- class(H)
+##   result
+## }
+
+## Copied from Rmpfr formatHex.R October 8, 2015, revision 230,
+## after rmh change to format(Hx,.......) line
+formatDec <- function(x, precBits = min(getPrec(x)), digits=decdigits,
+                      nsmall=NULL, scientific=FALSE, ...) {
+    style <- "+"
+    H <- formatHexInternal(x, precBits=precBits, style=style)
+    ## precBits <- attr(H, "bindigits") + 1
+    decdigits <- ceiling(log(2^precBits, 10)) + 1
+    Hx <- scan(text=H, quiet=TRUE) # <- FIXME ??? parse(.) or just  as.numeric() ?
+    Hx.range <- range(abs(Hx[Hx != 0])) ## excluding hard zero
+    if(!missing(digits))
+	digits <- max(digits, decdigits)
+    res <-
+	if (scientific) {
+	    sprintf(paste0("%", style, 1, ".", as.character(digits), "e"), Hx)
+	}
+	else {
+	    if(is.null(nsmall)) nsmall <- -floor(log(Hx.range[1], 10))
+	    if (nsmall <= 0) nsmall <- max(nsmall + digits, 0) ## effective only with scientific=FALSE
+	    format(Hx, digits=digits, nsmall=nsmall, scientific=scientific, ...) ## rmh
+	}
+    structure(res,
+	      dim = dim(x),
+	      dimnames = dimnames(x),
+	      class = "noquote")
 }
 
 ## Attempted sprintf.  doesn't align with "f", so can't use here.

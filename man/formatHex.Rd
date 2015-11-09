@@ -20,9 +20,11 @@ This is an early version of functions which will eventually be in Rmpfr.
 \usage{
 formatHex(x, ...)
 
-formatBin(x, scientific=TRUE, left.pad="_", right.pad=left.pad, ...)
+formatBin(x, precBits=min(getPrec(x)), scientific=TRUE,
+          left.pad="_", right.pad=left.pad, ...)
 
-formatDec(x, displaydigits=decdigits, digits, nsmall, ...)
+formatDec(x, precBits = min(getPrec(x)), digits=decdigits,
+          nsmall=NULL, scientific=FALSE, ...)
 
 scanBin(x, precBits=stop("Must specify precBits.", call.=FALSE), scientific=TRUE)
 
@@ -59,7 +61,7 @@ The default value is the number returned by \code{Rmpfr::mpfr_default_prec()}
   regular format shifted to align binary points (\code{mpfr(3, 5)} is displayed
   \code{+0b11.000}).  When \code{FALSE}, \code{scanBin} will substitute
     \code{0}  for \code{_}.
-}
+  }
 \item{\dots}{Additional arguments.
   \code{formatHexInternal}, \code{formatHex}, \code{formatBin}: \code{precBits}
   is the only \code{...} argument acted on.
@@ -74,15 +76,7 @@ Other \code{...} arguments are ignored.
 Characters that will be used for left- and right-padding of the
 formatted string when \code{shift=TRUE}.
 }
-\item{digits, nsmall}{These arguments are intercepted by \code{formatDec}
-  and ignored.
-  \code{formatDec} generates its own values for these arguments from
-  \code{precBits}
-  and forwards those values to \code{format}.
-}
-\item{displaydigits}{
-  The number of decimal digits displayed is the larger of this argument and the
-  internally generated value that is a function of \code{precBits}.
+\item{digits, nsmall}{arguments forwarded to \code{format}.
 }
 }
 \details{

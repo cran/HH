@@ -151,7 +151,7 @@ aperm(glasses.all, c(3,2,1))
 
 
 ###################################################
-### code chunk number 13: twtb.tex:557-563
+### code chunk number 13: twtb.tex:558-564
 ###################################################
 ## hhpdf("glasses-exact.pdf", width=11, height=3)
 (mosaic(glasses.all, direction=c("v","v","h"),
@@ -162,7 +162,7 @@ aperm(glasses.all, c(3,2,1))
 
 
 ###################################################
-### code chunk number 14: twtb.tex:583-617
+### code chunk number 14: twtb.tex:584-618
 ###################################################
 ## hhcapture("glasses-hypergeometric.Rout", '
 g.p <- apply(glasses.all, 1,
@@ -201,7 +201,7 @@ barchart(g.p2$prob ~ factor(0:6), horizontal=FALSE,
 
 
 ###################################################
-### code chunk number 15: twtb.tex:688-731
+### code chunk number 15: twtb.tex:692-735
 ###################################################
 ## hhcapture("blyth.Rout", '
 require(vcd)
@@ -249,7 +249,7 @@ blyth3xc <- dcast(location + treatment ~ survival,
 
 
 ###################################################
-### code chunk number 16: twtb.tex:765-777
+### code chunk number 16: twtb.tex:769-781
 ###################################################
 ## BlyCol <- likertColor(8)[c(2,4)]
 BlyCol <- rainbow(12)[c(12,9)]
@@ -266,7 +266,7 @@ barchart(Freq ~ treatment | location, groups=Survival, data=blyth3xdf,
 
 
 ###################################################
-### code chunk number 17: twtb.tex:780-790
+### code chunk number 17: twtb.tex:784-794
 ###################################################
 ## hhpdf("bP3r.pdf", width=7, height=2.5)
 resizePanels(w=c(.31,.31,.38),
@@ -281,7 +281,7 @@ barchart(Pct ~ treatment | location, groups=Survival, data=blyth3xdf,
 
 
 ###################################################
-### code chunk number 18: twtb.tex:793-804
+### code chunk number 18: twtb.tex:797-808
 ###################################################
 ## hhpdf("bP3s.pdf", width=7, height=2.5)
 print(position=c(0, 0, .93, 1),
@@ -297,7 +297,7 @@ barchart(Pct ~ treatment | location, data=blyth3xdf,
 
 
 ###################################################
-### code chunk number 19: twtb.tex:807-820
+### code chunk number 19: twtb.tex:811-824
 ###################################################
 ## Figures mc2.pdf and mc1.pdf have the panel borders drawn by strucplot
 ## and the labeling by mosaic inside each panel.  They are positioned by LaTeX.
@@ -315,7 +315,7 @@ cotabplot(~ treatment + survival | location, data=blyth3xdf.1.8,
 
 
 ###################################################
-### code chunk number 20: twtb.tex:822-833
+### code chunk number 20: twtb.tex:826-837
 ###################################################
 ## hhpdf("mc1.pdf", width=4.2, height=3)
 cotabplot(~ treatment + survival | location, data=blyth3xdf.9.12,
@@ -331,7 +331,7 @@ cotabplot(~ treatment + survival | location, data=blyth3xdf.9.12,
 
 
 ###################################################
-### code chunk number 21: twtb.tex:836-859
+### code chunk number 21: twtb.tex:840-863
 ###################################################
 ## Figures mc3a.pdf and mc3b.pdf have the panel borders drawn by lattice
 ## and the labeling outside all panels.  The figures are manually superposed using LaTeX.
@@ -359,7 +359,7 @@ mosaic(~ treatment + survival | location, data=blyth3xdf,
 
 
 ###################################################
-### code chunk number 22: twtb.tex:861-873
+### code chunk number 22: twtb.tex:865-877
 ###################################################
 ## hhpdf("mc3b.pdf", width=8.5, height=2.5)
 print(position=c(0, 0, .93, 1),
@@ -376,7 +376,7 @@ barchart(Pct ~ treatment | location, data=blyth3xdf,
 
 
 ###################################################
-### code chunk number 23: twtb.tex:876-904
+### code chunk number 23: twtb.tex:880-908
 ###################################################
 ## Figure mc3pdf.pdf is merged at the R level.
 ## The offsets, margins and such are carefully tailored to these pdf settings.
@@ -409,7 +409,7 @@ barchart(Pct ~ treatment | location, data=blyth3xdf,
 
 
 ###################################################
-### code chunk number 24: twtb.tex:907-913
+### code chunk number 24: twtb.tex:911-917
 ###################################################
 ## hhpdf("lC3r.pdf", width=7, height=2.5)
 likert(treatment ~ .| location, blyth3xc, horizontal=FALSE,
@@ -420,7 +420,7 @@ likert(treatment ~ .| location, blyth3xc, horizontal=FALSE,
 
 
 ###################################################
-### code chunk number 25: twtb.tex:916-922
+### code chunk number 25: twtb.tex:920-926
 ###################################################
 ## hhpdf("lP3r.pdf", width=7, height=2.5)
 likert(treatment ~ .| location, blyth3xc, horizontal=FALSE, as.percent=TRUE,
@@ -431,7 +431,7 @@ likert(treatment ~ .| location, blyth3xc, horizontal=FALSE, as.percent=TRUE,
 
 
 ###################################################
-### code chunk number 26: twtb.tex:1345-1354
+### code chunk number 26: twtb.tex:1352-1361
 ###################################################
 ## hhcapture("hypothermia.Rout", '
 hypothermia <-
@@ -445,7 +445,7 @@ hypothermia
 
 
 ###################################################
-### code chunk number 27: twtb.tex:1368-1372
+### code chunk number 27: twtb.tex:1375-1379
 ###################################################
 ## hhpdf("hypothermiamosaic.pdf", width=4, height=3.5)
 mosaic(Outcome ~ Treatment, data=as.data.frame.table(hypothermia), direction=c("v","h"),
@@ -454,7 +454,7 @@ mosaic(Outcome ~ Treatment, data=as.data.frame.table(hypothermia), direction=c("
 
 
 ###################################################
-### code chunk number 28: twtb.tex:1383-1395
+### code chunk number 28: twtb.tex:1390-1402
 ###################################################
 ## hhpdf("hypothermiacount.pdf", width=5, height=3)
 ## not included in book
@@ -471,7 +471,7 @@ barchart(Freq ~ Treatment, groups=Outcome, stack=TRUE, hypothermia.df,
 
 
 ###################################################
-### code chunk number 29: twtb.tex:1407-1419
+### code chunk number 29: twtb.tex:1414-1426
 ###################################################
 ## hhpdf("hypothermiaproportion.pdf", width=5, height=3)
 ## not included in book
@@ -488,7 +488,7 @@ barchart(Freq ~ Treatment, groups=Outcome, stack=TRUE, hypothermiaProportion.df,
 
 
 ###################################################
-### code chunk number 30: twtb.tex:1431-1444
+### code chunk number 30: twtb.tex:1438-1451
 ###################################################
 ## hhpdf("hypothermiaodds.pdf", width=3.5, height=2.5)
 barchart(hypothermia[,1] / hypothermia[,2] ~ dimnames(hypothermia)[[1]],
@@ -506,7 +506,7 @@ barchart(log(hypothermia[,1] / hypothermia[,2]) ~ dimnames(hypothermia)[[1]],
 
 
 ###################################################
-### code chunk number 31: twtb.tex:1559-1572
+### code chunk number 31: twtb.tex:1567-1580
 ###################################################
 ## hhpdf("hypothermiaplotOddsRatio.pdf", width=7.5, height=5, lwd=4)
 tmp <- plotOddsRatio(t(hypothermia[2:1, 2:1]), col=col3x2)
@@ -524,11 +524,16 @@ layer(panel.axis("top",    at=.3942,                  text.col=col3x2[1],       
 
 
 ###################################################
-### code chunk number 32: twtb.tex:1716-1723
+### code chunk number 32: twtb.tex:1724-1736
 ###################################################
 data(salk)
+salk.adjlabels <- salk
+levels(salk.adjlabels$vaccine)
+## [1] "no.vac" "vac"
+levels(salk.adjlabels$vaccine) <- c("no.vac    ", "   vac") ## avoid overprinting x-axis labels
+
 ## hhpdf("salkMosaic.pdf", width=12, height=5.5) ## height=3.5 for portrait, height=5.5 for landscape
-(mosaic(Freq ~ vaccine + paralyze | age, data=salk, direction=c("v","v","h"),
+(mosaic(Freq ~ vaccine + paralyze | age, data=salk.adjlabels, direction=c("v","v","h"),
         main="Observed number of observations in each age group",
         gp=gpar(fill=BlyCol[2:1], col=0),
         spacing=spacing_increase(rate=c(.4, 1.4, 3.5))))
@@ -536,7 +541,7 @@ data(salk)
 
 
 ###################################################
-### code chunk number 33: twtb.tex:1745-1754
+### code chunk number 33: twtb.tex:1755-1764
 ###################################################
 ## hhcapture("MHsalk.Rout", '
 ## Code for calculation of the Cochran--Mantel--Haenszel test of the polio example
@@ -550,7 +555,7 @@ mantelhaen.test(salk2, correct=FALSE)
 
 
 ###################################################
-### code chunk number 34: twtb.tex:1758-1838
+### code chunk number 34: twtb.tex:1768-1848
 ###################################################
 ## hhcapture("arithMHsalk.Rout", '
 ## Code for "Detail for calculation of the Cochran--Mantel--Haenszel test of the polio example."
@@ -635,7 +640,7 @@ sum(mh.c[,"O.E"])^2 / sum(mh.c[,"v"])
 
 
 ###################################################
-### code chunk number 35: twtb.tex:1964-1977
+### code chunk number 35: twtb.tex:1974-1987
 ###################################################
 ## hhpdf("salk-dev.pdf", width=7.5, height=4)
 ages <- ordered(dimnames(mh.c)[[1]], levels=dimnames(mh.c)[[1]])
@@ -653,7 +658,7 @@ barchart(mh.c[,"dev"] ~ ages, origin=0, horizontal=FALSE,
 
 
 ###################################################
-### code chunk number 36: twtb.tex:2033-2042
+### code chunk number 36: twtb.tex:2043-2052
 ###################################################
 ## hhcapture("salkFisher.Rout", '
 data(salk)
@@ -667,18 +672,19 @@ sapply(lt, `[`, c("estimate","p.value"))
 
 
 ###################################################
-### code chunk number 37: twtb.tex:2095-2101
+### code chunk number 37: twtb.tex:2105-2112
 ###################################################
 ## hhpdf("AEdotplot.pdf", width=6, height=6)
 data(AEdata)
 head(AEdata)
 AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata,
+          col.AB=likertColor(2, colorFunctionArgs=list(h = c(260, 0), c = 150, l = c(30, 90))),
           panel.widths=c(.7, .3, 0))
 ## hhdev.off()
 
 
 ###################################################
-### code chunk number 38: twtb.tex:2257-2281
+### code chunk number 38: twtb.tex:2269-2293
 ###################################################
 LikCol5 <- likertColor(5, colorFunctionOption="default")
 ## hhpdf("ProfChal.pdf", width=8.5, height=11)
@@ -707,7 +713,7 @@ likert(Question ~ . | Subtable, ProfChal,
 
 
 ###################################################
-### code chunk number 39: twtb.tex:2404-2413
+### code chunk number 39: twtb.tex:2416-2425
 ###################################################
 ## hhpdf("PC2C.pdf", width=9.6, height=5)
 EmpRows <- ProfChal$Subtable == "Employment sector"
@@ -721,7 +727,7 @@ likert(Question ~ . , data=ProfChal[EmpRows,],
 
 
 ###################################################
-### code chunk number 40: twtb.tex:2429-2438
+### code chunk number 40: twtb.tex:2441-2450
 ###################################################
 ## hhpdf("PC2Cpct.pdf", width=9.6, height=5)
 likert(Question ~ . , data=ProfChal[EmpRows,],
@@ -735,7 +741,7 @@ likert(Question ~ . , data=ProfChal[EmpRows,],
 
 
 ###################################################
-### code chunk number 41: twtb.tex:2452-2462
+### code chunk number 41: twtb.tex:2464-2474
 ###################################################
 ## hhpdf("PC2Cpctpo.pdf", width=9.6, height=5)
 likert(Question ~ . , data=ProfChal[EmpRows,],
@@ -750,7 +756,7 @@ likert(Question ~ . , data=ProfChal[EmpRows,],
 
 
 ###################################################
-### code chunk number 42: twtb.tex:2521-2550
+### code chunk number 42: twtb.tex:2533-2562
 ###################################################
 data(NZScienceTeaching)
 
@@ -784,7 +790,7 @@ likert(Question ~ . | Subtable, NZScienceTeaching,
 
 
 ###################################################
-### code chunk number 43: twtb.tex:2579-2606
+### code chunk number 43: twtb.tex:2591-2618
 ###################################################
 ## hhpdf("PL5.pdf", width=17, height=9)
 LikCol2 <- likertColor(2, colorFunctionOption="default")
