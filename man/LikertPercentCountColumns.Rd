@@ -48,7 +48,6 @@ LikertPercentCountColumns(
 \seealso{\code{\link{likert}}}
 
 \examples{
-library(HH)
 
 ## These are based on the Professional Challenges example in ?likert
 data(ProfChal)

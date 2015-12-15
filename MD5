@@ -1,6 +1,6 @@
-c148386be01282eaa6fedddeb07b915c *DESCRIPTION
-5b36ded67dbcd6c91e448ac596e65413 *NAMESPACE
-fbd4b27c605addebeb41d96080f7b19f *NEWS
+b9a4a1b3194578d27568dffbf0306857 *DESCRIPTION
+7853fc341f4f9bd5103572b093d0d9b1 *NAMESPACE
+a940cfbccc7eac1c0a686904533c8544 *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 747a266397e5231548824d02ef791c38 *R/ARIMA-trellis.R
 6ce14208ee00a74c70368601bb80c5cc *R/F.curve.R
@@ -34,7 +34,6 @@ e5791392cd4918b1385396f394624095 *R/ci.plot.R
 d37df0e5916d006a280eca38d7807f67 *R/export.eps.R
 6fdd1a3bcda7e07aa3935d10b18773a7 *R/extra.r
 0b5db671f00c3f02a76ce4c7a047220c *R/f.chisq.intermediate.R
-c8317bd7aa918156466598952d292f2d *R/formatHex.R
 da4deae1317c4dc414795edc9e76b6b3 *R/glht.mmc.R
 9a421f7e55afde3fcf0d6ebcbf753e44 *R/grid.axis.hh.R
 a3a782d69233d23d9c6e962a951e1d4a *R/guiRemove.s
@@ -70,10 +69,11 @@ cfe6bf45da4c4c4364336ca3b5d9383c *R/multicomp.mmc.R
 92cc470de39a78ce24432bba000c0469 *R/multicomp.order.R
 46160c46ca0d963ebfc5322092201504 *R/multicomp.reverse.R
 e306d9447d8d84b605e7dc4a4ed51eb5 *R/norm.curve.R
-18e9c33beaed4dd0aa7852bbbdc76b57 *R/normal.and.t.R
+128588c839b2dc2c9741fbd18afc672c *R/normal.and.t.R
 2b16d12ba700cd0db0bd7d3b3fc67b8c *R/normal.and.t.htest.R
 f49e5b42df3c4854a87d45e78dd71ff2 *R/normal.and.t.power.R
 94481953ed60c23cae48faf16f1edb44 *R/normal.and.t.shiny.R
+493c2ddbea34f10740ab59c2eafefdb3 *R/normal.and.t.shiny2.R
 507894119291d2a722aedc9c909a68c1 *R/normal.and.t.support.R
 daa73f0cf5984b5d3c31e37bb12b2252 *R/normalApproxBinomial.R
 8429f279b6174c95ddcf0f8c2b300fc9 *R/normalTable.R
@@ -110,7 +110,6 @@ d25555a9e4a6579f609b282a18b5850b *R/regrresidplot.R
 af1322ce537d8f4be33cbb621bf0d340 *R/resid.squares.R
 af2c79773c5fb75fffca519de2f3a143 *R/residual.plots.lattice.R
 3b16d5a81d2597aaffd46a7db1a4840b *R/residual.plots.s
-f6f6868e4d91e19629281b21b06febc8 *R/showHex.R
 4e00ec1076cb339b9366fee587bf8edc *R/stripbak.s
 77f72360ca5daaf55a86bc50e7b6fd27 *R/sufficient.s
 a266af2849c5e90f3f0e7d604b8d4865 *R/transpose.trellis.R
@@ -337,7 +336,7 @@ fc0a6f9141b9919d70fec2610e4f12f2 *inst/scripts/hh1/sourceAll.r
 48683214f6b1623b4c4e486cb3b67f9e *inst/scripts/hh2/HHApx.R
 49edd033f604be5f0ffddf1e8ca02d45 *inst/scripts/hh2/MSword.R
 0a3ce8b685e9d3f5e7bc3c43b2eaf369 *inst/scripts/hh2/PrcnApx.R
-b65b2e3d6a2d3e2b9d92d142b2f15813 *inst/scripts/hh2/RApx.R
+10654d04afbc876564d46094d5db9a6b *inst/scripts/hh2/RApx.R
 100a67346a2c1f4421bb7baf5ea370ab *inst/scripts/hh2/RExcelApx.R
 8809978323145fa535ab462a1de7cc12 *inst/scripts/hh2/RcmdrApx.R
 59dc6accd51081397b2c16b57c7ba6f7 *inst/scripts/hh2/Rpack.R
@@ -346,13 +345,13 @@ b65b2e3d6a2d3e2b9d92d142b2f15813 *inst/scripts/hh2/RApx.R
 fec91d17423ad625f9400f380bc8e797 *inst/scripts/hh2/conc.R
 b45e40fb324a776f1238623b63c72b15 *inst/scripts/hh2/data.R
 25d2319d21ab5e135294a7d39aa3dde6 *inst/scripts/hh2/dsgn.R
-83dd155af6c7e6db2d376de65f5042a6 *inst/scripts/hh2/dsgntwo.R
+2444a58b0c5d96d95687d09d2a967128 *inst/scripts/hh2/dsgntwo.R
 f5e6779289c6207e1f1dd597645b2437 *inst/scripts/hh2/dstr.R
 0563253fb6a5d2d26a668e08fa642cf0 *inst/scripts/hh2/edit.R
 981f87456dd130de2fcbfd9fb0dbab95 *inst/scripts/hh2/emcs.R
 1a750cc25db4e1b1043da49e515d3cb4 *inst/scripts/hh2/grap.R
 74c7e70e7306852431cf8d56601b094a *inst/scripts/hh2/hotdog-ancova.r
-45fba804118b29d83a359c826c1f1892 *inst/scripts/hh2/iinf.R
+4066f1370c3894fa544592eb5adcd72f *inst/scripts/hh2/iinf.R
 0a1a49646eff5e228b8744172685859e *inst/scripts/hh2/intr.R
 94f012f0af501b7e86f2692bbadfe22b *inst/scripts/hh2/latexApx.R
 47691588edd8f6c1eaa0ba1fed71ff86 *inst/scripts/hh2/logi.R
@@ -371,7 +370,7 @@ f0b07269d2f6a73d049869c3c20bfed2 *inst/scripts/hh2/regc.R
 2e39a0b3ec4f1e1992da70b9f33f2ab7 *inst/scripts/hh2/tiresLatin.R
 e8d0a6df5d197d338fd90c89f6482a38 *inst/scripts/hh2/tser.R
 3667eb9395dcc47224853d92619809fc *inst/scripts/hh2/turkeyAov3Match.R
-f1408f3d13d4d80fe97a35c4ae3757ee *inst/scripts/hh2/tway.R
+d05ca36a871e0ff7eca994bb65575d3b *inst/scripts/hh2/tway.R
 f808de68779311371735682cdfa72035 *inst/scripts/hh2/twtb.R
 5aa03969116df8c79e4045df58d04c0b *inst/scripts/hh2/typg.R
 33e65017f3a4df482f39cbee8e318be4 *inst/scripts/hh2/yatesppl.ex.R
@@ -390,7 +389,7 @@ bc2019dbcf61feb5ece8985d73fd9054 *man/HH-defunct.Rd
 3dea7ac4f465c38b7789872c6af813ea *man/HH.package.Rd
 1af510e606169a102e889cd833682bd1 *man/HH_regsubsets.Rd
 9aed99e2cdd67403b0a62612e77ae456 *man/HHscriptnames.Rd
-c493c4a7659c66d486c60b3464c5ff79 *man/LikertPercentCountColumns.Rd
+9709b5abdab5bc80de0c329624fae95f *man/LikertPercentCountColumns.Rd
 b366191a218ec2c2a44f64ea50e9556a *man/NormalAndT.Rd
 87db793afa65a24cc9f6046b0b76f730 *man/NormalAndTplot.Rd
 85200819f75ee60ec59320f86a7f0ef6 *man/OneWayVarPlot.Rd
@@ -430,7 +429,6 @@ a94f507729a238746ed1df834b31cf5b *man/do.formula.trellis.xysplom.Rd
 7fd60003edc39a15afbca844157dd757 *man/export.eps.Rd
 71bc6530b1c4bbe254664f681eb470ba *man/extra.Rd
 f57014b35f563c9baa2c9c028774665b *man/f.chisq.intermediate.Rd
-0af1c1a82db242fc31e3c23068c0371f *man/formatHex.Rd
 ec4707353fa475db074292da84932a03 *man/glht.mcp.993.Rd
 3194c17a57e0ac78406eeb901bfb20d7 *man/gof.calculation.Rd
 1a5278e42a0dcc255653ecc221ba802d *man/grid.axis.hh.Rd
@@ -494,11 +492,11 @@ f177951eba40ce8b159da4d7a31aef4d *man/persp.plane.Rd
 9a10d8b2cf3f4c925907d379a2ecde71 *man/position.Rd
 55f644a7eadb7fc0f87331ec4e70a7d6 *man/positioned-class.Rd
 575e8b7a92038d73cca4728a7db3b990 *man/print.NormalAndTplot.Rd
-a58ee1489f1f6e645c8cdf5002b87ba7 *man/print.TwoTrellisColumns.Rd
+ec512b58621d50aaab2b5a8a1ce0aaf5 *man/print.TwoTrellisColumns.Rd
 def6b2ed2151761c41baf4ecab380e8b *man/print.latticeresids.Rd
 f01def4ba79daceb11a08d7309ce407d *man/print.tsdiagplot.Rd
 096fed571bcee4664d846455be93f874 *man/pushpop.vp.hh.Rd
-6b7252f92907d8f376d9899150eaa035 *man/pyramidLikert.Rd
+46c5d28ccf046d3bb363cb18d7dcb697 *man/pyramidLikert.Rd
 37b6fb239d89aee2719f1d5d8fec0eb2 *man/rbind.trellis.Rd
 b059217e84737e69894e0a7234237607 *man/regr1.plot.Rd
 c6c62815ec40378d0e84d5a1f41faac7 *man/regr2.plot.Rd
@@ -509,7 +507,6 @@ c6c62815ec40378d0e84d5a1f41faac7 *man/regr2.plot.Rd
 804b9c830fd6d1e8a7d5f2ea018bf146 *man/residual.plots.lattice.Rd
 6e28df95d1f1c36064393a84e0e4fdca *man/seqplot.Rd
 93d5f2463d25c679f8a4ae28113f36b1 *man/seqplot.forecast.Rd
-f81811d46831395f0f1810d6f05a1aaf *man/showHex.Rd
 32643f910a4adb34066439a53ea92863 *man/strip.background0.Rd
 5ad56e73866f1c5d790a5b0373b4e8f8 *man/strip.xysplom.Rd
 af2edb26a154ae40b75f7733b160b1dd *man/sufficient.Rd

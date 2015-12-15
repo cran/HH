@@ -62,7 +62,7 @@ that it produces a plot.
 }
 \seealso{\code{\link{likert}}}
 \examples{
-library(HH)
+
 data(USAge.table)  ## from latticeExtra
 USA79 <- USAge.table[75:1, 2:1, "1979"]/1000000
 PL <- plot(as.likert(USA79),

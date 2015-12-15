@@ -101,7 +101,6 @@ argument and retains their vertical spacing.
 
 \seealso{\code{\link{likert}} for the details on the motivating example.}
 \examples{
-library(HH)
 
 
 ## These are based on the Professional Challenges example in ?likert

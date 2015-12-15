@@ -703,7 +703,7 @@ yso.testscore.plot <- function(yname, main="Main Title Goes Here", cex=1.2, ...)
          ...)
 }
 
-## hhpdf("initial.pdf", width=7, height=3.4, col=col3x2) ## col is not an argument for grDevices:::pdf
+## hhpdf("initial.pdf", width=7, height=3.4, col=likertColor(2)[2:1]) ## col is not an argument for grDevices:::pdf
 yso.testscore.plot("initial", "Initial Score", ylim=c(5,35), data=testscore)
 ## hhdev.off()
 
@@ -980,11 +980,8 @@ options(old.width)
 
 
 ###################################################
-### code chunk number 53: dsgntwo.tex:3767-3818
+### code chunk number 53: dsgntwo.tex:3767-3815
 ###################################################
-## sink("yatesppl.ex.Rout")
-## source("yatesppl.ex.R", echo=TRUE, max.deparse.length=1000)
-## sink()
 ##  hhcode("yatesppl.ex.R", '
 ### a. The whole plot column space is defined by the
 ###       plots %in% blocks

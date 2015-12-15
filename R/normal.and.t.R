@@ -280,7 +280,7 @@ NormalAndTplot.default <- function(mean0=0,
               expression(w == bar(x)[1] - bar(x)[2])
 
   ##  main <- Main(mean0, mean1, xbar, sd, n, df)
-  if (missing(main) || is.null(main) || is.na(main))
+  if (missing(main) || is.null(main)) ##|| is.na(main))
     main <- list(MainSimpler(mean0, mean1, xbar, stderr, n, df, distribution.name,
                              digits=digits.axis, number.vars=number.vars, type=type),
                  cex=cex.main)

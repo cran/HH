@@ -1,3 +1,18 @@
+Version 3.1-24
+
+* 2015 Dec 15
+
+* NormalAndTplot.default: removed test for is.na(main) to avoid warning.
+
+* More script adjustments to match the production set of proofs for the Second Edition
+  of Statistical Analysis and Data Display.
+
+* Make HH dependent on Rmpfr_0.6-0 which now includes formatBin and formatHex.
+  Therefore remove the older versions of formatBin and formatHex from HH.
+
+* Sent to CRAN 2015-12-15
+
+
 Version 3.1-23
 --------------
 
@@ -17,7 +32,7 @@ Version 3.1-23
 
 * copy scripts/hh2/*.R from the manuscript after correcting page proofs
 
-* on CRAN 2015-xx-xx
+* on CRAN 2015-11-08
 
 
 

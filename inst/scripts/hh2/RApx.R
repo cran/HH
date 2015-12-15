@@ -60,48 +60,48 @@ pnorm(c(-1.96, -1.645, -0.6745, 0, 0.6745, 1.645, 1.96))
 ###################################################
 ### code chunk number 6: RApx.tex:304-307
 ###################################################
-hhcode("manual.R", '
+## hhcode("manual.R", '
 system.file("../../doc/manual")
-')
+## ')
 
 
 ###################################################
 ### code chunk number 7: RApx.tex:309-312
 ###################################################
-hhcode("manualWindows.R", '
+## hhcode("manualWindows.R", '
 WindowsPath(system.file("../../doc/manual"))
-')
+## ')
 
 
 ###################################################
 ### code chunk number 8: RApx.tex:361-364
 ###################################################
-hhcode("HHscript2.R", '
+## hhcode("HHscript2.R", '
 HHscriptnames()
-')
+## ')
 
 
 ###################################################
 ### code chunk number 9: RApx.tex:366-369
 ###################################################
-hhcode("HHscript1.R", '
+## hhcode("HHscript1.R", '
 HHscriptnames(edition=1)
-')
+## ')
 
 
 ###################################################
 ### code chunk number 10: RApx.tex:371-374
 ###################################################
-hhcode("HHscriptW2.R", '
+## hhcode("HHscriptW2.R", '
 WindowsPath(HHscriptnames())
-')
+## ')
 
 
 ###################################################
 ### code chunk number 11: RApx.tex:376-379
 ###################################################
-hhcode("HHscriptW1.R", '
+## hhcode("HHscriptW1.R", '
 WindowsPath(HHscriptnames(edition=1))
-')
+## ')
 
 

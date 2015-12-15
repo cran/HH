@@ -334,7 +334,7 @@ NTplot(PTT, zaxis=TRUE)  ## static plot
 
 
 ###################################################
-### code chunk number 14: iinf.tex:1524-1550
+### code chunk number 14: iinf.tex:1525-1551
 ###################################################
 ## hhcapture("sampleSizeC.Rout", '
 ## solve manually with t distribution.  Use ncp for alternative.
@@ -365,7 +365,7 @@ pt(t.critical, df=nn-1, ncp=delta/(sd/sqrt(nn)), lower=FALSE)
 
 
 ###################################################
-### code chunk number 15: iinf.tex:1608-1634
+### code chunk number 15: iinf.tex:1609-1635
 ###################################################
 tmp26 <- NTplot(NTplot(PTT), main=NA,
                 key.axis.padding=6, cex.main=1.5,
@@ -396,7 +396,7 @@ print(update(tmp30, ylab=NULL), cex.table=1.2)
 
 
 ###################################################
-### code chunk number 16: iinf.tex:1800-1806
+### code chunk number 16: iinf.tex:1801-1807
 ###################################################
 ## hhcapture("fairDice.Rout", '
 dice <- sample(rep(1:6, c(3,7,5,8,1,6)))
@@ -407,7 +407,7 @@ chisq.test(table(dice))
 
 
 ###################################################
-### code chunk number 17: iinf.tex:1817-1824
+### code chunk number 17: iinf.tex:1818-1825
 ###################################################
 ## hhpdf("fairDice.pdf", height=4, width=7)
 old.omd <- par(omd=c(.05, .88, .05, 1))
@@ -419,7 +419,7 @@ par(old.omd)
 
 
 ###################################################
-### code chunk number 18: iinf.tex:1874-1895
+### code chunk number 18: iinf.tex:1875-1896
 ###################################################
 ## hhpdf("family.pdf", height=3, width=7)
 Observed <- c(13, 18, 20, 18, 6, 5)
@@ -445,7 +445,7 @@ var(rep(0:5, times=Expected))
 
 
 ###################################################
-### code chunk number 19: iinf.tex:1913-1933
+### code chunk number 19: iinf.tex:1914-1934
 ###################################################
 ## hhcapture("ex.chisq.Rout", '
 Observed <- c(13, 18, 20, 18, 6, 5)
@@ -470,7 +470,7 @@ pchisq(WrongDF$statistic, df=WrongDF$parameter - 1, lower=FALSE)
 
 
 ###################################################
-### code chunk number 20: iinf.tex:2087-2108
+### code chunk number 20: iinf.tex:2088-2109
 ###################################################
 ## hhpdf("iinf-f-qqnorm.pdf", height=7.2, width=9)
 
@@ -496,7 +496,7 @@ xyplot(normal + uniform + `negatively skewed` + `positively skewed` +
 
 
 ###################################################
-### code chunk number 21: iinf.tex:2119-2123
+### code chunk number 21: iinf.tex:2120-2124
 ###################################################
 ## hhpdf("iinf-f-dist.pdf", height=7.2, width=9)
 tmp <- lapply(qqnorm.dat, histogram, nint=15, col=likertColor(2)[2])
@@ -505,7 +505,7 @@ update(do.call(latticeExtra:::c.trellis, c(tmp[-3], list(layout=c(2,3)))), xlab=
 
 
 ###################################################
-### code chunk number 22: iinf.tex:2141-2162
+### code chunk number 22: iinf.tex:2142-2163
 ###################################################
 ## hhpdf("iinf-f1.pdf", height=4, width=7)
 points <- ppoints(100)
@@ -531,7 +531,7 @@ xyplot(q3+q5+q7+qn ~ qn, data=qqt.data, type="l", aspect="iso", ylab="distributi
 
 
 ###################################################
-### code chunk number 23: iinf.tex:2183-2195
+### code chunk number 23: iinf.tex:2184-2196
 ###################################################
 ## hhpdf("iinf-f2.pdf", height=4, width=7)
 qqt.melt <- cbind(reshape2::melt(qqt.data[,2:5], value.name="quantile",
@@ -548,7 +548,7 @@ xyplot(density ~ quantile, group=distribution, data=qqt.melt, type="l",
 
 
 ###################################################
-### code chunk number 24: iinf.tex:2258-2265
+### code chunk number 24: iinf.tex:2259-2266
 ###################################################
 ## hhcapture("iinf-f3.Rout", '
 rt5 <- rt(300, df=5)
@@ -560,7 +560,7 @@ ks.test(rnn, function(x)pt(x, df=2))
 
 
 ###################################################
-### code chunk number 25: iinf.tex:2279-2308
+### code chunk number 25: iinf.tex:2280-2309
 ###################################################
 plotks1 <- function(x, pfunction, ..., xlim=range(x), ylim.dev=c(-.10, .10)) {
   sx <- sort(x)
@@ -594,7 +594,7 @@ print(KSnn, position=c(.5,0,1,1), more=FALSE)
 
 
 ###################################################
-### code chunk number 26: iinf.tex:2337-2340
+### code chunk number 26: iinf.tex:2338-2341
 ###################################################
 ## hhcapture("iinf-f32.Rout", '
 ks.test(rt5, rnn)
@@ -602,7 +602,7 @@ ks.test(rt5, rnn)
 
 
 ###################################################
-### code chunk number 27: iinf.tex:2353-2367
+### code chunk number 27: iinf.tex:2354-2368
 ###################################################
 plotks2 <- function(x, y, ..., xlim=range(x,y), ylim.dev=c(-.10, .10)) {
   sx <- sort(x)

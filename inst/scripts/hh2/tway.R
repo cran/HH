@@ -92,7 +92,7 @@ summary(displayr.aov)
 
 
 ###################################################
-### code chunk number 9: tway.tex:884-904
+### code chunk number 9: tway.tex:885-905
 ###################################################
 ## hhpdf("plasmaint.pdf", col=col3x2) ## col is not an argument for grDevices:::pdf
 data(plasma)
@@ -117,7 +117,7 @@ xyplot(plasma ~ time | id, data=plasma, type="b", pch=19, layout=c(1, 10),
 
 
 ###################################################
-### code chunk number 10: tway.tex:927-931
+### code chunk number 10: tway.tex:928-932
 ###################################################
 ## hhcapture("plasma.Rout", '
 plasma.aov <- aov(plasma ~ Error(id) + time, data=plasma)
@@ -126,7 +126,7 @@ summary(plasma.aov)
 
 
 ###################################################
-### code chunk number 11: tway.tex:955-962
+### code chunk number 11: tway.tex:956-963
 ###################################################
 plasma$time <-
    factor(plasma$time, levels=unique(plasma$time), ordered=FALSE)
@@ -138,7 +138,7 @@ mmcplot(mmc(plasma.aov, focus="time"), h=c(.6, .4), style="both",
 
 
 ###################################################
-### code chunk number 12: tway.tex:1294-1308
+### code chunk number 12: tway.tex:1295-1309
 ###################################################
 ## hhcapture("StudentizedRange.Rout", '
 ## This output table is not included as a Table in the book.
@@ -157,7 +157,7 @@ sqrt(2*ms.res/8) * attr(confint(displayf.mmc$mca$glht)$confint, "calpha")  ## mi
 
 
 ###################################################
-### code chunk number 13: tway.tex:1373-1385
+### code chunk number 13: tway.tex:1374-1386
 ###################################################
 ## hhpdf("workstation.pdf", height=3.5, col=likertColor(2)[2]) ## col is not an argument for grDevices:::pdf
 data(workstation)
@@ -174,7 +174,7 @@ bwplot(devices ~ station | method, data=workstation,
 
 
 ###################################################
-### code chunk number 14: tway.tex:1456-1462
+### code chunk number 14: tway.tex:1457-1463
 ###################################################
 ## hhcapture("workstation.Rout", '
 workstation.aov <- aov(devices ~ method / station,
@@ -185,7 +185,7 @@ model.tables(workstation.aov, "means", se=TRUE)
 
 
 ###################################################
-### code chunk number 15: tway.tex:1588-1605
+### code chunk number 15: tway.tex:1589-1606
 ###################################################
 data(rhiz.alfalfa)
 alfalfa <- reshape2::melt(rhiz.alfalfa, id=c("comb","strain"))
@@ -207,7 +207,7 @@ useOuterStrips(combineLimits(
 
 
 ###################################################
-### code chunk number 16: tway.tex:1614-1631
+### code chunk number 16: tway.tex:1615-1632
 ###################################################
 data(rhiz.clover)
 clover <- reshape2::melt(rhiz.clover, id=c("comb","strain"))
@@ -229,7 +229,7 @@ useOuterStrips(combineLimits(
 
 
 ###################################################
-### code chunk number 17: tway.tex:1672-1714
+### code chunk number 17: tway.tex:1673-1715
 ###################################################
 useOuterStrips(combineLimits(
   bwplot(value ~ comb | strain * variable, data=clover,
@@ -276,7 +276,7 @@ useOuterStrips(combineLimits(
 
 
 ###################################################
-### code chunk number 18: tway.tex:1729-1739
+### code chunk number 18: tway.tex:1730-1740
 ###################################################
 ## hhcapture("rhiz-alf-aov.Rout", '
 ## unset position(rhiz.alfalfa$comb) for glht
@@ -291,7 +291,7 @@ alf.means
 
 
 ###################################################
-### code chunk number 19: tway.tex:1793-1818
+### code chunk number 19: tway.tex:1794-1819
 ###################################################
 ## hhpdf("alfmeans.pdf", height=3.5)
 old.fin <- par()$fin
@@ -321,7 +321,7 @@ par(fin=old.fin)
 
 
 ###################################################
-### code chunk number 20: tway.tex:1835-1840
+### code chunk number 20: tway.tex:1836-1841
 ###################################################
 alf.mmc <- mmc(rhiz.alfalfa.aov, focus="strain")
 ## hhpdf("alfalfammc.pdf", height=8, width=8)
@@ -331,7 +331,7 @@ mmcplot(alf.mmc, h=c(.45, .55), style="both",
 
 
 ###################################################
-### code chunk number 21: tway.tex:1890-1910
+### code chunk number 21: tway.tex:1891-1911
 ###################################################
 alf.comp <- cbind("1,7,10-c"=c(-3, 0, 0, 1, 1, 1),
                   "1,10-7"  =c( 0, 0, 0, 1, 1,-2),
@@ -356,7 +356,7 @@ alf.both2                                                 ## include bottom pane
 
 
 ###################################################
-### code chunk number 22: tway.tex:2020-2042
+### code chunk number 22: tway.tex:2021-2043
 ###################################################
 ## hhpdf("clovint2wt.pdf", height=8, width=8, col=col3x2) ## col is not an argument for grDevices:::pdf
 rcc <- rhiz.clover$comb ## save factor
@@ -383,7 +383,7 @@ rhiz.clover$comb <- rcc ## restore to factor
 
 
 ###################################################
-### code chunk number 23: tway.tex:2096-2102
+### code chunk number 23: tway.tex:2097-2103
 ###################################################
 ## hhcapture("rhiz-clov-aov.Rout", '
 rhiz.clover.aov <- aov(Npg ~ strain * comb, data=rhiz.clover)
@@ -394,7 +394,7 @@ model.tables(rhiz.clover.aov, type="means", se=TRUE)
 
 
 ###################################################
-### code chunk number 24: tway.tex:2155-2168
+### code chunk number 24: tway.tex:2156-2169
 ###################################################
 ## hhcapture("rhiz-clov-nest-aov.Rout", '
 rhiz.clover.nest.aov <-
@@ -412,7 +412,7 @@ summary(rhiz.clover.nest.aov,
 
 
 ###################################################
-### code chunk number 25: tway.tex:2192-2208
+### code chunk number 25: tway.tex:2193-2209
 ###################################################
 ## hhcapture("rhiz-clov-nest-aov-x.Rout", '
 ## Look at the contrasts, their generated dummy variables,
@@ -433,7 +433,7 @@ cnx[seq(1,60,5), c(4,6,8,10,12)]
 
 
 ###################################################
-### code chunk number 26: tway.tex:2230-2236
+### code chunk number 26: tway.tex:2231-2237
 ###################################################
 ## hhcapture("rhiz-clov-nest-aov-x2.Rout", '
 cnxb <- round(coef(summary.lm(rhiz.clover.nest.aov)), 3)
@@ -444,7 +444,7 @@ cnxb[c(1,2,  3,5,7,9,11, 4,6,8,10,12),]
 
 
 ###################################################
-### code chunk number 27: tway.tex:2254-2272
+### code chunk number 27: tway.tex:2255-2273
 ###################################################
 ## The next few code chunks are the setup for the three figures showing
 ## MMC plots of simple effects of the clover data.  All the clover simple
@@ -467,7 +467,7 @@ mmcplot(cs12.mmc,
 
 
 ###################################################
-### code chunk number 28: tway.tex:2275-2288
+### code chunk number 28: tway.tex:2276-2289
 ###################################################
 ## This code chunk gets the common mmc object to be used in the next three figures.
 ## It uses the calpha appropriate for 6 groups, either the clover or the clover+alfalfa,
@@ -485,7 +485,7 @@ csc.ylim <- cs.mmcplot$y.limits
 
 
 ###################################################
-### code chunk number 29: tway.tex:2292-2323
+### code chunk number 29: tway.tex:2293-2324
 ###################################################
 ## This code chunk constructs the lmat matrices for just the clover contrasts
 ## and for just the clover+alfalfa contrasts.
@@ -521,7 +521,7 @@ cloverorth.lmat
 
 
 ###################################################
-### code chunk number 30: tway.tex:2328-2347
+### code chunk number 30: tway.tex:2329-2348
 ###################################################
 ## clover with suppression of clover+alfalfa ticks
 ## The first mmcplot is not in the book.
@@ -545,7 +545,7 @@ mmcplot(mmcPruneIsomeans(csc.mmc, keep = c(1,2,5,10,11,12)),
 
 
 ###################################################
-### code chunk number 31: tway.tex:2374-2392
+### code chunk number 31: tway.tex:2375-2393
 ###################################################
 ## orthogonal contrasts for clover with suppression of clover+alfalfa ticks
 ## The first mmcplot is not in the book.
@@ -568,7 +568,7 @@ mmcplot(mmcPruneIsomeans(csco.mmc, keep = c(1,2,5,10,11,12)),
 
 
 ###################################################
-### code chunk number 32: tway.tex:2419-2440
+### code chunk number 32: tway.tex:2420-2441
 ###################################################
 ## clover+alfalfa with suppression of clover ticks
 ## The first mmcplot is not in the book.
@@ -594,7 +594,7 @@ mmcplot(mmcPruneIsomeans(csca.mmc, keep = c(3,4,6,7,8,9)),
 
 
 ###################################################
-### code chunk number 33: tway.tex:2563-2568
+### code chunk number 33: tway.tex:2564-2569
 ###################################################
 ## hhpdf("feed-i2wt.pdf", height=6, width=8, col=col3x2) ## col is not an argument for grDevices:::pdf)
 data(feed)
@@ -604,7 +604,7 @@ interaction2wt(retained ~ supp + temp, data=feed,
 
 
 ###################################################
-### code chunk number 34: tway.tex:2583-2587
+### code chunk number 34: tway.tex:2584-2588
 ###################################################
 ## hhcapture("feed2.Rout", '
 feed.int.aov <- aov(retained ~ temp * supp, data=feed)
@@ -613,7 +613,7 @@ anova(feed.int.aov)
 
 
 ###################################################
-### code chunk number 35: tway.tex:2612-2620
+### code chunk number 35: tway.tex:2613-2621
 ###################################################
 ## hhcapture("feed3.Rout", '
 feed.aov <- aov(retained ~ temp + supp, data=feed)
@@ -626,7 +626,7 @@ model.tables(feed.aov, type="means", se=TRUE)
 
 
 ###################################################
-### code chunk number 36: tway.tex:2670-2679
+### code chunk number 36: tway.tex:2671-2680
 ###################################################
 data(feed)
 feed$temp <- factor(feed$temp, ordered=FALSE)
@@ -640,7 +640,7 @@ mmcplot(mmc(feed.aov, focus="temp"), style="both") ## not in book
 
 
 ###################################################
-### code chunk number 37: tway.tex:2692-2698
+### code chunk number 37: tway.tex:2693-2699
 ###################################################
 supp.poly <- contr.poly(5)
 row.names(supp.poly) <- levels(feed$supp)
