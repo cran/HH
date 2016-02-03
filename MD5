@@ -1,6 +1,6 @@
-b9a4a1b3194578d27568dffbf0306857 *DESCRIPTION
+5bb4f9a5d78243fc681c089f5572df54 *DESCRIPTION
 7853fc341f4f9bd5103572b093d0d9b1 *NAMESPACE
-a940cfbccc7eac1c0a686904533c8544 *NEWS
+34f584dc412bf0f3135b4c86ce681e89 *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 747a266397e5231548824d02ef791c38 *R/ARIMA-trellis.R
 6ce14208ee00a74c70368601bb80c5cc *R/F.curve.R
@@ -11,7 +11,7 @@ e10e0b5f5d78b5ded2690a69c79fa144 *R/HH_regsubsets.R
 6d0fec46d94e5f29ae720c0c1a3cbb5b *R/ResizeEtc.R
 a49623fe13586e608840bc48ff7a4cd9 *R/X.residuals.R
 e72a99f1b7c933416c5d10caacd10cc5 *R/ae.dotplot.R
-84a01e81e8219de79ae1ab4c2a267abb *R/ae.dotplot7.R
+eb883b673dd902f26d4682d9f119aad4 *R/ae.dotplot7.R
 8632ce9c9dd8ce7eb52eec30cd1946c2 *R/ancova.R
 a2bb3690407d7d373ae6f6afeb43dd35 *R/ancovaplot.R
 493ab1e2512629fac2eb6c30738de992 *R/anova.mean.R
@@ -50,7 +50,7 @@ f7548e83e50d11992ac7cf997612a214 *R/intxplot.s
 f2be3c34f44738dbd87cc161a563e2b1 *R/ladder.R
 c0d62f542f8f3f6641c507b01747f347 *R/likert.R
 95e78efef9b03abaf1481de82aee2da9 *R/likert.formula.DataFrame.r
-44ef324cd4c411d1b6bc5278ff9b63b4 *R/likert.formula.R
+caab582a0e70ef3cd965cbed912f5b05 *R/likert.formula.R
 ab56b652d424ee8338d04a9d5ad0d11c *R/likertColor.R
 82930360f8f59c5c65c8d5a49c194ef9 *R/likertMosaic.R
 52c6546ff6d3667dbb832369dd1fa6ae *R/lm.case.R
@@ -63,7 +63,7 @@ f52c7828df205239cf4681cb077edf57 *R/lmatRows.R
 b05ef0d7c2f8014cd5ddd036f028c58e *R/mcalinfct.R
 462f631680a06019ab701fbcd5b961fc *R/mcp.993.R
 77cb1375eec38750bf32f4fb674f59cc *R/mmc.explain.R
-c504eda8b209650b6313eb698b0511bf *R/mmcplot.R
+ff63ec53334d032ce9ae506442ea101c *R/mmcplot.R
 00e3fb6a82e56ea05504ed1489ce2efe *R/multicomp.mean.R
 cfe6bf45da4c4c4364336ca3b5d9383c *R/multicomp.mmc.R
 92cc470de39a78ce24432bba000c0469 *R/multicomp.order.R
@@ -310,7 +310,7 @@ ee1a1d0ba88a27caa159bff512d6abeb *demo/likertMosaic-paper.r
 c76d23daa532ddc528686294463b2ace *demo/nottem.r
 50cfbbb39e48559686f260dedc779ffb *demo/tsamstat.r
 2d97b3c1c74f2fbe2c575a506dec1f29 *demo/tsq.r
-fbcca2afb6d61ffa7f390f93ab7e0a6a *inst/CITATION
+513d81b09a74f80aa5122d70ed549cc6 *inst/CITATION
 b6cbaa20258c558bb443ee1ab8b3a5da *inst/scripts/hh1/Ch02-data.r
 fda376289fab7b040dd0a65768f527db *inst/scripts/hh1/Ch03-conc.r
 3ed8b2bfa3446f326b92098e977ec15d *inst/scripts/hh1/Ch04-grap.r
@@ -386,9 +386,9 @@ c3a52a6a7d8de18e81e60a0e5633ff90 *inst/shiny/bivariateNormalScatterplot/ui.R
 1e2775268e8d51c4a2d18a1060ccbd9a *man/F.curve.Rd
 1332f7fffb8e365bda10f9ff3eaf30fb *man/GSremove.Rd
 bc2019dbcf61feb5ece8985d73fd9054 *man/HH-defunct.Rd
-3dea7ac4f465c38b7789872c6af813ea *man/HH.package.Rd
+34950113ad7f34185f7af53ee7236e5c *man/HH.package.Rd
 1af510e606169a102e889cd833682bd1 *man/HH_regsubsets.Rd
-9aed99e2cdd67403b0a62612e77ae456 *man/HHscriptnames.Rd
+adefbd6014dd8fbfc949f393cd05de4d *man/HHscriptnames.Rd
 9709b5abdab5bc80de0c329624fae95f *man/LikertPercentCountColumns.Rd
 b366191a218ec2c2a44f64ea50e9556a *man/NormalAndT.Rd
 87db793afa65a24cc9f6046b0b76f730 *man/NormalAndTplot.Rd
@@ -397,7 +397,7 @@ b366191a218ec2c2a44f64ea50e9556a *man/NormalAndT.Rd
 ab596fc2fdb1acb7f2e57f936e3feb79 *man/ResizeEtc.likertPlot.Rd
 3bf4b9b7814da0537d36ebd584469941 *man/X.residuals.Rd
 121d1be1c9fa5d1d76828cb6d705bcf2 *man/ae.dotplot.Rd
-ce4dc2c15ca5088a5608cb39e4f9295b *man/ae.dotplot7.Rd
+50658bef7da35afcd7a4e8f181c6e3a5 *man/ae.dotplot7.Rd
 a7529e2e663a11fc90b14bed4d7864fd *man/ae.dotplot7a.Rd
 6846d6fdd950f042c9186e9eff38555d *man/ancova-class.Rd
 af9afff170f2bf2eede398a4b1c9d318 *man/ancova.Rd
@@ -412,7 +412,7 @@ a3affc271c6ef76c4d731a3c74570b7f *man/arma.loop.Rd
 dbe7197f49f886de883155c070255b5f *man/as.multicomp.Rd
 cd669a81311e8fc73c77f280d552ae7c *man/as.vector.trellis.Rd
 37472e86c0f55dccaac53a9137cb4935 *man/axis.i2wt.Rd
-63e91c3361e992d08704f0d49699ce24 *man/bivariateNormal.Rd
+84f7e3de249c15f8b56516361c0e6f00 *man/bivariateNormal.Rd
 1a0d677f5216277e76b92f082e3676df *man/ci.plot.Rd
 1249541f110a357e7a72d2ca61363b1e *man/col.hh.Rd
 c08c6d4a0b97964317946fcc732df9fa *man/col3x2.Rd
@@ -432,13 +432,13 @@ f57014b35f563c9baa2c9c028774665b *man/f.chisq.intermediate.Rd
 ec4707353fa475db074292da84932a03 *man/glht.mcp.993.Rd
 3194c17a57e0ac78406eeb901bfb20d7 *man/gof.calculation.Rd
 1a5278e42a0dcc255653ecc221ba802d *man/grid.axis.hh.Rd
-004303790de9d5e4d54e01c319f65eb7 *man/hh.Rd
+06aca1b36caa747be1d53d523e46836c *man/hh.Rd
 f3a8254d85c26a3d4a393ee50d7607c5 *man/hhpdf.Rd
 6bb16456eb62dd4a5f68532191fd45c9 *man/hov.Rd
 d533e24ffc5942b21e960b7171ddfb42 *man/hovBF.Rd
 84fef1edeb973cca38edd20bfc8e53fc *man/if.R.Rd
 21e91bf39121ddfb3572641c68c49aa9 *man/interaction.positioned.Rd
-349bf83e0021772a36b1a122592090bc *man/interaction2wt.Rd
+a40648d204ff6260df40833ac24955a7 *man/interaction2wt.Rd
 76bc8134b08529b562f22150339dc199 *man/interval.Rd
 45e8d8121037e27ede21f9b7aac8164d *man/intxplot.Rd
 ee1062a7be246717c6d9f9f83f7983f5 *man/ladder.Rd
@@ -459,8 +459,8 @@ deca47bfe1a9bd98f211e4aa80adb026 *man/lmplot.Rd
 9a584f51724bb008bfcdc5893b6b3f50 *man/mmc.mean.Rd
 e3c33007f19afe5d436c6c21839e2c67 *man/mmcAspect.Rd
 3fd0a9a3702b69918822ba20357b907f *man/mmcPruneIsomeans.Rd
-8ae4d6236770e5eda92c70942e4522f6 *man/mmcisomeans.Rd
-b762a208032e0046d3dd1b0745fb3951 *man/mmcplot.Rd
+57f024e5565a28ee40fcc0cb874072a7 *man/mmcisomeans.Rd
+91e0a6a1daea6c58fba3e8c62d5d4fc1 *man/mmcplot.Rd
 32880ce0ded58f41489224679d317472 *man/multicomp.order.Rd
 0153ff5b396710f4c28ade89611cf730 *man/multicomp.reverse.Rd
 5bea39bb9c1df11a340c695ff3985471 *man/norm.curve.Rd
@@ -477,7 +477,7 @@ d0492ed06338d10557efe88733fe798e *man/panel.axis.right.Rd
 ba55ace3f5ce329c4482f6d52a1c26db *man/panel.bwplott.Rd
 53a3c5b23b3a89a391ba5beb51304126 *man/panel.cartesian.Rd
 c2e510ef86ed51dbcef924575f39b0f8 *man/panel.ci.plot.Rd
-b0bcac2a0467311fa9561804bdf55607 *man/panel.confintMMC.Rd
+5a4d213f05e7fafa51bd0196ef69da4e *man/panel.confintMMC.Rd
 5039ecca3463cb84b5ad9936f499f640 *man/panel.dotplot.tb.Rd
 f62630f8ef76cce64021a194998c5d8b *man/panel.interaction2wt.Rd
 8d1d1d9d28c410585c2ae55303d1d3a9 *man/panel.isomeans.Rd

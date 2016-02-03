@@ -19,8 +19,11 @@ mmcplot.mmc <- function(mmc, col=col, lwd=lwd, lty=lty, ...,
     mmcmatch(mmc, type=type, col=col, lwd=lwd, lty=lty, ...)
 }
 
-mmcplot.glht <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), focus=stop("Please specify 'focus='.", call.=FALSE ), ...)
+mmcplot.glht <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), focus=mmc$focus, ...) {
+  if (is.null(focus))
+    stop("Please specify 'focus='.", call.=FALSE)
   mmcmatch(as.multicomp.glht(mmc, focus=focus, ...), col=col, lwd=lwd, lty=lty, ..., xlim.match=FALSE)
+}
 
 mmcplot.mmc.multicomp <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
   mmcplot.mmc(mmc, col=col, lwd=lwd, lty=lty, ..., mmc.object.name=deparse(substitute(mmc)))
@@ -44,7 +47,8 @@ mmcisomeans <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, y
                           mmc$none$focus, "level"),
                         ylab.right=NULL,
                         xlab="contrast value",
-                        contrast.label=TRUE) {
+                        contrast.label=TRUE,
+                        means.height=TRUE) {
   mmc.type <- mmc[[type]]
   if (is.null(mmc.type)) {
     if (type %in% c("lmat", "linfct"))
@@ -87,7 +91,9 @@ mmcisomeans <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, y
          contrast.name=tmp$contrast.name,
          par.settings=list(clip=list(panel=FALSE), layout.widths=list(axis.right=axis.right)),
          col=col, lwd=lwd, lty=lty,
-         scales=list(y=list(at=means, tck=c(TRUE, FALSE))),
+         scales=list(y=list(
+                       at=if (means.height) means else NULL,
+                       tck=c(TRUE, FALSE))),
          xlim=xlim,
          ylim=ylim,
          aspect=aspect.ratio,
@@ -228,7 +234,8 @@ mmcboth <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", h=c(.7, .3), xli
 
 
 panel.confintMMC <- function(x, y, subscripts, ..., col, lwd, lty, lower, upper,
-                             contrast.name, right.text.cex=.8) {
+                             contrast.name, right.text.cex=.8,
+                             contrast.height=FALSE) {
   if (is.infinite(lower[subscripts[1]]))
     left <- current.panel.limits()$xlim[1]
   else
@@ -241,6 +248,10 @@ panel.confintMMC <- function(x, y, subscripts, ..., col, lwd, lty, lower, upper,
   panel.points(x, y, pch=3, col=col)
   panel.axis("right", at=y, labels=contrast.name[subscripts],
              text.col=col, line.col=col, outside=TRUE, half=FALSE, text.cex=right.text.cex)
+  if (contrast.height)
+      panel.axis("left", at=y,
+             text.col=col, line.col=col, outside=TRUE, half=FALSE, text.cex=right.text.cex)
+
 }
 
 

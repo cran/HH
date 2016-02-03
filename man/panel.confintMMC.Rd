@@ -11,7 +11,8 @@ interval plot.
 }
 \usage{
 panel.confintMMC(x, y, subscripts, ..., col, lwd, lty, lower, upper,
-                 contrast.name, right.text.cex = 0.8)
+                 contrast.name, right.text.cex = 0.8,
+                 contrast.height=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,6 +42,9 @@ Vector of upper bounds for the intervals.
 Names of the contrasts.
 }
   \item{right.text.cex}{The right axis has non-standard controls.}
+  \item{contrast.height}{Logical.  The alternate \code{TRUE} means
+    display the values of the contrast heights as the left axis tick labels.
+}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{

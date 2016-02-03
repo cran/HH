@@ -32,9 +32,10 @@ AEdotplot.data.frame <- function(xr, ...,
                      AElogrelrisk(xri, ...)
                    })
     class(xaer) <- c("AEtable", class(xaer))
-    result <- do.call("c",
-                      lapply(xaer, AEdotplot, ..., sub=sub)
-            )
+    tmp <- lapply(xaer, AEdotplot, ..., sub=sub)
+    result <- do.call("c", tmp)
+    for (i in seq(length(result)))
+      result[[i]]$par.strip.text <- tmp[[1]][[1]]$par.strip.text
   }
   attr(result, "AEtable") <- xaer
   result
@@ -54,7 +55,7 @@ AEdotplot.AElogrelrisk <-
            key.y=-.2, CI.percent=95, conditionName=deparse(substitute(xr)),
            sortbyRelativeRisk=TRUE,
            ...,
-           sub=list(conditionName, cex=.7)) {
+           sub=list(conditionName, cex=.7), par.strip.text=list(cex=.7)) {
 
     ae.key <- list(y = key.y, x=.15,
                    points = list(col=col.AB, pch=pch.AB),
@@ -83,7 +84,7 @@ AEdotplot.AElogrelrisk <-
                              cex=cex.x.scale,
                              limits=range(c(-.8, xr$PCT+1))),
                            y=list(cex=cex.AB.y.scale)),
-                         par.strip.text=list(cex=.7)
+                         par.strip.text=par.strip.text
                          )
 
     ## construct right panel
@@ -107,7 +108,7 @@ AEdotplot.AElogrelrisk <-
                                 finite=TRUE)),
                             y=list(cex=cex.AB.y.scale)
                             ),
-                          par.strip.text=list(cex=.7),
+                          par.strip.text=par.strip.text,
                           par.settings=list(layout.widths=list(
                                               left.padding=0,
                                               ylab.axis.padding=0))
@@ -150,7 +151,7 @@ AEdotplot.AElogrelrisk <-
                                  at=(1:5)-.1, labels=levels(`nAE, pct, Relative Risk` )),
                                y=list(cex=cex.AB.y.scale)
                                ),
-                             par.strip.text=list(cex=.7),
+                             par.strip.text=par.strip.text,
                              par.settings=list(layout.widths=list(
                                                  left.padding=0,
                                                  ylab.axis.padding=0))
@@ -304,7 +305,9 @@ AEdotplot.AEtable <- function(xr, ..., useCondition=TRUE,
   do.call("c", result)
 }
 
-c.AEdotplot <- function(..., panel.widths=attr(aedp[[1]], "panel.widths")) {
+c.AEdotplot <- function(...,
+                        panel.widths=attr(aedp[[1]], "panel.widths"),
+                        par.strip.text=list(cex=.7)) {
 
   aedp <- list(...) ## (named) list of AEdotplot objects
 
@@ -326,7 +329,7 @@ c.AEdotplot <- function(..., panel.widths=attr(aedp[[1]], "panel.widths")) {
     aei$perm.cond <- 1:2
     aei <- update(aei, xlab=NULL, between=list(y=1))
     aei <- useOuterStrips(aei)
-    aei <- update(aei, par.strip.text=list(cex=.7))
+    aei <- update(aei, par.strip.text=par.strip.text)
     aei <- resizePanels(aei, h=n.events)
     aedps[[i]] <- aei
   }

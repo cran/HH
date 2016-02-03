@@ -158,7 +158,7 @@ See also
 \code{"trellis"} object containing the plot.
 }
 \references{
-Heiberger, Richard M. and Holland, Burt (anticipated 2015).
+Heiberger, Richard M. and Holland, Burt (2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in R}, Second Edition.
  Springer Texts in Statistics. Springer.

@@ -35,7 +35,8 @@ Support functions for the \code{\link{AEdotplot}}.
           conditionName=deparse(substitute(xr)),
           sortbyRelativeRisk=TRUE,
           ...,
-          sub=list(conditionName, cex=.7))
+          sub=list(conditionName, cex=.7),
+          par.strip.text=list(cex=.7))
 
   \method{AEdotplot}{AEtable}(xr, ..., useCondition=TRUE,
                               sub="sub for AEsecond")
@@ -47,7 +48,8 @@ Support functions for the \code{\link{AEdotplot}}.
       panel.widths=attr(x,"panel.widths"),
       AEtable=TRUE)
 
-  \method{c}{AEdotplot}(..., panel.widths=attr(aedp[[1]], "panel.widths"))
+  \method{c}{AEdotplot}(..., panel.widths=attr(aedp[[1]], "panel.widths"),
+                        par.strip.text=list(cex=.7))
 
   AElogrelrisk(ae,
                A.name=levels(ae$RAND)[1],
@@ -174,6 +176,10 @@ Support functions for the \code{\link{AEdotplot}}.
     objects.  It does not update the \code{"main"} and \code{"sub"}
     attributes (nor any other attribute) of the \code{AEdotplot} object.}
 
+  \item{par.strip.text}{Default value for strip labels.  See
+    \code{\link[lattice]{xyplot}}
+    for details.
+}
 %\item{y, groups, lwd}{standard panel function arguments.}
 %\item{lower, upper}{\code{xr$logrelriskCI.lower} and
 %  \code{xr$logrelriskCI.upper} inside the panel functions.}

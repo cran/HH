@@ -11,7 +11,7 @@
 \description{
 Support software for \emph{Statistical Analysis and Data
         Display} (First Edition, Springer, ISBN 0-387-40270-5, 2004) and
-        (Second Edition, Springer, ISBN 978-1-4939-2121-8, anticipated 2015).  This contemporary
+        (Second Edition, Springer, ISBN 978-1-4939-2121-8 2015).  This contemporary
         presentation of statistical methods features extensive use of
         graphical displays for exploring data and for displaying the
         analysis. The authors demonstrate how to analyze data---showing
@@ -44,7 +44,7 @@ Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
 }
 \references{
-  Heiberger, Richard M. and Holland, Burt (anticipated 2015).
+  Heiberger, Richard M. and Holland, Burt (2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in R}, Second Edition.
  Springer Texts in Statistics. Springer.

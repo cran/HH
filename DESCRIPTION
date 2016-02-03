@@ -1,8 +1,8 @@
 Package: HH
 Type: Package
 Title: Statistical Analysis and Data Display: Heiberger and Holland
-Version: 3.1-24
-Date: 2015-12-15
+Version: 3.1-25
+Date: 2016-02-03
 Author: Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
 Depends: R (>= 3.0.2), lattice, stats, grid, latticeExtra, multcomp,
@@ -10,9 +10,9 @@ Depends: R (>= 3.0.2), lattice, stats, grid, latticeExtra, multcomp,
 Imports: reshape2, leaps, vcd, colorspace, RColorBrewer, shiny, Hmisc,
         abind, Rmpfr (>= 0.6.0), grDevices
 Suggests: methods, mvtnorm, car, Rcmdr, RcmdrPlugin.HH, TeachingDemos
-Description: Support software for Statistical Analysis and Data Display (Second Edition, Springer, ISBN 978-1-4939-2121-8, anticipated 2015) and (First Edition, Springer, ISBN 0-387-40270-5, 2004) by Richard M. Heiberger and Burt Holland.  This contemporary presentation of statistical methods features extensive use of graphical displays for exploring data and for displaying the analysis.  The second edition includes redesigned graphics and additional chapters. The authors emphasize how to construct and interpret graphs, discuss principles of graphical design, and show how accompanying traditional tabular results are used to confirm the visual impressions derived directly from the graphs. Many of the graphical formats are novel and appear here for the first time in print.  All chapters have exercises.  All functions introduced in the book are in the package.  R code for all examples, both graphs and tables, in the book is included in the scripts directory of the package.
+Description: Support software for Statistical Analysis and Data Display (Second Edition, Springer, ISBN 978-1-4939-2121-8, 2015) and (First Edition, Springer, ISBN 0-387-40270-5, 2004) by Richard M. Heiberger and Burt Holland.  This contemporary presentation of statistical methods features extensive use of graphical displays for exploring data and for displaying the analysis.  The second edition includes redesigned graphics and additional chapters. The authors emphasize how to construct and interpret graphs, discuss principles of graphical design, and show how accompanying traditional tabular results are used to confirm the visual impressions derived directly from the graphs. Many of the graphical formats are novel and appear here for the first time in print.  All chapters have exercises.  All functions introduced in the book are in the package.  R code for all examples, both graphs and tables, in the book is included in the scripts directory of the package.
 License: GPL (>= 2)
 NeedsCompilation: no
-Packaged: 2015-12-15 15:40:48 UTC; rmh
+Packaged: 2016-02-03 06:28:20 UTC; rmh
 Repository: CRAN
-Date/Publication: 2015-12-15 20:48:23
+Date/Publication: 2016-02-03 22:57:42

@@ -1,4 +1,21 @@
+Version 3.1-25
+
+* 2016 Feb 01
+
+* change getLikertDataLong to use value.var= instead of value= for
+  dcast, to avoid unnecessary warning
+
+* add ability of mmcplot.glht to recognize non-NULL mmc$focus
+
+* add additional labeling control to mmcisomeans and panel.confintMMC
+
+* add additional control of par.strip.text for AEdotplot objects
+
+* Sent to CRAN xxxx-xx-xx
+
+
 Version 3.1-24
+--------------
 
 * 2015 Dec 15
 
@@ -10,7 +27,7 @@ Version 3.1-24
 * Make HH dependent on Rmpfr_0.6-0 which now includes formatBin and formatHex.
   Therefore remove the older versions of formatBin and formatHex from HH.
 
-* Sent to CRAN 2015-12-15
+* On CRAN 2015-12-15
 
 
 Version 3.1-23

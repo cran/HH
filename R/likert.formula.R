@@ -533,7 +533,7 @@ getLikertDataLong <- function(x, data, varNamesUsedLong) {
 
   varNamesUsed <- c(varNamesUsedLong[c("QuestionName","CondNames")],
                     Nums=levels(data[[varNamesUsedLong$LevelNames]]))
-  data2 <- reshape2::dcast(y, data=data[unlist(varNamesUsedLong)], value=varNamesUsedLong$Value)
+  data2 <- reshape2::dcast(y, data=data[unlist(varNamesUsedLong)], value.var=varNamesUsedLong$Value)
   list(data.list=getLikertData(data2, varNamesUsed), varNamesUsed=varNamesUsed, x=x)
 }
 

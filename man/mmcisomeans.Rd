@@ -19,7 +19,8 @@ mmcisomeans(mmc, col=col, lwd=lwd, lty=lty,
               mmc$none$focus, "level"),
             ylab.right=NULL,
             xlab="contrast value",
-            contrast.label=TRUE)
+            contrast.label=TRUE,
+            means.height=TRUE)
 
 mmcmatch(mmc, col=col, lwd=lwd, lty=lty,
          type = "mca", xlim = NULL, ylim = NULL, ...,
@@ -78,12 +79,14 @@ at the bottom of the right axis under the tick labels.
   \item{MMCname, Tiebreakername}{
 Panel names when \code{mmcplot} is used with \code{style="both"}.
 }
-  \item{xlim.match}{
+\item{xlim.match}{
 Logical.  If \code{TRUE}, use \code{xlim} based on the contrasts in the \code{mca}
 component.  If \code{FALSE}, use \code{xlim} based on the values of the
 estimates
 in the current component.
-If
+}
+\item{means.height}{Logical, with default value \code{TRUE}.  When
+  \code{TRUE}, then display the values of the group means as the left axis tick labels.
 }
 }
 \value{

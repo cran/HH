@@ -41,7 +41,7 @@ See \code{\link[lattice]{wireframe}}.
   Based on the \code{galaxy} example on pages 204--205 in
   \emph{S \& S-PLUS Trellis Graphics User's Manual},
   Richard A. Becker and William S. Cleveland (1996),
-\url{http://www.stat.purdue.edu/~wsc/papers/trellis.user.pdf}.
+\url{http://www.albany.edu/acc/courses/acc522fall2007/lecturenotes/trellis.usermanual.pdf}.
 }
 \examples{
 bv8 <- bivariateNormal(.7)  ## all views on one page

@@ -45,7 +45,7 @@ function also prints at the console the pathnames with a single
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \references{
-  Heiberger, Richard M. and Holland, Burt (anticipated 2015).
+  Heiberger, Richard M. and Holland, Burt (2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in R}, Second Edition.
  Springer Texts in Statistics. Springer.

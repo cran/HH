@@ -15,6 +15,15 @@
   files accompanying Heiberger and Holland (2004) are given relative to
   the\cr
   \code{options()$HHfile.ROOT.DIR} directory.
+
+  The methodology described in this help page is DEFUNCT.
+  It was designed for standalone files from the authors' website that
+  matched the First Edition (2004) of their book and were used prior to
+  the construction and distribution of the HH package from CRAN.
+
+  Now the strongly recommended method is to use the HH package from CRAN
+  for all examples from both the First Edition (2004) and the Second
+  Edition (2015).  See the Details section.
 }
 \usage{
 hh(file)     ## gives message about change in usage beginning with HH_2.3-17
@@ -36,7 +45,7 @@ the datasets that come with the HH book and package.
 
 For \code{hh.file} and \code{hh.file.DOS}, the file is in the HH online
 files which need to be independently downloaded from the HH book's
-website \url{http://springeronline.com/0-387-40270-5}.
+website \url{http://astro.temple.edu/~rmh/HH}.
 The pathname is relative to \code{options()$HHfile.ROOT.DIR},
 which must be set by the user to correspond to the location where the HH
 online files are stored on the specific computer.  The \code{file} argument to these
@@ -80,7 +89,7 @@ are not designed to be sourced.  The primary use of the \code{hh.file}
 functions
 is to display the pathname of the file so it can be opened for use in an editor.
 The online files must be independently downloaded from the book's web site
-\url{http://springeronline.com/0-387-40270-5}.
+\url{http://astro.temple.edu/~rmh/HH}.
 The \code{HHfile.ROOT.DIR} option must be set by the user to correspond
 to the location where the files are stored.  The book recommends\cr
 \code{options(HHfile.ROOT.DIR="c:/HOME/hh")} in Windows or\cr

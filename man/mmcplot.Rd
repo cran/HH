@@ -19,7 +19,7 @@ mmcplot(mmc, ...)
                   style=c("isomeans", "confint", "both"),
                   type=c("mca", "lmat", "linfct", "none"))
 \method{mmcplot}{glht}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
-                  focus=stop("Please specify 'focus='.", call.=FALSE ), ...)
+                  focus=mmc$focus, ...)
 \method{mmcplot}{mmc.multicomp}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
 \method{mmcplot}{multicomp}(mmc, col=col, lwd=lwd, lty=lty, ...)
 \method{mmcplot}{default}(mmc, ...)
