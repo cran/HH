@@ -1,4 +1,5 @@
-## library(shiny)
+library(shiny)
+library(lattice)
 
 ## Define server logic
 shinyServer(function(input, output) {

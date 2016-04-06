@@ -499,6 +499,8 @@ Association.
 \author{Richard M. Heiberger, with contributions from Naomi B. Robbins <naomi@nbr-graphs.com>.
 
 Maintainer: Richard M. Heiberger <rmh@temple.edu> }
+\note{Ann Liu-Ferrara was a beta tester for the shiny app.}
+
 
 \note{
 \describe{
@@ -855,6 +857,11 @@ tmpv$x.limits <- abbreviate(tmpv$x.limits,8)
 tmpv$x.scales$rot=c(0, 0)
 tmpv
 
+}
+
+\dontrun{
+  ## run the shiny app
+  shiny::runApp(system.file("shiny/likert", package="HH"))
 }
 
 ## The ProfChal data is done again with explicit use of ResizeEtc

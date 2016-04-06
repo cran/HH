@@ -55,7 +55,16 @@ Support functions for the \code{\link{AEdotplot}}.
                A.name=levels(ae$RAND)[1],
                B.name=levels(ae$RAND)[2],
                crit.value=1.96,
-               sortbyRelativeRisk=TRUE, ...)
+               sortbyRelativeRisk=TRUE, ...,
+                         sortbyVar=c("PREF", ## Event name
+                           "PCT",            ## Percent
+                           "SN",             ## Number of Patients
+                           "SAE",            ## Number of Observed Events
+                           "relrisk",        ## Relative Risk (RR)
+                           "ase.logrelrisk", ## Asymptotic Standard Error(log(RR))
+                           "relriskCI.lower", ## Confidence Interval Bounds
+                           "relriskCI.upper"),
+                         sortbyVarBegin=1)   ## 1 for A treatment, 2 for B treatment
 
   AEmatchSortorder(AEstandard,
                    AEsecond,
@@ -169,6 +178,15 @@ Support functions for the \code{\link{AEdotplot}}.
     calling sequence for \code{AEddotplot.AErelrisk}..
     For \code{c.AEdotplot}, one or more \code{"AEdotplot"} objects.
     For \code{print.AEdotplot}, the \code{\dots} arguments are ignored.
+  }
+
+  \item{sortbyVar}{
+    Specify which variable will be used to provide the sort order in the
+    plot.
+    The names are the internal names for the variables.
+  }
+  \item{sortbyVarBegin}{
+    1 for A treatment, 2 for B treatment.
   }
 
   \item{object}{An \code{AEdotplot} object.  The \code{update} method

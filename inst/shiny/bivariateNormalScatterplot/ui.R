@@ -1,4 +1,5 @@
-## library(shiny)
+library(shiny)
+library(lattice)
 
 ## Define UI for application
 shinyUI(pageWithSidebar(

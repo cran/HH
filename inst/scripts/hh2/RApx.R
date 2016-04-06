@@ -34,7 +34,7 @@ install.packages(c("HH","RcmdrPlugin.HH","RcmdrPlugin.mosaic",
 hhcode("install.packages.R", '
 ## Tell Windows that R should have the same access to the
 ## outside internet that is granted to Internet Explorer.
-setInternet2()
+## setInternet2()  ## this line is defunct beginning with R_3.3.0
 ')
 
 

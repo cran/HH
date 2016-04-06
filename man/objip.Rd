@@ -1,13 +1,15 @@
 \name{objip}
 \alias{objip}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{loop through all attached directories looking for pattern}
+\title{loop through all attached directories looking for pattern,
+  possibly restricting to specified class or mode.}
 \description{
   Loop \code{objects()} through all attached directories
   (items in the \code{search()} list) looking for a regular expression pattern.
 }
 \usage{
-objip(pattern, where = search(), frame=NULL, all.names=FALSE)
+objip(pattern, where = search(), all.names=FALSE, sorted=TRUE, mode="any", class,
+      ls.function=if (mode != "any" || !missing(class)) "ls.str" else "ls")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -15,11 +17,17 @@ objip(pattern, where = search(), frame=NULL, all.names=FALSE)
     that is used to list only a subset of the objects.
     Only names matching 'pattern' are returned.}
   \item{where}{an object defining a database in the search list.}
-  \item{frame}{In S-Plus, an integer giving the frame number.
-    In R, \code{frame} is ignored.}
   \item{all.names}{In R, a logical that is passed to the \code{ls} function.
     If 'TRUE', all object names are returned.
     If 'FALSE', names which begin with a '.' are omitted.}
+  \item{sorted}{See \code{\link[base]{ls}}.}
+  \item{mode, class}{See \code{\link[utils]{ls.str}} and
+    \code{\link[base]{mode}} for storage mode of an object.
+    See \code{\link[base]{class}} for object classes.}
+  \item{ls.function}{Either \code{ls} or \code{ls.str}.  If either
+    \code{mode} or \code{class} is specified then the default is
+    \code{ls.str}.  If neither is specified then the default is
+    \code{ls}.}
 }
 \value{
 A list of 0 or more character vectors.  Each character vector has the
@@ -31,13 +39,7 @@ result.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{
-%% R
-#ifndef S-Plus
   \code{\link[base]{ls}},
-#endif
-#ifdef S-Plus
-  \code{\link[splus]{objects}}.
-#endif
 }
 \examples{
 objip("qq")

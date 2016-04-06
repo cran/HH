@@ -12,7 +12,8 @@ library(HH)
 hhcode("install.packages.RExcel.R", '
 ## Tell Windows that R should have the same access to the outside
 ## internet that is granted to Internet Explorer.
-setInternet2()
+## setInternet2()  ## this line is defunct beginning with R_3.3.0
+
 install.packages(c("rscproxy","rcom"),
                  repos="http://rcom.univie.ac.at/download",
                  type="binary",

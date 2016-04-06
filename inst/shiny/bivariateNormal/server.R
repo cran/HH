@@ -1,5 +1,5 @@
-## library(shiny)
-## library(HH)
+library(shiny)
+library(HH)
 
 ## Define server logic
 shinyServer(function(input, output) {

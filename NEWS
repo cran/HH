@@ -1,6 +1,74 @@
+Version 3.1-30
+--------------
+
+* 2016 Apr 04
+
+* submit to CRAN 2016-04-05
+
+
+
+Version 3.1-29
+--------------
+
+* 2016 Apr 01
+
+* objip now takes mode and class arguments
+
+* shiny apps AEdotplot and likert have better behavior.
+
+* private distribution 2016-04-01
+
+
+
+Version 3.1-28
+--------------
+
+* 2016 Mar 23
+
+* Imports: shiny (>= 0.13.1)
+
+* px.height as a UI input for these shiny apps:
+  AEdotplot, likert, PopulationPyramid, NTplot
+
+* remove references to setInternet2
+
+* private distribution 2016-03-28
+
+
+Version 3.1-27
+--------------
+
+* 2016 Mar 22
+
+* New shiny app for likert.
+
+* private distribution 2016-03-22
+
+
+Version 3.1-26
+--------------
+
+* 2016 Mar 21
+
+* Depends: gridExtra (>= 2.0.0)
+
+* New subdirectory and file inst/shiny/NTplot/app.R, and added library() statements to
+  the bivariateNormalScatterplot and bivariateNormal apps.
+
+* NTplot as a shiny app, NTplot(shiny=TRUE, px.height=575), now has a new pixel-height
+  argument for short browsers.
+
+* AEdotplot: the Adverse Events can now be sorted by several variables
+  in addition to Relative Risk.
+
+* New shiny app for AEdotplot.
+
+* private distribution 2016-03-21
+
+
 Version 3.1-25
 
-* 2016 Feb 01
+* 2016 Feb 03
 
 * change getLikertDataLong to use value.var= instead of value= for
   dcast, to avoid unnecessary warning
@@ -11,7 +79,7 @@ Version 3.1-25
 
 * add additional control of par.strip.text for AEdotplot objects
 
-* Sent to CRAN xxxx-xx-xx
+* On CRAN 2016-02-03
 
 
 Version 3.1-24

@@ -14,11 +14,13 @@ shinyUI(pageWithSidebar(
     sliderInput("year", "Year:",
                 min=1900, max=1970, value=1900,
                 sep="",
-                animate=animationOptions(interval=1000, loop=TRUE))
+                animate=animationOptions(interval=1000, loop=TRUE)),
+        textInput("px.height", "Pixel Height", "600", "150px")
     ),
 
   ##  Display the generated Population Pyramid
   mainPanel(
-    plotOutput("USagePyramidPlot", width="90%", height="600px")
-    )
-  ))
+    uiOutput("plotOutput")
+    ## plotOutput("USagePyramidPlot", width="90%", height=input$px.height)
+  )
+))

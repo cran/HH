@@ -1,39 +1,34 @@
 ## Loop through all attached directories looking for
 ## regular expression pattern.
 
-if (is.R()) { ## R
+objip <-
+  function(pattern, where = search(), all.names=FALSE, sorted=TRUE, mode="any", class,
+           ls.function=if (mode != "any" || !missing(class)) "ls.str" else "ls")
+    {
+      ls.function <- match.arg(ls.function, c("ls", "ls.str"))
+      result <- list()
+      for(i in match(where, search())) {
+        obj <-
+          if (ls.function=="ls")
+            ls(pos=i, pattern = pattern, all.names=all.names, sorted=sorted)
+          else
+            ls.str(pos=i, pattern = pattern, all.names=all.names, mode=mode)
+        if(length(obj) > 0)
+          result[[where[i]]] <- obj
+      }
+      if (ls.function=="ls.str" && !missing(class))
+        for (i in names(result)) {
+          keep <- sapply(result[[i]], function(x, class) is(get(x), class), class)
+          result[[i]] <- result[[i]][keep]
+          if (length(result[[i]]) == 0) result[[i]] <- NULL
+        }
+      result
+    }
 
-     objip <-
-     function(pattern, where = search(), frame=NULL, all.names=FALSE)
-     {
-       ## frame is ignored in the R version
-       result <- list()
-       for(i in match(where, search())) {
-         obj <- objects(pos=i, pattern = pattern, all.names=all.names)
-         if(length(obj) > 0)
-           result[[where[i]]] <- obj
-       }
-       result
-     }
 
-   } else { ## S-Plus
-
-     objip <-
-       function(pattern, where=search(), frame=NULL, all.names=FALSE)
-     {
-       ## all.names is ignored in the S+ version
-       ## Richard M. Heiberger, October 1998, revised July 2006,
-       ## revised September 2013
-       result <- list()
-       for(i in where) {
-         obj <- objects(i, regexpr.pattern = pattern)
-         if(length(obj) > 0) result[[i]] <- obj
-       }
-       for(i in frame) {
-         obj <- objects(frame=i, regexpr.pattern = pattern)
-         if(length(obj) > 0) result[[paste("Frame",i,sep=".")]] <- obj
-       }
-       result
-     }
-
-   }
+if (FALSE) {
+  objip(pat="AE")
+  objip(pat="AE",  class="data.frame")
+  objip(pat="AE",  mode="function")
+  objip(pat="AE",  class="function")
+}

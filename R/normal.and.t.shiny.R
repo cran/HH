@@ -1,28 +1,29 @@
-shiny.NormalAndTplot <- function(x=NULL, ...) {
+shiny.NormalAndTplot <- function(x=NULL, ..., px.height=575) {
   UseMethod("shiny.NormalAndTplot")
 }
 
-shiny.NormalAndTplot.htest <- function(x=NULL, ..., NTmethod="htest") {
-  shiny.NormalAndTplot(NormalAndTplot.htest(x, ...), ..., NTmethod=NTmethod)
+shiny.NormalAndTplot.htest <- function(x=NULL, ..., NTmethod="htest", px.height=575) {
+  shiny.NormalAndTplot(NormalAndTplot.htest(x, ...), ..., NTmethod=NTmethod, px.height=px.height)
 }
 
-shiny.NormalAndTplot.default <- function(x=NULL, ...) {
+shiny.NormalAndTplot.default <- function(x=NULL, ..., px.height=575) {
   ## ignore incoming x
   distribution.name <- list(...)$distribution.name
   if (is.null(distribution.name) ||
       (!is.null(distribution.name) && distribution.name != "binomial"))
-    shiny.NormalAndTplot(NormalAndTplot.default(...))
+    shiny.NormalAndTplot(NormalAndTplot.default(...), px.height=px.height)
   else {
     xlab <- list(...)$xlab
     if (is.null(xlab))
       xlab <- '"w = p = population proportion"'
-    shiny.NormalAndTplot(NormalAndTplot.default(..., xlab=xlab), df=1)
+    shiny.NormalAndTplot(NormalAndTplot.default(..., xlab=xlab), df=1, px.height=px.height)
   }
 }
 
 
 
-shiny.NormalAndTplot.NormalAndTplot <- function(x=NULL, ..., NT=attr(x, "call.list"), NTmethod="default") {
+shiny.NormalAndTplot.NormalAndTplot <- function(x=NULL, ..., NT=attr(x, "call.list"),
+                                                NTmethod="default", px.height=575) {
 
   if (FALSE) {
     ## this is the content and structure of the
@@ -156,7 +157,8 @@ function (x, y)
   shiny::titlePanel(title=NULL, windowTitle="NormalAndT-12"),
 
   ## output
-  plotOutput("distPlot", width="100%", height="575px"),
+  uiOutput("plotOutput"),
+  ## plotOutput("distPlot", width="100%", height=paste0(px.height, "px")),
   textOutput("call"),
 
   ## empty space?
@@ -186,6 +188,7 @@ function (x, y)
   tags$head(tags$style(type="text/css", "#cex-main         {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#key-axis-padding {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#position-2       {width: 38px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#px-height        {width: 38px; height: 25px}")),
 
   h6(
   ## fluidRow with a slider input and other inputs
@@ -301,6 +304,10 @@ function (x, y)
                           numericInput10("key-axis-padding", NULL,  7,   min=.1, step=.1)), br(),
                       div(class="numericOverride", "position.2",
                           numericInput10("position-2",        NULL,  .17, min=.1, step=.1)), br()
+                      ),
+               shiny::column(1,
+                      div(class="numericOverride", "px-height",
+                          numericInput10("px-height",        NULL,  px.height, min=1, step=1)), br()
                       ))
     )
   )))
@@ -495,6 +502,10 @@ function(input, output) {
            cex.table=input$"cex-table",
            scales=FALSE, prob=FALSE, position.2=input$"position-2")
     })
+
+  output$plotOutput <- renderUI(
+    plotOutput("distPlot", width="100%", height=input$"px-height")
+  )
 
   output$call <- renderText({
     if ("Call" %in% input$displays) ##(as.logical(input$call))

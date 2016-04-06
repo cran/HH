@@ -506,6 +506,10 @@ importFrom(Rmpfr, mpfr, getPrec)
 importFrom("grDevices", "col2rgb", "colorRampPalette", "dev.copy2eps",
              "heat.colors", "rgb", "trans3d")
 
+importFrom("methods", "is")
+importFrom("utils", "ls.str")
+
+
 ## R/workarounds.R
 ## Unexported objects imported by ':::' calls:
 ##   'grid:::make.xaxis.major' 'grid:::make.xaxis.ticks'

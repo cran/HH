@@ -39,7 +39,11 @@ NTplot(mean0, ...)
   \item{shiny}{Logical.  If \code{TRUE}, a \code{\link[shiny]{shiny}}
     app is started to provide an interactive graphics device in a
     web-browser.  If
-    \code{FALSE}, a plot is drawn on the current graphics device.}
+    \code{FALSE}, a plot is drawn on the current graphics device.
+    For short browser windows (\code{height < 800} pixels), you may
+    adjust the pixel height of the plot in the last user input field on
+    the \code{Fonts} tab.
+  }
   \item{htest}{logical. \code{TRUE} for \code{"htest"} objects.}
   \item{mean1, n, df, sd, sub, alpha.left,
     alpha.right, number.vars}{These variables are ignored here.  They
@@ -142,9 +146,13 @@ demo(NTplot, ask=FALSE)
 
 \dontrun{ ## these are interactive and do not work in static checking of the code
 NTplot(mean0=0, mean1=1, shiny=TRUE)
+NTplot(shiny=TRUE, px.height=475) ## default value is 575
 NTplot(t.test(x1, x2), shiny=TRUE, mean1=1)
 NTplot(power.t.test(power = .90, delta = 1, alternative = "one.sided"), shiny=TRUE)
 NTplot(NT.object, shiny=TRUE)
+
+## run the shiny app
+shiny::runApp(system.file("shiny/NTplot", package="HH"))
 }
 
 }

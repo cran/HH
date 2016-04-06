@@ -363,18 +363,29 @@ c.AEdotplot <- function(...,
 
 
 ## Calculate the percent, the relative risk, the log relative risk,
-## and the confidence intervals.
-## if (sortbyRelativeRisk) {make PREF an ordered factor, sorted by the relative risk}
-## else {use the order implied by levels(PREF) as the order.  This will normally
-## be alphabetical unless the user has taken control}.
+## and the confidence intervals.  if (sortbyRelativeRisk) {make PREF
+## an ordered factor, sorted by the relative risk} else {use the order
+## implied by levels(PREF) as the order.  This will normally be
+## alphabetical unless the user has taken control}.  The user may
+## instead specify the variable for sorting.  The names are the names
+## used inside this function.
 AElogrelrisk <- function(ae,
                          A.name=levels(ae$RAND)[1],
                          B.name=levels(ae$RAND)[2],
                          crit.value=1.96,
-                         sortbyRelativeRisk=TRUE, ...) {
+                         sortbyRelativeRisk=TRUE, ...,
+                         sortbyVar=c("PREF", ## Event name
+                           "PCT",            ## Percent
+                           "SN",             ## Number of Patients
+                           "SAE",            ## Number of Observed Events
+                           "relrisk",        ## Relative Risk (RR)
+                           "ase.logrelrisk", ## Asymptotic Standard Error(log(RR))
+                           "relriskCI.lower","relriskCI.upper"), ## Confidence Interval Bounds
+                         sortbyVarBegin=1) {
 
   if (any(ae$SN <= 0))
     stop("At least one AE has 0 patients at risk.", call.=FALSE)
+  sortbyVar <- match.arg(sortbyVar)
   ae$PCT <- 100 * ae$SAE / ae$SN ## percent of patients
 
   ## Calculation of relative risk assumes both A and B PREF are in the
@@ -413,6 +424,13 @@ AElogrelrisk <- function(ae,
   ae$logrelriskCI.upper <- ae$logrelrisk + crit.value*ae$ase.logrelrisk
   ae$relriskCI.lower <- exp(ae$logrelriskCI.lower)
   ae$relriskCI.upper <- exp(ae$logrelriskCI.upper)
+
+  if (!is.null(sortbyVar)) {
+    sortrows <- seq(sortbyVarBegin, nrow(ae), 2)
+    sortby <- ae[sortrows, c("PREF", sortbyVar)]
+    sortby[order(sortby[[sortbyVar]]), "PREF"]
+    ae$PREF <- ordered(ae$PREF, levels=sortby[order(sortby[[sortbyVar]]), "PREF"])
+  }
 
   class(ae) <- c("AElogrelrisk", class(ae))
   ae

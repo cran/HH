@@ -1,5 +1,5 @@
-## library(shiny)
-## library(HH)
+library(shiny)
+library(HH)
 
 ## Define UI for application
 shinyUI(pageWithSidebar(

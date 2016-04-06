@@ -44,7 +44,7 @@ The third panel can be suppressed by the \code{print} method.
   \item{groups}{Variable containing the treatment levels.}
 
   \item{data}{\code{data.frame} containing at least four variables:
-    containing the AE name, the treatment level, the number of observed
+    containing the AE name as a factor, the treatment level as a factor, the number of observed
     AE in that treatment level, the number of
     patients in that treatment group. It may also contain a fifth variable
     containing a condition variable used to
@@ -61,7 +61,7 @@ The third panel can be suppressed by the \code{print} method.
   \item{sub}{Subtitle for the plot.  The default value is the command
   that generates the plot.}
 
-  \item{\dots}{Any of the arguments listed in the
+  \item{\dots}{Any of the arguments (such as the sorting options) listed in the
     calling sequence for the methods documented in
     \code{\link{AEdotplot.data.frame}}.
   }
@@ -134,14 +134,23 @@ Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 }
 
 \author{ Richard M. Heiberger <rmh@temple.edu> }
+\note{Ann Liu-Ferrara was a beta tester for the shiny app.}
 
 \examples{
 ## formula method.  See ?AEdotplot.data.frame for other methods.
 data(AEdata)
 head(AEdata)
 
-AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata)
-AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata)
+AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata)           ## sort by Relative Risk
+AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata)  ## conditioned on Organ System
+
+\dontrun{
+AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata, sortbyVar="PCT")                   ## PCT A
+AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata, sortbyVar="PCT", sortbyVarBegin=2) ## PCT B
+AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata, sortbyRelativeRisk=FALSE)     ## levels(AE)
+AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT, data = AEdata, sortbyVar="ase.logrelrisk")
+}
+
 
 \dontrun{
 %% AEdotplot(AE ~ nAE/nTRT | OrgSys, groups = TRT,
@@ -159,6 +168,12 @@ AEdotplot(AE ~ nAE/nTRT | OrgSys, groups=TRT, data=ABCD.12345, sort=FALSE)
 tmp <- AEdotplot(AE ~ nAE/nTRT, groups = TRT, data = AEdata)
 print(tmp, AEtable=FALSE)
 }
+
+\dontrun{
+  ## run the shiny app
+  shiny::runApp(system.file("shiny/AEdotplot", package="HH"))
+}
+
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

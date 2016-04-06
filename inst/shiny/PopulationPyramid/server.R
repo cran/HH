@@ -26,4 +26,8 @@ shinyServer(function(input, output) {
            ylab="Age")
       )
   })
+
+  output$plotOutput <- renderUI(
+    plotOutput("USagePyramidPlot", width="90%", height=input$px.height)
+  )
 })
