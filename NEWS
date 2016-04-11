@@ -1,7 +1,20 @@
+Version 3.1-31
+--------------
+
+* 2016 Apr 10
+
+* remove sorted argument from objip to achieve backwards compatibility.
+
+* submit to CRAN 2016-04-10
+
+
+
 Version 3.1-30
 --------------
 
 * 2016 Apr 04
+
+* shiny apps AEdotplot and likert have even better behavior.
 
 * submit to CRAN 2016-04-05
 
@@ -12,7 +25,7 @@ Version 3.1-29
 
 * 2016 Apr 01
 
-* objip now takes mode and class arguments
+* objip now takes mode and class arguments (sorted argument doesn't work in R < 3.2.0)
 
 * shiny apps AEdotplot and likert have better behavior.
 

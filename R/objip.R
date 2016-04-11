@@ -2,7 +2,7 @@
 ## regular expression pattern.
 
 objip <-
-  function(pattern, where = search(), all.names=FALSE, sorted=TRUE, mode="any", class,
+  function(pattern, where = search(), all.names=FALSE, mode="any", class,  ## , sorted=TRUE (requires R-3.2.0)a
            ls.function=if (mode != "any" || !missing(class)) "ls.str" else "ls")
     {
       ls.function <- match.arg(ls.function, c("ls", "ls.str"))
@@ -10,7 +10,7 @@ objip <-
       for(i in match(where, search())) {
         obj <-
           if (ls.function=="ls")
-            ls(pos=i, pattern = pattern, all.names=all.names, sorted=sorted)
+            ls(pos=i, pattern = pattern, all.names=all.names) ## , sorted=sorted
           else
             ls.str(pos=i, pattern = pattern, all.names=all.names, mode=mode)
         if(length(obj) > 0)

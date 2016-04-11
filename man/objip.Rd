@@ -8,7 +8,7 @@
   (items in the \code{search()} list) looking for a regular expression pattern.
 }
 \usage{
-objip(pattern, where = search(), all.names=FALSE, sorted=TRUE, mode="any", class,
+objip(pattern, where = search(), all.names=FALSE, mode="any", class,
       ls.function=if (mode != "any" || !missing(class)) "ls.str" else "ls")
 }
 %- maybe also 'usage' for other objects documented here.
@@ -20,7 +20,6 @@ objip(pattern, where = search(), all.names=FALSE, sorted=TRUE, mode="any", class
   \item{all.names}{In R, a logical that is passed to the \code{ls} function.
     If 'TRUE', all object names are returned.
     If 'FALSE', names which begin with a '.' are omitted.}
-  \item{sorted}{See \code{\link[base]{ls}}.}
   \item{mode, class}{See \code{\link[utils]{ls.str}} and
     \code{\link[base]{mode}} for storage mode of an object.
     See \code{\link[base]{class}} for object classes.}

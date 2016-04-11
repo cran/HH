@@ -1,6 +1,6 @@
-e8e40c8b4c7c13e4666cc1d94e4d0afe *DESCRIPTION
+5cdb28e4fcbee2be0fb35caa0d1219d2 *DESCRIPTION
 183ce5c6b26a52ed2d36fbc689aa9ff0 *NAMESPACE
-ac43de7ede596f5e53593b887f09dc2c *NEWS
+c45c64e2835a46bf8b4e52c014abb9f8 *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 747a266397e5231548824d02ef791c38 *R/ARIMA-trellis.R
 6ce14208ee00a74c70368601bb80c5cc *R/F.curve.R
@@ -77,7 +77,7 @@ f49e5b42df3c4854a87d45e78dd71ff2 *R/normal.and.t.power.R
 507894119291d2a722aedc9c909a68c1 *R/normal.and.t.support.R
 daa73f0cf5984b5d3c31e37bb12b2252 *R/normalApproxBinomial.R
 8429f279b6174c95ddcf0f8c2b300fc9 *R/normalTable.R
-3efdc6122233eae00f735fab10e22446 *R/objip.R
+b5b79c21c5a867babf49c6af33233f79 *R/objip.R
 e500a9607a9cf90d2b5eaf48341e686e *R/odds.ratio.R
 b2151b1f8e6276a671171a46940d1bfb *R/orthogonal.s
 866c6ce31a8af37b719bf76fd28f7814 *R/panel.axis.right.R
@@ -472,7 +472,7 @@ e3c33007f19afe5d436c6c21839e2c67 *man/mmcAspect.Rd
 9095e4a307c1e0241301413fc728c30f *man/normal.and.t.and.power.Rd
 d26c2c5a43af6bcb7a60dca244172e18 *man/normalApproxBinomial.Rd
 2aadcfd5ec73cbc2c2a16faf941c41a7 *man/npar.arma.Rd
-34f3b32749cdcf86634374677352b3f4 *man/objip.Rd
+4e763ffbd146c10d2d0b164b37599066 *man/objip.Rd
 a020bb73e29ff127d6d2e8fcdb36da71 *man/odds.ratio.Rd
 2d9788d831d9942ec73d4c94d8304643 *man/orthog.complete.Rd
 edbbd1d43d78fab05a3e5457f75d9529 *man/panel.acf.Rd
