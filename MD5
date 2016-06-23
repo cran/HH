@@ -1,6 +1,6 @@
-5cdb28e4fcbee2be0fb35caa0d1219d2 *DESCRIPTION
+f6297b99d21474837b2ec4e28a02c2bb *DESCRIPTION
 183ce5c6b26a52ed2d36fbc689aa9ff0 *NAMESPACE
-c45c64e2835a46bf8b4e52c014abb9f8 *NEWS
+2b14e80af37810403e686a451099b1a5 *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 747a266397e5231548824d02ef791c38 *R/ARIMA-trellis.R
 6ce14208ee00a74c70368601bb80c5cc *R/F.curve.R
@@ -69,7 +69,7 @@ cfe6bf45da4c4c4364336ca3b5d9383c *R/multicomp.mmc.R
 92cc470de39a78ce24432bba000c0469 *R/multicomp.order.R
 46160c46ca0d963ebfc5322092201504 *R/multicomp.reverse.R
 e306d9447d8d84b605e7dc4a4ed51eb5 *R/norm.curve.R
-128588c839b2dc2c9741fbd18afc672c *R/normal.and.t.R
+88dec59e0b969058b9836a1df0cee542 *R/normal.and.t.R
 2b16d12ba700cd0db0bd7d3b3fc67b8c *R/normal.and.t.htest.R
 f49e5b42df3c4854a87d45e78dd71ff2 *R/normal.and.t.power.R
 208d13d0b018a7e8e2e8505490049b01 *R/normal.and.t.shiny.R
@@ -345,7 +345,7 @@ ad8c502b42f89ef1a8a63a0824906d36 *inst/scripts/hh2/RApx.R
 2e0beb8a4e92c236121e4c659a21e97a *inst/scripts/hh2/cc135.R
 fec91d17423ad625f9400f380bc8e797 *inst/scripts/hh2/conc.R
 b45e40fb324a776f1238623b63c72b15 *inst/scripts/hh2/data.R
-25d2319d21ab5e135294a7d39aa3dde6 *inst/scripts/hh2/dsgn.R
+31bbc4e1f8e18e21bb0c9c6b91cb372e *inst/scripts/hh2/dsgn.R
 2444a58b0c5d96d95687d09d2a967128 *inst/scripts/hh2/dsgntwo.R
 f5e6779289c6207e1f1dd597645b2437 *inst/scripts/hh2/dstr.R
 0563253fb6a5d2d26a668e08fa642cf0 *inst/scripts/hh2/edit.R
@@ -496,7 +496,7 @@ f177951eba40ce8b159da4d7a31aef4d *man/persp.plane.Rd
 1856a8cec8cbe594ab0b9e382bfc7aab *man/plot.multicomp.Rd
 9a10d8b2cf3f4c925907d379a2ecde71 *man/position.Rd
 55f644a7eadb7fc0f87331ec4e70a7d6 *man/positioned-class.Rd
-575e8b7a92038d73cca4728a7db3b990 *man/print.NormalAndTplot.Rd
+34f1762a7bbf39654fe33bda1ef88843 *man/print.NormalAndTplot.Rd
 ec512b58621d50aaab2b5a8a1ce0aaf5 *man/print.TwoTrellisColumns.Rd
 def6b2ed2151761c41baf4ecab380e8b *man/print.latticeresids.Rd
 f01def4ba79daceb11a08d7309ce407d *man/print.tsdiagplot.Rd

@@ -106,6 +106,53 @@ update(cc176.bwplot, par.settings=list(clip=list(panel=FALSE)), scales=list(x=li
    layer(panel.axis("bottom", line.col="black", text.col=0, outside=TRUE))
 ## hhdev.off()
 
+###################################################
+### New material after HH2 publication, using the new microplot::as.includegraphics function
+###################################################
+data(col3x2)
+
+BW <-
+  lattice::bwplot(HH::unpositioned(current) ~ y.adj | current, data=cc176,
+                  panel=HH::panel.bwplot.intermediate.hh,
+                  xlab=NULL,
+                  par.settings=list(
+                    layout.heights=layoutHeightsCollapse(),
+                    layout.widths=layoutWidthsCollapse(),
+                    axis.line=list(col="transparent")),
+                  layout=c(1,1),
+                  scales=list(y=list(relation="free")),
+                  col=col3x2
+                  )
+
+## pdf() here, not hhpdf().  We need the generated files.
+pdf("cc176bwplot%03d.pdf", onefile=FALSE, height=.4, width=3)  ## inch ## BB = 0 0 216 28
+BW ## four individual boxplots without axes
+update(BW[3], ## x-axis
+       par.settings=list(layout.heights=list(axis.bottom=1, panel=0),
+                         axis.line=list(col="black")))
+dev.off()
+
+graphnames <- c(
+"cc176bwplot004.pdf",
+"cc176bwplot003.pdf",
+"cc176bwplot002.pdf",
+"cc176bwplot001.pdf",
+"cc176bwplot005.pdf")
+
+graphicsnames <- microplot::as.includegraphics(graphnames, raise="-.5ex")
+
+treatment <- data.frame(rbind(round(t(tmp)[4:1,], 2), ""), boxplot=graphicsnames)
+
+## With a displayed x-axis
+cc176x.latex <- Hmisc::latex(treatment, rowlabel="Treatment")
+cc176x.latex$style <- "graphicx"
+cc176x.latex  ## this line requires latex in the PATH
+
+###################################################
+### End: New material after HH2 publication, using the new microplot::as.includegraphics function
+###################################################
+
+
 
 ###################################################
 ### code chunk number 7: dsgn.tex:304-321

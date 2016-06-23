@@ -5,7 +5,7 @@
 \usage{
 \method{print}{NormalAndTplot}(x, tablesOnPlot=TRUE, plot=TRUE,
                 scales=FALSE, prob=FALSE, call=FALSE,
-                ..., cex.table=.7, digits=getOption("digits"),
+                ..., cex.table=.7, digits=attr(x, "call.list")$digits,
                 position.2=.17)
 }
 \arguments{

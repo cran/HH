@@ -1,3 +1,17 @@
+Version 3.1-32
+--------------
+
+* 2016 May 23
+
+* repair rounding in wrong place in print.NormalAndTplot
+
+* use new microplot package for improved display of HH2 Figure 13.2 in
+  file scripts/hh2/dsgn.R, chunk 6
+
+* submitted to CRAN 2016-06-22
+
+
+
 Version 3.1-31
 --------------
 
@@ -5,7 +19,7 @@ Version 3.1-31
 
 * remove sorted argument from objip to achieve backwards compatibility.
 
-* submit to CRAN 2016-04-10
+* on CRAN 2016-04-11
 
 
 
