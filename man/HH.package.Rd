@@ -92,11 +92,14 @@ Maintainer: Richard M. Heiberger <rmh@temple.edu>
 
 \examples{
 ## In addition to the examples for each function,
-## there are four interactive shiny apps in the HH package:
+## there are seven interactive shiny apps in the HH package:
 \dontrun{
 NTplot(mean0=0, mean1=1, shiny=TRUE)
-shiny::runApp(file.path(system.file(package="HH"), "shiny/bivariateNormal"))
+shiny::runApp(system.file("shiny/bivariateNormal", package="HH"))
 shiny::runApp(system.file("shiny/bivariateNormalScatterplot", package="HH"))
 shiny::runApp(system.file("shiny/PopulationPyramid", package="HH"))
+shiny.CIplot(height = "auto")
+shiny::runApp(system.file("shiny/AEdotplot", package="HH"))
+shiny::runApp(system.file("shiny/likert", package="HH"))
 }
 }

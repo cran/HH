@@ -1,4 +1,5 @@
 \name{pyramidLikert}
+\alias{pyramidLikert}
 \alias{print.pyramidLikert}
 \alias{as.pyramidLikert}
 \title{Print a Likert plot as a Population Triangle}
@@ -93,9 +94,14 @@ likert(USAge.table[75:1, 2:1, c("1939","1959","1979")]/1000000,
        strip.left=FALSE, strip=TRUE,
        layout=c(3,1), between=list(x=.5))
 
+\dontrun{
+  ## run the shiny app
+  shiny::runApp(system.file("shiny/PopulationPyramid", package="HH"))
+}
 
 ## For additional examples, see demo(PoorChildren, package="HH")
 
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \keyword{hplot}
+\keyword{shiny}

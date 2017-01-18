@@ -12,10 +12,11 @@ likert-paper            R code for all examples in Likert paper, using formula m
 likertMosaic-paper      R code for all examples in Likert paper, using mosaic style plots
 likert-paper-noFormula  R code for all examples in Likert paper, not using formula method
 nottem                  HH Exercise 18.5.  Nottingham temperatures from MASS.  In R, one of the models didn't complete.
-tsamstat                All tables and graphs in the Heiberger and Teles article, and some additional ones, are here.
+tsamstat                All tables and graphs in the Heiberger and Teles article, and some additional ones, are here.  For coordination with Chapter 18 of the Second Edition of the HH book, use file HHscriptnames(18) [scripts/hh2/tser.R].
 tsq                     HH Exercise 18.7
 bwplot.examples         Examples controlling spacing and colors of boxplots using the panel.bwplot.intermediate.hh and position functions in the HH package.
 ancova                  This demo produces a composite graph illustrating four models with a factor and a covariate.
 betaWeightedAverage     Regression slope is weighted sum of single-point slopes.
 appleAncova             A composite graph for a blocked analysis of covariance illustrating six models with a response, covariate, treatment factor, and blocking factor.
 NTplot                  All 22 possibilities for the normal plot (limited here to just the one-sided with alternative="greater").
+regr2                   Graph showing the change in predicted y when x1 is changed one unit, holding all other x variables constant.

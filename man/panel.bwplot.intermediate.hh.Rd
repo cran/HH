@@ -10,31 +10,30 @@
 }
 \usage{
 panel.bwplot.intermediate.hh(x, y, horizontal = TRUE,
-          transpose=!horizontal,
-          pch, col,
-          at,  ## formerly S-Plus only, now totally ignored
+          pch, col, lwd,
           ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x, y, pch, col, horizontal}{see
+  \item{x, y, pch, col, lwd, horizontal}{see
     \code{\link[lattice]{xyplot}} and
       \code{\link[lattice]{panel.bwplot}}.}
 
-  \item{transpose}{S-Plus only.  The HH library transposes
-    \code{"trellis"} \code{bwplot} objects to put the response variable
-    on the vertical axis.  R does the equivalent by placing the response
-    variable on the left side of the \code{"~"} in the formula and with
-    the \code{horizontal} argument.}
-
-  \item{at}{formerly S-Plus only, now totally ignored.}
   \item{\dots}{ Extra arguments, if any, for 'panel.bwplot'.  }
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
+\examples{
+## see examples at
+\dontrun{
+  demo("bwplot.examples", package="HH")
+}
+}
+
+\references{
+  Heiberger, Richard M. and Holland, Burt (2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
+  with Examples in R}, Second Edition.
  Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+ ISBN 978-1-4939-2121-8.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link[lattice]{panel.xyplot}},

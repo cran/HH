@@ -1,3 +1,37 @@
+Version 3.1-34
+--------------
+
+* 2017 Jan 18
+
+* CITATION package="HH" reference switched to https
+
+
+Version 3.1-33
+--------------
+
+* 2017 Jan 13
+
+* additional recommended packages listed in scripts/hh2/RApx.R chunk 2
+
+* new repos in scripts/hh2/RExcelApx.R chunk 2
+
+* plot.likert.formula now honors the reference.line.col argument and the border argument.
+
+* CIplot and shiny.CIplot added to illustrate the meaning of confidence levels.
+
+* put keyword shiny in all relevant Rd files and put all shiny apps into examples in those files and in HH.package.Rd
+
+* regr2.plot now returns the transformation constructed internally by persp
+
+* new demo regr2 on the geometry of regression coefficients, based on the revised regr2.plot
+
+* panel.bwplot.intermediate.hh now honors the lwd argument
+
+* NTplot added additional shiny font-size controls
+
+* NTplot now has a Black and White color scheme ntcolors="BW"
+
+
 Version 3.1-32
 --------------
 
@@ -8,7 +42,9 @@ Version 3.1-32
 * use new microplot package for improved display of HH2 Figure 13.2 in
   file scripts/hh2/dsgn.R, chunk 6
 
-* submitted to CRAN 2016-06-22
+* on CRAN 2016-06-23
+
+* HH now suggests the microplot package
 
 
 

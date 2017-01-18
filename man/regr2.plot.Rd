@@ -53,6 +53,9 @@ regr2.plot(x, y, z,
   }
   \item{\dots}{Other arguments to \code{persp}.}
 }
+\value{"Viewing Transformation" for projecting 3D coordinates (x,y,z)
+  into the 2D plane.  See \code{\link[graphics]{persp}} for details.
+}
 \references{ Heiberger, Richard M. and Holland, Burt (2004b).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}.
@@ -65,11 +68,14 @@ HarperCollins.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{
-  This plot is designed as a pedagogical example for introductory courses.
-  When \code{resid.plot=="square"}, then we actually see the set of squares
-  for which the sum of their areas is minimized by the method of "least squares".
+  This plot is designed as a pedagogical example for introductory
+  courses.  When \code{resid.plot=="square"}, then we actually see the
+  set of squares for which the sum of their areas is minimized by the
+  method of "least squares".  The demo called in the examples section
+  shows the geometry of regression coefficients, the change in predicted
+  y when x1 is changed one unit holding all other x variables constant.
 }
-\seealso{\code{\link{resid.squares}}, \code{\link{regr1.plot}}}
+\seealso{\code{\link{resid.squares}}, \code{\link{regr1.plot}}, \code{\link[graphics]{persp}}}
 \examples{
 data(fat)
 regr2.plot(fat[,"abdomin"], xlab="abdomin",
@@ -81,6 +87,11 @@ regr2.plot(fat[,"abdomin"], xlab="abdomin",
            box=is.R(),
            plot.back.planes=FALSE,
            main="Least-squares with two X-variables")
+
+\dontrun{
+  demo("regr2", package="HH", ask=FALSE)
+  ## run the file manually to see the individual steps.
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

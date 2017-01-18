@@ -29,7 +29,7 @@ NormalAndTPower(nt,
                 digits.top.axis=digits, digits.left=digits,
                 col.power=attr(nt, "color")["col.power"],
                 col.beta=attr(nt, "color")["col.beta"],
-                cex.top.axis=1, cex.left.axis=1,
+                cex.pb.axis=1, cex.left.axis=1, cex.xbar=1,
                 lwd.reference=4, lwd.line=2,
                 main=which, ...)
 }
@@ -47,7 +47,7 @@ For the \code{NormalAndTplot} method, a \code{"NormalAndTplot"} object from \cod
 }
 \item{\dots}{Additional arguments passed on to methods.}
 \item{hh}{The \code{h} argument for \code{\link[latticeExtra]{resizePanels}}.}
-\item{digits.top.axis, digits.left, digits, cex.top.axis, cex.left.axis}{
+\item{digits.top.axis, digits.left, digits, cex.pb.axis, cex.left.axis, cex.xbar}{
     \code{digits.top.axis} is the number of significant digits for the top
     axis.  \code{digits.left} is the number of significant digits for
     the observed power or beta on the left axis.  \code{digits} is a
@@ -55,7 +55,8 @@ For the \code{NormalAndTplot} method, a \code{"NormalAndTplot"} object from \cod
     \code{digits.left} at the same time.  These number is passed to the
     \code{\link[base]{format}} function. \code{cex.top.axis} is the \code{cex} value
     for the top axis values.  \code{cex.left.axis} is the \code{cex} value for
-    the observed power or beta on the left axis.
+    the observed power or beta on the left axis.   \code{cex.xbar} is
+    the \code{cex} value for the horizontal axis.
 }
 \item{col.power, col.beta}{Colors used for the crosshairs on the power and beta
   panels.

@@ -26,7 +26,9 @@ tmp <- data.frame(y=rnorm(612),
 gm <- with(tmp, interaction(group, month))
 
 bwplot(y ~ month | group, data=tmp, main="first: three panels with 12 boxes each", layout=c(3,1))
+
 bwplot(y ~ gm, data=tmp, col=mycolors, main="second: one panel with 3*12 boxes")
+
 bwplot(y ~ gm, data=tmp, col=mycolors, main="third: color control of boxes within months",
        panel=panel.bwplot.intermediate.hh)
 

@@ -204,10 +204,10 @@ returned object.
  September 2011, 28--30.
  \url{http://magazine.amstat.org/blog/2011/09/01/visualizingdata/}
 
-Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
-Other Rating Scales.  In JSM Proceedings, Section on Survey Research
-Methods. Alexandria, VA: American Statistical Association, 1058--1066.
-\url{https://www.amstat.org/membersonly/proceedings/2011/papers/300784_64164.pdf}
+%% Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
+%% Other Rating Scales.  In JSM Proceedings, Section on Survey Research
+%% Methods. Alexandria, VA: American Statistical Association, 1058--1066.
+%% \url{https://www.amstat.org/membersonly/proceedings/2011/papers/300784_64164.pdf}
 
 Luo, Amy and Tim Keyes (2005). "Second Set of Results in from the Career
 Track Member Survey," Amstat News. Arlington, VA: American Statistical

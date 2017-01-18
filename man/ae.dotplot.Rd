@@ -182,6 +182,9 @@ aeReshapeToLong(aewide)
 
 }
 
+\seealso{\code{\link{AEdotplot}} for a three-panel version that also has
+an associated shiny app.}
+
 \references{
 Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 ``Graphical Approaches to the Analysis of Safety Data from Clinical Trials''.

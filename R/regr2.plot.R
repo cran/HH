@@ -10,8 +10,6 @@ regr2.plot <- function(x, y, z,
                        theta=0, phi=15, r=sqrt(3), ticktype="detailed", ## R
                        ...) {
 
-  if.R(r=perspp <- trans3d, s={})
-
   ## least squares fit
   zxy.lm <- lm(z  ~ x +  y)
   fit.points <- predict(zxy.lm)
@@ -25,47 +23,20 @@ regr2.plot <- function(x, y, z,
                       length(pretty(y)))
 
   ## 3D display box and axes
-  if.R(r={},
-       s=persp.setup(col=c(0,0,0)) # set to background color
-       )
-  persp.out <- if.R(s={
-    if (is.null(eye))
-      persp(pretty(x),
-            pretty(y),
-            fit.plane,
-            ...)
-    else
-      persp(pretty(x),
-            pretty(y),
-            fit.plane,
-            eye=eye,
-            ...)
-  },r={
-    persp.out <- persp(pretty(x),
-                       pretty(y),
-                       fit.plane,
-                       theta=theta, phi=phi, r=r, ticktype=ticktype,
-                       ...)
-  })
+  persp.out <- persp(pretty(x),
+                     pretty(y),
+                     fit.plane,
+                     theta=theta, phi=phi, r=r, ticktype=ticktype,
+                     ...)
+
   title(main=main.in)
-  if.R(r={},
-       s=persp.setup(restore=TRUE)    # restore default values
-       )
-  
+
   ## 3D observed points
-  persp.points <- if.R(s=
-                       perspp(x, y, z, persp.out)
-                       ,r=
-                       trans3d(x, y, z, persp.out)
-                       )
+  persp.points <- trans3d(x, y, z, persp.out)
   points(persp.points, pch=16, col=1)
 
   ## 3D fitted points
-  persp.fit.points <- if.R(s=
-                           perspp(x, y, fit.points, persp.out)
-                           ,r=
-                           trans3d(x, y, fit.points, persp.out)
-                           )
+  persp.fit.points <- trans3d(x, y, fit.points, persp.out)
   points(persp.fit.points, pch=9, col=2)
 
   ## 3D fitted plane
@@ -75,7 +46,7 @@ regr2.plot <- function(x, y, z,
   if (plot.base.points) {
     ## 3D base plane points
     persp.base.points <-
-      perspp(x, y, fit.points*0, persp.out)
+      trans3d(x, y, fit.points*0, persp.out)
     points(persp.base.points, pch="o")
 
     ## 3D lines from base to fitted
@@ -108,5 +79,5 @@ regr2.plot <- function(x, y, z,
   if (resid.plot != FALSE)
     resid.squares(persp.points$x, persp.points$y,
                   persp.fit.points$y, resid.plot)
-  invisible(NULL)
+  invisible(persp.out)
 }

@@ -1,4 +1,4 @@
-powerplot <- function (nt, ...) {
+powerplot <- function (nt, ...) {                   ### cex.pb.axis=1, cex.left.axis=1,  ### 4: NormalAndTplot.default(mean0, ..., distribution.name = distribution.name)
   UseMethod("powerplot")
 }
 
@@ -11,15 +11,18 @@ powerplot.NormalAndTplot <- function(nt, power=TRUE, beta=FALSE, ...,
     nt <- nt[1]
   }
 
-  ntp <- if (power) NormalAndTPower(nt, "power", ...)
-  ntb <- if (beta)  NormalAndTPower(nt, "beta",  ...)
-
+  ntp <- NormalAndTPower(nt, "power", ...) ## use if (power)
+  ntb <- NormalAndTPower(nt, "beta",  ...) ## use if (beta)
+## recover()
   nt.xlab <- nt$xlab
-  nt <- update(nt, xlab=" ") +
-    layer(panel.axis(at=mean(current.panel.limits()$x),
-                     labels=nt.xlab,
-                     outside=TRUE, rot=0, line.col="transparent"),
-          data=list(nt.xlab=nt.xlab))
+  y.tck <- 1.2 + 3*list(...)$cex.z*(list(...)$zaxis + list(...)$z1axis)
+  nt <- update(nt, xlab=NULL) ###
+  ## nt <- update(nt, xlab=" ") +
+  ##   layer(panel.axis(at=mean(current.panel.limits()$x),
+  ##                    labels=nt.xlab[[1]], text.cex=nt.xlab$cex,
+  ##                    tck=y.tck,
+  ##                    outside=TRUE, rot=0, line.col="transparent"),
+  ##         data=list(nt.xlab=nt.xlab, y.tck=y.tck))
 
   if (power && beta)
     cdpb <- c(density=nt, power=ntp, beta=ntb, layout=c(1,3), y.same=FALSE, x.same=TRUE)
@@ -38,6 +41,7 @@ powerplot.NormalAndTplot <- function(nt, power=TRUE, beta=FALSE, ...,
                                      2)),
                       strip=FALSE, strip.left=TRUE,
                       scales=list(y=list(rot=0), x=list(limits=nt$x.limits)),
+                      par.strip.text=list(cex=list(...)$cex.strip),
                       ylab=NULL)
                )
 
@@ -45,8 +49,9 @@ powerplot.NormalAndTplot <- function(nt, power=TRUE, beta=FALSE, ...,
   result$y.scales$labels <- list(FALSE,NULL,NULL)
   for (pp in seq(along=result$condlevels[[1]])[-1]) {
     result$y.limits[[pp]] <- c(0,1)
-    result$y.scales$at[[pp]] <- ntp$y.scales$at
+    result$y.scales$at[[pp]] <- ntp$y.scales$at           ## ntp and ntb have same at and labels
     result$y.scales$labels[[pp]] <- ntp$y.scales$labels
+
   }
 
 
@@ -62,7 +67,7 @@ NormalAndTPower <- function(nt,
                             digits.left=digits,
                             col.power=attr(nt, "color")["col.power"],
                             col.beta=attr(nt, "color")["col.beta"],
-                            cex.top.axis=1, cex.left.axis=1,
+                            cex.pb.axis=1, cex.left.axis=1, cex.xbar=1,
                             lwd.reference=4, lwd.line=2,
                             main=which, ...) {
   which <- match.arg(which)
@@ -161,9 +166,9 @@ NormalAndTPower <- function(nt,
 
   mean1.expr <- as.expression(substitute(mu1==mean1, c(mean1.alist, ## mu[1]),
       list(mean1=format(nt.mean1, digits=digits.top.axis)))))
-
+ ## recover()
   xyplot(xlim=nt$x.limits, ylim=c(0,1), type="l", col="gray60", lwd=lwd.line,
-         scales=list(y=list(at=seq(0,1,.25), labels=seq(0,1,.25))),
+         scales=list(y=list(at=seq(0,1,.5), labels=seq(0,1,.5))),
          nt.ypower ~ nt.x, main=main, xlab=as.expression(mean1.alist), ##  expression(mu[1]),
          ylab=ylab,
          par.settings=list(clip=list(panel=FALSE))) +
@@ -178,13 +183,21 @@ NormalAndTPower <- function(nt,
              panel.axis("top", at=nt.mean1,
                         labels=mean1.expr,
                         rot=0, outside=TRUE,
-                        text.cex=cex.top.axis,
+                        text.cex=cex.pb.axis,
                         line.col=col.powerbeta, line.lwd=lwd.reference, line.lty=3)
+             ## panel.axis("bottom", at=xlim[1] - .06*diff(xlim),
+             ##            w, rot=0, outside=TRUE, text.cex=cex.xbar)
+             panel.text(x=nt$x.limits[1] - .06*diff(nt$x.limits),
+                        y= -.03 -.22*cex.xbar,
+                        w, rot=0, outside=TRUE, cex=cex.xbar)
            },
-                 data=list(nt.mean1=nt.mean1, nt.powerbeta=nt.powerbeta,
-                   col.powerbeta=col.powerbeta, digits.top.axis=digits.top.axis,
-                   digits.left=digits.left, cex.top.axis=cex.top.axis,
-                   cex.left.axis=cex.left.axis,
-                   lwd.reference=lwd.reference,
-                           mean1.expr=mean1.expr))
+           data=list(nt.mean1=nt.mean1, nt.powerbeta=nt.powerbeta,
+                     col.powerbeta=col.powerbeta, digits.top.axis=digits.top.axis,
+                     digits.left=digits.left, cex.pb.axis=cex.pb.axis,
+                     cex.left.axis=cex.left.axis,
+                     cex.xbar=cex.xbar,
+                     lwd.reference=lwd.reference,
+                     mean1.expr=mean1.expr,
+                     nt=nt,
+                     w=nt$xlab[[1]]))
 }

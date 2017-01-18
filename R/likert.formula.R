@@ -359,33 +359,34 @@ if (!missing(value)) {
   ##   xlab.top <- ylab.right
   ##   ylab.right <- tmp
   ## }
-  result <-
-  barchart(as.formula(FormulaString), groups=data2.melt$.variable,
-           data=data2.melt,
-           as.table=as.table,
-           xlab=xlab, ylab=ylab,
-           ylab.right=ylab.right,
-           xlab.top=xlab.top,
-           main=main, horizontal=horizontal,
-           stack=TRUE,
-           reference=TRUE,
-           col=col[Nums.attr$color.seq],
-           border=col[Nums.attr$color.seq],
-           panel=panel,
-           scales=scales,
-           right.text.cex=right.text.cex,
-           between=between,
-           auto.key=auto.key,
-           par.settings=par.settings,
-           ...,
-           xscale.components=xscale.components,
-           yscale.components=yscale.components,
-           rightAxis=rightAxis,
-           rightAxisLabels=data2.melt$rightAxisLabels,
-           subscripts=TRUE
-           )
-
-
+  barchart.args <-
+    list(as.formula(FormulaString), groups=data2.melt$.variable,
+         data=data2.melt,
+         as.table=as.table,
+         xlab=xlab, ylab=ylab,
+         ylab.right=ylab.right,
+         xlab.top=xlab.top,
+         main=main, horizontal=horizontal,
+         stack=TRUE,
+         reference=TRUE,
+         col=col[Nums.attr$color.seq],
+         panel=panel,
+         scales=scales,
+         right.text.cex=right.text.cex,
+         between=between,
+         auto.key=auto.key,
+         par.settings=par.settings,
+         reference.line.col=reference.line.col,
+         ...,
+         xscale.components=xscale.components,
+         yscale.components=yscale.components,
+         rightAxis=rightAxis,
+         rightAxisLabels=data2.melt$rightAxisLabels,
+         subscripts=TRUE
+         )
+  if (is.null(list(...)$border))
+    barchart.args$border <- barchart.args$col
+  result <- do.call("barchart", barchart.args)
   if (length(h.resizePanels) > 0) {
     if (is.character(h.resizePanels) && h.resizePanels=="rowSums")
       h.resizePanels <- rowSums(data.list$Nums)

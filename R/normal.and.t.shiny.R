@@ -45,6 +45,10 @@ shiny.NormalAndTplot.NormalAndTplot <- function(x=NULL, ..., NT=attr(x, "call.li
          type=type,
          zaxis=zaxis,
          cex.z=cex.z,
+         cex.xbar=cex.xbar,
+         cex.y=cex.y,
+         cex.left.axis=cex.left.axis,
+         cex.pb.axis=cex.pb.axis,
          cex.prob=cex.prob,
          main=main,
          xlab=xlab,
@@ -85,6 +89,10 @@ shiny.NormalAndTplot.NormalAndTplot <- function(x=NULL, ..., NT=attr(x, "call.li
   type=NT$type
   zaxis=NT$zaxis
   cex.z=NT$cex.z
+  cex.xbar=NT$cex.xbar
+  cex.y=NT$cex.y
+  cex.left.axis=NT$cex.left.axis
+  cex.pb.axis=NT$cex.pb.axis
   cex.prob=NT$cex.prob
   main=NT$main
   xlab=NT$xlab
@@ -183,8 +191,15 @@ function (x, y)
   tags$head(tags$style(type="text/css", "#digits-float     {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#cex-table        {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#cex-z            {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-xbar         {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-y            {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-left-axis    {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-pb-axis      {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#cex-prob         {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#cex-top-axis     {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-xlab         {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-ylab         {width: 30px; height: 25px}")),
+  tags$head(tags$style(type="text/css", "#cex-strip        {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#cex-main         {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#key-axis-padding {width: 30px; height: 25px}")),
   tags$head(tags$style(type="text/css", "#position-2       {width: 38px; height: 25px}")),
@@ -271,10 +286,11 @@ function (x, y)
                                          c("Power"[NT$power], "Beta"[NT$beta], "Table"), inline=TRUE)
                       ),
                shiny::column(4,
-                      checkboxGroupInput("probs", NULL, c("Prob values on Graph"="Values","Labels"), c("Values","Labels"), inline=TRUE)
+                      checkboxGroupInput("probs", NULL, c("Prob values on Graph"="Values","Prob Labels"="Labels"), c("Values","Labels"), inline=TRUE)
                       ),
                shiny::column(3,
-                      radioButtons("ntcolors", NULL, c("Original Colors"="original", Stoplight="stoplight"), ntcolors, inline=TRUE)## ,
+                             radioButtons("ntcolors", "Color",
+                                          c(Original="original", Stoplight="stoplight", "Black and White"="BW"), ntcolors, inline=TRUE)## ,
                       )),
       tabPanel("Fonts",
                shiny::column(2,
@@ -292,12 +308,26 @@ function (x, y)
                shiny::column(2,
                       div(class="numericOverride", "cex-z",
                           numericInput10("cex-z",            NULL, cex.z,   min=.1, step=.1)), br(),
-                      div(class="numericOverride", "cex-table",
-                          numericInput10("cex-table",        NULL,  1.2, min=.1, step=.1)), br()
+                      div(class="numericOverride", "cex-xbar",
+                          numericInput10("cex-xbar",         NULL, cex.xbar,min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-y",
+                          numericInput10("cex-y",            NULL, cex.y,   min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-left-axis",
+                          numericInput10("cex-left-axis",    NULL, cex.left.axis,   min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-pb-axis",
+                          numericInput10("cex-pb-axis",      NULL, cex.pb.axis,   min=.1, step=.1)), br()
                       ),
                shiny::column(2,
                       div(class="numericOverride", "cex-main",
-                          numericInput10("cex-main",         NULL,  1.6, min=.1, step=.1)), br()
+                          numericInput10("cex-main",         NULL,  1.6, min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-table",
+                          numericInput10("cex-table",        NULL,  1.2, min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-xlab",
+                          numericInput10("cex-xlab",         NULL,  1.0, min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-ylab",
+                          numericInput10("cex-ylab",         NULL,  1.0, min=.1, step=.1)), br(),
+                      div(class="numericOverride", "cex-strip",
+                          numericInput10("cex-strip",        NULL,  1.0, min=.1, step=.1)), br()
                       ),
                shiny::column(3,
                       div(class="numericOverride", "key-axis-padding",
@@ -355,8 +385,15 @@ function(input, output) {
     HypOrConf,
     zaxes,
     cex.z,
+    cex.xbar,
+    cex.y,
+    cex.left.axis,
+    cex.pb.axis,
     cex.prob,
     cex.top.axis,
+    cex.xlab,
+    cex.ylab,
+    cex.strip,
     main,
     xlab,
     prob.labels,
@@ -389,8 +426,15 @@ function(input, output) {
       z1axis=zaxes,
       zaxis=zaxes,
       cex.z=cex.z,
+      cex.xbar=cex.xbar,
+      cex.y=cex.y,
+      cex.left.axis=cex.left.axis,
+      cex.pb.axis=cex.pb.axis,
       cex.prob=cex.prob,
       cex.top.axis=cex.top.axis,
+      cex.xlab=cex.xlab,
+      cex.ylab=cex.ylab,
+      cex.strip=cex.strip,
       main=main, #
       xlab=xlab, #
       ## ylab, #
@@ -474,8 +518,15 @@ function(input, output) {
       HypOrConf        =type.f,
       zaxes            =zaxes.f,
       cex.z            =input$"cex-z",
+      cex.xbar         =input$"cex-xbar",
+      cex.y            =input$"cex-y",
+      cex.left.axis    =input$"cex-left-axis",
+      cex.pb.axis      =input$"cex-pb-axis",
       cex.prob         =input$"cex-prob",
       cex.top.axis     =input$"cex-top-axis",
+      cex.xlab         =input$"cex-xlab",
+      cex.ylab         =input$"cex-ylab",
+      cex.strip        =input$"cex-strip",
       main=list(
         MainSimpler(mean0.f, mean1.f, xbar.f, stderr.f, n.f, df.f, distribution.name.f,
                     digits=input$"digits-axis", number.vars=number.vars, type=type.f),

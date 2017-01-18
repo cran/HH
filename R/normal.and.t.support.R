@@ -11,6 +11,7 @@ Base <- function(dfunction,
                  number.vars=1,
                  key.axis.padding=4.5,
                  axis.bottom=1,
+                 cex.xbar=1, cex.y=1,
                  ...,
                  par.settings=list(
                    clip=list(panel=FALSE),
@@ -20,7 +21,9 @@ Base <- function(dfunction,
                                        bottom.padding=ifelse(number.vars==1, 1, 2.5)),
                    layout.widths=list(left.padding=7)
                  )) {
-  xyplot(ylim ~ xlim, type="n", ylab=ylab, xlab=xlab, main=main, sub=sub, ...,
+  xyplot(ylim ~ xlim, type="n", ylab=ylab, xlab=xlab, main=main, sub=sub,
+         scales=list(x=list(cex=cex.xbar), y=list(cex=cex.y)),
+         ...,
          par.settings=par.settings)
 }
 

@@ -15,7 +15,8 @@ hhcode("install.packages.RExcel.R", '
 ## setInternet2()  ## this line is defunct beginning with R_3.3.0
 
 install.packages(c("rscproxy","rcom"),
-                 repos="http://rcom.univie.ac.at/download",
+                 repos="http://autstat.com/download", ## new location
+                 ## repos="http://rcom.univie.ac.at/download",  ## in book
                  type="binary",
                  lib=.Library)
 library(rcom)

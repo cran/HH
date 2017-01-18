@@ -120,6 +120,7 @@ chisq.curve,
 chisq.observed,
 chisq.setup,
 ci.plot,
+CIplot,
 col.hh,
 combineLimits.trellisvector,
 ## combineTwoTrellisColumns,
@@ -268,6 +269,7 @@ scaleLocation,
 seqplot,
 seqplotForecast,
 ## shiny.NTplotplot,
+shiny.CIplot,
 strip.background0,
 strip.ladder,
 sufficient,
@@ -479,8 +481,8 @@ importFrom("stats", "Box.test", "acf", "aggregate", "anova", "aov",
              "lm.influence", "lsfit", "median", "model.frame",
              "model.matrix", "model.tables", "na.exclude", "na.pass", "pacf", "pchisq",
              "pf", "pnorm", "ppoints", "predict", "pt", "qchisq", "qf",
-             "qnorm", "qt", "quantile", "reorder", "resid", "residuals", "sd",
-             "summary.lm", "terms", "time", "ts", "tsp", "update", "var")
+             "qnorm", "qt", "quantile", "reorder", "resid", "residuals", "rnorm", "sd",
+             "summary.lm", "t.test", "terms", "time", "ts", "tsp", "update", "var")
 
 importFrom(reshape2, melt, acast, dcast)
 

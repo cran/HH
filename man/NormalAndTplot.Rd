@@ -19,7 +19,9 @@ NormalAndTplot(mean0, ...)
              distribution.name=c("normal","z","t","binomial"),
              type=c("hypothesis", "confidence"),
              zaxis=FALSE, z1axis=FALSE,
-             cex.z=.5, cex.prob=.6, cex.top.axis=1,
+             cex.z=.5, cex.xbar=.5, cex.y=.5, cex.prob=.6, cex.top.axis=1,
+             cex.left.axis=1, cex.pb.axis=1,
+             cex.xlab=1, cex.ylab=1.5, cex.strip=1,
              main=NA, xlab, ylab,
              prob.labels=(type=="hypothesis"),
              xhalf.multiplier=1,
@@ -43,6 +45,9 @@ NormalAndTplot(mean0, ...)
     Null hypothesis \eqn{\mu_0}.
     When graphing a confidence interval, \code{mean0} will be used for
     \code{xbar} should \code{xbar} itself have the value \code{NA}.
+    For the \code{htest} method, \code{mean0} is an \code{"htest"}
+    object.
+    See \code{\link{NTplot}} for more information.
 }
   \item{mean1}{
 Alternative hypothesis \eqn{\mu_1}.
@@ -92,21 +97,15 @@ are not displayed.
 }
   \item{ntcolors}{
 Vector of colors used in the graph.  The default value is
-\code{"original"}, which implies the ten colors \code{c(col.alpha = "blue", col.notalpha = "lightblue",
-    col.beta = "red", col.power = "pink", col.pvalue = "green",
-    col.pvaluetranslucent = green127, col.critical = "gray50",
-    col.border = black127, col.text = "black", col.conf = "lightgreen")}.
-  An alternative is \code{"stoplight"} which implies the ten colors
-  \code{c(col.alpha = "red", col.notalpha = "honeydew2",
-    col.beta = "orange", col.power = "pink", col.pvalue = "blue",
-    col.pvaluetranslucent = blue127, col.critical = "gray50", col.border
-    = black127, col.text = "black", col.conf = "lightgreen")}.
-     The partially transparent colors are: black127="#0000007F",
-    green127="#00FF007F", blue127="#0000FF7F".
- The user can enter any color scheme by specifying a vector of ten
+\code{"original"} and two named alternatives are \code{"stoplight"} and
+\code{"BW"}.
+The sets of colors associated with these three named sets are shown in a \code{dontrun}
+section of the examples.
+ The user can enter any other color scheme by specifying a vector of ten
 named colors.  The names are:
 \code{col.alpha, col.notalpha, col.beta, col.power, col.pvalue,
-col.pvaluetranslucent, col.critical, col.border, col.text, col.conf}.
+  col.pvaluetranslucent, col.critical, col.border, col.text, col.conf}.
+
 }
   \item{digits.axis, digits.float, digits}{
     \code{digits.axis} is the number of significant digits for the top
@@ -129,12 +128,20 @@ col.pvaluetranslucent, col.critical, col.border, col.text, col.conf}.
     version of the argument must have two components \code{at} and \code{labels} as
     specified in \code{\link[lattice]{panel.axis}}.
   }
-  \item{cex.z, cex.prob, cex.top.axis, cex.main}{
+  \item{cex.z, cex.xbar, cex.y, cex.prob, cex.top.axis,
+    cex.left.axis, cex.pb.axis, cex.xlab, cex.ylab, cex.strip,
+    cex.main}{
     \code{cex.z} is the \code{cex} value for the \eqn{z} and \eqn{z_1}
     axes on the plot.  \code{cex.prob} is the \code{cex} value for the
     floating probabilities on the graph. \code{cex.top.axis} is the \code{cex} value
     for the top axis values.  \code{cex.main} is the \code{cex} value for
-    the main title.
+    the main title.  \code{cex.xbar} and \code{cex.y} are the \code{cex}
+    values for the horizontal and vertical axes of the plot.
+    \code{cex.left.axis} and \code{cex.pb.axis} are the \code{cex} values
+    for the power or beta (Type II error) values and the \eqn{\mu_1} value
+    in the power and beta plots.  \code{cex.xlab}, \code{cex.ylab}, and
+    \code{cex.strip} are the \code{cex} values for \code{xlab},
+    \code{ylab}, and \code{strip} labels.
   }
 \item{key.axis.padding}{tuning constant to create additional room above the
   graph for a larger \code{cex.main} to fit.}
@@ -249,19 +256,68 @@ NTplot(xy.t, type="confidence")
 }
 
 \dontrun{
-printbook.colors <- c(  ## based on "original" colors
-  col.alpha             = "blue",
-  col.notalpha          = "lightcyan",  ## this value is nonstandard
-  col.beta              = "red",
-  col.power             = "pink",
-  col.pvalue            = "green",
-  col.pvaluetranslucent = HH:::ColorWithAlpha("springgreen"),  ## this value is nonstandard
-  col.critical          = "gray50",
-  col.border            = HH:::ColorWithAlpha("black"),
+   ##  The partially transparent colors are:
+   black127="#0000007F" ## HH:::ColorWithAlpha("black")
+   green127="#00FF007F" ## HH:::ColorWithAlpha("green")
+   blue127 ="#0000FF7F" ## HH:::ColorWithAlpha("blue")
+
+
+## this is the default set of colors that are assigned when
+## ntcolors="original" or when ntcolors is not specified
+c(col.alpha = "blue",
+  col.notalpha = "lightblue",
+  col.beta = "red",
+  col.power = "pink",
+  col.pvalue = "green",
+  col.pvaluetranslucent = green127,
+  col.critical = "gray50",
+  col.border = black127,
+  col.text = "black",
+  col.conf = "lightgreen")
+
+  NTplot(                 )
+  NTplot(mean1 = 2,       )
+  NTplot(           xbar=1)
+  NTplot(mean1 = 2, xbar=1)
+  NTplot(type="confidence")
+
+
+## this is the set of colors that are assigned when ntcolors="stoplight"
+c(col.alpha = "red",
+  col.notalpha = "honeydew2",
+  col.beta = "orange",
+  col.power = "pink",
+  col.pvalue = "blue",
+  col.pvaluetranslucent = blue127,
+  col.critical = "gray50",
+  col.border = black127,
+  col.text = "black",
+  col.conf = "lightgreen")
+
+  NTplot(                   ntcolors="stoplight")
+  NTplot(mean1 = 2,         ntcolors="stoplight")
+  NTplot(           xbar=1, ntcolors="stoplight")
+  NTplot(mean1 = 2, xbar=1, ntcolors="stoplight")
+  NTplot(type="confidence", ntcolors="stoplight")
+
+## this is the set of colors that are assigned when ntcolors="BW"
+c(col.alpha             = "gray35",
+  col.notalpha          = "gray85",
+  col.beta              = "gray15",
+  col.power             = "gray40",
+  col.pvalue            = "gray50",
+  col.pvaluetranslucent = HH:::ColorWithAlpha("gray65"),
+  col.critical          = "gray15",
+  col.border            = "gray75",
   col.text              = "black",
-  col.conf              = "lightgreen"
-)
-NTplot(ntcolors=printbook.colors) ## different colors
+  col.conf              = "gray45")
+
+  NTplot(                   ntcolors="BW")
+  NTplot(mean1 = 2,         ntcolors="BW")
+  NTplot(           xbar=1, ntcolors="BW")
+  NTplot(mean1 = 2, xbar=1, ntcolors="BW")
+  NTplot(type="confidence", ntcolors="BW")
+
 }
 
 \dontrun{

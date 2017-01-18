@@ -289,8 +289,16 @@ yscale.components.right.HH(...)
     In addition, it interchanges the meaning of \code{resize.height} and
     \code{resize.width} arguments
     to the \code{likert} functions applied to arrays and lists.}
-  \item{\dots}{other arguments. These will be passed to the \code{barchart}
-    function by the \code{plot.likert} method.
+  \item{\dots}{other arguments.  These will be passed to the \code{barchart}
+    function by the \code{plot.likert} method.  The most useful of these
+    is the \code{border} argument which defaults to make the borders of
+    the bars the same color as the bars themselves.  A scalar
+    alternative (\code{border="white"} being our first choice) puts a border
+    around each bar in the stacked barchart.  This works very well when
+    the \code{ReferenceZero} line is between two levels.  It gives a
+    misleading division of the central bar when the \code{ReferenceZero}
+    is in the middle of a level.  See the example in the examples
+    section.
     Arguments to the \code{lattice} \code{auto.key=list()} argument
     (described in \code{\link[lattice]{barchart}}) will be used in the
     legend.  See the examples.}
@@ -469,7 +477,9 @@ yscale.components.right.HH(...)
 }
 
 \seealso{\code{\link[lattice]{barchart}}, \code{\link{ResizeEtc}},
-         \code{\link{as.likert}}, \code{\link{as.matrix.listOfNamedMatrices}}}
+         \code{\link{as.likert}},
+         \code{\link{as.matrix.listOfNamedMatrices}},
+	 \code{\link{pyramidLikert}}}
 \references{
   Richard M. Heiberger, Naomi B. Robbins (2014).,
         "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
@@ -486,10 +496,10 @@ yscale.components.right.HH(...)
  September 2011, 28--30.
  \url{http://magazine.amstat.org/blog/2011/09/01/visualizingdata/}
 
-Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
-Other Rating Scales.  In JSM Proceedings, Section on Survey Research
-Methods. Alexandria, VA: American Statistical Association, 1058--1066.\cr
-\url{https://www.amstat.org/membersonly/proceedings/2011/papers/300784_64164.pdf}
+%% Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
+%% Other Rating Scales.  In JSM Proceedings, Section on Survey Research
+%% Methods. Alexandria, VA: American Statistical Association, 1058--1066.\cr
+%% \url{https://www.amstat.org/membersonly/proceedings/2011/papers/300784_64164.pdf}
 
 Luo, Amy and Tim Keyes (2005). "Second Set of Results in from the Career
 Track Member Survey," Amstat News. Arlington, VA: American Statistical
@@ -631,12 +641,13 @@ likert(Responses, horizontal=FALSE,
 ## strength of agreement or disagreement, that can increase in two directions.
 
 ## Initially we use the default Blue palette in the sequential_hcl function.
+data(AudiencePercent)
 likert(AudiencePercent,
        auto.key=list(between=1, between.columns=2),
        xlab=paste("Percentage of audience younger than 35 (left of zero)",
                   "and older than 35 (right of zero)"),
        main="Target Audience",
-       col=rev(sequential_hcl(4)),
+       col=rev(colorspace::sequential_hcl(4)),
        sub="This plot looks better in a 7in x 3.5in window.")
 
 ## The really light colors in the previous example are too light.
@@ -648,7 +659,7 @@ likert(AudiencePercent,
        xlab=paste("Percentage of audience younger than 35",
          "(left of zero) and older than 35 (right of zero)"),
        main="Brand A has the most even distribution of ages",
-       col=sequential_hcl(11)[5:2],
+       col=colorspace::sequential_hcl(11)[5:2],
        scales=list(x=list(at=seq(-90,60,10),
                      labels=as.vector(rbind("",seq(-80,60,20))))),
       sub="This plot looks better in a 7in x 3.5in window.")
@@ -860,6 +871,16 @@ tmpv
 }
 
 \dontrun{
+## illustration that a border on the bars is misleading when it splits a bar.
+tmp <- data.frame(a=1, b=2, c=3)
+likert(~ . , data=tmp, ReferenceZero=2, main="No border. OK.")
+likert(~ . , data=tmp, ReferenceZero=2, border="white",
+       main="Border. Misleading split of central bar.")
+likert(~ . , data=tmp, ReferenceZero=2.5, main="No border. OK.")
+likert(~ . , data=tmp, ReferenceZero=2.5, border="white", main="Border. OK.")
+}
+
+\dontrun{
   ## run the shiny app
   shiny::runApp(system.file("shiny/likert", package="HH"))
 }
@@ -869,3 +890,4 @@ tmpv
 
 }
 \keyword{hplot}
+\keyword{shiny}

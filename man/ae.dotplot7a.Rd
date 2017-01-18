@@ -180,3 +180,4 @@ print(tmp, AEtable=FALSE)
 % R documentation directory.
 \keyword{ hplot }
 \keyword{ htest }
+\keyword{shiny}

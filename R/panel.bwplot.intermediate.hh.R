@@ -1,16 +1,12 @@
 "panel.bwplot.intermediate.hh" <-
 function (x, y,
           horizontal = TRUE,
-          transpose=!horizontal,
           pch,
           col,
-          at,  ## formerly S-Plus only, now totally ignored
+          lwd,
           ...
           )
 {
-  if (missing(horizontal) && !missing(transpose))
-    horizontal <- !transpose
-
   fac.levels <- if (horizontal) levels(y) else levels(x)
   box.par <- list(box.dot=trellis.par.get("box.dot"),
                   box.rectangle=trellis.par.get("box.rectangle"),
@@ -22,6 +18,10 @@ function (x, y,
   tpg.col <- rep(tpg$col, length=length(fac.levels))
   if (!missing(pch)) pch <- rep(pch, length=length(fac.levels))
   if (!missing(col)) tpg.col <- rep(col, length=length(fac.levels))
+  if (!missing(lwd)) {
+    box.par$box.rectangle$lwd <- rep(lwd, length=length(fac.levels))
+    box.par$box.umbrella$lwd <- rep(lwd, length=length(fac.levels))
+  }
 
   for (i in seq(along=fac.levels)) {
     if (!missing(pch)) {

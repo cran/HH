@@ -34,7 +34,11 @@ NTplot(mean0, ...)
   }
   \item{xbar}{See \code{\link{NormalAndTplot}}.}
   \item{\dots}{Other arguments, selected from the options for the
-    default method \code{\link{NormalAndTplot}}.
+    default method \code{\link{NormalAndTplot}}.  Three named color schemes
+    are available: the default \code{ntcolors="original"},
+    \code{ntcolors="stoplight"}, and \code{ntcolors="BW"}.  Their
+    definitions, along with information on specifying other color schemes, are
+    shown in \code{\link{NormalAndTplot}}.
   }
   \item{shiny}{Logical.  If \code{TRUE}, a \code{\link[shiny]{shiny}}
     app is started to provide an interactive graphics device in a
@@ -72,7 +76,9 @@ The shiny app (called when the argument \code{shiny=TRUE})
 provides animated sliders for the means, standard
 deviation, xlimits, significance levels, df, and n.  The df and n are
 rounded to integers for the sliders (relevant for \code{htest} and
-\code{power.htest} objects).
+\code{power.htest} objects). Checkboxes and Radio buttons are available
+for
+various display options
 
 When you have a graph on the shiny window that you wish to keep, click
 on the "Display Options" tab, and then on the "Display Call" radio

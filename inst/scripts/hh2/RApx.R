@@ -16,10 +16,12 @@ install.packages(c("HH","RcmdrPlugin.HH","RcmdrPlugin.mosaic",
                    "matrixcalc", "sem", "relimp", "lmtest",
                    "markdown", "knitr", "effects", "aplpack",
                    "RODBC", "TeachingDemos",
-                   "gridGraphics", "gridSVG"),
+                   "gridGraphics", "gridSVG",
+                   "htmlTable"),  ## new package since book was published
                  dependencies=TRUE)
 
-## This is the sufficient list (as of 16 August 2015) of packages
+## This is the sufficient list (as of 21 July 2016) of packages
+## ## This is the sufficient list (as of 16 August 2015) of packages ## as listed in book
 ## needed in order to install the HH package.  Should
 ## additional dependencies be declared by any of these packages
 ## after that date, the first use of "library(HH)" after the

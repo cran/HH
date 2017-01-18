@@ -122,7 +122,9 @@ NormalAndTplot.default <- function(mean0=0,
                                    distribution.name=c("normal","z","t","binomial"),
                                    type=c("hypothesis", "confidence"),
                                    zaxis=FALSE, z1axis=FALSE,
-                                   cex.z=.5, cex.prob=.6, cex.top.axis=1,
+                                   cex.z=.5, cex.xbar=.5, cex.y=.5, cex.prob=.6, cex.top.axis=1,
+                                   cex.left.axis=1, cex.pb.axis=1,
+                                   cex.xlab=1, cex.ylab=1.5, cex.strip=1,
                                    main=NA, xlab, ylab,
                                    prob.labels=(type=="hypothesis"),
                                    xhalf.multiplier=1,
@@ -204,48 +206,59 @@ NormalAndTplot.default <- function(mean0=0,
          }
          )
 
-  green127 <- ColorWithAlpha("green")
-  blue127 <- ColorWithAlpha("blue")
-  black127 <- ColorWithAlpha("black")
+  green127  <- ColorWithAlpha("green")    ## HH:::ColorWithAlpha("green")
+  blue127   <- ColorWithAlpha("blue")     ## HH:::ColorWithAlpha("blue")
+  black127  <- ColorWithAlpha("black")    ## HH:::ColorWithAlpha("black")
+  gray65127 <- ColorWithAlpha("gray65")   ## HH:::ColorWithAlpha("gray65")
 
   if (length(ntcolors)==1) {
 
-  if (ntcolors == "original") {
-    col.alpha             <- "blue"
-    col.notalpha          <- "lightblue"
-    col.beta              <- "red"
-    col.power             <- "pink"
-    col.pvalue            <- "green"
-    col.pvaluetranslucent <- green127
-    col.critical          <- "gray50"
-    col.border            <- black127
-    col.text              <- "black"
-    col.conf              <- "lightgreen"
+    if (ntcolors == "original") {
+      col.alpha             <- "blue"
+      col.notalpha          <- "lightblue"
+      col.beta              <- "red"
+      col.power             <- "pink"
+      col.pvalue            <- "green"
+      col.pvaluetranslucent <- green127
+      col.critical          <- "gray50"
+      col.border            <- black127
+      col.text              <- "black"
+      col.conf              <- "lightgreen"
+    }
+    if (ntcolors == "stoplight") {
+      col.alpha             <- "red"
+      col.notalpha          <- "honeydew2"
+      col.beta              <- "orange"
+      col.power             <- "pink"
+      col.pvalue            <- "blue"
+      col.pvaluetranslucent <- blue127
+      col.critical          <- "gray50"
+      col.border            <- black127
+      col.text              <- "black"
+      col.conf              <- "lightgreen"
+    }
+    if (ntcolors == "BW") {
+      col.alpha             <- "gray35"
+      col.notalpha          <- "gray85"
+      col.beta              <- "gray15"
+      col.power             <- "gray40"
+      col.pvalue            <- "gray50"
+      col.pvaluetranslucent <- gray65127
+      col.critical          <- "gray15"
+      col.border            <- "gray75"
+      col.text              <- "black"
+      col.conf              <- "gray45"
+    }
+  } else {
+    ntcolors.names <- c("col.alpha", "col.notalpha", "col.beta", "col.power",
+                        "col.pvalue", "col.pvaluetranslucent", "col.critical", "col.border",
+                        "col.text", "col.conf")
+    if (!all(match(ntcolors.names, names(ntcolors), nomatch=FALSE)))
+      stop("The 'ntcolors' argument must be a named character vector with names: \n",
+           paste(ntcolors.names, collapse=", "), call.=FALSE)
+
+    for (i in names(ntcolors)) assign(i, ntcolors[i])
   }
-  if (ntcolors == "stoplight") {
-    col.alpha             <- "red"
-    col.notalpha          <- "honeydew2"
-    col.beta              <- "orange"
-    col.power             <- "pink"
-    col.pvalue            <- "blue"
-    col.pvaluetranslucent <- blue127
-    col.critical          <- "gray50"
-    col.border            <- black127
-    col.text              <- "black"
-    col.conf              <- "lightgreen"
-  }
-} else {
-
-  ntcolors.names <- c("col.alpha", "col.notalpha", "col.beta", "col.power",
-                      "col.pvalue", "col.pvaluetranslucent", "col.critical", "col.border",
-                      "col.text", "col.conf")
-  if (!all(match(ntcolors.names, names(ntcolors), nomatch=FALSE)))
-    stop("The 'ntcolors' argument must be a named character vector with names: \n",
-         paste(ntcolors.names, collapse=", "), call.=FALSE)
-
-  for (i in names(ntcolors)) assign(i, ntcolors[i])
-}
-
 
   if (type == "confidence") {
     col.alpha <- "white"
@@ -266,18 +279,20 @@ NormalAndTplot.default <- function(mean0=0,
                    z=list(c(
                      expression(phi(z)/sigma[bar(x)]),
                      expression(phi(z)/sigma[bar(x)[1]-bar(x)[2]]))[number.vars],
-                     cex=1.5, rot=0),
+                     cex=cex.ylab, rot=0),
                    t=list(c(
                      expression(f[nu](t)/s[bar(x)]),
                      expression(f[nu](t)/s[bar(x)[1]-bar(x)[2]]))[number.vars],
-                    cex=1.5, rot=0)
+                    cex=cex.ylab, rot=0)
                    )
 
-  if (distribution.name != "binomial" && missing(xlab))
+  if (distribution.name != "binomial" && (missing(xlab) || is.null(xlab))) {
     xlab <- if (number.vars==1)
               expression(w == bar(x))
             else
               expression(w == bar(x)[1] - bar(x)[2])
+    xlab <- list(xlab, cex=cex.xlab)
+  }
 
   ##  main <- Main(mean0, mean1, xbar, sd, n, df)
   if (missing(main) || is.null(main)) ##|| is.na(main))
@@ -289,7 +304,9 @@ NormalAndTplot.default <- function(mean0=0,
                 ylab=ylab,
                 xlab=xlab,
                 main=main, ...,
-                axis.bottom=1+.13*(zaxis+z1axis)*cex.z,
+                cex.xbar=cex.xbar,
+                cex.y=cex.y,
+                axis.bottom=1 + .13*((zaxis+z1axis)*cex.z),
                 key.axis.padding=key.axis.padding,
                 number.vars=number.vars,
                 sub=sub)
@@ -304,7 +321,7 @@ NormalAndTplot.default <- function(mean0=0,
   zc.left <- qfunction(p=alpha.left, lower=TRUE, df=df)
   xbarc.left <- zc.left * stderr + mean0
   if (is.infinite(xbarc.left) || is.na(xbarc.left)) xbarc.left <- Setup.xlim[1]
-## recover()
+
   Border0 <- Border(dfunction, Setup.xlim[1], Setup.xlim[2], base=TRUE, border=col.border, mean=mean0, stderr=stderr, df=df)
   if (!is.na(mean1))
     Border1 <- switch(distribution.name,
@@ -551,14 +568,14 @@ if (!is.na(mean1)) {
       }
       result <- result + layer(
         {
-          panel.axis("bottom", outside=TRUE, tck=2+cex.z, at=z.at, labels=z.labels,
+          panel.axis("bottom", outside=TRUE, tck=1.2+cex.xbar+1.5*cex.z, at=z.at, labels=z.labels,
                      text.cex=cex.z, rot=0, line.col="transparent")
           panel.text(x=convertX(unit(-3,   "strwidth",  data="z"), unitTo="native", valueOnly=TRUE),
-                     y=convertY(unit(-2-cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
+                     y=convertY(unit(-(1.2+cex.xbar+1.5*cex.z)+.3, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
                      if (distribution.name=="t") "t" else "z",
                      cex=cex.z)
         },
-        data=list(z.at=z.at, z.labels=z.labels, distribution.name=distribution.name, cex.z=cex.z))
+        data=list(z.at=z.at, z.labels=z.labels, distribution.name=distribution.name, cex.z=cex.z, cex.xbar=cex.xbar))
 
       if (z1axis && !is.na(mean1)) {
         stderrz1 <- if (distribution.name=="binomial") sigma.p1 else stderr
@@ -573,14 +590,25 @@ if (!is.na(mean1)) {
         }
         result <- result + layer(
           {
-            panel.axis("bottom", outside=TRUE, tck=3+2*cex.z, at=z1.at, labels=z1.labels,
+            panel.axis("bottom", outside=TRUE, tck=1.2+cex.xbar+3.5*cex.z, at=z1.at, labels=z1.labels,
                        text.cex=cex.z, rot=0, line.col="transparent")
             panel.text(x=convertX(unit(-3,   "strwidth",  data="z"), unitTo="native", valueOnly=TRUE),
-                       y=convertY(unit(-2.75-2*cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
+                       y=convertY(unit(-(1.2+cex.xbar+3.5*cex.z)+.8*cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
                        if (distribution.name=="t") expression(t[1]) else expression(z[1]), cex=cex.z)
           },
-          data=list(z1.at=z1.at, z1.labels=z1.labels, distribution.name=distribution.name, cex.z=cex.z))
+          data=list(z1.at=z1.at, z1.labels=z1.labels, distribution.name=distribution.name, cex.z=cex.z, cex.xbar=cex.xbar))
       }
+
+      if ((zaxis || z1axis) && !(power || beta)) {
+        ## result$xlab <- NULL
+        result <- result + layer(
+          panel.text(x=xlim[1] - .1*diff(xlim),
+                     y= ylim[1] -.05 * diff(ylim),
+                     w, rot=0, outside=TRUE, cex=cex.xbar),
+          data=list(xlim=result$x.limits, ylim=result$y.limits, w=result$xlab[[1]], cex.xbar=cex.xbar)
+          )
+      }
+
     }
   }
   else { ## confidence interval
@@ -606,13 +634,13 @@ if (!is.na(mean1)) {
       }
       result <- result + layer(
         {
-          panel.axis("bottom", outside=TRUE, tck=2+cex.z, at=z.at, labels=z.labels,
+          panel.axis("bottom", outside=TRUE, tck=1.2+cex.xbar+1.5*cex.z, at=z.at, labels=z.labels,
                      text.cex=cex.z, rot=0, line.col="transparent")
           panel.text(x=convertX(unit(-3,   "strwidth",  data="z"), unitTo="native", valueOnly=TRUE),
-                     y=convertY(unit(-2-cex.z, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
+                     y=convertY(unit(-(1.2+cex.xbar+1.5*cex.z)+.3, "strheight", data="z"), unitTo="native", valueOnly=TRUE),
                      ifelse(distribution.name=="t", "t", "z"), cex=cex.z)
         },
-        data=list(z.at=z.at, z.labels=z.labels, distribution.name=distribution.name, cex.z=cex.z))
+        data=list(z.at=z.at, z.labels=z.labels, distribution.name=distribution.name, cex.z=cex.z, cex.xbar=cex.xbar))
     }
   }
 
@@ -682,6 +710,10 @@ if (!is.na(mean1)) {
                                ", zaxis=",zaxis,
                                ", z1axis=",z1axis,
                                ", cex.z=",cex.z,
+                               ", cex.xbar=",cex.xbar,
+                               ", cex.y=",cex.y,
+                               ", cex.left.axis=",cex.left.axis,
+                               ", cex.pb.axis=",cex.pb.axis,
                                ", cex.prob=",cex.prob,
                                ", main=",ExpressionOrText(main),
                                #if (length(main)>1)
@@ -723,7 +755,14 @@ if (!is.na(mean1)) {
                                    zaxis=zaxis,
                                    z1axis=z1axis,
                                    cex.z=cex.z,
+                                   cex.xbar=cex.xbar,
+                                   cex.y=cex.y,
+                                   cex.left.axis=cex.left.axis,
+                                   cex.pb.axis=cex.pb.axis,
                                    cex.prob=cex.prob,
+                                   cex.xlab=cex.xlab,
+                                   cex.ylab=cex.ylab,
+                                   cex.strip=cex.strip,
                                    main=main,
                                    xlab=xlab,
                                    ## ylab=ylab,
@@ -751,8 +790,13 @@ if (!is.na(mean1)) {
   class(result) <- c("NormalAndTplot", class(result))
 
   if (type=="hypothesis" && (power || beta))
-    result <- powerplot(result, power=power, beta=beta, ...)
+    result <- powerplot(result, power=power, beta=beta,
+                        cex.left.axis=cex.left.axis, cex.pb.axis=cex.pb.axis, cex.strip=cex.strip,
+                        cex.xbar=cex.xbar, cex.z=cex.z,
+                        zaxis=zaxis, z1axis=z1axis,
+                        ...)
 
+  if (zaxis || z1axis) result$xlab <- NULL
   result
 }
 
