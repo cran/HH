@@ -3,34 +3,16 @@
 \alias{HH}
 \docType{package}
 \title{
-  Support software for
-  Statistical Analysis and Data Display
-  by
-        Richard M. Heiberger and Burt Holland
+\packageTitle{HH}
 }
 \description{
-Support software for \emph{Statistical Analysis and Data
-        Display} (First Edition, Springer, ISBN 0-387-40270-5, 2004) and
-        (Second Edition, Springer, ISBN 978-1-4939-2121-8 2015).  This contemporary
-        presentation of statistical methods features extensive use of
-        graphical displays for exploring data and for displaying the
-        analysis. The authors demonstrate how to analyze data---showing
-        code, graphics, and accompanying computer listings---for all the
-        methods they cover. They emphasize how to construct and
-        interpret graphs, discuss principles of graphical design, and
-        show how accompanying traditional tabular results are used to
-        confirm the visual impressions derived directly from the
-        graphs. Many of the graphical formats are novel and appear
-        here for the first time in print. All chapters have exercises.
+\packageDescription{HH}
 }
 \details{
-\tabular{ll}{
-Package: \tab HH\cr
-Type: \tab Package\cr
-Version: \tab 1.4\cr
-Date: \tab 2006-08-21\cr
-License: \tab GPL version 2 or newer\cr
-}
+The DESCRIPTION file:
+\packageDESCRIPTION{HH}
+\packageIndices{HH}
+
 %~~ An overview of how to use the package, including the most important functions ~~
 
 data display, scatterplot matrix, (MMC Mean--mean Multiple Comparison)
@@ -39,9 +21,9 @@ series, ARIMA models, boxplots
 
 }
 \author{
-Richard M. Heiberger
+\packageAuthor{HH}
 
-Maintainer: Richard M. Heiberger <rmh@temple.edu>
+Maintainer: \packageMaintainer{HH}
 }
 \references{
   Heiberger, Richard M. and Holland, Burt (2015).
@@ -49,6 +31,7 @@ Maintainer: Richard M. Heiberger <rmh@temple.edu>
   with Examples in R}, Second Edition.
  Springer Texts in Statistics. Springer.
  ISBN 978-1-4939-2121-8.
+
   Heiberger, Richard M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}, First Edition.

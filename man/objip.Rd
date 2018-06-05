@@ -20,7 +20,7 @@ objip(pattern, where = search(), all.names=FALSE, mode="any", class,
   \item{all.names}{In R, a logical that is passed to the \code{ls} function.
     If 'TRUE', all object names are returned.
     If 'FALSE', names which begin with a '.' are omitted.}
-  \item{mode, class}{See \code{\link[utils]{ls.str}} and
+  \item{mode, class}{See \code{\link[utils:ls_str]{ls.str}} and
     \code{\link[base]{mode}} for storage mode of an object.
     See \code{\link[base]{class}} for object classes.}
   \item{ls.function}{Either \code{ls} or \code{ls.str}.  If either

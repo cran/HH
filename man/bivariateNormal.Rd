@@ -23,10 +23,10 @@ Standard \pkg{lattice} arguments.
 }
   \item{angle}{
     This is used as the \code{z} component of the \code{screen} argument to
-    \code{\link[lattice]{panel.wireframe}}.
+    \code{\link[lattice:panel.cloud]{panel.wireframe}}.
 }
   \item{col.regions, \dots}{
-See \code{\link[lattice]{wireframe}}.
+See \code{\link[lattice:cloud]{wireframe}}.
 }
 }
 \details{

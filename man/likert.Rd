@@ -252,7 +252,7 @@ yscale.components.right.HH(...)
     the calling sequence).   When \code{as.percent=="noRightAxis"}, then
     \code{rightAxis} will be set to \code{FALSE}.
   }
-  \item{as.table}{Standard \code{lattice} argument.  See \code{\link[lattice]{barchart}}.}
+  \item{as.table}{Standard \code{lattice} argument.  See \code{\link[lattice:xyplot]{barchart}}.}
   \item{par.settings.in, scales.in, auto.key.in,
     panel.in}{These are placeholders
     for \code{lattice} arguments that lets the user
@@ -260,7 +260,7 @@ yscale.components.right.HH(...)
     ones that are prespecified in the\cr
     \code{plot.likert.default}.}
   \item{ylab, xlab, ylab.right, xlab.top, main}{Standard \code{lattice} graph
-    labels in \code{\link[lattice]{barchart}}.}
+    labels in \code{\link[lattice:xyplot]{barchart}}.}
   \item{right.text.cex}{The right axis, as used here for the
     "Row Count Totals", has non-standard controls.  It's \code{cex}
     follows the \code{cex} of the left axis, unless this argument is
@@ -271,8 +271,8 @@ yscale.components.right.HH(...)
   \item{col}{Vector of color names for the levels of the agreement factor.
     Although the colors can be specified as an arbitrary vector of color names, for example,
     \code{col=c('red','blue','#4AB3F2')}, usually specifying one of the diverging
-    palettes from \code{\link[colorspace]{diverge_hcl}} or sequential
-    palettes from \code{\link[colorspace]{sequential_hcl}} will suffice.
+    palettes from \code{\link[colorspace:rainbow_hcl]{diverge_hcl}} or sequential
+    palettes from \code{\link[colorspace:rainbow_hcl]{sequential_hcl}} will suffice.
     For less intense colors, you can use the middle colors from a larger
     set of colors; e.g., \code{col=sequential_hcl(11)[5:2]}.  See the last
     \code{AudiencePercent} example below for this usage.
@@ -300,7 +300,7 @@ yscale.components.right.HH(...)
     is in the middle of a level.  See the example in the examples
     section.
     Arguments to the \code{lattice} \code{auto.key=list()} argument
-    (described in \code{\link[lattice]{barchart}}) will be used in the
+    (described in \code{\link[lattice:xyplot]{barchart}}) will be used in the
     legend.  See the examples.}
   % \item{key.title,
   %   key.text,
@@ -316,7 +316,7 @@ yscale.components.right.HH(...)
   %   key.just,
   %   key.reverse
   % }{Arguments to the lattice \code{key}.
-  %   See the discussion of \code{key} in \code{\link[lattice]{barchart}}.
+  %   See the discussion of \code{key} in \code{\link[lattice:xyplot]{barchart}}.
   % }
   \item{strip.left, strip}{Logical. The default \code{strip.left=TRUE}
     places the strip
@@ -365,7 +365,7 @@ yscale.components.right.HH(...)
     %labels when needed.
   }
   \item{xscale.components, yscale.components}{See
-    \code{\link[lattice]{yscale.components.default}}.
+    \code{\link[lattice:axis.default]{yscale.components.default}}.
     \code{xscale.components.top.HH} constructs the top x-axis
     labels, when needed, as the names of the bottom x-axis labels.
     \code{yscale.components.right.HH} constructs the right y-axis
@@ -467,7 +467,7 @@ yscale.components.right.HH(...)
 
 \note{
   The current version of the \code{likert} function uses the default diverging
-  palette from \code{\link[colorspace]{diverge_hcl}} as the default.
+  palette from \code{\link[colorspace:rainbow_hcl]{diverge_hcl}} as the default.
   Previous versions used the \code{RColorBrewer} palette \code{"RdBu"} as the default
   color palette.  The previous color palette is still available with an explicit
   call to \code{\link{likertColorBrewer}}, for example
@@ -476,7 +476,7 @@ yscale.components.right.HH(...)
   \code{                      BrewerPaletteName="RdBu", middle.color="gray90")}
 }
 
-\seealso{\code{\link[lattice]{barchart}}, \code{\link{ResizeEtc}},
+\seealso{\code{\link[lattice:xyplot]{barchart}}, \code{\link{ResizeEtc}},
          \code{\link{as.likert}},
          \code{\link{as.matrix.listOfNamedMatrices}},
 	 \code{\link{pyramidLikert}}}
@@ -494,7 +494,7 @@ yscale.components.right.HH(...)
  Naomi Robbins (2011), "Visualizing Data: Challenges to
  Presentation of Quality Graphics---and Solutions", Amstat News,
  September 2011, 28--30.
- \url{http://magazine.amstat.org/blog/2011/09/01/visualizingdata/}
+ \code{http://magazine.amstat.org/blog/2011/09/01/visualizingdata/}
 
 %% Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
 %% Other Rating Scales.  In JSM Proceedings, Section on Survey Research

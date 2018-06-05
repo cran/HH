@@ -49,7 +49,7 @@ trellis object constructed from arguments with new dim and layout.
   \code{transpose.trellis} tries to capture and modify all potentially relevant
   trellis components.  \code{transpose.trellis} is more comprehensive
   than the similar
-  \code{\link[lattice]{t.trellis}} which adjusts only the
+  \code{\link[lattice:update.trellis]{t.trellis}} which adjusts only the
     \code{perm.cond} component.
 
   \code{aperm.trellis} does not attempt to check all potentially relevant

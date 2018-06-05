@@ -24,7 +24,7 @@ See \code{\link[base]{matrix}}.
 }
   \item{row}{
 Logical.  The default is \code{FALSE} to match the behavior of the
-generic \code{\link[base]{as.matrix}}.  I think \code{TRUE} usually
+generic \code{\link[base:matrix]{as.matrix}}.  I think \code{TRUE} usually
 looks better.
 }
   \item{yname}{

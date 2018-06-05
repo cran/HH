@@ -26,7 +26,7 @@ brewer.pal.likert(n, name, middle.color)
   \item{n, nc}{Number of colors in the palette.
     If there are more levels than \code{RColorBrewer} normally handles, we
     automatically interpolate with
-    \code{\link[grDevices]{colorRampPalette}}.
+    \code{\link[grDevices:colorRamp]{colorRampPalette}}.
   }
   \item{ReferenceZero}{Numeric scalar or \code{NULL}.  The position in
     the range\cr
@@ -58,7 +58,7 @@ brewer.pal.likert(n, name, middle.color)
   \code{colorFunction} and  \code{colorFunctionOption}}.  For
   non-default usage, see the BlueOrange example in this help page.
   \item{\dots}{Other arguments are ignored.}
-  \item{BrewerPaletteName, name}{\code{\link[RColorBrewer]{RColorBrewer}}
+  \item{BrewerPaletteName, name}{\code{\link[RColorBrewer:ColorBrewer]{RColorBrewer}}
     palette names. We default to the diverging palette \code{RdBu}.
     Diverging palettes are usually appropriate for two-directional
     scales (Agree--Disagree).  Sequential palettes are often appropriate
@@ -81,13 +81,13 @@ brewer.pal.likert(n, name, middle.color)
   ReferenceZero=2}, it returns \code{-1 0  1  2}.
 
   \code{likertColor} returns a subset of a palette constructed by
-  either \code{\link[colorspace]{diverge_hcl}} or
-  \code{\link[colorspace]{sequential_hcl}} in the
+  either \code{\link[colorspace:rainbow_hcl]{diverge_hcl}} or
+  \code{\link[colorspace:rainbow_hcl]{sequential_hcl}} in the
   \pkg{colorspace} package.
   The subset corresponds to the levels specified by \code{ColorSet}.
 
   \code{brewer.pal.likert} returns a
-  \code{\link[RColorBrewer]{RColorBrewer}} palette.
+  \code{\link[RColorBrewer:ColorBrewer]{RColorBrewer}} palette.
 
   \code{likertColorBrewer} returns a subset of a palette constructed by
   \code{brewer.pal.likert}.
@@ -97,12 +97,12 @@ brewer.pal.likert(n, name, middle.color)
 These are support functions for the \code{plot.likert} function.
 Please see \code{\link{plot.likert}} for details.
 
-\code{likertColor} uses by default the \code{\link[colorspace]{diverge_hcl}}
+\code{likertColor} uses by default the \code{\link[colorspace:rainbow_hcl]{diverge_hcl}}
 diverging palette defined by the argument\cr
 \code{colorFunctionOption="lighter"}.
 
 \code{likertColorBrewer} by default uses the \code{"RdBu"}
-  diverging palette from \code{\link[RColorBrewer]{RColorBrewer}}.
+  diverging palette from \code{\link[RColorBrewer:ColorBrewer]{RColorBrewer}}.
 }
 \seealso{\code{\link{plot.likert}}}
 \examples{

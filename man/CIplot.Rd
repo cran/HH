@@ -65,7 +65,7 @@ Confidence level of each of the \code{n.per.row} confidence intervals
 calculated from the generated datasets.
 }
 
-\item{seed}{Standard argument to \code{\link[stats]{rnorm}}.}
+\item{seed}{Standard argument to \code{\link[stats:Normal]{rnorm}}.}
 \item{x}{Output matrix from \code{confintervaldata}.}
 \item{x.ci}{Output \code{data.frame} from \code{confinterval.matrix}.}
 \item{xlim, ylim}{Standard \code{\link[lattice]{xyplot}} arguments.}

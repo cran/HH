@@ -28,7 +28,7 @@ ResizeEtc(c.list,
 \item{x.same, y.same}{If \code{TRUE}, force all panels to have the same
   \code{x.limits} or \code{y.limits}.}
 \item{layout}{Standard lattice \code{layout} argument.}
-\item{strip, strip.left}{standard lattice arguments described in \code{\link[lattice]{barchart}.}}
+\item{strip, strip.left}{standard lattice arguments described in \code{\link[lattice:xyplot]{barchart}.}}
 \item{strip.values, strip.left.values}{strip names for the panels.
   Only the second is effective when both are specified.}
 \item{strip.par, strip.left.par}{\code{par.strip.text}.
@@ -36,7 +36,7 @@ ResizeEtc(c.list,
 \item{resize.height, resize.width}{\code{h} and \code{w} arguments to
   \code{\link[latticeExtra]{resizePanels}}.}
 \item{main}{Main title for resulting combined plot.}
-\item{\dots}{Other arguments to \code{\link[lattice]{barchart}.}}
+\item{\dots}{Other arguments to \code{\link[lattice:xyplot]{barchart}.}}
 }
 \value{
 \code{"trellis"} object combining each of the individual plots in the

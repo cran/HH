@@ -29,7 +29,7 @@ if.R(r, s)
   The result of the executed expression.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[base]{is.R}}}
+\seealso{\code{\link[base:isR]{is.R}}}
 \examples{
  if.R(r={"This is R."},
       s={"This is S-Plus"})

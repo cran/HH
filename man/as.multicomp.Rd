@@ -85,7 +85,7 @@ as.glht(x, ...)
     See
 %% R
 #ifndef S-Plus
-    \code{\link[multcomp]{confint.glht}}.
+    \code{\link[multcomp:methods]{confint.glht}}.
 #endif
 #ifdef S-Plus
     \code{confint.glht}.
@@ -103,7 +103,7 @@ as.glht(x, ...)
   \item{method}{R only.  See \code{type} in
 %% R
 #ifndef S-Plus
-    \code{\link[multcomp]{confint.glht}}.
+    \code{\link[multcomp:methods]{confint.glht}}.
 #endif
 #ifdef S-Plus
     \code{confint.glht}.

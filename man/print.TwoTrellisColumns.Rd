@@ -60,11 +60,11 @@ emptyRightAxis(x)
     used in the \code{position} argument of the
     \code{\link[lattice]{print.trellis}} function.
   }
-  \item{strip.left}{See \code{\link[lattice]{barchart}}.}
+  \item{strip.left}{See \code{\link[lattice:xyplot]{barchart}}.}
   \item{y.tck}{A vector of one or two numeric values.
     This will be used as the \code{y} \code{tck} value
     for the right column of panels.  See \code{'tck'} in
-    \code{\link[lattice]{barchart}} for details.}
+    \code{\link[lattice:xyplot]{barchart}} for details.}
   \item{\dots}{Other arguments are ignored.}
 }
 

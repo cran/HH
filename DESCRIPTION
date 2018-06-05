@@ -1,8 +1,8 @@
 Package: HH
 Type: Package
 Title: Statistical Analysis and Data Display: Heiberger and Holland
-Version: 3.1-34
-Date: 2017-01-18
+Version: 3.1-35
+Date: 2018-06-02
 Author: Richard M. Heiberger
 Maintainer: Richard M. Heiberger <rmh@temple.edu>
 Depends: R (>= 3.0.2), lattice, stats, grid, latticeExtra, multcomp,
@@ -13,6 +13,6 @@ Suggests: mvtnorm, car, Rcmdr, RcmdrPlugin.HH, TeachingDemos, microplot
 Description: Support software for Statistical Analysis and Data Display (Second Edition, Springer, ISBN 978-1-4939-2121-8, 2015) and (First Edition, Springer, ISBN 0-387-40270-5, 2004) by Richard M. Heiberger and Burt Holland.  This contemporary presentation of statistical methods features extensive use of graphical displays for exploring data and for displaying the analysis.  The second edition includes redesigned graphics and additional chapters. The authors emphasize how to construct and interpret graphs, discuss principles of graphical design, and show how accompanying traditional tabular results are used to confirm the visual impressions derived directly from the graphs. Many of the graphical formats are novel and appear here for the first time in print.  All chapters have exercises.  All functions introduced in the book are in the package.  R code for all examples, both graphs and tables, in the book is included in the scripts directory of the package.
 License: GPL (>= 2)
 NeedsCompilation: no
-Packaged: 2017-01-18 14:33:41 UTC; rmh
+Packaged: 2018-06-03 03:29:31 UTC; rmh
 Repository: CRAN
-Date/Publication: 2017-01-18 18:07:11
+Date/Publication: 2018-06-05 19:48:07 UTC

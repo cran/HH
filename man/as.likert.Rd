@@ -70,7 +70,7 @@ is.likertCapable(x, ...)
     \code{likert} and \code{TRUE} for \code{likertMosaic}.
     \code{reverse.left} is \code{TRUE} for \code{likert} and \code{FALSE}
     for \code{likertMosaic}.  \code{likert} is based on
-    \code{\link[lattice]{barchart}}
+    \code{\link[lattice:xyplot]{barchart}}
     and requires that the sequencing of negative values be reversed. \code{likertMosiac} is
     based on \code{\link[vcd]{mosaic}} and needs padding on left and right
     to fill the rectangle implied by the convex hull of the plot.

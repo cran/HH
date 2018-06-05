@@ -40,7 +40,7 @@ NTplot(mean0, ...)
     definitions, along with information on specifying other color schemes, are
     shown in \code{\link{NormalAndTplot}}.
   }
-  \item{shiny}{Logical.  If \code{TRUE}, a \code{\link[shiny]{shiny}}
+  \item{shiny}{Logical.  If \code{TRUE}, a \code{\link[shiny:shiny-package]{shiny}}
     app is started to provide an interactive graphics device in a
     web-browser.  If
     \code{FALSE}, a plot is drawn on the current graphics device.

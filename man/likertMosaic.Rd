@@ -104,7 +104,7 @@ When \code{TRUE} and \code{as.percent==TRUE}, then the area of the bars
 }
   \item{col}{
 Colors for the bars.  With the default value \code{NULL}, the colors are
-chosen from the default \code{\link[colorspace]{diverge_hcl}} diverging
+chosen from the default \code{\link[colorspace:rainbow_hcl]{diverge_hcl}} diverging
 palette.  Any color specification that R understands can be used here.
 }
   \item{colorFunction, colorFunctionOption}{See \code{\link{likertColor}}.}
@@ -202,7 +202,7 @@ returned object.
  Naomi Robbins (2011), "Visualizing Data: Challenges to
  Presentation of Quality Graphics---and Solutions", Amstat News,
  September 2011, 28--30.
- \url{http://magazine.amstat.org/blog/2011/09/01/visualizingdata/}
+ \code{http://magazine.amstat.org/blog/2011/09/01/visualizingdata/}
 
 %% Naomi B. Robbins and Richard M. Heiberger (2011).  Plotting Likert and
 %% Other Rating Scales.  In JSM Proceedings, Section on Survey Research

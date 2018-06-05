@@ -107,49 +107,66 @@ update(cc176.bwplot, par.settings=list(clip=list(panel=FALSE)), scales=list(x=li
 ## hhdev.off()
 
 ###################################################
-### New material after HH2 publication, using the new microplot::as.includegraphics function
+### New material after HH2 publication,
+### using the microplot::latex function
 ###################################################
-data(col3x2)
+## Figure 13.2 on page 431 of HH2 used the pdf file generated in Chunk
+## 6 for the graphics in column "boxplot", and manually aligned that
+## graphics file with text.
+##
+## The microplot::latex function allows the graphics column and the
+## text column to be aligned under program control.
 
+library(microplot)
+## set the options to tell Hmisc::latex to use
+## the operating system pdflatex command
+old.options <- latexSetOptions()
+
+## compare to cc176.bwplot
 BW <-
-  lattice::bwplot(HH::unpositioned(current) ~ y.adj | current, data=cc176,
+  lattice::bwplot(HH::unpositioned(current) ~ y.adj | current, ## | current
+                  data=cc176,
                   panel=HH::panel.bwplot.intermediate.hh,
-                  xlab=NULL,
-                  par.settings=list(
-                    layout.heights=layoutHeightsCollapse(),
-                    layout.widths=layoutWidthsCollapse(),
-                    axis.line=list(col="transparent")),
-                  layout=c(1,1),
                   scales=list(y=list(relation="free")),
-                  col=col3x2
+                  ## no space for unused current values
+                  col=col3x2 ## colors, defined at top of file
                   )
 
-## pdf() here, not hhpdf().  We need the generated files.
-pdf("cc176bwplot%03d.pdf", onefile=FALSE, height=.4, width=3)  ## inch ## BB = 0 0 216 28
-BW ## four individual boxplots without axes
-update(BW[3], ## x-axis
-       par.settings=list(layout.heights=list(axis.bottom=1, panel=0),
-                         axis.line=list(col="black")))
-dev.off()
+## latex(BW)
 
-graphnames <- c(
-"cc176bwplot004.pdf",
-"cc176bwplot003.pdf",
-"cc176bwplot002.pdf",
-"cc176bwplot001.pdf",
-"cc176bwplot005.pdf")
 
-graphicsnames <- microplot::as.includegraphics(graphnames, raise="-.5ex")
+treatment <- rbind(round(t(tmp)[4:1,], 2)) ## table of numbers to be aligned with graph
 
-treatment <- data.frame(rbind(round(t(tmp)[4:1,], 2), ""), boxplot=graphicsnames)
+BW.latex <-
+  latex(BW, ## column of graphs
+        height.panel=.2, width.panel=3, ## height and width of pdf device for each panel
+        vectorgraph.colname="Boxplots",
+        y.axis.includegraphics=FALSE,
+        dataobject=treatment, rowlabel="Treatment") ## table of numbers
+## print.default(BW.latex) ## information about generated files.
+## Side effects of latex():
+## 1. Graphics files "./BW/fig*.pdf" will be created in the directory getwd()
+##    You can control this naming convention with the figPrefix argument.
+##    These files contain the individual panels, the axes, and the xlab and ylab
+## 2. File "./BW.tex" contains the latex source to construct the table.
+##    You may copy this into a larger .tex file.
+BW.dvi <- dvi(BW.latex, height=2.6, width=6.6)
+##                      height and width of pdf file for constructed table
+## print.default(BW.dvi) ## information about generated pdf file.
+## You can move this file from its temporary directory to a permanent
+## location.  You can either view it directly or \includegraphics{} it
+## into your larger .tex file.
+## Side effects of dvi():
+## 1. pdf file in temporary directory.
+## 2. .tex, .aux, .log, Console.log files.
+BW.dvi ## display constructed pdf file on screen
 
-## With a displayed x-axis
-cc176x.latex <- Hmisc::latex(treatment, rowlabel="Treatment")
-cc176x.latex$style <- "graphicx"
-cc176x.latex  ## this line requires latex in the PATH
+options(old.options)  ## restore previous values for your system
+detach("package:microplot", unload=TRUE)
 
 ###################################################
-### End: New material after HH2 publication, using the new microplot::as.includegraphics function
+### End: New material after HH2 publication,
+### using the new microplot::latex function
 ###################################################
 
 

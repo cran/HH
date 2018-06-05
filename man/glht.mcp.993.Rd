@@ -49,6 +49,6 @@ with the call to \code{mcp2matrix} replaced by a call to \code{mcp2matrix.993}.
 See \code{\link[multcomp]{glht}}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
-\seealso{\code{\link[HH]{MMC}}}
+\seealso{\code{\link[HH]{mmc}}}
 \keyword{ htest }
 \keyword{design }

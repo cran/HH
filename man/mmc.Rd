@@ -238,7 +238,7 @@ Hsu, J. and Peruggia, M. (1994).
   Function \code{mmc} calls
 %% R
 #ifndef S-Plus
- \code{\link[multcomp]{glht}} and \code{\link[multcomp]{confint.glht}}.
+ \code{\link[multcomp]{glht}} and \code{\link[multcomp:methods]{confint.glht}}.
 #endif
 #ifdef S-Plus
   \code{glht} and \code{confint.glht}.
@@ -329,6 +329,7 @@ catalystm.mmc
 mmcplot(catalystm.mmc, style="both", type="lmat")
 
 
+\dontrun{
 ## Dunnett's test
 ## weightloss example
 data(weightloss)
@@ -356,7 +357,7 @@ mmcplot(tmp.dunnett.mmc,
         main="contrasts ordered by average value of the means\nof the two levels in the contrasts")
 
 tmp.dunnett.mmc
-
+}
 
 \dontrun{
 ## two-way ANOVA
