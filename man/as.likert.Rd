@@ -88,6 +88,7 @@ Please see \code{\link{likert}} for information on the plot for which
  \code{barchart} method used by the \code{\link{plot.likert}} methods
  work with the data.  Columns for respondents who
  disagree have negated values.
+ Any \code{NA} values in the argument \code{x} are changed to \code{0}.
  The column of the original data for respondents who
 neither agree nor disagree is split into two columns, each containing
 halved values---one positive and one negative.

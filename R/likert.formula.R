@@ -61,6 +61,7 @@ plot.likert.formula <- function(x, data, ReferenceZero=NULL, value, levelsName="
 
                                 ## color options
                                 reference.line.col="gray65",
+                                col.strip.background="gray97",
                                 key.border.white=TRUE,
                                 col=likertColor(Nums.attr$nlevels,
                                   ReferenceZero=ReferenceZero,
@@ -106,7 +107,8 @@ if (!missing(value)) {
     Nums.lik <- as.likert(data.list$Nums, ReferenceZero=ReferenceZero)
   }
 
-  par.settings <- par.settings.in
+  par.settings <- list(strip.background=list(col=col.strip.background))
+  par.settings[names(par.settings.in)] <- par.settings.in
   if (rightAxis)  {
     par.settings$clip$panel <- "off"
     if (horizontal) {
@@ -457,7 +459,8 @@ getVarNames <- function(x, data) {
   if (is.null(CondNamesFormula))
     CondNames <- NULL
   else {
-    CondNamesRaw <- strsplit(deparse(CondNamesFormula, width.cutoff = 500L), "+", fixed=TRUE)[[1]]
+    CondNamesRaw <- strsplit(deparse(CondNamesFormula, width.cutoff = 500L),
+                             "[\\*\\+]", fixed=FALSE)[[1]]
     CondNames <- sub('^[[:space:]]+', '', sub('[[:space:]]+$', '', CondNamesRaw )) ## remove leading and trailing white space, POSIX-style
     CondNames <- sub('^\"', '', sub('\"$', '', CondNames )) ## remove leading and trailing '\"' character
   }
@@ -465,7 +468,8 @@ getVarNames <- function(x, data) {
   if (is.null(LevelNamesFormula))
     LevelNames <- NULL
   else {
-    LevelNamesRaw <- strsplit(deparse(LevelNamesFormula, width.cutoff = 500L), "+", fixed=TRUE)[[1]]
+    LevelNamesRaw <- strsplit(deparse(LevelNamesFormula, width.cutoff = 500L),
+                              "[\\*\\+]", fixed=FALSE)[[1]]
     LevelNames <- sub('^[[:space:]]+', '', sub('[[:space:]]+$', '', LevelNamesRaw )) ## remove leading and trailing white space, POSIX-style
     LevelNames <- sub('^\"', '', sub('\"$', '', LevelNames )) ## remove leading and trailing '\"' character
   }
@@ -503,9 +507,8 @@ getLikertData <- function(data, varNamesUsed) {
 
   Nums <- if (is.null(varNamesUsed$LevelNames)) {
     tmp <- data[, RemainingNames, drop=FALSE]
-    tmp[, sapply(tmp, is.numeric)]
-  }
-  else
+    tmp[, sapply(tmp, is.numeric), drop=FALSE]
+  }  else
     data[, varNamesUsed$LevelNames, drop=FALSE]
 
   Nums <- data.matrix(Nums)

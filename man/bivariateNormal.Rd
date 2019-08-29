@@ -41,7 +41,8 @@ See \code{\link[lattice:cloud]{wireframe}}.
   Based on the \code{galaxy} example on pages 204--205 in
   \emph{S \& S-PLUS Trellis Graphics User's Manual},
   Richard A. Becker and William S. Cleveland (1996),
-\url{http://www.albany.edu/acc/courses/acc522fall2007/lecturenotes/trellis.usermanual.pdf}.
+\url{https://www.stat.auckland.ac.nz/~ihaka/courses/120/trellis.user.pdf} %% works 19Aug2019
+% \url{http://www.albany.edu/acc/courses/acc522fall2007/lecturenotes/trellis.usermanual.pdf}.
 }
 \examples{
 bv8 <- bivariateNormal(.7)  ## all views on one page

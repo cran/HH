@@ -34,69 +34,76 @@ likertplot(x, ...)
 \method{plot}{likert}(x, ...)
 %\method{plot.likert}{formula}(x, data, ..., xName=deparse(sys.call()), main)
 \method{plot.likert}{formula}(x, data, ReferenceZero=NULL, value, levelsName="",
-            scales.in=NULL,   ## use scales=
-            between=list(x=1 + (horizontal), y=.5 + 2*(!horizontal)),
-            auto.key.in=NULL, ## use auto.key=
-            panel.in=NULL,    ## use panel=
-            horizontal=TRUE,
-            par.settings.in=NULL, ## use par.settings=
-            ...,
-            as.percent = FALSE,
-            ## titles
-            ylab= if (horizontal) {
-              if (length(x)==3)
-                deparse(x[[2]])
-              else
-                "Question"
-            }
-            else
-            if (as.percent != FALSE) "Percent" else "Count",
-            xlab= if (!horizontal) {
-              if (length(x)==3)
-                deparse(x[[2]])
-              else
-                "Question"
-            }
-            else
-            if (as.percent != FALSE) "Percent" else "Count",
-            main = x.sys.call,
-            ## right axis
-            rightAxisLabels = rowSums(data.list$Nums),
-            rightAxis = !missing(rightAxisLabels),
-            ylab.right = if (rightAxis) "Row Count Totals" else NULL,
-            xlab.top = NULL,
-            right.text.cex =
-              if (horizontal) { ## lazy evaluation
-                if (!is.null(scales$y$cex)) scales$y$cex else .8
-              }
-              else
-                {
-                  if (!is.null(scales$x$cex)) scales$x$cex else .8
-                },
+                                scales.in=NULL,   ## use scales=
+                                between=list(x=1 + (horizontal), y=.5 + 2*(!horizontal)),
+                                auto.key.in=NULL, ## use auto.key=
+                                panel.in=NULL,    ## use panel=
+                                horizontal=TRUE,
+                                par.settings.in=NULL, ## use par.settings=
+                                ...,
+                                as.percent = FALSE,
+                                ## titles
+                                ylab= if (horizontal) {
+                                  if (length(x)==3)
+                                    deparse(x[[2]])
+                                  else
+                                    "Question"
+                                }
+                                else
+                                if (as.percent != FALSE) "Percent" else "Count",
 
-            ## scales
-            xscale.components = xscale.components.top.HH,
-            yscale.components = yscale.components.right.HH,
-            xlimEqualLeftRight = FALSE,
-            xTickLabelsPositive = TRUE,
-            ## row sequencing
-            as.table=TRUE,
-            positive.order=FALSE,
-            data.order=FALSE,
-            reverse=ifelse(horizontal, as.table, FALSE),
-            ## resizePanels arguments
-            h.resizePanels=sapply(result$y.used.at, length),
-            w.resizePanels=sapply(result$x.used.at, length),
-            ## color options
-            reference.line.col="gray65",
-            key.border.white=TRUE,
-            col=likertColor(Nums.attr$nlevels,
-              ReferenceZero=ReferenceZero,
-              colorFunction=colorFunction,
-              colorFunctionOption=colorFunctionOption),
-            colorFunction="diverge_hcl",
-            colorFunctionOption="lighter"
-            )
+                                xlab= if (!horizontal) {
+                                  if (length(x)==3)
+                                    deparse(x[[2]])
+                                  else
+                                    "Question"
+                                }
+                                else
+                                if (as.percent != FALSE) "Percent" else "Count",
+
+                                main = x.sys.call,
+
+                                ## right axis
+                                rightAxisLabels = rowSums(data.list$Nums),
+                                rightAxis = !missing(rightAxisLabels),
+                                ylab.right = if (rightAxis) "Row Count Totals" else NULL,
+                                xlab.top = NULL,
+                                right.text.cex =
+                                  if (horizontal) { ## lazy evaluation
+                                    if (!is.null(scales$y$cex)) scales$y$cex else .8
+                                  }
+                                  else
+                                    {
+                                      if (!is.null(scales$x$cex)) scales$x$cex else .8
+                                    },
+
+                                ## scales
+                                xscale.components = xscale.components.top.HH,
+                                yscale.components = yscale.components.right.HH,
+                                xlimEqualLeftRight = FALSE,
+                                xTickLabelsPositive = TRUE,
+
+                                ## row sequencing
+                                as.table=TRUE,
+                                positive.order=FALSE,
+                                data.order=FALSE,
+                                reverse=ifelse(horizontal, as.table, FALSE),
+
+                                ## resizePanels arguments
+                                h.resizePanels=sapply(result$y.used.at, length),
+                                w.resizePanels=sapply(result$x.used.at, length),
+
+                                ## color options
+                                reference.line.col="gray65",
+                                col.strip.background="gray97",
+                                key.border.white=TRUE,
+                                col=likertColor(Nums.attr$nlevels,
+                                  ReferenceZero=ReferenceZero,
+                                  colorFunction=colorFunction,
+                                  colorFunctionOption=colorFunctionOption),
+                                colorFunction="diverge_hcl",
+                                colorFunctionOption="lighter"
+                                )
 \method{plot.likert}{default}(x,
             positive.order=FALSE,
             ylab=names(dimnames(x)[1]),

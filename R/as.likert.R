@@ -43,9 +43,12 @@ as.likert.matrix <- function(x,
                              reverse.left=TRUE) {
   ## All the as.likert calls end here.  This one accepts and ignores '...'.
   ## All the others may use the arguments here in their ... arguments.
+
+  x[is.na(x)] <- 0  ## NA will be interpreted as 0 in this setting
   if (any(x < 0))
     stop("Argument to the likert() function must be non-negative.",
          call.=FALSE)
+
   nc <- ncol(x)
   colorset <- ColorSet(nc, ReferenceZero)
 

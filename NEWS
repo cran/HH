@@ -1,3 +1,47 @@
+Version 3.1-37
+--------------
+
+* 2019 Aug 28
+
+* Wiley changed url for referenced paper in ae.dotplot*.Rd.
+
+* url for Trellis User Manual changed from albany (no longer works) to auckland (works).
+
+* url http://www.vischeck.com/ was offline, and is now returned to active status.
+
+* All occurrences of http://astro.temple.edu changed to https://astro.temple.edu
+  in files man/hh.Rd, inst/shiny/PopulationPyramid/DESCRIPTION,
+
+* print.AEdotplot, axis.i2wt in panel.interaction2wt.R, plot.likert.list:
+  functions changed to pass stricter argument checking by CRAN.
+
+* useOuterScales.Rd: line longer than 100 adjusted to 100.
+
+
+
+Version 3.1-36
+--------------
+
+* 2019 Aug 10
+
+* as.likert methods now change any NA values in the x argument to 0.
+
+* plot.likert.formula: col.strip.background is now an argument for this method.
+
+* getLikertData: missing drop=FALSE put into place.
+
+* getVarNames: change to strsplit(x, "[\\*\\+]", fixed=FALSE)
+                    from strsplit(x, "+",        fixed=TRUE)
+  twice in this function.
+
+* useOuterScales: new function: Put scales for axes only on the bottom
+  and left panels of a lattice display, and give fine control over the
+  placement of strips.  This is an extension of capabilities provided by
+  latticeExtra::useOuterStrips.
+
+* strip.* functions, based on strip.default, used by useOuterScales.
+
+
 Version 3.1-35
 --------------
 
@@ -11,6 +55,8 @@ Version 3.1-35
 * changed \link[package]{function} to
   \link[package:manfilename]{function} in .Rd files as needed for
   Windows installation.
+
+* on CRAN 2018-06-05
 
 
 Version 3.1-34

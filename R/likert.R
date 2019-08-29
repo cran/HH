@@ -491,9 +491,10 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
 ##  names(x.pl.nonames) <- NULL ## names are removed
 
   if (class(resize.height)=="character") {
+    resize.height <- match.arg(resize.height, c("nrow","rowSums"))
     if (resize.height=="rowSums" && !all(sapply(x, nrow)==1))
       stop("resize.height='rowSums' is not valid for panels with more than one row.")
-    resize.height <- switch(match.arg(resize.height, c("nrow","rowSums")),
+    resize.height <- switch(resize.height,
                             nrow=sapply(x, nrow)+resize.height.tuning,
                             rowSums=sapply(x, function(x) rowSums(abs(x)), simplify=TRUE),
                             stop("invalid value for resize.height"))

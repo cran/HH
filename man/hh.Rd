@@ -45,7 +45,7 @@ the datasets that come with the HH book and package.
 
 For \code{hh.file} and \code{hh.file.DOS}, the file is in the HH online
 files which need to be independently downloaded from the HH book's
-website \url{http://astro.temple.edu/~rmh/HH}.
+website \url{https://astro.temple.edu/~rmh/HH}.
 The pathname is relative to \code{options()$HHfile.ROOT.DIR},
 which must be set by the user to correspond to the location where the HH
 online files are stored on the specific computer.  The \code{file} argument to these
@@ -89,7 +89,7 @@ are not designed to be sourced.  The primary use of the \code{hh.file}
 functions
 is to display the pathname of the file so it can be opened for use in an editor.
 The online files must be independently downloaded from the book's web site
-\url{http://astro.temple.edu/~rmh/HH}.
+\url{https://astro.temple.edu/~rmh/HH}.
 The \code{HHfile.ROOT.DIR} option must be set by the user to correspond
 to the location where the files are stored.  The book recommends\cr
 \code{options(HHfile.ROOT.DIR="c:/HOME/hh")} in Windows or\cr

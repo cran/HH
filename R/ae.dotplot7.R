@@ -187,10 +187,10 @@ print.AEdotplot <- function(x, ...,
 
   title.adjust <- function(x, just) {
     if (is.null(x) ||
-        is.na(x) ||
         (is.logical(x) && (x == FALSE)) ||
-        (!is.list(x) && nchar(x) == 0) ||
-        (is.list(x) && nchar(x[[1]]) == 0)) {
+        (!is.list(x) && (is.na(x) || nchar(x) == 0)) ||
+        (is.list(x) && (is.na(x[[1]]) || nchar(x[[1]]) == 0))
+        ) {
       x <- NULL
       x.blank <- x
     }

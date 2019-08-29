@@ -129,7 +129,8 @@ Ohad Amit, Richard M. Heiberger, and Peter W. Lane. (2008)
 \emph{Pharmaceutical Statistics},
 \bold{7}, 1, 20--35.
 % Published Online: 26 Feb 2007\\
-\url{http://www3.interscience.wiley.com/journal/114129388/abstract}
+\url{https://onlinelibrary.wiley.com/doi/10.1002/pst.254}
+% \url{http://www3.interscience.wiley.com/journal/114129388/abstract}
 % \url{http://www3.interscience.wiley.com/cgi-bin/abstract/114129388/ABSTRACT}.
 }
 

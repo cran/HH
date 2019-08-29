@@ -410,14 +410,14 @@ axis.i2wt <-
 
           ## recover()
           right.margin <- unit(current.panel.limits()$xlim[2], "native")
-          if (ticks2 && (length(at2) > 0) && !is.na(at2))  ## not the same
+          if (ticks2 && (length(at2) > 0) && !any(is.na(at2)))  ## not the same
             grid.segments(y0 = unit(at2i, "native"),
                           y1 = unit(at2i, "native"),
                           x0 = right.margin,
                           x1 = right.margin + tick.units +
                           label.units)
 
-          if ((length(at2) > 0) && !is.na(at2) && length(labels2) > 0)  ## not the same
+          if ((length(at2) > 0) && !any(is.na(at2)) && length(labels2) > 0)  ## not the same
             grid.text(labels2i, rot = rot2,
                       y = unit(at2i, "native"),
                       x = right.margin + tick.units + label.units +
