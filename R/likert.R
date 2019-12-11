@@ -37,7 +37,10 @@ yscale.components.right.HH <- function(...) {
 ## ##                                   labels=rightAxisLabels, outside=TRUE)
 ## ## }
 
-plot.likert.default <- function(x,
+plot.likert.default <- function(x, ...)
+    plot.likert.matrix(x, ...)
+
+plot.likert.matrix <- function(x,
                                 positive.order=FALSE,
                                 ylab=names(dimnames(x)[1]),
                                 xlab=if (as.percent != FALSE) "Percent" else "Count",

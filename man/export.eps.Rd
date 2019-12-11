@@ -24,7 +24,7 @@ export.eps(FileName.in, Name.in="GSD2", ...)
 #ifndef S-Plus
   \code{\link[grDevices]{dev2}}.
 #endif
-#ifdef S-Plus  
+#ifdef S-Plus
   \code{\link[sgui]{export.graph}}.
 #endif
 }
@@ -49,12 +49,14 @@ export.eps(FileName.in, Name.in="GSD2", ...)
 %   \Sexpr[results=rd]{if (is.R()) "export.graph" else "\\\\code{\\\\link[sgui]{export.graph}}"}
 % 			in S-Plus.
 % }
-  
+
   \examples{
 \dontrun{
-trellis.device()
-plot(1:10)
-export.eps("abcd.eps")
-}
+  if (interactive()) {
+    trellis.device()
+    plot(1:10)
+    export.eps("abcd.eps")
+  }
+  }
 }
 \keyword{ device }

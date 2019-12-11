@@ -296,9 +296,9 @@ class(aeanonymr$PREF)
 levels(aeanonymr$PREF)
 
 AEdotplot(aeanonym)
-\dontrun{
+
 AEdotplot(aeanonym, sort=FALSE)
-}
+
 AEdotplot(aeanonym, conditionVariable=aeanonym$OrgSys)
 
 aefake <- rbind(cbind(aeanonym, group="ABC"), cbind(aeanonym, group="DEF"))

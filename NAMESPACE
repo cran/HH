@@ -121,6 +121,9 @@ chisq.observed,
 chisq.setup,
 ci.plot,
 CIplot,
+confintervaldata,
+confinterval.matrix,
+confintervalplot,
 col.hh,
 combineLimits.trellisvector,
 ## combineTwoTrellisColumns,
@@ -143,9 +146,10 @@ gof.calculation,
 gofplot,
 grid.xaxis.hh,
 grid.yaxis.hh,
-hh,
-hh.file,
-hh.file.DOS,
+## hh,
+## hh.old,
+## hh.file,
+## hh.file.DOS,
 hhlatex,
 hhpdf,
 hhpng,
@@ -402,6 +406,7 @@ S3method(plot, summaryHH.regsubsets)
 S3method(plot, likert)
 S3method(plot.likert, array)
 S3method(plot.likert, data.frame)
+S3method(plot.likert, matrix)
 S3method(plot.likert, default)
 S3method(plot.likert, formula)
 S3method(plot.likert, ftable)

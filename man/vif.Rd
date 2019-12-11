@@ -23,13 +23,7 @@ vif(xx, ...)
   \item{xx}{\code{data.frame}, or \code{formula}, or \code{lm} object
     computed with \code{x=TRUE}.}
   \item{na.action}{See
- %% R
-#ifndef S-Plus
    \code{\link[stats]{na.action}}.
-#endif
-#ifdef S-Plus
-    \code{\link[splus]{na.exclude}}.
-#endif
   }
   \item{\dots}{additional arguments. }
 
@@ -67,17 +61,10 @@ Vector of VIF values, one for each X-variable.
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{
-%% R
-#ifndef S-Plus
   \code{\link[stats]{lm}}.
-#endif
-#ifdef S-Plus
-  \code{\link[splus]{lm}}.
-#endif
 }
 \examples{
 data(usair)
-if.R(s={usair <- usair}, r={})
 
 usair$lnSO2 <- log(usair$SO2)
 usair$lnmfg <- log(usair$mfgfirms)

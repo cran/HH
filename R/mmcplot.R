@@ -2,7 +2,7 @@ mmcplot <- function (mmc, ...)
   UseMethod("mmcplot")
 
 
-mmcplot.mmc <- function(mmc, col=col, lwd=lwd, lty=lty, ...,
+mmcplot.mmc <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...,
                         style=c("isomeans", "confint", "both"),
                         type=c("mca", "lmat", "linfct", "none")) {
   style <- match.arg(style)
@@ -28,7 +28,7 @@ mmcplot.glht <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), focu
 mmcplot.mmc.multicomp <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
   mmcplot.mmc(mmc, col=col, lwd=lwd, lty=lty, ..., mmc.object.name=deparse(substitute(mmc)))
 
-mmcplot.multicomp <- function(mmc, col=col, lwd=lwd, lty=lty, ...)
+mmcplot.multicomp <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
   mmcmatch(mmc, col=col, lwd=lwd, lty=lty, ..., xlim.match=FALSE)
 
 ## mmcplot.multicomp.hh <- function(mmc, ...)
@@ -39,7 +39,8 @@ mmcplot.default <- function(mmc, ...)
 
 
 
-mmcisomeans <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, ylim=NULL, ...,
+mmcisomeans <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
+                        type="mca", xlim=NULL, ylim=NULL, ...,
                         axis.right=2.2,
                         ylab=paste(
                           mmc$none$ylabel, "means",
@@ -115,7 +116,8 @@ mmcisomeans <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, y
 }
 
 
-mmcmatch <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, ylim=NULL, ...,
+mmcmatch <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
+                     type="mca", xlim=NULL, ylim=NULL, ...,
                      axis.right=2.2,
                      ylab=NULL,
                      ylab.right=NULL,
@@ -209,7 +211,8 @@ mmcmatch <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", xlim=NULL, ylim
 }
 
 
-mmcboth <- function(mmc, col=col, lwd=lwd, lty=lty, type="mca", h=c(.7, .3), xlim=NULL, ylim=NULL, ...,
+mmcboth <- function(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
+                    type="mca", h=c(.7, .3), xlim=NULL, ylim=NULL, ...,
                     ylab.right=NULL, MMCname="MMC", Tiebreakername="Tiebreaker") {
   aa <- mmcisomeans(mmc=mmc, col=col, lwd=lwd, lty=lty, type=type, xlim=xlim, ylim=ylim, ..., contrast.label=TRUE)
   bb <- mmcmatch(mmc=mmc, col=col, lwd=lwd, lty=lty, type=type, xlim=xlim, ylim=ylim, ..., contrast.label=TRUE, xlim.match=TRUE)

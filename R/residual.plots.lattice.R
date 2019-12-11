@@ -6,7 +6,7 @@ residual.plots.lattice <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
                            ...) {
   lm.formula <- as.formula(lm.object)
   lm.data <- try(eval(lm.object$call$data), silent=TRUE)
-  if (class(lm.data) == "Error" || class(lm.data)=="try-error") ## S-Plus || R
+  if ("try-error" %in% class(lm.data))
     {
       lm.data <- lm.object$x
       lm.data.y <- as.numeric(lm.object$y)

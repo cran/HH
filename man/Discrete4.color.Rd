@@ -22,20 +22,17 @@ Discrete with four levels color dataset.
 data(Discrete4)
 \dontrun{
 library(RColorBrewer)
-library(grid)
 library(lattice)
 Discrete4 <- brewer.pal(n=12, "Paired")[c(6,2,5,1)]
 Discrete4
-save(Discrete4, file="Discrete4.rda")
+## save(Discrete4, file="Discrete4.rda") ## data(Discrete4, package="HH")
 ##
-grid.newpage()
-draw.key(list(text=list(c("Discrete4")),
-              rectangles=list(col=Discrete4,
-                              cex=1.5, size=8, height=.7, border=FALSE),
-              columns=4,
-              between=1,
-              padding.text=8),
-         draw=TRUE)
+barchart(~ 1:4, col=Discrete4, lwd=0, origin=0, horizontal=FALSE,
+         xlab="Colors", scales=list(x=list(labels=Discrete4), y=list(labels=NULL)),
+         main=paste("These colors look like four distinct colors when run through",
+                    "the vischeck simulator to see how they look for the three most",
+                    "common color vision deficiencies: Deuteranope, Protanope, Tritanope.",
+                    sep="\n"))
 }
 }
 \keyword{datasets}

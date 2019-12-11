@@ -109,7 +109,8 @@ u3.312 <- update(t3.312, main="t3.312", layout=c(2,12),
 u3.321 <- update(t3.321, main="t3.321", layout=c(6,4),
                  between=list(x=c(0,1))) ## 2*3,4
 
-pdf("u5.pdf", width=17, height=22)
+u5 <- tempfile("u5", fileext = ".pdf")
+pdf(u5, width=17, height=22)
 print(u3.123, split=c(1,1,2,3), more=TRUE)
 print(u3.132, split=c(2,1,2,3), more=TRUE)
 print(u3.213, split=c(1,2,2,3), more=TRUE)

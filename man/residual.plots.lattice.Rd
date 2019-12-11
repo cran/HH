@@ -59,11 +59,12 @@ See \code{\link{na.action}}.
      residual.plots.lattice(longley.lm)
 
      \dontrun{
-            pdf("longley-resid.pdf", height=9, width=14)
-                 print(residual.plots.lattice(longley.lm, pch=19),
-                            A4.left=.0125, panel.width=list(5,"cm"))
-                 dev.off()
-               }
+       longleyResid <- tempfile("longleyResid", fileext = ".pdf")
+       pdf(longleyResid, height=9, width=14)
+       print(residual.plots.lattice(longley.lm, pch=19),
+             A4.left=.0125, panel.width=list(5,"cm"))
+       dev.off()
+     }
      }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

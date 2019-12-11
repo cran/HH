@@ -96,7 +96,7 @@ likert(USAge.table[75:1, 2:1, c("1939","1959","1979")]/1000000,
 
 \dontrun{
   ## run the shiny app
-  shiny::runApp(system.file("shiny/PopulationPyramid", package="HH"))
+if (interactive())  shiny::runApp(system.file("shiny/PopulationPyramid", package="HH"))
 }
 
 ## For additional examples, see demo(PoorChildren, package="HH")

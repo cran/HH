@@ -47,22 +47,10 @@ unpositioned(x, ...)
   The \code{length(value)} must equal \code{length(levels(as.factor(x)))}.}
   \item{\dots}{other arguments.}
   \item{drop}{See
-%% R
-#ifndef S-Plus
 \code{\link[base]{Extract}}.
-#endif
-#ifdef S-Plus  
-\code{\link[main]{Subscript}}.
-#endif
   }
 \item{incomparables}{See
-%% R
-#ifndef S-Plus
   \code{\link[base]{unique}}.
-#endif
-#ifdef S-Plus  
-  \code{\link[splus]{unique}}.
-#endif
 }
 }
 \value{
@@ -86,19 +74,13 @@ unpositioned(x, ...)
   If \code{x} is numeric, then \code{x} itself is returned.
 
   \code{unpositioned(x)} removes the \code{"position"} attribute and
-  removes the \code{"positioned"} value from the the \code{oldClass} of
+  removes the \code{"positioned"} value from the the \code{class} of
   the object.
 
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{panel.interaction2wt}},
-%% R
-#ifndef S-Plus
  \code{\link[base]{factor}}.
-#endif
-#ifdef S-Plus  
- \code{\link[splus]{factor}}.
-#endif
 }
 \examples{
 ## ordered with character levels defaults to
@@ -189,18 +171,11 @@ tmp <- data.frame(Y=rnorm(40, rep(c(20,25,15,22), 10), 5),
                   week=ordered(rep(1:4, 10)))
 position(tmp$week) <- c(1, 2, 4, 8)
 
-if.R(r=
-       bwplot(Y ~ week, horizontal=FALSE,
-              scales=list(x=list(limits=c(0,9),
+bwplot(Y ~ week, horizontal=FALSE,
+       scales=list(x=list(limits=c(0,9),
                           at=position(tmp$week),
                           labels=position(tmp$week))),
-              data=tmp, panel=panel.bwplot.intermediate.hh)
-    ,s=
-       t(bwplot(week ~ Y, at=position(tmp$week),
-                scales=list(y=list(limits=c(0,9),
-                            at=position(tmp$week), labels=position(tmp$week))),
-                data=tmp, panel=panel.bwplot.intermediate.hh))
-    )
+       data=tmp, panel=panel.bwplot.intermediate.hh)
 
 
 #### You probably don't want to use the next two examples.

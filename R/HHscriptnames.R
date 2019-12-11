@@ -139,6 +139,11 @@ HHscriptnames("mcomp")
 HHscriptnames(42)
 }
 
+
+hh <- function(...)
+  .Defunct("HHscriptnames", package="HH")
+
+
 if (FALSE) { ## new
 system.file("scripts/hh2", package="HH") ## Macintosh
 ## [1] "/Library/Frameworks/R.framework/Versions/3.1/Resources/library/HH/scripts/hh2"

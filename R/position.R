@@ -3,8 +3,7 @@
   if (length(levels(x)) != length(value))
     stop("length(levels(x)) != length(value)")
   if (!is.positioned(x))
-    if.R(r=class(x) <- c("positioned", class(x)),
-         s=oldClass(x) <- c("positioned", oldClass(x)))
+    class(x) <- c("positioned", class(x))
   attr(x, "position") <- value
   x
 }
@@ -22,7 +21,7 @@ position <- function(x) {
 
 unpositioned <- function(x, ...) {
   if (!is.positioned(x)) return(x)
-  oldClass(x) <- oldClass(x)["positioned" != oldClass(x)]
+  class(x) <- class(x)["positioned" != class(x)]
   attr(x, "position") <- NULL
   x
 }
@@ -44,7 +43,6 @@ as.position <- function(x) {
 }
 
 "[.positioned" <- function (x, ..., drop = FALSE) {
-  if.R(s={drop=FALSE}, r={}) ## S-Plus has an argument matching problem
   position.x <- position(x)
   x <- unpositioned(x)
   y <- NextMethod("[")
@@ -75,8 +73,7 @@ positioned <- function(x, ..., value) {
 
 print.positioned <- function(x, ...) {
   xx <- x
-  attr(x, "position") <- NULL
-  oldClass(x) <- oldClass(x)[-1]
+  x <- unpositioned(x)
   NextMethod("print")
   cat("position:", paste(position(xx), collapse = " < "), "\n")
   invisible(xx)
@@ -87,11 +84,6 @@ unique.positioned <- function(x, incomparables = FALSE, ...) {
   position(y) <- position(x)
   y
 }
-
-if.R(s=
-     setOldClass(c("positioned", "ordered", "factor"))
-     ,
-     r={})
 
 as.numeric.positioned <- function(x, ...){
   if (is.numeric.positioned(x))

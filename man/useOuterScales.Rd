@@ -219,7 +219,8 @@ BC15
 }
 
 \dontrun{ ## display 16 options for strip labels with outerScales
-pdf("useOuterScales16.pdf", height=16, width=21)
+useOuterScales16 <- tempfile("useOuterScales16", fileext = ".pdf")
+pdf(useOuterScales16, height=16, width=21)
 print(BC0,  split=c(1,1,4,4), more=TRUE)
 print(BC1,  split=c(2,1,4,4), more=TRUE)
 print(BC2,  split=c(3,1,4,4), more=TRUE)

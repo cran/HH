@@ -252,7 +252,8 @@ NTplot(xy.t)
 NTplot(xy.t, type="confidence")
 
 \dontrun{
-     NTplot(shiny=TRUE)  ## with any other arguments for initialization of the shiny app.
+  if (interactive())
+    NTplot(shiny=TRUE)  ## with any other arguments for initialization of the shiny app.
 }
 
 \dontrun{

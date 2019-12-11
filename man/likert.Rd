@@ -3,6 +3,7 @@
 \alias{plot.likert}
 \alias{likertplot}
 \alias{plot.likert.formula}
+\alias{plot.likert.matrix}
 \alias{plot.likert.default}
 \alias{plot.likert.array}
 \alias{plot.likert.likert}
@@ -104,7 +105,7 @@ likertplot(x, ...)
                                 colorFunction="diverge_hcl",
                                 colorFunctionOption="lighter"
                                 )
-\method{plot.likert}{default}(x,
+\method{plot.likert}{matrix}(x,
             positive.order=FALSE,
             ylab=names(dimnames(x)[1]),
             xlab=if (as.percent != FALSE) "Percent" else "Count",
@@ -133,6 +134,8 @@ likertplot(x, ...)
             xlimEqualLeftRight=FALSE,
             xTickLabelsPositive=TRUE,
             reverse=FALSE)
+
+\method{plot.likert}{default}(x, ...)  ## calls plot.likert.matrix
 
 \method{plot.likert}{array}(x,
              condlevelsName=paste("names(dimnames(", xName, "))[-(1:2)]",
@@ -889,7 +892,7 @@ likert(~ . , data=tmp, ReferenceZero=2.5, border="white", main="Border. OK.")
 
 \dontrun{
   ## run the shiny app
-  shiny::runApp(system.file("shiny/likert", package="HH"))
+if (interactive())  shiny::runApp(system.file("shiny/likert", package="HH"))
 }
 
 ## The ProfChal data is done again with explicit use of ResizeEtc

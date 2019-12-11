@@ -10,7 +10,7 @@ Functions used by mmcplot.
 Functions used by mmcplot.
 }
 \usage{
-mmcisomeans(mmc, col=col, lwd=lwd, lty=lty,
+mmcisomeans(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
             type = "mca", xlim = NULL, ylim = NULL, ...,
             axis.right=2.2,
             ylab=paste(
@@ -22,7 +22,7 @@ mmcisomeans(mmc, col=col, lwd=lwd, lty=lty,
             contrast.label=TRUE,
             means.height=TRUE)
 
-mmcmatch(mmc, col=col, lwd=lwd, lty=lty,
+mmcmatch(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
          type = "mca", xlim = NULL, ylim = NULL, ...,
          axis.right=2.2,
          ylab=NULL,
@@ -31,7 +31,7 @@ mmcmatch(mmc, col=col, lwd=lwd, lty=lty,
          contrast.label=TRUE,
          xlim.match=(type != "none"))
 
-mmcboth(mmc, col=col, lwd=lwd, lty=lty,
+mmcboth(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
         type = "mca", h = c(0.7, 0.3), xlim = NULL, ylim = NULL, ...,
         ylab.right=NULL, MMCname="MMC", Tiebreakername="Tiebreaker")
 }
@@ -54,7 +54,7 @@ mmcboth(mmc, col=col, lwd=lwd, lty=lty,
   \item{xlim, ylim, xlab, ylab, ylab.right}{Standard
         \code{\link[lattice]{xyplot}} arguments.
 }
-  \item{col,lwd, lty}{Standard
+  \item{col, lwd, lty}{Standard
         \code{\link[lattice]{xyplot}} arguments applied to the line segments
         representing the contrasts.
 }

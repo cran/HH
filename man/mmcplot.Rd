@@ -15,13 +15,13 @@ MMC (Mean--mean Multiple Comparisons) plots in lattice
 }
 \usage{
 mmcplot(mmc, ...)
-\method{mmcplot}{mmc}(mmc, col=col, lwd=lwd, lty=lty, ...,
+\method{mmcplot}{mmc}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...,
                   style=c("isomeans", "confint", "both"),
                   type=c("mca", "lmat", "linfct", "none"))
 \method{mmcplot}{glht}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1),
                   focus=mmc$focus, ...)
 \method{mmcplot}{mmc.multicomp}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
-\method{mmcplot}{multicomp}(mmc, col=col, lwd=lwd, lty=lty, ...)
+\method{mmcplot}{multicomp}(mmc, col=c("black","red"), lwd=c(1,1), lty=c(2,1), ...)
 \method{mmcplot}{default}(mmc, ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -29,7 +29,7 @@ mmcplot(mmc, ...)
   \item{mmc}{
 \code{mmc} object or other object as indicated by method.
 }
-  \item{col,lwd, lty}{Standard
+  \item{col, lwd, lty}{Standard
         \code{\link[lattice]{xyplot}} arguments applied to the line segments
         representing the contrasts.
 }

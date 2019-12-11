@@ -75,9 +75,12 @@ NTplot(p0=.4, p.hat=.65, p1=.7, distribution.name="binomial", n=15)
 NTplot(p.hat=.65, distribution.name="binomial", n=15, type="confidence")
 }
 \dontrun{ ## these are interactive and won't work in R CMD check
-NTplot(distribution.name="binomial", n=20, ylim=c(0,4.2), p1=.8, shiny=TRUE)
-NTplot(p0=.4, p.hat=.65, p1=.7, distribution.name="binomial", n=15, shiny=TRUE)
-NTplot(p.hat=.65, distribution.name="binomial", n=15, type="confidence", shiny=TRUE)
+  if (interactive())
+    NTplot(distribution.name="binomial", n=20, ylim=c(0,4.2), p1=.8, shiny=TRUE)
+  if (interactive())
+    NTplot(p0=.4, p.hat=.65, p1=.7, distribution.name="binomial", n=15, shiny=TRUE)
+  if (interactive())
+    NTplot(p.hat=.65, distribution.name="binomial", n=15, type="confidence", shiny=TRUE)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

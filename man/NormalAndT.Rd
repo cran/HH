@@ -151,14 +151,19 @@ demo(NTplot, ask=FALSE)
 }
 
 \dontrun{ ## these are interactive and do not work in static checking of the code
-NTplot(mean0=0, mean1=1, shiny=TRUE)
-NTplot(shiny=TRUE, px.height=475) ## default value is 575
-NTplot(t.test(x1, x2), shiny=TRUE, mean1=1)
-NTplot(power.t.test(power = .90, delta = 1, alternative = "one.sided"), shiny=TRUE)
-NTplot(NT.object, shiny=TRUE)
+  if (interactive())
+    NTplot(mean0=0, mean1=1, shiny=TRUE)
+  if (interactive())
+    NTplot(shiny=TRUE, px.height=475) ## default value is 575
+  if (interactive())
+    NTplot(t.test(x1, x2), shiny=TRUE, mean1=1)
+  if (interactive())
+    NTplot(power.t.test(power = .90, delta = 1, alternative = "one.sided"), shiny=TRUE)
+  if (interactive())
+    NTplot(NT.object, shiny=TRUE)
 
 ## run the shiny app
-shiny::runApp(system.file("shiny/NTplot", package="HH"))
+if (interactive())  shiny::runApp(system.file("shiny/NTplot", package="HH"))
 }
 
 }

@@ -1,3 +1,81 @@
+Version 3.1-39
+--------------
+
+* 2019 Dec 08
+
+* vif.R: change vif.lm
+  to use '"try-error" %in% class(xxx)' instead of '=='
+  to use '"matrix" %in% class(xxx$x)' instead of '=='
+  Drop option for S-Plus.
+
+* vif.Rd: drop if.R() statement.  drop ifndef S-Plus statements.
+
+* residual.plots.lattice.R:  drop if.R() statement.
+  use '"try-error" %in% class(lm.data)' instead of '=='
+
+* X.residuals.R:
+  use '"try-error" %in% class(x)' instead of '=='
+
+* aov.sufficient.R:   drop if.R() statement.
+  use '"try-error" %in% class(x)' instead of '=='
+
+* position.R:  drop if.R() statements.
+  replace oldClass(x) statements with class(x) statements.
+  Use unpositioned in print.positioned, instead of repeating the statements.
+
+* position.Rd: drop if.R() statement. drop oldClass(x) statements.
+  drop ifdef statements.
+
+
+Version 3.1-38
+--------------
+
+* 2019 Dec 07
+
+* Response to CRAN change: Sys.setenv("_R_CLASS_MATRIX_ARRAY_" = "true")
+  Rename plot.likert.default to plot.likert.matrix, and define new
+  plot.likert.default that calls plot.likert.matrix.
+  Add plot.likert.matrix to NAMESPACE
+
+* Add confintervaldata, confinterval.matrix, confintervalplot to NAMESPACE
+
+* Wrap shiny examples in 'if (interactive())' in 10 man/*.Rd files
+
+* imagej moved to https://imagej.net/Downloads in man/col3x2.Rd
+  Previously it was in https://imagej.nih.gov/ij/
+
+* man/Discrete4.color.Rd: make save into comment:
+  'save(Discrete4, file="Discrete4.rda")'
+  Change plot of colors to barchart (previously was in a key).
+
+* man/col3x2.Rd: make save into comment:
+  'save(col3x2, file="col3x2.rda")'
+  Change plot of colors to barchart (previously was in a key).
+  Also include a 2-row by 3-col barchart.
+
+* remove an interfering nested \dontrun{} in man/ae.dotplot7.Rd
+
+* export.eps.Rd: wrap example in 'if(interactive())'
+
+* Functions hh, hh.old, hh.file, hh.file.DOS in files R/hh.r, R/hh.file.R.
+  All four functions are now removed from the package and the NAMESPACE.
+  Files R/hh.r, R/hh.file.R, man/hh.Rd are now removed.
+  hh and hh.file are now defunct and listed in HH-defunct.Rd.
+  These were initially designed for a standalone set of
+  files to support the HH first edition, before the HH package was defined.
+
+* add hh defunct definition to R/HHscriptnames.R
+
+* man/mmcPruneIsomeans.Rd: double "\\" to "\\\\" in example.
+
+* R/mmcplot.R and man/mmcisomeans.Rd and man/mmcplot.Rd:
+  change several function headers from
+  col=col, lwd=lwd, lty=lty,
+  to
+  col=c("black","red"), lwd=c(1,1), lty=c(2,1),
+
+
+
 Version 3.1-37
 --------------
 
@@ -17,6 +95,7 @@ Version 3.1-37
 
 * useOuterScales.Rd: line longer than 100 adjusted to 100.
 
+* On CRAN 2019-08-29
 
 
 Version 3.1-36

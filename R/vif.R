@@ -33,9 +33,10 @@ function(xx, data, na.action=na.exclude, ...) {
 function(xx, na.action=na.exclude, ...) {
   xxx <- xx  ## deal with scope problem
   if(length(xxx$x)==0 ||
-     !(class(xxx$x) == "model.matrix" || class(xxx$x) == "matrix")) {
+     !("model.matrix" %in% class(xxx$x) ||
+       "matrix"       %in% class(xxx$x)   )) {
     xxx <- try(update(xxx, x = TRUE), silent=TRUE)
-    if (class(xxx) == "Error" || class(xx)=="try-error") ## S-Plus || R
+    if ("try-error" %in% class(xxx))
       stop("Please recompute the 'lm' object with 'x=TRUE'.")
   }
   xx <- as.data.frame(unclass(xxx$x))[-1]

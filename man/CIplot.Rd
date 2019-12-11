@@ -148,13 +148,15 @@ confintervalplot(tmp.ci)
 
 ## example 5
 \dontrun{
-shiny.CIplot()
+  if (interactive())
+    shiny.CIplot()
 }
 
 ## example 6
 \dontrun{
-shiny.CIplot(height=800)  ## px
-## take control of the height of the graph in the web page
+  if (interactive())
+    shiny.CIplot(height=800)  ## px
+  ## take control of the height of the graph in the web page
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

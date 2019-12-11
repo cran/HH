@@ -21,7 +21,7 @@ col3x2 color dataset.
 \references{
 About 10\% of the population have color deficient vision.
 Your job is make your graphs legible to everyone.
-Download \code{ImageJ} from \url{http://rsb.info.nih.gov/ij/} and
+Download \code{ImageJ} from \code{https://imagej.net/Downloads} and
 \code{VischeckJ} from
 \url{http://vischeck.com} and follow the instructions in those sites.
 This program will allow you to simulate color deficient vision on your computer.
@@ -33,21 +33,33 @@ deficiency.
 }
 \examples{
 data(col3x2)
+col3x2
+
 \dontrun{
 library(RColorBrewer)
-library(grid)
 library(lattice)
 col3x2 <- c(brewer.pal(n=3, "Dark2"), brewer.pal(n=3, "Set2"))
-save(col3x2, file="col3x2.rda")
-##
-grid.newpage()
-draw.key(list(text=list(c("Dark2", "Set2")),
-              rectangles=list(col=col3x2[c(1,4,2,5,3,6)],
-                              cex=1.5, size=8, height=.7, border=FALSE),
-              columns=3,
-              between=1,
-              padding.text=8),
-         draw=TRUE)
+col3x2
+## save(col3x2, file="col3x2.rda") ## data(col3x2, package="HH")
+}
+
+\dontrun{
+barchart(~ 1:6, col=col3x2, lwd=0, origin=0, horizontal=FALSE,
+         scales=list(x=list(at=1:6, labels=col3x2)))
+
+
+tmp <- array(c(1, rep(0,6)), c(1,3,2,6),
+             dimnames=list("",
+                           c("green","orange","blue"),
+                           c("Dark2","Set2"),
+                           col3x2))
+
+useOuterStrips(barchart(tmp, col=col3x2,
+                        between=list(x=1, y=1),
+                        scales=list(x=list(at=-1)),
+                        main="col3x2", xlab="")) +
+  layer(panel.text(x=.5, y=1.45, labels=col3x2[panel.number()]))
+
 }
 }
 \keyword{datasets}

@@ -172,7 +172,7 @@ print(tmp, AEtable=FALSE)
 
 \dontrun{
   ## run the shiny app
-  shiny::runApp(system.file("shiny/AEdotplot", package="HH"))
+ if (interactive())  shiny::runApp(system.file("shiny/AEdotplot", package="HH"))
 }
 
 }

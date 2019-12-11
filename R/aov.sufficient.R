@@ -21,7 +21,6 @@ aovSufficient <-
 ## summary.lm does not give standard errors and t-tests for results
 ## calculated by aovSufficient.  We need vcovSufficient in R.
 ## It gives the same answer as the generic vcov when the generic vcov works.
-if.R(r={
 vcov.sufficient <- function(...)
   .Defunct("vcovSufficient", package="HH")
 
@@ -30,7 +29,7 @@ vcovSufficient <- function(object, ...) {
                         ## S-Plus doesn't have an "xlevels" component.
   if (length(x)==0) {
     x <- try(update(object, x=TRUE)$x, silent=TRUE)
-    if (class(x)=="Error" || class(x)=="try-error") ## S-Plus || R
+    if ("try-error" %in% class(x))
       stop("Please recompute the 'lm' object with 'x=TRUE'.")
   }
   xwx <-
@@ -40,5 +39,3 @@ vcovSufficient <- function(object, ...) {
       crossprod(x, object$weights * x)
   solve(xwx)*anova(object)$`Mean Sq`[2]
 }
-}
-,s={})

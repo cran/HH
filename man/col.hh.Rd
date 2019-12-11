@@ -18,13 +18,11 @@ col.hh()
 \seealso{\code{\link[lattice]{trellis.device}}, \code{\link[lattice]{trellis.par.get}}}
 \examples{
 \dontrun{
-if.R(r={
 trellis.device(theme="col.hh") ## Open a device with the theme
 
 trellis.device(theme=col.hh()) ## Open a device with the theme
 
 trellis.par.set(theme=col.hh())## Add theme to already open device
-},s={})
 }
 }
 \keyword{color}

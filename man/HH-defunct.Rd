@@ -19,6 +19,8 @@
 \alias{plot.matchMMC}
 \alias{seqplot.forecast}
 \alias{lm.case}
+\alias{hh}
+\alias{hh.file}
 
 \title{Defunct Functions in Package 'HH'}
 
@@ -45,7 +47,15 @@ plot.hov.bf(...)              ## hovPlot.bf
 plot.matchMMC(...)            ## plotMatchMMC
 seqplot.forecast(...)         ## seqplotForecast
 lm.case(...)                  ## case.lm
+hh(...)                       ## hh("datasets/njgolf.dat") ## old
+                              ## data(njgolf) ## use this for dataset
+                              ##
+                              ## hh("grap/code/ecolo.r") ## old
+                              ## HHscriptnames("grap", 1) use this for pathname
+                              ## Open the specified file in a text
+                              ## editor and search for "grap/code/ecolo".
 }
+
 \arguments{
 \item{\dots}{other arguments.}
 }

@@ -42,7 +42,8 @@ rhiz.clover.cs.aov
 cs.mmc <- mmc(rhiz.clover.cs.aov, linfct=mcp(cs="Tukey"),
               calpha=qtukey( .95, 6,  48)/sqrt(2))
 dlmat2 <- dimnames(cs.mmc$mca$lmat)[[2]]
-cl.index <- grep("clover\\.[[:print:]]*clover\\.", dlmat2, value=TRUE)
+cl.index <- grep("clover\\\\.[[:print:]]*clover\\\\.", dlmat2, value=TRUE)
+%% cl.index <- grep("clover\\.[[:print:]]*clover\\.", dlmat2, value=TRUE)
 cl.index
 clover.lmat <- cs.mmc$mca$lmat[, cl.index] ## suppress "clover+alfalfa" contrasts
 dimnames(clover.lmat)[[1]]

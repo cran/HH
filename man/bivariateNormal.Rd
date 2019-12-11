@@ -49,8 +49,10 @@ bv8 <- bivariateNormal(.7)  ## all views on one page
 bv8
 update(bv8[3], layout=c(1,1)) ## one panel
 \dontrun{
-  shiny::runApp(file.path(system.file(package="HH"), "shiny/bivariateNormal")) ## 3D
-  shiny::runApp(system.file("shiny/bivariateNormalScatterplot", package="HH")) ## scatterplota
+  if (interactive())
+    shiny::runApp(file.path(system.file(package="HH"), "shiny/bivariateNormal")) ## 3D
+  if (interactive())
+    shiny::runApp(system.file("shiny/bivariateNormalScatterplot", package="HH")) ## scatterplot
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
