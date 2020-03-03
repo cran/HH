@@ -1,6 +1,6 @@
-1a36f4a2b411d7506904f951f5b0f66f *DESCRIPTION
+355012808beb9eca4cc698ddf9b51af7 *DESCRIPTION
 9fafbdf0a5f7e0eed8c16efe7272cb79 *NAMESPACE
-2c181eef054be75f81fe7107b810cc6c *NEWS
+48f0b329a5870eca85a84b340a247fd3 *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 747a266397e5231548824d02ef791c38 *R/ARIMA-trellis.R
 dad9cb7f191f4f176335668c6d686629 *R/CIplot.R
@@ -48,7 +48,7 @@ af9b290eace401501864472ca0236a6a *R/hovBF.R
 8aeba62f5c55c6016364fc1176ea0993 *R/interval.R
 f7548e83e50d11992ac7cf997612a214 *R/intxplot.s
 f2be3c34f44738dbd87cc161a563e2b1 *R/ladder.R
-f5b3f40efc93947c621a5f3bec5d1027 *R/likert.R
+0055de84d630d97a03fd75cd15321b48 *R/likert.R
 95e78efef9b03abaf1481de82aee2da9 *R/likert.formula.DataFrame.r
 1d1625d5519d273733b29a66570f753d *R/likert.formula.R
 ab56b652d424ee8338d04a9d5ad0d11c *R/likertColor.R
@@ -61,7 +61,7 @@ f52c7828df205239cf4681cb077edf57 *R/lmatRows.R
 61b78ee1e6cd2a6b55063e4700fffdd5 *R/logit.R
 37129740debb44d66fd0919207b35c2c *R/matrix.trellis.r
 b05ef0d7c2f8014cd5ddd036f028c58e *R/mcalinfct.R
-462f631680a06019ab701fbcd5b961fc *R/mcp.993.R
+a20d406581e142e9ab8d2551dd8f04b9 *R/mcp.993.R
 77cb1375eec38750bf32f4fb674f59cc *R/mmc.explain.R
 19b0962bd723d29cba300a5c3730ae5a *R/mmcplot.R
 00e3fb6a82e56ea05504ed1489ce2efe *R/multicomp.mean.R
@@ -123,7 +123,7 @@ f888c5e6ef3246675159a5be8eef75f4 *R/vif.R
 96f41e09595704855d2f6694e768e770 *R/workarounds.R
 bbe48620c548e765039df4f472283f86 *R/xysplom.R
 22a0027ca91df837a315c00273307f1a *R/zzz.R
-e8ad0d6fc2d9f360dd330ca3f351162f *build/partial.rdb
+b9feb451bc33e7ff0b545a28dd2bdc45 *build/partial.rdb
 c36ad380343d39a99ce1f131786753ce *data/AEdata.rda
 735cb8f80544d35050f23f24f346e3af *data/AudiencePercent.rda
 88c6fad52b77b588ce6d3538d02738dd *data/Design_2.8_2.rda
@@ -453,7 +453,7 @@ a40648d204ff6260df40833ac24955a7 *man/interaction2wt.Rd
 ee1062a7be246717c6d9f9f83f7983f5 *man/ladder.Rd
 5bf01303d1135c33e3a075e3c27f74a4 *man/latticeresids.Rd
 fd4f19fb9da677e1f98c9a2bff7df8df *man/legendGrob2wt.Rd
-70084fe376630d625d9877c62758ed3b *man/likert.Rd
+666ec282a65d421a0512045c035f877b *man/likert.Rd
 4811785fb9f32841e4d044aed56b4f6c *man/likertColor.Rd
 2d10d64d39a66a0ba3b356098416cc17 *man/likertMosaic.Rd
 96099831c063262b6c6068840eb980e5 *man/lm.case.Rd
@@ -482,7 +482,7 @@ a020bb73e29ff127d6d2e8fcdb36da71 *man/odds.ratio.Rd
 edbbd1d43d78fab05a3e5457f75d9529 *man/panel.acf.Rd
 d0492ed06338d10557efe88733fe798e *man/panel.axis.right.Rd
 10b1dcd3c6918d6056977ea187d0202a *man/panel.bwplot.intermediate.hh.Rd
-3e77ea089454df2076b8169895581f0a *man/panel.bwplot.superpose.Rd
+e2f0dc26a65339523cea5f0752b7d528 *man/panel.bwplot.superpose.Rd
 ba55ace3f5ce329c4482f6d52a1c26db *man/panel.bwplott.Rd
 53a3c5b23b3a89a391ba5beb51304126 *man/panel.cartesian.Rd
 c2e510ef86ed51dbcef924575f39b0f8 *man/panel.ci.plot.Rd

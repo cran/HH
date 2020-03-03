@@ -20,14 +20,14 @@ mcp2matrix.993 <- function(model, linfct) {
         stop(sQuote("linfct"), "is not a named list")
     nhypo <- names(linfct)
     checknm <- nhypo %in% rownames(factors)
-    if (!all(checknm)) 
+    if (!all(checknm))
         stop("Variable(s) ", sQuote(nhypo[!checknm]), " have been specified in ",
              sQuote("linfct"), " but cannot be found in ", sQuote("model"), "! ")
     if (any(checknm)) {
         checknm <- sapply(mf[nhypo[checknm]], is.factor)
         if (!all(checknm))
-            stop("Variable(s) ", sQuote(paste(nhypo[!checknm], collapse = ", ")), " of class ", 
-                  sQuote(paste(sapply(mf[nhypo[!checknm]], class), collapse = ", ")), 
+            stop("Variable(s) ", sQuote(paste(nhypo[!checknm], collapse = ", ")), " of class ",
+                  sQuote(paste(sapply(mf[nhypo[!checknm]], class), collapse = ", ")),
                   " is/are not contained as a factor in ", sQuote("model"), ".")
     }
     m <- c()
@@ -56,7 +56,7 @@ mcp2matrix.993 <- function(model, linfct) {
                     rownames(tmpK) <- paste(nm, rownames(tmpK), sep = ": ")
                 list(K = tmpK)
             }
-            
+
             tmp <- lapply(linfct[[nm]], Kchr)
             linfct[[nm]] <- do.call("rbind", lapply(tmp, function(x) x$K))
         }
@@ -69,13 +69,13 @@ mcp2matrix.993 <- function(model, linfct) {
     for (nm in nhypo) {
         ### extract contrast matrix for each factor from model fit
         if (is.character(contrasts[[nm]])) {
-            C <- do.call(contrasts[[nm]], 
+            C <- do.call(contrasts[[nm]],
                          list(n = nlevels(mf[[nm]])))
         } else {
             C <- contrasts[[nm]]
         }
-        ### and transform the original linear hypotheses 
-        ### K beta to K C beta^* 
+        ### and transform the original linear hypotheses
+        ### K beta to K C beta^*
         if (intercept) {
             Kstar <- linfct[[nm]] %*% C
         } else {
@@ -99,11 +99,11 @@ mcp2matrix.993 <- function(model, linfct) {
                     warning("covariate interactions found -- please choose appropriate contrast")
                 }
                 if (sum(factors[1:which(rownames(factors) == nm), i]) == 1) {
-                    Kinter <- cbind(Kinter, 
+                    Kinter <- cbind(Kinter,
                         Kstar[,rep(1:ncol(Kstar), k), drop = FALSE] * fact)
                 } else {
-                    Kinter <- cbind(Kinter, 
-                        Kstar[,rep(1:ncol(Kstar), rep(k, ncol(Kstar))), 
+                    Kinter <- cbind(Kinter,
+                        Kstar[,rep(1:ncol(Kstar), rep(k, ncol(Kstar))),
                               drop = FALSE] * fact)
                 }
             }
@@ -135,7 +135,7 @@ mcp2matrix.993 <- function(model, linfct) {
     if (length(m) == 0) m <- 0
     list(K = Ktotal, m = m, alternative = alternative, type = ctype)
 }
-environment(mcp2matrix.993) <- environment(multcomp:::mcp2matrix)
+environment(mcp2matrix.993) <- environment(glht)
 
 
 

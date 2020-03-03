@@ -274,7 +274,7 @@ yscale.components.right.HH(...)
   \item{right.text.cex}{The right axis, as used here for the
     "Row Count Totals", has non-standard controls.  It's \code{cex}
     follows the \code{cex} of the left axis, unless this argument is
-    used to override that value.  When code{horizontal=FALSE}, then
+    used to override that value.  When \code{horizontal=FALSE}, then
     the top axis defaults to follow the bottom
     axis unless overridden by \code{right.text.cex}.}
   \item{between}{Standard \code{lattice} argument.}

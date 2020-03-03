@@ -1,3 +1,22 @@
+Version 3.1-40
+--------------
+
+* 2020 Mar 02
+
+* likert.Rd: repair typo
+
+* likert.R: plot.likert.list gave an error for horizontal=TRUE.  Hence so did plot.likert.array.
+  Now repaired.
+
+* likert.R: Remove if.R().  Remove obsolete comments and if(FALSE){} statement.
+
+* panel.bwplot.superpose.Rd: Test$Treatment in example is now explicitly a factor
+
+* mcp.993.R: changed from 'environment(multcomp:::mcp2matrix)' to 'environment(glht)' to avoid ':::'
+
+* On CRAN 2020-03-02
+
+
 Version 3.1-39
 --------------
 
@@ -25,6 +44,8 @@ Version 3.1-39
 
 * position.Rd: drop if.R() statement. drop oldClass(x) statements.
   drop ifdef statements.
+
+* On CRAN 2019-12-11
 
 
 Version 3.1-38

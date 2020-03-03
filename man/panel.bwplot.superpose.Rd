@@ -101,8 +101,9 @@ bwplot(Group ~ Response, data=tmp,
 
 Test <- data.frame(id=rep(letters, each=4),
                    Week=rep(c(0,1,3,6), 26),
-                   Treatment=rep(c("A","B"), each=52),
-                   y=rep(1:4, 52) + rep(4:5, each=52) + rnorm(104))
+                   Treatment=rep(factor(c("A","B"), levels=c("A","B")), each=52),
+                   y=rep(1:4, 52) + rep(4:5, each=52) + rnorm(104),
+                   stringsAsFactors=FALSE)
 Test$WeekTrt <- with(Test, interaction(Week, Treatment))
 position(Test$Week) <- unique(Test$Week)
 position(Test$WeekTrt) <- as.vector(outer(position(Test$Week), c(-.2, .2), `+`))
