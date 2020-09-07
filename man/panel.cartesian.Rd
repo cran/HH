@@ -40,11 +40,12 @@ is often the best thing to do.}
 tool.  When \code{TRUE}, the \code{browser()} is turned on at various
 critical points.}
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \seealso{\code{\link{ladder}}, \code{\link{xysplom}}}
 \examples{

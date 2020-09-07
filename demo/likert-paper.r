@@ -380,8 +380,20 @@ likert( ~ . | PercentPoorInArea, PoorChildren,
        scales=list(y=list(relation="free", tck=c(0,3))),
        h.resizePanels=rowCounts
        )
-PoorChildrenPlot
+update(PoorChildrenPlot, sub="version of plot in paper")
 
+PoorChildrenPlot <-
+  update(PoorChildrenPlot, sub="revised to put border on plot") +
+  latticeExtra::layer({
+    if (current.row() == 1)
+      panel.abline(h=current.panel.limits()$ylim[2])
+    if (current.row() ==n.row) {
+      panel.abline(h=current.panel.limits()$ylim[1])
+      panel.axis("bottom", draw.labels=FALSE, ticks=TRUE, outside=TRUE, line.col="black")
+    }
+    panel.abline(v=current.panel.limits()$xlim)
+  }, data=list(n.row=nrow(PoorChildren)))
+PoorChildrenPlot
 
 if (PrintPDF) {
 pdf("PoorChildrenPlot.pdf", width=8, height=7)
@@ -422,6 +434,10 @@ PClikNWC <-
            space="bottom", columns=4, between=1,
            text=names(ByWP[c(4,3,1,2)]),
            rect=list(col=PCWPpalette[c(4,3,2,1)], border="white")))
+update(PClikNWC, sub="version of plot in paper")
+
+PClikNWC <-
+  update(PClikNWC, ylim=c(0,100), sub="revised ylim")
 PClikNWC
 
 if (PrintPDF) {
@@ -454,6 +470,15 @@ PClikWC <-
          ## hence the effective box.width,
          ## proportional to the Number of persons
          )
+update(PClikWC, sub="version of plot in paper")
+
+PClikWC <-
+  update(PClikWC, sub="revised to put border on plot", ylim=c(0,100), between=list(x=0)) +
+  latticeExtra::layer({
+    if (panel.number() ==  1) panel.abline(v=current.panel.limits()$xlim[1])
+    if (panel.number() ==  2) panel.abline(v=current.panel.limits()$xlim[2])
+    panel.abline(h=current.panel.limits()$ylim)
+  })
 PClikWC
 
 if (PrintPDF) {

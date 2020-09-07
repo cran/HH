@@ -1,4 +1,4 @@
-intxplot <- function(x, data=sys.parent[1], groups.in,
+intxplot <- function(x, data=NULL, groups.in,
                      scales,
                      key.length=1,
                      key.lines,
@@ -19,14 +19,11 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
                        if (length(x[[3]]) > 1)
                        paste("|", condition.name.to.use)),
                      main.cex=1.5) {
-  ## on.exit(browser())
   M <- sys.call()
   M[[1]] <- as.name("xyplot")
 
   groups <- eval(substitute(groups.in), data)
   levels.groups <- levels(as.factor(groups))
-
-  ## browser()
 
   if (length(x[[3]]) > 1) {
     x.factor <- deparse(x[[3]][[2]])
@@ -77,7 +74,7 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
         stop(paste("summary function ",
                    deparse(substitute(summary.function)),
                    " not known yet.", sep=""))
-  ## browser()
+
   M$scales <- list(x=list(
                      at=num.lev.x,
                      labels=lev.x,
@@ -123,7 +120,6 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
   M$x.factor.name <- NULL
   M$main.title <- NULL
   M$main.cex <- NULL
-  ## browser()
 
   if (!missing(se)) {
     if (!is.logical(substitute(se)))
@@ -134,7 +130,6 @@ intxplot <- function(x, data=sys.parent[1], groups.in,
 
   eval(M, sys.parent(1))
 }
-## trace(intxplot, exit=browser)
 
 
 
@@ -190,9 +185,6 @@ panel.intxplot <-
                       subscripts[c(i,i)], unpositioned(groups), type=type,
                       col=tpg.col[i], ...)
 
-##      browser()
     }
   }
 }
-## trace(panel.intxplot, exit=browser)
-## trace(sufficient, exit=browser)

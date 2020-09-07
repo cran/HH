@@ -28,34 +28,34 @@ plot.likert.default <- function(x, ...)
     plot.likert.matrix(x, ...)
 
 plot.likert.matrix <- function(x,
-                                positive.order=FALSE,
-                                ylab=names(dimnames(x)[1]),
-                                xlab=if (as.percent != FALSE) "Percent" else "Count",
-                                main=xName,
-                                reference.line.col="gray65",
-                                col.strip.background="gray97",
-                                col=likertColor(attr(x, "nlevels"),
-                                  ReferenceZero=ReferenceZero,
-                                  colorFunction=colorFunction,
-                                  colorFunctionOption=colorFunctionOption),
-                                colorFunction="diverge_hcl",
-                                colorFunctionOption="lighter",
-                                as.percent=FALSE,
-                                par.settings.in=NULL,
-                                horizontal=TRUE,
-                                ReferenceZero=NULL,
-                                ...,
-                                key.border.white=TRUE,
-                                xName=deparse(substitute(x)),
-                                rightAxisLabels=rowSums(abs(x)),
-                                rightAxis=!missing(rightAxisLabels),
-                                ylab.right=if (rightAxis) "Row Count Totals" else NULL,
-                                panel=panel.barchart,
-                                xscale.components=xscale.components.top.HH,
-                                yscale.components=yscale.components.right.HH,
-                                xlimEqualLeftRight=FALSE,
-                                xTickLabelsPositive=TRUE,
-                                reverse=FALSE) {
+                               positive.order=FALSE,
+                               ylab=names(dimnames(x)[1]),
+                               xlab=if (as.percent != FALSE) "Percent" else "Count",
+                               main=xName,
+                               reference.line.col="gray65",
+                               col.strip.background="gray97",
+                               col=likertColor(attr(x, "nlevels"),
+                                               ReferenceZero=ReferenceZero,
+                                               colorFunction=colorFunction,
+                                               colorFunctionOption=colorFunctionOption),
+                               colorFunction="diverge_hcl",
+                               colorFunctionOption="lighter",
+                               as.percent=FALSE,
+                               par.settings.in=NULL,
+                               horizontal=TRUE,
+                               ReferenceZero=NULL,
+                               ...,
+                               key.border.white=TRUE,
+                               xName=deparse(substitute(x)),
+                               rightAxisLabels=rowSums(abs(x)),
+                               rightAxis=!missing(rightAxisLabels),
+                               ylab.right=if (rightAxis) "Row Count Totals" else NULL,
+                               panel=panel.barchart,
+                               xscale.components=xscale.components.top.HH,
+                               yscale.components=yscale.components.right.HH,
+                               xlimEqualLeftRight=FALSE,
+                               xTickLabelsPositive=TRUE,
+                               reverse=FALSE) {
   force(xName)
   rightAxisMissing <- missing(rightAxis)  ## needed by as.percent
   x.input <- x
@@ -228,7 +228,7 @@ plot.likert.matrix <- function(x,
     if (barchart.args$horizontal) {
       result$y.scales$alternating <- 3
       names(result$y.limits) <- rightAxisLabels ## rev(rightAxisLabels)
-      result$y.scales$tck <- c(1, 1)
+      ## result$y.scales$tck <- c(1, 1)
       result$y.scales$col.line <- 0
     } else {
       result$x.scales$alternating <- 3
@@ -290,6 +290,12 @@ plot.likert.array <- function(x,  ## an array
                               ...) {
   ##force(condlevelsName)
   force(xName)
+  if (length(dim(x))==1) {
+    dnx <- dimnames(x)[[1]]
+    x <- as.vector(x)
+    names(x) <- dnx
+    return(plot.likert.default(x, main=xName, xName=xName, ...))
+    }
   if (length(dim(x))==2) NextMethod("plot.likert")
   x <- as.MatrixList(x)  ## list of matrices, one per each layer of array
   plot.likert.list(x,

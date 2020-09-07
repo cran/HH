@@ -16,19 +16,19 @@
  \code{names(result) <- c(-1, -.5, 0, .5, 1, 2)}
 }
 \usage{
-ladder(formula.in, data=sys.parent(),
+ladder(formula.in, data=NULL,
        main.in="Ladders of Powers",
        panel.in=panel.cartesian,
        xlab=deparse(formula.in[[3]]),
        ylab=deparse(formula.in[[2]]),
-       scales=list(alternating=if.R(s=TRUE, r=FALSE),
+       scales=list(alternating=FALSE,
          labels=FALSE, ticks=FALSE, cex=.6),
        par.strip.text=list(cex=.6),
        cex=.5, pch=16, between=list(x=.3, y=.3),
        dsx=xlab,
        dsy=ylab,
        ladder.function=ladder.f,
-       strip.number=if.R(r=2, s=1),
+       strip.number=2,
        strip.names,
        strip.style=1,
        strip,
@@ -163,11 +163,12 @@ column per power.  \code{ladder.f} uses the simple powers and
     between them.
 }
 
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 
 Hoaglin, D.~C., Mosteller, F., and Tukey, J.~W., editors (1983).
 \emph{Understanding Robust and Exploratory Data Analysis}.
@@ -185,30 +186,22 @@ data(tv)
 
 ## default
 ## R: outer strip labels
-## S-Plus: one strip label per panel (too full for this example, see below)
 ladder(life.exp ~ ppl.per.phys, data=tv,
        main="Ladder of Powers for Life Expectancy and People per Physician")
 
 \dontrun{
 ## one strip label
-if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=1, useOuter=FALSE,
-              dsx="ppp", dsy="le"),
-     s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=1,
-              dsx="ppp", dsy="le")) ## S-Plus default
+  ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=1, useOuter=FALSE,
+         dsx="ppp", dsy="le")
 
 ## two strip labels
-if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=2, useOuter=FALSE),
-     s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=2,
-              axis3.line=1.2))
+  ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=2, useOuter=FALSE)
 
 ## outer strip labels
-if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, useOuter=TRUE), ## R default
-     s={}) ## S-Plus not available
+ladder(life.exp ~ ppl.per.phys, data=tv, useOuter=TRUE)
 
 ## no strip labels (probably silly, but possible)
-if.R(r=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0, useOuter=FALSE),
-     s=ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0,
-              axis3.line=0))
+ladder(life.exp ~ ppl.per.phys, data=tv, strip.number=0, useOuter=FALSE)
 }
 }
 \keyword{hplot}

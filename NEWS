@@ -1,3 +1,62 @@
+Version 3.1-42
+--------------
+
+* 2020 Sep 07
+
+* data=sys.parent() replaced by data=NULL in 6 functions in *.R files,
+  1 function in a former .s file, and 7 functions in *.Rd files:
+  hovBF xysplom.formula ladder interaction2wt.formula hov plot.hov
+  intxplot
+
+* 11 .s files have been renamed to .R files
+  intxplot.s sufficient.s arima.diag.hh.s residual.plots.s
+  panel.pairs.hh.s guiRemove.s print.multicomp.hh.s orthogonal.s
+  panel.rug.h2.s trellis.device.hh.s stripbak.s
+
+* file previously named trellis.device.hh.r is renamed to col.hh.R,
+  replacing previous file col.hh.R.  Content is the same function
+  col.hh(), the retained file has comments on using the function.
+
+* removed if.R() from functions in .R files that were adjusted for
+  data=sys.parent();
+  xysplom.formula xysplom.default ladder interaction2wt.default hov
+  hov.bf hovPlot plot.hov.bf panel.hov, and in ladder.Rd
+
+* change http:// to https://in CITATION and in man/*.Rd as detected by
+  R CMD check.
+
+* change references in 26 files in man/*.Rd from HH first edition with
+  10-digit ISBN to HH second edition with 13-digit ISBN.  The first
+  edition reference with the newer 13-digit ISBN is retained in
+  HH.package.Rd and in the CITATION.
+
+* on CRAN 2020-09-07
+
+
+
+Version 3.1-41
+--------------
+
+* 2020 Jun 02
+
+* likert.R: plot.likert.array
+  as.likert.R: as.likert.array
+  likertMosaic.R: likertMosaic
+  as.matrix.listOfMatrices.R: as.MatrixList.array
+  repaired to handle one-dimensional "array"s (Adjustment needed in
+  response to "matrix" now also being an "array".  All these should
+  have been changed in 3.1-38).
+
+* likert.R: plot.likert.matrix
+  Previously when rightAxisLabels was TRUE, y.scales$tck could not be
+  controlled from the calling sequence with
+       scales=list(y=list(tck=c(0,3)))
+  for example.  Now it can be controlled.
+
+* demo/likert-paper.r: Figures 12 and 13 revised to put borders on
+  plot.
+
+
 Version 3.1-40
 --------------
 
@@ -5,14 +64,18 @@ Version 3.1-40
 
 * likert.Rd: repair typo
 
-* likert.R: plot.likert.list gave an error for horizontal=TRUE.  Hence so did plot.likert.array.
+* likert.R: plot.likert.list gave an error for horizontal=TRUE.  Hence
+  so did plot.likert.array.
   Now repaired.
 
-* likert.R: Remove if.R().  Remove obsolete comments and if(FALSE){} statement.
+* likert.R: Remove if.R().  Remove obsolete comments and if(FALSE){}
+  statement.
 
-* panel.bwplot.superpose.Rd: Test$Treatment in example is now explicitly a factor
+* panel.bwplot.superpose.Rd: Test$Treatment in example is now
+  explicitly a factor
 
-* mcp.993.R: changed from 'environment(multcomp:::mcp2matrix)' to 'environment(glht)' to avoid ':::'
+* mcp.993.R: changed from 'environment(multcomp:::mcp2matrix)' to
+  'environment(glht)' to avoid ':::'
 
 * On CRAN 2020-03-02
 

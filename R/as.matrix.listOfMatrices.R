@@ -150,6 +150,18 @@ as.MatrixList <- function(x)
 as.MatrixList.array <- function(x) {
   if (is.null(dimnames(x)) || any(sapply(dimnames(x), is.null))) stop("The object must have dimnames.")
   ldx <- length(dim(x))
+  switch(ldx,
+  {
+    warning("Returning a vector.")
+    dnx <- dimnames(x)
+    x <- as.vector(x)
+    names(x) <- dnx[[1]]
+    return(x)
+  },
+  {
+    warning("Returning a matrix.")
+    return(x)}
+  )
   xa <- lapply(apply(x, 3:ldx, function(x) list(x)), `[[`, 1)
   dim(xa) <- dim(x)[-(1:2)]
   dimnames(xa) <- dimnames(x)[-(1:2)]

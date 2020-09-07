@@ -2,22 +2,13 @@ interaction2wt <- function(x, ...)
   UseMethod("interaction2wt")
 
 "interaction2wt.formula" <-
-  function(x, data=sys.parent(), responselab,
+  function(x, data=NULL, responselab,
            ...) {
-    ## if.R(
-    ##      r={
     do.formula.trellis <- NA ## make R-2.6.0dev happy
     dft <- do.formula.trellis.xysplom(x, data=data)
     y.in <- dft$y[[1]]
     x.in <- dft$x
     if (missing(responselab)) responselab <- names(dft$y)
-    ## },
-    ## s={
-    ##   dft <- do.formula.trellis(x)
-    ##   y.in <- eval(dft$expr[[1]], local=data)
-    ##   x.in <- data[,dft$xlab,drop=FALSE]
-    ##   if (missing(responselab)) responselab <- dft$ylab
-    ## })
     if (is.null(x.in) || is.null(y.in))
       stop("both x and y are needed in formula")
     interaction2wt.default(x=x.in, response.var=y.in,
@@ -72,33 +63,7 @@ interaction2wt.default <-
 
     factor.levels <- lapply(x, levels)
     factor.position <- lapply(x, position)
-    ##   scales.input <- list(x=list(
-    ##                          relation=x.relation,
-    ##                          alternating=FALSE,
-    ##                          xaxt="n",  ## S-Plus
-    ##                          draw=FALSE ## R
-    ##                          ),
-    ##                        y=list(relation=y.relation, alternating=2))
-    ##
-    ##
-    ##     scales.input <- if.R(r={
-    ##       list(x=list(
-    ##              relation=x.relation,
-    ##              alternating=FALSE,
-    ##              draw=FALSE
-    ##              ),
-    ##            y=list(relation=y.relation, alternating=2))
-    ##     }, s={
-    ##       list(x=list(
-    ##              relation=x.relation,
-    ##              alternating=FALSE,
-    ##              xaxt="n",
-    ##              ),
-    ##            y=list(relation=y.relation, alternating=2))
-    ##     })
-    ##
-    xlist <- if.R(r={list(relation=x.relation, alternating=FALSE, draw=FALSE)},
-                  s={list(relation=x.relation, alternating=FALSE, xaxt="n"  )})
+    xlist <- list(relation=x.relation, alternating=FALSE, draw=FALSE)
     scales.input <- list(x=xlist,
                          y=list(relation=y.relation, alternating=2))
 
@@ -107,13 +72,10 @@ interaction2wt.default <-
       scales.input$x[names(scales.additional$x)] <- scales.additional$x
       scales.input$y[names(scales.additional$y)] <- scales.additional$y
     }
-    if.R(r={
       scales.input$x$at <- NULL
       scales.input$y$at <- NULL
       scales.input$x$rot <- rot[1]
       scales.input$y$rot <- rep(rot,2)[2]
-    },
-         s={})
 
     ccd <- data.frame(response.var=rep(response.var, length=n*k*k),
                       x.values    =unlist(rep(as.list(x.list), k)),
@@ -171,7 +133,6 @@ interaction2wt.default <-
            box.ratio=box.ratio,
            simple.pch=simple.pch,
            ...)
-    if.R(r={
       cpy <- range(ccd$response.var, na.rm=TRUE)
       pcpy <- pretty(cpy)
       pcpy <- pcpy[(cpy[1] <= pcpy) & (pcpy <= cpy[2])]
@@ -250,9 +211,6 @@ interaction2wt.default <-
                                  list(fun = legendGrob2wt,
                                       args = keys))
       xyplot.list$axis <- axis.i2wt
-      ## recover()
-    },
-         s={})
     do.call("xyplot", xyplot.list)
   }
 

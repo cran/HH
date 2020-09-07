@@ -10,7 +10,7 @@
   bars from overprinting.
 }
 \usage{
-intxplot(x, data=sys.parent[1], groups.in,
+intxplot(x, data=NULL, groups.in,
           scales,
           key.length=1,
           key.lines,

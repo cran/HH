@@ -1,17 +1,17 @@
 "ladder" <-
-function(formula.in, data=sys.parent(),
+function(formula.in, data=NULL,
          main.in="Ladders of Powers",
          panel.in=panel.cartesian,
          xlab=deparse(formula.in[[3]]),
          ylab=deparse(formula.in[[2]]),
-         scales=list(alternating=if.R(s=TRUE, r=FALSE),
+         scales=list(alternating=FALSE,
            labels=FALSE, ticks=FALSE, cex=.6),
          par.strip.text=list(cex=.6),
          cex=.5, pch=16, between=list(x=.3, y=.3),
          dsx=xlab,
          dsy=ylab,
          ladder.function=ladder.f,
-         strip.number=if.R(r=2, s=1),
+         strip.number=2,
          strip.names,
          strip.style=1,
          strip,
@@ -26,8 +26,7 @@ function(formula.in, data=sys.parent(),
   if ((length(formula.in[[2]]) != 1) || (length(formula.in[[3]]) != 1))
     stop("The left-hand side and right-hand side of the formula must each have exactly one variable.")
   tmp <- ladder3(data[xlab], data[ylab], dsx, dsy, ladder.function)
-  if.R(r=if (useOuter) strip.number <- 2,
-       s={})
+  if (useOuter) strip.number <- 2
   formula.out <- switch(as.character(strip.number),
                         "1"=formula(Y ~ X | group),
                         "0"=formula(Y ~ X | x * y),
@@ -41,19 +40,13 @@ function(formula.in, data=sys.parent(),
            stop("strip.number must be 0, 1, or 2."))
   if (missing(strip)) {
     strip.function <- strip.ladder
-    if.R(s={
-      strip.function$strip.names <- strip.names
-      strip.function$style <- strip.style
-    },r={
       sf.args <- formals(strip.function)
       sf.args$strip.names <- strip.names
       sf.args$style <- strip.style
       formals(strip.function) <- sf.args
-    })} else strip.function <- strip
+    } else strip.function <- strip
   if (strip.number==0) strip.function <- FALSE
-  if.R(r={}, s=old.par <- par(oma=oma))
-  if.R(r=scales$relation <- "free",
-       s={})
+  scales$relation <- "free"
   xyplot.args <- list(formula.out, data=tmp$data,
                       panel=panel.in,
                       xlab=xlab, ylab=ylab,
@@ -72,12 +65,10 @@ function(formula.in, data=sys.parent(),
                              list(axis.key.padding=axis.key.padding),
                              layout.heights=
                              list(key.axis.padding=key.axis.padding)))
-  if.R(r=xyplot.args <- c(xyplot.args, xyplot.R.args),
-       s={})
+  xyplot.args <- c(xyplot.args, xyplot.R.args)
   result <- do.call("xyplot", xyplot.args)
   if (useOuter)
-    if.R(r=result <- useOuterStrips(combineLimits(result)),
-         s={})
+    result <- useOuterStrips(combineLimits(result))
   result
 }
 

@@ -12,7 +12,7 @@ from an ordinary one-way analysis of variance on the
 absolute deviations from the median.
 }
 \usage{
-hov(x, data = sys.parent(), method = "bf") ## x is a formula
+hov(x, data=NULL, method = "bf") ## x is a formula
 
 ## users will normally use the formula above and will not call the
 ## method directly.
@@ -38,11 +38,12 @@ hov.bf(x, group,  ## x is the response variable
 \value{
 \code{"htest"} object for the hov test.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 
 Brown, M.~B. and Forsyth, A.~B. (1974).
 \emph{Robust tests for equality of variances}.

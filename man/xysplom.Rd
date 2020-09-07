@@ -14,7 +14,7 @@ be displayed in the strip label for each panel.
 \usage{
 xysplom(x, ...)
 
-\method{xysplom}{formula}(x, data = sys.parent(), na.action = na.pass, ...)
+\method{xysplom}{formula}(x, data=NULL, na.action = na.pass, ...)
 
 \method{xysplom}{default}(x, y=x, group, relation="free",
         x.relation=relation, y.relation=relation,
@@ -106,11 +106,12 @@ z
   When \code{plot=FALSE}, the restructured data that must be sent to the
   \code{xyplot} function.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{

@@ -14,7 +14,7 @@ the trace- and x-factor roles interchanged.
 \usage{
 interaction2wt(x, ...)
 
-\method{interaction2wt}{formula}(x, data = sys.parent(), responselab, ...)
+\method{interaction2wt}{formula}(x, data=NULL, responselab, ...)
 
 \method{interaction2wt}{default}(x,
                response.var,
@@ -159,16 +159,10 @@ See also
 }
 \references{
 Heiberger, Richard M. and Holland, Burt (2015).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in R}, Second Edition.
- Springer Texts in Statistics. Springer.
- ISBN 978-1-4939-2121-8.
-
-Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{panel.interaction2wt}}}

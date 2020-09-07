@@ -1,41 +1,59 @@
-col.hh <- function () 
-  list(background = list(col = "transparent"),
-       bar.fill = list(col = "#c8ffc8"), 
-       box.rectangle = list(col = "royalblue"),
-       box.umbrella = list(col = "royalblue", lty=1),
-       box.dot = list(col="royalblue"),
-       dot.line = list(col = "#e8e8e8"),
-       dot.symbol = list(col = "royalblue"), 
-       plot.line = list(col = "royalblue", pch=16),
-       plot.symbol = list(col = "royalblue"), 
-       regions = list(col = heat.colors(100)),
-       strip.shingle =
-       list(col = c("#ff7f00", "#00ff00", "#00ffff", "#0080ff",
-              "#ff00ff", "#ff0000", "#ffff00")),
-       strip.background =
-       list(col = c("#ffe5cc", "#ccffcc", "#ccffff", "#cce6ff",
-              "#ffccff", "#ffcccc", "#ffffcc")),
-       reference.line = list(col = "#e8e8e8"), 
-       superpose.line =
-       list(col = c("royalblue", "red", "darkgreen", "brown",
-              "orange", "turquoise", "orchid"),
-            lty = 1:7), 
-       superpose.symbol =
-       list(pch = c(1, 3, 6, 0, 5, 16, 17),
-            cex = rep(0.7, 7),
-            col = c("royalblue", "red", "darkgreen", "brown",
-              "orange", "turquoise", "orchid")))
+## These functions are for S-Plus only.  They are not for R.
+##
+## S-Plus scoping during package installation makes it necessary to
+## define the function for both languages and then remove it from R.
+## S-Plus scoping during installation won't allow function definition
+## inside the if.R() statement.  Therefore we always assign the
+## function, and then remove it from the R package.
 
+trellis.device.hh.bw <- function(color=F, ...) {
+  trellis.device(color=color, ...)
+  strip.background0()
+  tpgss <- trellis.par.get("superpose.symbol")
+  tpgss$pch[c(1,6)] <- tpgss$pch[c(6,1)] ##Interchange BW open and closed circle
+  tpgss$cex[c(1,6)] <- tpgss$cex[c(6,1)] ##Interchange BW open and closed circle
+  trellis.par.set("superpose.symbol", tpgss)
+  tpgps <- trellis.par.get("plot.symbol")
+  tpgps$pch <- 16 ## closed circle
+  trellis.par.set("plot.symbol", tpgps)
+}
 
-## rmh prefers this color arrangement in R.
-## To use it automatically, add the following three lines to your .First
+trellis.device.hh.color <- function(color.scheme="standard", ...) {
+  trellis.device(color.scheme=color.scheme, ...)
+  strip.background0()
+}
+
+trellis.device.hh.ps.bw <- function(file=NULL, horizontal=T, ...) {
+  ps.options(reset=T)
+  trellis.device(postscript, file=file, horizontal=horizontal, ...)
+  strip.background0()
+}
+
+trellis.device.hh.ps.color <- function(file=NULL, horizontal=T, ...) {
+  ps.options(colors=colorps.trellis)
+  trellis.device(postscript, file=file, horizontal=horizontal, ...)
+  strip.background0()
+}
+
+trellis.device.hh.color.jsm <- function(color.scheme="standard", ..., sb0=T) {
+  trellis.device(color.scheme=color.scheme, ...)
+  if (sb0) strip.background0()
+  tpgss <- trellis.par.get("superpose.symbol")
+  tpgss$pch[] <- 16 ##Interchange BW open and closed circle
+  tpgss$cex[] <- .7 ##Interchange BW open and closed circle
+  trellis.par.set("superpose.symbol", tpgss)
+  tpgps <- trellis.par.get("plot.symbol")
+  tpgps$pch <- 16 ## closed circle
+  tpgps$cex <- .7 ## closed circle
+  trellis.par.set("plot.symbol", tpgps)
+}
+
+## Remove it from the R package.
 ##
-##          options(graphics.record=T)
-##          library(graphics)
-##          trellis.device(theme=col.hh())
-##
-##
-## If you need to open a device after your R session is already
-## running, you will need to enter just the single line at the prompt
-##
-##          trellis.device(theme=col.hh())
+if.R(s={},
+     r=remove(list=c(
+                "trellis.device.hh.bw",
+                "trellis.device.hh.color",
+                "trellis.device.hh.ps.bw",
+                "trellis.device.hh.ps.color",
+                "trellis.device.hh.color.jsm")))

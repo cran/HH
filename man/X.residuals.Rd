@@ -41,11 +41,12 @@ X.residuals(x, ...)
 \value{
 Data.frame of residuals, one column from each regression.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{

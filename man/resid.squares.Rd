@@ -26,11 +26,12 @@ resid.squares(x, y, y.hat, resid.plot = "square", ...)
   a rectangle with height=height in the y-data units and with width=the
   number of x-units that we just calculated.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{regr1.plot}}}

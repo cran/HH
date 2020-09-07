@@ -139,11 +139,11 @@ For the same example, the \code{anova(x$model)} takes a fraction of
 a second.}
 
 \references{
-  Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 
 Heiberger, Richard M. and Holland, Burt (2006).
 "Mean--mean multiple comparison displays for families of linear contrasts."
@@ -151,7 +151,7 @@ Heiberger, Richard M. and Holland, Burt (2006).
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \note{The multiple comparisons calculations in R and S-Plus use
-  completely different libraries.
+  completely different functions.
   MMC plots in R are based on
 %% R
 #ifndef S-Plus

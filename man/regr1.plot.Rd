@@ -66,11 +66,12 @@ regr1.plot(x, y,
   \item{err}{The default \code{-1} suppresses warnings about out of bound
   points.}
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 
 Smith, W. and Gonick, L. (1993).
 \emph{The Cartoon Guide to Statistics}.

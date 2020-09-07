@@ -15,7 +15,7 @@ absolute deviations from the median.  The \code{hovPlot} function
 graphs the components of the Brown and Forsyth test statistic.
 }
 \usage{
-hovPlot(x, data = sys.parent(), method = "bf",  ## x is a formula
+hovPlot(x, data=NULL, method = "bf",  ## x is a formula
         transpose = TRUE, ...)
 
 ## users will normally use the formula above and will not call the
@@ -33,7 +33,7 @@ panel.hov(..., transpose = TRUE)
 \arguments{
   \item{x}{ Formula appropriate for oneway anova in \code{hovPlot}.
   Response variable in \code{hovPlot.bf}.}
-  \item{data}{ data.frame }
+  \item{data}{ data.frame}
   \item{method}{Character string defining method.  At this time the only
   recognized method is "bf" for the Brown-Forsyth method.}
   \item{transpose}{Always \code{TRUE} in R.
@@ -55,11 +55,12 @@ panel.hov(..., transpose = TRUE)
   the \eqn{F} statistic resulting from an ordinary one-way analysis of
   variance on the data points in the third panel.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 
 Brown, M.~B. and Forsyth, A.~B. (1974).
 \emph{Robust tests for equality of variances}.

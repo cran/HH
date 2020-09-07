@@ -207,20 +207,20 @@ Source: Data from the U.S. Census Bureau's American Community Survey;
 analysis by Andrew A. Beveridge, QueensCollege.
 Copyright 2011 The New York Times Company
 
-\url{http://www.nytimes.com/imagepages/2011/12/03/opinion/03blow-ch.html?ref=opinion}
+\url{https://archive.nytimes.com/www.nytimes.com/imagepages/2011/12/03/opinion/03blow-ch.html?ref=opinion}
 
-\url{http://www.nytimes.com/2011/12/03/opinion/blow-newts-war-on-poor-children.html?_r=1}
+\url{https://www.nytimes.com/2011/12/03/opinion/blow-newts-war-on-poor-children.html?_r=1}
 
 Naomi Robbins and I discuss the PoorChildren example in the Forbes online column:
-\url{http://www.forbes.com/sites/naomirobbins/2011/12/20/alternative-to-charles-blows-figure-in-newts-war-on-poor-children-2/}
+\url{https://www.forbes.com/sites/naomirobbins/2011/12/20/alternative-to-charles-blows-figure-in-newts-war-on-poor-children-2/}
 \code{demo(PoorChildren, package="HH")}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \references{
-Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \keyword{ datasets }

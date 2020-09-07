@@ -26,17 +26,18 @@ series, ARIMA models, boxplots
 Maintainer: \packageMaintainer{HH}
 }
 \references{
-  Heiberger, Richard M. and Holland, Burt (2015).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in R}, Second Edition.
- Springer Texts in Statistics. Springer.
- ISBN 978-1-4939-2121-8.
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 
   Heiberger, Richard M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}, First Edition.
  Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+ \url{https://www.springer.com/us/book/9781441923202}
+ (obsolete 10-digit) ISBN 0-387-40270-5.
 }
 \keyword{ package }
 % \keyword{ data display }

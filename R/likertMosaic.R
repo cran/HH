@@ -1,5 +1,12 @@
-likertMosaic <- function(x, ...)
-  UseMethod("likertMosaic")
+likertMosaic <- function(x, ...) {
+  if ("array" %in% class(x) & length(dim(x))==1) {
+    dnx <- dimnames(x)[[1]]
+    x <- as.vector(x)
+    names(x) <- dnx
+    return(likertMosaic(x, ...))
+  }
+  UseMethod("likertMosaic", x)
+}
 
 likertMosaic.formula <- function(x, data, ReferenceZero=NULL, spacing=NULL,
                                  ..., between.y=c(1.2, .3)) {

@@ -1,5 +1,4 @@
-"col.hh" <-
-function () 
+col.hh <- function () 
   list(background = list(col = "transparent"),
        bar.fill = list(col = "#c8ffc8"), 
        box.rectangle = list(col = "royalblue"),
@@ -27,3 +26,16 @@ function ()
             col = c("royalblue", "red", "darkgreen", "brown",
               "orange", "turquoise", "orchid")))
 
+
+## rmh prefers this color arrangement in R.
+## To use it automatically, add the following three lines to your .First
+##
+##          options(graphics.record=T)
+##          library(graphics)
+##          trellis.device(theme=col.hh())
+##
+##
+## If you need to open a device after your R session is already
+## running, you will need to enter just the single line at the prompt
+##
+##          trellis.device(theme=col.hh())

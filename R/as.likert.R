@@ -151,8 +151,10 @@ as.likert.listOfNamedMatrices <- function(x, ...) {
   result
 }
 
-as.likert.array <- function(x, ...)
+as.likert.array <- function(x, ...) {
+  if (length(dim(x)) == 1) return(x)
   as.likert(as.listOfNamedMatrices(x), ...)
+}
 
 rev.likert <- function(x) {
   ## Reverses the rows of a matrix "likert" object,

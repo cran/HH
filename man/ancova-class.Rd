@@ -28,11 +28,12 @@ Class \code{"oldClass"}, by class "aov", distance 4, with explicit test and coer
   \code{"print.ancova(x)"} prints the \code{anova(x)} and the trellis attribute.
   The remaining methods use \code{NextMethod}.
 }
-\references{ Heiberger, Richard M. and Holland, Burt (2004b).
-\emph{Statistical Analysis and Data Display: An Intermediate Course
-  with Examples in S-Plus, R, and SAS}.
- Springer Texts in Statistics. Springer.
- ISBN 0-387-40270-5.
+\references{
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{\code{\link{ancova}}

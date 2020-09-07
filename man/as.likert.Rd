@@ -115,7 +115,7 @@ There are four
   Richard M. Heiberger, Naomi B. Robbins (2014).,
         "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
         Journal of Statistical Software, 57(5), 1--32,
-        \url{http://www.jstatsoft.org/v57/i05/.}
+        \url{https://www.jstatsoft.org/v57/i05/.}
 
 	Naomi Robbins <naomi@nbr-graphs.com>, "Visualizing Data: Challenges to
  Presentation of Quality Graphics---and Solutions", Amstat News,

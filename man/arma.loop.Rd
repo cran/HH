@@ -74,10 +74,12 @@ rearrange.diag.arma.loop(z)
   The American Statistician, May 2002, Vol. 56, No. 2, pp. 131-138.
   Richard M. Heiberger, Temple University, and
   Paulo Teles, Faculdade de Economia do Porto.
-  
-  Richard M. Heiberger and Burt Holland (2004), Statistical Analysis and Data
-  Display, Springer, ISBN 0-387-40270-5
 
+Heiberger, Richard M. and Holland, Burt (2015).
+\emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
+Second Edition.
+Springer-Verlag, New York.
+\url{https://www.springer.com/us/book/9781493921218}
 }
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \seealso{\code{\link{tsdiagplot}}}

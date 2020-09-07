@@ -9,7 +9,7 @@ Homogeneity of Variance:  Brown--Forsyth method
 Homogeneity of Variance:  Brown--Forsyth method
 }
 \usage{
-hovBF(x, data = sys.parent(), ..., na.rm = TRUE)
+hovBF(x, data=NULL, ..., na.rm = TRUE)
 hovplotBF(x, data, ..., na.rm = TRUE,
           main = "Brown-Forsyth Homogeneity of Variance", plotmath = TRUE)
 }

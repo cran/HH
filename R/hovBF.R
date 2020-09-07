@@ -42,7 +42,7 @@ hovplotBF <- function(x, data, ..., na.rm=TRUE,
 
 
 
-hovBF <- function(x, data=sys.parent(), ..., na.rm=TRUE) {
+hovBF <- function(x, data=NULL, ..., na.rm=TRUE) {
   lPF <- latticeParseFormula(x, data=data)
   y <- lPF$left
   group <- lPF$right

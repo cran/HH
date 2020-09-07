@@ -3,7 +3,7 @@ function(x, ...)
 UseMethod("xysplom")
 
 "xysplom.formula" <-
-function(x, data=sys.parent(),
+function(x, data=NULL,
                             na.action=na.pass, ...) {
   dft <- do.formula.trellis.xysplom(x, data, na.action)
   other <- list(...)
@@ -165,10 +165,8 @@ function(x, y=x, group, relation="free",
         panel.abline(lm(y~x, na.action=na.exclude))
       }
     else panel.input
-  if (!cartesian) {
-    if.R(r=formals(strip.in)$strip.names <- c(FALSE, FALSE),
-         s=strip.in$strip.names <- expression(c(FALSE,FALSE))[[1]])
-  }
+  if (!cartesian)
+    formals(strip.in)$strip.names <- c(FALSE, FALSE)
 
   result <- list(formula,   ## no name: S-Plus uses "formula", R uses "x"
                  data=ccd,
@@ -194,8 +192,6 @@ function(which.given,
          ...) {
   vnwg <- var.name[which.given]
   if (match(vnwg, c("corr","beta","corr.beta"), 0)) {
-###browser()
-    ## if.R(r=
          {
            which.parent <- 1
            while(!(exists("rows.per.page", frame=which.parent)))
@@ -205,13 +201,6 @@ function(which.given,
            x <- xy$x
            y <- xy$y
          }
-         ## ,
-         ## s={
-         ##   subs <- get("index.list",
-         ##               frame=sys.parent())[[get("cell",frame=sys.parent())]]
-         ##   x <- get("x",frame=sys.parent())[subs]
-         ##   y <- get("y",frame=sys.parent())[subs]
-         ## })
     digits <- as.numeric(factor.levels[which.panel[which.given]])
     if (vnwg != "beta") corr <- round(cor(na.exclude(cbind(x,y)))[1,2], digits)
     if (vnwg != "corr") beta <- format(coef(lm(y ~ x, na.action=na.exclude))[2], digits=4)
