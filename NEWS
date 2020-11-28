@@ -1,3 +1,15 @@
+Version 3.1-43
+--------------
+
+* 2020 Nov 27
+
+* interaction2wt.Rd: revise esoph$rate to respond to change in
+  esoph$control introduced in datasets_4.1-0
+
+* on CRAN 2020-11-28
+
+
+
 Version 3.1-42
 --------------
 
@@ -55,6 +67,8 @@ Version 3.1-41
 
 * demo/likert-paper.r: Figures 12 and 13 revised to put borders on
   plot.
+
+* on CRAN 2020-06-02
 
 
 Version 3.1-40

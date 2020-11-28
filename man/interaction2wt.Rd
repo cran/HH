@@ -182,13 +182,14 @@ anova(aov(len ~ supp*dose, data=ToothGrowth))
 interaction2wt(len ~ supp + dose, data=ToothGrowth)
 
 
-esoph$rate=with(esoph, ncases/ncontrols) ## modify local copy
+esoph$ntotal <- with(esoph, ncases + ncontrols) ## modify local copy
+esoph$rate   <- with(esoph, ncases/ntotal)      ## modify local copy
 
 position(esoph$alcgp) <- 2:5
 position(esoph$tobgp) <- 2:5
 
 interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
-                 par.strip.text=list(cex=.8))
+               par.strip.text=list(cex=.8))
 
 interaction2wt(rate ~ agegp + alcgp + tobgp, esoph, rot=c(90,0),
                par.strip.text=list(cex=.8),

@@ -1,6 +1,6 @@
-16d1372d25a508e0da3e479027829409 *DESCRIPTION
+231a2c452485d111ae31868a0f3a7a59 *DESCRIPTION
 9fafbdf0a5f7e0eed8c16efe7272cb79 *NAMESPACE
-34f09c0db38ff6e50384b51a973c2755 *NEWS
+00281898e1dc3ae54bf921fad5562300 *NEWS
 40a30395fe1f4b7197441e31c393e381 *R/AAAAAAA.if.R.R
 747a266397e5231548824d02ef791c38 *R/ARIMA-trellis.R
 dad9cb7f191f4f176335668c6d686629 *R/CIplot.R
@@ -122,7 +122,7 @@ f888c5e6ef3246675159a5be8eef75f4 *R/vif.R
 96f41e09595704855d2f6694e768e770 *R/workarounds.R
 18783249f481a51b93ae477925651aed *R/xysplom.R
 22a0027ca91df837a315c00273307f1a *R/zzz.R
-971f26ef85f735c1b1b7991cb370426d *build/partial.rdb
+4bef6e66307b335a3ef17be5fca295f6 *build/partial.rdb
 c36ad380343d39a99ce1f131786753ce *data/AEdata.rda
 735cb8f80544d35050f23f24f346e3af *data/AudiencePercent.rda
 88c6fad52b77b588ce6d3538d02738dd *data/Design_2.8_2.rda
@@ -446,7 +446,7 @@ e27f8eef6f55ea439d287713b621f6e6 *man/hov.Rd
 98b047a0a9abff0bf6fc04d542247b57 *man/hovBF.Rd
 8ef9513fa0a81dd33eb6c7d9caaae80a *man/if.R.Rd
 21e91bf39121ddfb3572641c68c49aa9 *man/interaction.positioned.Rd
-c5ba97934b72a12251e46f141df7c265 *man/interaction2wt.Rd
+f33c5a63df189a2377786f9738451b19 *man/interaction2wt.Rd
 76bc8134b08529b562f22150339dc199 *man/interval.Rd
 250153e21498619256ba2dae7ca7ea1f *man/intxplot.Rd
 36eaaec47ef1a039150cc408eebfdd33 *man/ladder.Rd
