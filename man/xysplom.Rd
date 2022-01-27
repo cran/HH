@@ -111,7 +111,7 @@ Heiberger, Richard M. and Holland, Burt (2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
 Second Edition.
 Springer-Verlag, New York.
-\url{https://www.springer.com/us/book/9781493921218}
+\url{https://link.springer.com/us/book/9781493921218}
 }
 \author{ Richard M. Heiberger <rmh@temple.edu> }
 \seealso{

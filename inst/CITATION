@@ -23,12 +23,12 @@ citEntry(entry = "Book",
          publisher = 	 {"Springer-Verlag, New York"},
          edition = 	 {"Second"},
          header="To cite the HH book (second edition) in publications use:",
-         url={"https://www.springer.com/us/book/9781493921218"},
+         url={"https://link.springer.com/us/book/9781493921218"},
          textVersion  =
          paste("Richard M. Heiberger and Burt Holland (2015).",
                "Statistical Analysis and Data Display: An Intermediate Course with Examples in R.",
                "Springer-Verlag, New York.",
-               "URL https://www.springer.com/us/book/9781493921218")
+               "URL https://link.springer.com/us/book/9781493921218")
 )
 
 citEntry(entry = "Book",
@@ -39,12 +39,12 @@ citEntry(entry = "Book",
          publisher = 	 {"Springer-Verlag, New York"},
          edition = 	 {"First"},
          header="To cite the HH book (first edition) in publications use:",
-         url={"https://www.springer.com/us/book/9781441923202"},
+         url={"https://link.springer.com/us/book/9781441923202"},
          textVersion  =
          paste("Richard M. Heiberger and Burt Holland (2004).",
                "Statistical Analysis and Data Display: An Intermediate Course with Examples in S-Plus, R, and SAS.",
                "Springer-Verlag, New York.",
-               "URL https://www.springer.com/us/book/9781441923202")
+               "URL https://link.springer.com/us/book/9781441923202")
 )
 
 
@@ -58,7 +58,8 @@ citEntry(entry = "Article",
          volume       = "57",
          number       = "5",
          pages        = "1--32",
-         url          = "https://www.jstatsoft.org/v57/i05/",
+         ## url       = "https://www.jstatsoft.org/v57/i05/",
+         doi     = "10.18637/jss.v057.i05",
          header="To cite likert from HH in publications use:",
 
          textVersion  =

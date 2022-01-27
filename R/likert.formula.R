@@ -91,6 +91,9 @@ if (!missing(value)) {
   data.list <- getLikertData(data, varNamesUsed) ## list(Question, Conditions, Nums)
 }
 
+  ## if(length(unique(data[[varNamesUsed$CondNames]])) !=
+  ##    length(       data[[varNamesUsed$CondNames]] ))
+  ##   stop("Condition values for likert() must be unique.", call.=FALSE)
 
   if (as.percent != FALSE) {
     Nums.pct <- data.list$Nums / rowSums(data.list$Nums) * 100

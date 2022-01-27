@@ -1,3 +1,51 @@
+Version 3.1-47
+--------------
+
+* 2022 Jan 26
+
+* fix another example that had the same error
+
+
+Version 3.1-46
+--------------
+
+* 2022 Jan 25
+
+* fix example that had an error
+
+
+Version 3.1-45
+--------------
+
+* 2022 Jan 25
+
+* adjust NOTEs 35 URLs from www.springer.com link.springer.com/book/
+
+
+Version 3.1-44
+--------------
+
+* 2021 Nov 12
+
+* as.matrix.listOfMatrices.R: is.listOfNamedMatrices()
+  as.matrix.listOfMatrices.Rd:
+  NA is now recognized as a valid value for a dimname.
+  NA may be introduced by base::addNA() or, more generally, permitted by argument exclude=NULL.
+
+* change url = "https://www.jstatsoft.org/v57/i05/"
+  to     doi = "10.18637/jss.v057.i05"
+  in files as.likert.Rd, likert.Rd, likertMosaic.Rd, CITATION
+
+* add new files likertWeighted.R and likertWeighted.Rd
+  with function likertWeighted
+
+* add new files latex.array.R latex.ftable.R and latex.array.Rd with functions
+  latex.array latex.matrix latex.table latex.ftable
+
+* add new files likertTable.R and likertTable.Rd with functions
+  likertTable and print.likertTable
+
+
 Version 3.1-43
 --------------
 

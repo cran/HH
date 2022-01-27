@@ -69,6 +69,7 @@ export(
 AEdotplot,
 AElogrelrisk,
 AEmatchSortorder,
+colPcts,
 ColorSet,
 F.curve,
 F.observed,
@@ -177,6 +178,7 @@ ladder,
 ladder.f,
 ladder.fstar,
 ladder3,
+latex, ## re-export from Hmisc
 latticeresids,
 legendGrob2wt,
 likert,
@@ -184,6 +186,7 @@ likertplot,
 likertColor,
 likertColorBrewer,
 likertMosaic,
+likertWeighted,
 lm.regsubsets,
 lmatContrast,
 lmatPairwise,
@@ -267,6 +270,7 @@ residplot,
 residual.plots,
 residual.plots.lattice,
 residVSfitted,
+rowPcts,
 scaleLocation,
 ## scanBin,  ## now uses version in Rmpfr (>= 0.6.0)
 ## scanHex,
@@ -367,6 +371,10 @@ S3method(interaction2wt, default)
 S3method(interaction2wt, formula)
 S3method(is.na, positioned)
 S3method(is.numeric, positioned)
+S3method(latex, array)
+S3method(latex, matrix)
+S3method(latex, table)
+S3method(latex, ftable)
 S3method(likertMosaic, array)
 S3method(likertMosaic, data.frame)
 S3method(likertMosaic, default)
@@ -505,7 +513,7 @@ import(lattice, latticeExtra, grid, gridExtra, graphics)
 
 import(shiny)
 
-importFrom(Hmisc, latex)
+importFrom(Hmisc, latex, first.word)
 
 importFrom(abind, abind)
 

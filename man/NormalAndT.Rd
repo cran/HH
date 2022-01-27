@@ -121,7 +121,7 @@ does it for you.
 \code{normal.and.t.dist} built on base graphics that is used in many
   displays in the book by Erich Neuwirth and me: \emph{R through Excel}, Springer
 (2009).
-\url{https://www.springer.com/978-1-4419-0051-7}.  Many details,
+\url{https://link.springer.com/978-1-4419-0051-7}.  Many details,
   particularly the
   alternate color scheme and the concept of floating probability labels,
   grew out of discussions that Erich and I have had since the book was

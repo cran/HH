@@ -37,7 +37,7 @@ is.listOfNamedMatrices <- function(x, xName=deparse(substitute(x))) {
     attr(result, "reason") <- paste("items in", xName, "are not named.")
     return(result)
   }
-  for (nxi in names(x)) { ## convert vectors to single-row matrices
+  for (nxi in seq(along=names(x))) { ## convert vectors to single-row matrices
     xi <- x[[nxi]]
     if (is.numeric(xi) && (is.null(dim(xi)) || length(dim(x)) == 1)) x[[nxi]] <- t(xi)
   }
@@ -46,7 +46,7 @@ is.listOfNamedMatrices <- function(x, xName=deparse(substitute(x))) {
     attr(result, "reason") <- paste("At least one item in", xName, "has more than two dimensions.")
     return(result)
   }
-  for (nxi in names(x)) { ## verify that any data.frames have only numeric columns
+  for (nxi in seq(along=names(x))) { ## verify that any data.frames have only numeric columns
     xi <- x[[nxi]]
     if (is.data.frame(xi))
       result <- (all(sapply(xi, is.numeric)))

@@ -199,9 +199,10 @@ yscale.components.right.HH(...)
     names will not work.  The right-hand-side must be either \code{.} or
     the sum of the names of numeric variables in \code{data}.
     Non-syntactic names must be in quotes (single \verb{'} or double
-    \verb{"}),
-      %rebalance "
-      but not backticks \verb{`}.  The \code{.} on the
+    \verb{"}), %rebalance "
+      but not backticks \verb{`}.
+      %% Conditioning variables must not contain duplicate values.
+      The \code{.} on the
     right-hand-side is expanded to the formula containing the sum of all
     remaining (after the response and the conditioning variables)
     numeric columns in \code{data}.  An empty left-hand-side is
@@ -494,7 +495,8 @@ yscale.components.right.HH(...)
   Richard M. Heiberger, Naomi B. Robbins (2014).,
         "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
         Journal of Statistical Software, 57(5), 1--32,
-        \url{https://www.jstatsoft.org/v57/i05/.}
+        %% \url{https://www.jstatsoft.org/v57/i05/.}
+        \doi{10.18637/jss.v057.i05}.
 
 	Richard Heiberger and Naomi Robbins (2011),
   "Alternative to Charles Blow's Figure in \"Newt's War on Poor Children\"",

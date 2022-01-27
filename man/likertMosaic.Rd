@@ -192,7 +192,8 @@ returned object.
   Richard M. Heiberger, Naomi B. Robbins (2014).,
         "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
         Journal of Statistical Software, 57(5), 1--32,
-        \url{https://www.jstatsoft.org/v57/i05/.}
+        %% \url{https://www.jstatsoft.org/v57/i05/.}
+        \doi{10.18637/jss.v057.i05}.
 
   Richard Heiberger and Naomi Robbins (2011),
   "Alternative to Charles Blow's Figure in \"Newt's War on Poor Children\"",

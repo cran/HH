@@ -18,10 +18,10 @@
 \alias{as.likertDataFrame.listOfNamedMatrices}
 \alias{as.likertDataFrame.array}
 
-\title{Convert a list of matrices to a single matrix}
+\title{Convert a list of numeric matrices to a single matrix}
 \description{
 
-  Convert a list of matrices to a single matrix.  This function is used
+  Convert a list of numeric matrices to a single matrix.  This function is used
   to improve legibility of the printed object.  The
   \code{as.matrix.listOfNamedMatrices} display is easier to read when the rownames
   are very long, as in the example illustrated here.  Because the
@@ -52,14 +52,15 @@ as.likertDataFrame(x, xName=deparse(substitute(x)))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{Named list of matrices.  All matrices in the list should have the
-    same number of columns and the same column names.  The list item
-    names will normally be long.  The row names will normally be long.
-    The number of rows and their names will normally differ across the
-    matrices.   Each named item in the list may be a vector, matrix, array,
-    data.frame, two-dimensional table, two-dimensional ftable, or
-    two-dimensional structable
-    For the \code{as.MatrixList} methods, an array.
+  \item{x}{Named list of numeric matrices.  All matrices in the list
+    should have the same number of columns and the same column names.
+    The names of the list items will normally be long; NA, as
+    introduced by the \code{\link[base]{addNA}}, is a valid name.  The
+    row names will normally be long.  The number of rows and their names
+    will normally differ across the matrices.  Each named item in the
+    list may be a vector, matrix, array, data.frame, two-dimensional
+    table, two-dimensional ftable, or two-dimensional structable.  For
+    the \code{as.MatrixList} methods, an array.
 }
   \item{\dots}{Other arguments.  Not used.}
   \item{abbreviate}{
@@ -120,9 +121,18 @@ ProfChal.list[2:3]
 ## of argument list retained as an attribute.
 as.listOfNamedMatrices(ProfChal.list[2:3], minlength=6)
 
-tmp3 <- array(1:24, dim=c(2,3,4), dimnames=list(A=letters[1:2], B=LETTERS[3:5], C=letters[6:9]))
-tmp3
-as.MatrixList(tmp3)
+\dontrun{
+## NA as a dimname value
+tmp <- structure(c(0, 0, 0, 6293, 18200, 2122,
+                   0, 0, 0, 2462, 7015, 5589, 
+                   6908, 5337, 842, 0, 0, 0),
+                 .Dim = c(3L, 2L, 3L),
+                 .Dimnames = list(c("A", "B", "C"),
+                                  c("D", "E"),
+                                  c("F", "G", NA)))
+tmp
+as.MatrixList(tmp)
+}
 
 \dontrun{
 sapply(as.MatrixList(tmp3), as.likert, simplify=FALSE)  ## odd number of levels.
@@ -132,6 +142,8 @@ likert(Question ~ ., NZScienceTeaching)
 likert(Question ~ . | Subtable, data=NZScienceTeaching)
 likert(Question ~ . | Subtable, data=NZScienceTeaching,
        layout=c(1,2), scales=list(y=list(relation="free")))
+
+
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
