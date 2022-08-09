@@ -1,9 +1,55 @@
+Version 3.1-49
+--------------
+
+* 2022 Aug 09
+
+* likertWeighted.Rd had a line more than 90 characters wide.
+
+* Change \& to & in bivariateNormal.Rd
+
+* on CRAN:
+
+
+  
+Version 3.1-48
+--------------
+
+* 2022 Aug 08
+  
+* New ToBW.likert function added to HH. Converts a "trellis" argument
+  from color to Black-and-White.  Works with likert plots, may miss
+  some color arguments for more general "trellis" arguments.
+
+* Redesigned likertWeighted function, with array and formula methods,
+  that takes one or two conditions, and handles all weighted examples
+  I have thought of.  Specifically it handles multiple plots with
+  parallel structure.  Helper functions EmphasizeVerticalPanels and
+  InsertVerticalPanels are exported.  The new function works with all
+  examples in previously published help files, although with slightly
+  different appearance.
+  
+* Comment out resize.height and resize.width adjustments in plot.likert.list in R/likert.R
+
+* Augment latex.array to take rsubgroup and n.rsubgroup arguments.
+
+* strip=FALSE didn't work in likertWeighted or ResizeEtc:
+  plot.likert.list and ResizeEtc previously assumed strip and strip.left would be logical.
+  Repair was to check for function first, and not do the logic test when they are functions.
+
+* CRAN has identified more changes in Springer link.springer.com/book/
+  URLs.  All .Rd files have now adopted the newer URLs.
+
+* on CRAN:
+
+
 Version 3.1-47
 --------------
 
 * 2022 Jan 26
 
 * fix another example that had the same error
+
+* on CRAN: 2022-01-27
 
 
 Version 3.1-46

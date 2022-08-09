@@ -2,7 +2,7 @@
 function(formula, data, na.action=na.pass) {
   ## based on S-Plus do.formula.trellis
   deparen <- function(expr) {
-    ## removes all parentheses from an expression, may be overkill here, 
+    ## removes all parentheses from an expression, may be overkill here,
     ## deparse-parse cycle (as in vi()) changes x~y|z to x~(y|z) and the
     ## extra parens in the parse tree surprise do.formula.trellis.
     ## 'Proper' fix may be to change precendence of tilde operator.
@@ -23,7 +23,7 @@ function(formula, data, na.action=na.pass) {
     y.formula <- formula[[2]]
 
   tmp.formula <- formula[1:2]
-  
+
   bar.loc <- if.R(r= if(length(strsplit (deparse(formula), "\\|")[[1]])==2) 2,
 ##                   if(names(attr(terms(formula, "|"),"specials"))=="|") 2,
                   s=attr(terms(formula, "|"), "specials")$"|")
@@ -46,7 +46,7 @@ function(formula, data, na.action=na.pass) {
   }
   tmp.formula[[2]] <- x.formula
   x.formula <- tmp.formula
-  ## acxf2 is a hack to permit xysplom(~data) 
+  ## acxf2 is a hack to permit xysplom(~data)
   acxf2 <- as.character(x.formula[[2]])
   if (length(acxf2) == 1)
     if.R(r={x <-
@@ -55,9 +55,9 @@ function(formula, data, na.action=na.pass) {
          s= x <- get(acxf2, data))
     else
     x <- FALSE
-  if (class(x) != "data.frame")
+  if (!inherits(class(x), "data.frame"))
     x <- as.data.frame(model.frame(x.formula, data, na.action=na.action))
-  
+
   if (is.null(y.formula)) {
     y.formula <- x.formula
     y <- x
@@ -67,7 +67,7 @@ function(formula, data, na.action=na.pass) {
     y.formula <- tmp.formula
     y <- as.data.frame(model.frame(y.formula, data, na.action=na.action))
   }
-  
+
   list(x=x, y=y, group=g,
        x.formula=x.formula,
        g.formula=g.formula,

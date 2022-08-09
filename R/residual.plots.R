@@ -6,7 +6,7 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
                            ...) {
   lm.formula <- as.formula(lm.object)
   lm.data <- try(eval(lm.object$call$data), silent=TRUE)
-  if (class(lm.data) == "Error" || class(lm.data)=="try-error") ## S-Plus || R
+  if (inherits(lm.data, c("Error", "try-error"))) ## S-Plus || R
     {
       lm.data <- lm.object$x
       if.R(r={
@@ -22,7 +22,7 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
       lm.data <- cbind(lm.data.y, lm.data)
       names(lm.data)[1] <- as.character(lm.formula[[2]])
     }
-  
+
   dft <- do.formula.trellis.xysplom(lm.formula, lm.data, na.action)
 
   resids <- resid(lm.object)
@@ -42,7 +42,7 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
          ## bug.  The statement here creates an ordinary data.frame in which
          ## each column consists of one column from the model.matrix.
        })
-  
+
   if (dim(yhat)[[2]] != dim(X)[[2]])
    stop("The model has factors or interactions.  Please use the `X=' argument.")
   partial.resids <- yhat + resids
@@ -109,7 +109,7 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
               alternating=FALSE),
             pch=16,
             ...)
-  
+
 
   ## added variable plots
   ## partial residuals against X.j
@@ -145,8 +145,8 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
               alternating=FALSE),
             pch=16,
             ...)
-  
-  
+
+
   list(y.X=y.X, res.X=res.X, pres.X=pres.X, pres.Xj=pres.Xj)
 }
 ## source("c:/HOME/rmh/HH-R.package/HH/R/residual.plots.s")
@@ -155,7 +155,7 @@ residual.plots <- function(lm.object, X=dft$x, layout=c(dim(X)[2],1),
 
 ## ## longley regression example.
 ## ## data is included with S-Plus
-## 
+##
 ## longley <- data.frame(longley.x, Employed = longley.y)
 ## longley.lm <- lm( Employed ~ . , data=longley)
 ## residual.plots(longley.lm)

@@ -30,14 +30,13 @@ Heiberger, Richard M. and Holland, Burt (2015).
 \emph{Statistical Analysis and Data Display: An Intermediate Course with Examples in R}.
 Second Edition.
 Springer-Verlag, New York.
-\url{https://link.springer.com/us/book/9781493921218}
+\url{https://link.springer.com/book/10.1007/978-1-4939-2122-5}
 
   Heiberger, Richard M. and Holland, Burt (2004).
 \emph{Statistical Analysis and Data Display: An Intermediate Course
   with Examples in S-Plus, R, and SAS}, First Edition.
  Springer Texts in Statistics. Springer.
- \url{https://link.springer.com/us/book/9781441923202}
- (obsolete 10-digit) ISBN 0-387-40270-5.
+ \url{https://link.springer.com/book/10.1007/978-1-4757-4284-8}.
 }
 \keyword{ package }
 % \keyword{ data display }

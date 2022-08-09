@@ -1,195 +1,168 @@
 \name{likertWeighted}
 \alias{likertWeighted}
+\alias{likertWeighted.formula}
+\alias{likertWeighted.array}
+\alias{likertWeighted.default}
+%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Special case wrapper for likert() when multiple columns are to have the
-same bar thicknesses.  Uses formula.
+same bar thicknesses.  Uses formula with one or two conditioning variables.
 }
 \description{
 Special case wrapper for likert() when multiple columns are to have the
-same bar thicknesses.  Uses formula.  Each row of the data is placed in
-its own trellis panel.  Optionally, adjacent panels can be grouped in a
-common border.
+same bar thicknesses.  Uses formula with one or two conditioning variables.
 }
 \usage{
-likertWeighted(x, data, xlim=c(-100,100),
-                   x.at=seq(-100,100,25), x.labels=abs(x.at),
-                   h.resizePanels=data$rowheights,
-                   rightAxisLabels=format(round(h.resizePanels, digits),
-                                          big.mark=","),
-                   ylab=NULL,
-                   axis.key.padding=10,
-                   y.tck=c(0,3),
-                   layout=c(1, nrow(data)),
-                   as.percent=TRUE,
-                   line.color="black",
-                   box.ratio=1000,
-                   digits=-3,
-                   scales.cex=1,
-                   between=list(y=0),
-                   layer=TRUE,
-                   ...)
-}
+likertWeighted(x, ...) ## generic
+
+\method{likertWeighted}{array}(x, ..., C = 1, Q = 3, R = 2) ## array
+
+\method{likertWeighted}{default}(x, ...) ## matrix, table, data.frame
+
+\method{likertWeighted}{formula}(x, data,
+               xlim=c(-100, 100),
+               scales=list(y=list(relation="free", cex=1.3),
+                           x=list(at=seq(-100, 100, 50),
+                           labels=abs(seq(-100, 100, 50)), cex=.5)),
+               box.ratio=1000,
+               as.percent=TRUE, rightAxis=FALSE,
+               between=list(x=1, y=0),
+               strip=FALSE, strip.left=FALSE,
+               par.settings=list(clip=list(panel="off")),
+               h.resizePanels=1,
+               auto.key.title=NULL,
+               auto.key.columns=dim(data)[[2]] -
+               NumberOfConditioningVariables(formula), ## excludes conditioning variables
+               auto.key.cex=1.2,
+               auto.key.cex.title=1.2,
+               auto.key.lines.title=3,
+               ylab=NULL,
+               axis.top=dimnames(result)[[1]], ## Questions
+               axis.top.row=1,
+               ...)
+               }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{a formula of the form \code{ ~ a + b + c | panelnames} where
-\code{a}, code{b}, \code{c} are columns in \code{data} and \code{panelnames} is a column of
-\code{data}
-that will normally be a copy of \code{rownames(data)}.  The values in
-\code{panelnames} must be unique.
-The formula \code{ ~ . | panelnames} where \code{.} stands for the '\code{+}' of all
-variables in the data.frame other than \code{panel.names} may be used.
-
-This formula will be
-passed to \code{\link[HH]{likert}}
+  \item{x}{
+    For the default method, a matrix or data.frame or two-dimensional
+    table.  For the array method, a two- or-three-dimensional array.
+    For the formula method, a formula.
+       }
+  \item{formula}{
+Standard trellis formula, usually \code{ ~ . | row + column} or
+\code{ ~ . | row}
 }
-  \item{data}{
-    \code{data.frame}
-  }
-  \item{x.at, x.labels}{location of x tick-marks and value of
-    corresponding labels.
-    Same meaning as \code{scales=list(x=list(at=seq(-100,100,25),
-                                             labels=abs(seq(-100,100,25))))}}
-  \item{between}{
-Standard argument to lattice functions, see
-\code{\link[lattice]{xyplot}}.
-In addition, adjacent panels with zero-valued y.between between them
-will be grouped within the same borders, and adjacent panels with
-non-zero-valued y.between between them will be be in separately bordered
-groups.
-See example EEE. 
+\item{data}{
+A \code{data.frame} that has been constructed from a 2D object (\code{matrix}
+or \code{table} or \code{data.frame}) to include an additional column \code{row}, or
+constructed from a 3D \code{array} by \code{\link{toCQxR}} to include
+two additional columns \code{group} and \code{row}.  The \code{default}
+and \code{array} methods do that construction.
 }
-  \item{xlim, ylab, layout, box.ratio}{
-Standard arguments to lattice functions, see \code{\link[lattice]{xyplot}}.
+  \item{C, R, Q}{
+Integers, one each of 1,2,3; positions of the three dimensions.  Used in
+\code{array} method.  See \code{\link{toCQxR}}.
 }
-  \item{digits}{
-See \code{\link{round}}
+\item{xlim, between, strip, strip.left, par.settings, ylab}{
+See \code{\link{xyplot}}
 }
-  \item{axis.key.padding}{
-See \code{\link[lattice]{trellis.par.get}}
+  \item{scales}{
+    See \code{\link{xyplot}}.  For \code{likertWeighted}, when scales for x is
+      changed, scales for y must be stated also.
 }
-  \item{as.percent, rightAxisLabels, h.resizePanels}{
-See \code{\link[HH]{likert}}
+  \item{box.ratio}{
+See \code{\link{panel.bwplot}}.
 }
-\item{scales.cex}{Abbreviation for \code{scales=list(cex=scales.cex)}}
-\item{y.tck}{Abbreviation for \code{scales=list(y=list(tck=y.tck)}}
-\item{line.color}{Color to be used to surround sub-panels when
-  \code{between=list(y=v)} has a non-zero vector for v.
+  \item{as.percent, rightAxis, \dots, h.resizePanels}{
+First see the formula method for \code{likertWeighted}, and then \code{\link{likert}}.
 }
-  \item{layer}{
-Logical, default \code{TRUE}.  If \code{TRUE} then put a border around
-the sets of grouped panels.  If \code{FALSE}, then don't put a border.
+\item{auto.key.title, auto.key.columns, auto.key.cex,
+    auto.key.cex.title, auto.key.lines.title}{
+    Values which will be used in \code{trellis} argument
+    \code{auto.key=list(title=auto.key.title, columns=auto.key.columns,
+    cex=auto.key.cex, cex.title=auto.key.cex.title,
+    lines.title=auto.key.lines.title)}
 }
-  \item{\dots}{
-additional arguments that will be passed through to
-\code{\link[HH]{likert}}
-and from there to lattice.
+  \item{axis.top}{
+Label to be placed at \code{x=0} for top (and other specified) panel of each column.
 }
+  \item{axis.top.row}{
+Which rows will have \code{axis.top} displayed.
 }
-\details{
-  In the standard \code{likert()} plot, all stacked bars have the same
-  thickness.  The \code{likertWeighted} function weights the
-  thickness of the bars by \code{h.resizePanels}.  When
-  used with \code{as.percent=TRUE}, the i^{th} stacked bar is 100\% wide
-  and \code{h.resizePanels}[i] units high.  As a consequence one square
-  inch of plotting surface represents the same number of objects in all
-  bars and sub-bars.
-  Compare AAA, BBB, and CCC in the examples to see the effect.
 }
 \value{
- A \code{"trellis"} object containing the plot.  The plot will be
- automatically displayed unless the result is assigned to an object.
+A \code{\link{likert}} plot as a \code{"trellis"} object.
 }
-\author{Richard M. Heiberger, with contributions from Naomi B. Robbins <naomi@nbr-graphs.com>.
+\author{ Richard M. Heiberger <rmh@temple.edu> }
 
-Maintainer: Richard M. Heiberger <rmh@temple.edu> }
 \seealso{
 \code{\link{likert}}
 }
 \examples{
 
-tmp <- data.frame(matrix(1:12, 3, 4,
-                           dimnames=list(c("A","B","C"),
-                                         c(letters[4:7]))))
-tmpcc <- cbind(tmp, rowheights=rowSums(tmp))
+## simplest 2D example
+tmp <- matrix(1:12, 3, 4,
+              dimnames=list(c("A","B","C"),
+                            c(letters[4:7]))) * c(1,2,3)
+tmp
+rowSums(tmp)
 
-AAA <- likert(~ . , data=tmp, rightAxisLabels=tmpcc$rowheights,
-              main="The total width of each bar is the sum of its magnitudes.
-The width of each sub-bar is its magnitude.
-All bars have the same thickness.")
-AAA
+likertWeighted(tmp,
+               h.resizePanels=rowSums(tmp),
+               main="likertWeighted, simplest example,
+                     defaults to Percent,
+                     specified row thicknesses")
 
-BBB <- likert(~ . , data=tmp, as.percent=TRUE, rightAxisLabels=tmpcc$rowheights,
-              main="The total width of each bar is 100%.
-The width of each sub-bar is its proportion of its row.
-All bars have the same thickness.")
-BBB
+## Same example with explicit use of the formula method
+## (default method does this for you).
+tmpdd <- data.frame(tmp, row=row.names(tmp))
+tmpdd
+likertWeighted(~ . | row, tmpdd,            ## tmpdd
+               h.resizePanels=rowSums(tmp), ## tmp
+main="likertWeighted,
+same example but with explicit formula method")
 
-CCC <- likertWeighted(~ . | rowheights, tmpcc,
-                          as.percent=TRUE, xlim=c(-100,100),
-                          rightAxisLabels=tmpcc$rowheights,
-                          main="The total width of each bar is 100%.
-The width of each sub-bar is its proportion of its row.
-The thickness of each bar is the unique sum of its magnitudes.")
-CCC
-
-
-
-tmpdd <- cbind(tmp, rownames=row.names(tmp))
-
-likertWeighted(~ . | rownames, tmpdd,
-                   as.percent=TRUE, xlim=c(-100,100),
-                   rightAxisLabels=tmpcc$rowheights,
-                   main="Equal row thicknesses")
-
-likertWeighted(~ . | rownames, tmpdd,
-                   as.percent=TRUE, xlim=c(-100,100),
-                   rightAxisLabels=tmpcc$rowheights,
-                   h.resizePanels=rowSums(tmp),
-                   main="Variable row thicknesses")
-
-likertWeighted(~ . | rownames, tmpdd,
-                   as.percent=TRUE, xlim=c(-100,100),
-                   rightAxisLabels=c(1,3,3),
-                   h.resizePanels=c(1,3,3),
-                   ylab.right="Thicknesses Explicitly Specified",
-                   main="Variable row thicknesses, with some duplication")
-
-DDD <-
-likertWeighted(~ . | rownames, tmpdd,
-                   as.percent=TRUE, xlim=c(-100,100),
-                   rightAxisLabels=paste(tmpcc$rowheights, c(1,3,3), sep=", "),
-                   ylab.right="RowCount Total\nThicknesses Explicitly Specified",
-                   h.resizePanels=c(1,3,3),
-                   main="The total width of each bar is 100%.
-The width of each sub-bar is its proportion of its row.
-The thickness of each bar is the value of h.resizePanels.")
-DDD
-
-## comparisons
-AAA
-BBB
-CCC
-DDD
-
-EEE <-
-likertWeighted(~ . | rownames, tmpdd,
-                   as.percent=TRUE, xlim=c(-100,100),
-                   h.resizePanels=rowSums(tmp),
-                   rightAxisLabels=rowSums(tmp),
-                   between=list(y=c(0,1)),
-                   ylab=c("C in its own group","A and B together"),
-                   main="Illustrating between: between=list(y=c(0,1))
+## show subgroups
+likertWeighted(tmp,
+               h.resizePanels=rowSums(tmp),
+               between=list(y=c(0, 1)),
+               ylab=c("C in its own group","A and B together"),
+               main="between=list(y=c(0,1) ## standard lattice between argument
 Adjacent A and B with y.between = 0 are in the same bordered group.
 Adjacent B and C with y.between != 0 are in different bordered groups.")
-EEE
+
+
+## simplest 3D example
+## This is natural when multiple questions are asked of the
+## same set of respondents in a survey.
+## This example simulates that situation.
+##
+tmp3D <- abind::abind(h=tmp, i=tmp, j=tmp, along=3)
+tmp3D[1,,"i"] <- tmp3D[1,c(4,2,1,3),"h"]
+tmp3D[2,,"i"] <- tmp3D[2,c(2,4,3,1),"h"]
+tmp3D[3,,"i"] <- tmp3D[3,c(4,1,2,3),"h"]
+tmp3D[1,,"j"] <- tmp3D[1,c(4,3,2,1),"h"]
+tmp3D[2,,"j"] <- tmp3D[2,c(1,4,3,2),"h"]
+tmp3D[3,,"j"] <- tmp3D[3,c(2,4,3,1),"h"]
+## now
+rowSums(tmp3D[,,1]) == rowSums(tmp3D[,,2])
+rowSums(tmp3D[,,1]) == rowSums(tmp3D[,,3])
+
+
+likertWeighted(tmp3D, h.resizePanels=rowSums(tmp3D[,,1]),
+               main="simplest 3D example, array method")
+
+likertWeighted(tmp3D, h.resizePanels=rowSums(tmp3D[,,1]),
+               between=list(x=1, y=c(0, 1)),
+               main="simplest 3D example, array method, with subgroups")
+
+## Same example with explicit use of the formula method
+## (array method does this for you).
+tmp3Ddf <- toCQxR(tmp3D)
+dimnames(tmp3Ddf)
+tmp3Ddf
+likertWeighted(~ . | group + row, tmp3Ddf, h.resizePanels=rowSums(tmp3D[,,1]),
+               main="simplest 3D example, formula method")
+
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.

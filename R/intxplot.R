@@ -30,7 +30,7 @@ intxplot <- function(x, data=NULL, groups.in,
     M[[2]][[3]][[2]] <- parse(text=paste("as.numeric(", x.factor, ")"))[[1]]
 
     condition.name.to.use <-
-      if ((class(x[[3]][[3]]) == "name") && missing(condition.name))
+      if (inherits(class(x[[3]][[3]]), "name") && missing(condition.name))
         deparse(x[[3]][[3]])
       else
         condition.name

@@ -11,12 +11,13 @@ Generate the latex code for an \code{"array"} or \code{"table"} with 3, 4, or mo
 }
 \usage{
 \method{latex}{array}(object, ...,
-       var.sep = "}\\\\\\\\{\\\\bfseries ", value.sep = ": ",
+       var.sep = "}\\\\tabularnewline{\\\\bfseries ", value.sep = ": ",
        use.ndn = TRUE, cgroup = NULL,
        ## rgroup here captures and ignores any incoming rgroup argument
        rgroup = NULL, n.rgroup = NULL,
        title = first.word(deparse(substitute(object))),
-       rowlabel=title)
+       rowlabel=title,
+            rsubgroup=NULL, n.rsubgroup=NULL)
 
 \method{latex}{matrix}(object, ...,
         use.ndn=TRUE, cgroup=NULL,
@@ -48,6 +49,10 @@ Generate the latex code for an \code{"array"} or \code{"table"} with 3, 4, or mo
     and higher dimensions of the input array \code{object}.
     Each item in \code{rgroup} is assigned the appropriate
     combination of \code{names(dimnames(object))[-(1:2)]}.}
+  \item{rsubgroup, n.rsubgroup}{
+    These are based on the standard arguments for \code{\link[Hmisc]{latex}}.
+    Incoming values for \code{rsubgroup} and \code{n.rsubgroup} are 
+    applied to the rows of each \code{rgroup}.}
   \item{title, rowlabel, cgroup}{
     These are the standard arguments for \code{\link[Hmisc]{latex}}.
     When \code{use.ndn} is \code{TRUE} (the default), then
@@ -104,6 +109,13 @@ See \code{\link[Hmisc]{latex}}.
 }
 \examples{
 
+\dontrun{
+## These are the recommended options.  See ?Hmisc::latex for details.
+options(latexcmd='pdflatex')
+options(dviExtension='pdf')
+options(xdvicmd='open')  ## Macintosh, Windows,      SMP linux
+}
+
 ## This sets up the defaults for latex to write to a pdf file
 microplot::latexSetOptions()
 ## It is needed for R CMD check.
@@ -148,6 +160,17 @@ microplot::latexSetOptions()
 
   names(dimnames(tmp4)) <- LETTERS[23:26]
   latex(tmp4, file="LETTERS4.tex")
+
+
+  ## with rsubgroup and n.rsubgroup
+  latex(tmp4, var.sep=" ; ", file="LETTERS4sub.tex",
+        rsubgroup=c("Three","Two"), n.rsubgroup=c(3,2))
+
+  ## with rsubgroup and n.rsubgroup and cgroup and n.cgroup
+  latex(tmp4, var.sep=" ; ", file="LETTERS4sub.tex",
+        rsubgroup=c("Three","Two"), n.rsubgroup=c(3,2),
+        cgroup=c("FGH","I"), n.cgroup=c(3,1))
+
 
   tmp2 <- array(1:6, c(3,2),
                 list(Rows=letters[1:3],

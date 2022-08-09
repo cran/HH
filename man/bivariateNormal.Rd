@@ -39,7 +39,7 @@ See \code{\link[lattice:cloud]{wireframe}}.
 \author{Richard M. Heiberger (rmh@temple.edu)}
 \note{
   Based on the \code{galaxy} example on pages 204--205 in
-  \emph{S \& S-PLUS Trellis Graphics User's Manual},
+  \emph{S & S-PLUS Trellis Graphics User's Manual},
   Richard A. Becker and William S. Cleveland (1996),
 \url{https://www.stat.auckland.ac.nz/~ihaka/courses/120/trellis.user.pdf} %% works 19Aug2019
 % \url{http://www.albany.edu/acc/courses/acc522fall2007/lecturenotes/trellis.usermanual.pdf}.

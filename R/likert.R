@@ -382,10 +382,10 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
                    xscale.components=xscale.components,
                    yscale.components=yscale.components),
                  SIMPLIFY=FALSE, USE.NAMES=TRUE)  ## named list of likert plots
-##  x.pl.nonames <- x.pl ## if (strip.left) about to become unnamed list of likert plots
+##  x.pl.nonames <- x.pl ## if (is.logical(strip.left) && strip.left) about to become unnamed list of likert plots
 ##  names(x.pl.nonames) <- NULL ## names are removed
 
-  if (class(resize.height)=="character") {
+  if (inherits(resize.height, "character")) {
     resize.height <- match.arg(resize.height, c("nrow","rowSums"))
     if (resize.height=="rowSums" && !all(sapply(x, nrow)==1))
       stop("resize.height='rowSums' is not valid for panels with more than one row.")
@@ -402,8 +402,8 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
     resize.width <- tmp
   }
 
-  if (length(resize.height) > 1 && all(resize.height==resize.height[1])) resize.height <- 1
-  if (length(resize.width)  > 1 && all( resize.width==resize.width[1] )) resize.width  <- 1
+ # if (length(resize.height) > 1 && all(resize.height==resize.height[1])) resize.height <- 1
+ # if (length(resize.width)  > 1 && all(resize.width ==resize.width[1] )) resize.width  <- 1
 
   if (!(length(resize.width) == 1 && length(resize.height) == 1))
     if (any(layout != c(length(resize.width), length(resize.height))))
@@ -414,7 +414,7 @@ plot.likert.list <- function(x,  ## named list of matrices, 2D tables, 2D ftable
 
 
   result <-
-    if (strip.left) {
+    if ((is.function(strip.left) || strip.left)) {
       ResizeEtc.likertPlot(do.call("c", x.pl),
                        x,
                        x.pl,

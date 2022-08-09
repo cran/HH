@@ -138,6 +138,7 @@ diagQQ,
 diag.arma.loop,
 diag.maybe.null,
 do.formula.trellis.xysplom,
+EmphasizeVerticalPanels,
 export.eps,
 ## formatBin,  ## now uses version in Rmpfr (>= 0.6.0)
 ## formatDec,
@@ -166,6 +167,7 @@ hovPlot.bf,
 hovBF,
 hovplotBF,
 if.R,
+InsertVerticalPanels,
 interaction2wt,
 interaction.positioned,
 interval,
@@ -187,6 +189,9 @@ likertColor,
 likertColorBrewer,
 likertMosaic,
 likertWeighted,
+likertWeighted47, ## deprecated
+## likert.weighted,  ## never made public, moved to Pew2020
+## as.likW4,  ## never made public, moved to Pew2020
 lm.regsubsets,
 lmatContrast,
 lmatPairwise,
@@ -242,6 +247,7 @@ panel.residSquare,
 panel.xysplom,
 partial.corr,
 pchisq.intermediate,
+pdf.latex,
 pdiscunif,
 perspBack.wall.x,
 perspBack.wall.y,
@@ -284,6 +290,8 @@ sufficient,
 summaryHH,
 title.grob,
 title.trellis,
+ToBW.likert,
+toCQxR,
 transpose,
 tsacfplots,
 tsdiagplot,
@@ -381,6 +389,9 @@ S3method(likertMosaic, default)
 S3method(likertMosaic, formula)
 S3method(likertMosaic, list)
 S3method(likertMosaic, matrix)
+S3method(likertWeighted, formula)
+S3method(likertWeighted, default)
+S3method(likertWeighted, array)
 S3method(lmatPairwise, matrix)
 S3method(lmatPairwise, glht)
 S3method(lmatPairwise, mmc.multicomp)
@@ -471,7 +482,6 @@ S3method(vif, formula)
 S3method(vif, lm)
 S3method(xysplom, default)
 S3method(xysplom, formula)
-
 
 ## # Import all packages listed as Imports or Depends
 ## import(

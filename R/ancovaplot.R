@@ -39,7 +39,7 @@ ancovaplot.formula <-
     y <- data[[as.character((formula[[2]]))]]
 
     ## form of equation
-    if (class(formula.xyplot[[3]])=="call") {  ## y ~ x + c or y ~ c + x; either with optional groups=
+    if (inherits(formula.xyplot[[3]], "call")) {  ## y ~ x + c or y ~ c + x; either with optional groups=
       formula.xyplot[[3]][[1]] <- as.name("|")
       f2 <- data[[as.character(formula[[3]][[2]])]]
       f3 <- data[[as.character(formula[[3]][[3]])]]
@@ -74,7 +74,7 @@ ancovaplot.formula <-
     }
 
 
-    if (class(formula[[3]])=="name" &&
+    if (inherits(formula[[3]], "name") &&
         is.numeric(data[[as.character(formula[[3]])]])) { ## y ~ x
       groups.cc.incompatible <- FALSE
       x.name <- as.character(formula[[3]])
@@ -100,7 +100,7 @@ ancovaplot.formula <-
       formula.xyplot[[3]][[2]] <- as.name(x.name)
     }
 
-    if (class(formula[[3]])=="name" &&
+    if (inherits(formula[[3]], "name") &&
         !is.numeric(data[[as.character(formula[[3]])]])) { ## y ~ c
       cc.name <- as.character(formula[[3]])
       cc <- data[[cc.name]]
@@ -135,14 +135,14 @@ ancovaplot.formula <-
       formula.xyplot[[3]][[2]] <- as.name(x.name)
     }
 
-    if (class(formula[[3]])=="call" &&
+    if (inherits(formula[[3]], "call") &&
         as.character(formula[[3]][[1]])=="+") { ## y ~ x + c
       yxc.lm <- aov(y ~ -1 + xx + cc)
       if (missing(intercept)) intercept <- coef(yxc.lm)[-1]
       if (missing(slope)) slope <- coef(yxc.lm)[1]
     }
 
-    if (class(formula[[3]])=="call" &&
+    if (inherits(formula[[3]], "call") &&
         as.character(formula[[3]][[1]])=="*") { ## y ~ x * c
       yxc.coef <- sapply(levels(cc), function(cci) coef(aov(y ~ xx, subset=(cc==cci))))
       if (missing(intercept)) intercept <- yxc.coef[1,]

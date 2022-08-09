@@ -37,13 +37,13 @@ ResizeEtc <- function(c.list,
   ## I would like them to use par.strip.text and par.strip.left.text, where the
   ## new par.strip.left.text defaults to the current value of par.strip.text
   resultE <- resultD
-  if (!missing(strip.values) && strip) {
+  if (!missing(strip.values) && (is.function(strip) || strip)) {
     resultE <- update(resultE, strip=strip)
     resultE$condlevels[[condlevelsName]] <- strip.values
   }
 
   resultF <- resultE
-  if (!missing(strip.left.values) && strip.left) {
+  if (!missing(strip.left.values) && (is.function(strip.left) || strip.left)) {
     resultF <- update(resultF, strip.left=strip.left)
     resultF$condlevels[[condlevelsName]] <- strip.left.values
   }
@@ -70,7 +70,7 @@ ResizeEtc <- function(c.list,
                     w=resizePanels(resultH, w=resize.width+1),
                     h=resizePanels(resultH, h=resize.height+1),
                     resultH)
-  resultI <- if (strip)
+  resultI <- if (is.function(strip) || strip)
     resultI
   else
     update(resultI, strip=strip)

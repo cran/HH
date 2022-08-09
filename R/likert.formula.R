@@ -524,7 +524,7 @@ getLikertData <- function(data, varNamesUsed) {
 }
 
 getLikertDataLong <- function(x, data, varNamesUsedLong) {
-  if (class(x[[3]]) == "call") {
+  if (inherits(x[[3]], "call")) {
     cond <- deparse(x[[3]][[3]])
     aaa <- strsplit(cond, " ", fixed=TRUE)[[1]]
     aaa[aaa=='+'] <- ' + '
