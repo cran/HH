@@ -642,9 +642,6 @@ likertStripDefault <- strip.custom(
 ##   likert(Question ~ . | Subtable, data=SFF, layout=c(2,1), as.percent=TRUE)  ## rightAxisLabels doesn't work with layout=c(2,1)
 ##   likert(Question ~ . | Subtable, data=SFF, layout=c(1,2), as.percent=TRUE)  ## rightAxisLabels doesn't work with layout=c(1,2)
 
-##   HH:::plot.likert.formula.old(Question ~ . | Subtable, data=SFF, layout=c(2,1), as.percent=TRUE)  ## Works but needs horizontal stretch to be useful
-##   HH:::plot.likert.formula.old(Question ~ . | Subtable, data=SFF, layout=c(1,2), as.percent=TRUE)  ## Works
-
 ##   likert(Question ~ . | Subtable, data=SFF, layout=c(1,2), as.percent=TRUE)
 
 ## }

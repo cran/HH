@@ -520,8 +520,8 @@ model <-
   result
 }
 
-seqplot.forecast <- function(...)
-  .Defunct("seqplotForecast", package="HH")
+## seqplot.forecast <- function(...)
+##   .Defunct("seqplotForecast", package="HH")
 
 seqplotForecast <- function(xts, forecast, multiplier=1.96,
                             series=deparse(substitute(observed)), ylim,

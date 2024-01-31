@@ -1,5 +1,5 @@
 ToBW.likert <- function(x,
-                        colLegendOrder=c("gray85", "gray20", "gray60", "gray75", "gray45"),
+                        colLegendOrder=c("gray70", "gray20", "gray60", "gray75", "gray45"),
 ##                                        ^Ask      Refu      ^Imp    | Impt      Essn
 ##
                         colBarchartOrder=colLegendOrder[c(3,2,1, 4,5)],

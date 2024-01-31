@@ -50,7 +50,12 @@ interaction2wt(x, ...)
                key.cex.title=.8,
                key.cex.text=.7,
                factor.expressions=names.x,
-               simple.pch=NULL
+               simple.pch=NULL,
+               col.by.row=TRUE,
+               col  =trellis.par.get("superpose.line")$col,
+               lty  =trellis.par.get("superpose.line")$lty,
+               lwd  =trellis.par.get("superpose.line")$lwd,
+               alpha=trellis.par.get("superpose.line")$alpha
 )
 }
 %- maybe also 'usage' for other objects documented here.
@@ -153,6 +158,12 @@ See also
     characters are used for the median of the box plots in the diagonal
     panels.  They match the trace factor of the interaction panel in the
     same column of the display.  }
+  \item{col.by.row}{logical.  If \code{TRUE} (the default), simple
+    effects plots color the simple effects on the main diagonals in the same
+    color as the trace levels in their row.  If \code{FALSE}, then simple
+    effects are colored to match the x levels in their column.}
+  \item{col, lty, lwd, alpha}{Arguments to
+    \code{trellis.par.set(superpose.line=list())}.}
 }
 \value{
 \code{"trellis"} object containing the plot.
@@ -168,14 +179,35 @@ Springer-Verlag, New York.
 \seealso{\code{\link{panel.interaction2wt}}}
 \examples{
 data(vulcan)
+
 interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
                par.strip.text=list(cex=.7))
-interaction2wt(wear ~ filler + pretreat + raw, data=vulcan)
+
+interaction2wt(wear ~ filler + pretreat + raw, data=vulcan,
+               par.strip.text=list(cex=.7),
+               label.as.interaction.formula=FALSE)
+
 interaction2wt(wear ~ filler + raw, data=vulcan,
                simple=TRUE)
+
+interaction2wt(wear ~ filler + raw, data=vulcan,
+               simple=TRUE, col.by.row=FALSE)
+
 interaction2wt(wear ~ filler + raw, data=vulcan,
                simple=TRUE, simple.scale=c(filler=.15, raw=.2),
                xlim=c(.3, 5.6))
+
+interaction2wt(wear ~ filler + raw, data=vulcan,
+               col=1:5, lwd=1:5, lty=1:5)
+
+interaction2wt(wear ~ filler + raw, data=vulcan,
+               simple=TRUE, col=1:5, lwd=1:5, lty=1:5)
+
+interaction2wt(wear ~ filler + raw, data=vulcan,
+               simple=TRUE, col=1:5, lwd=1:5, lty=1:5, col.by.row=FALSE,
+               simple.pch=list(filler=LETTERS[1:5], raw=letters[6:9]), cex=2)
+
+
 
 ToothGrowth$dose <- positioned(ToothGrowth$dose) ## modify local copy
 anova(aov(len ~ supp*dose, data=ToothGrowth))

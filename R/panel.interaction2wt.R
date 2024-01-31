@@ -13,12 +13,15 @@ function(x, y, subscripts,
          simple.pch,
          data.x,
          col.by.row=TRUE,
-         key.in=NULL ## list of key arguments for S-Plus
+         col  =trellis.par.get("superpose.line")$col,
+         lty  =trellis.par.get("superpose.line")$lty,
+         lwd  =trellis.par.get("superpose.line")$lwd,
+         alpha=trellis.par.get("superpose.line")$alpha
          ) {
 
   if ("o" %in% type || "b" %in% type)
     type <- c(type, "p", "l")
-
+##recover()
 
   if (simple) {
     pch.name <- names(data.x)[3-current.row()]
@@ -29,7 +32,7 @@ function(x, y, subscripts,
     pch[[other.name]] <- rep(simple.pch[[pch.name]], lengths[other.name])
     pch[[pch.name]] <- rep(simple.pch[[other.name]], each=lengths[pch.name])
   }
-  ## if.R(r={
+
     tcL <- trellis.currentLayout()
     rows.per.page <- dim(tcL)[1]
     cols.per.page <- dim(tcL)[2]
@@ -39,22 +42,6 @@ function(x, y, subscripts,
 
     these.labels <- c(trace.factor=names(factor.levels)[row.panel],
                       x.factor=names(factor.levels)[column.panel])
-  ## },s={
-  ##   rows.per.page <- length(factor.levels)
-  ##   cols.per.page <- length(factor.levels)
-  ##   cell <- get("cell", frame=sys.parent())
-
-  ##   tcL <- matrix(seq(length=rows.per.page*cols.per.page),
-  ##                 rows.per.page, cols.per.page,
-  ##                 byrow=TRUE)
-
-  ##   row.panel <- row(tcL)[tcL==cell]
-  ##   column.panel <- col(tcL)[tcL==cell]
-
-  ##   these.labels <- c(trace.factor=names(factor.levels)[row.panel],
-  ##                     x.factor=names(factor.levels)[column.panel])
-  ## }
-  ##      )
 
   trace.name <- these.labels["trace.factor"]
   trace.position <- factor.position[[trace.name]]
@@ -63,10 +50,18 @@ function(x, y, subscripts,
   x.position <- factor.position[[x.name]]
   x.levels <- factor.levels[[x.name]]
 
-  tpg <- trellis.par.get("superpose.line")
-  tpg.col <- rep(tpg$col, length=length(trace.levels))
-  tpg.lty <- rep(tpg$lty, length=length(trace.levels))
-  tpg.lwd <- rep(tpg$lwd, length=length(trace.levels))
+
+  tpg <- list()
+  tpg$col   <- if (missing(col))   trellis.par.get("superpose.line")$col   else col
+  tpg$lwd   <- if (missing(lwd))   trellis.par.get("superpose.line")$lwd   else lwd
+  tpg$lty   <- if (missing(lty))   trellis.par.get("superpose.line")$lty   else lty
+  tpg$alpha <- if (missing(alpha)) trellis.par.get("superpose.line")$alpha else alpha
+
+  tpg.col   <-   tpg$col   #rep(tpg$col, length=length(trace.levels))
+  tpg.lty   <-   tpg$lty   #rep(tpg$lty, length=length(trace.levels))
+  tpg.lwd   <-   tpg$lwd   #rep(tpg$lwd, length=length(trace.levels))
+  tpg.alpha <-   tpg$alpha #rep(tpg$alpha, length=length(trace.levels))
+
   tpg <- trellis.par.get("superpose.symbol")
   tpg.cex <- rep(tpg$cex, length=length(trace.levels))
   tpg.pch <- rep(tpg$pch, length=length(trace.levels))
@@ -87,12 +82,17 @@ function(x, y, subscripts,
       if (!missing(simple.scale))
         ioh.list$b.scale=simple.scale[[other.name]]
       x.simple <- do.call("interaction.positioned", ioh.list)
-## recover()
+
+## {
+##   cat("tpg.col: ",tpg.col,
+##       "\nrep(tpg.col, length=length(levels(other.factor))): ",rep(tpg.col, length=length(levels(other.factor)))
+##   recover()
+## }
       tpg.col.simple <-
-        if (col.by.row)
-          tpg.col
-        else
-          rep(tpg$col, length=length(levels(other.factor)))
+        ##        if (col.by.row)
+        tpg.col
+      ##       else
+      ##        tpg.col[1:length(levels(data.x[,x.name]))]
 
       col.subscripts <-
         if (col.by.row)
@@ -100,35 +100,39 @@ function(x, y, subscripts,
         else
           rep(seq(length(levels(other.factor))), length(x.levels))
 
-      if.R(r=
-           panel.bwplot.intermediate.hh(x.simple, y,
-                                        horizontal=FALSE,
-                                        col=tpg.col.simple[col.subscripts],
-                                        pch=pch[[x.name]],
-                                        box.ratio=box.ratio,
-                                        ...)
-           ,s=
-           panel.bwplot.intermediate.hh(as.numeric(x.simple), y,
-                                        horizontal=FALSE,
-                                        col=tpg.col.simple[col.subscripts],
-                                        pch=pch[[x.name]],
-                                        box.ratio=box.ratio,
-                                        ...)
-           )
+      ## {
+      ##   cat(
+      ##     "trace.name: ", trace.name, "\n",
+      ##     "x.name: ", x.name, "\n",
+      ##     "col.by.row: ",                                    col.by.row, "\n",
+      ##       "tpg.col: ",                                       tpg.col, "\n",
+      ##       "levels(data.x[,x.name]): ",                   levels(data.x[,x.name]), "\n",
+      ##       "tpg.col[1:length(levels(data.x[,x.name]))]: ",tpg.col[1:length(levels(data.x[,x.name]))], "\n",
+      ##       "tpg.col.simple: ",                                tpg.col.simple, "\n",
+      ##       "col.subscripts: ",                                col.subscripts, "\n"                                )
+      ##   }
+##recover()
+
+      panel.bwplot.intermediate.hh(x.simple, y,
+                                   horizontal=FALSE,
+                                   col=tpg.col.simple[col.subscripts],
+                                   pch=pch[[x.name]],
+                                   box.ratio=box.ratio,
+                                   lty=tpg.lty,
+                                   lwd=tpg.lwd,
+                                   alpha=tpg.alpha,
+                                   ...)
     }
     else { ## marginal main effects
       x.factor <- data.x[, x.name]
-      if.R(r=
-           panel.bwplot.intermediate.hh(x.factor, y,
-                                        horizontal=FALSE,
-                                        box.ratio=box.ratio,
-                                        ...)
-           ,s=
-           panel.bwplot.intermediate.hh(as.numeric(x.factor), y,
-                                        horizontal=FALSE,
-                                        box.ratio=box.ratio,
-                                        ...)
-           )
+      panel.bwplot.intermediate.hh(x.factor, y,
+                                   horizontal=FALSE,
+                                   box.ratio=box.ratio,
+                                   col=tpg.col,
+                                   lty=tpg.lty,
+                                   lwd=tpg.lwd,
+                                   alpha=tpg.alpha,
+                                   ...)
     }
   }
   else { ## off-diagonal
@@ -155,6 +159,10 @@ function(x, y, subscripts,
                        offset.use=FALSE,
                        rug.use=TRUE,
                        type=type,
+                       col   = tpg.col,
+                       lwd   = tpg.lwd,
+                       lty   = tpg.lty,
+                       alpha = tpg.alpha,
                        ...)
       else {
         if (is.logical(se))
@@ -162,6 +170,8 @@ function(x, y, subscripts,
         else {
           suff.data.se <- eval(se, suff.data)
         }
+##        recover()
+
         panel.intxplot(y=suff.data$y,
                        x=x.simple,
                        subscripts=seq(length(suff.data$y)),
@@ -171,12 +181,15 @@ function(x, y, subscripts,
                        rug.use=TRUE,
                        se=suff.data.se,
                        type=type,
+                       col   = tpg.col,
+                       lwd   = tpg.lwd,
+                       lty   = tpg.lty,
+                       alpha = tpg.alpha,
                        ...)
       }
     }
     else {
       tab <- tapply(y, list(x, trace.values[subscripts]), fun)
-      if.R(r={}, s=panel.lines <- lines)
       for (j in 1:ncol(tab)) {
         panel.lines(x=x.position, y=tab[,j], col=tpg.col[j], lty=tpg.lty[j], lwd=tpg.lwd[j])
         if ("p" %in% type)
@@ -187,42 +200,16 @@ function(x, y, subscripts,
 
 
 
-  ## x labels
-  if (row.panel==1) {
-    if.R(r={},
-         s={
-           axis(1, at=x.position, labels=x.levels)
-           mtext(x.name, side=1, line=2, at=mean(par()$usr[1:2]))
-          })
-}
 
-  ## trace key
-  if (column.panel==1) {
+##   ## trace key
+##   if (column.panel==1) {
+## ##recover()
+##     key.list <- list(cex.title=1,
+##                      corner=c(0,.5), border=TRUE,
+##                      text=list(text=trace.levels, cex=.8),
+##                      lines=list(col=tpg.col, lty=tpg.lty, lwd=tpg.lwd))
+##   }
 
-    key.list <- list(title=trace.name,  ## S-Plus only
-                     cex.title=1,
-                     corner=c(0,.5), border=TRUE,
-                     text=list(text=trace.levels, cex=.8),
-                     lines=list(col=tpg.col, lty=tpg.lty, lwd=tpg.lwd))
-    key.list[names(key.in)] <- key.in
-    if.R(r={},
-         s={
-           if (is.null(key.list$x))
-             key.list$x <- par()$usr[1]-.6*diff(par()$usr[1:2])
-           do.call("key", key.list)
-         }
-         )
-  }
-
-
-  ## y label
-  if (column.panel==cols.per.page) {
-    if.R(r={},
-         s={
-           mtext(responselab, side=4, line=3, at=mean(par()$usr[3:4]))
-         }
-         )
-  }
 }
 
 

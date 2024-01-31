@@ -18,7 +18,8 @@ intxplot <- function(x, data=NULL, groups.in,
                        x.factor.name,
                        if (length(x[[3]]) > 1)
                        paste("|", condition.name.to.use)),
-                     main.cex=1.5) {
+                     main.cex=1.5,
+                     col, lwd, lty, alpha) {
   M <- sys.call()
   M[[1]] <- as.name("xyplot")
 
@@ -92,8 +93,13 @@ intxplot <- function(x, data=NULL, groups.in,
   if (missing(xlab))
     M$xlab <- x.factor.name    ## xlab is needed to avoid "as.numeric()"
 
-  tpg <- trellis.par.get("superpose.line")
-  if (key) {
+   tpg <- list()
+   tpg$col   <- if (missing(col))   trellis.par.get("superpose.line")$col   else col
+   tpg$lwd   <- if (missing(lwd))   trellis.par.get("superpose.line")$lwd   else lwd
+   tpg$lty   <- if (missing(lty))   trellis.par.get("superpose.line")$lty   else lty
+   tpg$alpha <- if (missing(alpha)) trellis.par.get("superpose.line")$alpha else alpha
+
+    if (key) {
     key.index <- rep(1:length(tpg$col), length=length(levels.groups))
     M$key <- list(
                   lines = Rows(tpg, key.index),
@@ -109,9 +115,9 @@ intxplot <- function(x, data=NULL, groups.in,
   if (missing(main))
     M$main <- list(main.title, cex=main.cex)
   if (missing(panel)) M$panel <- panel
-  if (missing(key.lines) && !is.null(list(...)$par.settings$superpose.line))
-    key.lines <- list(...)$par.settings$superpose.line
-  if (!missing(key.lines)) M$key$lines[names(key.lines)] <- key.lines
+  ## if (missing(key.lines) && !is.null(list(...)$par.settings$superpose.line))
+  ##   key.lines <- list(...)$par.settings$superpose.line
+  ## if (!missing(key.lines)) M$key$lines[names(key.lines)] <- key.lines
 
   M$key.length <- NULL
   M$key.lines <- NULL
@@ -128,6 +134,11 @@ intxplot <- function(x, data=NULL, groups.in,
       M$se <- M$data$sd/sqrt(M$data$nobs)
   }
 
+  M$col   <- tpg$col
+  M$lwd   <- tpg$lwd
+  M$lty   <- tpg$lty
+  M$alpha <- tpg$alpha
+
   eval(M, sys.parent(1))
 }
 
@@ -137,18 +148,20 @@ intxplot <- function(x, data=NULL, groups.in,
 ## and offsets for each group level
 ## Add rug() for offsets
 panel.intxplot <-
-  function(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
+  function(x, y, subscripts, groups, type = "l",
+           se, cv=1.96,
            offset.use=(!missing(groups) && !missing(se)),
            offset.scale=2*max(as.numeric(groups)),
            offset=
            as.numeric(groups[match(levels(groups), groups)]) / offset.scale,
-           rug.use=offset.use)
-{
-  ox <- order(x)
-  x <- x[ox]
-  y <- y[ox]
-  subscripts <- subscripts[ox]
+           rug.use=offset.use,
+           col,  ##trellis.par.get("superpose.line")$col)
+           lwd,
+           lty,
+           alpha,
+           ...)
 
+{
   x.adjust <-
     if (offset.use) {
       position(x) +
@@ -157,17 +170,13 @@ panel.intxplot <-
     else
       x
 
-  col <- rep(trellis.par.get("superpose.line")$col,
-             length=length(levels(groups)))
-  g <- groups[subscripts]
-  tpg.col <- rep(col, length=length(g))
-
   panel.superpose(as.position(x.adjust), y, subscripts, unpositioned(groups),
-                  type=type, col=col, ...)
+                  type=type, ## col=rep(col, length=length(levels(groups))))
+                  col=col, lwd=lwd, lty=lty, alpha=alpha)
 
   if (rug.use) {
-    for (i in seq(along=levels(g))) {
-      xag <- x.adjust[g==levels(g)[i]]
+    for (i in seq(along=levels(groups))) {
+      xag <- x.adjust[groups==levels(groups)[i]]
       if (length(xag)) panel.rug(as.position(xag),
                                  col=col[i],  ticksize = +0.03, lwd=1)
     }
@@ -179,12 +188,15 @@ panel.intxplot <-
     if (length(cv)==1) cv=rep(cv, length(groups))
     se.cv <- se*cv
 
+    ## error bars
     for (i in seq(along=x)) {
       panel.superpose(x=rep(position(x.adjust)[i], 2),
                       y=y[i] + c(-1,1)*se.cv[subscripts[i]],
                       subscripts[c(i,i)], unpositioned(groups), type=type,
-                      col=tpg.col[i], ...)
-
+                      col  = rep(  col,2)[as.numeric(groups)[i]],
+                      lwd  = rep(  lwd,2)[as.numeric(groups)[i]],
+                      lty  = rep(  lty,2)[as.numeric(groups)[i]],
+                      alpha= rep(alpha,2)[as.numeric(groups)[i]])
     }
   }
 }

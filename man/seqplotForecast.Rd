@@ -1,4 +1,4 @@
-\name{seqplot.forecast}
+\name{seqplotForecast}
 %% \alias{seqplot.forecast} %% old name
 \alias{seqplotForecast}
 %- Also NEED an '\alias' for EACH other topic documented here.

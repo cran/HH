@@ -30,14 +30,17 @@ intxplot(x, data=NULL, groups.in,
             x.factor.name,
             if (length(x[[3]]) > 1)
             paste("|", condition.name.to.use)),
-          main.cex=1.5)
+          main.cex=1.5,
+          col, lwd, lty, alpha)
 
-panel.intxplot(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
+panel.intxplot(x, y, subscripts, groups, type = "l", se, cv=1.96,
                offset.use=(!missing(groups) && !missing(se)),
                offset.scale=2*max(as.numeric(groups)),
                offset=
                as.numeric(groups[match(levels(groups), groups)]) / offset.scale,
-               rug.use=offset.use)
+               rug.use=offset.use,
+               col, lwd, lty, alpha,
+               ...)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -100,6 +103,8 @@ panel.intxplot(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
   group levels.}
   \item{rug.use}{logical. If \code{TRUE}, display a rug for the endpoints
   of each group.}
+  \item{col, lwd, lty, alpha}{Arguments to
+    \code{trellis.par.set(superpose.line=list())}.}
 }
 \value{
 \code{"trellis"} object.
@@ -111,35 +116,37 @@ panel.intxplot(x, y, subscripts, groups, type = "l", ..., se, cv=1.96,
 
 data(rhiz.clover)
 
-## interaction plot, no se
-intxplot(Npg ~ strain, groups=comb, data=rhiz.clover)
+## interaction plot, no SE
+intxplot(Npg ~ strain, groups=comb, data=rhiz.clover,
+         main="Interaction Plot. No SE")
 
-## interaction plot, individual se for each treatment combination
-intxplot(Npg ~ strain, groups=comb, data=rhiz.clover, se=TRUE)
-
+## interaction plot, individual SE for each treatment combination
 ## Rescaled to allow the CI bars to stay within the plot region
 intxplot(Npg ~ strain, groups=comb, data=rhiz.clover, se=TRUE,
-         ylim=range(rhiz.clover$Npg))
+         ylim=c(17,47),
+         main="Interaction Plot. Rescaled to keep CI bars within the plot region")
 
-## interaction plot, common se based on ANOVA table
-intxplot(Npg ~ strain, groups=comb, data=rhiz.clover,
-         se=sqrt(sum((nobs-1)*sd^2)/(sum(nobs-1)))/sqrt(5))
-
-## Rescaled to allow the CI bars to stay within the plot region
+## Common SE based on ANOVA table. Rescaled to allow the CI bars to stay within the plot region
 intxplot(Npg ~ strain, groups=comb, data=rhiz.clover,
          se=sqrt(sum((nobs-1)*sd^2)/(sum(nobs-1)))/sqrt(5),
-         ylim=range(rhiz.clover$Npg))
+         ylim=c(16,41),
+         main=paste("Interaction Plot. Common SE based on ANOVA table.\n",
+                    "Rescaled to keep CI bars within the plot region"))
 
 ## change distance between endpoints
-intxplot(Npg ~ strain, groups=comb, data=rhiz.clover,
-         se=TRUE, offset.scale=20)
+intxplot(Npg ~ strain, groups=comb, data=rhiz.clover, se=TRUE,
+         offset.scale=10, ylim=c(18,46),
+         main="Interaction plot. Change distance between endpoints")
 
 ## When data includes the nobs and sd variables, data.is.summary=TRUE is needed.
 intxplot(Npg ~ strain, groups=comb,
          se=sqrt(sum((nobs-1)*sd^2)/(sum(nobs-1)))/sqrt(5),
          data=sufficient(rhiz.clover, y="Npg", c("strain","comb")),
          data.is.summary=TRUE,
-         ylim=range(rhiz.clover$Npg))
+         ylim=c(16,41),
+         main=paste("Interaction plot. When data includes the nobs and sd variables,\n",
+           "'data.is.summary=TRUE' is needed"))
+
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

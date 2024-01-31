@@ -30,7 +30,8 @@ residual.plots.lattice(lm.object, X=dft$x, layout=c(dim(X)[2],1),
 \code{lm.object}
 }
   \item{X}{
-%%     ~~Describe \code{X} here~~
+Identify the variables in each of the x, y, group positions in a formula object.
+See \code{\link{do.formula.trellis.xysplom}} for more detail.
 }
   \item{layout, par.strip.text, \dots}{
 \pkg{lattice} arguments.  See \code{\link{xyplot}}.

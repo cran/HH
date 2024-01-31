@@ -4,7 +4,8 @@
 ##> matrix(ls(2, all=TRUE))
 ## hand investigated and then sorted
 
-## mmc.explain is an unexported function that is used in the Multiple
+## mmc_explain is an unexported function.
+## Under the name mmc.explain, it is used in the Multiple
 ## Comparisons chapter of HH to explain the MMC plot
 
 ## .__C__ancova
@@ -167,6 +168,7 @@ hovPlot.bf,
 hovBF,
 hovplotBF,
 if.R,
+is.R,
 InsertVerticalPanels,
 interaction2wt,
 interaction.positioned,
@@ -189,7 +191,7 @@ likertColor,
 likertColorBrewer,
 likertMosaic,
 likertWeighted,
-likertWeighted47, ## deprecated
+## likertWeighted47, ## deprecated
 ## likert.weighted,  ## never made public, moved to Pew2020
 ## as.likW4,  ## never made public, moved to Pew2020
 lm.regsubsets,

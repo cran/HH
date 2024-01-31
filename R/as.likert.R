@@ -173,10 +173,18 @@ rev.likert <- function(x) {
 }
 
 
-## This simplified function appears in the JSS submitted paper.
+## This simplified function appears in the JSS paper
+##  Richard M. Heiberger, Naomi B. Robbins (2014).,
+##        "Design of Diverging Stacked Bar Charts for Likert Scales and Other Applications",
+##        Journal of Statistical Software, 57(5), 1--32,
+##        \doi{10.18637/jss.v057.i05}.
+## with the name
+## HH:::as.likert.simplified.odd
+## The new name has "_" replacing "." to make clear that this is not a method.
+##
 ## It is here for discussion but it not exported.
-## The user can access it with HH:::as.likert.simplified.odd
-as.likert.simplified.odd <- function(x,                          ##  1
+## The user can access it with HH:::as_likert_simplified_odd
+as_likert_simplified_odd <- function(x,                          ##  1 ## new name
        nc=ncol(x), colorset=(1:nc)-(nc+1)/2) {                   ##  2
     ind.neg <- rev((1:nc)[colorset < 0])                         ##  3
     ind.pos <- (1:nc)[colorset > 0]                              ##  4

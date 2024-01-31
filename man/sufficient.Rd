@@ -19,7 +19,7 @@ sufficient(x,
 \arguments{
   \item{x}{\code{data.frame} containing a continuous variable and two factors.}
   \item{yname}{Character name of response variable.}
-  \item{factor.names.keep}{Character vecotr containing the names of two
+  \item{factor.names.keep}{Character vector containing the names of two
     factors in the \code{x} data.frame.}
 }
 \value{

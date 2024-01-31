@@ -25,7 +25,11 @@ panel.interaction2wt(x, y, subscripts,
                      simple.pch,
                      data.x,
                      col.by.row=TRUE,
-                     key.in=NULL)
+                     col  =trellis.par.get("superpose.line")$col,
+                     lty  =trellis.par.get("superpose.line")$lty,
+                     lwd  =trellis.par.get("superpose.line")$lwd,
+                     alpha=trellis.par.get("superpose.line")$alpha
+)
 
 strip.interaction2wt(which.given, which.panel, var.name,
                      factor.levels, shingle.intervals,
@@ -57,13 +61,6 @@ strip.interaction2wt(which.given, which.panel, var.name,
   \item{box.ratio}{passed to \code{panel.bwplot.intermediate.hh}},
   \item{\dots}{extra arguments, primarily color,
     to be passed to \code{panel.bwplot.intermediate.hh}}
-  \item{key.in}{S-Plus only.  Arguments to be passed through to the \code{key} for the
-    trace-factor in each row of the display.
-  The most likely argument is \code{x}, which is needed if the key is
-  not correctly placed.  Use, for example, \code{key.in=list(x=-3.5)}
-  where the units are the units of the left column of panels and the
-  value is the location where the left border of the key should be placed.
-}
   \item{factor.position}{\code{"position"} attribute of factor.}
   \item{simple}{logical.  If \code{TRUE}, then simple effects are to be displayed.}
   \item{simple.offset, simple.scale}{named list of offset and scale for the
@@ -78,9 +75,11 @@ strip.interaction2wt(which.given, which.panel, var.name,
     same column of the display.  }
   \item{data.x}{\code{data.frame} containing factors from the input data.frame}
   \item{col.by.row}{logical.  If \code{TRUE} (the default), simple
-effects plots color the simple effects on the main diagonals in the same
-color as the trace levels in their row.  If \code{FALSE}, then simple
-effects are colored to match the x levels in their column.}
+    effects plots color the simple effects on the main diagonals in the same
+    color as the trace levels in their row.  If \code{FALSE}, then simple
+    effects are colored to match the x levels in their column.}
+  \item{col, lty, lwd, alpha}{Arguments to
+    \code{trellis.par.set(superpose.line=list())}.}
 
   \code{strip.interaction2wt} arguments
   \item{which.given, which.panel, var.name, factor.levels,

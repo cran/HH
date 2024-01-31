@@ -45,8 +45,14 @@ interaction2wt.default <-
            key.cex.title=.8,
            key.cex.text=.7,
            factor.expressions=names.x,
-           simple.pch=NULL
-           ) {
+           simple.pch=NULL,
+           col.by.row=TRUE,
+           col  =trellis.par.get("superpose.line")$col,
+           lty  =trellis.par.get("superpose.line")$lty,
+           lwd  =trellis.par.get("superpose.line")$lwd,
+           alpha=trellis.par.get("superpose.line")$alpha
+         ) {
+
     n <- nrow(x)
     k <- ncol(x)
     names.x <- names(x)
@@ -86,12 +92,19 @@ interaction2wt.default <-
                         levels=names.x))
     if (label.as.interaction.formula) {
       ccd$x.trace <- interaction(ccd$x.factor, ccd$trace.factor)
+      ## original
       levels(ccd$x.trace) <- paste(responselab,
                                    outer(levels(ccd$x.factor),
                                          levels(ccd$trace.factor),
                                          FUN=paste,
                                          sep=" | "),
                                    sep=" ~ ")
+      if (k == 2 && simple) {
+        if (col.by.row) ## new
+          levels(ccd$x.trace)[c(1,4)] <- paste(levels(ccd$x.trace)[c(1,4)], c("  (right)", "  (left)"))
+        else
+          levels(ccd$x.trace) <- paste(levels(ccd$x.trace)[c(3,2,3,2)], c("  (above)","","","  (below)"))
+      }
       formula <- response.var ~ x.values | x.trace
     }
     else
@@ -122,6 +135,7 @@ interaction2wt.default <-
            xaxs="e",
            prepanel=function(x,y) list(xlim=range(factor.position)+c(-.5,.5)), ##range(x)+c(-1,1)*.1*range(x)),
            panel=panel.input,
+           col.by.row=col.by.row,
            strip=strip.input,
            par.strip.text=par.strip.text.input,
            layout=c(k, k),
@@ -132,6 +146,10 @@ interaction2wt.default <-
            data.x=x,
            box.ratio=box.ratio,
            simple.pch=simple.pch,
+           col=col,
+           lwd=lwd,
+           lty=lty,
+           alpha=alpha,
            ...)
       cpy <- range(ccd$response.var, na.rm=TRUE)
       pcpy <- pretty(cpy)
@@ -160,7 +178,7 @@ interaction2wt.default <-
       xyplot.list$lattice.options[names(lattice.options)] <- lattice.options
 
       keys <- vector("list")
-      for (ii in seq(along=names.x)) {
+    for (ii in seq(along=names.x)) {
         trace.id <- names(x)[ii]
         keylist <- list(title=factor.expressions[trace.id],
                         cex.title=key.cex.title,
@@ -171,8 +189,10 @@ interaction2wt.default <-
                         lines=Rows(
                           trellis.par.get("superpose.line"),
                           seq(length(factor.levels[[trace.id]]))))
-        pssl.lwd <- list(...)$par.settings$superpose.line$lwd
-        if (!is.null(pssl.lwd)) keylist$lines$lwd[] <- pssl.lwd
+        keylist$lines <- list(col  =rep(col,   length=length(levels(x[,trace.id]))),
+                              lty  =rep(lty,   length=length(levels(x[,trace.id]))),
+                              lwd  =rep(lwd,   length=length(levels(x[,trace.id]))),
+                              alpha=rep(alpha, length=length(levels(x[,trace.id]))))
         keys[[trace.id]] <- draw.key(keylist, draw=FALSE)
 
         if (simple) {
@@ -188,7 +208,7 @@ interaction2wt.default <-
                             seq(length(factor.levels[[other.id]]))))
           keylist$points$col[] <- "black"
           keylist$points$pch <- simple.pch[[other.id]]
-          keylist$lines=list(col=0, size=2)
+          keylist$lines <- list(col=0, size=2)
           keys[[paste(other.id, "pts", sep="")]] <- draw.key(keylist, draw=FALSE)
 
           ## other.id <- names(x)[3 - ii]
@@ -211,6 +231,7 @@ interaction2wt.default <-
                                  list(fun = legendGrob2wt,
                                       args = keys))
       xyplot.list$axis <- axis.i2wt
+
     do.call("xyplot", xyplot.list)
   }
 

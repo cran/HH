@@ -1,4 +1,7 @@
-mmc.explain <- function(group, n, ybar, ms.5, crit.point=1.96,
+## mmc.explain   Former name
+## used in the Multiple Comparisons chapter of HH to explain the MMC plot
+
+mmc_explain <- function(group, n, ybar, ms.5, crit.point=1.96,
                         ylabel="ylabel",
                         factor.label="factor.label",
                         xlim,

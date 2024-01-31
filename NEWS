@@ -1,3 +1,67 @@
+Version 3.1-51
+--------------
+
+* 2024 Jan 31
+
+* as.likert.R
+  HH:::as.likert.simplified.odd renamed to HH:::as_likert_simplified_odd
+
+* mmc_explain.R
+  previous HH:::mmc.explain renamed to HH:::mmc_explain
+
+* likert.formula.DataFrame.r likert.formula.R
+  plot.likert.formula.old removed
+
+* ARIMA-trellis.R
+  seqplot.forecast previously unexported function, now removed
+
+* seqplot.forecast.Rd renamed to seqplotForecast.Rd
+
+
+Version 3.1-50
+--------------
+
+* 2024 Jan 26
+
+* interaction2wt() was not using col= and lty= arguments
+
+* panel.interaction2wt.R, panel.interaction2wt.Rd
+  remove all if.R() constructs
+  remove key.in argument
+  change tpg$col to tpg.col
+  subscripts <- subscripts[ox] ## line needed
+
+* intxplot.R, intxplot.Rd
+  panel.intxplot place col= argument into calling sequence
+
+* HH-defunct.Rd
+  file removed
+
+* likertWeighted47.R, likertWeighted47.Rd
+  files removed
+
+* CITATION
+  changed personlist() to c() as requested by --as-cran
+  changed citEntry to bibentry
+  changed entry to bibtype
+
+* residual.plots.lattice.Rd
+  insert missing definition of X argument
+
+* NAMESPACE
+  removed likertWeighted47
+
+* sufficient.Rd
+  typo vecotr -> vector
+
+
+* 2022 Aug 11
+
+* ToBW.likert.R, ToBW.likert.Rd  Changed NotAsked color from "gray85" to "gray70"
+  for improved visibility in low-contrast printing.
+
+
+
 Version 3.1-49
 --------------
 
@@ -7,7 +71,7 @@ Version 3.1-49
 
 * Change \& to & in bivariateNormal.Rd
 
-* on CRAN:
+* on CRAN: 2022-08-09
 
 
   
