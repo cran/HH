@@ -25,7 +25,7 @@ NTplot(mean0, ...)
     argument for the mean under the null hypothesis.
     For the \code{htest} method, \code{mean0} is an \code{htest} object
     from the \code{\link[stats]{t.test}} or the
-    \code{\link[TeachingDemos]{z.test}} function.
+    \code{z.test} function.
     For the \code{NormalAndTplot} method
     \code{mean0} is a \code{"NormalAndTplot"} object from a previous use
     of the \code{NTplot} function.

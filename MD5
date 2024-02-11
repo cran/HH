@@ -1,6 +1,6 @@
-566896a870378541ae667c2567508590 *DESCRIPTION
-d0d45b6369e46f1627ee0b09454c23be *NAMESPACE
-096d8784685d35c19756fb9f4c662f8c *NEWS
+440eaaaa89d5a017d4a8ca0bffc2e8b5 *DESCRIPTION
+c3241400a24c70a5ad00c872c3c3bc43 *NAMESPACE
+ba65053d52095255445179cfb66b8131 *NEWS
 e7f0ce692e95a48e3279e508eb1f8b84 *R/AAAAAAA.if.R.R
 ed48cba501776addd01102200f46eb44 *R/ARIMA-trellis.R
 dad9cb7f191f4f176335668c6d686629 *R/CIplot.R
@@ -75,7 +75,7 @@ cfe6bf45da4c4c4364336ca3b5d9383c *R/multicomp.mmc.R
 46160c46ca0d963ebfc5322092201504 *R/multicomp.reverse.R
 e306d9447d8d84b605e7dc4a4ed51eb5 *R/norm.curve.R
 3ebb394ffa221042ee39f57c705c4c54 *R/normal.and.t.R
-2b16d12ba700cd0db0bd7d3b3fc67b8c *R/normal.and.t.htest.R
+79c3a56f63a60e13fbcf4313c09cd165 *R/normal.and.t.htest.R
 164ec831445f57586319f880d3a8d975 *R/normal.and.t.power.R
 124fb9d0294b3c748616498bb592d0e0 *R/normal.and.t.shiny.R
 493c2ddbea34f10740ab59c2eafefdb3 *R/normal.and.t.shiny2.R
@@ -127,8 +127,9 @@ b8f7e168e642809dad9e8ef4aa9e9dec *R/trellisPieces.R
 f888c5e6ef3246675159a5be8eef75f4 *R/vif.R
 96f41e09595704855d2f6694e768e770 *R/workarounds.R
 18783249f481a51b93ae477925651aed *R/xysplom.R
+16cdaf4ccf9e19061d3421c9767cc748 *R/z.test.R
 22a0027ca91df837a315c00273307f1a *R/zzz.R
-eac5a2377c4d48190c0d2295356b4cbd *build/partial.rdb
+fcc4d1876a3525208751fc7fb42eec46 *build/partial.rdb
 c36ad380343d39a99ce1f131786753ce *data/AEdata.rda
 735cb8f80544d35050f23f24f346e3af *data/AudiencePercent.rda
 88c6fad52b77b588ce6d3538d02738dd *data/Design_2.8_2.rda
@@ -345,7 +346,7 @@ fc0a6f9141b9919d70fec2610e4f12f2 *inst/scripts/hh1/sourceAll.r
 48683214f6b1623b4c4e486cb3b67f9e *inst/scripts/hh2/HHApx.R
 49edd033f604be5f0ffddf1e8ca02d45 *inst/scripts/hh2/MSword.R
 0a3ce8b685e9d3f5e7bc3c43b2eaf369 *inst/scripts/hh2/PrcnApx.R
-8c7ff485c9834b112f07bfbe8f21f2ea *inst/scripts/hh2/RApx.R
+ea322ec6eb6c8347ba470520c05802ff *inst/scripts/hh2/RApx.R
 b33268bd9b2fe1cdf00c6e9c2ef759b5 *inst/scripts/hh2/RExcelApx.R
 8809978323145fa535ab462a1de7cc12 *inst/scripts/hh2/RcmdrApx.R
 59dc6accd51081397b2c16b57c7ba6f7 *inst/scripts/hh2/Rpack.R
@@ -407,7 +408,7 @@ f85a431d2d6a81f9695f1099a60a2724 *inst/shiny/bivariateNormalScatterplot/ui.R
 a536f2f4f587fb291edeaf47aedaf0e3 *man/HHscriptnames.Rd
 29cf3ddda702c938885c21ac0dd0897c *man/InsertVerticalPanels.Rd
 9709b5abdab5bc80de0c329624fae95f *man/LikertPercentCountColumns.Rd
-a4819ddd078509f68c7709d6010d520a *man/NormalAndT.Rd
+c8d7817fb4da2a1209aaa9eb26bb89a8 *man/NormalAndT.Rd
 a9120b31c33632e9ab7deb62f7048ea4 *man/NormalAndTplot.Rd
 85200819f75ee60ec59320f86a7f0ef6 *man/OneWayVarPlot.Rd
 e217a3698693028caebcfa2cf190d62b *man/ResizeEtc.Rd
@@ -540,3 +541,4 @@ c84e94ec611ddc5d8181c35f47d02f34 *man/useOuterScales.Rd
 d112896d018afffba8c367407fda2397 *man/useOuterStripsT2L1.Rd
 42a04c9d03645a708bfc9d729ae3c24d *man/vif.Rd
 51ae4b166d59dbe7a10a2015d7f41280 *man/xysplom.Rd
+38bb08060e8e5f660525d793991f1fbc *man/z.test.Rd

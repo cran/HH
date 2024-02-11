@@ -5,7 +5,7 @@ NormalAndTplot.htest <- function(mean0, type="hypothesis", xlim=NULL, mean1=NA, 
   if (names(mean0$statistic) == "X-squared")
     stop("Not yet available for proportion tests", call.=FALSE)
 
-  ## this function takes "htest" objects from base::t.test and TeachingDemos::z.test
+  ## this function takes "htest" objects from base::t.test and z.test
   t.htest <- mean0    ## store "htest" object as t.htest
   mean0 <- t.htest$null.value  ## use mean0 for the null hypothesis mean
   tstat <- t.htest$statistic

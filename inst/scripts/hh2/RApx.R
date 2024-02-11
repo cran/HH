@@ -15,7 +15,7 @@ install.packages(c("HH","RcmdrPlugin.HH","RcmdrPlugin.mosaic",
                    "gridBase","Rmpfr","png","XLConnect",
                    "matrixcalc", "sem", "relimp", "lmtest",
                    "markdown", "knitr", "effects", "aplpack",
-                   "RODBC", "TeachingDemos",
+                   "RODBC",
                    "gridGraphics", "gridSVG",
                    "htmlTable"),  ## new package since book was published
                  dependencies=TRUE)

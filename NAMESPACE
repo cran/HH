@@ -305,8 +305,8 @@ vif,
 WindowsPath,
 xysplom,
 xscale.components.top.HH,
-yscale.components.right.HH
-)
+yscale.components.right.HH,
+z.test)
 
 ## units.ts is something needed for compatability between R and S-Plus
 
