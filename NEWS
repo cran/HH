@@ -1,3 +1,52 @@
+Version 3.1-53
+--------------
+
+* 2025 Feb 05
+
+* latexCheckOptions.R, latexCheckOptions.Rd
+  copied from microplot package
+
+* NAMESPACE
+  latexCheckOptions, latexSetOptions
+  both functions exported
+
+* latex.array.Rd
+  < microplot::latexSetOptions
+  > latexSetOptions
+
+* latex.array.Rd
+  add information on latex.ftable
+  
+* latex.ftable.R
+  < ## microplot::latexSetOptions()
+  > ## latexSetOptions()
+
+* inst/scripts/hh2/dsgn.R
+  < library(microplot)
+  > if (requireNamespace(microplot)) {...}  else
+    warning("This example requires the 'microplot' package")
+
+* inst/scripts/hh2/dsgn.R
+  < BW.dvi <- dvi(BW.latex, height=2.6, width=6.6)
+  > BW.dvi <- Hmisc::dvi(BW.latex, height=2.6, width=6.7)
+
+* *.Rd
+  \link{} -> link[]{}
+
+* DESCRIPTION
+  Authors@R
+  suggests: MASS
+
+* 2024 Dec 07
+
+* likert.R
+    < return(plot.likert.default(x, main=Xname, xName=xName, ...))
+    > return(plot.likert.default(x, main=main, xName=xName, ...))
+   ## Example:
+   ## likert(1:5, main="abcd")
+   ## workaround:
+   ## tmp <- t(1:5); rownames(tmp) <- " "; likert(tmp, main="abcd")
+
 
 Version 3.1-52
 --------------

@@ -183,6 +183,8 @@ ladder.f,
 ladder.fstar,
 ladder3,
 latex, ## re-export from Hmisc
+latexCheckOptions,
+latexSetOptions,
 latticeresids,
 legendGrob2wt,
 likert,

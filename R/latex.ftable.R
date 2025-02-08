@@ -10,7 +10,7 @@
 ## <bytecode: 0x7fa386e911f8>
 ## <environment: namespace:stats>
 
-## microplot::latexSetOptions()
+## latexSetOptions()
 
 
 latex.ftable <- function(object, ...,

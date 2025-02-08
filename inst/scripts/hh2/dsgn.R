@@ -117,7 +117,7 @@ update(cc176.bwplot, par.settings=list(clip=list(panel=FALSE)), scales=list(x=li
 ## The microplot::latex function allows the graphics column and the
 ## text column to be aligned under program control.
 
-library(microplot)
+if (requireNamespace("microplot")) {
 ## set the options to tell Hmisc::latex to use
 ## the operating system pdflatex command
 old.options <- latexSetOptions()
@@ -150,7 +150,7 @@ BW.latex <-
 ##    These files contain the individual panels, the axes, and the xlab and ylab
 ## 2. File "./BW.tex" contains the latex source to construct the table.
 ##    You may copy this into a larger .tex file.
-BW.dvi <- dvi(BW.latex, height=2.6, width=6.6)
+BW.dvi <- Hmisc::dvi(BW.latex, height=2.6, width=6.7)
 ##                      height and width of pdf file for constructed table
 ## print.default(BW.dvi) ## information about generated pdf file.
 ## You can move this file from its temporary directory to a permanent
@@ -163,6 +163,9 @@ BW.dvi ## display constructed pdf file on screen
 
 options(old.options)  ## restore previous values for your system
 detach("package:microplot", unload=TRUE)
+} else
+  warning("This example requires the 'microplot' package")
+
 
 ###################################################
 ### End: New material after HH2 publication,

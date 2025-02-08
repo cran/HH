@@ -294,7 +294,7 @@ plot.likert.array <- function(x,  ## an array
     dnx <- dimnames(x)[[1]]
     x <- as.vector(x)
     names(x) <- dnx
-    return(plot.likert.default(x, main=xName, xName=xName, ...))
+    return(plot.likert.default(x, main=main, xName=xName, ...))
     }
   if (length(dim(x))==2) NextMethod("plot.likert")
   x <- as.MatrixList(x)  ## list of matrices, one per each layer of array

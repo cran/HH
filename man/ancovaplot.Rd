@@ -71,7 +71,7 @@ panel.ancova.superpose(x, y, subscripts, groups,
 Covariate.  Required by \code{ancovaplot.formula} if the covariate is
 not included in the \code{formula}.
 
-For \code{panel.ancova.superpose}, see \code{\link{panel.superpose}}.
+For \code{panel.ancova.superpose}, see \code{\link[lattice]{panel.superpose}}.
 }
   \item{\dots}{
 Other arguments to be passed to \code{xyplot}.
@@ -99,7 +99,7 @@ treatment factor in the \code{formula}. \code{col.line} is recycled to
 the number of panels in the plot.
 }
   \item{y, subscripts}{
-See \code{\link{panel.xyplot}}.
+See \code{\link[lattice]{panel.xyplot}}.
 }
   \item{superpose.panel}{
 logical.  if \code{TRUE} (the default), there is an additional panel on

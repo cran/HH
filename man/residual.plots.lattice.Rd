@@ -34,16 +34,16 @@ Identify the variables in each of the x, y, group positions in a formula object.
 See \code{\link{do.formula.trellis.xysplom}} for more detail.
 }
   \item{layout, par.strip.text, \dots}{
-\pkg{lattice} arguments.  See \code{\link{xyplot}}.
+\pkg{lattice} arguments.  See \code{\link[lattice]{xyplot}}.
 }
   \item{scales.cex}{
-\code{cex} for the \code{scales} argument in \code{\link{xyplot}}.
+\code{cex} for the \code{scales} argument in \code{\link[lattice]{xyplot}}.
 }
   \item{na.action}{
 See \code{\link{na.action}}.
 }
   \item{y.relation}{
-\code{relation} for the \code{y} argument to \code{scales} argument in \code{\link{xyplot}}.
+\code{relation} for the \code{y} argument to \code{scales} argument in \code{\link[lattice]{xyplot}}.
 }
 }
 \value{

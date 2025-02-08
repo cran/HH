@@ -46,8 +46,8 @@ An object of class \code{"trellis"}
     layout.heights=list(axis.xlab.padding=axis.xlab.padding,
                         strip=layout.heights.strip)
 }
-See \code{\link{trellis.par.get}}, and the \code{par.settings} section of
-\code{\link{xyplot}}.
+See \code{\link[lattice]{trellis.par.get}}, and the \code{par.settings} section of
+\code{\link[lattice]{xyplot}}.
 }
   \item{strip, strip.left}{
 \code{useOuterScales} controls the strip labels by assigning appropriate
@@ -63,8 +63,8 @@ possibilities that are provided.
 }
   \item{x.ticks, y.ticks}{
 \code{x.ticks} is used as the \code{ticks} argument to
-\code{\link{panel.axis}} for the \code{"bottom"} axis.  \code{y.ticks}
-is used as the \code{ticks} argument to \code{\link{panel.axis}} for the
+\code{\link[lattice]{panel.axis}} for the \code{"bottom"} axis.  \code{y.ticks}
+is used as the \code{ticks} argument to \code{\link[lattice]{panel.axis}} for the
 \code{"left"} axis.  \code{y.ticks} needs to be larger when the left
 strip is present because the tick and label
 are partially overwritten by the left strip.  When the

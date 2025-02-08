@@ -8,7 +8,7 @@ Change colors in a likert plot to shades of Black and White.
   Change colors in a likert plot to shades of Black and White.  This
   function is tailored for a \code{\link{likert}} plot, an example of a
   \code{"trellis"} object.  \code{likert} is based on
-  \code{\link{panel.bwplot}}.  There are other places in the structure of
+  \code{\link[lattice]{panel.bwplot}}.  There are other places in the structure of
   a more general \code{"trellis"} object where colors are stored.
   The specifics for this plot is (1) that the colors for negative values in
   the plot are in reverse order and (2) the color for a neutral-position panel appears on

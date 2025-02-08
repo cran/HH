@@ -40,7 +40,7 @@ matrix
 rmh
 }
 \seealso{
-\code{\link{mmc}}, \code{\link{mcp}}
+\code{\link{mmc}}, \code{\link[multcomp]{mcp}}
 }
 \examples{
 data(catalystm)

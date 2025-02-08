@@ -28,7 +28,7 @@ negative side of the axis.
   \code{x}.  The items in \code{x.pl.nonames} are unnamed.
 }
 \item{horizontal}{
-  Standard argument for \code{\link{barchart}}.
+  Standard argument for \code{\link[lattice]{barchart}}.
 }
 \item{\dots}{Other arguments to \code{\link{ResizeEtc}.}
 }

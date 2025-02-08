@@ -2,12 +2,13 @@
 \alias{latex.array}
 \alias{latex.matrix}
 \alias{latex.table}
+\alias{latex.ftable}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Generate the latex code for an \code{"array"} or \code{"table"} with 3, 4, or more dimensions.
+Generate the latex code for an \code{"array"} or \code{"table"} or \code{"ftable"} with 3, 4, or more dimensions.
 }
 \description{
-Generate the latex code for an \code{"array"} or \code{"table"} with 3, 4, or more dimensions.
+Generate the latex code for an \code{"array"} or \code{"table"} or \code{"ftable"} with 3, 4, or more dimensions.
 }
 \usage{
 \method{latex}{array}(object, ...,
@@ -26,6 +27,10 @@ Generate the latex code for an \code{"array"} or \code{"table"} with 3, 4, or mo
 
 \method{latex}{table}(object, ...) ## prepend c("matrix", "array") to the
         ## class of the input object, and then call latex.default
+
+\method{latex}{ftable}(object, ...,
+        style=c("ftableX", "array", "ftable"),
+        quote=FALSE, digits=getOption("digits"))
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -73,6 +78,15 @@ Generate the latex code for an \code{"array"} or \code{"table"} with 3, 4, or mo
     \code{Hmisc::latex}
     needs in order to place two or more lines (one for each dimension) in boldface.
   }
+  \item{style}{When \code{style} is \code{array}, \code{latex} is called.
+    When \code{style} is \code{ftable}, \code{format} is called first, then \code{latex}.
+    When \code{style} is \code{ftableX}, \code{format} is called first, then
+    \code{latex} is called with generated \code{n.cgroup} and
+    \code{n.rgroup} arguments (\code{\link[Hmisc]{latex}}).
+  }
+  \item{quote, digits}{See \code{\link[stats]{read.ftable}}.}
+
+
 }
 \value{
 See \code{\link[Hmisc]{latex}}.
@@ -117,7 +131,7 @@ options(xdvicmd='open')  ## Macintosh, Windows,      SMP linux
 }
 
 ## This sets up the defaults for latex to write to a pdf file
-microplot::latexSetOptions()
+latexSetOptions()
 ## It is needed for R CMD check.
 ## It is recommended if you normally use pdflatex.
 ## If you want some other destination for latex, use a non-default argument.

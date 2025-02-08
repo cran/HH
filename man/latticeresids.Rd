@@ -15,13 +15,13 @@ latticeresids(x, data,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x, data, main, par.strip.text, \dots}{
-\pkg{lattice} arguments.  See \code{\link{xyplot}}.
+\pkg{lattice} arguments.  See \code{\link[lattice]{xyplot}}.
 }
   \item{scales.cex}{
-\code{cex} for the \code{scales} argument in \code{\link{xyplot}}.
+\code{cex} for the \code{scales} argument in \code{\link[lattice]{xyplot}}.
 }
   \item{y.relation}{
-\code{relation} for the \code{y} argument to \code{scales} argument in \code{\link{xyplot}}.
+\code{relation} for the \code{y} argument to \code{scales} argument in \code{\link[lattice]{xyplot}}.
 }
 }
 \value{

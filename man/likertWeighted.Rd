@@ -64,14 +64,14 @@ Integers, one each of 1,2,3; positions of the three dimensions.  Used in
 \code{array} method.  See \code{\link{toCQxR}}.
 }
 \item{xlim, between, strip, strip.left, par.settings, ylab}{
-See \code{\link{xyplot}}
+See \code{\link[lattice]{xyplot}}
 }
   \item{scales}{
-    See \code{\link{xyplot}}.  For \code{likertWeighted}, when scales for x is
+    See \code{\link[lattice]{xyplot}}.  For \code{likertWeighted}, when scales for x is
       changed, scales for y must be stated also.
 }
   \item{box.ratio}{
-See \code{\link{panel.bwplot}}.
+See \code{\link[lattice]{panel.bwplot}}.
 }
   \item{as.percent, rightAxis, \dots, h.resizePanels}{
 First see the formula method for \code{likertWeighted}, and then \code{\link{likert}}.
